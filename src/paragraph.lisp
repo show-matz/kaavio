@@ -4,7 +4,8 @@
 #|ASD|#																"shape"
 #|ASD|#																"font-info"
 #|ASD|#																"link-info"
-#|ASD|#																"point"))
+#|ASD|#																"point"
+#|ASD|#																"writer"))
 #|EXPORT|#				;paragraph.lisp
  |#
 
@@ -48,7 +49,7 @@
    (valign	;:type     keyword
 			:initform nil
 			:initarg  :valign
-			:accessor paragraph-align)
+			:accessor paragraph-valign)
    (font	;:type     (or nil font-info)
 			:initform nil
 			:initarg  :font
@@ -65,33 +66,31 @@
 
 (defmethod initialize-instance :after ((shp paragraph) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (align valign font) txt
-	(setf align (or align *default-paragraph-align*))
-	(setf vlign (or align *default-paragraph-valign*))
-	(setf font  (make-font (or font *default-font*))))
-  txt)
+  (with-slots (align valign font) shp
+	(setf align  (or align  *default-paragraph-align*))
+	(setf valign (or valign *default-paragraph-valign*))
+	(setf font   (make-font (or font *default-font*))))
+  shp)
 
 (defmethod check ((shp paragraph) canvas dict)
-
-;;ToDo : here...!
-;;   ;; override of entity::check
-;;   (:public check (canvas dict)
-;;		;; this method must call super class' one.
-;;		(class:invoke class:super :check canvas dict)
-;;		(check-member m-x                :nullable nil :types number)
-;;		(check-member m-y                :nullable nil :types number)
-;;		(check-member m-text             :nullable nil :types string)
-;;		(check-member m-align            :nullable nil :types keyword)
-;;		(check-member m-valign           :nullable nil :types keyword)
-;;		(check-object m-font canvas dict :nullable nil :class font-info)
-;;		(setf m-text (strs:split m-text #\newline))
-;;		(check-keywords m-align  :left :center :right)
-;;		(check-keywords m-valign :top  :center :bottom)
-;;		(multiple-value-setq (m-width m-height) (caluculate-shapesize))
-;;		(incf m-x (class:member canvas :left))
-;;		(incf m-y (class:member canvas :top))
-;;		nil)
-;;
+  ;; this method must call super class' one.
+  (call-next-method)
+  (check-member   (x      (paragraph-x      shp)) :nullable nil :types number)
+  (check-member   (y      (paragraph-y      shp)) :nullable nil :types number)
+  (check-member   (text   (paragraph-text   shp)) :nullable nil :types string)
+  (check-member   (align  (paragraph-align  shp)) :nullable nil :types keyword)
+  (check-member   (valign (paragraph-valign shp)) :nullable nil :types keyword)
+  (check-object   (font   (paragraph-font   shp)) canvas dict :nullable nil :class font-info)
+  (check-keywords (align  (paragraph-align  shp)) :left :center :right)
+  (check-keywords (valign (paragraph-valign shp)) :top  :center :bottom)
+  (with-slots (text x y width height font) shp
+	(setf text (string/split text #\newline))
+	(incf x (canvas-left canvas))
+	(incf y (canvas-top  canvas))
+	(multiple-value-bind (w h) (caluculate-shapesize font text)
+	  (setf width  w)
+	  (setf height h)))
+  nil)
 
 (defmethod shape-width ((shp paragraph))
   (paragraph-width shp))

@@ -63,6 +63,11 @@
 																"constants"))
 				(:file "font-info"                 :depends-on ("cl-diagram"
 																"constants"))
+				(:file "group"                     :depends-on ("cl-diagram"
+																"canvas"
+																"shape"
+																"rectangle"
+																"writer"))
 				(:file "label-info"                :depends-on ("cl-diagram"
 																"constants"
 																"canvas"
@@ -89,7 +94,8 @@
 																"shape"
 																"font-info"
 																"link-info"
-																"point"))
+																"point"
+																"writer"))
 				(:file "path"                      :depends-on ("cl-diagram"
 																"constants"
 																"fill-info"

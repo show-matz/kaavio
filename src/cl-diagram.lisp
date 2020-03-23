@@ -103,6 +103,10 @@
 				:font-info
 				:make-font
 				:font-calc-textarea
+				;group.lisp
+				:group
+				:draw-group
+				:draw-group-frame
 				;label-info.lisp
 				:label-info
 				:draw-label
@@ -167,8 +171,6 @@
 				:shape-right
 				:shape-canvas
 				:get-cc-point
-				:pre-draw
-				:post-draw
 				;stroke-info.lisp
 				:stroke-info
 				:make-stroke

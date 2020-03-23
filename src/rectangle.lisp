@@ -95,7 +95,6 @@
   rct)
 
 (defmethod check ((rct rectangle) canvas dict)
-  (declare (ignorable dict))
   ;; this method must call super class' one.
   (call-next-method)
   (check-member (center-x (shape-center rct)) :nullable nil :types number)

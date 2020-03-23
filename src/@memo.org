@@ -27,7 +27,11 @@
 	  (connector :rectA :rectB :style :T3T1 :stroke :red :end2 :arrow)
 	  (text 20 370 "This is test string." :align :left
             :link "http://www.google.co.jp"
-            :font '(:size 20 :color :blue :decoration :underline)))))
+            :font '(:size 20 :color :blue :decoration :underline))
+	  (paragraph 350 350 "This is paragraph text.
+multi-line is OK." :align :left :valign :top
+            :link "http://www.google.co.jp"
+            :font '(:size 12 :color :red :decoration :underline :line-spacing 5)))))
   (with-open-file (stream "./tmp.svg" :direction :output :if-exists :supersede)
 	(princ svg stream)
 	nil))
@@ -65,12 +69,12 @@
     - [X] raw-svg.lisp
     - [X] shape.lisp
     - [X] text.lisp
-  - [-] shape 派生 [3/6]
+  - [-] shape 派生 [4/6]
     - [X] circle.lisp
     - [X] ellipse.lisp
     - [ ] group.lisp
     - [ ] image.lisp
-    - [ ] paragraph.lisp
+    - [X] paragraph.lisp
     - [X] rectangle.lisp
 
 ** 未整理 [4/5]
@@ -81,11 +85,13 @@
   - [X] create-svg.lisp
   - [ ] svg-main.lisp
 
-* xxx [0/3]
+* xxx [0/6]
+** TODO entity-canvas と shape-canvas : なんか変じゃない？
 ** TODO add rule( :nonzero|:evenodd ) to fill-info
 
 　essentials(PDF p58) では default が nonzero とされているが、evenodd にみえる。
 
+** TODO stroke-linecap to stroke ( essentials 2nd : p85 )
 ** TODO css 
 
 　以下のように記述できるようにしたい。

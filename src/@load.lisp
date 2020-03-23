@@ -1,7 +1,7 @@
-(progn
-  (require :jp)
-  (require :pathnames)
-  (require :cl-binary))
+;(progn
+;  (require :jp)
+;  (require :pathnames)
+;  (require :cl-binary))
 
 (load "./cl-diagram.lisp")
 (load "./point.lisp")
@@ -32,3 +32,5 @@
 (load "./path.lisp")
 (load "./arc.lisp")
 (load "./text.lisp")
+(load "./paragraph.lisp")
+(load "./group.lisp")
