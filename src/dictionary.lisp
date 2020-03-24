@@ -45,14 +45,6 @@
 				 :map       (make-hash-table :test 'eq)))
 				 
 
-(defun dict-history-kwd-p (id)
-  (let ((str (symbol-name id)))
-	(when (char= #\$ (char str 0))
-	  (multiple-value-bind (idx end)
-		  (parse-integer str :start 1 :junk-allowed t)
-		(when (= end (length str))
-		  idx)))))
-
 (defun dict-register (dict id entity)
   (with-slots (history-max history-arr
 			   history-size history-top map) dict
@@ -69,15 +61,22 @@
 	entity))
 
 (defun dict-get-entity (dict id)
-  (let ((index (dict-history-kwd-p id)))
-	(with-slots (history-max history-arr
-				 history-size history-top map) dict
-	  (if (null index)
-		  (gethash id map)
-		  (if (or (< index 1) (< history-size index))
-			  (throw-exception "ID '~A' is out of history range." id)
-			  (svref history-arr
-					 (mod (+ history-top (1- index)) history-max)))))))
+  (labels ((history-kwd-p (id)
+			 (let ((str (symbol-name id)))
+			   (when (char= #\$ (char str 0))
+				 (multiple-value-bind (idx end)
+					 (parse-integer str :start 1 :junk-allowed t)
+				   (when (= end (length str))
+					 idx))))))
+	(let ((index (history-kwd-p id)))
+	  (with-slots (history-max history-arr
+							   history-size history-top map) dict
+		(if (null index)
+			(gethash id map)
+			(if (or (< index 1) (< history-size index))
+				(throw-exception "ID '~A' is out of history range." id)
+				(svref history-arr
+					   (mod (+ history-top (1- index)) history-max))))))))
 
 
 
