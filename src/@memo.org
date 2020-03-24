@@ -57,6 +57,7 @@
   - [X] svg-main.lisp
 
 * xxx [0/6]
+** TODO dictionary.lisp::dict-history-kwd-p は labels にできる
 ** TODO entity-canvas と shape-canvas : なんか変じゃない？
 ** TODO add rule( :nonzero|:evenodd ) to fill-info
 

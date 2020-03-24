@@ -47,7 +47,7 @@
 	</a>
 	<!-- paragraph -->
 	<a xlink:href='http://www.google.co.jp' target='_self'>
-		<text x='350' y='362' text-anchor='start' font-size='12pt' fill='red' text-decoration='underline' >This is paragraph text.</text>
+		<text x='350' y='362' text-anchor='start' font-size='12pt' fill='red' text-decoration='underline' >This is paragraph text.</text>
 		<text x='350' y='379' text-anchor='start' font-size='12pt' fill='red' text-decoration='underline' >multi-line is OK.</text>
 	</a>
 	<!-- image -->
