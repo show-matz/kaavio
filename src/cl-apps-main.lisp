@@ -53,21 +53,23 @@
 							(return-from cl-apps-main nil))))))
 	  (if (/= 4 (length args))
 		  (throw-exception "Invalid parameter count.")
-		  (destructuring-bind (in-file   input-encoding
-							   out-file output-encoding) args
-			;; check in-file existence.
-			(unless (path/is-existing-file in-file)
-			  (throw-exception "Input file '~A' is not exist." in-file))
-			;; check encoding parameters.
-			(let* ((candidates '(:guess :jis :euc-jp :sjis :utf8 :ascii))
-				   (enc1 (fix-encoding  input-encoding candidates))
-				   (enc2 (fix-encoding output-encoding (cdr candidates)))
-				   (buf (load-whole-file in-file))
-				   (encoding (if (eq enc1 :guess)
-								 (jp:guess buf)
-								 (jp:make-encoding enc1))))
-			  (setf buf (concatenate 'string "(progn " (jp:decode buf encoding) ")"))
-			  (let ((diagram:*default-output-encoding* enc2)
-					(*package* (find-package :diagram-user)))
-				(setf buf (eval (read-from-string buf))))
-			  (save-whole-file out-file (jp:encode buf enc2))))))))
+		  (destructuring-bind (ifile  input-encoding
+							   ofile output-encoding) args
+			(let ((in-file  (merge-pathnames ifile (path/get-current-directory)))
+				  (out-file (merge-pathnames ofile (path/get-current-directory))))
+			  ;; check in-file existence.
+			  (unless (path/is-existing-file in-file)
+				(throw-exception "Input file '~A' is not exist." in-file))
+			  ;; check encoding parameters.
+			  (let* ((candidates '(:guess :jis :euc-jp :sjis :utf8 :ascii))
+					 (enc1 (fix-encoding  input-encoding candidates))
+					 (enc2 (fix-encoding output-encoding (cdr candidates)))
+					 (buf (load-whole-file in-file))
+					 (encoding (if (eq enc1 :guess)
+								   (jp:guess buf)
+								   (jp:make-encoding enc1))))
+				(setf buf (concatenate 'string "(progn " (jp:decode buf encoding) ")"))
+				(let ((diagram:*default-output-encoding* enc2)
+					  (*package* (find-package :diagram-user)))
+				  (setf buf (eval (read-from-string buf))))
+				(save-whole-file out-file (jp:encode buf enc2)))))))))

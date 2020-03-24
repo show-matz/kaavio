@@ -104,7 +104,8 @@
 
 (defmethod initialize-instance :after ((img image) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (label) img
+  (with-slots (filename label) img
+	(setf filename (merge-pathnames filename (path/get-current-directory)))
 	(when label
 	  (setf label (make-label label))))
   img)
@@ -119,6 +120,8 @@
   (check-member (width    (image-width    img)) :nullable   t :types number)
   (check-member (height   (image-height   img)) :nullable   t :types number)
   (with-slots (width height filename preserve-ratio) img
+	(unless (path/is-existing-file filename)
+	  (throw-exception "image file '~A' is not exist." filename))
 	;; width, height の両方とも明示的に指定されている場合、アスペクト比の維持をしない
 	(if (and width height)
 		(setf preserve-ratio nil)

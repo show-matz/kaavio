@@ -24,7 +24,7 @@
 	(rectangle 400 250 30 30 :stroke :brown  :fill :none :id :rectA)
 	(rectangle 500 300 30 30 :stroke :purple :fill :none :id :rectB)
 	(connector :rectA :rectB :style :T3T1 :stroke :red :end2 :arrow)
-	;(image 50 50 "test.png")	;;ToDo : 相対パス問題
+	(image 50 50 "test.png")
 	(text 20 370 "This is test string." :align :left
 		  :link "http://www.google.co.jp"
 		  :font '(:size 20 :color :blue :decoration :underline))

@@ -2517,9 +2517,9 @@ BACKUP:1
 GROUP:cl-diagram
 TAG:
 MARK:red
-DATE:2020/04/30
+DATE:2020/03/25
 PRIORITY:3
-STATUS:wait
+STATUS:done
 TITLE:カレントディレクトリとデータファイルのディレクトリが一致しないと image が処理できない
 REPEAT:none
 ALARM:none
@@ -2528,8 +2528,8 @@ ATTACH:
 TRACKING:0
 EXECUTABLE:1
 PRIVATE:0
-BACKUP:0
-#!edit
+BACKUP:1
+#!view
 
 　CL-APPS に入れて使う場合には問題にはならないと思うが。
 
@@ -2538,7 +2538,10 @@ BACKUP:0
 
 　起票。
 
-#<end update:2020/03/25 07:20:16>
+　path/get-current-directory で merge-pathnames してやったら動作するようになった。
+クローズ。
+
+#<end update:2020/03/25 07:48:50 access:2020/03/25 07:49:05>
 #<begin task ID:6lVQ3ZMTUu0>
 -*-MODE:org-*-
 GROUP:cl-diagram
