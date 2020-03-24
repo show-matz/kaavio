@@ -1,6 +1,11 @@
 
 #+BEGIN_SRC lisp
-  (diagram::cl-apps-main "./tmp.diagram" :utf8 "./tmp.svg" :utf8)
+(load "./@load.lisp")
+(let ((path (merge-pathnames "cl-diagram/lib/"
+							 (sb-ext:posix-getenv "CVS_SANDBOX"))))
+  (setf diagram:*include-paths* (list path)))
+
+(diagram::cl-apps-main '("./tmp.diagram" :utf8 "./tmp.svg" :utf8))
 #+END_SRC
 
 * 移植作業
@@ -43,13 +48,13 @@
     - [X] paragraph.lisp
     - [X] rectangle.lisp
 
-** 未整理 [4/5]
+** 未整理 [5/5]
 
   - [X] CL-SVG.asd -> cl-diagram.asd
   - [X] CL-SVG.lisp -> cl-diagram.lisp
   - [X] constants.lisp
   - [X] create-svg.lisp
-  - [ ] svg-main.lisp
+  - [X] svg-main.lisp
 
 * xxx [0/6]
 ** TODO entity-canvas と shape-canvas : なんか変じゃない？
@@ -75,8 +80,8 @@
 
 　default で親 line の stroke color とかを使用、もできていない
 
-** TODO 外部ライブラリ依存の除去 [1/4]
+** TODO 外部ライブラリ依存の除去 [3/4]
 *** TODO jp
-*** TODO pathnames
+*** DONE pathnames
 *** DONE strings
-*** TODO cl-binary
+*** DONE cl-binary

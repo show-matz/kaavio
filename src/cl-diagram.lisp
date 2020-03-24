@@ -36,6 +36,7 @@
 				:with-property
 				:with-dictionary
 				:escape-characters
+				:to-property-strings
 				:check
 				;connector.lisp
 				:resolve-connector-points
@@ -177,6 +178,10 @@
 				:shape-canvas
 				:get-cc-point
 				;stencil.lisp
+				:*include-paths*
+				:*stencil-suffix*
+				:reset-stencil-load-cache
+				:load-stencil
 				;stroke-info.lisp
 				:stroke-info
 				:make-stroke
@@ -315,16 +320,16 @@
   (:report (lambda (condition stream)
 			 (write-string (exception-msg condition) stream))))
 
-;;(define-condition caution (cl:warning)
-;;  ((msg :initarg  :msg :accessor caution-msg))
-;;  (:report (lambda (condition stream)
-;;			 (write-string (caution-msg condition) stream))))
+(define-condition caution (cl:warning)
+  ((msg :initarg  :msg :accessor caution-msg))
+  (:report (lambda (condition stream)
+			 (write-string (caution-msg condition) stream))))
 
 (defmacro throw-exception (fmt &rest args)
   `(error (make-condition 'exception :msg (format nil ,fmt ,@args))))
 
-;;(defmacro throw-caution (fmt &rest args)
-;;  `(warn (make-condition 'caution :msg (format nil ,fmt ,@args))))
+(defmacro throw-caution (fmt &rest args)
+  `(warn (make-condition 'caution :msg (format nil ,fmt ,@args))))
 
 (defmacro type-assert (symbol type)
   `(check-type ,symbol ,type))
@@ -499,7 +504,10 @@
   str)
 
 
-(defgeneric to-property-strings (info))	;; ToDo : where ...?
+#|
+#|EXPORT|#				:to-property-strings
+ |#
+(defgeneric to-property-strings (info))	;; ToDo : 他の場所に移動する？
 
 #|
 (let ((lnk (make-link "http://www.google.co.jp/"))

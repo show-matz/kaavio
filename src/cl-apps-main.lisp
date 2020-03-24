@@ -68,6 +68,6 @@
 								 (jp:make-encoding enc1))))
 			  (setf buf (concatenate 'string "(progn " (jp:decode buf encoding) ")"))
 			  (let ((diagram:*default-output-encoding* enc2)
-					(*package* (find-package :svg-user)))
+					(*package* (find-package :diagram-user)))
 				(setf buf (eval (read-from-string buf))))
 			  (save-whole-file out-file (jp:encode buf enc2))))))))

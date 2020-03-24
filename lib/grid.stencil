@@ -1,0 +1,77 @@
+
+(in-package :cl-diagram-user)
+
+(defclass grid (diagram:entity)
+  ((size	;:type     number
+			:initform nil
+			:initarg  :size
+			:accessor grid-size)
+   (bgcolor	;:type     (or keyword string)
+			:initform nil
+			:initarg  :bgcolor
+			:accessor grid-bgcolor)
+   (stroke	;:type     (or nil stroke-info)
+			:initform nil
+			:initarg  :stroke
+			:accessor grid-stroke)))
+  
+
+(defmethod initialize-instance :after ((grd grid) &rest initargs)
+  (declare (ignore initargs))
+  (with-slots (size bgcolor stroke) grd
+	(setf size (or size 10))
+	(setf bgcolor (or bgcolor :white))
+	(setf stroke (if stroke
+					 (make-stroke stroke)
+					 (make-stroke :color :gray :width 0.2))))
+  grd)
+
+(defmethod check ((grd grid) canvas dict)
+  ;; this method must call super class' one.
+  (call-next-method)
+  (check-member (size    (grid-size    grd)) :nullable nil :types number)
+  (check-member (bgcolor (grid-bgcolor grd)) :nullable nil :types (or string keyword))
+  (check-object (stroke  (grid-stroke  grd)) canvas dict :nullable  nil :class stroke-info)
+  nil)
+
+(defmethod draw-entity ((grd grid) writer)
+  (with-slots (size bgcolor stroke) grd
+	(writer-write writer
+				  "<pattern "
+					  "id='__grid' "
+					  "width='" size "' "
+					  "height='" size "' "
+					  "patternUnits='userSpaceOnUse' "
+					  ">")
+	(writer-incr-level writer)
+	(writer-write writer
+				  "<rect "
+					  "x='0' y='0' "
+					  "width='" size "' "
+					  "height='" size "' "
+					  "fill='" bgcolor "' "
+				  "/>")
+	(writer-write writer
+				  "<polyline "
+					  "fill='none' "
+					  (to-property-strings stroke)
+					  "points='" size ",0 0,0 0," size "' "
+				  "/>")
+	(writer-decr-level writer)
+	(writer-write writer "</pattern>")
+	(writer-write writer
+				  "<rect "
+					  "x='0' y='0' "
+					  "width='100%' "
+					  "height='100%' "
+					  "fill='url(#__grid)' "
+					  (to-property-strings stroke)
+				  "/>"))
+  nil)
+
+(defmacro grid (&key (size 10) (bgcolor :white) stroke layer)
+  `(register-entity (make-instance 'grid
+								   :size ,size
+								   :bgcolor ,bgcolor
+								   :stroke ,stroke :layer ,layer)))
+

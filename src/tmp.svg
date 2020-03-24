@@ -8,8 +8,12 @@
 		  .inner        { fill:lime; stroke:blue; stroke-width:1 }
 		
 	]]></style>
-	<!-- background : rectangle -->
-	<rect id='background' x='0' y='0' width='600' height='400' fill='lightgray' stroke='black' stroke-width='1' />
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='#F0F0FF' />
+		<polyline fill='none' stroke='blue' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='blue' stroke-width='0.2' />
 	<!-- circle1 : circle -->
 	<g id='circle1'>
 		<a xlink:href='http://www.google.co.jp' target='_self'>
@@ -47,6 +51,6 @@
 		<text x='350' y='379' text-anchor='start' font-size='12pt' fill='red' text-decoration='underline' >multi-line is OK.</text>
 	</a>
 	<!-- image -->
-	<image x='60.5' y='33.5' width='79' height='33' xlink:href='test.png' />
+	<image x='10.5' y='33.5' width='79' height='33' xlink:href='test.png' />
 
 </svg>
