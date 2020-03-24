@@ -1,9 +1,10 @@
-;(progn
-;  (require :jp)
+(progn
 ;  (require :pathnames)
-;  (require :cl-binary))
+  (require :jp))
 
 (load "./cl-diagram.lisp")
+(load "./binutil.lisp")
+(load "./pathutil.lisp")
 (load "./point.lisp")
 (load "./canvas.lisp")
 (load "./constants.lisp")
@@ -34,3 +35,6 @@
 (load "./text.lisp")
 (load "./paragraph.lisp")
 (load "./group.lisp")
+(load "./image.lisp")
+(load "./stencil.lisp")
+(load "./cl-apps-main.lisp")

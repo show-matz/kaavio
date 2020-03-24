@@ -46,5 +46,7 @@
 		<text x='350' y='362' text-anchor='start' font-size='12pt' fill='red' text-decoration='underline' >This is paragraph text.</text>
 		<text x='350' y='379' text-anchor='start' font-size='12pt' fill='red' text-decoration='underline' >multi-line is OK.</text>
 	</a>
+	<!-- image -->
+	<image x='60.5' y='33.5' width='79' height='33' xlink:href='test.png' />
 
 </svg>

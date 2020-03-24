@@ -8,6 +8,7 @@
 				(:file "arc"                       :depends-on ("cl-diagram"
 																"mathutil"
 																"path"))
+				(:file "binutil"                   :depends-on ("cl-diagram"))
 				(:file "canvas"                    :depends-on ("cl-diagram"))
 				(:file "circle"                    :depends-on ("cl-diagram"
 																"constants"
@@ -18,6 +19,9 @@
 																"stroke-info"
 																"link-info"
 																"writer"))
+				(:file "cl-apps-main"              :depends-on ("cl-diagram"
+																"pathutil"
+																"create-svg"))
 				(:file "cl-diagram")
 				(:file "connector"                 :depends-on ("cl-diagram"
 																"constants"
@@ -68,6 +72,14 @@
 																"shape"
 																"rectangle"
 																"writer"))
+				(:file "image"                     :depends-on ("cl-diagram"
+																"binutil"
+																"shape"
+																"rectangle"
+																"label-info"
+																"link-info"
+																"point"
+																"writer"))
 				(:file "label-info"                :depends-on ("cl-diagram"
 																"constants"
 																"canvas"
@@ -102,6 +114,7 @@
 																"stroke-info"
 																"entity"
 																"writer"))
+				(:file "pathutil"                  :depends-on ("cl-diagram"))
 				(:file "point"                     :depends-on ("cl-diagram"))
 				(:file "polygon"                   :depends-on ("cl-diagram"
 																"constants"
@@ -125,6 +138,8 @@
 				(:file "shape"                     :depends-on ("cl-diagram"
 																"entity"
 																"link-info"))
+				(:file "stencil"                   :depends-on ("cl-diagram"
+																"pathutil"))
 				(:file "stroke-info"               :depends-on ("cl-diagram"
 																"constants"))
 				(:file "text"                      :depends-on ("cl-diagram"
