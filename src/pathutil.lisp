@@ -258,20 +258,20 @@ in `directory normal form'. Returns truename which will be in
   #-(or sbcl clisp)
   (error "path/get-current-directory not implemented."))
 
-;;(defun set-current-directory (new-pathname)
-;;  #+sbcl
-;;  (sb-posix:chdir new-pathname)
-;;  #+clisp
-;;  (ext:cd new-pathname)
-;;;  #+cmucl
-;;;  (setf (extensions:default-directory) new-pathname)
-;;;  #-(or sbcl clisp cmucl)
-;;  #-(or sbcl clisp)
-;;  (error "set-current-directory not implemented."))
-;;
-;;
-;;  
-;;
+(defun path/set-current-directory (new-pathname)
+  #+sbcl
+  (sb-posix:chdir new-pathname)
+  #+clisp
+  (ext:cd new-pathname)
+;  #+cmucl
+;  (setf (extensions:default-directory) new-pathname)
+;  #-(or sbcl clisp cmucl)
+  #-(or sbcl clisp)
+  (error "set-current-directory not implemented."))
+
+
+  
+
 ;;;(let ((sb-impl::*default-external-format* :sjis)
 ;;;	  (sb-alien::*default-c-string-external-format* :sjis))
 ;;;	(walk-directories "D:/workspace/scrapbook"

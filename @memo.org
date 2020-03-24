@@ -9,7 +9,9 @@
 (let ((path "~/sandbox/cl-diagram/lib/"))
   (setf diagram:*include-paths* (list path)))
 
-(diagram::cl-apps-main '("./sample/tmp.diagram" :utf8 "./sample/tmp.svg" :utf8))
+(diagram::path/set-current-directory "./sample")
+;;ToDo : 上記で sample 配下に移動しているのに、下記でつまづく．．．なんで？
+(diagram::cl-apps-main '("./tmp.diagram" :utf8 "./tmp.svg" :utf8))
 #+END_SRC
 
 * 移植作業
@@ -60,34 +62,3 @@
   - [X] create-svg.lisp
   - [X] svg-main.lisp
 
-* xxx [0/8]
-** TODO sbcl のカレントディレクトリと diagram ファイルのディレクトリが一致しないと image が処理できない
-** TODO dictionary.lisp::dict-history-kwd-p は labels にできる
-** TODO entity-canvas と shape-canvas : なんか変じゃない？
-** TODO add rule( :nonzero|:evenodd ) to fill-info
-
-　essentials(PDF p58) では default が nonzero とされているが、evenodd にみえる。
-
-** TODO stroke-linecap to stroke ( essentials 2nd : p85 )
-** TODO css 
-
-　以下のように記述できるようにしたい。
-
-#+BEGIN_SRC lisp
-(css
-  (style :rect.inner :fill '(:color :red :opacity 0.2)
-					 :stroke '(:color :black :width 1))
-  (style :.foo :font (make-font :family "foobar")))
-#+END_SRC
-
-** TODO endmark
-
-　fill 指定がなければ stroke の color で塗り潰す、ができてない
-
-　default で親 line の stroke color とかを使用、もできていない
-
-** TODO 外部ライブラリ依存の除去 [3/4]
-*** TODO jp
-*** DONE pathnames
-*** DONE strings
-*** DONE cl-binary

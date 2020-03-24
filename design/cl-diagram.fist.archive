@@ -1,3 +1,32 @@
+#<begin task ID:037QO0Om4sK>
+-*-MODE:org-*-
+GROUP:cl-diagram
+TAG:
+MARK:cyan
+DATE:2020/04/30
+PRIORITY:3
+STATUS:wait
+TITLE:fill に rule (nonzero|evenodd) を追加する
+REPEAT:none
+ALARM:none
+TRIVIAL:0
+ATTACH:
+TRACKING:0
+EXECUTABLE:1
+PRIVATE:0
+BACKUP:0
+#!edit
+
+　詳細は確認が必要。-> essentials 2nd PDF - p58
+
+　default が nonzero とされているが、ビューワーによっては evenodd にみえる。
+
+* log
+** 2020/03/24
+
+　起票。
+
+#<end update:2020/03/24 19:41:59>
 #<begin task ID:0pjVNFLLhuI>
 -*-MODE:org-*-
 GROUP:cl-diagram
@@ -2396,6 +2425,31 @@ draw を持たない（基底クラスの実装をそのまま使用）するの
 　とりあえず、テストデータを少しずつ作成。当面終わらない。
 
 #<end update:2020/02/20 12:44:01 access:2020/02/26 17:42:14>
+#<begin task ID:60ToUqmNgRX>
+-*-MODE:org-*-
+GROUP:cl-diagram
+TAG:
+MARK:none
+DATE:2020/03/24
+PRIORITY:3
+STATUS:done
+TITLE:dictionary.lisp::dict-history-kwd-p は labels にできる
+REPEAT:none
+ALARM:none
+TRIVIAL:0
+ATTACH:
+TRACKING:0
+EXECUTABLE:1
+PRIVATE:0
+BACKUP:1
+#!view
+
+* log
+** 2020/03/24
+
+　さくっと終了。
+
+#<end update:2020/03/24 19:32:48>
 #<begin task ID:61ZxT9hLMky>
 -*-MODE:org-*-
 GROUP:cl-diagram
@@ -2458,6 +2512,33 @@ BACKUP:1
 &pagetag( "uml-implementation", "タグマップ#uml-implementation" )
 
 #<end update:2020/02/21 11:59:43 access:2020/03/03 09:35:45>
+#<begin task ID:6gdeRvbrJrI>
+-*-MODE:org-*-
+GROUP:cl-diagram
+TAG:
+MARK:red
+DATE:2020/04/30
+PRIORITY:3
+STATUS:wait
+TITLE:カレントディレクトリとデータファイルのディレクトリが一致しないと image が処理できない
+REPEAT:none
+ALARM:none
+TRIVIAL:0
+ATTACH:
+TRACKING:0
+EXECUTABLE:1
+PRIVATE:0
+BACKUP:0
+#!edit
+
+　CL-APPS に入れて使う場合には問題にはならないと思うが。
+
+* log
+** 2020/03/25
+
+　起票。
+
+#<end update:2020/03/25 07:20:16>
 #<begin task ID:6lVQ3ZMTUu0>
 -*-MODE:org-*-
 GROUP:cl-diagram
@@ -3591,6 +3672,34 @@ BACKUP:1
 #+END_SRC
 
 #<end update:2020/02/20 12:43:44 access:2020/02/20 14:21:57>
+#<begin task ID:9HZvVMWybmE>
+-*-MODE:org-*-
+GROUP:cl-diagram
+TAG:
+MARK:red
+DATE:2020/04/30
+PRIORITY:3
+STATUS:wait
+TITLE:endmark における stroke / fill の微妙なバグを改修する
+REPEAT:none
+ALARM:none
+TRIVIAL:0
+ATTACH:
+TRACKING:0
+EXECUTABLE:1
+PRIVATE:0
+BACKUP:0
+#!edit
+
+	* fill 指定がなければ stroke の color で塗り潰す、ができてない
+	* default で親 line の stroke color とかを使用、もできていない
+
+* log
+** 2020/03/24
+
+　起票。
+
+#<end update:2020/03/24 19:39:07>
 #<begin task ID:ashNHUE2QdW>
 -*-MODE:org-*-
 GROUP:cl-diagram
@@ -3816,6 +3925,33 @@ BACKUP:1
 &pagetag( "仕様変更", "タグマップ#仕様変更" )
 
 #<end update:2020/02/20 16:13:20>
+#<begin task ID:bIkrJyx7rij>
+-*-MODE:org-*-
+GROUP:cl-diagram
+TAG:
+MARK:red
+DATE:2020/04/30
+PRIORITY:3
+STATUS:wait
+TITLE:entity-canvas と shape-canvas の不整合を改善する
+REPEAT:none
+ALARM:none
+TRIVIAL:0
+ATTACH:
+TRACKING:0
+EXECUTABLE:1
+PRIVATE:0
+BACKUP:0
+#!edit
+
+　xxx
+
+* log
+** 2020/03/24
+
+　起票。
+
+#<end update:2020/03/24 19:39:11>
 #<begin task ID:bJ1lB5W4Wzu>
 -*-MODE:org-*-
 GROUP:cl-diagram
@@ -7813,6 +7949,41 @@ textbox を含む shape クラスの「コンポジション化サポート」�
 &pagetag( "stroke", "タグマップ#stroke" )
 
 #<end update:2020/02/20 16:05:16>
+#<begin task ID:gq9bS3rn2KT>
+-*-MODE:org-*-
+GROUP:cl-diagram
+TAG:
+MARK:cyan
+DATE:2020/04/30
+PRIORITY:3
+STATUS:wait
+TITLE:css の刷新
+REPEAT:none
+ALARM:none
+TRIVIAL:0
+ATTACH:
+TRACKING:0
+EXECUTABLE:1
+PRIVATE:0
+BACKUP:0
+#!edit
+
+　以下のように記述できるようにしたい。
+
+#+BEGIN_SRC lisp
+(css
+  (style :rect.inner :fill '(:color :red :opacity 0.2)
+					 :stroke '(:color :black :width 1))
+  (style :.foo :font (make-font :family "foobar")))
+#+END_SRC
+
+
+* log
+** 2020/03/24
+
+　起票。検討からやらなきゃだな。
+
+#<end update:2020/03/24 19:39:19>
 #<begin task ID:gqTg0mi7qli>
 -*-MODE:org-*-
 GROUP:cl-diagram
@@ -9944,6 +10115,35 @@ fix するところで :etc というキーワードを特別扱いする‥‥�
 &pagetag( "uml-class", "タグマップ#uml-class" )
 
 #<end update:2020/03/03 08:43:12>
+#<begin task ID:jHieamYLeqK>
+-*-MODE:org-*-
+GROUP:cl-diagram
+TAG:
+MARK:yellow
+DATE:2020/04/30
+PRIORITY:3
+STATUS:wait
+TITLE:jp ライブラリ依存の除去 ⇒ CL-APPS 用コードの外部化
+REPEAT:none
+ALARM:none
+TRIVIAL:0
+ATTACH:
+TRACKING:0
+EXECUTABLE:1
+PRIVATE:0
+BACKUP:0
+#!edit
+
+　他の外部ライブラリはすべて必要なモノだけをコピーして解決した。しかし jp ライブ
+ラリはそう簡単ではない。幸い、CL-APPS のためのエントリ関数でしか使っていないため、
+これを外部化する。
+
+* log
+** 2020/03/25
+
+　起票。
+
+#<end update:2020/03/25 07:20:07>
 #<begin task ID:jXaItqbEmbq>
 -*-MODE:org-*-
 GROUP:cl-diagram
@@ -10206,6 +10406,38 @@ BACKUP:1
 &pagetag( "UML／状態マシン図", "タグマップ#UML／状態マシン図" )
 
 #<end update:2020/02/21 09:27:25 access:2020/02/21 09:27:46>
+#<begin task ID:kGgXGJEZDlC>
+-*-MODE:org-*-
+GROUP:cl-diagram
+TAG:
+MARK:cyan
+DATE:2020/04/30
+PRIORITY:3
+STATUS:wait
+TITLE:stroke-linecap の追加
+REPEAT:none
+ALARM:none
+TRIVIAL:0
+ATTACH:
+TRACKING:0
+EXECUTABLE:1
+PRIVATE:0
+BACKUP:0
+#!edit
+
+　SVG エッセンシャルズ第二版 p85 を参照。
+
+　line / polyline だけでしか使えないのか、stroke が指定できるならどこでもできる
+のか、そこの確認が必要。場合によっては、stroke-info のメンバとは別に管理、という
+ことにもなるかもしれない。
+
+
+* log
+** 2020/03/24
+
+　起票。
+
+#<end update:2020/03/24 19:39:21>
 #<begin task ID:kIbztPia0yq>
 -*-MODE:org-*-
 GROUP:cl-diagram
@@ -10297,6 +10529,50 @@ BACKUP:1
 &pagetag( "connector", "タグマップ#connector" )
 
 #<end update:2020/02/21 12:17:48>
+#<begin task ID:kPAm2b8PcLz>
+-*-MODE:org-*-
+GROUP:cl-diagram
+TAG:
+MARK:yellow
+DATE:2020/03/25
+PRIORITY:3
+STATUS:wait
+TITLE:デフォルト値のためのスペシャル変数の縮小を検討する
+REPEAT:none
+ALARM:none
+TRIVIAL:0
+ATTACH:
+TRACKING:0
+EXECUTABLE:1
+PRIVATE:0
+BACKUP:0
+#!edit
+
+　たとえば stroke-info では、現状で以下のデフォルト値関連の変数がある。
+
+#+BEGIN_SRC lisp
+(defparameter *default-stroke*           nil)
+(defparameter *default-stroke-color*     :black)
+(defparameter *default-stroke-width*     1)
+(defparameter *default-stroke-opacity*   nil)
+(defparameter *default-stroke-dasharray* nil)
+#+END_SRC
+
+　これを、以下のイメージにしてしまいたい。
+
+#+BEGIN_SRC lisp
+(defparameter *default-stroke* (make-stroke :color :black :width 1))
+#+END_SRC
+
+　おそらく、constants.lisp に集約している現状を改める必要がある。また、明示的な
+nil 指定と省略による nil は区別する必要があるだろう。けっこうオオゴトになる。
+
+* log
+** 2020/03/25
+
+　起票。
+
+#<end update:2020/03/25 07:26:57>
 #<begin task ID:kS32RE8FkEc>
 -*-MODE:org-*-
 GROUP:cl-diagram
@@ -11368,7 +11644,7 @@ done
 if [ ${IN_SESSION} -eq 0 ]; then
 	rm -x ${DAT_FILE}
 fi
-#<end update:2020/03/23 09:02:21 access:2020/03/23 12:02:20>
+#<end update:2020/03/23 09:02:21 access:2020/03/24 19:27:58>
 #<begin memo ID:0jcp8laWIEQ>
 -*-MODE:org-*-
 GROUP:cl-diagram
@@ -11547,12 +11823,12 @@ export FIST_AUTO_BG_WHEN_FINISH    0
 export FIST_BLOCK_SESSION          0
 export FIST_DEFAULT_EXEC_COMMAND   edit
 export FIST_DEFAULT_PRIORITY       3
-export FIST_EDITOR                 emacsclientw
+export FIST_EDITOR                 emacsclient
 export FIST_HISTORY_COUNT          16
 export FIST_LOG_LEVEL              debug
 export FIST_ONETIME_COMMAND_GUIDE  1
 export FIST_OUTLOOK_DATESPAN       7
-export FIST_PS1                    "\n\w\nz53851zz@\h[\#]$ "
+export FIST_PS1                    "\n\w\nshow@\h[\#]$ "
 export FIST_PS2                    "\#> "
 export FIST_SCRIPT_CACHE           20
 export FIST_THEME                  emacs
@@ -11560,6 +11836,7 @@ export FIST_THEME                  emacs
 
 # links ----------------------------------------
 ln -s 1zZzvzAprox .fistrc
+ln -s 7GZEUaGXifd .exit
 ln -s 073EmTch3zx svggen
 
 # ln -s gqevoybQeT3 .makename
@@ -11584,7 +11861,7 @@ alias archive        "backup ./cl-svg.fist.archive"
 alias clone          "new --template"
 alias ll             "ls -l"
 alias lb             "ls -b"
-#<end update:2020/03/23 08:42:03>
+#<end update:2020/03/24 19:32:17>
 #<begin memo ID:2dpOHRvoVJ8>
 -*-MODE:org-*-
 GROUP:cl-diagram
@@ -12174,7 +12451,7 @@ BACKUP:1
 echo "archiving data..."
 backup ./cl-diagram.fist.archive
 echo "good bye."
-#<end update:2020/03/23 12:57:55>
+#<end update:2020/03/23 12:57:55 access:2020/03/24 19:27:04>
 #<begin memo ID:8U7dblVP7AW>
 -*-MODE:org-*-
 GROUP:cl-diagram
@@ -14912,7 +15189,7 @@ c++	//
 lisp	;;
 scheme	;;
 mail	| 
-#<end update:2020/02/20 12:38:53>
+#<end update:2020/02/20 12:38:53 access:2020/03/24 19:26:14>
 #<begin memo ID:j6XIv3TxQ9Q>
 -*-MODE:org-*-
 GROUP:cl-diagram
