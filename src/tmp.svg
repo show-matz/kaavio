@@ -9,7 +9,7 @@
 		
 	]]></style>
 	<!-- background : rectangle -->
-	<rect id='background' x='0' y='0' width='600' height='400' fill='lightgray' stroke='black' stroke-width='1' />
+	<rect id='background' x='0' y='0' width='600' height='400' fill='lightgray' stroke='none' stroke-width='1' />
 	<!-- circle1 : circle -->
 	<g id='circle1'>
 		<a xlink:href='http://www.google.co.jp' target='_self'>
@@ -43,7 +43,7 @@
 	</a>
 	<!-- paragraph -->
 	<a xlink:href='http://www.google.co.jp' target='_self'>
-		<text x='350' y='362' text-anchor='start' font-size='12pt' fill='red' text-decoration='underline' >This is paragraph text.</text>
+		<text x='350' y='362' text-anchor='start' font-size='12pt' fill='red' text-decoration='underline' >This is paragraph text.</text>
 		<text x='350' y='379' text-anchor='start' font-size='12pt' fill='red' text-decoration='underline' >multi-line is OK.</text>
 	</a>
 
