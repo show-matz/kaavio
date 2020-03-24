@@ -1,5 +1,7 @@
 #!/usr/bin/bash
 
+pushd ./src
+
 # --------------------------------------------------------------------------------------
 TARGET_FILE="cl-diagram.lisp"
 
@@ -30,4 +32,6 @@ tail -${LINE2} ./${TARGET_FILE}              >> ./${TARGET_FILE}.new
 
 mv ./${TARGET_FILE}      ./${TARGET_FILE}.bak
 mv ./${TARGET_FILE}.new  ./${TARGET_FILE}
+
+popd
 

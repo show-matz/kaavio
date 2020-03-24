@@ -1,11 +1,15 @@
 
 #+BEGIN_SRC lisp
 (load "./@load.lisp")
+
 (let ((path (merge-pathnames "cl-diagram/lib/"
 							 (sb-ext:posix-getenv "CVS_SANDBOX"))))
   (setf diagram:*include-paths* (list path)))
 
-(diagram::cl-apps-main '("./tmp.diagram" :utf8 "./tmp.svg" :utf8))
+(let ((path "~/sandbox/cl-diagram/lib/"))
+  (setf diagram:*include-paths* (list path)))
+
+(diagram::cl-apps-main '("./sample/tmp.diagram" :utf8 "./sample/tmp.svg" :utf8))
 #+END_SRC
 
 * 移植作業
@@ -56,7 +60,8 @@
   - [X] create-svg.lisp
   - [X] svg-main.lisp
 
-* xxx [0/6]
+* xxx [0/8]
+** TODO sbcl のカレントディレクトリと diagram ファイルのディレクトリが一致しないと image が処理できない
 ** TODO dictionary.lisp::dict-history-kwd-p は labels にできる
 ** TODO entity-canvas と shape-canvas : なんか変じゃない？
 ** TODO add rule( :nonzero|:evenodd ) to fill-info
