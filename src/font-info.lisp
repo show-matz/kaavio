@@ -1,11 +1,16 @@
 #|
-#|ASD|#				(:file "font-info"                 :depends-on ("cl-diagram"
-#|ASD|#																"constants"))
+#|ASD|#				(:file "font-info"                 :depends-on ("cl-diagram"))
 #|EXPORT|#				;font-info.lisp
  |#
 
 
 (in-package :cl-diagram)
+
+;; default parameter for font-info
+#|
+#|EXPORT|#				:*default-font*
+ |#
+(defparameter *default-font* nil)
 
 ;;------------------------------------------------------------------------------
 ;;
@@ -52,16 +57,6 @@
 
 (defmethod initialize-instance :after ((font font-info) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (family size color style decoration
-					  weight line-spacing width-spice) font
-	(setf family		(or family			*default-font-family*))
-	(setf size			(or size			*default-font-size*))
-	(setf color			(or color			*default-font-color*))
-	(setf style			(or style			*default-font-style*))
-	(setf decoration	(or decoration		*default-font-decoration*))
-	(setf weight		(or weight			*default-font-weight*))
-	(setf line-spacing	(or line-spacing	*default-font-line-spacing*))
-	(setf width-spice	(or width-spice		*default-font-width-spice*)))
   font)
 
 (defmethod check ((ent font-info) canvas dict)
@@ -113,28 +108,26 @@
 		  (t               (make-font :family param))))
 	  (if (and (null params) *default-font*)
 		  *default-font*
-		  (destructuring-bind (&key family size color style decoration
-									weight width-spice line-spacing base) params
+		  (destructuring-bind (&key (family       nil       family-p)
+									(size         nil         size-p)
+									(color        nil        color-p)
+									(style        nil        style-p)
+									(decoration   nil   decoration-p)
+									(weight       nil       weight-p)
+									(width-spice  nil  width-spice-p)
+									(line-spacing nil line-spacing-p) base) params
 			(let ((base (or base *default-font*)))
-			  (if (null base)
-				  (make-instance 'font-info
-								 :family       family
-								 :size         size
-								 :color        color
-								 :style        style
-								 :decoration   decoration
-								 :weight       weight
-								 :width-spice  width-spice
-								 :line-spacing line-spacing)
-				  (make-instance 'font-info
-								 :family       (or family       (font-family base))
-								 :size         (or size         (font-size base))
-								 :color        (or color        (font-color base))
-								 :style        (or style        (font-style base))
-								 :decoration   (or decoration   (font-decoration base))
-								 :weight       (or weight       (font-weight base))
-								 :width-spice  (or width-spice  (font-width-spice base))
-								 :line-spacing (or line-spacing (font-line-spacing base)))))))))
+			  (labels ((fixval (val-p val base-fnc default)
+						 (if val-p val (if base (funcall base-fnc base) default))))
+				(make-instance 'font-info
+							   :family       (fixval family-p       family       #'font-family       nil)
+							   :size         (fixval size-p         size         #'font-size          12)
+							   :color        (fixval color-p        color        #'font-color     :black)
+							   :style        (fixval style-p        style        #'font-style        nil)
+							   :decoration   (fixval decoration-p   decoration   #'font-decoration   nil)
+							   :weight       (fixval weight-p       weight       #'font-weight       nil)
+							   :width-spice  (fixval width-spice-p  width-spice  #'font-width-spice 0.65)
+							   :line-spacing (fixval line-spacing-p line-spacing #'font-line-spacing   2))))))))
 
 #|
 #|EXPORT|#				:font-calc-textarea
@@ -152,6 +145,15 @@
 			  (+ (* size line-count)
 				 (* spacing (1- line-count)))))))
 
+
+(setf *default-font* (make-font :family        nil
+								:size           12
+								:color      :black
+								:style         nil
+								:decoration    nil
+								:weight        nil
+								:width-spice  0.65
+								:line-spacing    2))
 
 ;;(to-property-strings (make-font))
 ;;(to-property-strings (make-font "Courier New"))

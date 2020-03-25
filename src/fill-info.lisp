@@ -1,11 +1,16 @@
 #|
-#|ASD|#				(:file "fill-info"                 :depends-on ("cl-diagram"
-#|ASD|#																"constants"))
+#|ASD|#				(:file "fill-info"                 :depends-on ("cl-diagram"))
 #|EXPORT|#				;fill-info.lisp
  |#
 
 
 (in-package :cl-diagram)
+
+;; default parameter for fill
+#|
+#|EXPORT|#				:*default-fill*
+ |#
+(defparameter *default-fill* nil)
 
 ;;------------------------------------------------------------------------------
 ;;
@@ -16,11 +21,11 @@
 #|EXPORT|#				:fill-info
  |#
 (defclass fill-info ()
-  ((color ;:type     (or keyword string)
-		  :initform nil
-		  :initarg  :color
-		  :accessor fill-color)
-   (opacity ;:type     number
+  ((color	;:type     (or keyword string)
+			:initform nil
+			:initarg  :color
+			:accessor fill-color)
+   (opacity	;:type     number
 			:initform nil
 			:initarg  :opacity
 			:accessor fill-opacity)))
@@ -28,9 +33,6 @@
 
 (defmethod initialize-instance :after ((fill fill-info) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (color opacity) fill
-	(setf color   (or color   *default-fill-color*))
-	(setf opacity (or opacity *default-fill-opacity*)))
   fill)
 
 
@@ -62,16 +64,19 @@
 		  (t             (make-fill :color param))))
 	  (if (and (null params) *default-fill*)
 		  *default-fill*
-		  (destructuring-bind (&key color opacity base) params
+		  (destructuring-bind (&key (color   nil   color-p)
+									(opacity nil opacity-p) base) params
 			(let ((base (or base *default-fill*)))
-			  (if (null base)
-				  (make-instance 'fill-info
-								 :color   color
-								 :opacity opacity)
-				  (make-instance 'fill-info
-								 :color   (or color   (fill-color   base))
-								 :opacity (or opacity (fill-opacity base)))))))))
+			  (labels ((fixval (val-p val base-fnc default)
+						 (if val-p val (if base (funcall base-fnc base) default))))
+				(make-instance 'fill-info
+							   :color   (fixval color-p   color   #'fill-color  :none)
+							   :opacity (fixval opacity-p opacity #'fill-opacity  nil))))))))
 
+
+
+(setf *default-fill* (make-fill :color :none
+								:opacity nil))
 
 ;;(to-property-strings (make-fill))
 ;;(to-property-strings (make-fill :red))

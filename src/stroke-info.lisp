@@ -1,11 +1,16 @@
 #|
-#|ASD|#				(:file "stroke-info"               :depends-on ("cl-diagram"
-#|ASD|#																"constants"))
+#|ASD|#				(:file "stroke-info"               :depends-on ("cl-diagram"))
 #|EXPORT|#				;stroke-info.lisp
  |#
 
 
 (in-package :cl-diagram)
+
+;; default parameter for stroke-info
+#|
+#|EXPORT|#				:*default-stroke*
+ |#
+(defparameter *default-stroke* nil)
 
 ;;------------------------------------------------------------------------------
 ;;
@@ -16,30 +21,25 @@
 #|EXPORT|#				:stroke-info
  |#
 (defclass stroke-info ()
-  ((color ;:type     (or keyword string)
-		  :initform nil
-		  :initarg  :color
-		  :accessor stroke-color)
-   (width ;:type     number
-		  :initform nil
-		  :initarg  :width
-		  :accessor stroke-width)
-   (opacity ;:type     number
-			:initform nil
-			:initarg  :opacity
-			:accessor stroke-opacity)
-   (dasharray :type     list
-			  :initform nil
-			  :initarg  :dasharray
-			  :accessor stroke-dasharray)))
+  ((color		;:type     (or keyword string)
+				:initform nil
+				:initarg  :color
+				:accessor stroke-color)
+   (width		;:type     number
+				:initform nil
+				:initarg  :width
+				:accessor stroke-width)
+   (opacity		;:type     number
+				:initform nil
+				:initarg  :opacity
+				:accessor stroke-opacity)
+   (dasharray	:type     list
+				:initform nil
+				:initarg  :dasharray
+				:accessor stroke-dasharray)))
 
 (defmethod initialize-instance :after ((stroke stroke-info) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (color width opacity dasharray) stroke
-	(setf color     (or color     *default-stroke-color*))
-	(setf width     (or width     *default-stroke-width*))
-	(setf opacity   (or opacity   *default-stroke-opacity*))
-	(setf dasharray (or dasharray *default-stroke-dasharray*)))
   stroke)
 
 
@@ -76,20 +76,25 @@
 		  (t               (make-stroke :color param))))
 	  (if (and (null params) *default-stroke*)
 		  *default-stroke*
-		  (destructuring-bind (&key color width opacity dasharray base) params
+		  (destructuring-bind (&key (color     nil     color-p)
+									(width     nil     width-p)
+									(opacity   nil   opacity-p)
+									(dasharray nil dasharray-p) base) params
 			(let ((base (or base *default-stroke*)))
-			  (if (null base)
-				  (make-instance 'stroke-info
-								 :color     (or color     *default-stroke-color*)
-								 :width     (or width     *default-stroke-width*)
-								 :opacity   (or opacity   *default-stroke-opacity*)
-								 :dasharray (or dasharray *default-stroke-dasharray*))
-				  (make-instance 'stroke-info
-								 :color     (or color     (stroke-color base))
-								 :width     (or width     (stroke-width base))
-								 :opacity   (or opacity   (stroke-opacity base))
-								 :dasharray (or dasharray (stroke-dasharray base)))))))))
+			  (labels ((fixval (val-p val base-fnc default)
+						 (if val-p val (if base (funcall base-fnc base) default))))
+				(make-instance 'stroke-info
+							   :color     (fixval color-p     color     #'stroke-color  :black)
+							   :width     (fixval width-p     width     #'stroke-width       1)
+							   :opacity   (fixval opacity-p   opacity   #'stroke-opacity   nil)
+							   :dasharray (fixval dasharray-p dasharray #'stroke-dasharray nil))))))))
 
+
+
+(setf *default-stroke* (make-stroke :color  :black
+									:width       1
+									:opacity   nil
+									:dasharray nil))
 
 ;;(to-property-strings (make-stroke))
 ;;(to-property-strings (make-stroke :red))

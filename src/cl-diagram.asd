@@ -61,10 +61,8 @@
 																"writer"))
 				(:file "entity"                    :depends-on ("cl-diagram"
 																"writer"))
-				(:file "fill-info"                 :depends-on ("cl-diagram"
-																"constants"))
-				(:file "font-info"                 :depends-on ("cl-diagram"
-																"constants"))
+				(:file "fill-info"                 :depends-on ("cl-diagram"))
+				(:file "font-info"                 :depends-on ("cl-diagram"))
 				(:file "group"                     :depends-on ("cl-diagram"
 																"canvas"
 																"shape"
@@ -138,8 +136,7 @@
 																"link-info"))
 				(:file "stencil"                   :depends-on ("cl-diagram"
 																"pathutil"))
-				(:file "stroke-info"               :depends-on ("cl-diagram"
-																"constants"))
+				(:file "stroke-info"               :depends-on ("cl-diagram"))
 				(:file "text"                      :depends-on ("cl-diagram"
 																"constants"
 																"entity"

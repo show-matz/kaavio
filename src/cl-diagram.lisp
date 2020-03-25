@@ -43,27 +43,10 @@
 				:connector
 				;constants.lisp
 				:*default-link-target*
-				:*default-fill*
-				:*default-fill-color*
-				:*default-fill-opacity*
-				:*default-stroke*
-				:*default-stroke-color*
-				:*default-stroke-width*
-				:*default-stroke-opacity*
-				:*default-stroke-dasharray*
 				:*default-endmark-1*
 				:*default-endmark-2*
 				:*default-endmark-type*
 				:*default-endmark-size*
-				:*default-font*
-				:*default-font-family*
-				:*default-font-size*
-				:*default-font-color*
-				:*default-font-style*
-				:*default-font-decoration*
-				:*default-font-weight*
-				:*default-font-line-spacing*
-				:*default-font-width-spice*
 				:*default-label-position*
 				:*default-label-font*
 				:*default-label-offset*
@@ -100,9 +83,11 @@
 				:post-draw
 				:entity-composition-p
 				;fill-info.lisp
+				:*default-fill*
 				:fill-info
 				:make-fill
 				;font-info.lisp
+				:*default-font*
 				:font-info
 				:make-font
 				:font-calc-textarea
@@ -183,6 +168,7 @@
 				:reset-stencil-load-cache
 				:load-stencil
 				;stroke-info.lisp
+				:*default-stroke*
 				:stroke-info
 				:make-stroke
 				;text.lisp
