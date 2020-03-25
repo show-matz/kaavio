@@ -20,7 +20,8 @@
 	(line '(300 200 350 200 380 280) :stroke :blue
 		  :end1 '(:type :arrow  :stroke :blue :fill :blue)
 		  :end2 '(:type :circle :stroke :blue :fill :blue))
-	(polygon '(448 16 416 96 496 48 400 48 480 96) :fill :slategray :stroke :navy)
+	(polygon '(448 16 416 96 496 48 400 48 480 96)
+			 :fill '(:color :slategray :rule :evenodd) :stroke :navy)
 	(rectangle 400 250 30 30 :stroke :brown  :fill :none :id :rectA)
 	(rectangle 500 300 30 30 :stroke :purple :fill :none :id :rectB)
 	(connector :rectA :rectB :style :T3T1 :stroke :red :end2 :arrow)

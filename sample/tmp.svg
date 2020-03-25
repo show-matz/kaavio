@@ -33,7 +33,7 @@
 	<polyline fill='none' stroke='blue' stroke-width='1' points='312.9904,192.5 300,200 312.9904,207.5' />
 	<circle cx='380' cy='280' r='7.5' fill='blue' stroke='blue' stroke-width='1' />
 	<!-- polygon -->
-	<polygon fill='slategray' stroke='navy' stroke-width='1' points='448.0,16.0 416.0,96.0 496.0,48.0 400.0,48.0 480.0,96.0' />
+	<polygon fill='slategray' fill-rule='evenodd' stroke='navy' stroke-width='1' points='448.0,16.0 416.0,96.0 496.0,48.0 400.0,48.0 480.0,96.0' />
 	<!-- recta : rectangle -->
 	<rect id='recta' x='385' y='235' width='30' height='30' fill='none' stroke='brown' stroke-width='1' />
 	<!-- rectb : rectangle -->
