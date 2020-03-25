@@ -7,7 +7,7 @@
 #|ASD|#				                                                "canvas"
 #|ASD|#				                                                "font-info"
 #|ASD|#				                                                "stroke-info"
-#|ASD|#				                                                "svg-writer"))
+#|ASD|#				                                                "writer"))
 #|EXPORT|#				;create-svg.lisp
  |#
 

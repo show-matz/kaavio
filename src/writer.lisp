@@ -69,7 +69,7 @@
 #|
 #|EXPORT|#				:create-svg-writer
  |#
-; returns svg-writer
+; returns buffer-writer
 ; encoding --- :jis :euc-jp :sjis :utf8 :ascii :guess or :default
 (defun create-svg-writer (#|file-name charset &key (eol-style :lf)|#)
 ;	(let ((writer (if (eq charset :default)
