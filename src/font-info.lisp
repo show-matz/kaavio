@@ -94,6 +94,20 @@
 	  (add-when (font-weight     fnt)     "font-weight='" it "' ")
 	  buf)))
 
+(defmethod to-style-strings ((fnt font-info))
+  (macrolet ((add-when (member &rest args)
+			   `(let ((it ,member))
+				  (when it
+					(setf buf (concatenate 'string buf (format-string ,@args)))))))
+	(let ((buf ""))
+	  (add-when (font-family     fnt)     "font-family: " it "; ")
+	  (add-when (font-size       fnt)       "font-size: " it "pt; ")
+;;	  (add-when (font-color      fnt)            "fill: " it "; ")	;;ToDo : スタイルシート内部で、fill-info とカブるけど？
+	  (add-when (font-style      fnt)      "font-style: " it "; ")
+	  (add-when (font-decoration fnt) "text-decoration: " it "; ")
+	  (add-when (font-weight     fnt)     "font-weight: " it "; ")
+	  buf)))
+
 
 #|
 #|EXPORT|#				:make-font

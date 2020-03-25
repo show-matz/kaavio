@@ -137,6 +137,12 @@
 				(:file "stencil"                   :depends-on ("cl-diagram"
 																"pathutil"))
 				(:file "stroke-info"               :depends-on ("cl-diagram"))
+				(:file "stylesheet"                :depends-on ("cl-diagram"
+																"entity"
+																"stroke-info"
+																"fill-info"
+																"font-info"
+																"writer"))
 				(:file "text"                      :depends-on ("cl-diagram"
 																"constants"
 																"entity"

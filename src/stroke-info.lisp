@@ -62,6 +62,17 @@
 	(when dasharr (setf dasharr (format nil "stroke-dasharray='~{~A ~}' " dasharr)))
 	(concatenate 'string color width opacity dasharr)))
 
+(defmethod to-style-strings ((stroke stroke-info))
+  (let ((color   (stroke-color     stroke))
+		(width   (stroke-width     stroke))
+		(opacity (stroke-opacity   stroke))
+		(dasharr (stroke-dasharray stroke)))
+	(when color   (setf color   (format-string "stroke: " color "; ")))
+	(when width	  (setf width   (format-string "stroke-width: " width "; ")))
+	(when opacity (setf opacity (format-string "stroke-opacity: " opacity "; ")))
+	(when dasharr (setf dasharr (format nil "stroke-dasharray: ~{~A ~}; " dasharr)))
+	(concatenate 'string color width opacity dasharr)))
+
 
 #|
 #|EXPORT|#				:make-stroke

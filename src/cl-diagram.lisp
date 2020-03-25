@@ -37,6 +37,7 @@
 				:with-dictionary
 				:escape-characters
 				:to-property-strings
+				:to-style-strings
 				:check
 				;connector.lisp
 				:resolve-connector-points
@@ -171,6 +172,9 @@
 				:*default-stroke*
 				:stroke-info
 				:make-stroke
+				;stylesheet.lisp
+				:style
+				:stylesheet
 				;text.lisp
 				:text
 				;writer.lisp
@@ -492,8 +496,10 @@
 
 #|
 #|EXPORT|#				:to-property-strings
+#|EXPORT|#				:to-style-strings
  |#
 (defgeneric to-property-strings (info))	;; ToDo : 他の場所に移動する？
+(defgeneric to-style-strings (info))	;; ToDo : 他の場所に移動する？
 
 #|
 (let ((lnk (make-link "http://www.google.co.jp/"))

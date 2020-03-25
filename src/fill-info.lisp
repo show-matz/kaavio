@@ -61,6 +61,17 @@
 	  (setf rule (format-string "fill-rule='" rule "' ")))
 	(concatenate 'string color opacity rule)))
 
+(defmethod to-style-strings ((fill fill-info))
+  (let ((color   (fill-color   fill))
+		(opacity (fill-opacity fill))
+		(rule    (fill-rule    fill)))
+	(when color
+	  (setf color (format-string "fill: " color "; ")))
+	(when opacity
+	  (setf opacity (format-string "fill-opacity: " opacity "; ")))
+	(when rule
+	  (setf rule (format-string "fill-rule: " rule "; ")))
+	(concatenate 'string color opacity rule)))
 
 #|
 #|EXPORT|#				:make-fill

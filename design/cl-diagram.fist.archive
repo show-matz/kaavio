@@ -3,9 +3,9 @@
 GROUP:cl-diagram
 TAG:
 MARK:cyan
-DATE:2020/04/30
+DATE:2020/03/25
 PRIORITY:3
-STATUS:wait
+STATUS:done
 TITLE:fill に rule (nonzero|evenodd) を追加する
 REPEAT:none
 ALARM:none
@@ -14,8 +14,8 @@ ATTACH:
 TRACKING:0
 EXECUTABLE:1
 PRIVATE:0
-BACKUP:0
-#!edit
+BACKUP:1
+#!view
 
 　詳細は確認が必要。-> essentials 2nd PDF - p58
 
@@ -26,7 +26,12 @@ BACKUP:0
 
 　起票。
 
-#<end update:2020/03/24 19:41:59>
+** 2020/03/25
+
+　やっつけた。ポイントは、デフォルトを nil にして、明示的に指定しない限りは出力
+されないこと。ほとんど常に指定する必要がないからな。クローズ。
+
+#<end update:2020/03/25 18:49:35 access:2020/03/25 18:49:43>
 #<begin task ID:0pjVNFLLhuI>
 -*-MODE:org-*-
 GROUP:cl-diagram
@@ -2541,7 +2546,7 @@ BACKUP:1
 　path/get-current-directory で merge-pathnames してやったら動作するようになった。
 クローズ。
 
-#<end update:2020/03/25 07:48:50 access:2020/03/25 07:49:05>
+#<end update:2020/03/25 07:48:50 access:2020/03/25 18:25:33>
 #<begin task ID:6lVQ3ZMTUu0>
 -*-MODE:org-*-
 GROUP:cl-diagram
@@ -7957,10 +7962,10 @@ textbox を含む shape クラスの「コンポジション化サポート」�
 GROUP:cl-diagram
 TAG:
 MARK:cyan
-DATE:2020/04/30
+DATE:2020/03/26
 PRIORITY:3
-STATUS:wait
-TITLE:css の刷新
+STATUS:doing
+TITLE:css の刷新 ⇒ stylesheet の新設
 REPEAT:none
 ALARM:none
 TRIVIAL:0
@@ -7986,7 +7991,25 @@ BACKUP:0
 
 　起票。検討からやらなきゃだな。
 
-#<end update:2020/03/24 19:39:19>
+** 2020/03/25
+
+　emacs 上で fist データに埋め込む場合は css は使えないのでモチベーションが保て
+るか自信がないが、なんとか頑張ってみよう。そして、既存の css マクロをいきなり変
+えるのも面倒なので、stylesheet マクロというのを別で作る感じかな。ということは以
+下のようになるか。
+
+#+BEGIN_SRC lisp
+(stylesheet
+  (style :rect.inner :fill '(:color :red :opacity 0.2)
+					 :stroke '(:color :black :width 1))
+  (style :.foo :font (make-font :family "foobar")))
+#+END_SRC
+
+** 2020/03/26
+
+　かなりできてきた。完成ではないかもしれないが、色々と都合があるのでいったんコミッ
+ト。
+#<end update:2020/03/26 07:57:25>
 #<begin task ID:gqTg0mi7qli>
 -*-MODE:org-*-
 GROUP:cl-diagram
@@ -10537,9 +10560,9 @@ BACKUP:1
 GROUP:cl-diagram
 TAG:
 MARK:yellow
-DATE:2020/03/25
+DATE:2020/03/26
 PRIORITY:3
-STATUS:wait
+STATUS:doing
 TITLE:デフォルト値のためのスペシャル変数の縮小を検討する
 REPEAT:none
 ALARM:none
@@ -10575,7 +10598,33 @@ nil 指定と省略による nil は区別する必要があるだろう。け�
 
 　起票。
 
-#<end update:2020/03/25 07:26:57>
+　考える。例えば、*default-stroke* だったら、それに依存している stroke-info.lisp
+の冒頭で宣言し、それを利用するコードを確認。make-stroke マクロなんかもそうだ。そ
+して、stroke-info.lisp の最後の部分で、初期値を確定する。以下のイメージ。
+
+#+BEGIN_SRC lisp
+;; stroke-info.lisp
+
+(defparameter *default-stroke* nil)
+
+(defclass stroke-info () ...)
+
+(defmacro make-stroke (...) ...)
+
+(setf *default-stroke* (make-stroke :color :black :width 1))
+#+END_SRC
+
+　このやり方でイケるのかどうか、一応確認しないと。
+
+　‥‥‥いけることが確認できたので、午前中に職場で作業してしまった。といっても、
+以下の３つ。他は独立した *default-xxx* オブジェクトがあるワケではないので、対象
+外（または検討が必要）だ。この時点でひとまずコミット。
+
+	* fill-info
+	* font-info
+	* stroke-info
+
+#<end update:2020/03/25 18:31:05 access:2020/03/25 18:31:11>
 #<begin task ID:kS32RE8FkEc>
 -*-MODE:org-*-
 GROUP:cl-diagram
