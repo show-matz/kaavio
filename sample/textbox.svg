@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='200'>
+	<desc>sample of textbox</desc>
+	
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- textbox -->
+	<rect x='21.599998' y='18' width='156.8' height='64' rx='10' ry='10' fill='white' stroke='black' stroke-width='1' />
+	<text x='31.59999' y='40' text-anchor='start' font-size='12pt' fill='black' >this is 1st sample.</text>
+	<text x='31.59999' y='56' text-anchor='start' font-size='12pt' fill='black' >日本語お試し。</text>
+	<text x='31.59999' y='72' text-anchor='start' font-size='12pt' fill='black' >multi line.</text>
+
+</svg>

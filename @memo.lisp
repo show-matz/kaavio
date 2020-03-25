@@ -8,3 +8,5 @@
 
 (diagram::path/set-current-directory "./sample")
 (diagram::cl-apps-main '("tmp.diagram" :utf8 "tmp.svg" :utf8))
+(diagram::cl-apps-main '("textbox.diagram" :utf8 "textbox.svg" :utf8))
+

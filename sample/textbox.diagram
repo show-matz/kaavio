@@ -1,0 +1,9 @@
+(load-stencil :test-set)
+
+(create-svg (:width 300 :height 200 :desc "sample of textbox" :encoding :utf8)
+	(grid)
+	(textbox 100 50 "this is 1st sample.
+日本語お試し。
+multi line." :rx 10 :ry 10 :margin 10 :align :left
+			 :fill :white :stroke :black
+			 :font '(:line-spacing 4 :width-spice 0.6)))
