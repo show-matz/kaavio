@@ -42,7 +42,7 @@
 	<polyline fill='none' stroke='red' stroke-width='1' points=' 407.5,235.0 407.5,205.0 492.5,205.0 492.5,285.0' />
 	<polyline fill='none' stroke='black' stroke-width='1' points='485.0,272.0096 492.5,285 500.0,272.0096' />
 	<!-- image -->
-	<image x='10.5' y='33.5' width='79' height='33' xlink:href='C:/sandbox/cl-diagram/sample/test.png' />
+	<image x='10.5' y='33.5' width='79' height='33' xlink:href='test.png' />
 	<!-- text -->
 	<a xlink:href='http://www.google.co.jp' target='_self'>
 		<text x='20' y='370' text-anchor='start' font-size='20pt' fill='blue' text-decoration='underline' >This is test string.</text>

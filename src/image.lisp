@@ -104,8 +104,7 @@
 
 (defmethod initialize-instance :after ((img image) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (filename label) img
-	(setf filename (merge-pathnames filename (path/get-current-directory)))
+  (with-slots (label) img
 	(when label
 	  (setf label (make-label label))))
   img)
@@ -120,21 +119,23 @@
   (check-member (width    (image-width    img)) :nullable   t :types number)
   (check-member (height   (image-height   img)) :nullable   t :types number)
   (with-slots (width height filename preserve-ratio) img
-	(unless (path/is-existing-file filename)
-	  (throw-exception "image file '~A' is not exist." filename))
-	;; width, height の両方とも明示的に指定されている場合、アスペクト比の維持をしない
-	(if (and width height)
-		(setf preserve-ratio nil)
-		;; 上記以外の場合、画像ファイルの実際のサイズを取得する。
-		(multiple-value-bind (w h) (__get-size-of-imagefile filename)
-		  ;; width, height の両方とも nil ならば実際のサイズを設定
-		  (if (and (null width) (null height))
-			  (setf width  w
-					height h)
-			  ;; 上記以外の場合、実サイズのアスペクト比にあわせて nil 側を設定
-			  (if (null width)
-				  (setf width  (* height (/ w h)))
-				  (setf height (* width  (/ h w))))))))
+	(let ((path (merge-pathnames filename (path/get-current-directory))))
+	  ;; 指定された名前のファイルがカレントディレクトリに存在することをチェック
+	  (unless (path/is-existing-file path)
+		(throw-exception "image file '~A' is not exist." path))
+	  ;; width, height の両方とも明示的に指定されている場合、アスペクト比の維持をしない
+	  (if (and width height)
+		  (setf preserve-ratio nil)
+		  ;; 上記以外の場合、画像ファイルの実際のサイズを取得する。
+		  (multiple-value-bind (w h) (__get-size-of-imagefile path)
+			;; width, height の両方とも nil ならば実際のサイズを設定
+			(if (and (null width) (null height))
+				(setf width  w
+					  height h)
+				;; 上記以外の場合、実サイズのアスペクト比にあわせて nil 側を設定
+				(if (null width)
+					(setf width  (* height (/ w h)))
+					(setf height (* width  (/ h w)))))))))
   (check-member (width    (image-width    img)) :nullable nil :types number)
   (check-member (height   (image-height   img)) :nullable nil :types number)
   (check-object (label    (image-label    img)) canvas dict :nullable t :class label-info)
