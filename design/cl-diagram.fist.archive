@@ -4257,6 +4257,108 @@ class をメンバとして保有する必要が生じる。
 &pagetag( "uml-actor", "タグマップ#uml-actor" )
 
 #<end update:2020/02/20 16:07:10>
+#<begin task ID:ccwljdVL8GH>
+-*-MODE:org-*-
+GROUP:cl-diagram
+TAG:
+MARK:yellow
+DATE:2020/03/26
+PRIORITY:3
+STATUS:done
+TITLE:canvas の刷新と with-canvas マクロの提供
+REPEAT:none
+ALARM:none
+TRIVIAL:0
+ATTACH:
+TRACKING:0
+EXECUTABLE:1
+PRIVATE:0
+BACKUP:1
+#!view
+
+　まずもって、defclassする必要はないと思う。point のようにコンスセルで作れば充分
+ではないか。
+
+　そう考えるのにはそれなりの理由があって、stencil 側で with-slot (...) canvas と
+やると、diagram::top とかする必要が発生してしまうのだ。with-canvas とか手作りし
+て、stencil 側のシンボルを使って symbol-macrolet した方が良いと判断した。
+
+　とはいえ、以下の[[実装案]]だと、make-canvas した結果が以下のようになるんだよ
+な‥‥‥。defclass のままで、with-canvas マクロを提供しても良いはず。どうしよう
+かな。
+
+#+BEGIN_SRC lisp
+CL-USER> (make-canvas 10 20 30 40)
+((10 . 30) 20 . 40)
+#+END_SRC
+
+
+* 実装案
+#+BEGIN_SRC lisp
+#|
+#|ASD|#				(:file "canvas"                    :depends-on ("cl-diagram"))
+#|EXPORT|#				;canvas.lisp
+ |#
+
+(in-package :cl-diagram)
+
+;;------------------------------------------------------------------------------
+;;
+;; canvas
+;;
+;;------------------------------------------------------------------------------
+#|
+#|EXPORT|#				:make-canvas
+ |#
+(defun make-canvas (top bottom left right)
+  (cons (cons top left) (cons bottom right)))
+
+#|
+#|EXPORT|#				:canvas-top
+#|EXPORT|#				:canvas-bottom
+#|EXPORT|#				:canvas-left
+#|EXPORT|#				:canvas-right
+ |#
+(defun canvas-top    (canvas) (caar canvas))
+(defun canvas-bottom (canvas) (cadr canvas))
+(defun canvas-left   (canvas) (cdar canvas))
+(defun canvas-right  (canvas) (cddr canvas))
+(defun (setf canvas-top)    (val canvas) (setf (caar canvas) val))
+(defun (setf canvas-bottom) (val canvas) (setf (cadr canvas) val))
+(defun (setf canvas-left)   (val canvas) (setf (cdar canvas) val))
+(defun (setf canvas-right)  (val canvas) (setf (cddr canvas) val))
+
+#|
+#|EXPORT|#				:canvas-width
+#|EXPORT|#				:canvas-height
+ |#
+(defun canvas-width  (canvas) (- (cddr canvas) (cdar canvas)))
+(defun canvas-height (canvas) (- (cadr canvas) (caar canvas)))
+
+#|
+#|EXPORT|#				:with-canvas
+ |#
+(defmacro with-canvas ((t-sym b-sym l-sym r-sym) canvas &rest body)
+  (let ((g-canvas (gensym "CANVAS")))
+	`(let ((,g-canvas ,canvas))
+	   (symbol-macrolet ((,t-sym (caar ,g-canvas))
+						 (,b-sym (cadr ,g-canvas))
+						 (,l-sym (cdar ,g-canvas))
+						 (,r-sym (cddr ,g-canvas)))
+		 ,@body))))
+
+#+END_SRC
+
+* log
+** 2020/03/26
+
+　起票。
+
+　色々アレなんだけど、やってしまうか。
+
+　‥‥‥少してこずったけどできた。クローズ。
+
+#<end update:2020/03/26 19:26:26>
 #<begin task ID:cgEI306bxmh>
 -*-MODE:org-*-
 GROUP:cl-diagram
@@ -7242,6 +7344,106 @@ BACKUP:1
 &pagetag( "connector", "タグマップ#connector" )
 
 #<end update:2020/02/21 12:20:48>
+#<begin task ID:eWX0oRuywLA>
+-*-MODE:org-*-
+GROUP:cl-diagram
+TAG:
+MARK:cyan
+DATE:2020/03/27
+PRIORITY:3
+STATUS:doing
+TITLE:「テキスト付き shape の一般化」を実装する
+REPEAT:none
+ALARM:none
+TRIVIAL:0
+ATTACH:
+TRACKING:0
+EXECUTABLE:1
+PRIVATE:0
+BACKUP:0
+#!edit
+
+　すでに職場での作業をコミットしてしまっているが、group から派生したクラスとして
+text-shape というのを作っている。これは以下のような継承ツリーを持つ。
+
+	* entity
+		* shape
+			* group
+				* text-shape
+
+　こいつは実質的には抽象クラスで、要するに以下のようなモノだ。
+
+	* 中にテキストが描画される、なんらかの形のシェイプの抽象化
+
+　最もわかりやすいのはテキストボックスで、textbox.stencil がここから派生する。他
+にも「中にテキストを書くシェイプ」はたくさんあるので、これらをできるだけ簡単にか
+けるように抽象化したい。
+
+* やること [1/4]
+** DONE 検討：text-shape よりも良い名前はないか考える ⇒ ひとまずそのままで
+
+　ひとつの考え方は、以下。
+
+	* 抽象クラスでなくしてしまい、名前を textbox にする
+	* そこから派生すれば、ボックス以外を作れるようになる
+
+　‥‥‥あ、でも今 rx とか指定してるか。ダメだな。text-shape で良い気がしてきた。
+ひとまずそのままとする。
+
+** TODO 検討：オブジェクトのサイズ計算を派生クラスでオーバーライド可能にする
+
+　既存のルールは以下の通り。
+
+	* 明示的に width, height が指定された場合はそれを使用する
+	* width, height のどちらか（または両方）が省略された場合、
+	  省略されたパラメータを text から計算する
+	* 上記の計算では margin も考慮される（逆に言えば明示的指定
+	  の場合は margin は考慮されない）
+
+　では、ここでいう「派生クラスでオーバーライド」とは具体的にどういうことか。これ
+は以下のような要件を想定している。
+
+	* 例えば uml-note では、本体テキストの他にもキーワードを表示
+	  する。全体のサイズを計算する際、基底 text-shape が知りえな
+	  いこれらの追加情報も計算に含めたい
+
+　これと、前述の「明示的指定の場合はそれを使用、省略の場合はテキストと margin か
+ら計算」とうまく融合させる必要があるわけだ。結果、これは以下とも関係してくる。
+
+	* [[検討：オブジェクト内部のテキスト描画エリア決定を派生クラスでオーバーライド可能にする]]
+
+　これらを総合すると、ひとまず以下のような仕様案になるか。
+
+	* 明示的に width, height が指定された場合はそれを使用する
+	* width, height のどちらか（または両方）が省略された場合、
+	  省略されたパラメータを text, margin から計算する
+	* 上記の計算では、総称関数 text-shape-calc-size がコール
+	  される。デフォルトの text-shape 向け実装では、既存の計算
+	  と同じ方法でサイズを決定する
+	* text-shape 派生クラスの draw-group の実装ではまずテキ
+	  スト背景となるシェイプを描画する。これは上で計算した canvas 
+	  を使用して行なう
+	* 上記実装では、続いて call-next-method をして text-shape 
+	  の draw-group 実装を実行する。この実装では、別の総称関数
+	  text-shape-paragraph-area をコールしてテキスト描画エリア
+	  を取得する。デフォルトの text-shape 向け実装では、背景シェ
+	  イプと同じ canvas を返す
+
+** TODO 検討：オブジェクト内部のテキスト描画エリア決定を派生クラスでオーバーライド可能にする
+
+	⇒ [[検討：オブジェクトのサイズ計算を派生クラスでオーバーライド可能にする]]でまとめて検討する
+	
+** TODO 絶対に使い方を忘れるのでマニュアルを書く
+* log
+** 2020/03/26
+
+　起票。
+
+** 2020/03/27
+
+　昨日作成した[[やること]]欄を順番に処理していく。
+
+#<end update:2020/03/27 07:55:46>
 #<begin task ID:feTLQEvJgQZ>
 -*-MODE:org-*-
 GROUP:cl-diagram
@@ -7962,9 +8164,9 @@ textbox を含む shape クラスの「コンポジション化サポート」�
 GROUP:cl-diagram
 TAG:
 MARK:cyan
-DATE:2020/03/26
+DATE:2020/12/31
 PRIORITY:3
-STATUS:doing
+STATUS:wait
 TITLE:css の刷新 ⇒ stylesheet の新設
 REPEAT:none
 ALARM:none
@@ -8009,7 +8211,12 @@ BACKUP:0
 
 　かなりできてきた。完成ではないかもしれないが、色々と都合があるのでいったんコミッ
 ト。
-#<end update:2020/03/26 07:57:25>
+
+　あとやるとすれば、fill / font / stroke のいずれにも分類されないようなスタイル
+をどうやって追加するかなのだけれど、それは当面は気にしないで良いと思う。ひとまず
+期日を年末まで延ばしておく。
+
+#<end update:2020/03/26 19:29:17>
 #<begin task ID:gqTg0mi7qli>
 -*-MODE:org-*-
 GROUP:cl-diagram

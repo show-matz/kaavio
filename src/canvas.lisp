@@ -12,9 +12,16 @@
 ;;------------------------------------------------------------------------------
 #|
 #|EXPORT|#				:make-canvas
+#|EXPORT|#				:copy-canvas
  |#
 (defun make-canvas (top bottom left right)
   (cons (cons top left) (cons bottom right)))
+
+(defun copy-canvas (canvas)
+  (cons (cons (caar canvas)
+			  (cdar canvas))
+		(cons (cadr canvas)
+			  (cddr canvas))))
 
 #|
 #|EXPORT|#				:canvas-top

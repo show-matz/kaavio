@@ -58,6 +58,14 @@
 			:accessor text-shape-margin)))
 
 
+; calc width & height of whole text-shape.
+(defgeneric text-shape-calc-size (txtshp))	;; returns (values w h)
+
+; generate canvas for paragraph inner text-shape.
+(defgeneric text-shape-paragraph-area (txtshp))	;; returns canvas
+
+
+
 (defmethod initialize-instance :after ((txtshp text-shape) &rest initargs)
   (declare (ignore initargs))
   (with-slots (align valign font fill stroke margin) txtshp
@@ -79,14 +87,13 @@
   (check-object   (fill    (text-shape-fill   txtshp)) canvas dict :nullable t :class   fill-info)
   (check-object   (stroke  (text-shape-stroke txtshp)) canvas dict :nullable t :class stroke-info)
   (check-member   (margin  (text-shape-margin txtshp)) :nullable nil :types number)
-  ;; width, height が nil ならテキストから決定
+  ;; width, height のいずれか（または両方）が省略されている場合は計算で決定
   ;;MEMO : 明示的に w/h を指定された場合、テキストがはみ出す可能性があるがそれは仕方ない
-  (with-slots (width height margin) txtshp
+  (with-slots (width height) txtshp
 	(unless (and width height)
-	  (multiple-value-bind (w h)
-		  (font-calc-textarea (text-shape-font txtshp) (text-shape-text txtshp))
-		(setf width  (or width  (+ (* margin 2) w)))
-		(setf height (or height (+ (* margin 2) h))))))
+	  (multiple-value-bind (w h) (text-shape-calc-size txtshp)
+		(setf width  (or width  w))
+		(setf height (or height h)))))
   ;; this method must call super class' one.
   ;;MEMO : w/h が明示的に指定された場合にそれが数値であるかのチェックは下記の group::check で実施
   (call-next-method))
@@ -95,7 +102,7 @@
 ;; override of group::draw-group
 (defmethod draw-group ((txtshp text-shape) writer)
   ;;(draw-group-frame txtshp writer)    ; MEMO : for debug...
-  (let ((canvas (shape-canvas txtshp)))
+  (let ((canvas (text-shape-paragraph-area txtshp)))
 	(declare (special canvas))
 	(with-canvas (top bottom left right) canvas
 	  (let ((width  (- right  left))
@@ -106,10 +113,7 @@
 						  (setf (entity-canvas ,g-entity) canvas)
 						  (check ,g-entity canvas nil)
 						  (diagram:draw-entity ,g-entity writer)))))
-		  (with-slots (text align valign font margin #|fill stroke|#) txtshp
-;;			;; draw txtshp body
-;			(polygon `(0 0 0 ,height ,width ,height ,width 0)
-;;					 :fill fill :stroke stroke)
+		  (with-slots (text align valign font margin) txtshp
 			;; draw text
 			(let ((x (ecase align
 					   ((:left)   margin)
@@ -121,6 +125,16 @@
 					   ((:bottom) (- height margin)))))
 			  (paragraph x y text :align align :valign valign :font font)))))))
   nil)
+
+(defmethod text-shape-calc-size ((txtshp text-shape))
+  (let ((margin ((text-shape-margin txtshp))))
+	(multiple-value-bind (w h)
+		(font-calc-textarea (text-shape-font txtshp) (text-shape-text txtshp))
+	  (values (+ (* margin 2) w)
+			  (+ (* margin 2) h)))))
+
+(defmethod text-shape-paragraph-area ((txtshp text-shape))
+  (copy-canvas (shape-canvas txtshp)))
 
 
 ;;(defmacro text-shape (x y text &key width height align valign font fill stroke margin link layer id)
