@@ -1,0 +1,26 @@
+(load-stencil :grid)
+(load-stencil :uml-keyword-info)
+(load-stencil :uml-role-info)
+(load-stencil :uml-multiplicity-info)
+(load-stencil :uml-note)
+
+(create-svg (:width 600 :height 400 :desc "test SVG" :encoding :utf8)
+	(grid) ; :size 10 :bgcolor "#F0F0FF" :stroke '(:color :blue :width 0.2))
+	(rectangle 100 100 50 50 :fill :white :stroke :black :id :rect1)
+	(rectangle 300 300 50 50 :fill :white :stroke :blue  :id :rect2)
+	(let ((line (connector :rect1 :rect2 :style :TB :stroke :black :end2 :arrow))
+		  (kwd  (make-uml-keyword :use))
+		  (rol1 (make-uml-role :host))
+		  (rol2 (make-uml-role :guest))
+		  (mul1 (make-uml-multiplicity '(1 . 3)))
+		  (mul2 (make-uml-multiplicity :*))
+		  (wr   (diagram::create-svg-writer)))		;; 野良writerを使用した無理矢理デバッグ
+	  (uml-keyword-draw-beside-line kwd line wr)
+	  (uml-role-draw-beside-line rol1 line :from wr)
+	  (uml-role-draw-beside-line rol2 line :dest wr)
+	  (uml-multiplicity-draw-beside-line mul1 line :from wr)
+	  (uml-multiplicity-draw-beside-line mul2 line :dest wr)
+	  (format t (diagram::writer-close wr)))
+	(uml-note 400 80 "this is note.
+multi line." :keyword :comment :targets '(:rect1 :rect2)))
+

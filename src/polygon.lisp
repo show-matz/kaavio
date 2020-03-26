@@ -65,7 +65,7 @@
 	  (unless (numberp v)
 		(throw-exception "Invalid value '~A' in points of polygon." v)))
 	(let ((x (canvas-left canvas))
-		  (y (canvas-left canvas)))
+		  (y (canvas-top  canvas)))
 	  (do ((lst points (cddr lst)))
 		  ((null lst))
 		(incf (car  lst) x)

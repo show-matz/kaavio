@@ -1,0 +1,93 @@
+
+(in-package :cl-diagram-user)
+
+(defparameter *uml-keyword-font*  nil)
+(defparameter *uml-keyword-class* nil)
+
+(defclass uml-keyword-info ()
+  ((name	;:type     (or keyword string)
+			:initform nil
+			:initarg  :name
+			:accessor uml-keyword-name)
+   (class	;:type     (or keyword string)
+			:initform nil
+			:initarg  :class
+			:accessor uml-keyword-class)
+   (font	;:type     (or nil font-info)
+			:initform nil
+			:initarg  :font
+			:accessor uml-keyword-font)))
+
+
+;;MEMO : no impl.
+;(defmethod initialize-instance :after ((kwd uml-keyword-info) &rest initargs)
+;;  ...)
+
+(defmethod check ((kwd uml-keyword-info) canvas dict)
+  (check-member   (name  (uml-keyword-name  kwd)) :nullable nil :types (or keyword string))
+  (check-member   (class (uml-keyword-class kwd)) :nullable   t :types (or keyword string))
+  (check-object   (font  (uml-keyword-font  kwd)) canvas dict :nullable t :class font-info)
+  nil)
+
+(defun uml-keyword-to-string (kwd)
+  (format-string "<<" (uml-keyword-name kwd) ">>"))
+
+(defun uml-keyword-draw (kwd x y align writer)
+  (let ((txt (uml-keyword-to-string kwd))
+		(txt-anchor (ecase align
+							((:left)   "start")
+							((:center) "middle")
+							((:right)  "end"))))
+	(with-slots (class font) kwd
+	  (writer-write writer
+					"<text "
+					"x='" x "' "
+					"y='" y "' "
+					"text-anchor='" txt-anchor "' "
+					(write-when class "class='" it "' ")
+					(when font
+					  (to-property-strings font))
+					">" (escape-characters txt) "</text>"))))
+
+
+(defun uml-keyword-draw-beside-line (kwd line writer)
+  (multiple-value-bind (x y sin cos) (diagram::line-get-center line)	;;ToDo : export!?
+	(declare (ignorable x y sin cos))
+;	(format t "x=~A, y=~A, sin=~A, cos=~A.~%" x y sin cos)
+	(let* ((f-size (diagram::font-size (uml-keyword-font kwd)))	;;ToDo : export!?
+		   (offset f-size)
+		   (align (cond ((zerop sin) :center)
+						((<  0  sin) :left)
+						(t           :right))))
+	  (incf y (/ f-size 2))
+;	  (macrolet ((register-entity (entity)
+;				   (let ((g-entity (gensym "ENTITY")))
+;					 `(let ((,g-entity ,entity))
+;						(setf (class:member ,g-entity :canvas) canvas) ; ToDo : need canvas!
+;						(class:invoke ,g-entity :check canvas nil)     ; ToDo : need canvas!
+;						(class:invoke ,g-entity :draw writer)))))
+;		(let ((x (+ x (* sin offset)))
+;			  (y (- y (* cos offset)))
+;			  (st (stroke :color :red :dasharray '(3 3))))
+;		  (line `(,(- x 25) ,y ,(+ x 25) ,y) :stroke st)
+;		  (line `(,x ,(- y 25) ,x ,(+ y 25)) :stroke st)))
+	  (uml-keyword-draw kwd (+ x (* sin offset))
+							(- y (* cos offset))  align writer))))
+
+
+(defun make-uml-keyword (&rest params)
+  (if (= 1 (length params))
+	  (let ((param (car params)))
+		(cond
+		  ((typep param 'uml-keyword-info) param)
+		  ((listp param) (apply #'make-uml-keyword param))
+		  (t             (make-uml-keyword :name param))))
+	  (destructuring-bind (&key (name  nil  name-p)
+								(class nil class-p)
+								(font  nil  font-p)) params
+		(make-instance 'uml-keyword-info
+					   :name  (if name-p  name  nil)
+					   :class (if class-p class *uml-keyword-class*)
+					   :font  (if font-p  font  (or *uml-keyword-font*
+													diagram:*default-font*))))))
+
