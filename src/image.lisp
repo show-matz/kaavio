@@ -225,7 +225,7 @@
 		code
 		(let ((g-obj (gensym "OBJ")))
 		  `(let* ((,g-obj ,code)
-				  (diagram:canvas (diagram:shape-canvas ,g-obj)))
-			 (declare (special diagram:canvas))
+				  (canvas (diagram:shape-canvas ,g-obj)))
+			 (declare (special canvas))
 			 ,@contents)))))
 

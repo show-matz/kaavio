@@ -118,7 +118,7 @@
 					  (setf (entity-canvas ,g-entity) canvas)
 					  (check ,g-entity canvas nil)
 					  (draw-entity ,g-entity  writer)))))
-	  (with-slots (top bottom left right) canvas
+	  (with-canvas (top bottom left right) canvas
 		(rectangle (/ (- right  left) 2)
 				   (/ (- bottom  top) 2)
 				   (- right left)

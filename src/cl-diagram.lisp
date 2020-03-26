@@ -13,8 +13,14 @@
 				:arc
 				;binutil.lisp
 				;canvas.lisp
-				:canvas
 				:make-canvas
+				:canvas-top
+				:canvas-bottom
+				:canvas-left
+				:canvas-right
+				:canvas-width
+				:canvas-height
+				:with-canvas
 				;circle.lisp
 				:get-circle-cc-point
 				:circle
@@ -175,10 +181,10 @@
 				;stylesheet.lisp
 				:style
 				:stylesheet
-				;text.lisp
-				:text
 				;text-shape.lisp
 				:text-shape
+				;text.lisp
+				:text
 				;writer.lisp
 				:writer-write
 				:writer-incr-level

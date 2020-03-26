@@ -35,6 +35,7 @@
 (load "./src/arc.lisp")
 (load "./src/text.lisp")
 (load "./src/paragraph.lisp")
+(load "./src/text-shape.lisp")
 (load "./src/group.lisp")
 (load "./src/image.lisp")
 (load "./src/stencil.lisp")

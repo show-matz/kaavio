@@ -1,5 +1,6 @@
 #|
 #|ASD|#				(:file "shape"                     :depends-on ("cl-diagram"
+#|ASD|#																"canvas"
 #|ASD|#																"entity"
 #|ASD|#																"link-info"))
 #|EXPORT|#				;shape.lisp
@@ -70,10 +71,10 @@
   (+ (shape-center shp) (/ (shape-width shp) 2)))
 
 (defmethod shape-canvas ((shp shape))
-  (make-instance 'canvas :top    (shape-top    shp)
-						 :bottom (shape-bottom shp)
-						 :left   (shape-left   shp)
-						 :right  (shape-right  shp)))
+  (make-canvas (shape-top    shp)
+			   (shape-bottom shp)
+			   (shape-left   shp)
+			   (shape-right  shp)))
 
 (defmethod pre-draw ((shp shape) writer)
   (call-next-method)

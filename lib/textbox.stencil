@@ -22,10 +22,10 @@
 (defmethod draw-group ((box textbox) writer)
   (let ((canvas (shape-canvas box)))
 	(declare (special canvas))
-	;;ToDo : export top/bottom/left/right/fill/stroke/entity-canvas ???
-	(with-slots (diagram::top diagram::bottom diagram::left diagram::right) canvas
-	  (let ((width  (- diagram::right  diagram::left))
-			(height (- diagram::bottom diagram::top)))
+	;;ToDo : export fill/stroke/entity-canvas ???
+	(with-canvas (top bottom left right) canvas
+	  (let ((width  (- right  left))
+			(height (- bottom top)))
 		(macrolet ((register-entity (entity)
 					 (let ((g-entity (gensym "ENTITY")))
 					   `(let ((,g-entity ,entity))

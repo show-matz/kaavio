@@ -132,6 +132,7 @@
 																"link-info"
 																"writer"))
 				(:file "shape"                     :depends-on ("cl-diagram"
+																"canvas"
 																"entity"
 																"link-info"))
 				(:file "stencil"                   :depends-on ("cl-diagram"
@@ -143,18 +144,19 @@
 																"fill-info"
 																"font-info"
 																"writer"))
-				(:file "text"                      :depends-on ("cl-diagram"
-																"constants"
-																"entity"
-																"font-info"
-																"link-info"
-																"writer"))
 				(:file "text-shape"                :depends-on ("cl-diagram"
+																"canvas"
 																"group"
 																"paragraph"
 																"font-info"
 																"fill-info"
 																"stroke-info"
+																"writer"))
+				(:file "text"                      :depends-on ("cl-diagram"
+																"constants"
+																"entity"
+																"font-info"
+																"link-info"
 																"writer"))
 				(:file "writer"                    :depends-on ("cl-diagram"))
 				;; ------------------------------------------ END COMPONENTS

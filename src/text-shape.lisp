@@ -1,5 +1,6 @@
 #|
 #|ASD|#				(:file "text-shape"                :depends-on ("cl-diagram"
+#|ASD|#																"canvas"
 #|ASD|#																"group"
 #|ASD|#																"paragraph"
 #|ASD|#																"font-info"
@@ -96,7 +97,7 @@
   ;;(draw-group-frame txtshp writer)    ; MEMO : for debug...
   (let ((canvas (shape-canvas txtshp)))
 	(declare (special canvas))
-	(with-slots (top bottom left right) canvas
+	(with-canvas (top bottom left right) canvas
 	  (let ((width  (- right  left))
 			(height (- bottom top)))
 		(macrolet ((register-entity (entity)

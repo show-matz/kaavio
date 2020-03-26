@@ -97,9 +97,9 @@
   ;;(diagram:draw-group-frame note writer)    ; MEMO : for debug...
   (let ((canvas (shape-canvas note)))
 	(declare (special canvas))
-	(with-slots (diagram::top diagram::bottom diagram::left diagram::right) canvas	;;ToDo : Oops!!
-	  (let ((width  (- diagram::right  diagram::left))
-			(height (- diagram::bottom diagram::top)))
+	(with-canvas (top bottom left right) canvas
+	  (let ((width  (- right  left))
+			(height (- bottom top)))
 		(macrolet ((register-entity (entity)
 					 (let ((g-entity (gensym "ENTITY")))
 					   `(let ((,g-entity ,entity))
@@ -117,8 +117,8 @@
 					   :align :left :valign :center :font font)
 			;; draw keyword
 			(when keyword
-			  (uml-keyword-draw keyword (+ diagram::left margin)
-										(+ diagram::top  margin margin2) :left writer))
+			  (uml-keyword-draw keyword (+ left margin)
+										(+ top  margin margin2) :left writer))
 			;; draw crease
 			(polygon `(,width ,crease ,(- width crease) ,crease ,(- width crease) 0)
 					 :fill fill :stroke stroke)
