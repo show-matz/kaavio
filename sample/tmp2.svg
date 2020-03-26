@@ -15,11 +15,6 @@
 	<!-- connector from rect1 to rect2 -->
 	<polyline fill='none' stroke='black' stroke-width='1' points=' 100.0,75.0 100.0,45.0 200.0,45.0 200.0,355.0 300.0,355.0 300.0,325.0' />
 	<polyline fill='none' stroke='black' stroke-width='1' points='307.5,337.9904 300,325 292.5,337.9904' />
-<text x='212.0' y='206.0' text-anchor='start' font-size='12pt' fill='black' >&lt;&lt;use&gt;&gt;</text>
-<text x='108.660255' y='70.0' text-anchor='start' font-size='12pt' fill='black' >host</text>
-<text x='291.33975' y='342.0' text-anchor='end' font-size='12pt' fill='black' >guest</text>
-<text x='91.339745' y='70.0' text-anchor='end' font-size='12pt' fill='black' >1..3</text>
-<text x='308.66025' y='342.0' text-anchor='start' font-size='12pt' fill='black' >*..</text>
 	<!-- uml-note -->
 	<polygon fill='white' stroke='black' stroke-width='1' points='339.3,49.8 339.3,110.2 460.7,110.2 460.7,69.8 440.7,49.8' />
 	<text x='349.3' y='85.0' text-anchor='start' font-size='12pt' fill='black' >this is note.</text>

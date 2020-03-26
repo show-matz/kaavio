@@ -177,6 +177,8 @@
 				:stylesheet
 				;text.lisp
 				:text
+				;text-shape.lisp
+				:text-shape
 				;writer.lisp
 				:writer-write
 				:writer-incr-level

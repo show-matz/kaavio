@@ -149,6 +149,13 @@
 																"font-info"
 																"link-info"
 																"writer"))
+				(:file "text-shape"                :depends-on ("cl-diagram"
+																"group"
+																"paragraph"
+																"font-info"
+																"fill-info"
+																"stroke-info"
+																"writer"))
 				(:file "writer"                    :depends-on ("cl-diagram"))
 				;; ------------------------------------------ END COMPONENTS
 ))

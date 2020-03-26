@@ -4,75 +4,52 @@
 (defparameter *default-textbox-rx*           nil)
 (defparameter *default-textbox-ry*           nil)
 (defparameter *default-textbox-align*        :center)
+(defparameter *default-textbox-valign*       :center)
 (defparameter *default-textbox-margin*       10)
 
 
-(defclass textbox (diagram:rectangle)
-  ((text	;:type     diagram:paragraph
-			:initform nil
-			:initarg  :text
-			:accessor textbox-text)
-   (margin	;:type     number
-			:initform nil
-			:initarg  :margin
-			:accessor textbox-margin)))
+(defclass textbox (diagram:text-shape)
+  ((rx	;:type     number
+		:initform nil
+		:initarg  :rx
+		:accessor textbox-rx)
+   (ry	;:type     number
+		:initform nil
+		:initarg  :ry
+		:accessor textbox-ry)))
   
+;; override of group::draw-group
+(defmethod draw-group ((box textbox) writer)
+  (let ((canvas (shape-canvas box)))
+	(declare (special canvas))
+	;;ToDo : export top/bottom/left/right/fill/stroke/entity-canvas ???
+	(with-slots (diagram::top diagram::bottom diagram::left diagram::right) canvas
+	  (let ((width  (- diagram::right  diagram::left))
+			(height (- diagram::bottom diagram::top)))
+		(macrolet ((register-entity (entity)
+					 (let ((g-entity (gensym "ENTITY")))
+					   `(let ((,g-entity ,entity))
+						  (setf (diagram::entity-canvas ,g-entity) canvas)
+						  (check ,g-entity canvas nil)
+						  (draw-entity ,g-entity writer)))))
+		  (with-slots (rx ry diagram::fill diagram::stroke) box
+			;; draw box
+			(rectangle (/ width 2) (/ height 2) width height
+					   :rx rx :ry ry :fill diagram::fill :stroke diagram::stroke))))))
+  (call-next-method))
 
-;;MEMO : no impl.
-;;(defmethod initialize-instance :after ((box textbox) &rest initargs)...)
 
-(defmethod check ((box textbox) canvas dict)
-  ;; this method must call super class' one.
-  (check-member (margin (textbox-margin box)) :nullable t :types number)
-  (check (textbox-text box) canvas dict)
-  (with-slots (text margin) box
-	(let ((width  (shape-width  text))
-		  (height (shape-height text))
-		  (center (shape-center text)))
-	  (setf (shape-width  box) (+ (* 2 (or margin 0))  width))
-	  (setf (shape-height box) (+ (* 2 (or margin 0)) height))
-	  (setf (diagram::paragraph-x  text)
-			(case (diagram::paragraph-align text)
-			  ((:left)   (- center width))
-			  ((:center) center)
-			  ((:right)  (+ center width))))))
-  (call-next-method)
-  nil)
-
-;;MEMO : use implementation of rectangle.
-;;(defmethod draw-entity ((box textbox) writer)...)
-
-(defmethod entity-composition-p ((box textbox))
-  t)
-
-;;MEMO : use implementation of entity.
-;;(defmethod write-header ((box textbox) writer)...)
-
-;;MEMO : use implementation of entity.
-;;(defmethod pre-draw ((box textbox) writer))...)
-
-;;MEMO : use implementation of entity.
-;;(defmethod post-draw ((box textbox) writer))
-
-(defmethod draw-entity ((box textbox) writer)
-  (call-next-method)
-  (draw-entity (textbox-text box) writer)
-  nil)
-
-(defmacro textbox (x y text &key align text-class font rx ry
-								 rect-class fill stroke margin link layer id)
-  `(let ((txt (make-instance 'diagram:paragraph
-							 :x ,x :y ,y :text ,text
-							 :align  (or ,align *default-textbox-align*)
-							 :valign :center
-							 :font ,font :class ,text-class)))
-	 (register-entity (make-instance 'textbox
-									 :text txt
-									 :margin (or ,margin *default-textbox-margin*)
-									 :center-x ,x :center-y ,y
-									 :width 0 :height 0
-									 :rx (or ,rx *default-textbox-rx*)
-									 :ry (or ,ry *default-textbox-ry*)
-									 :class ,rect-class :stroke ,stroke
-									 :fill ,fill :link ,link :layer ,layer :id ,id ))))
+(defmacro textbox (x y text &key rx ry width height align valign
+								 font fill stroke margin link layer id)
+  `(register-entity (make-instance 'textbox
+								   :center-x ,x :center-y ,y
+								   :width ,width :height ,height
+								   :text ,text :font ,font
+								   :rx     (or ,rx     *default-textbox-rx*)
+								   :ry     (or ,ry     *default-textbox-ry*)
+								   :align  (or ,align  *default-textbox-align*)
+								   :valign (or ,valign *default-textbox-valign*)
+								   :margin (or ,margin *default-textbox-margin*)
+								   :fill ,fill :stroke ,stroke
+								   :link ,link :layer ,layer :id ,id)))
 
