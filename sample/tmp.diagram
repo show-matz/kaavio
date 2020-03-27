@@ -1,9 +1,8 @@
 (load-stencil :grid)
 
 (create-svg (:width 600 :height 400 :desc "test SVG" :encoding :utf8)
-	(css "
-  .inner        { fill:lime; stroke:blue; stroke-width:1 }
-")
+	(stylesheet
+	 (style :.inner :fill :lime :stroke '(:color :blue :width 0.2)))
 	(grid) ; :size 10 :bgcolor "#F0F0FF" :stroke '(:color :blue :width 0.2))
 	;;(rectangle 300 200 600 400 :fill :lightgray :id :background)
 	(circle 100 100 25

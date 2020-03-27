@@ -22,7 +22,6 @@
 (load "./src/endmark-info.lisp")
 (load "./src/label-info.lisp")
 (load "./src/create-svg.lisp")
-(load "./src/css.lisp")
 (load "./src/stylesheet.lisp")
 (load "./src/raw-svg.lisp")
 (load "./src/ellipse.lisp")

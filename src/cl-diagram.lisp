@@ -73,8 +73,6 @@
 				:layer
 				:width
 				:height
-				;css.lisp
-				:css
 				;dictionary.lisp
 				:dictionary
 				;ellipse.lisp

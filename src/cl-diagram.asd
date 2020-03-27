@@ -38,9 +38,6 @@
 				                                                "font-info"
 				                                                "stroke-info"
 				                                                "writer"))
-				(:file "css"                       :depends-on ("cl-diagram"
-																"entity"
-																"writer"))
 				(:file "dictionary"                :depends-on ("cl-diagram"))
 				(:file "ellipse"                   :depends-on ("cl-diagram"
 																"constants"
