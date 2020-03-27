@@ -7,14 +7,12 @@
 (defparameter *uml-note-fill*      :white)
 (defparameter *uml-note-stroke*       nil)
 (defparameter *uml-note-margin*        10)
+(defparameter *uml-note-align*      :left)
+(defparameter *uml-note-valign*   :center)
 (defparameter *uml-note-crease-size*   20)
 
-(defclass uml-note (diagram:group)
-  ((text	;:type     (or keyword string)
-			:initform nil
-			:initarg  :text
-			:accessor uml-note-text)
-   (keyword	;:type     (or nil uml-keyword-info)
+(defclass uml-note (diagram:text-shape)
+  ((keyword	;:type     (or nil uml-keyword-info)
 			:initform nil
 			:initarg  :keyword
 			:accessor uml-note-keyword)
@@ -22,22 +20,6 @@
 			:initform nil
 			:initarg  :targets
 			:accessor uml-note-targets)
-   (font	;:type     (or nil font-info)
-			:initform nil
-			:initarg  :font
-			:accessor uml-note-font)
-   (fill	;:type     (or nil fill-info)
-			:initform nil
-			:initarg  :fill
-			:accessor uml-note-fill)
-   (stroke	;:type     (or nil link-info)
-			:initform nil
-			:initarg  :stroke
-			:accessor uml-note-stroke)
-   (margin	;:type     number
-			:initform nil
-			:initarg  :margin
-			:accessor uml-note-margin)
    (margin2	;:type     number    ; margin for keyword
 			:initform nil
 			:initarg  :margin
@@ -50,14 +32,9 @@
 
 (defmethod initialize-instance :after ((note uml-note) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (keyword targets font
-				fill stroke margin margin2 crease) note
+  (with-slots (keyword targets margin2 crease) note
 	(setf keyword (and keyword (make-uml-keyword keyword)))
 	(setf targets (if (listp targets) targets (list targets)))
-	(setf font    (make-font   (or font   *uml-note-font*   *default-font*  )))
-	(setf fill    (make-fill   (or fill   *uml-note-fill*   *default-fill*  )))
-	(setf stroke  (make-stroke (or stroke *uml-note-stroke* *default-stroke*)))
-	(setf margin  (or margin *uml-note-margin*))
 	(setf margin2 (if (null keyword)
 					  0
 					  (or (and *uml-note-font* (diagram::font-size *uml-note-font*))
@@ -67,22 +44,13 @@
   note)
 
 (defmethod check ((note uml-note) canvas dict)
-  (check-member (text    (uml-note-text    note)) :nullable nil :types string)
   (check-object (keyword (uml-note-keyword note)) canvas dict :nullable t :class uml-keyword-info)
   (check-member (targets (uml-note-targets note)) :nullable   t :types list)
   (dolist (id (uml-note-targets note))
 	(check-member (target id) :nullable nil :types keyword))
-  (check-object (font    (uml-note-font    note)) canvas dict :nullable t :class   font-info)
-  (check-object (fill    (uml-note-fill    note)) canvas dict :nullable t :class   fill-info)
-  (check-object (stroke  (uml-note-stroke  note)) canvas dict :nullable t :class stroke-info)
-  (check-member (margin  (uml-note-margin  note)) :nullable nil :types number)
   (check-member (margin2 (uml-note-margin2 note)) :nullable nil :types number)
   (check-member (crease  (uml-note-crease  note)) :nullable nil :types number)
-  (with-slots (targets width height margin margin2) note
-	(multiple-value-bind (w h)
-		(diagram:font-calc-textarea (uml-note-font note) (uml-note-text note))
-	  (setf width  (+ (* margin 2) w))
-	  (setf height (+ (* margin 2) h (* 1.2 margin2))))
+  (with-slots (targets) note
 	(setf targets (mapcar (lambda (id)
 							(let ((ent (diagram::dict-get-entity dict id)))
 							  (unless ent
@@ -104,37 +72,54 @@
 					 (let ((g-entity (gensym "ENTITY")))
 					   `(let ((,g-entity ,entity))
 						  (setf (diagram::entity-canvas ,g-entity) canvas)
-						  (diagram::check ,g-entity canvas nil)
-						  (diagram:draw-entity ,g-entity writer)))))
-		  (with-slots (text keyword targets font
-							 fill stroke margin margin2 crease) note
+						  (check ,g-entity canvas nil)
+						  (draw-entity ,g-entity writer)))))
+		  (with-slots (keyword targets margin2 crease
+							diagram::fill diagram::stroke diagram::margin) note
 			;; draw note body
 			(polygon `(0 0 0 ,height ,width ,height
 						 ,width ,crease ,(- width crease) 0)
-					 :fill fill :stroke stroke)
-			;; draw text
-			(paragraph margin (/ (+ height margin2) 2) text
-					   :align :left :valign :center :font font)
+					 :fill diagram::fill :stroke diagram::stroke)
 			;; draw keyword
 			(when keyword
-			  (uml-keyword-draw keyword (+ left margin)
-										(+ top  margin margin2) :left writer))
+			  (uml-keyword-draw keyword (+ left diagram::margin)
+										(+ top (/ diagram::margin 2) margin2) :left writer))
+			;; draw text
+			(call-next-method)
 			;; draw crease
 			(polygon `(,width ,crease ,(- width crease) ,crease ,(- width crease) 0)
-					 :fill fill :stroke stroke)
+					 :fill diagram::fill :stroke diagram::stroke)
 			;; draw connections
 			(let ((canvas (make-canvas 0 height 0 width))
-				  (*default-stroke* (make-stroke :dasharray '(3 3) :base stroke))) ;;ToDo : fixed ?
+				  (*default-stroke* (make-stroke :dasharray '(3 3)
+												 :base diagram::stroke))) ;;ToDo : fixed ?
 			  (declare (special canvas))
 			  (dolist (ent targets)
 				(line (resolve-connector-points note ent :CC)))))))))
   nil)
 
 
+(defmethod text-shape-calc-size ((note uml-note))
+  (multiple-value-bind (w h) (call-next-method)
+	(values w (+ h (uml-note-margin2 note)))))
 
-(defmacro uml-note (x y text &key keyword targets link layer id)
+(defmethod text-shape-paragraph-area ((note uml-note))
+  (let ((canvas (call-next-method)))
+	(incf (canvas-top canvas)
+		  (uml-note-margin2 note))
+	canvas))
+
+
+(defmacro uml-note (x y text &key keyword targets width height
+							   align valign font fill stroke margin link layer id)
   `(register-entity (make-instance 'uml-note
 								   :center-x ,x :center-y ,y
-								   :text ,text :keyword ,keyword
-								   :targets ,targets :link ,link :layer ,layer :id ,id)))
+								   :width ,width :height ,height
+								   :text ,text :font ,font
+								   :keyword ,keyword :targets ,targets
+								   :align  (or ,align  *uml-note-align*)
+								   :valign (or ,valign *uml-note-valign*)
+								   :margin (or ,margin *uml-note-margin*)
+								   :fill ,fill :stroke ,stroke
+								   :link ,link :layer ,layer :id ,id)))
 

@@ -22,5 +22,7 @@
 	  (uml-multiplicity-draw-beside-line mul2 line :dest wr)
 	  (format t (diagram::writer-close wr)))
 	(uml-note 400 80 "this is note.
-multi line." :keyword :comment :targets '(:rect1 :rect2)))
+multi line."
+			  :keyword :comment
+			  :targets '(:rect1 :rect2)))
 
