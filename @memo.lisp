@@ -14,3 +14,4 @@
 (diagram::cl-apps-main '("tmp2.diagram" :utf8 "tmp2.svg" :utf8))
 (diagram::cl-apps-main '("textbox.diagram" :utf8 "textbox.svg" :utf8))
 (diagram::cl-apps-main '("stylesheet.diagram" :utf8 "stylesheet.svg" :utf8))
+(diagram::cl-apps-main '("stroke-linecap.diagram" :utf8 "stroke-linecap.svg" :utf8))
