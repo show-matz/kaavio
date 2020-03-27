@@ -11,11 +11,11 @@
 	<!-- stylesheet -->
 	<style type='text/css'><![CDATA[
 		rect.foo { fill: lightgray; stroke: black; stroke-width: 3;  }
-		circle.foo { fill: blue; fill-opacity: 0.2; stroke: navy; stroke-width: 3;  }
+		circle.foo { fill: blue; fill-opacity: 0.5; stroke: navy; stroke-width: 5; stroke-opacity: 0.7;  }
 	]]></style>
-	<!-- circle -->
-	<circle cx='100' cy='100' r='25' class='foo' />
 	<!-- rectangle -->
-	<rect x='175' y='175' width='50' height='50' class='foo' />
+	<rect x='75' y='75' width='50' height='50' class='foo' />
+	<!-- circle -->
+	<circle cx='130' cy='130' r='25' class='foo' />
 
 </svg>

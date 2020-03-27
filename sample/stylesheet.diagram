@@ -4,6 +4,6 @@
 	(grid) ; :size 10 :bgcolor "#F0F0FF" :stroke '(:color :blue :width 0.2))
 	(stylesheet
 	 (style "rect.foo"   :stroke '(:color :black :width 3) :fill :lightgray)
-	 (style "circle.foo" :stroke '(:color :navy  :width 3) :fill '(:color :blue :opacity 0.2)))
-	(circle 100 100 25 :class :foo)
-	(rectangle 200 200 50 50 :class :foo))
+	 (style "circle.foo" :stroke '(:color :navy  :width 5 :opacity 0.7) :fill '(:color :blue :opacity 0.5)))
+	(rectangle 100 100 50 50 :class :foo)
+	(circle    130 130 25    :class :foo))

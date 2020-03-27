@@ -26,6 +26,8 @@
 ;;------------------------------------------------------------------------------
 #|
 #|EXPORT|#				:text-shape
+#|EXPORT|#				:text-shape-calc-size
+#|EXPORT|#				:text-shape-paragraph-area
  |#
 (defclass text-shape (group)
   ((text	;:type     (or keyword string)
@@ -127,7 +129,7 @@
   nil)
 
 (defmethod text-shape-calc-size ((txtshp text-shape))
-  (let ((margin ((text-shape-margin txtshp))))
+  (let ((margin (text-shape-margin txtshp)))
 	(multiple-value-bind (w h)
 		(font-calc-textarea (text-shape-font txtshp) (text-shape-text txtshp))
 	  (values (+ (* margin 2) w)

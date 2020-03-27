@@ -14,6 +14,7 @@
 				;binutil.lisp
 				;canvas.lisp
 				:make-canvas
+				:copy-canvas
 				:canvas-top
 				:canvas-bottom
 				:canvas-left
@@ -181,10 +182,12 @@
 				;stylesheet.lisp
 				:style
 				:stylesheet
-				;text-shape.lisp
-				:text-shape
 				;text.lisp
 				:text
+				;text-shape.lisp
+				:text-shape
+				:text-shape-calc-size
+				:text-shape-paragraph-area
 				;writer.lisp
 				:writer-write
 				:writer-incr-level

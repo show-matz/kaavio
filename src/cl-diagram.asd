@@ -144,6 +144,12 @@
 																"fill-info"
 																"font-info"
 																"writer"))
+				(:file "text"                      :depends-on ("cl-diagram"
+																"constants"
+																"entity"
+																"font-info"
+																"link-info"
+																"writer"))
 				(:file "text-shape"                :depends-on ("cl-diagram"
 																"canvas"
 																"group"
@@ -151,12 +157,6 @@
 																"font-info"
 																"fill-info"
 																"stroke-info"
-																"writer"))
-				(:file "text"                      :depends-on ("cl-diagram"
-																"constants"
-																"entity"
-																"font-info"
-																"link-info"
 																"writer"))
 				(:file "writer"                    :depends-on ("cl-diagram"))
 				;; ------------------------------------------ END COMPONENTS

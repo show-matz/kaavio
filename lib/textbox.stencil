@@ -38,6 +38,13 @@
 					   :rx rx :ry ry :fill diagram::fill :stroke diagram::stroke))))))
   (call-next-method))
 
+;; no override.
+;(defmethod text-shape-calc-size ((box textbox))
+;  (call-next-method))
+
+;; no override.
+;(defmethod text-shape-paragraph-area ((box textbox))
+;  (call-next-method))
 
 (defmacro textbox (x y text &key rx ry width height align valign
 								 font fill stroke margin link layer id)
