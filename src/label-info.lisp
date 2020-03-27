@@ -63,7 +63,7 @@
 			 (let ((size (font-size (label-font label)))
 				   (offset (label-offset label)))
 			   (ecase (label-position label)
-				 ((:abobe) (values "middle" (shape-center shp)
+				 ((:above) (values "middle" (shape-center shp)
 											(- (shape-top    shp) offset)))
 				 ((:below) (values "middle" (shape-center shp)
 											(+ (shape-bottom shp) offset size)))

@@ -1,0 +1,98 @@
+
+(in-package :cl-diagram-user)
+
+(defparameter *uml-actor-fill*              nil)
+(defparameter *uml-actor-stroke*            nil)
+(defparameter *uml-actor-width*              30)
+(defparameter *uml-actor-height-ratio*      1.5)
+(defparameter *uml-actor-head-ratio*        0.4)
+(defparameter *uml-actor-shoulder-position* 0.5)
+(defparameter *uml-actor-thigh-position*    0.7)
+
+
+
+(defclass uml-actor (diagram:group)
+  ((name		;:type     (or nil label-info)
+				:initform nil
+				:initarg  :name
+				:accessor uml-actor-name)
+   (fill		;:type     (or nil fill-info)
+				:initform nil
+				:initarg  :fill
+				:accessor uml-actor-fill)
+   (stroke		;:type     (or nil link-info)
+				:initform nil
+				:initarg  :stroke
+				:accessor uml-actor-stroke)
+   ;;MEMO : 以下、make-instance された時点での special 変数の値を保存する必要性があるので、保有せざるを得ない‥‥‥
+   (head		;:type     number
+				:initform 0
+				:accessor uml-actor-head)
+   (shoulder	;:type     number
+				:initform 0
+				:accessor uml-actor-shoulder)
+   (thigh		;:type     number
+				:initform 0
+				:accessor uml-actor-thigh)))
+
+(defmethod initialize-instance :after ((actor uml-actor) &rest initargs)
+  (declare (ignore initargs))
+  (with-slots (name fill stroke head shoulder thigh) actor
+	(setf name   (and name (make-label name)))
+	(setf fill   (make-fill   (or fill   *uml-actor-fill*   *default-fill*  )))
+	(setf stroke (make-stroke (or stroke *uml-actor-stroke* *default-stroke*)))
+	(let ((height (diagram::group-height actor)))
+	  (setf head  (/ (* height *uml-actor-head-ratio*) 2))
+	  (setf thigh    (* height *uml-actor-thigh-position*))
+	  (setf shoulder (* height *uml-actor-shoulder-position*))))
+  actor)
+
+(defmethod check ((actor uml-actor) canvas dict)
+  ;; this method must call super class' one.
+  (call-next-method)
+  (check-object (name     (uml-actor-name     actor)) canvas dict :nullable t :class  label-info)
+  (check-object (fill     (uml-actor-fill     actor)) canvas dict :nullable t :class   fill-info)
+  (check-object (stroke   (uml-actor-stroke   actor)) canvas dict :nullable t :class stroke-info)
+  (check-member (head     (uml-actor-head     actor)) :nullable nil :types number)
+  (check-member (shoulder (uml-actor-shoulder actor)) :nullable nil :types number)
+  (check-member (thigh    (uml-actor-thigh    actor)) :nullable nil :types number))
+
+;; override of group::draw-group
+(defmethod draw-group ((actor uml-actor) writer)
+  ;;(draw-group-frame txtshp writer)    ; MEMO : for debug...
+  (let ((canvas (shape-canvas actor)))
+	(declare (special canvas))
+	(with-canvas (top bottom left right) canvas
+	  (with-slots (name fill stroke head shoulder thigh) actor
+		(let* ((width  (- right left))
+			   (height (- bottom top))
+			   (center (/ width 2))
+			   (neck   (* head 2))
+			   (*default-fill*   fill)
+			   (*default-stroke* stroke))
+		  (macrolet ((register-entity (entity)
+					   (let ((g-entity (gensym "ENTITY")))
+						 `(let ((,g-entity ,entity))
+							(setf (diagram::entity-canvas ,g-entity) canvas)
+							(check ,g-entity canvas nil)
+							(draw-entity ,g-entity writer)))))
+			(circle center head head)
+			(line `(,center ,neck ,center ,thigh))
+			(line `(0 ,shoulder ,width ,shoulder))
+			(line `(0 ,height ,center ,thigh ,width ,height))))
+		(when name
+		  (draw-label name actor writer)))))
+  nil)
+
+
+
+(defmacro uml-actor (x y name &key width fill stroke link layer id)
+  `(register-entity (make-instance 'uml-actor
+								   :center-x ,x :center-y ,y
+								   :name ,name
+								   :width  (or ,width *uml-actor-width*)
+								   :height (* *uml-actor-height-ratio*
+											  (or ,width *uml-actor-width*))
+								   :fill ,fill :stroke ,stroke
+								   :link ,link :layer ,layer :id ,id)))
+
