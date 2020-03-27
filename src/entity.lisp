@@ -80,3 +80,11 @@
 
 
 
+#|
+#|EXPORT|#				:check-and-draw-local-entity
+ |#
+(defun check-and-draw-local-entity (entity canvas writer)
+  (setf (entity-canvas entity) canvas)
+  (check entity canvas nil)		;; local entity can NOT use dictionary.
+  (draw-entity entity writer))
+

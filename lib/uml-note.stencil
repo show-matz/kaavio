@@ -69,11 +69,7 @@
 	  (let ((width  (- right  left))
 			(height (- bottom top)))
 		(macrolet ((register-entity (entity)
-					 (let ((g-entity (gensym "ENTITY")))
-					   `(let ((,g-entity ,entity))
-						  (setf (diagram::entity-canvas ,g-entity) canvas)
-						  (check ,g-entity canvas nil)
-						  (draw-entity ,g-entity writer)))))
+					 `(check-and-draw-local-entity ,entity canvas writer)))
 		  (with-slots (keyword targets margin2 crease
 							diagram::fill diagram::stroke diagram::margin) note
 			;; draw note body

@@ -90,6 +90,7 @@
 				:pre-draw
 				:post-draw
 				:entity-composition-p
+				:check-and-draw-local-entity
 				;fill-info.lisp
 				:*default-fill*
 				:fill-info
@@ -182,12 +183,12 @@
 				;stylesheet.lisp
 				:style
 				:stylesheet
-				;text.lisp
-				:text
 				;text-shape.lisp
 				:text-shape
 				:text-shape-calc-size
 				:text-shape-paragraph-area
+				;text.lisp
+				:text
 				;writer.lisp
 				:writer-write
 				:writer-incr-level

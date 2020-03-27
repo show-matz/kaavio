@@ -110,11 +110,7 @@
 	  (let ((width  (- right  left))
 			(height (- bottom top)))
 		(macrolet ((register-entity (entity)
-					 (let ((g-entity (gensym "ENTITY")))
-					   `(let ((,g-entity ,entity))
-						  (setf (entity-canvas ,g-entity) canvas)
-						  (check ,g-entity canvas nil)
-						  (diagram:draw-entity ,g-entity writer)))))
+					 `(check-and-draw-local-entity ,entity canvas writer)))
 		  (with-slots (text align valign font margin) txtshp
 			;; draw text
 			(let ((x (ecase align

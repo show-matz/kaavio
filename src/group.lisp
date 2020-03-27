@@ -113,11 +113,7 @@
 		(*default-stroke* (make-stroke :color :blue :dasharray '(3 3))))
 	(declare (special canvas))
 	(macrolet ((register-entity (entity)
-				 (let ((g-entity (gensym "ENTITY")))
-				   `(let ((,g-entity ,entity))
-					  (setf (entity-canvas ,g-entity) canvas)
-					  (check ,g-entity canvas nil)
-					  (draw-entity ,g-entity  writer)))))
+				 `(check-and-draw-local-entity ,entity canvas writer)))
 	  (with-canvas (top bottom left right) canvas
 		(rectangle (/ (- right  left) 2)
 				   (/ (- bottom  top) 2)

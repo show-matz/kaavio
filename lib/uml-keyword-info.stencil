@@ -61,11 +61,7 @@
 						(t           :right))))
 	  (incf y (/ f-size 2))
 ;	  (macrolet ((register-entity (entity)
-;				   (let ((g-entity (gensym "ENTITY")))
-;					 `(let ((,g-entity ,entity))
-;						(setf (class:member ,g-entity :canvas) canvas) ; ToDo : need canvas!
-;						(class:invoke ,g-entity :check canvas nil)     ; ToDo : need canvas!
-;						(class:invoke ,g-entity :draw writer)))))
+;				   `(check-and-draw-local-entity ,entity canvas writer)))
 ;		(let ((x (+ x (* sin offset)))
 ;			  (y (- y (* cos offset)))
 ;			  (st (stroke :color :red :dasharray '(3 3))))
