@@ -48,7 +48,11 @@
    (dasharray	:type     list
 				:initform nil
 				:initarg  :dasharray
-				:accessor stroke-dasharray)))
+				:accessor stroke-dasharray)
+   (dashoffset	;:type     number
+				:initform nil
+				:initarg  :dashoffset
+				:accessor stroke-dashoffset)))
 
 (defmethod initialize-instance :after ((stroke stroke-info) &rest initargs)
   (declare (ignore initargs))
@@ -64,6 +68,7 @@
   (check-member (linejoin   (stroke-linejoin   ent)) :nullable t :types keyword)
   (check-member (miterlimit (stroke-miterlimit ent)) :nullable t :types number)
   (check-member (dasharray  (stroke-dasharray  ent)) :nullable t :types list)
+  (check-member (dashoffset (stroke-dashoffset ent)) :nullable t :types number)
   (when (stroke-linecap ent)
 	(check-keywords (rule (stroke-linecap  ent)) :butt :round :square))
   (when (stroke-linejoin ent)
@@ -77,7 +82,8 @@
 		(linecap    (stroke-linecap    stroke))
 		(linejoin   (stroke-linejoin   stroke))
 		(miterlimit (stroke-miterlimit stroke))
-		(dasharr    (stroke-dasharray  stroke)))
+		(dasharr    (stroke-dasharray  stroke))
+		(dashoffset (stroke-dashoffset stroke)))
 	(when color      (setf color      (format-string "stroke='" color "' ")))
 	(when width	     (setf width      (format-string "stroke-width='" width "' ")))
 	(when opacity    (setf opacity    (format-string "stroke-opacity='" opacity "' ")))
@@ -85,7 +91,8 @@
 	(when linejoin   (setf linejoin   (format-string "stroke-linejoin='" linejoin "' ")))
 	(when miterlimit (setf miterlimit (format-string "stroke-miterlimit='" miterlimit "' ")))
 	(when dasharr    (setf dasharr    (format nil "stroke-dasharray='~{~A ~}' " dasharr)))
-	(concatenate 'string color width opacity linecap linejoin miterlimit dasharr)))
+	(when dashoffset (setf dashoffset (format-string "stroke-dashoffset='" dashoffset "' ")))
+	(concatenate 'string color width opacity linecap linejoin miterlimit dasharr dashoffset)))
 
 (defmethod to-style-strings ((stroke stroke-info))
   (let ((color      (stroke-color      stroke))
@@ -94,15 +101,17 @@
 		(linecap    (stroke-linecap    stroke))
 		(linejoin   (stroke-linejoin   stroke))
 		(miterlimit (stroke-miterlimit stroke))
-		(dasharr    (stroke-dasharray  stroke)))
+		(dasharr    (stroke-dasharray  stroke))
+		(dashoffset (stroke-dashoffset stroke)))
 	(when color      (setf color      (format-string "stroke: " color "; ")))
 	(when width	     (setf width      (format-string "stroke-width: " width "; ")))
 	(when opacity    (setf opacity    (format-string "stroke-opacity: " opacity "; ")))
 	(when linecap    (setf linecap    (format-string "stroke-linecap: " linecap "; ")))
-	(when linejoin   (setf linejoin   (format-string "stroke-linejoin='" linejoin "' ")))
-	(when miterlimit (setf miterlimit (format-string "stroke-miterlimit='" miterlimit "' ")))
+	(when linejoin   (setf linejoin   (format-string "stroke-linejoin: " linejoin "; ")))
+	(when miterlimit (setf miterlimit (format-string "stroke-miterlimit: " miterlimit "; ")))
 	(when dasharr    (setf dasharr    (format nil "stroke-dasharray: ~{~A ~}; " dasharr)))
-	(concatenate 'string color width opacity linecap linejoin miterlimit dasharr)))
+	(when dashoffset (setf dashoffset (format-string "stroke-dashoffset: " dashoffset "; ")))
+	(concatenate 'string color width opacity linecap linejoin miterlimit dasharr dashoffset)))
 
 
 #|
@@ -124,7 +133,8 @@
 									(linecap    nil    linecap-p)
 									(linejoin   nil   linejoin-p)
 									(miterlimit nil miterlimit-p)
-									(dasharray  nil  dasharray-p) base) params
+									(dasharray  nil  dasharray-p)
+									(dashoffset nil dashoffset-p) base) params
 			(let ((base (or base *default-stroke*)))
 			  (labels ((fixval (val-p val base-fnc default)
 						 (if val-p val (if base (funcall base-fnc base) default))))
@@ -135,7 +145,8 @@
 							   :linecap    (fixval linecap-p    linecap    #'stroke-linecap    nil)
 							   :linejoin   (fixval linejoin-p   linejoin   #'stroke-linejoin   nil)
 							   :miterlimit (fixval miterlimit-p miterlimit #'stroke-miterlimit nil)
-							   :dasharray  (fixval dasharray-p  dasharray  #'stroke-dasharray  nil))))))))
+							   :dasharray  (fixval dasharray-p  dasharray  #'stroke-dasharray  nil)
+							   :dashoffset (fixval dashoffset-p dashoffset #'stroke-dashoffset nil))))))))
 
 
 
@@ -145,7 +156,8 @@
 									:linecap    nil
 									:linejoin   nil
 									:miterlimit nil
-									:dasharray  nil))
+									:dasharray  nil
+									:dashoffset nil))
 
 ;;(to-property-strings (make-stroke))
 ;;(to-property-strings (make-stroke :red))

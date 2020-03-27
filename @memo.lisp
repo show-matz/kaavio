@@ -16,3 +16,4 @@
 (diagram::cl-apps-main '("stylesheet.diagram" :utf8 "stylesheet.svg" :utf8))
 (diagram::cl-apps-main '("stroke-linecap.diagram" :utf8 "stroke-linecap.svg" :utf8))
 (diagram::cl-apps-main '("stroke-linejoin.diagram" :utf8 "stroke-linejoin.svg" :utf8))
+(diagram::cl-apps-main '("stroke-dasharray.diagram" :utf8 "stroke-dasharray.svg" :utf8))
