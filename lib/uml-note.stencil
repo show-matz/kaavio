@@ -70,7 +70,7 @@
 			(height (- bottom top)))
 		(macrolet ((register-entity (entity)
 					 `(check-and-draw-local-entity ,entity canvas writer)))
-		  (with-slots (keyword targets margin2 crease
+		  (with-slots (keyword margin2 crease
 							diagram::fill diagram::stroke diagram::margin) note
 			;; draw note body
 			(polygon `(0 0 0 ,height ,width ,height
@@ -84,7 +84,19 @@
 			(call-next-method)
 			;; draw crease
 			(polygon `(,width ,crease ,(- width crease) ,crease ,(- width crease) 0)
-					 :fill diagram::fill :stroke diagram::stroke)
+					 :fill diagram::fill :stroke diagram::stroke))))))
+  nil)
+
+;; override of group::draw-group
+(defun draw-connection (note writer)
+  (let ((canvas (shape-canvas note)))
+	(declare (special canvas))
+	(with-canvas (top bottom left right) canvas
+	  (let ((width  (- right  left))
+			(height (- bottom top)))
+		(macrolet ((register-entity (entity)
+					 `(check-and-draw-local-entity ,entity canvas writer)))
+		  (with-slots (targets diagram::stroke) note
 			;; draw connections
 			(let ((canvas (make-canvas 0 height 0 width))
 				  (*default-stroke* (make-stroke :dasharray '(3 3)
@@ -94,6 +106,10 @@
 				(line (resolve-connector-points note ent :CC)))))))))
   nil)
 
+(defmethod draw-entity ((note uml-note) writer)
+  (let ((result (call-next-method)))
+	(draw-connection note writer)
+	result))
 
 (defmethod text-shape-calc-size ((note uml-note))
   (multiple-value-bind (w h) (call-next-method)

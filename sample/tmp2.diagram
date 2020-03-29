@@ -24,5 +24,6 @@
 	(uml-note 400 80 "this is note.
 multi line."
 			  :keyword :comment
-			  :targets '(:rect1 :rect2)))
+			  :targets '(:rect1 :rect2)
+			  :link "http://www.google.co.jp/"))
 
