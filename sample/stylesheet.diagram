@@ -3,7 +3,14 @@
 (create-svg (:width 400 :height 300 :desc "test of stylesheet" :encoding :utf8)
 	(grid) ; :size 10 :bgcolor "#F0F0FF" :stroke '(:color :blue :width 0.2))
 	(stylesheet
-	 (style "rect.foo"   :stroke '(:color :black :width 3) :fill :lightgray)
-	 (style "circle.foo" :stroke '(:color :navy  :width 5 :opacity 0.7) :fill '(:color :blue :opacity 0.5)))
+	 (style "text.xxx"   :fill :lightgray
+						 :stroke '(:color :black :width 3)
+						 :font '(:fill (:color :blue :opacity 0.2)
+								 :stroke (:color :blue :width 0.5) :size 48))
+	 (style "rect.foo"   :fill :lightgray
+						 :stroke '(:color :black :width 3))
+	 (style "circle.foo" :fill   '(:color :blue :opacity 0.5)
+						 :stroke '(:color :navy  :width 5 :opacity 0.7)))
 	(rectangle 100 100 50 50 :class :foo)
-	(circle    130 130 25    :class :foo))
+	(circle    130 130 25    :class :foo)
+	(diagram:text 50 50 "test text" :class :xxx))
