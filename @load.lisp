@@ -1,6 +1,4 @@
-(progn
-;  (require :pathnames)
-  (require :jp))
+(require :jp)
 
 (load "./src/cl-diagram.lisp")
 (load "./src/binutil.lisp")

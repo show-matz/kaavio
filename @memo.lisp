@@ -1,4 +1,5 @@
 (load "./@load.lisp")
+(require :pathnames)
 
 (let ((path (if (member :linux *features*)
 				"~/sandbox/cl-diagram/lib/"
@@ -10,11 +11,10 @@
 										 "./sample"
 										 "C:/sandbox/cl-diagram/sample/"))
 (diagram::path/get-current-directory)
-(diagram::cl-apps-main '("tmp.diagram" :utf8 "tmp.svg" :utf8))
-(diagram::cl-apps-main '("tmp2.diagram" :utf8 "tmp2.svg" :utf8))
-(diagram::cl-apps-main '("textbox.diagram" :utf8 "textbox.svg" :utf8))
-(diagram::cl-apps-main '("stylesheet.diagram" :utf8 "stylesheet.svg" :utf8))
-(diagram::cl-apps-main '("stroke-linecap.diagram" :utf8 "stroke-linecap.svg" :utf8))
-(diagram::cl-apps-main '("stroke-linejoin.diagram" :utf8 "stroke-linejoin.svg" :utf8))
-(diagram::cl-apps-main '("stroke-dasharray.diagram" :utf8 "stroke-dasharray.svg" :utf8))
-(diagram::cl-apps-main '("uml-actor.diagram" :utf8 "uml-actor.svg" :utf8))
+
+(dolist (file (path:list-directory (diagram::path/get-current-directory)))
+  (when (string= "diagram" (pathname-type file))
+	(let ((outfile (make-pathname :type "svg" :defaults file)))
+	  (format t "~A~%" file)
+	  (diagram::cl-apps-main `(,file :utf8 ,outfile :utf8)))))
+
