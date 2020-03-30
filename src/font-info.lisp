@@ -1,5 +1,7 @@
 #|
-#|ASD|#				(:file "font-info"                 :depends-on ("cl-diagram"))
+#|ASD|#				(:file "font-info"                 :depends-on ("cl-diagram"
+#|ASD|#																"fill-info"
+#|ASD|#																"stroke-info"))
 #|EXPORT|#				;font-info.lisp
  |#
 
@@ -9,8 +11,12 @@
 ;; default parameter for font-info
 #|
 #|EXPORT|#				:*default-font*
+#|EXPORT|#				:*default-font-fill*
+#|EXPORT|#				:*default-font-stroke*
  |#
-(defparameter *default-font* nil)
+(defparameter *default-font*        nil)
+(defparameter *default-font-fill*   nil)
+(defparameter *default-font-stroke* nil)
 
 ;;------------------------------------------------------------------------------
 ;;
@@ -29,10 +35,14 @@
 					:initform nil
 					:initarg  :size
 					:accessor font-size)
-   (color			;:type     (or keyword or string)
+   (fill			;:type     (or nil fill-info)
 					:initform nil
-					:initarg  :color
-					:accessor font-color)
+					:initarg  :fill
+					:accessor font-fill)
+   (stroke			;:type     (or nil link-info)
+					:initform nil
+					:initarg  :stroke
+					:accessor font-stroke)
    (style			;:type list	;;  :normal :italic :oblique
 					:initform nil
 					:initarg :style
@@ -57,13 +67,17 @@
 
 (defmethod initialize-instance :after ((font font-info) &rest initargs)
   (declare (ignore initargs))
+  (with-slots (fill stroke) font
+	(setf fill   (make-fill   (or fill   *default-font-fill*)))
+	(setf stroke (when (or stroke *default-font-stroke*)
+				   (make-stroke (or stroke *default-font-stroke*)))))
   font)
 
 (defmethod check ((ent font-info) canvas dict)
-  (declare (ignore canvas dict))
   (check-member (family       (font-family       ent)) :nullable   t :types string)
   (check-member (size         (font-size         ent)) :nullable   t :types number)
-  (check-member (color        (font-color        ent)) :nullable   t :types (or string keyword))
+  (check-object (fill         (font-fill         ent)) canvas dict :nullable t :class   fill-info)
+  (check-object (stroke       (font-stroke       ent)) canvas dict :nullable t :class stroke-info)
   (check-member (style        (font-style        ent)) :nullable   t :types keyword)
   (check-member (decoration   (font-decoration   ent)) :nullable   t :types keyword)
   (check-member (weight       (font-weight       ent)) :nullable   t :types (or fixnum keyword))
@@ -88,7 +102,8 @@
 	(let ((buf ""))
 	  (add-when (font-family     fnt)     "font-family='" it "' ")
 	  (add-when (font-size       fnt)       "font-size='" it "pt' ")
-	  (add-when (font-color      fnt)            "fill='" it "' ")
+	  (add-when (font-fill       fnt) (to-property-strings it))
+	  (add-when (font-stroke     fnt) (to-property-strings it))
 	  (add-when (font-style      fnt)      "font-style='" it "' ")
 	  (add-when (font-decoration fnt) "text-decoration='" it "' ")
 	  (add-when (font-weight     fnt)     "font-weight='" it "' ")
@@ -102,7 +117,8 @@
 	(let ((buf ""))
 	  (add-when (font-family     fnt)     "font-family: " it "; ")
 	  (add-when (font-size       fnt)       "font-size: " it "pt; ")
-;;	  (add-when (font-color      fnt)            "fill: " it "; ")	;;ToDo : スタイルシート内部で、fill-info とカブるけど？
+	  (add-when (font-fill       fnt) (to-style-strings it))
+	  (add-when (font-stroke     fnt) (to-style-strings it))
 	  (add-when (font-style      fnt)      "font-style: " it "; ")
 	  (add-when (font-decoration fnt) "text-decoration: " it "; ")
 	  (add-when (font-weight     fnt)     "font-weight: " it "; ")
@@ -124,7 +140,8 @@
 		  *default-font*
 		  (destructuring-bind (&key (family       nil       family-p)
 									(size         nil         size-p)
-									(color        nil        color-p)
+									(fill         nil         fill-p)
+									(stroke       nil       stroke-p)
 									(style        nil        style-p)
 									(decoration   nil   decoration-p)
 									(weight       nil       weight-p)
@@ -136,7 +153,8 @@
 				(make-instance 'font-info
 							   :family       (fixval family-p       family       #'font-family       nil)
 							   :size         (fixval size-p         size         #'font-size          12)
-							   :color        (fixval color-p        color        #'font-color     :black)
+							   :fill         (fixval fill-p         fill         #'font-fill      :black)
+							   :stroke       (fixval stroke-p       stroke       #'font-stroke       nil)
 							   :style        (fixval style-p        style        #'font-style        nil)
 							   :decoration   (fixval decoration-p   decoration   #'font-decoration   nil)
 							   :weight       (fixval weight-p       weight       #'font-weight       nil)
@@ -162,17 +180,21 @@
 
 (setf *default-font* (make-font :family        nil
 								:size           12
-								:color      :black
+								:fill       :black
+								:stroke        nil
 								:style         nil
 								:decoration    nil
 								:weight        nil
 								:width-spice  0.65
 								:line-spacing    2))
 
+(setf *default-font-fill*   (make-fill :color :black :opacity 1.0))
+(setf *default-font-stroke* nil)
+
 ;;(to-property-strings (make-font))
 ;;(to-property-strings (make-font "Courier New"))
 ;;(to-property-strings (make-font 18))
-;;(to-property-strings (make-font :family "Vernada" :color :red :size 10))
-;;(to-property-strings (make-font '(:family "Vernada" :color :red :size 10)))
+;;(to-property-strings (make-font :family "Vernada" :size 10))
+;;(to-property-strings (make-font '(:family "Vernada" :size 10)))
 
 

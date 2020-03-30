@@ -95,6 +95,8 @@
 				:make-fill
 				;font-info.lisp
 				:*default-font*
+				:*default-font-fill*
+				:*default-font-stroke*
 				:font-info
 				:make-font
 				:font-calc-textarea

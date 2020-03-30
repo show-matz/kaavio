@@ -59,7 +59,9 @@
 				(:file "entity"                    :depends-on ("cl-diagram"
 																"writer"))
 				(:file "fill-info"                 :depends-on ("cl-diagram"))
-				(:file "font-info"                 :depends-on ("cl-diagram"))
+				(:file "font-info"                 :depends-on ("cl-diagram"
+																"fill-info"
+																"stroke-info"))
 				(:file "group"                     :depends-on ("cl-diagram"
 																"canvas"
 																"shape"

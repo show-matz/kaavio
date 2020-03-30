@@ -103,7 +103,8 @@
 				  "y='" (text-y txt) "' "
 				  "text-anchor='" txt-anchor "' "
 				  (write-when (text-class txt) "class='" it "' ")
-				  (to-property-strings (text-font txt))
+				  (unless (text-class txt)
+					(to-property-strings (text-font txt)))
 				  ">" (escape-characters (text-text txt)) "</text>")
 	(post-draw txt writer)))
 
@@ -115,6 +116,6 @@
 (defmacro text (x y text &key align class font link layer id)
   `(register-entity (make-instance 'diagram:text
 								   :x ,x :y ,y :text ,text
-								   :align ,align :class ,class
-								   :font ,font :link ,link :layer ,layer :id ,id)))
+								   :align ,align :class ,class :font ,font 
+								   :link ,link :layer ,layer :id ,id)))
 
