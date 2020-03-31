@@ -3,8 +3,9 @@
 
 (create-svg (:width 300 :height 150 :desc "test of uml-actor" :encoding :utf8)
 	(grid) ; :size 10 :bgcolor "#F0F0FF" :stroke '(:color :blue :width 0.2))
-	(uml-actor  60 75 :foo)
-	(uml-actor 120 75 '(:text :bar :position :above))
-	(uml-actor 180 75 :big-size :width 50)
-	(uml-actor 240 75 :colorful :fill   '(:color :red :opacity 0.2)
-								:stroke '(:color :brown :width 3)))
+	(uml-actor               60  75 :foo)
+	(uml-actor (+ $1[center] 60) $1[middle] '(:text :bar :position :above))
+	(uml-actor (+ $1[center] 60) $1[middle] :big-size :width 50
+											:id :big :link "http://www.google.co.jp/")
+	(uml-actor (+ $1[center] 60) $1[middle] :colorful :fill   '(:color :red :opacity 0.2)
+											:stroke '(:color :brown :width 3)))

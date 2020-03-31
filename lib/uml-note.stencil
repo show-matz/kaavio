@@ -87,7 +87,6 @@
 					 :fill diagram::fill :stroke diagram::stroke))))))
   nil)
 
-;; override of group::draw-group
 (defun draw-connection (note writer)
   (let ((canvas (shape-canvas note)))
 	(declare (special canvas))
