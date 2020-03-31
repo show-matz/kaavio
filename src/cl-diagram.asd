@@ -1,7 +1,7 @@
 (defsystem :cl-diagram
   :description "cl-diagram: svg diagram creating utility."
   :version     "0.1.0"
-  :depends-on  ("jp")
+  :depends-on  ()
   :components  (;; ---------------------------------------- BEGIN COMPONENTS
 				(:file "arc"                       :depends-on ("cl-diagram"
 																"mathutil"
@@ -17,9 +17,6 @@
 																"stroke-info"
 																"link-info"
 																"writer"))
-				(:file "cl-apps-main"              :depends-on ("cl-diagram"
-																"pathutil"
-																"create-svg"))
 				(:file "cl-diagram")
 				(:file "connector"                 :depends-on ("cl-diagram"
 																"constants"

@@ -1,18 +1,11 @@
-#|
-#|ASD|#				(:file "cl-apps-main"              :depends-on ("cl-diagram"
-#|ASD|#																"pathutil"
-#|ASD|#																"create-svg"))
-#|EXPORT|#				;cl-apps-main.lisp
- |#
-
-(in-package :cl-diagram)
-
+(require :jp)
+(require :pathnames)
 
 (labels ((fix-encoding (arg candidates)
 		   (let ((kwd (intern (string-upcase arg) :keyword)))
 			 (if (member kwd candidates)
 				 kwd
-				 (throw-exception "Invalid encoding '~A'." arg))))
+				 (diagram::throw-exception "Invalid encoding '~A'." arg))))
 
 		 (load-whole-file (pathname)
 		   (with-open-file (stream pathname :direction :input
@@ -29,17 +22,9 @@
 												:element-type 'unsigned-byte)
 				 (write-sequence byte-buf stream))
 			 (error ()
-			   (throw-exception "Output file '~A' can't open." pathname)))
+			   (diagram::throw-exception "Output file '~A' can't open." pathname)))
 		   nil))
 
-  ;;-------------------------------------------------------------------------------
-  ;;
-  ;; defun cl-apps-main
-  ;;
-  ;;-------------------------------------------------------------------------------
-  #|
-  #|EXPORT|#				:cl-apps-main
-  |#
   (defun cl-apps-main (args)
 	(handler-bind ((condition
 					(lambda (c)
@@ -52,14 +37,14 @@
 							(muffle-warning)
 							(return-from cl-apps-main nil))))))
 	  (if (/= 4 (length args))
-		  (throw-exception "Invalid parameter count.")
+		  (diagram::throw-exception "Invalid parameter count.")
 		  (destructuring-bind (ifile  input-encoding
 							   ofile output-encoding) args
-			(let ((in-file  (merge-pathnames ifile (path/get-current-directory)))
-				  (out-file (merge-pathnames ofile (path/get-current-directory))))
+			(let ((in-file  (merge-pathnames ifile (path:get-current-directory)))
+				  (out-file (merge-pathnames ofile (path:get-current-directory))))
 			  ;; check in-file existence.
-			  (unless (path/is-existing-file in-file)
-				(throw-exception "Input file '~A' is not exist." in-file))
+			  (unless (path:is-existing-file in-file)
+				(diagram::throw-exception "Input file '~A' is not exist." in-file))
 			  ;; check encoding parameters.
 			  (let* ((candidates '(:guess :jis :euc-jp :sjis :utf8 :ascii))
 					 (enc1 (fix-encoding  input-encoding candidates))

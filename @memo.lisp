@@ -1,5 +1,5 @@
 (load "./@load.lisp")
-(require :pathnames)
+(load "./misc/cl-apps-main.lisp")
 
 (let ((path (if (member :linux *features*)
 				"~/sandbox/cl-diagram/lib/"
@@ -25,5 +25,5 @@
 		(let ((outfile (make-pathname :type "svg" :defaults file)))
 		  (when (funcall pred file outfile)
 			(format t "~A~%" file)
-			(diagram::cl-apps-main `(,file :utf8 ,outfile :utf8))))))))
+			(cl-apps-main `(,file :utf8 ,outfile :utf8))))))))
 

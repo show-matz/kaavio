@@ -1,5 +1,3 @@
-(require :jp)
-
 (load "./src/cl-diagram.lisp")
 (load "./src/binutil.lisp")
 (load "./src/pathutil.lisp")
@@ -36,4 +34,3 @@
 (load "./src/text-shape.lisp")
 (load "./src/image.lisp")
 (load "./src/stencil.lisp")
-(load "./src/cl-apps-main.lisp")

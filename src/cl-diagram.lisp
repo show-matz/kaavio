@@ -25,7 +25,6 @@
 				;circle.lisp
 				:get-circle-cc-point
 				:circle
-				;cl-apps-main.lisp
 				;cl-diagram.lisp
 				:exception
 				:caution
