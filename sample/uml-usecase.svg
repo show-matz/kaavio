@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='400' height='150'>
+	<desc>test of uml-usecase</desc>
+	
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- usecase1 : uml-usecase -->
+	<g id='usecase1'>
+		<ellipse cx='80.0' cy='35' rx='66.8' ry='26' fill='white' stroke='black' stroke-width='1' />
+		<text x='80.0' y='41' text-anchor='middle' font-size='12pt' fill='black' >test usecase</text>
+	</g>
+	<!-- usecase2 : uml-usecase -->
+	<g id='usecase2'>
+		<ellipse cx='120.0' cy='110' rx='70.7' ry='33' fill='white' stroke='black' stroke-width='1' />
+		<text x='120.0' y='109' text-anchor='middle' font-size='12pt' fill='black' >test usecase2</text>
+		<text x='120.0' y='123' text-anchor='middle' font-size='12pt' fill='black' >multi lines</text>
+	</g>
+	<!-- usecase3 : uml-usecase -->
+	<g id='usecase3'>
+		<ellipse cx='320.0' cy='55' rx='70.700005' ry='46' fill='white' stroke='black' stroke-width='1' />
+		<text x='320.0' y='41' text-anchor='middle' font-size='10pt' fill='black' >&lt;&lt;keyword&gt;&gt;</text>
+		<text x='320.0' y='53' text-anchor='middle' font-size='12pt' fill='black' >test usecase3</text>
+		<text x='320.0' y='67' text-anchor='middle' font-size='12pt' fill='black' >multi lines</text>
+		<text x='320.0' y='81' text-anchor='middle' font-size='12pt' fill='black' >with keyword</text>
+	</g>
+	<!-- connector from usecase1 to usecase2 -->
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 93.57722,60.457287 102.921234,77.977325' />
+	<!-- connector from usecase2 to usecase3 -->
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 180.91394,93.248665 254.87796,72.90856' />
+	<!-- connector from usecase1 to usecase3 -->
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 145.31966,40.443306 249.87286,49.15607' />
+
+</svg>

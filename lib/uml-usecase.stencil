@@ -1,0 +1,90 @@
+
+(in-package :cl-diagram-user)
+
+(defparameter *uml-usecase-font*         nil)
+(defparameter *uml-usecase-fill*      :white)
+(defparameter *uml-usecase-stroke*    :black)
+(defparameter *uml-usecase-margin*        20)
+
+(defclass uml-usecase (diagram:text-shape)
+  ((text	;:type     (or keyword string)
+			:initform nil
+			:initarg  :text
+			:accessor uml-usecase-text)
+   (keyword	;:type     (or nil uml-keyword-info)
+			:initform nil
+			:initarg  :keyword
+			:accessor uml-usecase-keyword)
+   (margin2	;:type     number    ; margin for keyword
+			:initform nil
+			:initarg  :margin
+			:accessor uml-usecase-margin2)))
+
+(defmethod initialize-instance :after ((usecase uml-usecase) &rest initargs)
+  (declare (ignore initargs))
+  (with-slots (keyword margin2) usecase
+	(setf keyword (and keyword (make-uml-keyword keyword)))
+	(setf margin2 (if (null keyword)
+					  0
+					  (or (and *uml-usecase-font* (diagram::font-size *uml-usecase-font*))
+						  (and *default-font*     (diagram::font-size *default-font*))
+						  12))))	;;ToDo : これはなんとかしないと。
+  usecase)
+
+(defmethod check ((usecase uml-usecase) canvas dict)
+  ;; this method must call super class' one.
+  (call-next-method)
+  (check-member (text    (uml-usecase-text    usecase)) :nullable nil :types (or keyword string))
+  (check-object (keyword (uml-usecase-keyword usecase)) canvas dict :nullable t :class uml-keyword-info)
+  (check-member (margin2 (uml-usecase-margin2 usecase)) :nullable nil :types number))
+
+;; override of group::draw-group
+(defmethod draw-group ((usecase uml-usecase) writer)
+  ;;(diagram:draw-group-frame usecase writer)    ; MEMO : for debug...
+  (let ((canvas (shape-canvas usecase)))
+	(declare (special canvas))
+	(with-canvas (top bottom left right) canvas
+	  (let ((width  (- right  left))
+			(height (- bottom top)))
+		(macrolet ((register-entity (entity)
+					 `(check-and-draw-local-entity ,entity canvas writer)))
+		  (with-slots (keyword margin2
+						diagram::margin diagram::fill diagram::stroke) usecase
+			;; draw usecase body
+			(ellipse (/ width 2) (/ height 2)
+					 (/ width 2) (/ height 2) :fill diagram::fill :stroke diagram::stroke)
+			;; draw keyword
+			(when keyword
+			  (uml-keyword-draw keyword (+ left (/ width 2))
+										(+ top  diagram::margin margin2) :center writer))
+			;; draw text
+			(call-next-method))))))
+  nil)
+
+(defmethod text-shape-calc-size ((usecase uml-usecase))
+  (multiple-value-bind (w h) (call-next-method)
+	(values w (+ h (uml-usecase-margin2 usecase)))))
+
+(defmethod text-shape-paragraph-area ((usecase uml-usecase))
+  (let ((canvas (call-next-method)))
+	(incf (canvas-top canvas)
+		  (uml-usecase-margin2 usecase))
+	canvas))
+
+(defmethod diagram:get-cc-point ((usecase uml-usecase) x y)
+  (get-ellipse-cc-point (shape-center usecase)
+						(shape-middle usecase)
+						(/ (shape-width  usecase) 2)
+						(/ (shape-height usecase) 2) x y))
+
+(defmacro uml-usecase (x y text &key keyword width height
+								  font fill stroke margin link layer id)
+  `(register-entity (make-instance 'uml-usecase
+								   :center-x ,x :center-y ,y
+								   :width ,width :height ,height
+								   :text ,text :font ,font
+								   :keyword ,keyword
+								   :margin (or ,margin *uml-usecase-margin*)
+								   :fill ,fill :stroke ,stroke
+								   :link ,link :layer ,layer :id ,id)))
+
