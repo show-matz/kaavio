@@ -173,7 +173,7 @@
 	 (/ (image-width img) 2)))
 
 ;;MEMO : use impelementation of shape...
-;;(defmethod shape-canvas ((img image)) ...)
+;;(defmethod shape-get-subcanvas ((img image)) ...)
 
 (defmethod entity-composition-p ((img image))
   (if (image-label img)
@@ -225,7 +225,7 @@
 		code
 		(let ((g-obj (gensym "OBJ")))
 		  `(let* ((,g-obj ,code)
-				  (canvas (diagram:shape-canvas ,g-obj)))
+				  (canvas (diagram:shape-get-subcanvas ,g-obj)))
 			 (declare (special canvas))
 			 ,@contents)))))
 

@@ -97,7 +97,7 @@
   (+ (shape-center shp) (circle-radius shp)))
 
 ;;MEMO : use impelementation of shape...
-;;(defmethod shape-canvas ((shp circle)) ...)
+;;(defmethod shape-get-subcanvas ((shp circle)) ...)
 
 ;;MEMO : use impelementation of shape...
 ;;(defmethod entity-composition-p ((shp circle)) ...)
@@ -146,7 +146,7 @@
 		code
 		(let ((g-obj (gensym "OBJ")))
 		  `(let* ((,g-obj ,code)
-				  (canvas (diagram:shape-canvas ,g-obj)))
+				  (canvas (diagram:shape-get-subcanvas ,g-obj)))
 			 (declare (special canvas))
 			 ,@contents)))))
 

@@ -60,7 +60,7 @@
 ;; override of group::draw-group
 (defmethod draw-group ((actor uml-actor) writer)
   ;;(draw-group-frame txtshp writer)    ; MEMO : for debug...
-  (let ((canvas (shape-canvas actor)))
+  (let ((canvas (shape-get-subcanvas actor)))
 	(declare (special canvas))
 	(with-canvas (top bottom left right) canvas
 	  (with-slots (name fill stroke head shoulder thigh) actor

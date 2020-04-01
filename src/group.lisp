@@ -86,7 +86,7 @@
 	 (/ (group-width grp) 2)))
 
 ;;MEMO : use impelementation of shape...
-;;(defmethod shape-canvas ((grp group)) ...)
+;;(defmethod shape-get-subcanvas ((grp group)) ...)
 
 (defmethod entity-composition-p ((grp group))
   t)  
@@ -109,7 +109,7 @@
 #|EXPORT|#				:draw-group-frame
  |#
 (defun draw-group-frame (grp writer)
-  (let ((canvas (shape-canvas grp))
+  (let ((canvas (shape-get-subcanvas grp))
 		(*default-stroke* (make-stroke :color :blue :dasharray '(3 3))))
 	(declare (special canvas))
 	(macrolet ((register-entity (entity)

@@ -44,7 +44,7 @@
 #|EXPORT|#				:shape-bottom
 #|EXPORT|#				:shape-left
 #|EXPORT|#				:shape-right
-#|EXPORT|#				:shape-canvas
+#|EXPORT|#				:shape-get-subcanvas
 #|EXPORT|#				:get-cc-point
  |#
 (defgeneric shape-width  (shp))
@@ -55,7 +55,7 @@
 (defgeneric shape-bottom (shp))
 (defgeneric shape-left   (shp))
 (defgeneric shape-right  (shp))
-(defgeneric shape-canvas (shp))
+(defgeneric shape-get-subcanvas (shp))
 (defgeneric get-cc-point (shp x y))
 
 (defmethod shape-top ((shp shape))
@@ -70,7 +70,7 @@
 (defmethod shape-right ((shp shape))
   (+ (shape-center shp) (/ (shape-width shp) 2)))
 
-(defmethod shape-canvas ((shp shape))
+(defmethod shape-get-subcanvas ((shp shape))
   (make-canvas (shape-top    shp)
 			   (shape-bottom shp)
 			   (shape-left   shp)

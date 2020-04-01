@@ -168,7 +168,7 @@
 				:shape-bottom
 				:shape-left
 				:shape-right
-				:shape-canvas
+				:shape-get-subcanvas
 				:get-cc-point
 				;stencil.lisp
 				:*include-paths*

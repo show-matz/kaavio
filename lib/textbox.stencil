@@ -20,7 +20,7 @@
   
 ;; override of group::draw-group
 (defmethod draw-group ((box textbox) writer)
-  (let ((canvas (shape-canvas box)))
+  (let ((canvas (shape-get-subcanvas box)))
 	(declare (special canvas))
 	;;ToDo : export fill/stroke/entity-canvas ???
 	(with-canvas (top bottom left right) canvas

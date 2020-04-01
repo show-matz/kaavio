@@ -132,7 +132,7 @@
 			  (+ (* margin 2) h)))))
 
 (defmethod text-shape-paragraph-area ((txtshp text-shape))
-  (copy-canvas (shape-canvas txtshp)))
+  (copy-canvas (shape-get-subcanvas txtshp)))
 
 
 ;;(defmacro text-shape (x y text &key width height align valign font fill stroke margin link layer id)

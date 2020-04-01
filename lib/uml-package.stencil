@@ -98,7 +98,7 @@
 							(shape-width     pkg)
 							(- (shape-height pkg) tab-height) x y)))
 
-(defmethod shape-canvas ((pkg uml-package))
+(defmethod shape-get-subcanvas ((pkg uml-package))
   (with-slots (tab-height) pkg
 	;;(format t "tab-height is ~A~%" tab-height)
 	(make-canvas (+ (shape-top pkg) tab-height)
@@ -109,7 +109,7 @@
 ;; override of group::draw-group
 (defmethod draw-group ((pkg uml-package) writer)
   ;;(draw-group-frame pkg writer)    ; MEMO : for debug...
-  (let ((canvas (shape-canvas pkg)))
+  (let ((canvas (shape-get-subcanvas pkg)))
 	(declare (special canvas))
 	(with-canvas (top bottom left right) canvas
 	  (with-slots (name keyword contents-p font
@@ -156,7 +156,7 @@
 		code
 		(let ((g-obj (gensym "OBJ")))
 		  `(let* ((,g-obj ,code)
-				  (diagram::canvas (shape-canvas ,g-obj)))
+				  (diagram::canvas (shape-get-subcanvas ,g-obj)))
 			 (declare (special diagram::canvas))
 			 ;;(print diagram::canvas)
 			 ,@contents)))))

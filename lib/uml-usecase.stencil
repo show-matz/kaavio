@@ -41,7 +41,7 @@
 ;; override of group::draw-group
 (defmethod draw-group ((usecase uml-usecase) writer)
   ;;(diagram:draw-group-frame usecase writer)    ; MEMO : for debug...
-  (let ((canvas (shape-canvas usecase)))
+  (let ((canvas (shape-get-subcanvas usecase)))
 	(declare (special canvas))
 	(with-canvas (top bottom left right) canvas
 	  (let ((width  (- right  left))

@@ -63,7 +63,7 @@
 ;; override of group::draw-group
 (defmethod draw-group ((note uml-note) writer)
   ;;(diagram:draw-group-frame note writer)    ; MEMO : for debug...
-  (let ((canvas (shape-canvas note)))
+  (let ((canvas (shape-get-subcanvas note)))
 	(declare (special canvas))
 	(with-canvas (top bottom left right) canvas
 	  (let ((width  (- right  left))
@@ -88,7 +88,7 @@
   nil)
 
 (defun draw-connection (note writer)
-  (let ((canvas (shape-canvas note)))
+  (let ((canvas (shape-get-subcanvas note)))
 	(declare (special canvas))
 	(with-canvas (top bottom left right) canvas
 	  (let ((width  (- right  left))
