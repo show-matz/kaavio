@@ -6,7 +6,7 @@
           (*default-stroke* (make-stroke :color :black :width 1)))
 	  ;; back ground
       (rectangle (/ svg-width 2) (/ svg-height 2)
-                 svg-width svg-height :fill :lightgray :stroke :white)
+                 svg-width svg-height :fill :white :stroke :white)
       (let ((x 15)
             (y  0))
         (labels ((imp (lst)
