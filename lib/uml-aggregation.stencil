@@ -1,0 +1,18 @@
+
+(in-package :cl-diagram-user)
+
+(load-stencil :uml-association)
+
+(defclass uml-aggregation (uml-association) ())
+
+(defmacro uml-aggregation (from to &key arrow keyword style role mult layer id)
+  `(register-entity (make-instance 'uml-aggregation
+								   :from ,from :to ,to
+								   :keyword ,keyword :style ,style
+								   :class nil
+								   :stroke (make-stroke :dasharray nil :base *default-stroke*)
+								   :end1 '(:type :diamond :fill :white)
+								   :end2 (and ,arrow :arrow)
+								   :role1 nil :role2 ,role
+								   :mult1 nil :mult2 ,mult :layer ,layer :id ,id)))
+

@@ -1,0 +1,48 @@
+
+(in-package :cl-diagram-user)
+
+(load-stencil :uml-keyword-info)
+
+(defparameter *uml-dependency-dasharray* '(4 2))
+
+(defclass uml-dependency (diagram:connector)
+  ((keyword	;:type     (or nil uml-keyword-info)
+			:initform nil
+			:initarg  :keyword
+			:accessor uml-dependency-keyword)))
+
+(defmethod initialize-instance :after ((dep uml-dependency) &rest initargs)
+  (declare (ignore initargs))
+  (with-slots (keyword) dep
+	(setf keyword (and keyword (make-uml-keyword keyword))))
+  dep)
+
+
+(defmethod check ((dep uml-dependency) canvas dict)
+  ;; this method must call super class' one.
+  (call-next-method)
+  (check-object (keyword (uml-dependency-keyword dep)) canvas dict :nullable t :class uml-keyword-info))
+
+(defmethod entity-composition-p ((dep uml-dependency))
+  (with-slots (keyword) dep
+	(or keyword
+		(call-next-method))))
+
+(defmethod post-draw ((dep uml-dependency) writer)
+  (with-slots (keyword) dep
+	(when keyword
+	  (uml-keyword-draw-beside-line keyword dep writer)))
+  (call-next-method))
+	  
+
+
+(defmacro uml-dependency (from to &key keyword style layer id)
+  `(register-entity (make-instance 'uml-dependency
+								   :from ,from :to ,to
+								   :keyword ,keyword :style ,style
+								   :class nil
+								   :stroke (make-stroke
+											:dasharray (or *uml-dependency-dasharray* '(4 2))
+											:base *default-stroke*)
+								   :end1 nil :end2 :arrow :layer ,layer :id ,id)))
+

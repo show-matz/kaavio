@@ -1,0 +1,47 @@
+
+(in-package :cl-diagram-user)
+
+(load-stencil :uml-keyword-info)
+
+(defclass uml-generalization (diagram:connector)
+  ((keyword	;:type     (or nil uml-keyword-info)
+			:initform nil
+			:initarg  :keyword
+			:accessor uml-generalization-keyword)))
+
+(defmethod initialize-instance :after ((gen uml-generalization) &rest initargs)
+  (declare (ignore initargs))
+  (with-slots (keyword) gen
+	(setf keyword (and keyword (make-uml-keyword keyword))))
+  gen)
+
+
+(defmethod check ((gen uml-generalization) canvas dict)
+  ;; this method must call super class' one.
+  (call-next-method)
+  (check-object (keyword (uml-generalization-keyword gen)) canvas dict :nullable t :class uml-keyword-info))
+
+(defmethod entity-composition-p ((gen uml-generalization))
+  (with-slots (keyword) gen
+	(or keyword
+		(call-next-method))))
+
+(defmethod post-draw ((gen uml-generalization) writer)
+  (with-slots (keyword) gen
+	(when keyword
+	  (uml-keyword-draw-beside-line keyword gen writer)))
+  (call-next-method))
+	  
+
+
+(defmacro uml-generalization (from to &key keyword style layer id)
+  `(register-entity (make-instance 'uml-generalization
+								   :from ,from :to ,to
+								   :keyword ,keyword :style ,style
+								   :class nil
+								   :stroke (make-stroke :dasharray nil :base *default-stroke*)
+								   :end1 nil :end2 `(:type :triangle :fill :white
+													 :stroke (:dasharray nil
+															  :base ,*default-stroke*))
+								   :layer ,layer :id ,id)))
+

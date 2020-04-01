@@ -1,0 +1,91 @@
+
+(in-package :cl-diagram-user)
+
+(load-stencil :uml-keyword-info)
+(load-stencil :uml-multiplicity-info)
+(load-stencil :uml-role-info)
+
+(defclass uml-association (diagram:connector)
+  ((arrows	;:type     integer ( 0 - 2 )
+			:initform nil
+			:initarg  :arrows
+			:accessor uml-association-arrows)
+   (keyword	;:type     (or nil uml-keyword-info)
+			:initform nil
+			:initarg  :keyword
+			:accessor uml-association-keyword)
+   (role1	;:type     (or nil uml-role-info)
+			:initform nil
+			:initarg  :role1
+			:accessor uml-association-role1)
+   (role2	;:type     (or nil uml-role-info)
+			:initform nil
+			:initarg  :role2
+			:accessor uml-association-role2)
+   (mult1	;:type     (or nil uml-multiplicity-info)
+			:initform nil
+			:initarg  :mult1
+			:accessor uml-association-mult1)
+   (mult2	;:type     (or nil uml-multiplicity-info)
+			:initform nil
+			:initarg  :mult2
+			:accessor uml-association-mult2)))
+
+
+(defmethod initialize-instance :after ((ass uml-association) &rest initargs)
+  (declare (ignore initargs))
+  (with-slots (keyword role1 role2 mult1 mult2) ass
+	(setf keyword (and keyword (make-uml-keyword      keyword)))
+	(setf role1   (and role1   (make-uml-role         role1  )))
+	(setf role2   (and role2   (make-uml-role         role2  )))
+	(setf mult1   (and mult1   (make-uml-multiplicity mult1  )))
+	(setf mult2   (and mult2   (make-uml-multiplicity mult2  ))))
+  ass)
+
+
+(defmethod check ((ass uml-association) canvas dict)
+  ;; this method must call super class' one.
+  (call-next-method)
+  (check-member (arrows (uml-association-arrows ass)) :nullable t :types integer)
+  (when (uml-association-arrows ass)
+	(check-numbers (arrows (uml-association-arrows ass)) 0 1 2))
+  (check-object (keyword (uml-association-keyword ass)) canvas dict :nullable t :class uml-keyword-info)
+  (check-object (role1 (uml-association-role1 ass)) canvas dict :nullable t :class uml-role-info)
+  (check-object (role2 (uml-association-role2 ass)) canvas dict :nullable t :class uml-role-info)
+  (check-object (mult1 (uml-association-mult1 ass)) canvas dict :nullable t :class uml-multiplicity-info)
+  (check-object (mult2 (uml-association-mult2 ass)) canvas dict :nullable t :class uml-multiplicity-info))
+
+(defmethod entity-composition-p ((ass uml-association))
+  (with-slots (keyword role1 role2 mult1 mult2) ass
+	(or keyword
+		role1
+		role2
+		mult1
+		mult2
+		(call-next-method))))
+
+(defmethod post-draw ((ass uml-association) writer)
+  (with-slots (keyword role1 role2 mult1 mult2) ass
+	(when keyword (uml-keyword-draw-beside-line      keyword ass       writer))
+	(when role1   (uml-role-draw-beside-line         role1   ass :from writer))
+	(when role2   (uml-role-draw-beside-line         role2   ass :dest writer))
+	(when mult1   (uml-multiplicity-draw-beside-line mult1   ass :from writer))
+	(when mult2   (uml-multiplicity-draw-beside-line mult2   ass :dest writer)))
+  (call-next-method))
+	  
+
+
+(defmacro uml-association (from to &key arrows keyword style
+									 role1 role2 mult1 mult2 layer id)
+  (let ((g-arr (gensym "ARROWS")))
+	`(let ((,g-arr ,arrows))
+	   (register-entity (make-instance 'uml-association
+									   :from ,from :to ,to
+									   :keyword ,keyword :style ,style
+									   :class nil
+									   :stroke (make-stroke :dasharray nil :base *default-stroke*)
+									   :end1 (and ,g-arr (integerp ,g-arr) (= ,g-arr 2)   :arrow)
+									   :end2 (and ,g-arr (integerp ,g-arr) (< 0 ,g-arr 3) :arrow)
+									   :role1 ,role1 :role2 ,role2
+									   :mult1 ,mult1 :mult2 ,mult2 :layer ,layer :id ,id)))))
+

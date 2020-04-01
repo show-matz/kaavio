@@ -1,0 +1,14 @@
+(load-stencil :grid)
+(load-stencil :uml-aggregation)
+(load-stencil :uml-note)
+
+(create-svg (:width 400 :height 150 :desc "test of uml-aggregation" :encoding :utf8)
+	(grid) ; :size 10 :bgcolor "#F0F0FF" :stroke '(:color :blue :width 0.2))
+	(rectangle  30  30 30 30 :fill :white :id :rect1)
+	(rectangle 100 100 30 30 :fill :white :id :rect2)
+	(rectangle 350  50 50 60 :fill :white :id :rect3)
+	(uml-aggregation :rect1 :rect2 :keyword :use)
+	(uml-aggregation :rect1 :rect2 :style :BL :arrow t)
+	(uml-aggregation :rect2 :rect3 :style :CC :arrow t
+					 :role :client :mult '(1 . :*) :id :agg)
+	(uml-note 230 115 "test note" :targets '(:agg)))

@@ -1,0 +1,164 @@
+
+(in-package :cl-diagram-user)
+
+(load-stencil :uml-keyword-info)
+
+(defparameter *uml-package-font*       nil)
+(defparameter *uml-package-fill*    :white)
+(defparameter *uml-package-stroke*  :black)
+(defparameter *uml-package-width*      100)
+(defparameter *uml-package-height*      80)
+(defparameter *uml-package-tab-width*   40)
+(defparameter *uml-package-tab-height*  15)
+(defparameter *uml-package-tab-margin*   3)
+
+
+(defun uml-package-calc-tabsize (pkg)
+  (with-slots (contents-p keyword name font tab-margin) pkg
+	(if (not contents-p)
+		(values *uml-package-tab-width*
+				*uml-package-tab-height*)
+		(let ((txt (with-output-to-string (s)
+					 (when keyword
+					   (format s "~A~%" (uml-keyword-to-string keyword)))
+					 (princ name s))))
+		  (multiple-value-bind (w h) (diagram:font-calc-textarea font txt)
+			(incf w (* 2 tab-margin))
+			(incf h (* 2 tab-margin))
+			(values (max w *uml-package-tab-width*)
+					(max h *uml-package-tab-height*)))))))
+
+
+
+(defclass uml-package (diagram:group)
+  ((name		;:type     (or string keyword)
+				:initform nil
+				:initarg  :name
+				:accessor uml-package-name)
+   (keyword		;:type     (or nil uml-keyword-info)
+				:initform nil
+				:initarg  :keyword
+				:accessor uml-package-keyword)
+   (contents-p	;:type     boolean
+				:initform nil
+				:initarg  :contents-p
+				:accessor uml-package-contents-p)
+   (font		;:type     (or nil font-info)
+				:initform nil
+				:initarg  :font
+				:accessor uml-package-font)
+   (fill		;:type     (or nil fill-info)
+				:initform nil
+				:initarg  :fill
+				:accessor uml-package-fill)
+   (stroke		;:type     (or nil link-info)
+				:initform nil
+				:initarg  :stroke
+				:accessor uml-package-stroke)
+   ;;MEMO : 以下、make-instance された時点での special 変数の値を保存する必要性があるので、保有せざるを得ない‥‥‥
+   (tab-width	;:type     number
+				:initform 0
+				:initarg  :tab-width
+				:accessor uml-package-tab-width)
+   (tab-height	;:type     number
+				:initform 0
+				:initarg  :tab-height
+				:accessor uml-package-tab-height)
+   (tab-margin	;:type     number
+				:initform 0
+				:initarg  :tab-margin
+				:accessor uml-package-tab-margin)))
+
+(defmethod initialize-instance :after ((pkg uml-package) &rest initargs)
+  (declare (ignore initargs))
+  (with-slots (keyword font fill stroke #|tab-width tab-height tab-margin|#) pkg
+	(setf keyword (and keyword (make-uml-keyword keyword)))
+	(setf font    (make-font   (or font   *uml-package-font*   *default-font*  )))
+	(setf fill    (make-fill   (or fill   *uml-package-fill*   *default-fill*  )))
+	(setf stroke  (make-stroke (or stroke *uml-package-stroke* *default-stroke*))))
+  pkg)
+
+(defmethod check ((pkg uml-package) canvas dict)
+  ;; this method must call super class' one.
+  (call-next-method)
+  (with-slots (tab-width tab-height) pkg
+	(multiple-value-setq (tab-width tab-height) (uml-package-calc-tabsize pkg)))
+  (check-member (name    (uml-package-name    pkg)) :nullable nil :types (or string keyword))
+  (check-object (keyword (uml-package-keyword pkg)) canvas dict :nullable t :class uml-keyword-info)
+  (check-object (font    (uml-package-font    pkg)) canvas dict :nullable t :class   font-info)
+  (check-object (fill    (uml-package-fill    pkg)) canvas dict :nullable t :class   fill-info)
+  (check-object (stroke  (uml-package-stroke  pkg)) canvas dict :nullable t :class stroke-info)
+  (check-member (tab-width  (uml-package-tab-width  pkg)) :nullable nil :types number)
+  (check-member (tab-height (uml-package-tab-height pkg)) :nullable nil :types number))
+
+(defmethod get-cc-point ((pkg uml-package) x y)
+  (with-slots (tab-height) pkg
+	(get-rectangle-cc-point (shape-center    pkg)
+							(+ (shape-middle pkg) (/ tab-height 2))
+							(shape-width     pkg)
+							(- (shape-height pkg) tab-height) x y)))
+
+(defmethod shape-canvas ((pkg uml-package))
+  (with-slots (tab-height) pkg
+	;;(format t "tab-height is ~A~%" tab-height)
+	(make-canvas (+ (shape-top pkg) tab-height)
+				 (shape-bottom pkg)
+				 (shape-left   pkg)
+				 (shape-right  pkg))))
+
+;; override of group::draw-group
+(defmethod draw-group ((pkg uml-package) writer)
+  ;;(draw-group-frame pkg writer)    ; MEMO : for debug...
+  (let ((canvas (shape-canvas pkg)))
+	(declare (special canvas))
+	(with-canvas (top bottom left right) canvas
+	  (with-slots (name keyword contents-p font
+						fill stroke tab-width tab-height tab-margin) pkg
+		(let* ((width     (- right left))
+			   (height    (- bottom top))
+			   (x         (/ width  2))
+			   (y         (/ height 2))
+			   (font-size (diagram::font-size font)))
+		  (macrolet ((register-entity (entity)
+					   `(check-and-draw-local-entity ,entity canvas writer)))
+			(let ((*default-fill*   fill)
+				  (*default-stroke* stroke))
+			  (rectangle x (+ y (/ tab-height 2)) width (- height tab-height))
+			  (rectangle (/ tab-width 2) (/ tab-height 2) tab-width tab-height))
+			(let ((name (if (stringp name)
+							name
+							(string-downcase (symbol-name name))))
+				  (x    (/ (if contents-p tab-width width) 2))
+				  (y    (if contents-p tab-margin (- (/ height 2) font-size))))
+			  (when keyword
+				(incf y font-size)
+				(uml-keyword-draw keyword (+ left x) (+ top y) :center writer))
+			  (text x (+ y font-size) name :align :center :font font)))))))
+  nil)
+
+
+
+(defmacro uml-package (x y name &key keyword width height
+									 font fill stroke link layer id contents)
+  (let* ((contents-p (not (null contents)))
+		 (code `(register-entity (make-instance 'uml-package
+											   :center-x ,x :center-y ,y
+											   :width  (or ,width  *uml-package-width*)
+											   :height (or ,height *uml-package-height*)
+											   :name ,name :keyword ,keyword
+											   :contents-p ,contents-p
+											   :font ,font :fill ,fill :stroke ,stroke
+											   :tab-width  *uml-package-tab-width*
+											   :tab-height *uml-package-tab-height*
+											   :tab-margin *uml-package-tab-margin*
+											   :link ,link :layer ,layer :id ,id))))
+	(if (null contents)
+		code
+		(let ((g-obj (gensym "OBJ")))
+		  `(let* ((,g-obj ,code)
+				  (diagram::canvas (shape-canvas ,g-obj)))
+			 (declare (special diagram::canvas))
+			 ;;(print diagram::canvas)
+			 ,@contents)))))
+
+
