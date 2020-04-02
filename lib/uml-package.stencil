@@ -92,11 +92,15 @@
   (check-member (tab-height (uml-package-tab-height pkg)) :nullable nil :types number))
 
 (defmethod get-cc-point ((pkg uml-package) x y)
+  ;;ToDo : タブ部分と交差する場合の考慮ができてない．．．放置？
   (with-slots (tab-height) pkg
 	(get-rectangle-cc-point (shape-center    pkg)
 							(+ (shape-middle pkg) (/ tab-height 2))
 							(shape-width     pkg)
 							(- (shape-height pkg) tab-height) x y)))
+
+;;MEMO : use impelementation of group...
+;;(defmethod group-get-canvas ((pkg uml-package)) ...)
 
 (defmethod shape-get-subcanvas ((pkg uml-package))
   (with-slots (tab-height) pkg
@@ -108,34 +112,38 @@
 
 ;; override of group::draw-group
 (defmethod draw-group ((pkg uml-package) writer)
-  ;;(draw-group-frame pkg writer)    ; MEMO : for debug...
-  (let ((canvas (shape-get-subcanvas pkg)))
-	(declare (special canvas))
-	(with-canvas (top bottom left right) canvas
-	  (with-slots (name keyword contents-p font
-						fill stroke tab-width tab-height tab-margin) pkg
-		(let* ((width     (- right left))
-			   (height    (- bottom top))
-			   (x         (/ width  2))
-			   (y         (/ height 2))
-			   (font-size (diagram::font-size font)))
-		  (macrolet ((register-entity (entity)
-					   `(check-and-draw-local-entity ,entity canvas writer)))
-			(let ((*default-fill*   fill)
-				  (*default-stroke* stroke))
-			  (rectangle x (+ y (/ tab-height 2)) width (- height tab-height))
-			  (rectangle (/ tab-width 2) (/ tab-height 2) tab-width tab-height))
-			(let ((name (if (stringp name)
-							name
-							(string-downcase (symbol-name name))))
-				  (x    (/ (if contents-p tab-width width) 2))
-				  (y    (if contents-p tab-margin (- (/ height 2) font-size))))
-			  (when keyword
-				(incf y font-size)
-				(uml-keyword-draw keyword (+ left x) (+ top y) :center writer))
-			  (text x (+ y font-size) name :align :center :font font)))))))
+  (let ((canvas (group-get-canvas pkg)))
+	(with-slots (name keyword contents-p font
+					  fill stroke tab-width tab-height tab-margin) pkg
+	  (let* ((width     (canvas-width  canvas))
+			 (height    (canvas-height canvas))
+			 (font-size (diagram::font-size font)))
+		(macrolet ((register-entity (entity)
+					 `(check-and-draw-local-entity ,entity canvas writer)))
+		  (let ((*default-fill*   fill)
+				(*default-stroke* stroke))
+			(rectangle (/ width 2) (/ (+ height tab-height) 2) width (- height tab-height))
+			(rectangle (/ tab-width 2) (/ tab-height 2) tab-width tab-height))
+		  (let ((name (if (stringp name)
+						  name
+						  (string-downcase (symbol-name name))))
+				(x    (/ (if contents-p tab-width   width) 2))
+				(y    (/ (if contents-p tab-height height) 2)))
+			(if (null keyword)
+				(incf y (/ font-size 2))
+				(progn
+				  (uml-keyword-draw keyword
+									(+ (canvas-left canvas) x)
+									(+ (canvas-top  canvas) y) :center writer)
+				  (incf y font-size)))
+			(text x y name :align :center :font font))))))
   nil)
 
+;;for debug...
+;(defmethod post-draw ((pkg uml-package) writer)
+;  (call-next-method)
+;  (draw-canvas-frame (group-get-canvas #|shape-get-subcanvas|# pkg) writer))
+ 
 
 
 (defmacro uml-package (x y name &key keyword width height
@@ -158,7 +166,6 @@
 		  `(let* ((,g-obj ,code)
 				  (diagram::canvas (shape-get-subcanvas ,g-obj)))
 			 (declare (special diagram::canvas))
-			 ;;(print diagram::canvas)
 			 ,@contents)))))
 
 

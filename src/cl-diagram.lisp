@@ -101,8 +101,9 @@
 				:font-calc-textarea
 				;group.lisp
 				:group
+				:group-get-canvas
 				:draw-group
-				:draw-group-frame
+				:draw-canvas-frame
 				;image.lisp
 				:image
 				;label-info.lisp

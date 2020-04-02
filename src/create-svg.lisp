@@ -61,7 +61,6 @@ height    := fixnum
 					(throw-exception "Can't register ~A to dictionary : NOT entity." ,g-entity))
 				  (push ,g-entity ,g-entities)
 				  (check ,g-entity canvas ,g-dict)
-				  (setf (entity-canvas ,g-entity) canvas)
 				  (dict-register ,g-dict (entity-id ,g-entity) ,g-entity)))
 		 (declare (ignorable #'layer #'register-entity))
 		 (let ((*default-font*   (or *default-font*   (make-font)))

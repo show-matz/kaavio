@@ -40,26 +40,32 @@
 
 ;; override of group::draw-group
 (defmethod draw-group ((usecase uml-usecase) writer)
-  ;;(diagram:draw-group-frame usecase writer)    ; MEMO : for debug...
-  (let ((canvas (shape-get-subcanvas usecase)))
-	(declare (special canvas))
-	(with-canvas (top bottom left right) canvas
-	  (let ((width  (- right  left))
-			(height (- bottom top)))
-		(macrolet ((register-entity (entity)
-					 `(check-and-draw-local-entity ,entity canvas writer)))
-		  (with-slots (keyword margin2
-						diagram::margin diagram::fill diagram::stroke) usecase
-			;; draw usecase body
-			(ellipse (/ width 2) (/ height 2)
-					 (/ width 2) (/ height 2) :fill diagram::fill :stroke diagram::stroke)
-			;; draw keyword
-			(when keyword
-			  (uml-keyword-draw keyword (+ left (/ width 2))
-										(+ top  diagram::margin margin2) :center writer))
-			;; draw text
-			(call-next-method))))))
+  (let ((canvas (group-get-canvas usecase)))
+	(let ((top    (canvas-top    canvas))
+		  (left   (canvas-left   canvas))
+		  (width  (canvas-width  canvas))
+		  (height (canvas-height canvas)))
+	  (macrolet ((register-entity (entity)
+				   `(check-and-draw-local-entity ,entity canvas writer)))
+		(with-slots (keyword margin2
+							 diagram::margin diagram::fill diagram::stroke) usecase
+		  ;; draw usecase body
+		  (ellipse (/ width 2) (/ height 2)
+				   (/ width 2) (/ height 2) :fill diagram::fill :stroke diagram::stroke)
+		  ;; draw keyword
+		  (when keyword
+			(uml-keyword-draw keyword
+							  (+ left (/ width 2))
+							  (+ top  diagram::margin margin2) :center writer))
+		  ;; draw text
+		  (call-next-method)))))
   nil)
+
+;for debug...
+;(defmethod post-draw ((obj uml-usecase) writer)
+;  (call-next-method)
+;  (draw-canvas-frame (shape-get-subcanvas obj) writer))
+ 
 
 (defmethod text-shape-calc-size ((usecase uml-usecase))
   (multiple-value-bind (w h) (call-next-method)

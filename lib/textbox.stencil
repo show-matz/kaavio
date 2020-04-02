@@ -20,18 +20,17 @@
   
 ;; override of group::draw-group
 (defmethod draw-group ((box textbox) writer)
-  (let ((canvas (shape-get-subcanvas box)))
-	(declare (special canvas))
-	;;ToDo : export fill/stroke/entity-canvas ???
-	(with-canvas (top bottom left right) canvas
-	  (let ((width  (- right  left))
-			(height (- bottom top)))
-		(macrolet ((register-entity (entity)
-					 `(check-and-draw-local-entity ,entity canvas writer)))
-		  (with-slots (rx ry diagram::fill diagram::stroke) box
-			;; draw box
-			(rectangle (/ width 2) (/ height 2) width height
-					   :rx rx :ry ry :fill diagram::fill :stroke diagram::stroke))))))
+	;;ToDo : export fill/stroke ???
+  (let* ((canvas (group-get-canvas box))
+		 (width  (canvas-width  canvas))
+		 (height (canvas-height canvas)))
+	(macrolet ((register-entity (entity)
+				 `(check-and-draw-local-entity ,entity canvas writer)))
+	  (with-slots (rx ry diagram::fill diagram::stroke) box
+		;; draw box
+		(rectangle (/ width 2) (/ height 2) width height
+				   :rx rx :ry ry :fill diagram::fill :stroke diagram::stroke))))
+  ;; draw text
   (call-next-method))
 
 ;; no override.

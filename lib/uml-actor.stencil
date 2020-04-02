@@ -59,26 +59,29 @@
 
 ;; override of group::draw-group
 (defmethod draw-group ((actor uml-actor) writer)
-  ;;(draw-group-frame txtshp writer)    ; MEMO : for debug...
-  (let ((canvas (shape-get-subcanvas actor)))
-	(declare (special canvas))
-	(with-canvas (top bottom left right) canvas
-	  (with-slots (name fill stroke head shoulder thigh) actor
-		(let* ((width  (- right left))
-			   (height (- bottom top))
-			   (center (/ width 2))
-			   (neck   (* head 2))
-			   (*default-fill*   fill)
-			   (*default-stroke* stroke))
-		  (macrolet ((register-entity (entity)
-					 `(check-and-draw-local-entity ,entity canvas writer)))
-			(circle center head head)
-			(line `(,center ,neck ,center ,thigh))
-			(line `(0 ,shoulder ,width ,shoulder))
-			(line `(0 ,height ,center ,thigh ,width ,height))))
-		(when name
-		  (draw-label name actor writer)))))
+  (with-slots (name fill stroke head shoulder thigh) actor
+	(let* ((canvas (group-get-canvas actor))
+		   (width  (canvas-width  canvas))
+		   (height (canvas-height canvas))
+		   (center (/ width 2))
+		   (neck   (* head 2))
+		   (*default-fill*   fill)
+		   (*default-stroke* stroke))
+	  (macrolet ((register-entity (entity)
+				   `(check-and-draw-local-entity ,entity canvas writer)))
+		(circle center head head)
+		(line `(,center ,neck ,center ,thigh))
+		(line `(0 ,shoulder ,width ,shoulder))
+		(line `(0 ,height ,center ,thigh ,width ,height))))
+	(when name
+	  (draw-label name actor writer)))
   nil)
+
+;for debug...
+;(defmethod post-draw ((obj uml-actor) writer)
+;  (call-next-method)
+;  (draw-canvas-frame (shape-get-subcanvas obj) writer))
+ 
 
 
 

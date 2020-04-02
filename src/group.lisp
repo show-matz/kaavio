@@ -17,6 +17,7 @@
 ;-------------------------------------------------------------------------------
 #|
 #|EXPORT|#				:group
+#|EXPORT|#				:group-get-canvas
 #|EXPORT|#				:draw-group
  |#
 (defclass group (shape)
@@ -37,6 +38,7 @@
 			:initarg  :height
 			:accessor group-height)))
 
+(defgeneric group-get-canvas (grp))
 (defgeneric draw-group (grp writer))
 
 
@@ -104,21 +106,26 @@
   nil)
 					  
 
+(defmethod group-get-canvas ((grp group))
+  (make-canvas (shape-top    grp)
+			   (shape-bottom grp)
+			   (shape-left   grp)
+			   (shape-right  grp)))
+
 
 #|
-#|EXPORT|#				:draw-group-frame
+#|EXPORT|#				:draw-canvas-frame
  |#
-(defun draw-group-frame (grp writer)
-  (let ((canvas (shape-get-subcanvas grp))
-		(*default-stroke* (make-stroke :color :blue :dasharray '(3 3))))
-	(declare (special canvas))
+(defun draw-canvas-frame (canvas writer &key (color :blue))
+  (let ((*default-fill*   (make-fill   :color color :opacity 0.2))
+		(*default-stroke* (make-stroke :color color :dasharray '(2 2))))
 	(macrolet ((register-entity (entity)
 				 `(check-and-draw-local-entity ,entity canvas writer)))
 	  (with-canvas (top bottom left right) canvas
 		(rectangle (/ (- right  left) 2)
 				   (/ (- bottom  top) 2)
 				   (- right left)
-				   (- bottom top) :fill :none)))))
+				   (- bottom top))))))
 
 ;x y m-width m-height :fill :none)
 ;			(let ((x (- m-x (class:member canvas :left)))

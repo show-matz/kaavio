@@ -62,47 +62,49 @@
 
 ;; override of group::draw-group
 (defmethod draw-group ((note uml-note) writer)
-  ;;(diagram:draw-group-frame note writer)    ; MEMO : for debug...
-  (let ((canvas (shape-get-subcanvas note)))
-	(declare (special canvas))
-	(with-canvas (top bottom left right) canvas
-	  (let ((width  (- right  left))
-			(height (- bottom top)))
-		(macrolet ((register-entity (entity)
-					 `(check-and-draw-local-entity ,entity canvas writer)))
-		  (with-slots (keyword margin2 crease
-							diagram::fill diagram::stroke diagram::margin) note
-			;; draw note body
-			(polygon `(0 0 0 ,height ,width ,height
-						 ,width ,crease ,(- width crease) 0)
-					 :fill diagram::fill :stroke diagram::stroke)
-			;; draw keyword
-			(when keyword
-			  (uml-keyword-draw keyword (+ left diagram::margin)
-										(+ top (/ diagram::margin 2) margin2) :left writer))
-			;; draw text
-			(call-next-method)
-			;; draw crease
-			(polygon `(,width ,crease ,(- width crease) ,crease ,(- width crease) 0)
-					 :fill diagram::fill :stroke diagram::stroke))))))
+  (let ((canvas (group-get-canvas note)))
+	(let ((top    (canvas-top    canvas))
+		  (left   (canvas-left   canvas))
+		  (width  (canvas-width  canvas))
+		  (height (canvas-height canvas)))
+	  (macrolet ((register-entity (entity)
+				   `(check-and-draw-local-entity ,entity canvas writer)))
+		(with-slots (keyword margin2 crease
+							 diagram::fill diagram::stroke diagram::margin) note
+		  ;; draw note body
+		  (polygon `(0 0 0 ,height ,width ,height
+					   ,width ,crease ,(- width crease) 0)
+				   :fill diagram::fill :stroke diagram::stroke)
+		  ;; draw keyword
+		  (when keyword
+			(uml-keyword-draw keyword (+ left diagram::margin)
+							  (+ top (/ diagram::margin 2) margin2) :left writer))
+		  ;; draw text
+		  (call-next-method)
+		  ;; draw crease
+		  (polygon `(,width ,crease ,(- width crease) ,crease ,(- width crease) 0)
+				   :fill diagram::fill :stroke diagram::stroke)))))
   nil)
 
+;for debug...
+;(defmethod post-draw ((obj uml-note) writer)
+;  (call-next-method)
+;  (draw-canvas-frame (shape-get-subcanvas obj) writer))
+ 
+
 (defun draw-connection (note writer)
-  (let ((canvas (shape-get-subcanvas note)))
-	(declare (special canvas))
-	(with-canvas (top bottom left right) canvas
-	  (let ((width  (- right  left))
-			(height (- bottom top)))
-		(macrolet ((register-entity (entity)
-					 `(check-and-draw-local-entity ,entity canvas writer)))
-		  (with-slots (targets diagram::stroke) note
-			;; draw connections
-			(let ((canvas (make-canvas 0 height 0 width))
-				  (*default-stroke* (make-stroke :dasharray '(3 3)
-												 :base diagram::stroke))) ;;ToDo : fixed ?
-			  (declare (special canvas))
-			  (dolist (ent targets)
-				(line (resolve-connector-points note ent :CC)))))))))
+  (let* ((canvas (group-get-canvas note))
+		 (width  (canvas-width  canvas))
+		 (height (canvas-height canvas)))
+	(macrolet ((register-entity (entity)
+				 `(check-and-draw-local-entity ,entity canvas writer)))
+	  (with-slots (targets diagram::stroke) note
+		;; draw connections
+		(let ((canvas (make-canvas 0 height 0 width))
+			  (*default-stroke* (make-stroke :dasharray '(3 3)
+											 :base diagram::stroke))) ;;ToDo : fixed ?
+		  (dolist (ent targets)
+			(line (resolve-connector-points note ent :CC)))))))
   nil)
 
 (defmethod draw-entity ((note uml-note) writer)

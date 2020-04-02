@@ -23,11 +23,7 @@
    (layer	;:type     keyword
 			:initform nil
 			:initarg  :layer
-			:accessor entity-layer)
-   (canvas	;:type     canvas
-			:initform nil
-			:initarg  :canvas
-			:accessor entity-canvas)))
+			:accessor entity-layer)))
 
 (defun begin-id-group (ent writer)
   (let ((id (entity-id ent)))
@@ -84,7 +80,6 @@
 #|EXPORT|#				:check-and-draw-local-entity
  |#
 (defun check-and-draw-local-entity (entity canvas writer)
-  (setf (entity-canvas entity) canvas)
   (check entity canvas nil)		;; local entity can NOT use dictionary.
   (draw-entity entity writer))
 

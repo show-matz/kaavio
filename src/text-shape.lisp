@@ -103,26 +103,29 @@
 
 ;; override of group::draw-group
 (defmethod draw-group ((txtshp text-shape) writer)
-  ;;(draw-group-frame txtshp writer)    ; MEMO : for debug...
   (let ((canvas (text-shape-paragraph-area txtshp)))
-	(declare (special canvas))
-	(with-canvas (top bottom left right) canvas
-	  (let ((width  (- right  left))
-			(height (- bottom top)))
-		(macrolet ((register-entity (entity)
-					 `(check-and-draw-local-entity ,entity canvas writer)))
-		  (with-slots (text align valign font margin) txtshp
-			;; draw text
-			(let ((x (ecase align
-					   ((:left)   margin)
-					   ((:center) (/ width 2))
-					   ((:right)  (- width margin))))
-				  (y (ecase valign
-					   ((:top)     margin)
-					   ((:center) (/ height 2))
-					   ((:bottom) (- height margin)))))
-			  (paragraph x y text :align align :valign valign :font font)))))))
+	(let ((width  (canvas-width  canvas))
+		  (height (canvas-height canvas)))
+	  (macrolet ((register-entity (entity)
+				   `(check-and-draw-local-entity ,entity canvas writer)))
+		(with-slots (text align valign font margin) txtshp
+		  ;; draw text
+		  (let ((x (ecase align
+					 ((:left)   margin)
+					 ((:center) (/ width 2))
+					 ((:right)  (- width margin))))
+				(y (ecase valign
+					 ((:top)     margin)
+					 ((:center) (/ height 2))
+					 ((:bottom) (- height margin)))))
+			(paragraph x y text :align align :valign valign :font font))))))
   nil)
+
+;for debug...
+;(defmethod post-draw ((obj text-shape) writer)
+;  (call-next-method)
+;  (draw-canvas-frame (shape-get-subcanvas obj) writer))
+ 
 
 (defmethod text-shape-calc-size ((txtshp text-shape))
   (let ((margin (text-shape-margin txtshp)))
@@ -132,7 +135,7 @@
 			  (+ (* margin 2) h)))))
 
 (defmethod text-shape-paragraph-area ((txtshp text-shape))
-  (copy-canvas (shape-get-subcanvas txtshp)))
+  (copy-canvas (group-get-canvas txtshp)))
 
 
 ;;(defmacro text-shape (x y text &key width height align valign font fill stroke margin link layer id)
