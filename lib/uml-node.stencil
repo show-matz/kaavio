@@ -1,0 +1,144 @@
+
+(in-package :cl-diagram-user)
+
+(load-stencil :uml-keyword-info)
+
+(defparameter *uml-node-font*          nil)
+(defparameter *uml-node-fill1*      :white)
+(defparameter *uml-node-fill2*  :lightgray)
+(defparameter *uml-node-stroke*     :black)
+(defparameter *uml-node-width*          80)
+(defparameter *uml-node-height*         80)
+(defparameter *uml-node-depth*          15)
+
+
+(defclass uml-node (diagram:group)
+  ((name		;:type     (or string keyword)
+				:initform nil
+				:initarg  :name
+				:accessor uml-node-name)
+   (keyword		;:type     (or nil uml-keyword-info)
+				:initform nil
+				:initarg  :keyword
+				:accessor uml-node-keyword)
+   (depth		;:type     number
+				:initform 0
+				:initarg  :depth
+				:accessor uml-node-depth)
+   (contents-p	;:type     boolean
+				:initform nil
+				:initarg  :contents-p
+				:accessor uml-node-contents-p)
+   (font		;:type     (or nil font-info)
+				:initform nil
+				:initarg  :font
+				:accessor uml-node-font)
+   (fill1		;:type     (or nil fill-info)
+				:initform nil
+				:initarg  :fill1
+				:accessor uml-node-fill1)
+   (fill2		;:type     (or nil fill-info)
+				:initform nil
+				:initarg  :fill2
+				:accessor uml-node-fill2)
+   (stroke		;:type     (or nil link-info)
+				:initform nil
+				:initarg  :stroke
+				:accessor uml-node-stroke)))
+
+(defmethod initialize-instance :after ((node uml-node) &rest initargs)
+  (declare (ignore initargs))
+  (with-slots (keyword font fill1 fill2 stroke #|tab-width tab-height tab-margin|#) node
+	(setf keyword (and keyword (make-uml-keyword keyword)))
+	(setf font    (make-font   (or font   *uml-node-font*   *default-font*  )))
+	(setf fill1   (make-fill   (or fill1  *uml-node-fill1*  *default-fill*  )))
+	(setf fill2   (make-fill   (or fill2  *uml-node-fill2*  *default-fill*  )))
+	(setf stroke  (make-stroke (or stroke *uml-node-stroke* *default-stroke*))))
+  node)
+
+(defmethod check ((node uml-node) canvas dict)
+  ;; this method must call super class' one.
+  (call-next-method)
+  (check-member (name    (uml-node-name    node)) :nullable nil :types (or string keyword))
+  (check-object (keyword (uml-node-keyword node)) canvas dict :nullable t :class uml-keyword-info)
+  (check-member (depty   (uml-node-depth   node)) :nullable nil :types number)
+  (check-object (font    (uml-node-font    node)) canvas dict :nullable t :class   font-info)
+  (check-object (fill1   (uml-node-fill1   node)) canvas dict :nullable t :class   fill-info)
+  (check-object (fill2   (uml-node-fill2   node)) canvas dict :nullable t :class   fill-info)
+  (check-object (stroke  (uml-node-stroke  node)) canvas dict :nullable t :class stroke-info))
+
+;;MEMO : use impelementation of group...
+;;(defmethod group-get-canvas ((node uml-node)) ...)
+
+(defmethod shape-get-subcanvas ((node uml-node))
+  (with-slots (depth) node
+	(make-canvas (+ (shape-top   node) (/ depth 2))
+				 (shape-bottom   node)
+				 (shape-left     node)
+				 (- (shape-right node) (/ depth 2)))))
+
+;; override of group::draw-group
+(defmethod draw-group ((node uml-node) writer)
+  (let ((canvas (group-get-canvas node)))
+	(with-slots (name keyword depth contents-p
+							  font fill1 fill2 stroke) node
+	  (let* ((width     (canvas-width  canvas))
+			 (height    (canvas-height canvas))
+			 (x         (/ width  2))
+			 (y         (/ height 2))
+			 (half      (/ depth  2))
+			 (font-size (diagram::font-size font))
+			 (spacing   (diagram::font-line-spacing font)))
+		(macrolet ((register-entity (entity)
+					 `(check-and-draw-local-entity ,entity canvas writer)))
+		  (let ((*default-font*   font)
+				(*default-stroke* stroke))
+			(polygon `(0 ,half ,depth ,(- half) ,(+ width half) ,(- half)
+						 ,(+ width half) ,(- height depth) ,(- width half) ,height) :fill fill2)
+			(line `(,(+ width half) ,(- half) ,(- width half) ,half))
+			(rectangle (- x (/ half 2)) (+ y (/ half 2)) (- width half) (- height half) :fill fill1))
+		  (let ((name (if (stringp name)
+						  name
+						  (string-downcase (symbol-name name))))
+				(x    (/ (- width half) 2))
+				(y    (if contents-p
+						  (+ half spacing font-size)
+						  (/ (+ height half) 2))))
+			(if (null keyword)
+				(incf y (/ font-size 2))
+				(progn
+				  (uml-keyword-draw keyword
+									(+ (canvas-left canvas) x)
+									(+ (canvas-top  canvas) y) :center writer)
+				  (incf y font-size)))
+			(text x y name :align :center))))))
+  nil)
+
+;;for debug...
+;(defmethod post-draw ((node uml-node) writer)
+;  (call-next-method)
+;  (draw-canvas-frame (group-get-canvas #|shape-get-subcanvas|# node) writer))
+ 
+
+
+(defmacro uml-node (x y name &key keyword width height
+									 font fill1 fill2 stroke link layer id contents)
+  (let* ((contents-p (not (null contents)))
+		 (code `(register-entity (make-instance 'uml-node
+											   :center-x ,x :center-y ,y
+											   :width  (or ,width  *uml-node-width*)
+											   :height (or ,height *uml-node-height*)
+											   :name ,name :keyword ,keyword
+											   :depth *uml-node-depth*
+											   :contents-p ,contents-p
+											   :font ,font :stroke ,stroke
+											   :fill1 ,fill1 :fill2 ,fill2
+											   :link ,link :layer ,layer :id ,id))))
+	(if (null contents)
+		code
+		(let ((g-obj (gensym "OBJ")))
+		  `(let* ((,g-obj ,code)
+				  (diagram::canvas (shape-get-subcanvas ,g-obj)))
+			 (declare (special diagram::canvas))
+			 ,@contents)))))
+
