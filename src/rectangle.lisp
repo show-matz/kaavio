@@ -1,7 +1,6 @@
 #|
 #|ASD|#				(:file "rectangle"                 :depends-on ("cl-diagram"
 #|ASD|#																"constants"
-#|ASD|#																"mathutil"
 #|ASD|#																"canvas"
 #|ASD|#																"point"
 #|ASD|#																"shape"
@@ -13,31 +12,6 @@
 
 
 (in-package :cl-diagram)
-
-;-------------------------------------------------------------------------------
-;
-; utility functions
-;
-;-------------------------------------------------------------------------------
-#|
-#|EXPORT|#				:get-rectangle-cc-point
- |#
-(defun get-rectangle-cc-point (cx cy width height px py)
-  ;;(format t "cx=~A, cy=~A, width=~A, height=~A, px=~A, py=~A.~%" cx cy width height px py)
-  (let* ((w/2   (/ width  2))
-		 (h/2   (/ height 2))
-		 (len1  (math/len4 cx cy (+ cx w/2) (+ cy h/2)))    ; length between center to corner.
-		 (len2  (math/len4 cx cy px py))
-		 (c-sin (/ h/2 len1))
-		 (p-sin (/ (- py cy) len2))
-		 (p-cos (/ (- px cx) len2)))
-	;;(format t "c-sin=~A, p-sin=~A, p-cos=~A.~%" c-sin p-sin p-cos)
-	(cond
-	  ((< 0 c-sin p-sin)	 (make-point (+ cx (* (/ p-cos p-sin) h/2)) (+ cy h/2)))	;; bottom line
-	  ((< p-sin (- c-sin) 0) (make-point (- cx (* (/ p-cos p-sin) h/2)) (- cy h/2)))	;;  upper line
-	  ((< cx px)			 (make-point (+ cx w/2) (+ cy (* (/ p-sin p-cos) w/2))))	;;  right line
-	  (t					 (make-point (- cx w/2) (- cy (* (/ p-sin p-cos) w/2)))))))	;;   left line
-
 
 ;-------------------------------------------------------------------------------
 ;
@@ -109,12 +83,9 @@
   (incf (shape-middle rct) (canvas-top  canvas))
   nil)
 
-(defmethod get-cc-point ((shp rectangle) x y)
-  (get-rectangle-cc-point (shape-center shp)
-						  (shape-middle shp)
-						  (shape-width  shp)
-						  (shape-height shp) x y))
-
+;;MEMO : use impelementation of shape...
+;;(defmethod shape-connect-point ((shp rectangle) type arg) ...)
+  
 ;;MEMO : use impelementation of shape...
 ;;(defmethod shape-get-subcanvas ((shp rectangle)) ...)
 

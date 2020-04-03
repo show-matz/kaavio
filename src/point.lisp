@@ -40,4 +40,14 @@
 (defun point-offset (pt x y)
   (make-point (+ (point-x pt) x) (+ (point-y pt) y)))
 
-
+#|
+#|EXPORT|#				:with-point
+ |#
+(defmacro with-point ((x-sym y-sym) point &rest body)
+  (let ((g-point (gensym "PT")))
+	`(let ((,g-point ,point))
+	   (symbol-macrolet ((,x-sym (car ,g-point))
+						 (,y-sym (cdr ,g-point)))
+		 ,@body))))
+		   
+	   

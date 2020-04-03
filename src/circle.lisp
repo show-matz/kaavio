@@ -20,12 +20,25 @@
 ;
 ;-------------------------------------------------------------------------------
 #|
-#|EXPORT|#				:get-circle-cc-point
+#|EXPORT|#				:circle-connect-point
  |#
-(defun get-circle-cc-point (cx cy radius px py)
-  (let ((x (* radius (math/cos4 px py cx cy)))
-		(y (* radius (math/sin4 px py cx cy))))
-	(make-point (- cx x) (- cy y))))
+(defun circle-connect-point (cx cy radius type arg)
+  (if (eq type :center)
+	  (with-point (px py) arg
+		(let ((x (* radius (math/cos4 px py cx cy)))
+			  (y (* radius (math/sin4 px py cx cy))))
+		  (make-point (- cx x) (- cy y))))
+	  ;ToDo : 6jT47EsHawK : below is temporary code...
+	  (let ((degree (ecase type
+					  ((:right)  (+   0 (* arg 30)))
+					  ((:bottom) (-  90 (* arg 30)))
+					  ((:left)   (- 180 (* arg 30)))
+					  ((:top)    (+ 270 (* arg 30))))))
+		(when (< degree 0)
+		  (incf degree 360))
+		(let ((x (* radius (math/cos1 degree)))
+			  (y (* radius (math/sin1 degree))))
+		  (make-point (+ cx x) (+ cy y))))))
 
 
 ;-------------------------------------------------------------------------------
@@ -96,17 +109,17 @@
 (defmethod shape-right ((shp circle))
   (+ (shape-center shp) (circle-radius shp)))
 
+(defmethod shape-connect-point ((shp circle) type arg)
+  (circle-connect-point (shape-center  shp)
+						(shape-middle  shp)
+						(circle-radius shp) type arg))
+  
 ;;MEMO : use impelementation of shape...
 ;;(defmethod shape-get-subcanvas ((shp circle)) ...)
 
 ;;MEMO : use impelementation of shape...
 ;;(defmethod entity-composition-p ((shp circle)) ...)
   
-(defmethod get-cc-point ((shp circle) x y)
-  (get-circle-cc-point (shape-center  shp)
-					   (shape-middle  shp)
-					   (circle-radius shp) x y))
-
 (defmethod draw-entity ((shp circle) writer)
   (let ((cls  (shape-class shp))
 		(id   (and (not (entity-composition-p shp))

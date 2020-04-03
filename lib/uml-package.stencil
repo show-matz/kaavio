@@ -91,14 +91,14 @@
   (check-member (tab-width  (uml-package-tab-width  pkg)) :nullable nil :types number)
   (check-member (tab-height (uml-package-tab-height pkg)) :nullable nil :types number))
 
-(defmethod get-cc-point ((pkg uml-package) x y)
-  ;;ToDo : タブ部分と交差する場合の考慮ができてない．．．放置？
+(defmethod shape-connect-point ((pkg uml-package) type arg)
+  ;;ToDo : 95KvWqh6oVU : タブ部分と交差する場合の考慮ができてない（まともにやると難しそう）
   (with-slots (tab-height) pkg
-	(get-rectangle-cc-point (shape-center    pkg)
-							(+ (shape-middle pkg) (/ tab-height 2))
-							(shape-width     pkg)
-							(- (shape-height pkg) tab-height) x y)))
-
+	(rectangle-connect-point (shape-center    pkg)
+							 (+ (shape-middle pkg) (/ tab-height 2))
+							 (shape-width     pkg)
+							 (- (shape-height pkg) tab-height) type arg)))
+  
 ;;MEMO : use impelementation of group...
 ;;(defmethod group-get-canvas ((pkg uml-package)) ...)
 

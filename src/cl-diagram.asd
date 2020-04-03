@@ -62,12 +62,10 @@
 				(:file "group"                     :depends-on ("cl-diagram"
 																"canvas"
 																"shape"
-																"rectangle"
 																"writer"))
 				(:file "image"                     :depends-on ("cl-diagram"
 																"binutil"
 																"shape"
-																"rectangle"
 																"label-info"
 																"link-info"
 																"point"
@@ -120,7 +118,6 @@
 																"writer"))
 				(:file "rectangle"                 :depends-on ("cl-diagram"
 																"constants"
-																"mathutil"
 																"canvas"
 																"point"
 																"shape"
@@ -129,6 +126,8 @@
 																"writer"))
 				(:file "shape"                     :depends-on ("cl-diagram"
 																"canvas"
+																"point"
+																"mathutil"
 																"entity"
 																"link-info"))
 				(:file "stencil"                   :depends-on ("cl-diagram"

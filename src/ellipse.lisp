@@ -19,26 +19,32 @@
 ;
 ;-------------------------------------------------------------------------------
 #|
-#|EXPORT|#				:get-ellipse-cc-point
+#|EXPORT|#				:ellipse-connect-point
  |#
-(defun get-ellipse-cc-point (cx cy rx ry pt-x pt-y)
-  (if (= cx pt-x)
-	  ;;■縦方向の直線になる場合は特別扱いする
-	  (if (< pt-y cy)
-		  (make-point cx (- cy ry))
-		  (make-point cx (+ cy ry)))
-	  ;;■まず、point の座標から center を引くことで、楕円の中心を原点として処理を簡略化する。
-	  ;;■上記により、線分の式は y = mx とできるので、m = Py / Px
-	  (let* ((px (- pt-x cx))
-			 (py (- pt-y cy))
-			 (m  (/ py px)))
-		;;■楕円は x^2 / rx^2 + y^2 / ry^2 = 1 とすることができる。
-		;;■これに y = mx を代入すると、x^2 / rx^2 + (mx)^2 / ry^2 = 1
-		;;■これを整理して、x^2 = (rx^2 * ry^2) / ( ry^2 + (mrx)^2 )
-		(let ((x (sqrt (/ (* rx rx ry ry) (+ (* ry ry) (* m m rx rx))))))
-		  (when (and (not (< px x 0)) (not (< 0 x px)))
-			(setf x (* x -1)))
-		  (make-point (+ x cx) (+ (* m x) cy))))))
+(defun ellipse-connect-point-C (cx cy rx ry pt)
+  (with-point (pt-x pt-y) pt
+	(if (= cx pt-x)
+		;;■縦方向の直線になる場合は特別扱いする
+		(if (< pt-y cy)
+			(make-point cx (- cy ry))
+			(make-point cx (+ cy ry)))
+		;;■まず、point の座標から center を引くことで、楕円の中心を原点として処理を簡略化する。
+		;;■上記により、線分の式は y = mx とできるので、m = Py / Px
+		(let* ((px (- pt-x cx))
+			   (py (- pt-y cy))
+			   (m  (/ py px)))
+		  ;;■楕円は x^2 / rx^2 + y^2 / ry^2 = 1 とすることができる。
+		  ;;■これに y = mx を代入すると、x^2 / rx^2 + (mx)^2 / ry^2 = 1
+		  ;;■これを整理して、x^2 = (rx^2 * ry^2) / ( ry^2 + (mrx)^2 )
+		  (let ((x (sqrt (/ (* rx rx ry ry) (+ (* ry ry) (* m m rx rx))))))
+			(when (and (not (< px x 0)) (not (< 0 x px)))
+			  (setf x (* x -1)))
+			(make-point (+ x cx) (+ (* m x) cy)))))))
+
+(defun ellipse-connect-point (cx cy rx ry type arg)
+  (if (eq type :center)
+	  (ellipse-connect-point-C cx cy rx ry arg)
+	  (rectangle-connect-point cx cy (* 2 rx) (* 2 ry) type arg))) ;ToDo : 6jT47EsHawK : temporary
 
 
 ;-------------------------------------------------------------------------------
@@ -121,12 +127,12 @@
 ;;MEMO : use impelementation of shape...
 ;;(defmethod entity-composition-p ((shp ellipse)) ...)
   
-(defmethod get-cc-point ((shp ellipse) x y)
-  (get-ellipse-cc-point (shape-center     shp)
-						(shape-middle     shp)
-						(ellipse-radius-x shp)
-						(ellipse-radius-y shp) x y))
-
+(defmethod shape-connect-point ((shp ellipse) type arg)
+  (ellipse-connect-point (shape-center     shp)
+						 (shape-middle     shp)
+						 (ellipse-radius-x shp)
+						 (ellipse-radius-y shp) type arg))
+  
 (defmethod draw-entity ((shp ellipse) writer)
   (let ((cls  (shape-class shp))
 		(id   (and (not (entity-composition-p shp))

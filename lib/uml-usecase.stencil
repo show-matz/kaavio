@@ -77,12 +77,12 @@
 		  (uml-usecase-margin2 usecase))
 	canvas))
 
-(defmethod diagram:get-cc-point ((usecase uml-usecase) x y)
-  (get-ellipse-cc-point (shape-center usecase)
-						(shape-middle usecase)
-						(/ (shape-width  usecase) 2)
-						(/ (shape-height usecase) 2) x y))
-
+(defmethod shape-connect-point ((usecase uml-usecase) type arg)
+  (ellipse-connect-point (shape-center usecase)
+						 (shape-middle usecase)
+						 (/ (shape-width  usecase) 2)
+						 (/ (shape-height usecase) 2) type arg))
+  
 (defmacro uml-usecase (x y text &key keyword width height
 								  font fill stroke margin link layer id)
   `(register-entity (make-instance 'uml-usecase

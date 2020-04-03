@@ -2,7 +2,6 @@
 #|ASD|#				(:file "image"                     :depends-on ("cl-diagram"
 #|ASD|#																"binutil"
 #|ASD|#																"shape"
-#|ASD|#																"rectangle"
 #|ASD|#																"label-info"
 #|ASD|#																"link-info"
 #|ASD|#																"point"
@@ -173,18 +172,15 @@
 	 (/ (image-width img) 2)))
 
 ;;MEMO : use impelementation of shape...
+;;(defmethod shape-connect-point ((img image) type arg) ...)
+  
+;;MEMO : use impelementation of shape...
 ;;(defmethod shape-get-subcanvas ((img image)) ...)
 
 (defmethod entity-composition-p ((img image))
   (if (image-label img)
 	  t
 	  (call-next-method)))
-
-(defmethod get-cc-point ((img image) x y)
-  (get-rectangle-cc-point (image-x      img)
-						  (image-y      img)
-						  (image-width  img)
-						  (image-height img) x y))
 
 (defmethod draw-entity ((img image) writer)
   (let ((cls  (shape-class img))

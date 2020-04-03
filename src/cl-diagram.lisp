@@ -23,7 +23,7 @@
 				:canvas-height
 				:with-canvas
 				;circle.lisp
-				:get-circle-cc-point
+				:circle-connect-point
 				:circle
 				;cl-diagram.lisp
 				:exception
@@ -75,7 +75,7 @@
 				;dictionary.lisp
 				:dictionary
 				;ellipse.lisp
-				:get-ellipse-cc-point
+				:ellipse-connect-point
 				:ellipse
 				;endmark-info.lisp
 				:endmark-info
@@ -152,14 +152,15 @@
 				:point-y
 				:point-distance
 				:point-offset
+				:with-point
 				;polygon.lisp
 				:polygon
 				;raw-svg.lisp
 				:raw-svg
 				;rectangle.lisp
-				:get-rectangle-cc-point
 				:rectangle
 				;shape.lisp
+				:rectangle-connect-point
 				:shape
 				:shape-width
 				:shape-height
@@ -170,7 +171,7 @@
 				:shape-left
 				:shape-right
 				:shape-get-subcanvas
-				:get-cc-point
+				:shape-connect-point
 				;stencil.lisp
 				:*include-paths*
 				:*stencil-suffix*

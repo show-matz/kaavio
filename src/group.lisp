@@ -2,7 +2,6 @@
 #|ASD|#				(:file "group"                     :depends-on ("cl-diagram"
 #|ASD|#																"canvas"
 #|ASD|#																"shape"
-#|ASD|#																"rectangle"
 #|ASD|#																"writer"))
 #|EXPORT|#				;group.lisp
  |#
@@ -88,16 +87,13 @@
 	 (/ (group-width grp) 2)))
 
 ;;MEMO : use impelementation of shape...
+;;(defmethod shape-connect-point ((grp group) type arg) ...)
+  
+;;MEMO : use impelementation of shape...
 ;;(defmethod shape-get-subcanvas ((grp group)) ...)
 
 (defmethod entity-composition-p ((grp group))
   t)  
-
-(defmethod get-cc-point ((grp group) x y)
-  (get-rectangle-cc-point (group-x      grp)
-						  (group-y      grp)
-						  (group-width  grp)
-						  (group-height grp) x y))
 
 (defmethod draw-entity ((grp group) writer)
 	(pre-draw   grp writer)
