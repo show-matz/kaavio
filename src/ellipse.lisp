@@ -41,10 +41,51 @@
 			  (setf x (* x -1)))
 			(make-point (+ x cx) (+ (* m x) cy)))))))
 
+(defun ellipse-connect-point-TB-impl (cx cy rx ry x)
+  (declare (ignore cy))
+  ;;■まず、x から cx を引くことで、楕円の中心を原点として処理を簡略化する。
+  (let ((px (- x cx)))
+	;;■楕円は x^2 / rx^2 + y^2 / ry^2 = 1 とすることができる。
+	;;■これを変形すると　y^2 = ( 1 - x^2 / rx^2 ) * ry^2
+	(sqrt (* (- 1 (/ (* px px) (* rx rx))) (* ry ry)))))
+
+(defun ellipse-connect-point-LR-impl (cx cy rx ry y)
+  (declare (ignore cx))
+  ;;■まず、y から cy を引くことで、楕円の中心を原点として処理を簡略化する。
+  (let ((py (- y cy)))
+	;;■楕円は x^2 / rx^2 + y^2 / ry^2 = 1 とすることができる。
+	;;■これを変形すると　x^2 = ( 1 - y^2 / ry^2 ) * rx^2
+	(sqrt (* (- 1 (/ (* py py) (* ry ry))) (* rx rx)))))
+
+(defun ellipse-connect-point-T (cx cy rx ry idx)
+  (let* ((x (+ cx (* idx (/ rx 2))))
+		 (y (ellipse-connect-point-TB-impl cx cy rx ry x)))
+	(make-point x (- cy y))))
+
+(defun ellipse-connect-point-B (cx cy rx ry idx)
+  (let* ((x (+ cx (* idx (/ rx 2))))
+		 (y (ellipse-connect-point-TB-impl cx cy rx ry x)))
+	(make-point x (+ cy y))))
+
+(defun ellipse-connect-point-L (cx cy rx ry idx)
+  (let* ((y (+ cy (* idx (/ ry 2))))
+		 (x (ellipse-connect-point-LR-impl cx cy rx ry y)))
+	(make-point (- cx x) y)))
+
+(defun ellipse-connect-point-R (cx cy rx ry idx)
+  (let* ((y (+ cy (* idx (/ ry 2))))
+		 (x (ellipse-connect-point-LR-impl cx cy rx ry y)))
+	(make-point (+ cx x) y)))
+
+
 (defun ellipse-connect-point (cx cy rx ry type arg)
-  (if (eq type :center)
-	  (ellipse-connect-point-C cx cy rx ry arg)
-	  (rectangle-connect-point cx cy (* 2 rx) (* 2 ry) type arg))) ;ToDo : 6jT47EsHawK : temporary
+  (let ((handler (ecase type
+				   ((:center) #'ellipse-connect-point-C)
+				   ((:top)    #'ellipse-connect-point-T)
+				   ((:bottom) #'ellipse-connect-point-B)
+				   ((:left)   #'ellipse-connect-point-L)
+				   ((:right)  #'ellipse-connect-point-R))))
+	(funcall handler cx cy rx ry arg)))
 
 
 ;-------------------------------------------------------------------------------

@@ -28,7 +28,6 @@
 		(let ((x (* radius (math/cos4 px py cx cy)))
 			  (y (* radius (math/sin4 px py cx cy))))
 		  (make-point (- cx x) (- cy y))))
-	  ;ToDo : 6jT47EsHawK : below is temporary code...
 	  (let ((degree (ecase type
 					  ((:right)  (+   0 (* arg 30)))
 					  ((:bottom) (-  90 (* arg 30)))
