@@ -1,0 +1,146 @@
+
+(in-package :cl-diagram-user)
+
+(load-stencil :uml-keyword-info)
+
+(defparameter *uml-component-font*          nil)
+(defparameter *uml-component-fill*       :white)
+(defparameter *uml-component-stroke*     :black)
+(defparameter *uml-component-width*         100)
+(defparameter *uml-component-height*         60)
+(defparameter *uml-component-iconsize*       20)
+(defparameter *uml-component-iconoffset*      5)
+
+
+(defclass uml-component (diagram:group)
+  ((name		;:type     (or string keyword)
+				:initform nil
+				:initarg  :name
+				:accessor uml-component-name)
+   (keyword		;:type     (or nil uml-keyword-info)
+				:initform nil
+				:initarg  :keyword
+				:accessor uml-component-keyword)
+   (contents-p	;:type     boolean
+				:initform nil
+				:initarg  :contents-p
+				:accessor uml-component-contents-p)
+   (font		;:type     (or nil font-info)
+				:initform nil
+				:initarg  :font
+				:accessor uml-component-font)
+   (fill		;:type     (or nil fill-info)
+				:initform nil
+				:initarg  :fill
+				:accessor uml-component-fill)
+   (stroke		;:type     (or nil stroke-info)
+				:initform nil
+				:initarg  :stroke
+				:accessor uml-component-stroke)
+   (iconsize	;:type     number
+				:initform 0
+				:initarg  :iconsize
+				:accessor uml-component-iconsize)
+   (iconoffset	;:type     number
+				:initform 0
+				:initarg  :iconoffset
+				:accessor uml-component-iconoffset)))
+
+(defmethod initialize-instance :after ((cmp uml-component) &rest initargs)
+  (declare (ignore initargs))
+  (with-slots (keyword font fill stroke) cmp
+	(setf keyword (and keyword (make-uml-keyword keyword)))
+	(setf font    (make-font   (or font   *uml-component-font*   *default-font*  )))
+	(setf fill    (make-fill   (or fill   *uml-component-fill*   *default-fill*  )))
+	(setf stroke  (make-stroke (or stroke *uml-component-stroke* *default-stroke*))))
+  cmp)
+
+(defmethod check ((cmp uml-component) canvas dict)
+  ;; this method must call super class' one.
+  (call-next-method)
+  (check-member (name    (uml-component-name    cmp)) :nullable nil :types (or string keyword))
+  (check-object (keyword (uml-component-keyword cmp)) canvas dict :nullable t :class uml-keyword-info)
+  (check-object (font    (uml-component-font    cmp)) canvas dict :nullable t :class   font-info)
+  (check-object (fill    (uml-component-fill    cmp)) canvas dict :nullable t :class   fill-info)
+  (check-object (stroke  (uml-component-stroke  cmp)) canvas dict :nullable t :class stroke-info)
+  (check-member (iconsize   (uml-component-iconsize   cmp)) :nullable t :types number)
+  (check-member (iconoffset (uml-component-iconoffset cmp)) :nullable t :types number))
+
+;;MEMO : use impelementation of group...
+;;(defmethod group-get-canvas ((cmp uml-component)) ...)
+
+(defmethod shape-get-subcanvas ((cmp uml-component))
+  (make-canvas (shape-top    cmp)
+			   (shape-bottom cmp)
+			   (shape-left   cmp)
+			   (shape-right  cmp)))
+
+;; override of group::draw-group
+(defmethod draw-group ((cmp uml-component) writer)
+  (let ((canvas (group-get-canvas cmp)))
+	(with-slots (name keyword contents-p
+					  font fill stroke iconsize iconoffset) cmp
+	  (let* ((width     (canvas-width  canvas))
+			 (height    (canvas-height canvas))
+			 (x         (/ width  2))
+			 (y         (/ height 2))
+			 (font-size (diagram::font-size font))
+			 (spacing   (diagram::font-line-spacing font)))
+		(macrolet ((register-entity (entity)
+					 `(check-and-draw-local-entity ,entity canvas writer)))
+		  (let ((*default-font*   font)
+				(*default-fill*   fill)
+				(*default-stroke* stroke))
+			(rectangle x y width height)
+			(let ((size   iconsize)
+				  (offset iconoffset))
+					;;draw component icon.
+			  (rectangle (- width (/ size 2) offset) (+ (/ size 2) offset) size size)
+			  (rectangle (- width size offset) (- (+ (/ size 2) offset) (/ size 5)) (* size 0.8) (/ size 4))
+			  (rectangle (- width size offset) (+ (+ (/ size 2) offset) (/ size 5)) (* size 0.8) (/ size 4))))
+		  (let ((name (if (stringp name)
+						  name
+						  (string-downcase (symbol-name name))))
+				(x    (/ width 2))
+				(y    (if contents-p
+						  (+ spacing font-size)
+						  (/ height 2))))
+			(if (null keyword)
+				(incf y (/ font-size 2))
+				(progn
+				  (uml-keyword-draw keyword
+									(+ (canvas-left canvas) x)
+									(+ (canvas-top  canvas) y) :center writer)
+				  (incf y font-size)))
+			(text x y name :align :center))))))
+  nil)
+
+;;for debug...
+;(defmethod post-draw ((cmp uml-component) writer)
+;  (call-next-method)
+;  (draw-canvas-frame (group-get-canvas #|shape-get-subcanvas|# cmp) writer)
+;  nil)
+ 
+
+
+(defmacro uml-component (x y name &key keyword width height
+									 font fill stroke link layer id contents)
+  (let* ((contents-p (not (null contents)))
+		 (code `(register-entity (make-instance 'uml-component
+											   :center-x ,x :center-y ,y
+											   :width  (or ,width  *uml-component-width*)
+											   :height (or ,height *uml-component-height*)
+											   :name ,name :keyword ,keyword
+											   :contents-p ,contents-p
+											   :font ,font :fill ,fill :stroke ,stroke
+											   :iconsize   *uml-component-iconsize*
+											   :iconoffset *uml-component-iconoffset*
+											   :link ,link :layer ,layer :id ,id))))
+	(if (null contents)
+		code
+		(let ((g-obj (gensym "OBJ")))
+		  `(let* ((,g-obj ,code)
+				  (diagram::canvas (shape-get-subcanvas ,g-obj)))
+			 (declare (special diagram::canvas))
+			 ,@contents)))))
+

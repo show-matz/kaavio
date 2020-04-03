@@ -1,0 +1,45 @@
+
+(in-package :cl-diagram-user)
+
+(defparameter *uml-interface-radius*  10)
+(defparameter *uml-interface-fill*   nil)
+(defparameter *uml-interface-stroke* nil)
+
+(defclass uml-interface (diagram:circle)
+  ((name	;:type     (or nil label-info)
+			:initform nil
+			:initarg  :name
+			:accessor uml-interface-name)))
+
+(defmethod initialize-instance :after ((obj uml-interface) &rest initargs)
+  (declare (ignore initargs))
+  (with-slots (name) obj
+	(setf name   (and name (make-label name))))
+  obj)
+
+(defmethod check ((obj uml-interface) canvas dict)
+  ;; this method must call super class' one.
+  (call-next-method)
+  (check-object (name (uml-interface-name obj)) canvas dict :nullable nil :class label-info))
+
+(defmethod entity-composition-p ((obj uml-interface))
+  t)  
+
+;for debug...
+(defmethod post-draw ((obj uml-interface) writer)
+  (with-slots (name) obj
+	(when name
+	  (draw-label name obj writer)))
+  (call-next-method)
+;  (draw-canvas-frame (shape-get-subcanvas obj) writer)
+  nil)
+
+(defmacro uml-interface (x y name &key fill stroke link layer id)
+  `(register-entity (make-instance 'uml-interface
+								   :center-x ,x :center-y ,y
+								   :radius *uml-interface-radius*
+								   :name ,name :class nil 
+								   :fill   (or ,fill   *uml-interface-fill*)
+								   :stroke (or ,stroke *uml-interface-stroke*)
+								   :link ,link :layer ,layer :id ,id)))
+
