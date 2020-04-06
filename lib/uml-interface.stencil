@@ -25,13 +25,12 @@
 (defmethod entity-composition-p ((obj uml-interface))
   t)  
 
-;for debug...
 (defmethod post-draw ((obj uml-interface) writer)
   (with-slots (name) obj
 	(when name
 	  (draw-label name obj writer)))
   (call-next-method)
-;  (draw-canvas-frame (shape-get-subcanvas obj) writer)
+;  (draw-canvas-frame (shape-get-subcanvas obj) writer)	;for debug...
   nil)
 
 (defmacro uml-interface (x y name &key fill stroke link layer id)

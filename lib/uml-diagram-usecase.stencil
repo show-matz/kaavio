@@ -1,0 +1,6 @@
+(load-stencil :uml-note)
+(load-stencil :uml-actor)
+(load-stencil :uml-usecase)
+(load-stencil :uml-association)
+(load-stencil :uml-generalization)
+

@@ -10,7 +10,11 @@
 (defparameter *uml-actor-thigh-position*    0.7)
 
 
-
+;-------------------------------------------------------------------------------
+;
+; class uml-actor
+;
+;-------------------------------------------------------------------------------
 (defclass uml-actor (diagram:group)
   ((name		;:type     (or nil label-info)
 				:initform nil

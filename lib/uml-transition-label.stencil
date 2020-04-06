@@ -1,0 +1,111 @@
+(in-package :cl-diagram-user)
+
+(defparameter *uml-transition-label-font*  nil)
+(defparameter *uml-transition-label-class* nil)
+
+;-------------------------------------------------------------------------------
+;
+; class uml-transition-label
+;
+;-------------------------------------------------------------------------------
+(defclass uml-transition-label ()
+  ((trigger		;:type     (or keyword string)
+				:initform nil
+				:initarg  :trigger
+				:accessor uml-transition-label-trigger)
+   (condition	;:type     (or keyword string)
+				:initform nil
+				:initarg  :condition
+				:accessor uml-transition-label-condition)
+   (action		;:type     (or keyword string)
+				:initform nil
+				:initarg  :action
+				:accessor uml-transition-label-action)
+   (class		;:type     (or keyword string)
+				:initform nil
+				:initarg  :class
+				:accessor uml-transition-label-class)
+   (font		;:type     (or nil font-info)
+				:initform nil
+				:initarg  :font
+				:accessor uml-transition-label-font)))
+
+
+;;MEMO : no impl.
+;(defmethod initialize-instance :after ((obj uml-transition-label) &rest initargs)
+;;  ...)
+
+(defmethod check ((mul uml-transition-label) canvas dict)
+  (check-member (trigger   (uml-transition-label-trigger   mul)) :nullable t :types (or keyword string))
+  (check-member (condition (uml-transition-label-condition mul)) :nullable t :types (or keyword string))
+  (check-member (action    (uml-transition-label-action    mul)) :nullable t :types (or keyword string))
+  (check-member (class     (uml-transition-label-class     mul)) :nullable t :types (or keyword string))
+  (check-object (font      (uml-transition-label-font      mul)) canvas dict :nullable t :class font-info)
+  nil)
+
+(defun uml-transition-label-to-string (obj)
+  (with-slots (trigger condition action) obj
+	(format-string trigger
+				   (when condition
+					 (format-string "[" condition "]"))
+				   (when action
+					 (format-string "/" action)))))
+
+(defun uml-transition-label-draw (obj x y align writer)
+  (let ((txt (uml-transition-label-to-string obj))
+		(txt-anchor (ecase align
+					  ((:left)   "start")
+					  ((:center) "middle")
+					  ((:right)  "end"))))
+	(with-slots (class font) obj
+	  (writer-write writer
+					"<text "
+					"x='" x "' "
+					"y='" y "' "
+					"text-anchor='" txt-anchor "' "
+					(write-when class "class='" it "' ")
+					(when font
+					  (to-property-strings font))
+					">" (escape-characters txt) "</text>"))))
+
+(defun uml-transition-label-draw-beside-line (obj line writer)
+  (unless (typep line 'diagram:line)
+	(throw-exception "multiplicity-info : line parameter is not line object"))
+  (multiple-value-bind (x y sin cos) (diagram::line-get-center line)	;;ToDo : export!?
+	(declare (ignorable x y sin cos))
+;	(format t "x=~A, y=~A, sin=~A, cos=~A.~%" x y sin cos)
+	(let* ((f-size (diagram::font-size (uml-transition-label-font obj)))	;;ToDo : export!?
+		   (offset f-size)
+		   (align (cond ((zerop sin) :center)
+						((<  0  sin) :left)
+						(t           :right))))
+	  (incf y (/ f-size 2))
+;	  (macrolet ((register-entity (entity)
+;				   `(check-and-draw-local-entity ,entity canvas writer)))
+;		(let ((x (+ x (* sin offset)))
+;			  (y (- y (* cos offset)))
+;			  (st (stroke :color :red :dasharray '(3 3))))
+;		  (line `(,(- x 25) ,y ,(+ x 25) ,y) :stroke st)
+;		  (line `(,x ,(- y 25) ,x ,(+ y 25)) :stroke st)))
+	  (uml-transition-label-draw obj (+ x (* sin offset))
+									 (- y (* cos offset)) align writer))))
+
+
+(defun make-uml-transition-label (&rest params)
+  (if (= 1 (length params))
+	  (let ((param (car params)))
+		(cond
+		  ((typep   param  'uml-transition-label) param)
+		  ((listp   param) (apply #'make-uml-transition-label param))
+		  (t               (make-uml-transition-label :trigger param))))
+	  (destructuring-bind (&key trigger condition action
+								(class nil class-p)
+								(font  nil  font-p)) params
+		(make-instance 'uml-transition-label
+					   :trigger   trigger
+					   :condition condition
+					   :action    action
+					   :class    (if class-p class *uml-transition-label-class*)
+					   :font     (if font-p  font  (or *uml-transition-label-font*
+															diagram:*default-font*))))))
+

@@ -1,0 +1,41 @@
+(in-package :cl-diagram-user)
+
+(defparameter *uml-state-history-radius*     15)
+(defparameter *uml-state-history-fill*   :white)
+(defparameter *uml-state-history-stroke* :black)
+
+;-------------------------------------------------------------------------------
+;
+; class uml-state-history
+;
+;-------------------------------------------------------------------------------
+(defclass uml-state-history (diagram:circle) ())
+
+(defmethod post-draw ((obj uml-state-history) writer)
+  (with-slots (diagram::stroke) obj
+	(let* ((canvas (shape-get-subcanvas obj))
+		   (x (/ (canvas-width canvas) 2))
+		   (y x)
+		   (r x))
+	  (macrolet ((register-entity (entity)
+				   `(check-and-draw-local-entity ,entity canvas writer)))
+		(let ((*default-stroke* diagram::stroke))
+		  (line `(,(- x (/ r 3)) ,y ,(+ x (/ r 3)) ,y))
+		  (line `(,(- x (/ r 3)) ,(- y (/ r 2))
+				   ,(- x (/ r 3)) ,(+ y (/ r 2))))
+		  (line `(,(+ x (/ r 3)) ,(- y (/ r 2))
+				   ,(+ x (/ r 3)) ,(+ y (/ r 2))))))))
+  (call-next-method)
+;  (draw-canvas-frame (shape-get-subcanvas obj) writer)	;for debug...
+  nil)
+
+(defmacro uml-state-history (x y &key radius fill stroke link layer id)
+  `(register-entity (make-instance 'uml-state-history
+								   :center-x ,x :center-y ,y
+								   :radius (or ,radius *uml-state-history-radius*)
+								   :class nil
+								   :fill   (or ,fill   *uml-state-history-fill*   *default-fill*)
+								   :stroke (or ,stroke *uml-state-history-stroke* *default-stroke*)
+								   :link ,link :layer ,layer :id ,id)))
+
+
