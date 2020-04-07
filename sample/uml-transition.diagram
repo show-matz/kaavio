@@ -1,0 +1,15 @@
+(in-package :cl-diagram-user)
+
+(load-stencil :grid)
+(load-stencil :uml-state)
+(load-stencil :uml-transition)
+
+(diagram:create-svg (:width 400 :height 200 :desc "test of uml-transition" :encoding :utf8)
+	(grid)
+	(uml-state         100  50 :state1 :id :st1)
+	(uml-state st1[center] (+ st1[middle] 100) :state2 :id :st2)
+	(uml-state 320 (/ (+ st1[middle] st2[middle]) 2) :state3 :id :st3)
+	(uml-transition :st1 :st2 :spec '(:trigger :click :condition "queue empty"))
+	(uml-transition :st2 :st3 :spec "press ENTER" :style :RB)
+	(uml-transition :st3 :st1 :spec "timeout" :style :TR))
+

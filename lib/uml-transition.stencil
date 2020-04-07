@@ -1,0 +1,50 @@
+(in-package :cl-diagram-user)
+
+(load-stencil :uml-transition-spec)
+
+(defparameter *uml-transition-stroke* :black)
+
+;-------------------------------------------------------------------------------
+;
+; class uml-transition
+;
+;-------------------------------------------------------------------------------
+(defclass uml-transition (diagram:connector)
+  ((info	;:type     (or nil uml-transition-spec)
+			:initform nil
+			:initarg  :info
+			:accessor uml-transition-info)))
+
+(defmethod initialize-instance :after ((tran uml-transition) &rest initargs)
+  (declare (ignore initargs))
+  (with-slots (info) tran
+	(setf info (and info (make-uml-transition-spec info))))
+  tran)
+
+
+(defmethod check ((tran uml-transition) canvas dict)
+  ;; this method must call super class' one.
+  (call-next-method)
+  (check-object (info (uml-transition-info tran)) canvas dict :nullable t :class uml-transition-spec))
+
+(defmethod entity-composition-p ((tran uml-transition))
+  (with-slots (info) tran
+	(or info
+		(call-next-method))))
+
+(defmethod post-draw ((tran uml-transition) writer)
+  (with-slots (info) tran
+	(when info
+	  (uml-transition-spec-draw-beside-line info tran writer)))
+  (call-next-method))
+	  
+
+
+(defmacro uml-transition (from to &key spec style layer id)
+  `(register-entity (make-instance 'uml-transition
+								   :from ,from :to ,to
+								   :info ,spec :style ,style
+								   :class nil
+								   :stroke (or *uml-transition-stroke* *default-stroke*)
+								   :end1 nil :end2 :arrow :layer ,layer :id ,id)))
+
