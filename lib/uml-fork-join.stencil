@@ -1,0 +1,84 @@
+
+(in-package :cl-diagram-user)
+
+(defparameter *uml-fork-join-width*      10)
+(defparameter *uml-fork-join-length*     40)
+(defparameter *uml-fork-join-color*  :black)
+
+;-------------------------------------------------------------------------------
+;
+; class uml-fork
+;
+;-------------------------------------------------------------------------------
+(defclass uml-fork (diagram:rectangle) ())
+
+(defmacro uml-fork-v (x y &key width length fill link layer id)
+  `(register-entity (make-instance 'uml-fork
+								   :center-x ,x :center-y ,y
+								   :width  (or ,length *uml-fork-join-length*)
+								   :height (or ,width  *uml-fork-join-width*)
+								   :rx nil :ry nil :class nil  :stroke :none
+								   :fill   (or ,fill *uml-fork-join-color* *default-fill*)
+								   :link ,link :layer ,layer :id ,id)))
+
+(defmacro uml-fork-h (x y &key width length fill link layer id)
+  `(register-entity (make-instance 'uml-fork
+								   :center-x ,x :center-y ,y
+								   :width  (or ,width  *uml-fork-join-width*)
+								   :height (or ,length *uml-fork-join-length*)
+								   :rx nil :ry nil :class nil  :stroke :none
+								   :fill   (or ,fill *uml-fork-join-color* *default-fill*)
+								   :link ,link :layer ,layer :id ,id)))
+
+
+;-------------------------------------------------------------------------------
+;
+; class uml-join
+;
+;-------------------------------------------------------------------------------
+(defclass uml-join (diagram:rectangle)
+  ((spec	;:type     (or nil label-info)
+			:initform nil
+			:initarg  :spec
+			:accessor uml-join-spec)))
+
+(defmethod initialize-instance :after ((obj uml-join) &rest initargs)
+  (declare (ignore initargs))
+  (with-slots (spec) obj
+	;;ToDo : spec で :position 指定が（実質的に）なければ join-v / join-h によって調整してやる？
+	(setf spec (and spec (make-label spec))))
+  obj)
+
+(defmethod check ((obj uml-join) canvas dict)
+  ;; this method must call super class' one.
+  (call-next-method)
+  (check-object (spec (uml-join-spec obj)) canvas dict :nullable t :class  label-info))
+
+(defmethod entity-composition-p ((obj uml-join))
+  t)  
+
+(defmethod post-draw ((obj uml-join) writer)
+  (with-slots (spec) obj
+	(when spec
+	  (draw-label spec obj writer)))
+  (call-next-method)
+;  (draw-canvas-frame (shape-get-subcanvas obj) writer)	;for debug...
+  nil)
+
+(defmacro uml-join-v (x y &key spec width length fill link layer id)
+  `(register-entity (make-instance 'uml-join
+								   :center-x ,x :center-y ,y :spec ,spec
+								   :width  (or ,length *uml-fork-join-length*)
+								   :height (or ,width  *uml-fork-join-width*)
+								   :rx nil :ry nil :class nil  :stroke :none
+								   :fill   (or ,fill *uml-fork-join-color* *default-fill*)
+								   :link ,link :layer ,layer :id ,id)))
+
+(defmacro uml-join-h (x y &key spec width length fill link layer id)
+  `(register-entity (make-instance 'uml-join
+								   :center-x ,x :center-y ,y :spec ,spec
+								   :width  (or ,width  *uml-fork-join-width*)
+								   :height (or ,length *uml-fork-join-length*)
+								   :rx nil :ry nil :class nil  :stroke :none
+								   :fill   (or ,fill *uml-fork-join-color* *default-fill*)
+								   :link ,link :layer ,layer :id ,id)))

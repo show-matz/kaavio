@@ -2,5 +2,6 @@
 (load-stencil :uml-state-begin)
 (load-stencil :uml-state-end)
 (load-stencil :uml-state-history)
-(load-stencil :uml-transition-label)
+(load-stencil :uml-transition-spec)
 (load-stencil :uml-transition)
+(load-stencil :uml-state)
