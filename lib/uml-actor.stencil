@@ -24,7 +24,7 @@
 				:initform nil
 				:initarg  :fill
 				:accessor uml-actor-fill)
-   (stroke		;:type     (or nil link-info)
+   (stroke		;:type     (or nil stroke-info)
 				:initform nil
 				:initarg  :stroke
 				:accessor uml-actor-stroke)
