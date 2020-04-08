@@ -1,0 +1,137 @@
+;;ToDo : 最終的には uml-interface.stencil に集約するか．．．
+
+(in-package :cl-diagram-user)
+
+(load-stencil :uml-interface)
+
+(defun calculate-degrees (cx cy points degree)
+  (labels ((reverse-degree (sin cos)
+			 (when (< 1 (abs cos))
+			   (setf cos (round cos)))
+			 (let* ((RADIAN-UNIT (/ pi 180))
+					(acos        (/ (cl:acos cos) RADIAN-UNIT)))
+			   (round (if (<= 0 sin)
+						  acos
+						  (- 360 acos))))))
+	(multiple-value-bind (px py)
+		(do ((pts1 points (cdr pts1))
+			 (pts2 (cddr points) (cdr pts2)))
+			((null pts2) (values (car pts1) (cadr pts1))))
+	  (let ((half (/ degree 2)))
+		(values (reverse-degree (math/sin5 cx cy px py (- 360 half))
+								(math/cos5 cx cy px py (- 360 half)))
+				(reverse-degree (math/sin5 cx cy px py half)
+								(math/cos5 cx cy px py half)))))))
+
+
+;-------------------------------------------------------------------------------
+;
+; class uml-interface-socket
+;
+;-------------------------------------------------------------------------------
+(defparameter *uml-interface-socket-stroke*   :black)
+(defparameter *uml-interface-socket-degree*      150)
+
+(defclass uml-interface-socket (diagram:entity)
+  ((name			;:type     (or nil label-info)
+					:initform nil
+					:initarg  :name
+					:accessor uml-interface-socket-name)
+   (x				;:type     number
+					:initform 0
+					:initarg  :x
+					:accessor uml-interface-socket-x)
+   (y				;:type     number
+					:initform 0
+					:initarg  :y
+					:accessor uml-interface-socket-y)
+   (from			;:type     keyword
+					:initform nil
+					:initarg  :from
+					:accessor uml-interface-socket-from)
+   (style			;:type     keyword	;; :(CC|[BLRT][123]?[BLRT][123]?) ( keyword -> list )
+					:initform nil
+					:initarg  :style
+					:accessor uml-interface-socket-style)
+   (stroke			;:type     (or nil stroke-info)
+					:initform nil
+					:initarg  :stroke
+					:accessor uml-interface-socket-stroke)
+   (points			;:type     list
+					:initform nil)
+   (canvas-cache	;:type     (or nil canvas)
+					:initform nil)
+   (dummy-circle	;:type     (or nil circle)
+					:initform nil)
+   (degree			;:type     number
+					:initform *uml-interface-socket-degree*)))
+
+(defmethod initialize-instance :after ((sock uml-interface-socket) &rest initargs)
+  (declare (ignore initargs))
+  (with-slots (name style stroke degree) sock
+	(setf name   (and name (make-label name)))
+	(setf style  (or style *default-connector-style* :CC))
+	(setf stroke (make-stroke (or stroke *uml-interface-socket-stroke* *default-stroke*))))
+  sock)
+
+(defmethod check ((sock uml-interface-socket) canvas dict)
+  ;; this method must call super class' one.
+  (call-next-method)
+  (check-object (name   (uml-interface-socket-name   sock)) canvas dict :nullable nil :class label-info)
+  (check-member (x      (uml-interface-socket-x      sock)) :nullable nil :types number)
+  (check-member (y      (uml-interface-socket-y      sock)) :nullable nil :types number)
+  (check-member (from   (uml-interface-socket-from   sock)) :nullable nil :types keyword)
+  (check-member (style  (uml-interface-socket-style  sock)) :nullable nil :types keyword)
+  (check-object (stroke (uml-interface-socket-stroke sock)) canvas dict :nullable nil :class stroke-info)
+  (with-slots (x y from style canvas-cache dummy-circle points) sock
+	(setf style (diagram::check-and-fix-connector-style style))
+	(setf canvas-cache (copy-canvas canvas))
+	(let ((left (canvas-left canvas))
+		  (top  (canvas-top  canvas))
+		  (from-entity (diagram::dict-get-entity dict from)))
+	  (unless from-entity
+		(throw-exception "Entity '~A' not found in dictionary." from))
+	  (unless (typep from-entity 'shape)
+		(throw-exception "Entity '~A' is not shape object." from))
+	  (setf dummy-circle (make-instance 'diagram:circle
+										:center-x (+ x left)
+										:center-y (+ y top)
+										:radius *uml-interface-radius*))
+	  (setf points (resolve-connector-points from-entity dummy-circle style))))
+  nil)
+
+
+(defmethod entity-composition-p ((sock uml-interface-socket))
+  (declare (ignore sock))
+  t)
+
+(defmethod draw-entity ((sock uml-interface-socket) writer)
+  (pre-draw sock writer)
+  (with-slots (name x y stroke
+				canvas-cache dummy-circle points degree) sock
+	(let ((diagram::canvas canvas-cache))
+	  (declare (special diagram::canvas))
+	  (macrolet ((register-entity (entity)
+				   `(check-and-draw-local-entity ,entity diagram::canvas writer)))
+		(let ((*default-stroke* stroke))
+		  (line points)
+		  (multiple-value-bind (deg1 deg2)
+			  (calculate-degrees (slot-value dummy-circle 'diagram::center-x)
+								 (slot-value dummy-circle 'diagram::center-y) points degree)
+			(when (<= 360 deg1) (decf deg1 360))
+			(when (<= 360 deg2) (decf deg2 360))
+			(arc x y (slot-value dummy-circle 'diagram::radius) deg1 deg2))
+		  (when name
+			(draw-label name dummy-circle writer))))))    ;;ToDo : font OK...?
+  (post-draw sock writer)
+  nil)
+		  
+
+
+(defmacro uml-interface-socket (x y from name &key style stroke layer id)
+  `(register-entity (make-instance 'uml-interface-socket
+								   :name ,name :x ,x :y ,y
+								   :from ,from :style ,style
+								   :stroke ,stroke :layer ,layer :id ,id)))
+
+
