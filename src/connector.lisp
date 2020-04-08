@@ -499,7 +499,7 @@
 		(throw-exception "Entity '~A' not found in dictionary."   to))
 	  (unless (or (typep from-entity 'shape) (typep from-entity 'line))
 		(throw-exception "Entity '~A' is not shape nor line object." from))
-	  (unless (or (typep from-entity 'shape) (typep from-entity 'line))
+	  (unless (or (typep dest-entity 'shape) (typep dest-entity 'line))
 		(throw-exception "Entity '~A' is not shape nor line object."   to))
 ;;	  (setf (line-points ent) '(0 0 0 0)) ; HACK.
 ;;	  (call-next-method)
