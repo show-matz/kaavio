@@ -1,0 +1,22 @@
+(in-package :cl-diagram-user)
+
+(load-stencil :grid)
+(load-stencil :uml-interface)
+(load-stencil :uml-interface-request)
+
+(diagram:create-svg (:width 400 :height 200 :desc "test of uml-interface-request" :encoding :utf8)
+	(grid)
+	(rectangle 50 50 40 40 :fill :white :stroke :black :id :rct1)
+	(uml-interface (+ rct1[center] 130) (- rct1[middle] 20) :foo :id :intrfc1)
+	(uml-interface-request :rct1 :intrfc1 :arrow-p t)
+	(rectangle 50 100 40 40 :fill :white :stroke :black :id :rct2)
+	(uml-interface (+ rct2[center] 130) (+ rct2[middle] 20) :foo :id :intrfc2)
+	(uml-interface-request :rct2 :intrfc2 :arrow-p nil)
+	(let ((*uml-interface-request-stroke* :purple))
+	  (rectangle 250 80 40 40 :fill :white :stroke :black :id :rct3)
+	  (uml-interface rct3[center] (+ rct3[middle] 80) :foo :id :intrfc3)
+	  (uml-interface-request :rct3 :intrfc3 :arrow-p t :style :TR)
+	  (rectangle 350 80 40 40 :fill :white :stroke :black :id :rct4)
+	  (uml-interface rct4[center] (+ rct4[middle] 80) :foo :id :intrfc4)
+	  (uml-interface-request :rct4 :intrfc4 :arrow-p t :style :BT)))
+

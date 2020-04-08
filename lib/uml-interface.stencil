@@ -1,9 +1,9 @@
 
 (in-package :cl-diagram-user)
 
-(defparameter *uml-interface-radius*  10)
-(defparameter *uml-interface-fill*   nil)
-(defparameter *uml-interface-stroke* nil)
+(defparameter *uml-interface-radius*     10)
+(defparameter *uml-interface-fill*   :white)
+(defparameter *uml-interface-stroke* :black)
 
 (defclass uml-interface (diagram:circle)
   ((name	;:type     (or nil label-info)
