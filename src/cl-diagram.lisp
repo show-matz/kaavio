@@ -13,6 +13,7 @@
 				:arc
 				;binutil.lisp
 				;canvas.lisp
+				:canvas
 				:make-canvas
 				:copy-canvas
 				:canvas-top
@@ -22,6 +23,7 @@
 				:canvas-width
 				:canvas-height
 				:with-canvas
+				:with-subcanvas
 				;circle.lisp
 				:circle-connect-point
 				:circle

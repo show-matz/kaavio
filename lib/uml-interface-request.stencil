@@ -126,17 +126,17 @@
 (defmethod post-draw ((req uml-interface-request) writer)
   (with-slots (canvas-cache points-cache x-cache y-cache
 				degree-cache radius-cache diagram::stroke) req
-	(let ((diagram::canvas canvas-cache))
-	  (declare (special diagram::canvas))
+	(let ((canvas canvas-cache))
+	  (declare (special canvas))
 	  (macrolet ((register-entity (entity)
-				   `(check-and-draw-local-entity ,entity diagram::canvas writer)))
+				   `(check-and-draw-local-entity ,entity canvas writer)))
 		(let ((*default-stroke* diagram::stroke))
 		  (when points-cache
 			(line points-cache :end1 nil :end2 :arrow
 							   :stroke '(:dasharray (3 3)))) ; ToDo : fix ?
 			  (multiple-value-bind (deg1 deg2)
-				  (calculate-degrees (+ x-cache (canvas-left diagram::canvas))
-									 (+ y-cache (canvas-top  diagram::canvas))
+				  (calculate-degrees (+ x-cache (canvas-left canvas))
+									 (+ y-cache (canvas-top  canvas))
 									 (copy-list (diagram::line-points req)) degree-cache)
 				(when (<= 360 deg1) (decf deg1 360))
 				(when (<= 360 deg2) (decf deg2 360))

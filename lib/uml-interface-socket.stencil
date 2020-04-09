@@ -109,10 +109,10 @@
   (pre-draw sock writer)
   (with-slots (name x y stroke
 				canvas-cache dummy-circle points degree) sock
-	(let ((diagram::canvas canvas-cache))
-	  (declare (special diagram::canvas))
+	(let ((canvas canvas-cache))
+	  (declare (special canvas))
 	  (macrolet ((register-entity (entity)
-				   `(check-and-draw-local-entity ,entity diagram::canvas writer)))
+				   `(check-and-draw-local-entity ,entity canvas writer)))
 		(let ((*default-stroke* stroke))
 		  (line points)
 		  (multiple-value-bind (deg1 deg2)

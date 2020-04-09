@@ -11,6 +11,7 @@
 ;;
 ;;------------------------------------------------------------------------------
 #|
+#|EXPORT|#				:canvas
 #|EXPORT|#				:make-canvas
 #|EXPORT|#				:copy-canvas
  |#
@@ -56,4 +57,13 @@
 						 (,l-sym (cdar ,g-canvas))
 						 (,r-sym (cddr ,g-canvas)))
 		 ,@body))))
+
+#|
+#|EXPORT|#				:with-subcanvas
+ |#
+(defmacro with-subcanvas ((left top &optional right bottom) &rest body)
+  `(let ((canvas (make-canvas ,top   (or ,bottom (canvas-bottom canvas))
+							  ,left  (or ,right  (canvas-right  canvas)))))
+	 (declare (special canvas))
+	 ,@body))
 
