@@ -1,0 +1,48 @@
+(in-package :cl-diagram-user)
+
+(defparameter *uml-activity-end-radius*       15)
+(defparameter *uml-activity-end-ratio*       0.6)
+(defparameter *uml-activity-end-fill*     :white)
+(defparameter *uml-activity-end-stroke*   :black)
+
+;-------------------------------------------------------------------------------
+;
+; class uml-activity-end
+;
+;-------------------------------------------------------------------------------
+(defclass uml-activity-end (diagram:circle)
+  ((ratio	;:type     number
+			:initform 0
+			:initarg  :ratio
+			:accessor uml-activity-end-ratio)))
+
+(defmethod check ((obj uml-activity-end) canvas dict)
+  ;; this method must call super class' one.
+  (call-next-method)
+  (check-member (ratio (uml-activity-end-ratio obj)) :nullable nil :types number))
+
+(defmethod post-draw ((obj uml-activity-end) writer)
+  (with-slots (ratio stroke) obj
+	(let* ((canvas (shape-get-subcanvas obj))
+		   (center (/ (canvas-width canvas) 2))
+		   (radius (* center ratio))
+		   (fill   (diagram::stroke-color
+					(diagram::circle-stroke obj))))
+	  (macrolet ((register-entity (entity)
+				   `(check-and-draw-local-entity ,entity canvas writer)))
+		(circle center center radius :fill fill :stroke :none))))
+  (call-next-method)
+;  (draw-canvas-frame (shape-get-subcanvas obj) writer)	;for debug...
+  nil)
+
+
+(defmacro uml-activity-end (x y &key radius ratio fill stroke link layer id)
+  `(register-entity (make-instance 'uml-activity-end
+								   :center-x ,x :center-y ,y
+								   :radius (or ,radius *uml-activity-end-radius*)
+								   :ratio  (or ,ratio  *uml-activity-end-ratio*)
+								   :class nil
+								   :fill   (or ,fill   *uml-activity-end-fill*   *default-fill*)
+								   :stroke (or ,stroke *uml-activity-end-stroke* *default-stroke*)
+								   :link ,link :layer ,layer :id ,id)))
+

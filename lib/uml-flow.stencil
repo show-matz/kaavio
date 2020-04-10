@@ -1,0 +1,58 @@
+(in-package :cl-diagram-user)
+
+(load-stencil :uml-keyword-info)
+(load-stencil :uml-flow-spec)
+
+(defparameter *uml-flow-stroke* :black)
+
+;-------------------------------------------------------------------------------
+;
+; class uml-flow
+;
+;-------------------------------------------------------------------------------
+(defclass uml-flow (diagram:connector)
+  ((keyword	;:type     (or nil uml-keyword-info)
+			:initform nil
+			:initarg  :keyword
+			:accessor uml-flow-keyword)
+   (info	;:type     (or nil uml-flow-spec)
+			:initform nil
+			:initarg  :info
+			:accessor uml-flow-info)))
+
+(defmethod initialize-instance :after ((flow uml-flow) &rest initargs)
+  (declare (ignore initargs))
+  (with-slots (keyword info) flow
+	(setf keyword (and keyword (make-uml-keyword   keyword)))
+	(setf info    (and info    (make-uml-flow-spec info))))
+  flow)
+
+
+(defmethod check ((flow uml-flow) canvas dict)
+  ;; this method must call super class' one.
+  (call-next-method)
+  (check-object (keyword (uml-flow-keyword flow)) canvas dict :nullable t :class uml-keyword-info)
+  (check-object (info    (uml-flow-info    flow)) canvas dict :nullable t :class uml-flow-spec))
+
+(defmethod entity-composition-p ((flow uml-flow))
+  (with-slots (keyword info) flow
+	(or keyword
+		info
+		(call-next-method))))
+
+(defmethod post-draw ((flow uml-flow) writer)
+  (with-slots (keyword info) flow
+	(when keyword (uml-keyword-draw-beside-line   keyword flow writer))
+	(when info    (uml-flow-spec-draw-beside-line info    flow writer)))
+  (call-next-method))
+	  
+
+
+(defmacro uml-flow (from to &key keyword spec style layer id)
+  `(register-entity (make-instance 'uml-flow
+								   :from ,from :to ,to
+								   :keyword ,keyword :info ,spec
+								   :class nil :style ,style
+								   :stroke (or *uml-flow-stroke* *default-stroke*)
+								   :end1 nil :end2 :arrow :layer ,layer :id ,id)))
+

@@ -1,0 +1,104 @@
+(in-package :cl-diagram-user)
+
+(defparameter *uml-flow-spec-font*  nil)
+(defparameter *uml-flow-spec-class* nil)
+
+;-------------------------------------------------------------------------------
+;
+; class uml-flow-spec
+;
+;-------------------------------------------------------------------------------
+(defclass uml-flow-spec ()
+  ((guard	;:type     (or keyword string)
+			:initform nil
+			:initarg  :guard
+			:accessor uml-flow-spec-guard)
+   (action	;:type     (or keyword string)
+			:initform nil
+			:initarg  :action
+			:accessor uml-flow-spec-action)
+   (class	;:type     (or keyword string)
+			:initform nil
+			:initarg  :class
+			:accessor uml-flow-spec-class)
+   (font	;:type     (or nil font-info)
+			:initform nil
+			:initarg  :font
+			:accessor uml-flow-spec-font)))
+
+
+;;MEMO : no impl.
+;(defmethod initialize-instance :after ((obj uml-flow-spec) &rest initargs)
+;;  ...)
+
+(defmethod check ((spec uml-flow-spec) canvas dict)
+  (check-member (guard   (uml-flow-spec-guard   spec)) :nullable t :types (or keyword string))
+  (check-member (action  (uml-flow-spec-action  spec)) :nullable t :types (or keyword string))
+  (check-member (class   (uml-flow-spec-class   spec)) :nullable t :types (or keyword string))
+  (check-object (font    (uml-flow-spec-font    spec)) canvas dict :nullable t :class font-info)
+  nil)
+
+(defun uml-flow-spec-to-string (obj)
+  (with-slots (guard action) obj
+	(format-string (when guard
+					 (format-string "[" guard "]"))
+				   (when action
+					 (format-string "/" action)))))
+
+(defun uml-flow-spec-draw (obj x y align writer)
+  (let ((txt (uml-flow-spec-to-string obj))
+		(txt-anchor (ecase align
+					  ((:left)   "start")
+					  ((:center) "middle")
+					  ((:right)  "end"))))
+	(with-slots (class font) obj
+	  (writer-write writer
+					"<text "
+					"x='" x "' "
+					"y='" y "' "
+					"text-anchor='" txt-anchor "' "
+					(write-when class "class='" it "' ")
+					(when font
+					  (to-property-strings font))
+					">" (escape-characters txt) "</text>"))))
+
+(defun uml-flow-spec-draw-beside-line (obj line writer)
+  (unless (typep line 'diagram:line)
+	(throw-exception "multiplicity-info : line parameter is not line object"))
+  (multiple-value-bind (x y sin cos) (diagram::line-get-center line)	;;ToDo : export!?
+	(declare (ignorable x y sin cos))
+;	(format t "x=~A, y=~A, sin=~A, cos=~A.~%" x y sin cos)
+	(let* ((f-size (diagram::font-size (uml-flow-spec-font obj)))	;;ToDo : export!?
+		   (offset f-size)
+		   (align (cond ((zerop sin) :center)
+						((<  0  sin) :left)
+						(t           :right))))
+	  (incf y (/ f-size 2))
+;	  (macrolet ((register-entity (entity)
+;				   `(check-and-draw-local-entity ,entity canvas writer)))
+;		(let ((x (+ x (* sin offset)))
+;			  (y (- y (* cos offset)))
+;			  (st (stroke :color :red :dasharray '(3 3))))
+;		  (line `(,(- x 25) ,y ,(+ x 25) ,y) :stroke st)
+;		  (line `(,x ,(- y 25) ,x ,(+ y 25)) :stroke st)))
+	  (uml-flow-spec-draw obj (+ x (* sin offset))
+									 (- y (* cos offset)) align writer))))
+
+
+(defun make-uml-flow-spec (&rest params)
+  (if (= 1 (length params))
+	  (let ((param (car params)))
+		(cond
+		  ((typep   param  'uml-flow-spec) param)
+		  ((listp   param) (apply #'make-uml-flow-spec param))
+		  (t               (make-uml-flow-spec :guard param))))
+	  (destructuring-bind (&key guard action
+								(class nil class-p)
+								(font  nil  font-p)) params
+		(make-instance 'uml-flow-spec
+					   :guard guard
+					   :action    action
+					   :class    (if class-p class *uml-flow-spec-class*)
+					   :font     (if font-p  font  (or *uml-flow-spec-font*
+															diagram:*default-font*))))))
+

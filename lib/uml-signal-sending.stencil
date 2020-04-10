@@ -1,0 +1,139 @@
+
+(in-package :cl-diagram-user)
+
+(defparameter *uml-signal-sending-font*         nil)
+(defparameter *uml-signal-sending-fill*      :white)
+(defparameter *uml-signal-sending-stroke*    :black)
+(defparameter *uml-signal-sending-direction* :right)
+(defparameter *uml-signal-sending-depth*         15)
+(defparameter *uml-signal-sending-margin*        10)
+
+(defclass uml-signal-sending (diagram:text-shape)
+  ((text		;:type     (or keyword string)
+				:initform nil
+				:initarg  :text
+				:accessor uml-signal-sending-text)
+   (keyword		;:type     (or nil uml-keyword-info)
+				:initform nil
+				:initarg  :keyword
+				:accessor uml-signal-sending-keyword)
+   (direction	;:type     keyword - :left, :right
+				:initform nil
+				:initarg  :direction
+				:accessor uml-signal-sending-direction)
+   (depth		;:type     number
+				:initform nil
+				:initarg  :depth
+				:accessor uml-signal-sending-depth)
+   (margin2		;:type     number    ; margin for keyword
+				:initform nil
+				:accessor uml-signal-sending-margin2)))
+
+(defmethod initialize-instance :after ((sig-send uml-signal-sending) &rest initargs)
+  (declare (ignore initargs))
+  (with-slots (keyword direction margin2) sig-send
+	(setf keyword (and keyword (make-uml-keyword keyword)))
+	(setf margin2 (if (null keyword)
+					  0
+					  (or (and *uml-signal-sending-font*
+							   (diagram::font-size *uml-signal-sending-font*))
+						  (and *default-font*
+							   (diagram::font-size *default-font*))
+						  12))))	;;ToDo : これはなんとかしないと。
+  sig-send)
+
+(defmethod check ((sig-send uml-signal-sending) canvas dict)
+  ;; this method must call super class' one.
+  (call-next-method)
+  (check-member   (text      (slot-value sig-send      'text)) :nullable nil :types (or keyword string))
+  (check-object   (keyword   (slot-value sig-send   'keyword)) canvas dict :nullable t :class uml-keyword-info)
+  (check-member   (direction (slot-value sig-send 'direction)) :nullable nil :types keyword)
+  (check-member   (depth     (slot-value sig-send     'depth)) :nullable nil :types number)
+  (check-member   (margin2   (slot-value sig-send   'margin2)) :nullable nil :types number)
+  (check-keywords (direction (slot-value sig-send 'direction)) :left :right))
+
+;; override of group::draw-group
+(defmethod draw-group ((sig-send uml-signal-sending) writer)
+  (let ((canvas (group-get-canvas sig-send)))
+	(let ((top    (canvas-top    canvas))
+		  (left   (canvas-left   canvas))
+		  (width  (canvas-width  canvas))
+		  (height (canvas-height canvas)))
+	  (macrolet ((register-entity (entity)
+				   `(check-and-draw-local-entity ,entity canvas writer)))
+		(with-slots (keyword direction depth margin2
+						diagram::margin diagram::fill diagram::stroke) sig-send
+		  (let ((half (/ depth 2))
+				(*default-fill*   diagram::fill)
+				(*default-stroke* diagram::stroke))
+			;; draw body
+			(if (eq direction :right)
+				(polygon (list 0 0
+							   0 height
+							   (- width half) height
+							   (+ width half) (/ height 2)
+							   (- width half) 0
+							   0 0))
+				(polygon (list half 0
+							   (- half) (/ height 2)
+							   half height
+							   width height
+							   width 0
+							   half 0))))
+		  ;; draw keyword
+		  (when keyword
+			(uml-keyword-draw keyword
+							  (+ left (/ width 2))
+							  (+ top  diagram::margin margin2) :center writer))
+		  ;; draw text
+		  (call-next-method)))))
+  nil)
+
+;for debug...
+;(defmethod post-draw ((obj uml-signal-sending) writer)
+;  (call-next-method)
+;  (draw-canvas-frame (shape-get-subcanvas obj) writer))
+ 
+(defmethod text-shape-calc-size ((sig-send uml-signal-sending))
+  (multiple-value-bind (w h) (call-next-method)
+	(with-slots (margin2) sig-send
+	  (values w (+ h margin2)))))
+
+(defmethod text-shape-paragraph-area ((sig-send uml-signal-sending))
+  (with-slots (direction depth margin2) sig-send
+	(let ((canvas (call-next-method)))
+	  (incf (canvas-top canvas) margin2)
+	  (if (eq direction :right)
+		  (decf (canvas-right canvas) (/ depth 2))
+		  (incf (canvas-left  canvas) (/ depth 2)))
+	  canvas)))
+
+;;ToDo : :CC の場合にちょっとマズいことになる‥‥‥
+(defmethod shape-connect-point ((sig-send uml-signal-sending) type arg)
+  (let ((pt (rectangle-connect-point (shape-center sig-send)
+									 (shape-middle sig-send)
+									 (shape-width  sig-send)
+									 (shape-height sig-send) type arg)))
+	(with-slots (direction depth) sig-send
+	  (with-point (x y) pt
+		(cond
+		  ((and (eq direction :right)
+				(eq type      :right) (zerop arg)) (incf x (/ depth 2)))
+		  ((and (eq direction  :left)
+				(eq type       :left) (zerop arg)) (decf x (/ depth 2))))))
+	pt))
+  
+(defmacro uml-signal-sending (x y text &key keyword width height direction depth
+											 font fill stroke margin link layer id)
+  `(register-entity (make-instance 'uml-signal-sending
+								   :center-x ,x :center-y ,y
+								   :width ,width :height ,height
+								   :text ,text :font ,font
+								   :keyword ,keyword
+								   :direction (or ,direction *uml-signal-sending-direction*)
+								   :depth     (or ,depth     *uml-signal-sending-depth*)
+								   :margin   (or ,margin   *uml-signal-sending-margin*)
+								   :fill     (or ,fill   *uml-signal-sending-fill*   *default-fill*   :white)
+								   :stroke   (or ,stroke *uml-signal-sending-stroke* *default-stroke* :black)
+								   :link ,link :layer ,layer :id ,id)))
+

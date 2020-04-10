@@ -1,0 +1,104 @@
+
+(in-package :cl-diagram-user)
+
+(defparameter *uml-action-font*         nil)
+(defparameter *uml-action-fill*      :white)
+(defparameter *uml-action-stroke*    :black)
+(defparameter *uml-action-corner-r*       6)
+(defparameter *uml-action-margin*        10)
+
+(defclass uml-action (diagram:text-shape)
+  ((text		;:type     (or keyword string)
+				:initform nil
+				:initarg  :text
+				:accessor uml-action-text)
+   (keyword		;:type     (or nil uml-keyword-info)
+				:initform nil
+				:initarg  :keyword
+				:accessor uml-action-keyword)
+   (corner-r	;:type     number
+				:initform nil
+				:initarg  :corner-r
+				:accessor uml-action-corner-r)
+   (margin2		;:type     number    ; margin for keyword
+				:initform nil
+				:accessor uml-action-margin2)))
+
+(defmethod initialize-instance :after ((action uml-action) &rest initargs)
+  (declare (ignore initargs))
+  (with-slots (keyword margin2) action
+	(setf keyword (and keyword (make-uml-keyword keyword)))
+	(setf margin2 (if (null keyword)
+					  0
+					  (or (and *uml-action-font* (diagram::font-size *uml-action-font*))
+						  (and *default-font*     (diagram::font-size *default-font*))
+						  12))))	;;ToDo : これはなんとかしないと。
+  action)
+
+(defmethod check ((action uml-action) canvas dict)
+  ;; this method must call super class' one.
+  (call-next-method)
+  (check-member (text     (uml-action-text     action)) :nullable nil :types (or keyword string))
+  (check-object (keyword  (uml-action-keyword  action)) canvas dict :nullable t :class uml-keyword-info)
+  (check-member (corner-r (uml-action-corner-r action)) :nullable nil :types number)
+  (check-member (margin2  (uml-action-margin2  action)) :nullable nil :types number))
+
+;; override of group::draw-group
+(defmethod draw-group ((action uml-action) writer)
+  (let ((canvas (group-get-canvas action)))
+	(let ((top    (canvas-top    canvas))
+		  (left   (canvas-left   canvas))
+		  (width  (canvas-width  canvas))
+		  (height (canvas-height canvas)))
+	  (macrolet ((register-entity (entity)
+				   `(check-and-draw-local-entity ,entity canvas writer)))
+		(with-slots (keyword margin2 corner-r
+							 diagram::margin diagram::fill diagram::stroke) action
+		  ;; draw action body
+		  (rectangle (/ width 2) (/ height 2)
+					 width height :rx corner-r :ry corner-r
+					 :fill diagram::fill :stroke diagram::stroke)
+		  ;; draw keyword
+		  (when keyword
+			(uml-keyword-draw keyword
+							  (+ left (/ width 2))
+							  (+ top  diagram::margin margin2) :center writer))
+		  ;; draw text
+		  (call-next-method)))))
+  nil)
+
+;for debug...
+;(defmethod post-draw ((obj uml-action) writer)
+;  (call-next-method)
+;  (draw-canvas-frame (shape-get-subcanvas obj) writer))
+ 
+
+(defmethod text-shape-calc-size ((action uml-action))
+  (multiple-value-bind (w h) (call-next-method)
+	(values w (+ h (uml-action-margin2 action)))))
+
+(defmethod text-shape-paragraph-area ((action uml-action))
+  (let ((canvas (call-next-method)))
+	(incf (canvas-top canvas)
+		  (uml-action-margin2 action))
+	canvas))
+
+(defmethod shape-connect-point ((action uml-action) type arg)
+  (rectangle-connect-point (shape-center action)
+						   (shape-middle action)
+						   (shape-width  action)
+						   (shape-height action) type arg))
+  
+(defmacro uml-action (x y text &key keyword width height corner-r
+								  font fill stroke margin link layer id)
+  `(register-entity (make-instance 'uml-action
+								   :center-x ,x :center-y ,y
+								   :width ,width :height ,height
+								   :text ,text :font ,font
+								   :keyword ,keyword
+								   :corner-r (or ,corner-r *uml-action-corner-r*)
+								   :margin   (or ,margin   *uml-action-margin*)
+								   :fill     (or ,fill   *uml-action-fill*   *default-fill*   :white)
+								   :stroke   (or ,stroke *uml-action-stroke* *default-stroke* :black)
+								   :link ,link :layer ,layer :id ,id)))
+

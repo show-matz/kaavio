@@ -1,0 +1,21 @@
+(load-stencil :grid)
+(load-stencil :uml-signal-receipt)
+
+(create-svg (:width 400 :height 150 :desc "test of uml-signal-receipt" :encoding :utf8)
+	(grid) ; :size 10 :bgcolor "#F0F0FF" :stroke '(:color :blue :width 0.2))
+	(uml-signal-receipt 100  35 "test receipt" :id :sigsend1)
+	(uml-signal-receipt 140 110 "test receipt2
+multi lines" :direction :right :id :sigsend2)
+	(let ((*uml-keyword-font*   (make-font 10))
+		  (*uml-signal-receipt-font*         nil)
+		  (*uml-signal-receipt-fill*  :lightgray)
+		  (*uml-signal-receipt-stroke*     :navy)
+		  (*uml-signal-receipt-depth*         30)
+		  (*uml-signal-receipt-margin*        10))
+	  (uml-signal-receipt 320 55 "test receipt3
+multi lines
+with keyword" :keyword "keyword" :id :sigsend3))
+	(connector :sigsend1 :sigsend2)
+	(connector :sigsend2 :sigsend1 :style :LL)
+	(connector :sigsend2 :sigsend3)
+	(connector :sigsend1 :sigsend3 :style :RL))
