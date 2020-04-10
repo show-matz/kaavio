@@ -13,10 +13,10 @@
 				:initform nil
 				:initarg  :trigger
 				:accessor uml-transition-spec-trigger)
-   (condition	;:type     (or keyword string)
+   (guard		;:type     (or keyword string)
 				:initform nil
-				:initarg  :condition
-				:accessor uml-transition-spec-condition)
+				:initarg  :guard
+				:accessor uml-transition-spec-guard)
    (action		;:type     (or keyword string)
 				:initform nil
 				:initarg  :action
@@ -37,17 +37,17 @@
 
 (defmethod check ((mul uml-transition-spec) canvas dict)
   (check-member (trigger   (uml-transition-spec-trigger   mul)) :nullable t :types (or keyword string))
-  (check-member (condition (uml-transition-spec-condition mul)) :nullable t :types (or keyword string))
+  (check-member (guard     (uml-transition-spec-guard     mul)) :nullable t :types (or keyword string))
   (check-member (action    (uml-transition-spec-action    mul)) :nullable t :types (or keyword string))
   (check-member (class     (uml-transition-spec-class     mul)) :nullable t :types (or keyword string))
   (check-object (font      (uml-transition-spec-font      mul)) canvas dict :nullable t :class font-info)
   nil)
 
 (defun uml-transition-spec-to-string (obj)
-  (with-slots (trigger condition action) obj
+  (with-slots (trigger guard action) obj
 	(format-string trigger
-				   (when condition
-					 (format-string "[" condition "]"))
+				   (when guard
+					 (format-string "[" guard "]"))
 				   (when action
 					 (format-string "/" action)))))
 
@@ -98,12 +98,12 @@
 		  ((typep   param  'uml-transition-spec) param)
 		  ((listp   param) (apply #'make-uml-transition-spec param))
 		  (t               (make-uml-transition-spec :trigger param))))
-	  (destructuring-bind (&key trigger condition action
+	  (destructuring-bind (&key trigger guard action
 								(class nil class-p)
 								(font  nil  font-p)) params
 		(make-instance 'uml-transition-spec
 					   :trigger   trigger
-					   :condition condition
+					   :guard     guard
 					   :action    action
 					   :class    (if class-p class *uml-transition-spec-class*)
 					   :font     (if font-p  font  (or *uml-transition-spec-font*

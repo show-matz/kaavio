@@ -14,7 +14,7 @@
 							  (:trigger "exit"  :action "bar()")))
 	  (uml-state (+ $1[center] 140) $1[middle] :state4 :keyword "keyword"
 				 :activities ((:trigger "enter" :action "foo()")
-							  (:trigger "foo"   :condition "a == b" :action "bar()")
+							  (:trigger "foo"   :guard "a == b" :action "bar()")
 							  (:trigger "exit"  :action "quux()")))
 	  ;;(line '(0 180 500 180) :stroke '(:color :gray :dasharray (2 2)))
 	  (uml-state 100 180 :state5 :id :st5
