@@ -1,7 +1,7 @@
 (in-package :cl-diagram-user)
 
 (load-stencil :grid)
-(load-stencil :uml-interface-socket)
+(load-stencil :uml-interface)
 
 (diagram:create-svg (:width 400 :height 200 :desc "test of uml-interface-socket" :encoding :utf8)
 	(grid)

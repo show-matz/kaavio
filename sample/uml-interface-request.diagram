@@ -2,7 +2,6 @@
 
 (load-stencil :grid)
 (load-stencil :uml-interface)
-(load-stencil :uml-interface-request)
 
 (diagram:create-svg (:width 400 :height 200 :desc "test of uml-interface-request" :encoding :utf8)
 	(grid)
