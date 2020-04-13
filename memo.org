@@ -1,0 +1,49 @@
+* todo
+** lib [21/27]
+
+  - [X] grid.stencil
+  - [X] textbox.stencil
+  - [X] uml-actor.stencil
+  - [X] uml-aggregation.stencil
+  - [X] uml-association.stencil
+  - [ ] uml-class.stencil
+  - [X] uml-component.stencil
+  - [X] uml-composition.stencil
+  - [ ] uml-connector.stencil   □--->[A]    [A]--->□
+  - [ ] uml-decision-merge-node.stencil
+  - [X] uml-dependency.stencil
+  - [ ] uml-fork-join-node.stencil
+  - [X] uml-generalization.stencil
+  - [X] uml-implementation.stencil
+  - [X] uml-interface-request.stencil
+  - [X] uml-interface.stencil
+  - [X] uml-keyword-info.stencil
+  - [X] uml-multiplicity-info.stencil
+  - [X] uml-node.stencil
+  - [X] uml-note.stencil
+  - [X] uml-package.stencil
+  - [ ] uml-receive-event.stencil
+  - [X] uml-role-info.stencil
+  - [ ] uml-send-signal.stencil
+  - [X] uml-state.stencil
+  - [X] uml-time-event.stencil
+  - [X] uml-usecase.stencil
+
+** misc [1/2]
+
+  - [X] (declare (special canvas)) は削除できそう ⇒ できなかった
+  - [ ] uml-component のアイコンとテキストが重なる問題
+  - [ ] フォントの幅や高さを取る必要がある局面では、class 指定だと何もできない‥‥‥
+		⇒ stylesheet / style-info にアクセスする仕組みを用意すれば解決できるかも！
+
+** memo
+*** uml-connector のアイデア
+
+　できれば、2 つのコネクタアイコンを単一の entity で表現したい。そのために、以下
+が必要かと。
+
+	* shape-connect-point 総称関数に :from / :dest の区別をさせるパラメータを追
+      加する。
+
+　上記は、ほとんどの場合無視されるが、uml-connector の場合だけは活用する。
+

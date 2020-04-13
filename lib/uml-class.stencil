@@ -1,0 +1,719 @@
+(in-package :cl-diagram-user)
+
+(load-stencil :uml-keyword-info)
+
+(defparameter *uml-class-font*        nil)
+(defparameter *uml-class-fill*        nil)
+(defparameter *uml-class-stroke*      nil)
+(defparameter *uml-class-min-width*    80)
+(defparameter *uml-class-min-height*   40)
+(defparameter *uml-class-name-margin*  10)
+(defparameter *uml-class-margin*        5)
+
+(defun uml-stereotype-keyword-p (param)
+  (when (keywordp param)
+	(setf param (string-downcase (symbol-name param))))
+  (and (stringp param)
+	   (let* ((len (length param)))
+		 (and (< 4 len)
+			  (char= (char param 0) #\<)
+			  (char= (char param 1) #\<)
+			  (char= (char param (- len 2)) #\>)
+			  (char= (char param (- len 1)) #\>)
+			  (subseq param 2 (- len 2))))))
+		 
+;;-------------------------------------------------------------------------------
+;;
+;; interface for attribute & operation.
+;;
+;;-------------------------------------------------------------------------------
+(defclass uml-class-stuff () ())
+
+;;(defgeneric check (stuff canvas dict))	;;use cl-diagram:check
+(defgeneric uml-class-stuff-class-scope-p (stuff))
+(defgeneric uml-class-stuff-abstract-p (stuff))
+(defgeneric uml-class-stuff-to-string (stuff))
+
+(defmethod check ((stuff uml-class-stuff) canvas dict)
+  (declare (ignore canvas dict))
+  nil)
+(defmethod uml-class-stuff-class-scope-p ((stuff uml-class-stuff)) nil)
+(defmethod uml-class-stuff-abstract-p    ((stuff uml-class-stuff)) nil)
+(defmethod uml-class-stuff-to-string     ((stuff uml-class-stuff))  "")
+
+
+;;-------------------------------------------------------------------------------
+;;
+;; class uml-class-omission
+;;
+;;-------------------------------------------------------------------------------
+(defclass uml-class-omission (uml-class-stuff) ())
+
+(defmethod uml-class-stuff-to-string ((obj uml-class-omission))
+  "...")
+
+
+;;-------------------------------------------------------------------------------
+;;
+;; class uml-class-keyword
+;;
+;;-------------------------------------------------------------------------------
+(defclass uml-class-keyword (uml-class-stuff)
+  ((info	; type  uml-keyword-info
+			:initform nil
+			:initarg  :info)))
+
+(defmethod check ((stuff uml-class-keyword) canvas dict)
+  (check-object (info (slot-value stuff 'info)) canvas dict :nullable nil :class uml-keyword-info)
+  (check (slot-value stuff 'info) canvas dict)
+  nil)
+
+(defmethod uml-class-stuff-to-string ((stuff uml-class-keyword))
+  (uml-keyword-to-string (slot-value stuff 'info)))
+
+
+;;-------------------------------------------------------------------------------
+;;
+;; class uml-class-attribute
+;;
+;;-------------------------------------------------------------------------------
+(defclass uml-class-attribute (uml-class-stuff)
+  ((visibility		; type  keyword - :public, :private, :protected, :derived, :package
+					:initform nil
+					:initarg  :visibility)
+   (name			; type  (or keyword string)
+					:initform nil
+					:initarg  :name)
+   (type			; type  (or nil keyword string)
+					:initform nil
+					:initarg  :type)
+   (multiplicity	; type  (or nil number)
+					:initform nil
+					:initarg  :multiplicity)
+   (default-value	; type  (or number keyword string)
+					:initform nil
+					:initarg  :default-value)
+   (property		; type  (or keyword string)
+					:initform nil
+					:initarg  :property)
+   (scope			; type  keyword - :instance, :class
+					:initform nil
+					:initarg  :scope)))
+
+(defmethod check ((attr uml-class-attribute) canvas dict)
+  (declare (ignore canvas dict))
+  (check-member (visibility    (slot-value attr 'visibility))    :nullable nil :types keyword)
+  (check-member (name          (slot-value attr 'name))          :nullable nil :types (or string keyword))
+  (check-member (type          (slot-value attr 'type))          :nullable   t :types (or string keyword))
+  (check-member (multiplicity  (slot-value attr 'multiplicity))  :nullable   t :types number)
+  (check-member (default-value (slot-value attr 'default-value)) :nullable   t :types (or number keyword string))
+  (check-member (property      (slot-value attr 'property))      :nullable   t :types (or string keyword))
+  (check-member (scope         (slot-value attr 'scope))         :nullable nil :types keyword)
+  (check-keywords (visibility  (slot-value attr 'visibility)) :public :private :protected :package :derived)
+  (check-keywords (scope       (slot-value attr 'scope)) :instance :class)
+  nil)
+
+(defmethod uml-class-stuff-class-scope-p ((attr uml-class-attribute))
+  (eq (slot-value attr 'scope) :class))
+
+;; use implementaion of base class.
+;;(defmethod uml-class-stuff-abstract-p ((attr uml-class-attribute))
+;;  nil)
+
+(defmethod uml-class-stuff-to-string ((attr uml-class-attribute))
+  (with-slots (visibility name type
+				multiplicity default-value property) attr
+	(format-string (ecase visibility
+					 ((:public)    "+")
+					 ((:private)   "-")
+					 ((:protected) "#")
+					 ((:package)   "~")
+					 ((:derived)   "/"))
+				   name
+				   (when type          (format-string ":"   type))
+				   (when multiplicity  (format-string "["   multiplicity "]"))
+				   (when default-value (format-string " = " default-value))
+				   (when property      (format-string "{"   property "}")))))
+
+(defun make-uml-class-attribute (&rest params)
+  (labels ((name-p (param)
+			 (or (keywordp param) (stringp param))))
+	(if (= 1 (length params))
+		(let* ((param (car params))
+			   (tmp   (uml-stereotype-keyword-p param)))
+		  (if tmp
+			  (make-instance 'uml-class-keyword
+							 :info (make-instance 'uml-keyword-info :name tmp))	;;ToDo : class/font はどうする？
+			  (cond
+				((eq param :etc) (make-instance 'uml-class-omission))
+				((name-p param)  (make-uml-class-attribute :name param))
+				((typep param 'uml-class-attribute) param)
+				((listp param)   (apply #'make-uml-class-attribute param))
+				(t               (make-uml-class-attribute :name param)))))
+		(destructuring-bind (visibility name &key type
+								  multiplicity default property scope) params
+		  (make-instance 'uml-class-attribute
+						 :visibility	(or visibility :private)
+						 :name			name
+						 :type			type
+						 :multiplicity	multiplicity
+						 :default-value	default
+						 :property		property
+						 :scope			(or scope :instance))))))
+
+
+;;-------------------------------------------------------------------------------
+;;
+;; class uml-class-operation-param
+;;
+;;-------------------------------------------------------------------------------
+(defclass uml-class-operation-param (uml-class-stuff)
+  ((io				; type  (or nil keyword) - :in :out :inout
+					:initform nil
+					:initarg  :io)
+   (name			; type  (or keyword string)
+					:initform nil
+					:initarg  :name)
+   (type			; type  (or nil keyword string)
+					:initform nil
+					:initarg  :type)
+   (default-value	; type  (or number keyword string)
+					:initform nil
+					:initarg  :default-value)))
+
+
+(defmethod check ((prm uml-class-operation-param) canvas dict)
+  (declare (ignore canvas dict))
+  (check-member (io            (slot-value prm 'io))            :nullable   t :types keyword)
+  (check-member (name          (slot-value prm 'name))          :nullable nil :types (or string keyword))
+  (check-member (type          (slot-value prm 'type))          :nullable   t :types (or string keyword))
+  (check-member (default-value (slot-value prm 'default-value)) :nullable   t :types (or number keyword string))
+  (check-keywords (io     (slot-value prm 'io)) :in :out :inout)
+  nil)
+
+;; use implementaion of base class.
+;;(defmethod uml-class-stuff-class-scope-p ((prm uml-class-operation-param))
+;;  nil)
+
+;; use implementaion of base class.
+;;(defmethod uml-class-stuff-abstract-p ((prm uml-class-operation-param))
+;;  nil)
+
+(defmethod uml-class-stuff-to-string ((prm uml-class-operation-param))
+  (with-slots (io name type default-value) prm
+	(format-string (when io (format-string io " "))
+				   name
+				   (when type (format-string ":" type))
+				   (when default-value (format-string "=" default-value)))))
+
+(defun make-uml-class-operation-param (&rest params)
+  (labels ((name-p (param)
+			 (or (keywordp param) (stringp param))))
+	(if (= 1 (length params))
+		(let ((param (car params)))
+		  (cond
+			((eq param :etc) (make-instance 'uml-class-omission))
+			((name-p param)  (make-uml-class-operation-param :name param))
+			((typep param 'uml-class-operation-param) param)
+			((listp param)   (apply #'make-uml-class-operation-param param))
+			(t               (make-uml-class-operation-param :name param))))
+		(destructuring-bind (&key io name type default) params
+		  (make-instance 'uml-class-operation-param
+						 :io			io
+						 :name			name
+						 :type			type
+						 :default-value	default)))))
+
+;;-------------------------------------------------------------------------------
+;;
+;; class uml-class-operation
+;;
+;;-------------------------------------------------------------------------------
+(defclass uml-class-operation (uml-class-stuff)
+  ((visibility		; type  keyword - :public, :private, :protected, :package
+					:initform nil
+					:initarg  :visibility)
+   (name			; type  (or keyword string)
+					:initform nil
+					:initarg  :name)
+   (abstract		; type boolean
+					:initform nil
+					:initarg  :abstract)
+   (parameters		; type list of uml-class-operation-param
+					:initform nil
+					:initarg  :parameters)
+   (type			; type  (or nil keyword string)
+					:initform nil
+					:initarg  :type)
+   (property		; type  (or nil keyword string)
+					:initform nil
+					:initarg  :property)
+   (scope			; type  keyword - :instance, :class
+					:initform nil
+					:initarg  :scope)))
+
+(defmethod initialize-instance :after ((op uml-class-operation) &rest initargs)
+  (declare (ignore initargs))
+  (with-slots (parameters) op
+	(setf parameters (mapcar (lambda (entry)
+							   (make-uml-class-operation-param entry)) parameters)))
+  op)
+
+(defmethod check ((op uml-class-operation) canvas dict)
+  (check-member (visibility (slot-value op 'visibility)) :nullable nil :types keyword)
+  (check-member (name       (slot-value op 'name))       :nullable nil :types (or string keyword))
+  (check-member (parameters (slot-value op 'parameters)) :nullable   t :types list)
+  (check-member (type       (slot-value op 'type))       :nullable   t :types (or string keyword))
+  (check-member (property   (slot-value op 'property))   :nullable   t :types (or string keyword))
+  (check-member (scope      (slot-value op 'scope))      :nullable nil :types keyword)
+  (check-keywords (visibility (slot-value op 'visibility)) :public :private :protected :package)
+  (check-keywords (scope      (slot-value op 'scope)) :instance :class)
+  (with-slots (name parameters abstract scope) op
+	(dolist (param parameters)
+	  (check-object (param param) canvas dict :class uml-class-stuff))
+	(dolist (param parameters)
+	  (check param canvas dict))
+	(when (and abstract (eq scope :class))
+	  (throw-caution "Method ~A is abstract and class-scope." name)))
+  nil)
+
+(defmethod uml-class-stuff-class-scope-p ((op uml-class-operation))
+  (eq (slot-value op 'scope) :class))
+
+(defmethod uml-class-stuff-abstract-p ((op uml-class-operation))
+  (slot-value op 'abstract))
+
+(defmethod uml-class-stuff-to-string ((op uml-class-operation))
+  (labels ((uml-format-class-operation-params (parameters)
+			 (when parameters
+			   (with-output-to-string (stream)
+				 (do ((params parameters (cdr params))
+					  (idx 0 (incf idx)))
+					 ((null params))
+				   (unless (zerop idx)
+					 (princ "," stream))
+				   (princ (uml-class-stuff-to-string (car params)) stream))))))
+	(with-slots (visibility name parameters type property) op
+	  (format-string (ecase visibility
+					   ((:public)    "+")
+					   ((:private)   "-")
+					   ((:protected) "#")
+					   ((:package)   "~"))
+					 name
+					 "(" (uml-format-class-operation-params parameters) ")"
+					 (when type		(format-string ":" type))
+					 (when property	(format-string "{" property "}"))))))
+
+
+(defun make-uml-class-operation (&rest params)
+  (labels ((name-p (param)
+			 (or (keywordp param) (stringp param))))
+	(if (= 1 (length params))
+		(let* ((param (car params))
+			   (tmp   (uml-stereotype-keyword-p param)))
+		  (if tmp
+			  (make-instance 'uml-class-keyword
+							 :info (make-instance 'uml-keyword-info :name tmp))	;;ToDo : class/font はどうする？
+			  (cond
+				((eq param :etc) (make-instance 'uml-class-omission))
+				((name-p param)  (make-uml-class-operation :public param))
+				((typep param 'uml-class-operation) param)
+				((listp param)   (apply #'make-uml-class-operation param))
+				(t               (make-uml-class-attribute :public param)))))
+		(destructuring-bind (visibility name &key abstract 
+								parameters type property scope) params
+		  (make-instance 'uml-class-operation
+						 :visibility	visibility
+						 :name			name
+						 :abstract		abstract
+						 :parameters	parameters
+						 :type			type
+						 :property		property
+						 :scope			(or scope :instance))))))
+
+;;-------------------------------------------------------------------------------
+;;
+;; class uml-class
+;;
+;;-------------------------------------------------------------------------------
+(defclass uml-class (diagram:group)
+  ((name				; type  (or keyword string)
+						:initform nil
+						:initarg  :name)
+   (keyword				; type  uml-keyword-info
+						:initform nil
+						:initarg  :keyword)
+   (abstract			; type boolean
+						:initform nil
+						:initarg  :abstract)
+   (active				; type boolean
+						:initform nil
+						:initarg  :active)
+   (attributes			; type list
+						:initform nil
+						:initarg  :attributes)
+   (operations			; type list
+						:initform nil
+						:initarg  :operations)
+   (template			; type ??? ToDo : here!
+						:initform nil
+						:initarg  :template)
+   (responsibilities	; type ??? ToDo : here!
+						:initform nil
+						:initarg  :responsibilities)
+   (font				;:type     (or nil font-info)
+						:initform nil
+						:initarg  :font)
+   (fill				;:type     (or nil fill-info)
+						:initform nil
+						:initarg  :fill)
+   (stroke				;:type     (or nil stroke-info)
+						:initform nil
+						:initarg  :stroke)
+   (heights-cache		;:type     list
+						:initform nil)
+   (margin-cache		;:type     number? 	ToDo : here!
+						:initform nil)
+   (name-margin-cache	;:type     number? 	ToDo : here!
+						:initform nil)))
+
+
+;;(defmethod initialize-instance :after ((cls uml-class) &rest initargs)
+;;  (declare (ignore initargs))
+;;  (with-slots (keyword font fill1 fill2 stroke #|tab-width tab-height tab-margin|#) cls
+;;	(setf keyword (and keyword (make-uml-keyword keyword)))
+;;	(setf font    (make-font   (or font   *uml-class-font*   *default-font*  )))
+;;	(setf fill1   (make-fill   (or fill1  *uml-class-fill1*  *default-fill*  )))
+;;	(setf fill2   (make-fill   (or fill2  *uml-class-fill2*  *default-fill*  )))
+;;	(setf stroke  (make-stroke (or stroke *uml-class-stroke* *default-stroke*))))
+;;  cls)
+;;
+;;(defmethod check ((cls uml-class) canvas dict)
+;;  ;; this method must call super class' one.
+;;  (call-next-method)
+;;  (check-member (name    (uml-class-name    cls)) :nullable nil :types (or string keyword))
+;;  (check-object (keyword (uml-class-keyword cls)) canvas dict :nullable t :class uml-keyword-info)
+;;  (check-member (depty   (uml-class-depth   cls)) :nullable nil :types number)
+;;  (check-object (font    (uml-class-font    cls)) canvas dict :nullable t :class   font-info)
+;;  (check-object (fill1   (uml-class-fill1   cls)) canvas dict :nullable t :class   fill-info)
+;;  (check-object (fill2   (uml-class-fill2   cls)) canvas dict :nullable t :class   fill-info)
+;;  (check-object (stroke  (uml-class-stroke  cls)) canvas dict :nullable t :class stroke-info))
+;;
+;;;;MEMO : use impelementation of group...
+;;;;(defmethod group-get-canvas ((cls uml-class)) ...)
+;;
+;;(defmethod shape-get-subcanvas ((cls uml-class))
+;;  (with-slots (depth) cls
+;;	(make-canvas (+ (shape-top   cls) (/ depth 2))
+;;				 (shape-bottom   cls)
+;;				 (shape-left     cls)
+;;				 (- (shape-right cls) (/ depth 2)))))
+;;
+;;;; override of group::draw-group
+;;(defmethod draw-group ((cls uml-class) writer)
+;;  (let ((canvas (group-get-canvas cls)))
+;;	(with-slots (name keyword depth contents-p
+;;							  font fill1 fill2 stroke) cls
+;;	  (let* ((width     (canvas-width  canvas))
+;;			 (height    (canvas-height canvas))
+;;			 (x         (/ width  2))
+;;			 (y         (/ height 2))
+;;			 (half      (/ depth  2))
+;;			 (font-size (diagram::font-size font))
+;;			 (spacing   (diagram::font-line-spacing font)))
+;;		(macrolet ((register-entity (entity)
+;;					 `(check-and-draw-local-entity ,entity canvas writer)))
+;;		  (let ((*default-font*   font)
+;;				(*default-stroke* stroke))
+;;			(polygon `(0 ,half ,depth ,(- half) ,(+ width half) ,(- half)
+;;						 ,(+ width half) ,(- height depth) ,(- width half) ,height) :fill fill2)
+;;			(line `(,(+ width half) ,(- half) ,(- width half) ,half))
+;;			(rectangle (- x (/ half 2)) (+ y (/ half 2)) (- width half) (- height half) :fill fill1))
+;;		  (let ((name (if (stringp name)
+;;						  name
+;;						  (string-downcase (symbol-name name))))
+;;				(x    (/ (- width half) 2))
+;;				(y    (if contents-p
+;;						  (+ half spacing font-size)
+;;						  (/ (+ height half) 2))))
+;;			(if (null keyword)
+;;				(incf y (/ font-size 2))
+;;				(progn
+;;				  (uml-keyword-draw keyword
+;;									(+ (canvas-left canvas) x)
+;;									(+ (canvas-top  canvas) y) :center writer)
+;;				  (incf y font-size)))
+;;			(text x y name :align :center))))))
+;;  nil)
+;;
+;;;;for debug...
+;;;(defmethod post-draw ((cls uml-class) writer)
+;;;  (call-next-method)
+;;;  (draw-canvas-frame (group-get-canvas #|shape-get-subcanvas|# cls) writer))
+;; 
+;;
+;;
+;;(defmacro uml-class (x y name &key keyword width height
+;;									 font fill1 fill2 stroke link layer id contents)
+;;  (let* ((contents-p (not (null contents)))
+;;		 (code `(register-entity (make-instance 'uml-class
+;;											   :center-x ,x :center-y ,y
+;;											   :width  (or ,width  *uml-class-width*)
+;;											   :height (or ,height *uml-class-height*)
+;;											   :name ,name :keyword ,keyword
+;;											   :depth *uml-class-depth*
+;;											   :contents-p ,contents-p
+;;											   :font ,font :stroke ,stroke
+;;											   :fill1 ,fill1 :fill2 ,fill2
+;;											   :link ,link :layer ,layer :id ,id))))
+;;	(if (null contents)
+;;		code
+;;		(let ((g-obj (gensym "OBJ")))
+;;		  `(let* ((,g-obj ,code)
+;;				  (canvas (shape-get-subcanvas ,g-obj)))
+;;			 (declare (special canvas))
+;;			 ,@contents)))))
+;;
+;;(defmacro uml-class (x y name &key width fill stroke link layer id)
+;;  `(register-entity (make-instance 'uml-class
+;;								   :center-x ,x :center-y ,y
+;;								   :name ,name
+;;								   :width  (or ,width *uml-class-width*)
+;;								   :height (* *uml-class-height-ratio*
+;;											  (or ,width *uml-class-width*))
+;;								   :fill ,fill :stroke ,stroke
+;;								   :link ,link :layer ,layer :id ,id)))
+;;
+
+
+;;  :constructors
+;;  ((uml-class (name x y attributes operations
+;;			   kwd abstract active template 
+;;			   responsibilities link layer id) ((super x y 0 0 link layer id)
+;;												(m-name             name)
+;;												(m-attributes       attributes)
+;;												(m-operations       operations)
+;;												(m-keyword          kwd)
+;;												(m-abstract         abstract)
+;;												(m-active           active)
+;;												(m-template         template)
+;;												(m-responsibilities responsibilities)
+;;												(m-font             *uml-class-font*)
+;;												(m-fill             *uml-class-fill*)
+;;												(m-stroke           *uml-class-stroke*))
+;;		(fix-keyword-info         m-keyword)
+;;		(fix-member-when-nil      m-font   *default-font*)
+;;		(fix-member-when-nil      m-fill   *default-fill*)
+;;		(fix-member-when-nil      m-stroke (stroke :dasharray nil :base *default-stroke*))
+;;		(setf m-cache-margin      *uml-class-margin*)
+;;		(setf m-cache-name-margin *uml-class-name-margin*)))
+;;
+;;  :methods
+;;  (;; override of entity::check
+;;   (:public check (canvas dict)
+;;
+;;		;; this method must call super class' one.
+;;		(class:invoke class:super :check canvas dict)
+;;		;; type check of data members
+;;		(check-member m-name                   :nullable nil :types (or string keyword))
+;;		(check-member m-attributes             :nullable   t :types list)
+;;		(check-member m-operations             :nullable   t :types list)
+;;		(check-object m-keyword    canvas dict :nullable   t :class keyword-info)
+;;		(check-member m-template               :nullable   t :types string)
+;;		(check-member m-responsibilities       :nullable   t :types string)
+;;		(check-object m-font       canvas dict :nullable nil :class font-info)
+;;		(check-member m-fill                   :nullable   t :types (or string keyword))
+;;		(check-object m-stroke     canvas dict :nullable nil :class stroke-info)
+;;		(fix-uml-class-attributes m-attributes)
+;;		(dolist (attrib m-attributes)
+;;		  (check-object attrib canvas dict :nullable nil :class uml-class-attribute-interface)
+;;		  (class:invoke attrib :check canvas dict))
+;;
+;;		(fix-uml-class-operations m-operations)
+;;		(dolist (operation m-operations)
+;;		  (check-object operation canvas dict :nullable nil :class uml-class-operation-interface)
+;;		  (class:invoke operation :check canvas dict))
+;;
+;;		(when m-responsibilities
+;;		  (setf m-responsibilities (strings:split m-responsibilities #\newline)))
+;;
+;;		(multiple-value-bind (width height) (caluculate-shapesize)
+;;		  (setf (class:member class:super :width)   width)
+;;		  (setf (class:member class:super :height) height)))
+;;
+;;   ;; override of group::draw-group
+;;   (:public draw-group (writer)
+;;		;(class:invoke class:super :draw-debug-frame writer)    ; MEMO : for debug...
+;;		(let* ((canvas (class:invoke class:super :get-subcanvas))
+;;			   (h-list m-cache-height-list)
+;;			   (font-abstract    nil)    ; create on demand.
+;;			   (font-classscope  nil)    ; create on demand.
+;;			   (*default-font*   m-font)
+;;			   (*default-fill*   m-fill)
+;;			   (*default-stroke* m-stroke)
+;;			   (font-size        (class:member m-font :size))
+;;			   (line-spacing     (class:member m-font :line-spacing))
+;;			   (width-spice      (class:member m-font :width-spice)))
+;;		  (declare (special canvas))
+;;		  (macrolet ((register-entity (entity)
+;;					   (let ((g-entity (gensym "ENTITY")))
+;;						 `(let ((,g-entity ,entity))
+;;							(setf (class:member ,g-entity :canvas) canvas)
+;;							(class:invoke ,g-entity :check canvas nil)    ;MEMO : dictionary is nil.
+;;							(class:invoke ,g-entity :draw  writer)))))
+;;			(class:bind-members (top left right) canvas
+;;				(let* ((width  (- right left))
+;;					   (x      (/ width 2))
+;;					   (y      0))
+;;				  ;;draw name box
+;;				  (let ((name   (if (stringp m-name)
+;;									m-name (string-downcase (symbol-name m-name))))
+;;						(height (car h-list)))
+;;					(rectangle x (/ height 2) width height)
+;;					(when m-active
+;;					  (let ((x1 m-cache-name-margin)
+;;							(x2 (- width m-cache-name-margin)))
+;;						(line `(,x1 0 ,x1 ,height))
+;;						(line `(,x2 0 ,x2 ,height))))
+;;					(when m-keyword
+;;					  (class:invoke m-keyword :draw
+;;									(+ left x)
+;;									(- (+ top (/ height 2))
+;;									   (/ font-size 2)
+;;									   #|line-spacing|#) :center writer))    ; ToDo : temporary...
+;;					(text x (+ (/ height 2) (/ font-size 2)) name
+;;						  :align :center :font (when m-abstract
+;;												 (font :style :italic :base m-font)))
+;;					(incf y height)
+;;					(setf h-list (cdr h-list)))
+;;
+;;				  ;;draw template box
+;;				  (when m-template
+;;					(rectangle width 0
+;;							   (+ (* 2 m-cache-margin)
+;;								  (* (length m-template) font-size width-spice))
+;;							   (+ font-size (* 2 m-cache-margin))
+;;							   :stroke (stroke :dasharray '(3 3) :base m-stroke))
+;;					(text width (/ font-size 2) m-template :align :center))
+;;
+;;				  ;;draw attribute section
+;;				  (when m-attributes
+;;					(let ((height (car h-list)))
+;;					  (rectangle x (+ y (/ height 2)) width height)
+;;					  (incf y m-cache-margin)
+;;					  (dolist (attrib m-attributes)
+;;						(incf y font-size)
+;;						(text m-cache-margin y (class:invoke attrib :to-string)
+;;							  :align :left
+;;							  :font (when (class:invoke attrib :is-class-scope)
+;;									  (unless font-classscope
+;;										(setf font-classscope (font :decoration :underline :base m-font)))
+;;									  font-classscope))
+;;						(incf y line-spacing))
+;;					  (decf y line-spacing)
+;;					  (incf y m-cache-margin)
+;;					  (setf h-list (cdr h-list))))
+;;
+;;				  ;;draw operation section
+;;				  (when m-operations
+;;					(let ((height (car h-list)))
+;;					  (rectangle x (+ y (/ height 2)) width height)
+;;					  (incf y m-cache-margin)
+;;					  (dolist (operation m-operations)
+;;						(incf y font-size)
+;;						(text m-cache-margin y (class:invoke operation :to-string)
+;;							  :align :left
+;;							  :font (if (class:invoke operation :is-abstract)
+;;										(progn
+;;										  (unless font-abstract
+;;											(setf font-abstract (font :style :italic :base m-font)))
+;;										  font-abstract)
+;;										(when (class:invoke operation :is-class-scope)
+;;										  (unless font-classscope
+;;											(setf font-classscope (font :decoration :underline :base m-font)))
+;;										  font-classscope)))
+;;						(incf y line-spacing))
+;;					  (decf y line-spacing)
+;;					  (incf y m-cache-margin)
+;;					  (setf h-list (cdr h-list))))
+;;
+;;				  ;;draw responsibilities section
+;;				  (when m-responsibilities
+;;					(let ((height (car h-list)))
+;;					  (rectangle x (+ y (/ height 2)) width height)
+;;					  (incf y m-cache-margin)
+;;					  (dolist (txt m-responsibilities)
+;;						(incf y font-size)
+;;						(text m-cache-margin y txt :align :left)
+;;						(incf y line-spacing))
+;;					  (decf y line-spacing)
+;;					  (incf y m-cache-margin)
+;;					  (setf h-list (cdr h-list))))))))
+;;		nil)
+;;
+;;
+;;   (:private caluculate-shapesize ()
+;;		(let ((size    (class:member m-font :size))
+;;			  (spice   (class:member m-font :width-spice))
+;;			  (spacing (class:member m-font :line-spacing))
+;;			  (height  0)
+;;			  (width   *uml-class-min-width*))
+;;		  (setf m-cache-height-list nil)
+;;		  (labels ((get-width (line margin)
+;;					 (+ (* 2 margin)
+;;						(* (length line) size spice)))    ;ToDo : what can I do ?
+;;				   (get-object-width (obj margin)
+;;					 (get-width (class:invoke obj :to-string) margin))
+;;				   (operate-box (lst fnc v-margin h-margin)
+;;					 (when lst
+;;					   (setf width (apply #'max width
+;;										  (mapcar (lambda (x)
+;;													(funcall fnc x h-margin)) lst)))
+;;					   (let ((h (+ (* 2 v-margin)
+;;								   (* (length lst) size)
+;;								   (* (1- (length lst)) spacing))))
+;;						 (incf height h)
+;;						 (push h m-cache-height-list)))))
+;;			  ;; name
+;;			  (let ((lst (list (if (keywordp m-name)
+;;								   (symbol-name m-name) m-name))))
+;;				(when m-keyword
+;;				  (setf lst (cons (class:invoke m-keyword :to-string) lst)))
+;;				(operate-box lst #'get-width m-cache-margin
+;;							 (+ m-cache-margin m-cache-name-margin))
+;;				(setf height (max height *uml-class-min-height*))
+;;				(setf (car m-cache-height-list) height))
+;;			  ;; members
+;;			  (operate-box m-attributes #'get-object-width m-cache-margin m-cache-margin)
+;;			  ;; operations
+;;			  (operate-box m-operations #'get-object-width m-cache-margin m-cache-margin)
+;;			  ;; resposibilities
+;;			  (operate-box m-responsibilities #'get-width  m-cache-margin m-cache-margin))
+;;		  (setf m-cache-height-list (nreverse m-cache-height-list))
+;;		  (values width height)))))
+;;
+;;
+;;(defmacro uml-class (name x y &key attributes operations keyword abstract
+;;								   active template responsibilities link layer id)
+;;  (labels ((fix-list (name lst acc)
+;;			 (if (null lst)
+;;				 (cons 'cl:list (nreverse acc))
+;;				 (let ((itm (car lst)))
+;;				   (when (and (listp itm) (keywordp (car itm)))
+;;					 (setf itm (cons name itm)))
+;;				   (fix-list name (cdr lst) (push itm acc))))))
+;;	`(register-entity (ol:new uml-class ,name ,x ,y
+;;							  ,(fix-list 'uml-class-attribute attributes nil)
+;;							  ,(fix-list 'uml-class-operation operations nil)
+;;							  ,keyword ,abstract ,active
+;;							  ,template ,responsibilities ,link ,layer ,id))))
+;;
+;;;(uml-class :foo-class
+;;;		   :attributes
+;;;		   (:m-data1
+;;;			(:m-data2 :int))
+;;;		   :operations
+;;;		   (:m-method1
+;;;			(:private :method-6 :abstract t :type :int
+;;;								:params (:param1 (:param2 :string)))))
+;;

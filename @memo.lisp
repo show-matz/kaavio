@@ -26,4 +26,3 @@
 		  (when (funcall pred file outfile)
 			(format t "~A~%" file)
 			(cl-apps-main `(,file :utf8 ,outfile :utf8))))))))
-
