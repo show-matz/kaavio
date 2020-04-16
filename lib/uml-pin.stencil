@@ -1,0 +1,118 @@
+(in-package :cl-diagram-user)
+
+(defparameter *uml-pin-font*   nil)
+(defparameter *uml-pin-fill*   nil)
+(defparameter *uml-pin-stroke* nil)
+(defparameter *uml-pin-size*    10)
+
+;;-------------------------------------------------------------------------------
+;;
+;; class uml-pin
+;;
+;;-------------------------------------------------------------------------------
+(defclass uml-pin (diagram:group)
+  ((name	:initform nil :initarg :name)		; (or keyword string)
+   (target	:initform nil :initarg :target)		; (keyword . keyword)
+   (size	:initform nil :initarg :size)		; number
+   (font	:initform nil :initarg :font)		; (or nil font-info)
+   (fill	:initform nil :initarg :fill)		; (or nil fill-info)
+   (stroke	:initform nil :initarg :stroke)))	; (or nil stroke-info)
+
+
+(defmethod initialize-instance :after ((pin uml-pin) &rest initargs)
+  (declare (ignore initargs))
+  (with-slots (font fill stroke) pin
+	(setf font    (make-font   (or font   *uml-pin-font*   *default-font*)))
+	(setf fill    (make-fill   (or fill   *uml-pin-fill*   *default-fill*)))
+	(setf stroke  (make-stroke (or stroke *uml-pin-stroke* *default-stroke*))))
+  pin)
+
+(defmethod check ((pin uml-pin) canvas dict)
+  (check-member (name   (slot-value pin   'name))             :nullable nil :types (or string keyword))
+  (check-member (size   (slot-value pin   'size))             :nullable nil :types              number)
+  (check-object (font   (slot-value pin   'font)) canvas dict :nullable   t :class           font-info)
+  (check-object (fill   (slot-value pin   'fill)) canvas dict :nullable   t :class           fill-info)
+  (check-object (stroke (slot-value pin 'stroke)) canvas dict :nullable   t :class         stroke-info)
+  (let ((cns (slot-value pin 'target)))
+	(check-member (target    (car cns)) :nullable nil :types keyword)
+	(check-member (posistion (cdr cns)) :nullable nil :types keyword)
+	(labels ((entity-and-position ()
+			   (let ((ent (diagram::dict-get-entity dict (car cns)))
+					 (pos (string-upcase (symbol-name (cdr cns)))))
+				 (unless (typep ent 'diagram:shape)
+				   (throw-exception "uml-pin : target is not shape object."))
+				 (when (< 2 (length pos))
+				   (throw-exception "uml-pin : invalid position."))
+				 (values ent
+						 (ecase (char pos 0)
+						   ((#\T) :top)
+						   ((#\B) :bottom)
+						   ((#\L) :left)
+						   ((#\R) :right))
+						 (if (= 1 (length pos))
+							 0
+							 (ecase (char pos 1)
+							   ((#\1) -1)
+							   ((#\2)  0)
+							   ((#\3)  1)))))))
+	  (multiple-value-bind (ent pos1 pos2) (entity-and-position)
+		(let ((half (/ (slot-value pin 'size) 2))
+			  (pt (shape-connect-point ent pos1 pos2)))
+		  (with-point (x y) pt
+			(ecase pos1
+			  ((:top)    (decf y half))
+			  ((:bottom) (incf y half))
+			  ((:left)   (decf x half))
+			  ((:right)  (incf x half)))
+			(setf (slot-value pin 'diagram::x)      x)
+			(setf (slot-value pin 'diagram::y)      y)
+			(setf (slot-value pin 'diagram::width)  (* half 2))
+			(setf (slot-value pin 'diagram::height) (* half 2)))))))
+  ;; this method must call super class' one.
+  (call-next-method))
+
+;; override of group::draw-group
+(defmethod draw-group ((pin uml-pin) writer)
+  (let ((canvas (group-get-canvas pin)))
+	(with-slots (name font fill stroke) pin
+	  ;;ToDo : width / height は同じになるはず
+	  (let* ((width     (canvas-width  canvas))
+			 (height    (canvas-height canvas))
+			 (x         (/ width  2))
+			 (y         (/ height 2))
+			 (font-size (diagram::font-size font)))
+		(labels ((locate-text ()
+				   (let ((pos (string-upcase
+							   (symbol-name
+								(cdr (slot-value pin 'target))))))
+					 (ecase (char pos 0)
+					   ;;ToDo : jgTupQx1fNV : 不完全 ＆ pin-size を考慮する必要がある
+					   ((#\T) (values (- x width) y :right))
+					   ((#\B) (values (+ x width) (+ y (/ font-size 2)) :left))
+					   ((#\L) (values x (+ y font-size) :right))
+					   ((#\R) (values x (- y (/ font-size 2)) :left))))))
+		  (macrolet ((register-entity (entity)
+					   `(check-and-draw-local-entity ,entity canvas writer)))
+			(let ((*default-font*   font)
+				  (*default-fill*   fill)
+				  (*default-stroke* stroke))
+			  (rectangle x y width height)
+			  (multiple-value-bind (x y align) (locate-text)
+				(text x y name :align align))))))))
+  nil)
+
+;;for debug...
+;(defmethod post-draw ((pin uml-pin) writer)
+;  (call-next-method)
+;  (draw-canvas-frame (group-get-canvas #|shape-get-subcanvas|# pin) writer))
+ 
+
+(defmacro uml-pin (name target position &key size font fill stroke layer id)
+  `(register-entity (make-instance 'uml-pin
+								   :name ,name
+								   :target (cons ,target ,position)
+								   :size (or ,size *uml-pin-size*)
+								   :font ,font
+								   :fill ,fill :stroke ,stroke
+								   :link nil :layer ,layer :id ,id)))
+
