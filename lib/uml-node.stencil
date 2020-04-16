@@ -61,7 +61,7 @@
   (call-next-method)
   (check-member (name    (uml-node-name    node)) :nullable nil :types (or string keyword))
   (check-object (keyword (uml-node-keyword node)) canvas dict :nullable t :class uml-keyword-info)
-  (check-member (depty   (uml-node-depth   node)) :nullable nil :types number)
+  (check-member (depth   (uml-node-depth   node)) :nullable nil :types number)
   (check-object (font    (uml-node-font    node)) canvas dict :nullable t :class   font-info)
   (check-object (fill1   (uml-node-fill1   node)) canvas dict :nullable t :class   fill-info)
   (check-object (fill2   (uml-node-fill2   node)) canvas dict :nullable t :class   fill-info)
