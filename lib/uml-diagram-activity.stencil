@@ -4,7 +4,6 @@
 (load-stencil :uml-decision-merge)
 (load-stencil :uml-flow-begin)
 ;;(load-stencil :uml-flow-end)		;ToDo : implement...
-(load-stencil :uml-flow-spec)		;ToDo : integrate to uml-flow.stencil
 (load-stencil :uml-flow)
 (load-stencil :uml-fork-join)
 (load-stencil :uml-note)
