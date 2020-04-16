@@ -1,0 +1,16 @@
+(load-stencil :grid)
+(load-stencil :uml-time-event)
+
+(create-svg (:width 400 :height 150 :desc "test of uml-time-event" :encoding :utf8)
+	(grid) ; :size 10 :bgcolor "#F0F0FF" :stroke '(:color :blue :width 0.2))
+	(uml-time-event               60  75 :foo :id :tsig1)
+	(uml-time-event (+ $1[center] 60) $1[middle] '(:text :bar :position :above) :id :tsig2)
+	(uml-time-event (+ $1[center] 60) $1[middle] :big-size :width 40
+											:id :big :link "http://www.google.co.jp/")
+	(uml-time-event (+ $1[center] 60) $1[middle] :colorful :fill   '(:color :red :opacity 0.2)
+											:stroke '(:color :brown :width 3))
+	(uml-time-event (+ $1[center] 80) $1[middle] :fat :width 40 :height 30)
+	(let ((*default-stroke* (make-stroke :color :gray :dasharray '(3 3))))
+	  (connector :tsig1 :tsig2 :style :R1L1)
+	  (connector :tsig1 :tsig2 :style :R2L2 :end2 :arrow)
+	  (connector :tsig1 :tsig2 :style :R3L3)))

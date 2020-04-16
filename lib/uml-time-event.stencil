@@ -1,50 +1,50 @@
 
 (in-package :cl-diagram-user)
 
-(defparameter *uml-time-signal-fill*         :white)
-(defparameter *uml-time-signal-stroke*       :black)
-(defparameter *uml-time-signal-width*            20)
-(defparameter *uml-time-signal-height-ratio*    1.5)
+(defparameter *uml-time-event-fill*         :white)
+(defparameter *uml-time-event-stroke*       :black)
+(defparameter *uml-time-event-width*            20)
+(defparameter *uml-time-event-height-ratio*    1.5)
 
 
 ;-------------------------------------------------------------------------------
 ;
-; class uml-time-signal
+; class uml-time-event
 ;
 ;-------------------------------------------------------------------------------
-(defclass uml-time-signal (diagram:group)
+(defclass uml-time-event (diagram:group)
   ((name		;:type     (or nil label-info)
 				:initform nil
 				:initarg  :name
-				:accessor uml-time-signal-name)
+				:accessor uml-time-event-name)
    (fill		;:type     (or nil fill-info)
 				:initform nil
 				:initarg  :fill
-				:accessor uml-time-signal-fill)
+				:accessor uml-time-event-fill)
    (stroke		;:type     (or nil stroke-info)
 				:initform nil
 				:initarg  :stroke
-				:accessor uml-time-signal-stroke)))
+				:accessor uml-time-event-stroke)))
 
-(defmethod initialize-instance :after ((tm-sig uml-time-signal) &rest initargs)
+(defmethod initialize-instance :after ((event uml-time-event) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (name fill stroke) tm-sig
+  (with-slots (name fill stroke) event
 	(setf name   (and name (make-label name)))
-	(setf fill   (make-fill   (or fill   *uml-time-signal-fill*   *default-fill*  )))
-	(setf stroke (make-stroke (or stroke *uml-time-signal-stroke* *default-stroke*))))
-  tm-sig)
+	(setf fill   (make-fill   (or fill   *uml-time-event-fill*   *default-fill*  )))
+	(setf stroke (make-stroke (or stroke *uml-time-event-stroke* *default-stroke*))))
+  event)
 
-(defmethod check ((tm-sig uml-time-signal) canvas dict)
+(defmethod check ((event uml-time-event) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (check-object (name   (uml-time-signal-name   tm-sig)) canvas dict :nullable t :class  label-info)
-  (check-object (fill   (uml-time-signal-fill   tm-sig)) canvas dict :nullable t :class   fill-info)
-  (check-object (stroke (uml-time-signal-stroke tm-sig)) canvas dict :nullable t :class stroke-info))
+  (check-object (name   (uml-time-event-name   event)) canvas dict :nullable t :class  label-info)
+  (check-object (fill   (uml-time-event-fill   event)) canvas dict :nullable t :class   fill-info)
+  (check-object (stroke (uml-time-event-stroke event)) canvas dict :nullable t :class stroke-info))
 
 ;; override of group::draw-group
-(defmethod draw-group ((tm-sig uml-time-signal) writer)
-  (with-slots (name fill stroke) tm-sig
-	(let* ((canvas (group-get-canvas tm-sig))
+(defmethod draw-group ((event uml-time-event) writer)
+  (with-slots (name fill stroke) event
+	(let* ((canvas (group-get-canvas event))
 		   (width  (canvas-width  canvas))
 		   (height (canvas-height canvas))
 		   ;(center (/ width 2))
@@ -55,17 +55,17 @@
 		;; draw note body
 		(polygon `(0 0 ,width 0 0 ,height ,width ,height 0 0))))
 	(when name
-	  (draw-label name tm-sig writer)))
+	  (draw-label name event writer)))
   nil)
 
 ;for debug...
-;(defmethod post-draw ((obj uml-time-signal) writer)
+;(defmethod post-draw ((obj uml-time-event) writer)
 ;  (call-next-method)
 ;  (draw-canvas-frame (shape-get-subcanvas obj) writer))
  
 
-(defmethod shape-connect-point ((tm-sig uml-time-signal) type arg)
-  (let* ((canvas (group-get-canvas tm-sig)))
+(defmethod shape-connect-point ((event uml-time-event) type arg)
+  (let* ((canvas (group-get-canvas event)))
 	(with-canvas (top bottom left right) canvas
 		(let* ((qw  (/ (canvas-width  canvas) 4))
 			   (qh  (/ (canvas-height canvas) 4))
@@ -80,14 +80,14 @@
 
 
 
-(defmacro uml-time-signal (x y name &key width height fill stroke link layer id)
-  `(register-entity (make-instance 'uml-time-signal
+(defmacro uml-time-event (x y name &key width height fill stroke link layer id)
+  `(register-entity (make-instance 'uml-time-event
 								   :center-x ,x :center-y ,y
 								   :name ,name
-								   :width  (or ,width *uml-time-signal-width*)
+								   :width  (or ,width *uml-time-event-width*)
 								   :height (or ,height
-											   (* *uml-time-signal-height-ratio*
-												  (or ,width *uml-time-signal-width*)))
+											   (* *uml-time-event-height-ratio*
+												  (or ,width *uml-time-event-width*)))
 								   :fill ,fill :stroke ,stroke
 								   :link ,link :layer ,layer :id ,id)))
 
