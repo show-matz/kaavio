@@ -1,0 +1,40 @@
+(in-package :cl-diagram-user)
+
+(defparameter *uml-flow-end-radius*       15)
+(defparameter *uml-flow-end-fill*     :white)
+(defparameter *uml-flow-end-stroke*   :black)
+
+;-------------------------------------------------------------------------------
+;
+; class uml-flow-end
+;
+;-------------------------------------------------------------------------------
+(defclass uml-flow-end (diagram:circle) ())
+
+;; no implementation
+;;(defmethod check ((obj uml-flow-end) canvas dict) ...)
+
+(defmethod post-draw ((obj uml-flow-end) writer)
+  (let* ((canvas (shape-get-subcanvas obj))
+		 (radius (/ (canvas-width canvas) 2))
+		 (c      radius)
+		 (len    (/ radius (sqrt 2))))
+	(macrolet ((register-entity (entity)
+				 `(check-and-draw-local-entity ,entity canvas writer)))
+	  (let ((*default-stroke* (diagram::circle-stroke obj)))
+		(line `(,(- c len) ,(- c len) ,(+ c len) ,(+ c len)))
+		(line `(,(+ c len) ,(- c len) ,(- c len) ,(+ c len))))))
+  (call-next-method)
+;  (draw-canvas-frame (shape-get-subcanvas obj) writer)	;for debug...
+  nil)
+
+
+(defmacro uml-flow-end (x y &key radius fill stroke layer id)
+  `(register-entity (make-instance 'uml-flow-end
+								   :center-x ,x :center-y ,y
+								   :radius (or ,radius *uml-flow-end-radius*)
+								   :class nil
+								   :fill   (or ,fill   *uml-flow-end-fill*   *default-fill*)
+								   :stroke (or ,stroke *uml-flow-end-stroke* *default-stroke*)
+								   :link nil :layer ,layer :id ,id)))
+

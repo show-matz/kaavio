@@ -22,7 +22,7 @@
   (check-member (ratio (uml-activity-end-ratio obj)) :nullable nil :types number))
 
 (defmethod post-draw ((obj uml-activity-end) writer)
-  (with-slots (ratio stroke) obj
+  (with-slots (ratio) obj
 	(let* ((canvas (shape-get-subcanvas obj))
 		   (center (/ (canvas-width canvas) 2))
 		   (radius (* center ratio))
