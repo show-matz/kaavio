@@ -42,11 +42,12 @@
 
 (defmethod check ((fill fill-info) canvas dict)
   (declare (ignore canvas dict))
-  (check-member (color   (fill-color   fill)) :nullable t :types (or string keyword))
-  (check-member (opacity (fill-opacity fill)) :nullable t :types number)
-  (check-member (rule    (fill-rule    fill)) :nullable t :types keyword)
-  (when (fill-rule fill)
-	(check-keywords (rule (fill-rule fill)) :nonzero :evenodd))
+  (with-slots (color opacity rule) fill
+	(check-member color   :nullable t :types (or string keyword))
+	(check-member opacity :nullable t :types number)
+	(check-member rule    :nullable t :types keyword)
+	(when rule
+	  (check-keywords rule :nonzero :evenodd)))
   t)
 
 (defmethod to-property-strings ((fill fill-info))

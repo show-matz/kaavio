@@ -46,14 +46,16 @@
 (defmethod check ((ass uml-association) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (check-member (arrows (uml-association-arrows ass)) :nullable t :types integer)
-  (when (uml-association-arrows ass)
-	(check-numbers (arrows (uml-association-arrows ass)) 0 1 2))
-  (check-object (keyword (uml-association-keyword ass)) canvas dict :nullable t :class uml-keyword-info)
-  (check-object (role1 (uml-association-role1 ass)) canvas dict :nullable t :class uml-role-info)
-  (check-object (role2 (uml-association-role2 ass)) canvas dict :nullable t :class uml-role-info)
-  (check-object (mult1 (uml-association-mult1 ass)) canvas dict :nullable t :class uml-multiplicity-info)
-  (check-object (mult2 (uml-association-mult2 ass)) canvas dict :nullable t :class uml-multiplicity-info))
+  (with-slots (arrows keyword role1 role2 mult1 mult2) ass
+	(check-member arrows  :nullable t :types integer)
+	(check-object keyword canvas dict :nullable t :class uml-keyword-info)
+	(check-object role1   canvas dict :nullable t :class uml-role-info)
+	(check-object role2   canvas dict :nullable t :class uml-role-info)
+	(check-object mult1   canvas dict :nullable t :class uml-multiplicity-info)
+	(check-object mult2   canvas dict :nullable t :class uml-multiplicity-info)
+	(when arrows
+	  (check-numbers arrows 0 1 2)))
+  nil)
 
 (defmethod entity-composition-p ((ass uml-association))
   (with-slots (keyword role1 role2 mult1 mult2) ass

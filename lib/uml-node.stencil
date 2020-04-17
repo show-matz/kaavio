@@ -59,13 +59,15 @@
 (defmethod check ((node uml-node) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (check-member (name    (uml-node-name    node)) :nullable nil :types (or string keyword))
-  (check-object (keyword (uml-node-keyword node)) canvas dict :nullable t :class uml-keyword-info)
-  (check-member (depth   (uml-node-depth   node)) :nullable nil :types number)
-  (check-object (font    (uml-node-font    node)) canvas dict :nullable t :class   font-info)
-  (check-object (fill1   (uml-node-fill1   node)) canvas dict :nullable t :class   fill-info)
-  (check-object (fill2   (uml-node-fill2   node)) canvas dict :nullable t :class   fill-info)
-  (check-object (stroke  (uml-node-stroke  node)) canvas dict :nullable t :class stroke-info))
+  (with-slots (name keyword depth font fill1 fill2 stroke) node
+	(check-member name    :nullable nil :types (or string keyword))
+	(check-object keyword canvas dict :nullable t :class uml-keyword-info)
+	(check-member depth   :nullable nil :types number)
+	(check-object font    canvas dict :nullable t :class   font-info)
+	(check-object fill1   canvas dict :nullable t :class   fill-info)
+	(check-object fill2   canvas dict :nullable t :class   fill-info)
+	(check-object stroke  canvas dict :nullable t :class stroke-info))
+  nil)
 
 ;;MEMO : use impelementation of group...
 ;;(defmethod group-get-canvas ((node uml-node)) ...)

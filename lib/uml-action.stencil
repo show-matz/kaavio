@@ -38,10 +38,12 @@
 (defmethod check ((action uml-action) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (check-member (text     (uml-action-text     action)) :nullable nil :types (or keyword string))
-  (check-object (keyword  (uml-action-keyword  action)) canvas dict :nullable t :class uml-keyword-info)
-  (check-member (corner-r (uml-action-corner-r action)) :nullable nil :types number)
-  (check-member (margin2  (uml-action-margin2  action)) :nullable nil :types number))
+  (with-slots (text keyword corner-r margin2) action
+	(check-member text     :nullable nil :types (or keyword string))
+	(check-object keyword  canvas dict :nullable t :class uml-keyword-info)
+	(check-member corner-r :nullable nil :types number)
+	(check-member margin2  :nullable nil :types number))
+  nil)
 
 ;; override of group::draw-group
 (defmethod draw-group ((action uml-action) writer)

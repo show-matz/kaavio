@@ -43,14 +43,15 @@
   sig-rcpt)
 
 (defmethod check ((sig-rcpt uml-signal-receipt) canvas dict)
+  (with-slots (text keyword direction depth margin2) sig-rcpt
+	(check-member   text      :nullable nil :types (or keyword string))
+	(check-object   keyword   canvas dict :nullable t :class uml-keyword-info)
+	(check-member   direction :nullable nil :types keyword)
+	(check-member   depth     :nullable nil :types number)
+	(check-member   margin2   :nullable nil :types number)
+	(check-keywords direction :left :right))
   ;; this method must call super class' one.
-  (call-next-method)
-  (check-member   (text      (slot-value sig-rcpt      'text)) :nullable nil :types (or keyword string))
-  (check-object   (keyword   (slot-value sig-rcpt   'keyword)) canvas dict :nullable t :class uml-keyword-info)
-  (check-member   (direction (slot-value sig-rcpt 'direction)) :nullable nil :types keyword)
-  (check-member   (depth     (slot-value sig-rcpt     'depth)) :nullable nil :types number)
-  (check-member   (margin2   (slot-value sig-rcpt   'margin2)) :nullable nil :types number)
-  (check-keywords (direction (slot-value sig-rcpt 'direction)) :left :right))
+  (call-next-method))
 
 ;; override of group::draw-group
 (defmethod draw-group ((sig-rcpt uml-signal-receipt) writer)

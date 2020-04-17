@@ -70,8 +70,9 @@
 
 (defmethod check ((ent entity) canvas dict)
   (declare (ignore canvas dict))
-  (check-member (id    (entity-id    ent)) :nullable t :types keyword)
-  (check-member (layer (entity-layer ent)) :nullable t :types keyword))
+  (with-slots (id layer) ent
+	(check-member id    :nullable t :types keyword)
+	(check-member layer :nullable t :types keyword)))
   
 
 

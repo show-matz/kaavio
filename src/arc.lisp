@@ -56,11 +56,12 @@
 
 (defmethod check ((ent arc) canvas dict)
   (declare (ignorable dict))
-  (check-member (center-x (arc-center  ent)) :nullable nil :types number)
-  (check-member (center-y (arc-middle  ent)) :nullable nil :types number)
-  (check-member (radius   (arc-radius  ent)) :nullable nil :types number)
-  (check-member (degree1  (arc-degree1 ent)) :nullable nil :types number)
-  (check-member (degree2  (arc-degree2 ent)) :nullable nil :types number)
+  (with-slots (center-x center-y radius degree1 degree2) ent
+	(check-member center-x :nullable nil :types number)
+	(check-member center-y :nullable nil :types number)
+	(check-member radius   :nullable nil :types number)
+	(check-member degree1  :nullable nil :types number)
+	(check-member degree2  :nullable nil :types number))
   (setf (path-data ent) (arc-calculate-data ent))
   ;; this method must call super class' one.
   (call-next-method))

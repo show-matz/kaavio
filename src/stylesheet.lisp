@@ -43,10 +43,11 @@
   obj)
 
 (defmethod check ((obj style-info) canvas dict)
-  (check-member (target (style-target obj)) :nullable nil :types (or keyword string))
-  (check-object (fill   (style-fill   obj)) canvas dict :nullable t :class   fill-info)
-  (check-object (stroke (style-stroke obj)) canvas dict :nullable t :class stroke-info)
-  (check-object (font   (style-font   obj)) canvas dict :nullable t :class   font-info)
+  (with-slots (target fill stroke font) obj
+	(check-member target :nullable nil :types (or keyword string))
+	(check-object fill   canvas dict :nullable t :class   fill-info)
+	(check-object stroke canvas dict :nullable t :class stroke-info)
+	(check-object font   canvas dict :nullable t :class   font-info))
   nil)
 
 (defmethod to-style-strings ((obj style-info))

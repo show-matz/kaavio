@@ -81,15 +81,16 @@
 (defmethod check ((pkg uml-package) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (with-slots (tab-width tab-height) pkg
-	(multiple-value-setq (tab-width tab-height) (uml-package-calc-tabsize pkg)))
-  (check-member (name    (uml-package-name    pkg)) :nullable nil :types (or string keyword))
-  (check-object (keyword (uml-package-keyword pkg)) canvas dict :nullable t :class uml-keyword-info)
-  (check-object (font    (uml-package-font    pkg)) canvas dict :nullable t :class   font-info)
-  (check-object (fill    (uml-package-fill    pkg)) canvas dict :nullable t :class   fill-info)
-  (check-object (stroke  (uml-package-stroke  pkg)) canvas dict :nullable t :class stroke-info)
-  (check-member (tab-width  (uml-package-tab-width  pkg)) :nullable nil :types number)
-  (check-member (tab-height (uml-package-tab-height pkg)) :nullable nil :types number))
+  (with-slots (name keyword font fill stroke tab-width tab-height) pkg
+	(multiple-value-setq (tab-width tab-height) (uml-package-calc-tabsize pkg))
+	(check-member name       :nullable nil :types (or string keyword))
+	(check-object keyword    canvas dict :nullable t :class uml-keyword-info)
+	(check-object font       canvas dict :nullable t :class   font-info)
+	(check-object fill       canvas dict :nullable t :class   fill-info)
+	(check-object stroke     canvas dict :nullable t :class stroke-info)
+	(check-member tab-width   :nullable nil :types number)
+	(check-member tab-height  :nullable nil :types number))
+  nil)
 
 (defmethod shape-connect-point ((pkg uml-package) type arg)
   ;;ToDo : 95KvWqh6oVU : タブ部分と交差する場合の考慮ができてない（まともにやると難しそう）

@@ -104,22 +104,22 @@
   state)
 
 (defmethod check ((state uml-state) canvas dict)
-  (check-object (keyword (uml-state-keyword state)) canvas dict :nullable   t :class uml-keyword-info)
-  (check-member (activities     (uml-state-activities  state))  :nullable   t :types list)
-  (check-object (font    (uml-state-font    state)) canvas dict :nullable   t :class   font-info)
-  (check-object (fill    (uml-state-fill    state)) canvas dict :nullable   t :class   fill-info)
-  (check-object (stroke  (uml-state-stroke  state)) canvas dict :nullable   t :class stroke-info)
-  (check-member (corner-r       (uml-state-corner-r    state))  :nullable nil :types number)
-  (check-member (margin         (uml-state-margin      state))  :nullable nil :types number)
-  (with-slots (activities
-			   (width  diagram::width)
-			   (height diagram::height)) state
+  (with-slots ((width  diagram::width)
+			   (height diagram::height)
+			   keyword activities font fill stroke corner-r margin) state
+	(check-object keyword    canvas dict :nullable   t :class uml-keyword-info)
+	(check-member activities             :nullable   t :types list)
+	(check-object font       canvas dict :nullable   t :class font-info)
+	(check-object fill       canvas dict :nullable   t :class fill-info)
+	(check-object stroke     canvas dict :nullable   t :class stroke-info)
+	(check-member corner-r               :nullable nil :types number)
+	(check-member margin                 :nullable nil :types number)
 	(unless (and width height)
 	  (multiple-value-bind (w h) (uml-state-calc-size state)
 		(setf width  (or width  (cl:max w *uml-state-width*)))
 		(setf height (or height (cl:max h *uml-state-height*)))))
-	(dolist (act activities)
-	  (check-object (activity act) canvas dict :class uml-transition-spec)))
+	(dolist (activity activities)
+	  (check-object activity canvas dict :class uml-transition-spec)))
   ;; this method must call super class' one.
   (call-next-method))
   

@@ -39,14 +39,15 @@
 (defmethod check ((obj uml-decision-merge) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (check-member (center-x     (slot-value obj     'center-x)) :nullable nil :types number)
-  (check-member (center-y     (slot-value obj     'center-y)) :nullable nil :types number)
-  (check-member (size         (slot-value obj         'size)) :nullable nil :types number)
-  (check-member (height-ratio (slot-value obj 'height-ratio)) :nullable nil :types number)
-  (check-object (fill   (slot-value obj   'fill)) canvas dict :nullable   t :class fill-info)
-  (check-object (stroke (slot-value obj 'stroke)) canvas dict :nullable   t :class stroke-info)
-  (incf (slot-value obj 'center-x) (canvas-left canvas))
-  (incf (slot-value obj 'center-y) (canvas-top  canvas))
+  (with-slots (center-x center-y size height-ratio fill stroke) obj
+	(check-member center-x     :nullable nil :types number)
+	(check-member center-y     :nullable nil :types number)
+	(check-member size         :nullable nil :types number)
+	(check-member height-ratio :nullable nil :types number)
+	(check-object fill         canvas dict :nullable   t :class fill-info)
+	(check-object stroke       canvas dict :nullable   t :class stroke-info)
+	(incf center-x (canvas-left canvas))
+	(incf center-y (canvas-top  canvas)))
   nil)
 
 (defmethod shape-center ((obj uml-decision-merge))

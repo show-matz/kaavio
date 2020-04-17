@@ -486,10 +486,10 @@
   ent)
 
 (defmethod check ((ent connector) canvas dict)
-  (check-member (from  (connector-from  ent)) :nullable nil :types keyword)
-  (check-member (to    (connector-to    ent)) :nullable nil :types keyword)
-  (check-member (style (connector-style ent)) :nullable nil :types keyword)
   (with-slots (from to style) ent
+	(check-member from  :nullable nil :types keyword)
+	(check-member to    :nullable nil :types keyword)
+	(check-member style :nullable nil :types keyword)
 	(setf style (check-and-fix-connector-style style))
 	(let ((from-entity (dict-get-entity dict from))
 		  (dest-entity (dict-get-entity dict   to)))

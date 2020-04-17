@@ -19,7 +19,9 @@
 (defmethod check ((obj uml-activity-end) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (check-member (ratio (uml-activity-end-ratio obj)) :nullable nil :types number))
+  (with-slots (ratio) obj
+	(check-member ratio :nullable nil :types number))
+  nil)
 
 (defmethod post-draw ((obj uml-activity-end) writer)
   (with-slots (ratio) obj

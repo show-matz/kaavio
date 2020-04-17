@@ -17,9 +17,10 @@
 			:accessor uml-state-end-ratio)))
 
 (defmethod check ((obj uml-state-end) canvas dict)
+  (with-slots (ratio) obj
+	(check-member ratio :nullable nil :types number))
   ;; this method must call super class' one.
-  (call-next-method)
-  (check-member (ratio (uml-state-end-ratio obj)) :nullable nil :types number))
+  (call-next-method))
 
 (defmethod post-draw ((obj uml-state-end) writer)
   (with-slots (ratio stroke) obj

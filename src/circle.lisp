@@ -81,11 +81,12 @@
 (defmethod check ((shp circle) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (check-member (center-x (shape-center  shp)) :nullable nil :types number)
-  (check-member (center-y (shape-middle  shp)) :nullable nil :types number)
-  (check-member (radius   (circle-radius shp)) :nullable nil :types number)
-  (check-object (fill     (circle-fill   shp)) canvas dict :nullable t :class   fill-info)
-  (check-object (stroke   (circle-stroke shp)) canvas dict :nullable t :class stroke-info)
+  (with-slots (center-x center-y radius fill stroke) shp
+	(check-member center-x :nullable nil :types number)
+	(check-member center-y :nullable nil :types number)
+	(check-member radius   :nullable nil :types number)
+	(check-object fill     canvas dict :nullable t :class   fill-info)
+	(check-object stroke   canvas dict :nullable t :class stroke-info))
   (incf (shape-center shp) (canvas-left canvas))
   (incf (shape-middle shp) (canvas-top  canvas))
   nil)

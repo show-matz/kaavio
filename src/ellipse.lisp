@@ -134,12 +134,14 @@
   (declare (ignorable dict))
   ;; this method must call super class' one.
   (call-next-method)
-  (check-member (center-x (shape-center     shp)) :nullable nil :types number)
-  (check-member (center-y (shape-middle     shp)) :nullable nil :types number)
-  (check-member (radius-x (ellipse-radius-x shp)) :nullable nil :types number)
-  (check-member (radius-y (ellipse-radius-y shp)) :nullable nil :types number)
-  (check-object (fill     (ellipse-fill     shp)) canvas dict :nullable t :class   fill-info)
-  (check-object (stroke   (ellipse-stroke   shp)) canvas dict :nullable t :class stroke-info)
+  (with-slots (center-x center-y
+					radius-x radius-y fill stroke) shp
+	(check-member center-x  :nullable nil :types number)
+	(check-member center-y  :nullable nil :types number)
+	(check-member radius-x  :nullable nil :types number)
+	(check-member radius-y  :nullable nil :types number)
+	(check-object fill      canvas dict :nullable t :class   fill-info)
+	(check-object stroke    canvas dict :nullable t :class stroke-info))
   (incf (shape-center shp) (canvas-left canvas))
   (incf (shape-middle shp) (canvas-top  canvas))
   nil)

@@ -24,10 +24,11 @@
 ;;  ...)
 
 (defmethod check ((spec uml-flow-spec) canvas dict)
-  (check-member (guard   (slot-value spec 'guard))) :nullable t :types (or keyword string))
-  (check-member (action  (slot-value spec 'action)) :nullable t :types (or keyword string))
-  (check-member (class   (slot-value spec  'class)) :nullable t :types (or keyword string))
-  (check-object (font    (slot-value spec   'font)) canvas dict :nullable t :class font-info)
+  (with-slots (guard action class font) spec
+	(check-member guard  :nullable t :types (or keyword string))
+	(check-member action :nullable t :types (or keyword string))
+	(check-member class  :nullable t :types (or keyword string))
+	(check-object font   canvas dict :nullable t :class font-info))
   nil)
 
 (defun uml-flow-spec-to-string (obj)
@@ -113,8 +114,11 @@
 (defmethod check ((flow uml-flow) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (check-object (keyword (uml-flow-keyword flow)) canvas dict :nullable t :class uml-keyword-info)
-  (check-object (info    (uml-flow-info    flow)) canvas dict :nullable t :class uml-flow-spec))
+  (with-slots (keyword info) flow 
+	(check-object keyword canvas dict :nullable t :class uml-keyword-info)
+	(check-object info    canvas dict :nullable t :class uml-flow-spec))
+  nil)
+	
 
 (defmethod entity-composition-p ((flow uml-flow))
   (with-slots (keyword info) flow

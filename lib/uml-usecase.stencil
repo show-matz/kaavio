@@ -31,11 +31,13 @@
   usecase)
 
 (defmethod check ((usecase uml-usecase) canvas dict)
+  (with-slots (text keyword margin2) usecase
+	(check-member text    :nullable nil :types (or keyword string))
+	(check-object keyword canvas dict :nullable t :class uml-keyword-info)
+	(check-member margin2 :nullable nil :types number))
   ;; this method must call super class' one.
-  (call-next-method)
-  (check-member (text    (uml-usecase-text    usecase)) :nullable nil :types (or keyword string))
-  (check-object (keyword (uml-usecase-keyword usecase)) canvas dict :nullable t :class uml-keyword-info)
-  (check-member (margin2 (uml-usecase-margin2 usecase)) :nullable nil :types number))
+  (call-next-method))
+
 
 ;; override of group::draw-group
 (defmethod draw-group ((usecase uml-usecase) writer)

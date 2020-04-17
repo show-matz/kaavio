@@ -171,17 +171,16 @@
 
 
 (defmethod check ((mark endmark-info) canvas dict)
-  (check-member (type   (endmark-type   mark)) :nullable nil :types (or keyword function))
-  (check-member (size   (endmark-size   mark)) :nullable nil :types (or keyword number))
-  (check-member (class  (endmark-class  mark)) :nullable   t :types (or keyword string))
-  (check-object (fill   (endmark-fill   mark)) canvas dict :nullable t :class   fill-info)
-  (check-object (stroke (endmark-stroke mark)) canvas dict :nullable t :class stroke-info)
-  (let ((type (endmark-type mark))
-		(size (endmark-size mark)))
+  (with-slots (type size class fill stroke) mark
+	(check-member type   :nullable nil :types (or keyword function))
+	(check-member size   :nullable nil :types (or keyword number))
+	(check-member class  :nullable   t :types (or keyword string))
+	(check-object fill   canvas dict :nullable t :class   fill-info)
+	(check-object stroke canvas dict :nullable t :class stroke-info)
 	(when (keywordp type)
-	  (check-keywords (type type) :arrow :triangle :diamond :circle :rect))
+	  (check-keywords type :arrow :triangle :diamond :circle :rect))
 	(when (keywordp size)
-	  (check-keywords (size size) :small :midium :large :xlarge)))
+	  (check-keywords size :small :midium :large :xlarge)))
   t)
 
 (defun draw-endmark (mark points class stroke writer)

@@ -51,12 +51,12 @@
 (defmethod check ((ent polygon) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (check-member (points (polygon-points ent)) :nullable nil :types list)
-  (check-member (class  (polygon-class  ent)) :nullable   t :types (or keyword string))
-  (check-object (fill   (polygon-fill   ent)) canvas dict :nullable nil :class fill-info)
-  (check-object (stroke (polygon-stroke ent)) canvas dict :nullable nil :class stroke-info)
-  (check-object (link   (polygon-link   ent)) canvas dict :nullable   t :class link-info)
-  (with-slots (points) ent
+  (with-slots (points class fill stroke link) ent
+	(check-member points :nullable nil :types list)
+	(check-member class  :nullable   t :types (or keyword string))
+	(check-object fill   canvas dict :nullable nil :class fill-info)
+	(check-object stroke canvas dict :nullable nil :class stroke-info)
+	(check-object link   canvas dict :nullable   t :class link-info)
 	(unless (evenp (length points))
 	  (throw-exception "Odd number elements in points of polygon."))
 	(unless (<= 6 (length points))

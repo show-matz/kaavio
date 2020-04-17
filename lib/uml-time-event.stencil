@@ -35,11 +35,12 @@
   event)
 
 (defmethod check ((event uml-time-event) canvas dict)
+  (with-slots (name fill stroke) event
+	(check-object name   canvas dict :nullable t :class  label-info)
+	(check-object fill   canvas dict :nullable t :class   fill-info)
+	(check-object stroke canvas dict :nullable t :class stroke-info))
   ;; this method must call super class' one.
-  (call-next-method)
-  (check-object (name   (uml-time-event-name   event)) canvas dict :nullable t :class  label-info)
-  (check-object (fill   (uml-time-event-fill   event)) canvas dict :nullable t :class   fill-info)
-  (check-object (stroke (uml-time-event-stroke event)) canvas dict :nullable t :class stroke-info))
+  (call-next-method))
 
 ;; override of group::draw-group
 (defmethod draw-group ((event uml-time-event) writer)

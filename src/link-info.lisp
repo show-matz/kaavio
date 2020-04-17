@@ -33,10 +33,11 @@
 
 (defmethod check ((ent link-info) canvas dict)
   (declare (ignore canvas dict))
-  (check-member   (url    (link-url    ent)) :nullable nil :types string)
-  (check-member   (target (link-target ent)) :nullable   t :types keyword)
-  (when (link-target ent)
-	(check-keywords (target (link-target ent)) :replace :self :parent :top :blank))
+  (with-slots (url target) ent
+	(check-member url    :nullable nil :types string)
+	(check-member target :nullable   t :types keyword)
+	(when target
+	  (check-keywords target :replace :self :parent :top :blank)))
   nil)
 
 #|

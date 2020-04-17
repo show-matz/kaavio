@@ -52,7 +52,9 @@
 (defmethod check ((obj uml-join) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (check-object (spec (uml-join-spec obj)) canvas dict :nullable t :class  label-info))
+  (with-slots (spec) obj
+	(check-object spec canvas dict :nullable t :class  label-info))
+  nil)
 
 (defmethod entity-composition-p ((obj uml-join))
   t)  

@@ -80,15 +80,16 @@
   txtshp)
 
 (defmethod check ((txtshp text-shape) canvas dict)
-  (check-member   (text    (text-shape-text   txtshp)) :nullable nil :types string)
-  (check-member   (align   (text-shape-align  txtshp)) :nullable nil :types keyword)
-  (check-member   (valign  (text-shape-valign txtshp)) :nullable nil :types keyword)
-  (check-keywords (align   (text-shape-align  txtshp)) :left :center :right)
-  (check-keywords (valign  (text-shape-valign txtshp)) :top  :center :bottom)
-  (check-object   (font    (text-shape-font   txtshp)) canvas dict :nullable t :class   font-info)
-  (check-object   (fill    (text-shape-fill   txtshp)) canvas dict :nullable t :class   fill-info)
-  (check-object   (stroke  (text-shape-stroke txtshp)) canvas dict :nullable t :class stroke-info)
-  (check-member   (margin  (text-shape-margin txtshp)) :nullable nil :types number)
+  (with-slots (text align valign font fill stroke margin) txtshp
+	(check-member   text    :nullable nil :types string)
+	(check-member   align   :nullable nil :types keyword)
+	(check-member   valign  :nullable nil :types keyword)
+	(check-object   font    canvas dict :nullable t :class   font-info)
+	(check-object   fill    canvas dict :nullable t :class   fill-info)
+	(check-object   stroke  canvas dict :nullable t :class stroke-info)
+	(check-member   margin  :nullable nil :types number)
+	(check-keywords align   :left :center :right)
+	(check-keywords valign  :top  :center :bottom))
   ;; width, height のいずれか（または両方）が省略されている場合は計算で決定
   ;;MEMO : 明示的に w/h を指定された場合、テキストがはみ出す可能性があるがそれは仕方ない
   (with-slots (width height) txtshp

@@ -19,7 +19,9 @@
 (defmethod check ((gen uml-generalization) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (check-object (keyword (uml-generalization-keyword gen)) canvas dict :nullable t :class uml-keyword-info))
+  (with-slots (keyword) gen
+	(check-object keyword canvas dict :nullable t :class uml-keyword-info))
+  nil)
 
 (defmethod entity-composition-p ((gen uml-generalization))
   (with-slots (keyword) gen

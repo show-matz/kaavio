@@ -58,13 +58,15 @@
 (defmethod check ((cmp uml-component) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (check-member (name    (uml-component-name    cmp)) :nullable nil :types (or string keyword))
-  (check-object (keyword (uml-component-keyword cmp)) canvas dict :nullable t :class uml-keyword-info)
-  (check-object (font    (uml-component-font    cmp)) canvas dict :nullable t :class   font-info)
-  (check-object (fill    (uml-component-fill    cmp)) canvas dict :nullable t :class   fill-info)
-  (check-object (stroke  (uml-component-stroke  cmp)) canvas dict :nullable t :class stroke-info)
-  (check-member (iconsize   (uml-component-iconsize   cmp)) :nullable t :types number)
-  (check-member (iconoffset (uml-component-iconoffset cmp)) :nullable t :types number))
+  (with-slots (name keyword font fill stroke iconsize iconoffset) cmp 
+	(check-member name     :nullable nil :types (or string keyword))
+	(check-object keyword  canvas dict :nullable t :class uml-keyword-info)
+	(check-object font     canvas dict :nullable t :class   font-info)
+	(check-object fill     canvas dict :nullable t :class   fill-info)
+	(check-object stroke   canvas dict :nullable t :class stroke-info)
+	(check-member iconsize   :nullable t :types number)
+	(check-member iconoffset :nullable t :types number))
+  nil)
 
 ;;MEMO : use impelementation of group...
 ;;(defmethod group-get-canvas ((cmp uml-component)) ...)

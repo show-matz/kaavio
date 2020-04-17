@@ -54,12 +54,14 @@
 (defmethod check ((actor uml-actor) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (check-object (name     (uml-actor-name     actor)) canvas dict :nullable t :class  label-info)
-  (check-object (fill     (uml-actor-fill     actor)) canvas dict :nullable t :class   fill-info)
-  (check-object (stroke   (uml-actor-stroke   actor)) canvas dict :nullable t :class stroke-info)
-  (check-member (head     (uml-actor-head     actor)) :nullable nil :types number)
-  (check-member (shoulder (uml-actor-shoulder actor)) :nullable nil :types number)
-  (check-member (thigh    (uml-actor-thigh    actor)) :nullable nil :types number))
+  (with-slots (name fill stroke head shoulder thigh) actor
+	(check-object name     canvas dict :nullable t :class  label-info)
+	(check-object fill     canvas dict :nullable t :class   fill-info)
+	(check-object stroke   canvas dict :nullable t :class stroke-info)
+	(check-member head     :nullable nil :types number)
+	(check-member shoulder :nullable nil :types number)
+	(check-member thigh    :nullable nil :types number))
+  nil)
 
 ;; override of group::draw-group
 (defmethod draw-group ((actor uml-actor) writer)

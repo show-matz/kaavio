@@ -29,9 +29,10 @@
 (defmethod check ((grd grid) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (check-member (size    (grid-size    grd)) :nullable nil :types number)
-  (check-member (bgcolor (grid-bgcolor grd)) :nullable nil :types (or string keyword))
-  (check-object (stroke  (grid-stroke  grd)) canvas dict :nullable  nil :class stroke-info)
+  (with-slots (size bgcolor stroke) grd
+	(check-member size    :nullable nil :types number)
+	(check-member bgcolor :nullable nil :types (or string keyword))
+	(check-object stroke  canvas dict :nullable  nil :class stroke-info))
   nil)
 
 (defmethod draw-entity ((grd grid) writer)

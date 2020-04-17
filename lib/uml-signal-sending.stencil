@@ -43,14 +43,15 @@
   sig-send)
 
 (defmethod check ((sig-send uml-signal-sending) canvas dict)
+  (with-slots (text keyword direction depth margin2) sig-send
+	(check-member   text       :nullable nil :types (or keyword string))
+	(check-object   keyword    canvas dict :nullable t :class uml-keyword-info)
+	(check-member   direction  :nullable nil :types keyword)
+	(check-member   depth      :nullable nil :types number)
+	(check-member   margin2    :nullable nil :types number)
+	(check-keywords direction  :left :right))
   ;; this method must call super class' one.
-  (call-next-method)
-  (check-member   (text      (slot-value sig-send      'text)) :nullable nil :types (or keyword string))
-  (check-object   (keyword   (slot-value sig-send   'keyword)) canvas dict :nullable t :class uml-keyword-info)
-  (check-member   (direction (slot-value sig-send 'direction)) :nullable nil :types keyword)
-  (check-member   (depth     (slot-value sig-send     'depth)) :nullable nil :types number)
-  (check-member   (margin2   (slot-value sig-send   'margin2)) :nullable nil :types number)
-  (check-keywords (direction (slot-value sig-send 'direction)) :left :right))
+  (call-next-method))
 
 ;; override of group::draw-group
 (defmethod draw-group ((sig-send uml-signal-sending) writer)

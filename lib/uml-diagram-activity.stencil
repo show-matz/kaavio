@@ -3,13 +3,12 @@
 ;(load-stencil :uml-connector)		;ToDo : implement...
 (load-stencil :uml-decision-merge)
 (load-stencil :uml-flow-begin)
-;;(load-stencil :uml-flow-end)		;ToDo : implement...
+(load-stencil :uml-flow-end)
 (load-stencil :uml-flow)
 (load-stencil :uml-fork-join)
 (load-stencil :uml-note)
 ;(load-stencil :uml-partition)		;ToDo : implement...
 (load-stencil :uml-pin)
-;(load-stencil :uml-process)		;ToDo : implement...
 (load-stencil :uml-signal-receipt)
 (load-stencil :uml-signal-sending)
 (load-stencil :uml-time-event)

@@ -17,7 +17,8 @@
   (declare (ignorable canvas dict))
   ;; this method must call super class' one.
   (call-next-method)
-  (check-member (svgdata (raw-svg-data ent)) :nullable nil :types string)
+  (with-slots (data) ent
+	(check-member data :nullable nil :types string))
   nil)
 
 (defmethod draw-entity ((ent raw-svg) writer)

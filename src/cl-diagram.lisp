@@ -368,50 +368,45 @@
 ;;		(type-assert kwd  symbol)
 ;;		`(unless ,member
 ;;		   (setf ,member (or (and ,base (class:member ,base ,kwd)) ,value))))))
-;;ToDo : このへん全面的に刷新する必要あり‥‥‥
+
 #|
 #|EXPORT|#				:check-member
 #|EXPORT|#				:check-object
 #|EXPORT|#				:check-keywords
 #|EXPORT|#				:check-numbers
  |#
-(defmacro check-member ((sym expr) &key (nullable nil) (types nil))
+(defmacro check-member (sym &key (nullable nil) (types nil))
   (type-assert sym symbol)
   (if (not nullable)
-	  `(let ((,sym ,expr))
-		 (if (null ,sym)
-			 (throw-exception ,(format nil "~A is nil." sym))
-			 (chk-type ,sym ,types)))
-	  `(let ((,sym ,expr))
-		 (when ,sym
-		   (chk-type ,sym ,types)))))
+	  `(if (null ,sym)
+		   (throw-exception ,(format nil "~A is nil." sym))
+		   (chk-type ,sym ,types))
+	  `(when ,sym
+		 (chk-type ,sym ,types))))
 
-(defmacro check-object ((sym expr) canvas dict &key (nullable nil) (class nil))
-  (type-assert sym    symbol)
+(defmacro check-object (sym canvas dict &key (nullable nil) (class nil))
+  (type-assert sym symbol)
   (type-assert canvas symbol)
   (type-assert dict   symbol)
   (type-assert class  symbol)
-  `(let ((,sym ,expr))
-	 (,@(if nullable `(when ,sym) `(progn))
-		(unless (typep ,sym ',class)
-		  (throw-exception ,(format nil "parameter ~A is not ~A object." sym class)))
-		(check ,sym ,canvas ,dict))))
+  `(,@(if nullable `(when ,sym) `(progn))
+	  (unless (typep ,sym ',class)
+		(throw-exception ,(format nil "parameter ~A is not ~A object." sym class)))
+	  (check ,sym ,canvas ,dict)))
 
-(defmacro check-keywords ((sym expr) &rest choices)
+(defmacro check-keywords (sym &rest choices)
   (type-assert sym symbol)
-  `(let ((,sym ,expr))
-	 (unless (or ,@(mapcar (lambda (v)
-							 (type-assert v keyword)
-							 `(eq ,sym ,v)) choices))
-	   (throw-exception ,(format nil "~A must be in ~A." sym choices)))))
+  `(unless (or ,@(mapcar (lambda (v)
+						   (type-assert v keyword)
+						   `(eq ,sym ,v)) choices))
+	 (throw-exception ,(format nil "~A must be in ~A." sym choices))))
 
-(defmacro check-numbers ((sym expr) &rest choices)
+(defmacro check-numbers (sym &rest choices)
   (type-assert sym symbol)
-  `(let ((,sym ,expr))
-	 (unless (or ,@(mapcar (lambda (v)
-							 (type-assert v number)
-							 `(= ,sym ,v)) choices))
-	   (throw-exception ,(format nil "~A must be in ~A." sym choices)))))
+  `(unless (or ,@(mapcar (lambda (v)
+						   (type-assert v number)
+						   `(= ,sym ,v)) choices))
+	 (throw-exception ,(format nil "~A must be in ~A." sym choices))))
 
 #|
 #|EXPORT|#				:write-when

@@ -23,9 +23,10 @@
 
 
 (defmethod check ((tran uml-transition) canvas dict)
+  (with-slots (info) tran
+	(check-object info canvas dict :nullable t :class uml-transition-spec))
   ;; this method must call super class' one.
-  (call-next-method)
-  (check-object (info (uml-transition-info tran)) canvas dict :nullable t :class uml-transition-spec))
+  (call-next-method))
 
 (defmethod entity-composition-p ((tran uml-transition))
   (with-slots (info) tran

@@ -36,11 +36,12 @@
 ;;  ...)
 
 (defmethod check ((mul uml-transition-spec) canvas dict)
-  (check-member (trigger   (uml-transition-spec-trigger   mul)) :nullable t :types (or keyword string))
-  (check-member (guard     (uml-transition-spec-guard     mul)) :nullable t :types (or keyword string))
-  (check-member (action    (uml-transition-spec-action    mul)) :nullable t :types (or keyword string))
-  (check-member (class     (uml-transition-spec-class     mul)) :nullable t :types (or keyword string))
-  (check-object (font      (uml-transition-spec-font      mul)) canvas dict :nullable t :class font-info)
+  (with-slots (trigger guard action class font) mul
+	(check-member trigger :nullable t :types (or keyword string))
+	(check-member guard   :nullable t :types (or keyword string))
+	(check-member action  :nullable t :types (or keyword string))
+	(check-member class   :nullable t :types (or keyword string))
+	(check-object font    canvas dict :nullable t :class font-info))
   nil)
 
 (defun uml-transition-spec-to-string (obj)

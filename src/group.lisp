@@ -50,10 +50,11 @@
 (defmethod check ((grp group) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (check-member (x      (group-x  grp)) :nullable nil :types number)
-  (check-member (y      (group-y  grp)) :nullable nil :types number)
-  (check-member (width  (group-x  grp)) :nullable nil :types number)
-  (check-member (height (group-y  grp)) :nullable nil :types number)
+  (with-slots (x y width height) grp
+	(check-member x      :nullable nil :types number)
+	(check-member y      :nullable nil :types number)
+	(check-member width  :nullable nil :types number)
+	(check-member height :nullable nil :types number))
   (incf (group-x grp) (canvas-left canvas))
   (incf (group-y grp) (canvas-top  canvas))
   nil)

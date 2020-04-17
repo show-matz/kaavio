@@ -145,8 +145,9 @@
 (defmethod check ((shp shape) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (check-member (class (shape-class shp)) :nullable t :types (or keyword string))
-  (check-object (link  (shape-link  shp)) canvas dict :nullable t :class link-info)
+  (with-slots (class link) shp
+	(check-member class :nullable t :types (or keyword string))
+	(check-object link  canvas dict :nullable t :class link-info))
   nil)
   
 

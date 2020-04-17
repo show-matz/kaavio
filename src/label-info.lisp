@@ -47,11 +47,12 @@
 
 
 (defmethod check ((ent label-info) canvas dict)
-  (check-member (text     (label-text     ent)) :nullable nil :types (or keyword string))
-  (check-member (position (label-position ent)) :nullable nil :types keyword)
-  (check-member (offset   (label-offset   ent)) :nullable nil :types number)
-  (check-object (font     (label-font     ent)) canvas dict :nullable nil :class font-info)
-  (check-keywords (position (label-position ent)) :above :below :left :right)
+  (with-slots (text position offset font) ent
+	(check-member text     :nullable nil :types (or keyword string))
+	(check-member position :nullable nil :types keyword)
+	(check-member offset   :nullable nil :types number)
+	(check-object font     canvas dict :nullable nil :class font-info)
+	(check-keywords position :above :below :left :right))
   t)
 
   

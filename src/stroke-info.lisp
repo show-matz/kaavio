@@ -61,18 +61,20 @@
 
 (defmethod check ((ent stroke-info) canvas dict)
   (declare (ignore canvas dict))
-  (check-member (color      (stroke-color      ent)) :nullable t :types (or string keyword))
-  (check-member (width      (stroke-width      ent)) :nullable t :types number)
-  (check-member (opacity    (stroke-opacity    ent)) :nullable t :types number)
-  (check-member (linecap    (stroke-linecap    ent)) :nullable t :types keyword)
-  (check-member (linejoin   (stroke-linejoin   ent)) :nullable t :types keyword)
-  (check-member (miterlimit (stroke-miterlimit ent)) :nullable t :types number)
-  (check-member (dasharray  (stroke-dasharray  ent)) :nullable t :types list)
-  (check-member (dashoffset (stroke-dashoffset ent)) :nullable t :types number)
-  (when (stroke-linecap ent)
-	(check-keywords (rule (stroke-linecap  ent)) :butt :round :square))
-  (when (stroke-linejoin ent)
-	(check-keywords (rule (stroke-linejoin ent)) :miter :round :bevel))
+  (with-slots (color width opacity linecap linejoin
+					 miterlimit dasharray dashoffset) ent
+	(check-member color      :nullable t :types (or string keyword))
+	(check-member width      :nullable t :types number)
+	(check-member opacity    :nullable t :types number)
+	(check-member linecap    :nullable t :types keyword)
+	(check-member linejoin   :nullable t :types keyword)
+	(check-member miterlimit :nullable t :types number)
+	(check-member dasharray  :nullable t :types list)
+	(check-member dashoffset :nullable t :types number)
+	(when linecap
+	  (check-keywords linecap :butt :round :square))
+	(when linejoin
+	  (check-keywords linejoin :miter :round :bevel)))
   t)
 
 (defmethod to-property-strings ((stroke stroke-info))

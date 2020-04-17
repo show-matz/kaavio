@@ -33,11 +33,12 @@
 ;;  ...)
 
 (defmethod check ((rol uml-role-info) canvas dict)
-  (check-member (name     (uml-role-name     rol)) :nullable nil :types (or keyword string))
-  (check-member (class    (uml-role-class    rol)) :nullable   t :types (or keyword string))
-  (check-object (font     (uml-role-font     rol)) canvas dict :nullable t :class font-info)
-  (check-member (degree   (uml-role-degree   rol))  :nullable nil :types integer)
-  (check-member (distance (uml-role-distance rol))  :nullable nil :types integer)
+  (with-slots (name class font degree distance) rol
+	(check-member name     :nullable nil :types (or keyword string))
+	(check-member class    :nullable   t :types (or keyword string))
+	(check-object font     canvas dict :nullable t :class font-info)
+	(check-member degree   :nullable nil :types integer)
+	(check-member distance :nullable nil :types integer))
   nil)
 
 (defun uml-role-to-string (rol)

@@ -216,20 +216,20 @@
 (defmethod check ((ent path) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (check-member (points (path-data   ent)) :nullable nil :types list)
-  (check-member (class  (path-class  ent)) :nullable   t :types (or keyword string))
-  (check-object (fill   (path-fill   ent)) canvas dict :nullable nil :class fill-info)
-  (check-object (stroke (path-stroke ent)) canvas dict :nullable nil :class stroke-info)
-  (let ((lst (onlisp/flatten (path-data ent))))
-	(dolist (elm lst)
-	  (chk-type elm (or keyword number))
-	  (when (keywordp elm)
-		(check-keywords (element-of-d elm)
-						:absolute :relative :move-to :close-path
-						:line-to :h-line-to :v-line-to :arc-to
-						:t-curve-to :q-curve-to :s-curve-to :c-curve-to)))
-	(setf (path-data ent)
-		  (check-and-fix-d-data lst nil :absolute canvas)))
+  (with-slots (data class fill stroke) ent
+	(check-member data    :nullable nil :types list)
+	(check-member class   :nullable   t :types (or keyword string))
+	(check-object fill    canvas dict :nullable nil :class fill-info)
+	(check-object stroke  canvas dict :nullable nil :class stroke-info)
+	(let ((lst (onlisp/flatten data)))
+	  (dolist (elm lst)
+		(chk-type elm (or keyword number))
+		(when (keywordp elm)
+		  (check-keywords elm
+						  :absolute :relative :move-to :close-path
+						  :line-to :h-line-to :v-line-to :arc-to
+						  :t-curve-to :q-curve-to :s-curve-to :c-curve-to)))
+	  (setf data (check-and-fix-d-data lst nil :absolute canvas))))
   nil)
 	
 (defmethod draw-entity ((ent path) writer)

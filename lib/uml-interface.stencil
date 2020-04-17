@@ -44,7 +44,9 @@
 (defmethod check ((obj uml-interface) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (check-object (name (uml-interface-name obj)) canvas dict :nullable nil :class label-info))
+  (with-slots (name) obj
+	(check-object name canvas dict :nullable nil :class label-info))
+  nil)
 
 (defmethod entity-composition-p ((obj uml-interface))
   t)  
@@ -120,13 +122,14 @@
 (defmethod check ((sock uml-interface-socket) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (check-object (name   (uml-interface-socket-name   sock)) canvas dict :nullable nil :class label-info)
-  (check-member (x      (uml-interface-socket-x      sock)) :nullable nil :types number)
-  (check-member (y      (uml-interface-socket-y      sock)) :nullable nil :types number)
-  (check-member (from   (uml-interface-socket-from   sock)) :nullable nil :types keyword)
-  (check-member (style  (uml-interface-socket-style  sock)) :nullable nil :types keyword)
-  (check-object (stroke (uml-interface-socket-stroke sock)) canvas dict :nullable nil :class stroke-info)
-  (with-slots (x y from style canvas-cache dummy-circle points) sock
+  (with-slots (name x y from style stroke
+					points canvas-cache dummy-circle #|degree|#) sock
+	(check-object name   canvas dict :nullable nil :class label-info)
+	(check-member x      :nullable nil :types number)
+	(check-member y      :nullable nil :types number)
+	(check-member from   :nullable nil :types keyword)
+	(check-member style  :nullable nil :types keyword)
+	(check-object stroke canvas dict :nullable nil :class stroke-info)
 	(setf style (diagram::check-and-fix-connector-style style))
 	(setf canvas-cache (copy-canvas canvas))
 	(let ((left (canvas-left canvas))

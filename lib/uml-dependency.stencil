@@ -21,7 +21,9 @@
 (defmethod check ((dep uml-dependency) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (check-object (keyword (uml-dependency-keyword dep)) canvas dict :nullable t :class uml-keyword-info))
+  (with-slots (keyword) dep 
+	(check-object keyword canvas dict :nullable t :class uml-keyword-info))
+  nil)
 
 (defmethod entity-composition-p ((dep uml-dependency))
   (with-slots (keyword) dep

@@ -24,9 +24,10 @@
 ;;  ...)
 
 (defmethod check ((kwd uml-keyword-info) canvas dict)
-  (check-member   (name  (uml-keyword-name  kwd)) :nullable nil :types (or keyword string))
-  (check-member   (class (uml-keyword-class kwd)) :nullable   t :types (or keyword string))
-  (check-object   (font  (uml-keyword-font  kwd)) canvas dict :nullable t :class font-info)
+  (with-slots (name class font) kwd
+	(check-member name  :nullable nil :types (or keyword string))
+	(check-member class :nullable   t :types (or keyword string))
+	(check-object font  canvas dict :nullable t :class font-info))
   nil)
 
 (defun uml-keyword-to-string (kwd)
