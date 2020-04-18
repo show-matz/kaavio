@@ -1,32 +1,43 @@
 * todo
-** lib [21/27]
+** lib [35/38]
 
   - [X] grid.stencil
   - [X] textbox.stencil
-  - [X] uml-actor.stencil
-  - [X] uml-aggregation.stencil
-  - [X] uml-association.stencil
-  - [ ] uml-class.stencil
-  - [X] uml-component.stencil
-  - [X] uml-composition.stencil
-  - [ ] uml-connector.stencil   □--->[A]    [A]--->□
-  - [ ] uml-decision-merge-node.stencil
-  - [X] uml-dependency.stencil
-  - [ ] uml-fork-join-node.stencil
-  - [X] uml-generalization.stencil
-  - [X] uml-implementation.stencil
-  - [X] uml-interface-request.stencil
-  - [X] uml-interface.stencil
-  - [X] uml-keyword-info.stencil
-  - [X] uml-multiplicity-info.stencil
-  - [X] uml-node.stencil
-  - [X] uml-note.stencil
-  - [X] uml-package.stencil
-  - [ ] uml-receive-event.stencil
-  - [X] uml-role-info.stencil
-  - [ ] uml-send-signal.stencil
-  - [X] uml-state.stencil
-  - [X] uml-time-event.stencil
+  - [X] uml-action			;ToDo : add ':link' & render rake icon...
+  - [X] uml-activity-end
+  - [X] uml-actor
+  - [X] uml-aggregation
+  - [X] uml-association
+  - [ ] uml-class
+  - [X] uml-component
+  - [X] uml-composition
+  - [ ] uml-connector   □--->[A]    [A]--->□
+  - [X] uml-decision-merge
+  - [X] uml-dependency
+  - [X] uml-flow-begin
+  - [X] uml-flow-end
+  - [X] uml-flow
+  - [X] uml-fork-join
+  - [X] uml-generalization
+  - [X] uml-implementation
+  - [X] uml-interface
+  - [X] uml-keyword-info
+  - [X] uml-multiplicity-info
+  - [X] uml-node
+  - [X] uml-note
+  - [X] uml-package
+  - [ ] uml-partition
+  - [X] uml-pin
+  - [X] uml-role-info
+  - [X] uml-signal-receipt
+  - [X] uml-signal-sending
+  - [X] uml-state-begin
+  - [X] uml-state-end
+  - [X] uml-state-history
+  - [X] uml-state
+  - [X] uml-time-signal
+  - [X] uml-transition-spec
+  - [X] uml-transition
   - [X] uml-usecase.stencil
 
 ** misc [1/2]
