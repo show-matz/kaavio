@@ -61,7 +61,7 @@ height    := fixnum
 					(throw-exception "Can't register ~A to dictionary : NOT entity." ,g-entity))
 				  (push ,g-entity ,g-entities)
 				  (check ,g-entity canvas ,g-dict)
-				  (dict-register ,g-dict (entity-id ,g-entity) ,g-entity)))
+				  (dict-register ,g-dict (slot-value ,g-entity 'id) ,g-entity)))
 		 (declare (ignorable #'layer #'register-entity))
 		 (let ((*default-font*   (or *default-font*   (make-font)))
 			   (*default-fill*   (or *default-fill*   (make-fill)))
@@ -72,8 +72,8 @@ height    := fixnum
 	   ;; stable sort by priority of layer
 	   (setf ,g-entities (stable-sort (nreverse ,g-entities)
 									  (lambda (e1 e2)
-										(< (layer-get-priority ,g-layer-mgr (entity-layer e1))
-										   (layer-get-priority ,g-layer-mgr (entity-layer e2))))))
+										(< (layer-get-priority ,g-layer-mgr (slot-value e1 'layer))
+										   (layer-get-priority ,g-layer-mgr (slot-value e2 'layer))))))
 
 	   (let ((,g-writer (create-svg-writer)))
 		 (writer-write ,g-writer "<?xml version='1.0'"
@@ -91,7 +91,7 @@ height    := fixnum
 		 (writer-write ,g-writer)
 
 		 (dolist (,g-entity ,g-entities)
-		   (layer-change ,g-layer-mgr (entity-layer ,g-entity) ,g-writer)
+		   (layer-change ,g-layer-mgr (slot-value ,g-entity 'layer) ,g-writer)
 		   (write-header ,g-entity ,g-writer)
 		   (draw-entity  ,g-entity ,g-writer))
 		 (layer-change ,g-layer-mgr nil ,g-writer)

@@ -21,7 +21,7 @@
 		 (len    (/ radius (sqrt 2))))
 	(macrolet ((register-entity (entity)
 				 `(check-and-draw-local-entity ,entity canvas writer)))
-	  (let ((*default-stroke* (diagram::circle-stroke obj)))
+	  (let ((*default-stroke* (slot-value obj 'diagram::stroke)))
 		(line `(,(- c len) ,(- c len) ,(+ c len) ,(+ c len)))
 		(line `(,(+ c len) ,(- c len) ,(- c len) ,(+ c len))))))
   (call-next-method)

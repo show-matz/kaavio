@@ -58,7 +58,7 @@
 			 (y2    (+ y1 (* distance (diagram::math/sin3 p1 p2 degree))))
 			 (align (if (< x1 x2) :left :right)))
 		(when (< y1 y2)
-		  (incf y2 (diagram::font-size font)))
+		  (incf y2 (slot-value font 'diagram::size)))
 		(uml-role-draw rol x2 y2 align writer)))))
 
 

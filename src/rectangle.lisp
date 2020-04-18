@@ -93,7 +93,7 @@
 (defmethod draw-entity ((rct rectangle) writer)
   (let ((cls  (shape-class rct))
 		(id   (and (not (entity-composition-p rct))
-				   (entity-id rct))))
+				   (slot-value rct 'id))))
 	(pre-draw rct writer)
 	(writer-write writer
 				  "<rect "

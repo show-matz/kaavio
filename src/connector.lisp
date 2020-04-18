@@ -465,18 +465,9 @@
 ;
 ;-------------------------------------------------------------------------------
 (defclass connector (line)
-  ((from		;:type     keyword
-				:initform nil
-				:initarg  :from
-				:accessor connector-from)
-   (to			;:type     keyword
-				:initform nil
-				:initarg  :to
-				:accessor connector-to)
-   (style		;:type     keyword	;; :(CC|[BLRT][123]?[BLRT][123]?) ( keyword -> list )
-				:initform nil
-				:initarg  :style
-				:accessor connector-style)))
+  ((from  :initform nil :initarg :from)	   ; keyword
+   (to    :initform nil :initarg :to)	   ; keyword
+   (style :initform nil :initarg :style))) ; keyword - :(CC|[BLRT][123]?[BLRT][123]?) (keyword->list)
 
 
 (defmethod initialize-instance :after ((ent connector) &rest initargs)
@@ -509,10 +500,10 @@
 
 (defmethod write-header ((ent connector) writer)
   (writer-write writer "<!-- "
-					   (write-when (entity-id ent) it " : ")
+					   (write-when (slot-value ent 'id) it " : ")
 					   (string-downcase (symbol-name (type-of ent)))
-					   " from " (connector-from ent)
-					   " to "   (connector-to   ent)
+					   " from " (slot-value ent 'from)
+					   " to "   (slot-value ent 'to)
 					   " -->"))
 
 

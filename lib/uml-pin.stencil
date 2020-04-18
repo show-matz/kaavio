@@ -82,7 +82,7 @@
 			 (height    (canvas-height canvas))
 			 (x         (/ width  2))
 			 (y         (/ height 2))
-			 (font-size (diagram::font-size font)))
+			 (font-size (slot-value font 'diagram::size)))
 		(labels ((locate-text ()
 				   (let ((pos (string-upcase
 							   (symbol-name

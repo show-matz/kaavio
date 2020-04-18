@@ -185,7 +185,7 @@
 (defmethod draw-entity ((img image) writer)
   (let ((cls  (shape-class img))
 		(id   (and (not (entity-composition-p img))
-				   (entity-id img))))
+				   (slot-value img 'id))))
 	(pre-draw img writer)
 	(writer-write writer
 				  "<image "

@@ -168,7 +168,7 @@
 (defmethod draw-entity ((ent line) writer)
   (let ((cls (line-class ent))
 		(id  (and (not (entity-composition-p ent))
-				  (entity-id ent))))
+				  (slot-value ent 'id))))
 	(pre-draw ent writer)
 	(labels ((format-points (pts st)
 			   (when pts

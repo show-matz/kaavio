@@ -90,7 +90,7 @@
 					  fill stroke tab-width tab-height tab-margin) pkg
 	  (let* ((width     (canvas-width  canvas))
 			 (height    (canvas-height canvas))
-			 (font-size (diagram::font-size font)))
+			 (font-size (slot-value font 'diagram::size)))
 		(macrolet ((register-entity (entity)
 					 `(check-and-draw-local-entity ,entity canvas writer)))
 		  (let ((*default-fill*   fill)

@@ -1,4 +1,4 @@
-(load "./@load.lisp")
+;;(load "./@load.lisp")
 (load "./misc/cl-apps-main.lisp")
 
 (let ((path (if (member :linux *features*)

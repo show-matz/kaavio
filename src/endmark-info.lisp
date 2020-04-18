@@ -134,39 +134,22 @@
 #|EXPORT|#				:endmark-info
  |#
 (defclass endmark-info ()
-  ((type	;:type     (or keyword function) ; :none|:arrow|:triangle|:diamond|:circle|:rect|<function>
-			:initform *default-endmark-type*
-			:initarg  :type
-			:accessor endmark-type)
-   (size	;:type     (or keyword number)	; :small|:midium|:large|:xlarge|<number>
-			:initform *default-endmark-size*
-			:initarg  :size
-			:accessor endmark-size)
-   (class	;:type     (or nil keyword string)
-			:initform nil
-			:initarg  :class
-			:accessor endmark-class)
-   (fill	;:type     (or nil fill-info)	; nil means same as stroke
-			:initform nil
-			:initarg  :fill
-			:accessor endmark-fill)
-   (stroke	;:type     (or nil stroke-info)
-			:initform nil
-			:initarg  :stroke
-			:accessor endmark-stroke)))
+  ((type	:initform nil :initarg :type)		; (or keyword function)
+												; :none|:arrow|:triangle|:diamond|:circle|:rect
+   (size	:initform nil :initarg :size)		; (or keyword number)
+												; :small|:midium|:large|:xlarge
+   (class	:initform nil :initarg :class)		; (or nil keyword string)
+   (fill	:initform nil :initarg :fill)		; (or nil fill-info)	; nil means same as stroke
+   (stroke	:initform nil :initarg :stroke)))	; (or nil stroke-info)
 
 
 (defmethod initialize-instance :after ((mark endmark-info) &rest initargs)
   (declare (ignore initargs))
   (with-slots (type size fill stroke) mark
-	(setf type (or type *default-endmark-type*))
-	(setf size (or size *default-endmark-size*))
-	(setf fill (if (null fill)
-				   *default-fill*
-				   (make-fill fill)))
-	(setf stroke (if (null stroke)
-					 *default-stroke*
-					 (make-stroke stroke))))
+	(setf type   (or type *default-endmark-type*))
+	(setf size   (or size *default-endmark-size*))
+	(setf fill   (make-fill   (or fill   *default-fill*)))
+	(setf stroke (make-stroke (or stroke *default-stroke*))))
   mark)
 
 
@@ -184,27 +167,26 @@
   t)
 
 (defun draw-endmark (mark points class stroke writer)
-  (let* ((type (endmark-type mark))
-		 (size (let ((tmp (endmark-size mark)))
-				 (if (numberp tmp)
-					 tmp
-					 (ecase tmp
+  (with-slots (type size fill) mark
+	(let* ((size (if (numberp size)
+					 size
+					 (ecase size
 					   ((:small)  10.0)
 					   ((:midium) 15.0)
 					   ((:large)  20.0)
-					   ((:xlarge) 30.0)))))
-		 (drawer (if (functionp type)
-					 type
-					 (ecase type
-					   ((:arrow)    #'__draw-endmark-arrow)
-					   ((:triangle) #'__draw-endmark-triangle)
-					   ((:diamond)  #'__draw-endmark-diamond)
-					   ((:circle)   #'__draw-endmark-circle)
-					   ((:rect)     #'__draw-endmark-rectangle)))))
-	(funcall drawer points size
-			 (or (endmark-class  mark)  class)
-			 (or (endmark-stroke mark) stroke)    ;ToDo : m-stroke is always not nil...
-			 (endmark-fill mark) writer)))
+					   ((:xlarge) 30.0))))
+		   (drawer (if (functionp type)
+					   type
+					   (ecase type
+						 ((:arrow)    #'__draw-endmark-arrow)
+						 ((:triangle) #'__draw-endmark-triangle)
+						 ((:diamond)  #'__draw-endmark-diamond)
+						 ((:circle)   #'__draw-endmark-circle)
+						 ((:rect)     #'__draw-endmark-rectangle)))))
+	  (funcall drawer points size
+			   (or (slot-value mark 'class)  class)
+			   (or (slot-value mark 'stroke) stroke)    ;ToDo : m-stroke is always not nil...
+			   fill writer))))
   
 
 #|

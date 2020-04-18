@@ -61,8 +61,8 @@
  |#
 (defun draw-label (label shp writer)
   (labels ((get-location-info ()
-			 (let ((size (font-size (label-font label)))
-				   (offset (label-offset label)))
+			 (let ((offset (label-offset label))
+				   (size (slot-value (label-font label) 'size)))
 			   (ecase (label-position label)
 				 ((:above) (values "middle" (shape-center shp)
 											(- (shape-top    shp) offset)))

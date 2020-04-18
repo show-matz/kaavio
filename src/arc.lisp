@@ -13,26 +13,11 @@
 ;
 ;-------------------------------------------------------------------------------
 (defclass arc (path)
-  ((center-x	;:type     number
-				:initform 0
-				:initarg  :center-x
-				:accessor arc-center)
-   (center-y	;:type     number
-				:initform 0
-				:initarg  :center-y
-				:accessor arc-middle)
-   (radius		;:type     number
-				:initform 0
-				:initarg  :radius
-				:accessor arc-radius)
-   (degree1		;:type     number
-				:initform 0
-				:initarg  :degree1
-				:accessor arc-degree1)
-   (degree2		;:type     number
-				:initform 0
-				:initarg  :degree2
-				:accessor arc-degree2)))
+  ((center-x	:initform 0 :initarg :center-x)		; number
+   (center-y	:initform 0 :initarg :center-y)		; number
+   (radius		:initform 0 :initarg :radius)		; number
+   (degree1		:initform 0 :initarg :degree1)		; number
+   (degree2		:initform 0 :initarg :degree2)))	; number
 
 ;;MEMO : no implementation
 ;;(defmethod initialize-instance :after ((ent arc) &rest initargs)...)

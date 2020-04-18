@@ -46,36 +46,17 @@
 ;
 ;-------------------------------------------------------------------------------
 (defclass circle (shape)
-  ((center-x	;:type     number
-				:initform 0
-				:initarg  :center-x
-				:accessor shape-center)
-   (center-y	;:type     number
-				:initform 0
-				:initarg  :center-y
-				:accessor shape-middle)
-   (radius		;:type     number
-				:initform 0
-				:initarg  :radius
-				:accessor circle-radius)
-   (fill		;:type     (or nil fill-info)
-				:initform nil
-				:initarg  :fill
-				:accessor circle-fill)
-   (stroke		;:type     (or nil stroke-info)
-				:initform nil
-				:initarg  :stroke
-				:accessor circle-stroke)))
+  ((center-x	:initform   0 :initarg :center-x)	; number
+   (center-y	:initform   0 :initarg :center-y)	; number
+   (radius		:initform   0 :initarg :radius)		; number
+   (fill		:initform nil :initarg :fill)		; (or nil fill-info)
+   (stroke		:initform nil :initarg :stroke)))	; (or nil stroke-info)
 
 (defmethod initialize-instance :after ((ent circle) &rest initargs)
   (declare (ignore initargs))
   (with-slots (fill stroke) ent
-	(setf fill (if (null fill)
-				   *default-fill*
-				   (make-fill fill)))
-	(setf stroke (if (null stroke)
-					 *default-stroke*
-					 (make-stroke stroke))))
+	(setf fill   (make-fill   (or fill   *default-fill*)))
+	(setf stroke (make-stroke (or stroke *default-stroke*))))
   ent)
 
 (defmethod check ((shp circle) canvas dict)
@@ -87,32 +68,38 @@
 	(check-member radius   :nullable nil :types number)
 	(check-object fill     canvas dict :nullable t :class   fill-info)
 	(check-object stroke   canvas dict :nullable t :class stroke-info))
-  (incf (shape-center shp) (canvas-left canvas))
-  (incf (shape-middle shp) (canvas-top  canvas))
+  (incf (slot-value shp 'center-x) (canvas-left canvas))
+  (incf (slot-value shp 'center-y) (canvas-top  canvas))
   nil)
 
+(defmethod shape-center ((shp circle))
+  (slot-value shp 'center-x))
+
+(defmethod shape-middle ((shp circle))
+  (slot-value shp 'center-y))
+
 (defmethod shape-width ((shp circle))
-  (* 2 (circle-radius shp)))
+  (* 2 (slot-value shp 'radius)))
 
 (defmethod shape-height ((shp circle))
-  (* 2 (circle-radius shp)))
+  (* 2 (slot-value shp 'radius)))
 
 (defmethod shape-top ((shp circle))
-  (- (shape-middle shp) (circle-radius shp)))
+  (- (shape-middle shp) (slot-value shp 'radius)))
 
 (defmethod shape-bottom ((shp circle))
-  (+ (shape-middle shp) (circle-radius shp)))
+  (+ (shape-middle shp) (slot-value shp 'radius)))
 
 (defmethod shape-left ((shp circle))
-  (- (shape-center shp) (circle-radius shp)))
+  (- (shape-center shp) (slot-value shp 'radius)))
 
 (defmethod shape-right ((shp circle))
-  (+ (shape-center shp) (circle-radius shp)))
+  (+ (shape-center shp) (slot-value shp 'radius)))
 
 (defmethod shape-connect-point ((shp circle) type arg)
   (circle-connect-point (shape-center  shp)
 						(shape-middle  shp)
-						(circle-radius shp) type arg))
+						(slot-value shp 'radius) type arg))
   
 ;;MEMO : use impelementation of shape...
 ;;(defmethod shape-get-subcanvas ((shp circle)) ...)
@@ -123,21 +110,21 @@
 (defmethod draw-entity ((shp circle) writer)
   (let ((cls  (shape-class shp))
 		(id   (and (not (entity-composition-p shp))
-				   (entity-id shp))))
+				   (slot-value shp 'id))))
 	(pre-draw shp writer)
 	(writer-write writer
 				  "<circle "
 				  (write-when id "id='" it "' ")
 				  "cx='" (shape-center shp) "' "
 				  "cy='" (shape-middle shp) "' "
-				  "r='" (circle-radius shp) "' "
+				  "r='" (slot-value shp 'radius) "' "
 				  (write-when cls "class='" it "' ")
 				  (unless cls
-					(let ((fill (circle-fill   shp)))
+					(let ((fill (slot-value shp 'fill)))
 					  (when fill
 						(to-property-strings fill))))
 				  (unless cls
-					(let ((strk (circle-stroke shp)))
+					(let ((strk (slot-value shp 'stroke)))
 					  (when strk
 						(to-property-strings strk))))
 				  "/>")

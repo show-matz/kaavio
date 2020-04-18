@@ -17,8 +17,8 @@
 	(setf keyword (and keyword (make-uml-keyword keyword)))
 	(setf margin2 (if (null keyword)
 					  0
-					  (or (and *uml-usecase-font* (diagram::font-size *uml-usecase-font*))
-						  (and *default-font*     (diagram::font-size *default-font*))
+					  (or (and *uml-usecase-font* (slot-value *uml-usecase-font* 'diagram::size))
+						  (and *default-font*     (slot-value *default-font*     'diagram::size))
 						  12))))	;;ToDo : これはなんとかしないと。
   usecase)
 

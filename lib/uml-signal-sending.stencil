@@ -22,9 +22,9 @@
 	(setf margin2 (if (null keyword)
 					  0
 					  (or (and *uml-signal-sending-font*
-							   (diagram::font-size *uml-signal-sending-font*))
+							   (slot-value *uml-signal-sending-font* 'diagram::size))
 						  (and *default-font*
-							   (diagram::font-size *default-font*))
+							   (slot-value *default-font* 'diagram::size))
 						  12))))	;;ToDo : これはなんとかしないと。
   sig-send)
 

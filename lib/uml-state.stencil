@@ -161,7 +161,7 @@
 				  ;; draw keyword
 				  (when keyword
 					(with-slots (font) keyword
-					  (incf y2 (diagram::font-size font))
+					  (incf y2 (slot-value font 'diagram::size))
 					  (uml-keyword-draw keyword (+ left x) (+ top y2) :center writer)))
 				  ;; draw text
 				  (incf y2 font-size)

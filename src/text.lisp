@@ -95,7 +95,7 @@
 					  ((:center) "middle")
 					  ((:right)  "end")))
 		(id  (and (not (entity-composition-p txt))
-				  (entity-id txt))))
+				  (slot-value txt 'id))))
 	(pre-draw txt writer)
 	(writer-write writer
 				  "<text "

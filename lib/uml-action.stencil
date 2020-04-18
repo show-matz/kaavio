@@ -19,8 +19,8 @@
 	(setf keyword (and keyword (make-uml-keyword keyword)))
 	(setf margin2 (if (null keyword)
 					  0
-					  (or (and *uml-action-font* (diagram::font-size *uml-action-font*))
-						  (and *default-font*     (diagram::font-size *default-font*))
+					  (or (and *uml-action-font* (slot-value *uml-action-font* 'diagram::size))
+						  (and *default-font*    (slot-value *default-font*    'diagram::size))
 						  12))))	;;ToDo : これはなんとかしないと。
   action)
 

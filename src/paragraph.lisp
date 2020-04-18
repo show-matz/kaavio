@@ -13,9 +13,9 @@
 (in-package :cl-diagram)
 
 (defun caluculate-shapesize (font text)
-  (let ((size    (font-size         font))
-		(spice   (font-width-spice  font))
-		(spacing (font-line-spacing font)))
+  (with-slots (size
+			   (spice width-spice)
+			   (spacing line-spacing)) font
 	(let ((line-count (length text))
 		  (width-fnc  (lambda (line)
 						(* (length line) size spice))))    ;ToDo : what can I do ?
@@ -153,24 +153,25 @@
 					  ((:right)  "end")))
 		(cls (shape-class shp))
 		(id   (and (not (entity-composition-p shp))
-				   (entity-id shp)))
-		(font-prop    (to-property-strings (paragraph-font shp)))
-		(font-size    (font-size         (paragraph-font shp)))
-		(line-spacing (font-line-spacing (paragraph-font shp))))
-	(pre-draw shp writer)
-	(dolist (line (paragraph-text shp))
-	  (incf y font-size)
-	  (writer-write writer
-					"<text "
-					(write-when id "id='" it "' ")
-					"x='" x "' "
-					"y='" y "' "
-					"text-anchor='" txt-anchor "' "
-					(write-when cls "class='" it "' ")
-					(unless cls font-prop)
-					">" (escape-characters line) "</text>")
-	  (incf y line-spacing))
-	(post-draw shp writer))
+				   (slot-value shp 'id)))
+		(font (paragraph-font shp)))
+	(with-slots ((fsize size)
+				 line-spacing) font
+	  (let ((font-prop (to-property-strings font)))
+		(pre-draw shp writer)
+		(dolist (line (paragraph-text shp))
+		  (incf y fsize)
+		  (writer-write writer
+						"<text "
+						(write-when id "id='" it "' ")
+						"x='" x "' "
+						"y='" y "' "
+						"text-anchor='" txt-anchor "' "
+						(write-when cls "class='" it "' ")
+						(unless cls font-prop)
+						">" (escape-characters line) "</text>")
+		  (incf y line-spacing))
+		(post-draw shp writer))))
   nil)
 					  
 

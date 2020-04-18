@@ -45,7 +45,7 @@
 (defun uml-keyword-draw-beside-line (kwd line writer)
   (multiple-value-bind (x y sin cos) (diagram::line-get-center line)	;;ToDo : export!?
 	(declare (ignorable x y sin cos))
-	(let* ((f-size (diagram::font-size (slot-value kwd 'font)))	;;ToDo : export!?
+	(let* ((f-size (slot-value (slot-value kwd 'font) 'diagram::size))
 		   (offset f-size)
 		   (align (cond ((zerop sin) :center)
 						((<  0  sin) :left)

@@ -26,7 +26,7 @@
 		   (center (/ (canvas-width canvas) 2))
 		   (radius (* center ratio))
 		   (fill   (diagram::stroke-color
-					(diagram::circle-stroke obj))))
+					(slot-value obj 'diagram::stroke))))
 	  (macrolet ((register-entity (entity)
 				   `(check-and-draw-local-entity ,entity canvas writer)))
 		(circle center center radius :fill fill :stroke :none))))

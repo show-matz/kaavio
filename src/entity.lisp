@@ -26,13 +26,13 @@
 			:accessor entity-layer)))
 
 (defun begin-id-group (ent writer)
-  (let ((id (entity-id ent)))
+  (let ((id (slot-value ent 'id)))
 	(when id
 	  (writer-write writer "<g id='" id "'>")
 	  (writer-incr-level writer))))
 
 (defun end-id-group (ent writer)
-  (when (entity-id ent)
+  (when (slot-value ent 'id)
 	(writer-decr-level writer)
 	(writer-write writer "</g>")))
 
@@ -56,7 +56,7 @@
 
 (defmethod write-header ((ent entity) writer)
   (writer-write writer "<!-- "
-					   (write-when (entity-id ent) it " : ")
+					   (write-when (slot-value ent 'id) it " : ")
 					   (string-downcase (symbol-name (type-of ent)))
 					   " -->"))
 

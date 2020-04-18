@@ -21,18 +21,9 @@
 #|EXPORT|#				:fill-info
  |#
 (defclass fill-info ()
-  ((color	;:type     (or keyword string)
-			:initform nil
-			:initarg  :color
-			:accessor fill-color)
-   (opacity	;:type     number
-			:initform nil
-			:initarg  :opacity
-			:accessor fill-opacity)
-   (rule	;:type     (or nil keyword)
-			:initform nil
-			:initarg  :rule
-			:accessor fill-rule)))
+  ((color	:initform nil :initarg :color)		; (or keyword string)
+   (opacity	:initform nil :initarg :opacity)	; number
+   (rule	:initform nil :initarg :rule)))		; (or nil keyword)
 
 
 (defmethod initialize-instance :after ((fill fill-info) &rest initargs)
@@ -51,9 +42,9 @@
   t)
 
 (defmethod to-property-strings ((fill fill-info))
-  (let ((color   (fill-color   fill))
-		(opacity (fill-opacity fill))
-		(rule    (fill-rule    fill)))
+  (let ((color   (slot-value fill 'color))
+		(opacity (slot-value fill 'opacity))
+		(rule    (slot-value fill 'rule)))
 	(when color
 	  (setf color (format-string "fill='" color "' ")))
 	(when opacity
@@ -63,9 +54,9 @@
 	(concatenate 'string color opacity rule)))
 
 (defmethod to-style-strings ((fill fill-info))
-  (let ((color   (fill-color   fill))
-		(opacity (fill-opacity fill))
-		(rule    (fill-rule    fill)))
+  (let ((color   (slot-value fill 'color))
+		(opacity (slot-value fill 'opacity))
+		(rule    (slot-value fill 'rule)))
 	(when color
 	  (setf color (format-string "fill: " color "; ")))
 	(when opacity
@@ -90,12 +81,15 @@
 									(opacity nil opacity-p)
 									(rule    nil    rule-p) base) params
 			(let ((base (or base *default-fill*)))
-			  (labels ((fixval (val-p val base-fnc default)
-						 (if val-p val (if base (funcall base-fnc base) default))))
+			  (labels ((fixval (val-p val slot-sym default)
+						 (if val-p
+							 val
+							 (if base
+								 (slot-value base slot-sym) default))))
 				(make-instance 'fill-info
-							   :color   (fixval color-p   color   #'fill-color  :none)
-							   :opacity (fixval opacity-p opacity #'fill-opacity  nil)
-							   :rule    (fixval rule-p    rule    #'fill-rule     nil))))))))
+							   :color   (fixval color-p   color   'color  :none)
+							   :opacity (fixval opacity-p opacity 'opacity  nil)
+							   :rule    (fixval rule-p    rule    'rule     nil))))))))
 
 
 

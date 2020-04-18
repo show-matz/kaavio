@@ -146,23 +146,29 @@
   (incf (shape-middle shp) (canvas-top  canvas))
   nil)
 
+(defmethod shape-center ((shp ellipse))
+  (slot-value shp 'center-x))
+
+(defmethod shape-middle ((shp ellipse))
+  (slot-value shp 'center-y))
+
 (defmethod shape-width ((shp ellipse))
-  (* 2 (ellipse-radius-x shp)))
+  (* 2 (slot-value shp 'radius-x)))
 
 (defmethod shape-height ((shp ellipse))
-  (* 2 (ellipse-radius-y shp)))
+  (* 2 (slot-value shp 'radius-y)))
 
 (defmethod shape-top ((shp ellipse))
-  (- (shape-middle shp) (ellipse-radius-y shp)))
+  (- (shape-middle shp) (slot-value shp 'radius-y)))
 
 (defmethod shape-bottom ((shp ellipse))
-  (+ (shape-middle shp) (ellipse-radius-y shp)))
+  (+ (shape-middle shp) (slot-value shp 'radius-y)))
 
 (defmethod shape-left ((shp ellipse))
-  (- (shape-center shp) (ellipse-radius-x shp)))
+  (- (shape-center shp) (slot-value shp 'radius-x)))
 
 (defmethod shape-right ((shp ellipse))
-  (+ (shape-center shp) (ellipse-radius-x shp)))
+  (+ (shape-center shp) (slot-value shp 'radius-x)))
 
 ;;MEMO : use impelementation of shape...
 ;;(defmethod shape-get-subcanvas ((shp ellipse)) ...)
@@ -173,28 +179,28 @@
 (defmethod shape-connect-point ((shp ellipse) type arg)
   (ellipse-connect-point (shape-center     shp)
 						 (shape-middle     shp)
-						 (ellipse-radius-x shp)
-						 (ellipse-radius-y shp) type arg))
+						 (slot-value shp 'radius-x)
+						 (slot-value shp 'radius-y) type arg))
   
 (defmethod draw-entity ((shp ellipse) writer)
   (let ((cls  (shape-class shp))
 		(id   (and (not (entity-composition-p shp))
-				   (entity-id shp))))
+				   (slot-value shp 'id))))
 	(pre-draw shp writer)
 	(writer-write writer
 				  "<ellipse "
 				  (write-when id "id='" it "' ")
 				  "cx='" (shape-center shp) "' "
 				  "cy='" (shape-middle shp) "' "
-				  "rx='" (ellipse-radius-x shp) "' "
-				  "ry='" (ellipse-radius-y shp) "' "
+				  "rx='" (slot-value shp 'radius-x) "' "
+				  "ry='" (slot-value shp 'radius-y) "' "
 				  (write-when cls "class='" it "' ")
 				  (unless cls
-					(let ((fill (ellipse-fill   shp)))
+					(let ((fill (slot-value shp 'fill)))
 					  (when fill
 						(to-property-strings fill))))
 				  (unless cls
-					(let ((strk (ellipse-stroke shp)))
+					(let ((strk (slot-value shp 'stroke)))
 					  (when strk
 						(to-property-strings strk))))
 				  "/>")

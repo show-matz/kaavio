@@ -59,7 +59,7 @@
 	(throw-exception "multiplicity-info : line parameter is not line object"))
   (multiple-value-bind (x y sin cos) (diagram::line-get-center line)	;;ToDo : export!?
 	(declare (ignorable x y sin cos))
-	(let* ((f-size (diagram::font-size (slot-value obj 'font)))	;;ToDo : export!?
+	(let* ((f-size (slot-value (slot-value obj 'font) 'diagram::size))
 		   (offset f-size)
 		   (align (cond ((zerop sin) :center)
 						((<  0  sin) :left)

@@ -27,42 +27,19 @@
 #|EXPORT|#				:font-info
  |#
 (defclass font-info ()
-  ((family			;:type     string
-					:initform nil
-					:initarg  :family
-					:accessor font-family)
-   (size			;:type     number
-					:initform nil
-					:initarg  :size
-					:accessor font-size)
-   (fill			;:type     (or nil fill-info)
-					:initform nil
-					:initarg  :fill
-					:accessor font-fill)
-   (stroke			;:type     (or nil link-info)
-					:initform nil
-					:initarg  :stroke
-					:accessor font-stroke)
-   (style			;:type list	;;  :normal :italic :oblique
-					:initform nil
-					:initarg :style
-					:accessor font-style)
-   (decoration		;:type list
-					:initform nil
-					:initarg :decoration
-					:accessor font-decoration)
-   (weight			;:type list
-					:initform nil
-					:initarg :weight
-					:accessor font-weight)
-   (line-spacing	;:type list
-					:initform nil
-					:initarg :line-spacing
-					:accessor font-line-spacing)
-   (width-spice		;:type list
-					:initform nil
-					:initarg :width-spice
-					:accessor font-width-spice)))
+  ((family			:initform nil :initarg :family)			; string
+   (size			:initform nil :initarg :size)			; number
+   (fill			:initform nil :initarg :fill)			; (or nil fill-info)
+   (stroke			:initform nil :initarg :stroke)			; (or nil link-info)
+   (style			:initform nil :initarg :style)			; (or nil keyword)
+															;    :normal :italic :oblique
+   (decoration		:initform nil :initarg :decoration)		; (or nil keyword)
+															;  :none :underline :overline :line-through
+   (weight			:initform nil :initarg :weight)			; (or number keyword)
+															;  :normal :bold :bolder :lighter
+															;  100 200 300 400 500 600 700 800 900
+   (line-spacing	:initform nil :initarg :line-spacing)	; number
+   (width-spice		:initform nil :initarg :width-spice)))	; number
 
 
 (defmethod initialize-instance :after ((font font-info) &rest initargs)
@@ -101,13 +78,15 @@
 				  (when it
 					(setf buf (concatenate 'string buf (format-string ,@args)))))))
 	(let ((buf ""))
-	  (add-when (font-family     fnt)     "font-family='" it "' ")
-	  (add-when (font-size       fnt)       "font-size='" it "pt' ")
-	  (add-when (font-fill       fnt) (to-property-strings it))
-	  (add-when (font-stroke     fnt) (to-property-strings it))
-	  (add-when (font-style      fnt)      "font-style='" it "' ")
-	  (add-when (font-decoration fnt) "text-decoration='" it "' ")
-	  (add-when (font-weight     fnt)     "font-weight='" it "' ")
+	  (with-slots (family size fill stroke
+					  style decoration weight) fnt
+		(add-when family          "font-family='" it "' ")
+		(add-when size              "font-size='" it "pt' ")
+		(add-when fill       (to-property-strings it))
+		(add-when stroke     (to-property-strings it))
+		(add-when style            "font-style='" it "' ")
+		(add-when decoration  "text-decoration='" it "' ")
+		(add-when weight          "font-weight='" it "' "))
 	  buf)))
 
 (defmethod to-style-strings ((fnt font-info))
@@ -116,13 +95,15 @@
 				  (when it
 					(setf buf (concatenate 'string buf (format-string ,@args)))))))
 	(let ((buf ""))
-	  (add-when (font-family     fnt)     "font-family: " it "; ")
-	  (add-when (font-size       fnt)       "font-size: " it "pt; ")
-	  (add-when (font-fill       fnt) (to-style-strings it))
-	  (add-when (font-stroke     fnt) (to-style-strings it))
-	  (add-when (font-style      fnt)      "font-style: " it "; ")
-	  (add-when (font-decoration fnt) "text-decoration: " it "; ")
-	  (add-when (font-weight     fnt)     "font-weight: " it "; ")
+	  (with-slots (family size fill stroke
+					  style decoration weight) fnt
+		(add-when family         "font-family: " it "; ")
+		(add-when size             "font-size: " it "pt; ")
+		(add-when fill         (to-style-strings it))
+		(add-when stroke       (to-style-strings it))
+		(add-when style           "font-style: " it "; ")
+		(add-when decoration "text-decoration: " it "; ")
+		(add-when weight         "font-weight: " it "; "))
 	  buf)))
 
 
@@ -149,34 +130,35 @@
 									(width-spice  nil  width-spice-p)
 									(line-spacing nil line-spacing-p) base) params
 			(let ((base (or base *default-font*)))
-			  (labels ((fixval (val-p val base-fnc default)
-						 (if val-p val (if base (funcall base-fnc base) default))))
+			  (labels ((fixval (val-p val slot-sym default)
+						 (if val-p
+							 val
+							 (if base
+								 (slot-value base slot-sym) default))))
 				(make-instance 'font-info
-							   :family       (fixval family-p       family       #'font-family       nil)
-							   :size         (fixval size-p         size         #'font-size          12)
-							   :fill         (fixval fill-p         fill         #'font-fill      :black)
-							   :stroke       (fixval stroke-p       stroke       #'font-stroke       nil)
-							   :style        (fixval style-p        style        #'font-style        nil)
-							   :decoration   (fixval decoration-p   decoration   #'font-decoration   nil)
-							   :weight       (fixval weight-p       weight       #'font-weight       nil)
-							   :width-spice  (fixval width-spice-p  width-spice  #'font-width-spice 0.65)
-							   :line-spacing (fixval line-spacing-p line-spacing #'font-line-spacing   2))))))))
+							   :family       (fixval family-p       family       'family       nil)
+							   :size         (fixval size-p         size         'size          12)
+							   :fill         (fixval fill-p         fill         'fill      :black)
+							   :stroke       (fixval stroke-p       stroke       'stroke       nil)
+							   :style        (fixval style-p        style        'style        nil)
+							   :decoration   (fixval decoration-p   decoration   'decoration   nil)
+							   :weight       (fixval weight-p       weight       'weight       nil)
+							   :width-spice  (fixval width-spice-p  width-spice  'width-spice 0.65)
+							   :line-spacing (fixval line-spacing-p line-spacing 'line-spacing   2))))))))
 
 #|
 #|EXPORT|#				:font-calc-textarea
  |#
 (defun font-calc-textarea (font text)
-  (let ((lst     (string/split text #\newline))
-		(size    (font-size         font))
-		(spice   (font-width-spice  font))
-		(spacing (font-line-spacing font)))
-	(let ((line-count (length lst))
-		  (width-fnc  (lambda (line)
-						(* (length line) size spice))))    ;ToDo : what can I do ?
+  (with-slots (size width-spice line-spacing) font
+	(let* ((lst (string/split text #\newline))
+		   (line-count (length lst))
+		   (width-fnc  (lambda (line)
+						 (* (length line) size width-spice))))    ;ToDo : what can I do ?
 	  ;;ToDo : implement... fix width-fnc.
 	  (values (apply #'max (mapcar width-fnc lst))
 			  (+ (* size line-count)
-				 (* spacing (1- line-count)))))))
+				 (* line-spacing (1- line-count)))))))
 
 
 (setf *default-font* (make-font :family        nil

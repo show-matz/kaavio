@@ -246,7 +246,7 @@
 				   (incf idx))))))
 	(let ((cls (path-class ent))
 		  (id  (and (not (entity-composition-p ent))
-					(entity-id ent))))
+					(slot-value ent 'id))))
 	  (pre-draw ent writer)
 	  (writer-write writer
 					"<path "
