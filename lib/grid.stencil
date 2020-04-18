@@ -2,28 +2,17 @@
 (in-package :cl-diagram-user)
 
 (defclass grid (diagram:entity)
-  ((size	;:type     number
-			:initform nil
-			:initarg  :size
-			:accessor grid-size)
-   (bgcolor	;:type     (or keyword string)
-			:initform nil
-			:initarg  :bgcolor
-			:accessor grid-bgcolor)
-   (stroke	;:type     (or nil stroke-info)
-			:initform nil
-			:initarg  :stroke
-			:accessor grid-stroke)))
+  ((size	:initform nil	:initarg  :size)		; number
+   (bgcolor	:initform nil	:initarg  :bgcolor)		; (or keyword string)
+   (stroke	:initform nil	:initarg  :stroke)))	; (or nil stroke-info)
   
 
 (defmethod initialize-instance :after ((grd grid) &rest initargs)
   (declare (ignore initargs))
   (with-slots (size bgcolor stroke) grd
-	(setf size (or size 10))
+	(setf size    (or size 10))
 	(setf bgcolor (or bgcolor :white))
-	(setf stroke (if stroke
-					 (make-stroke stroke)
-					 (make-stroke :color :gray :width 0.2))))
+	(setf stroke  (make-stroke (or stroke '(:color :gray :width 0.2)))))
   grd)
 
 (defmethod check ((grd grid) canvas dict)

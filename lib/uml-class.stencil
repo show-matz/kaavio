@@ -59,9 +59,7 @@
 ;;
 ;;-------------------------------------------------------------------------------
 (defclass uml-class-keyword (uml-class-stuff)
-  ((info	; type  uml-keyword-info
-			:initform nil
-			:initarg  :info)))
+  ((info	:initform nil	:initarg  :info)))	; uml-keyword-info
 
 (defmethod check ((stuff uml-class-keyword) canvas dict)
   (with-slots (info) stuff 
@@ -79,27 +77,13 @@
 ;;
 ;;-------------------------------------------------------------------------------
 (defclass uml-class-attribute (uml-class-stuff)
-  ((visibility		; type  keyword - :public, :private, :protected, :derived, :package
-					:initform nil
-					:initarg  :visibility)
-   (name			; type  (or keyword string)
-					:initform nil
-					:initarg  :name)
-   (type			; type  (or nil keyword string)
-					:initform nil
-					:initarg  :type)
-   (multiplicity	; type  (or nil number)
-					:initform nil
-					:initarg  :multiplicity)
-   (default-value	; type  (or number keyword string)
-					:initform nil
-					:initarg  :default-value)
-   (property		; type  (or keyword string)
-					:initform nil
-					:initarg  :property)
-   (scope			; type  keyword - :instance, :class
-					:initform nil
-					:initarg  :scope)))
+  ((visibility		:initform nil :initarg :visibility)		; keyword - :public :private :protected :derived :package
+   (name			:initform nil :initarg :name)			; (or keyword string)
+   (type			:initform nil :initarg :type)			; (or nil keyword string)
+   (multiplicity	:initform nil :initarg :multiplicity)	; (or nil number)
+   (default-value	:initform nil :initarg :default-value)	; (or number keyword string)
+   (property		:initform nil :initarg :property)		; (or keyword string)
+   (scope			:initform nil :initarg :scope)))		; keyword - :instance :class
 
 (defmethod check ((attr uml-class-attribute) canvas dict)
   (declare (ignore canvas dict))
@@ -171,18 +155,10 @@
 ;;
 ;;-------------------------------------------------------------------------------
 (defclass uml-class-operation-param (uml-class-stuff)
-  ((io				; type  (or nil keyword) - :in :out :inout
-					:initform nil
-					:initarg  :io)
-   (name			; type  (or keyword string)
-					:initform nil
-					:initarg  :name)
-   (type			; type  (or nil keyword string)
-					:initform nil
-					:initarg  :type)
-   (default-value	; type  (or number keyword string)
-					:initform nil
-					:initarg  :default-value)))
+  ((io				:initform nil :initarg :io)					; (or nil keyword) - :in :out :inout
+   (name			:initform nil :initarg :name)				; (or keyword string)
+   (type			:initform nil :initarg :type)				; (or nil keyword string)
+   (default-value	:initform nil :initarg :default-value)))	; (or number keyword string)
 
 
 (defmethod check ((prm uml-class-operation-param) canvas dict)
@@ -234,27 +210,13 @@
 ;;
 ;;-------------------------------------------------------------------------------
 (defclass uml-class-operation (uml-class-stuff)
-  ((visibility		; type  keyword - :public, :private, :protected, :package
-					:initform nil
-					:initarg  :visibility)
-   (name			; type  (or keyword string)
-					:initform nil
-					:initarg  :name)
-   (abstract		; type boolean
-					:initform nil
-					:initarg  :abstract)
-   (parameters		; type list of uml-class-operation-param
-					:initform nil
-					:initarg  :parameters)
-   (type			; type  (or nil keyword string)
-					:initform nil
-					:initarg  :type)
-   (property		; type  (or nil keyword string)
-					:initform nil
-					:initarg  :property)
-   (scope			; type  keyword - :instance, :class
-					:initform nil
-					:initarg  :scope)))
+  ((visibility	:initform nil :initarg :visibility)	; keyword - :public, :private, :protected, :package
+   (name		:initform nil :initarg :name)		; (or keyword string)
+   (abstract	:initform nil :initarg :abstract)	; boolean
+   (parameters	:initform nil :initarg :parameters)	; list of uml-class-operation-param
+   (type		:initform nil :initarg :type)		; (or nil keyword string)
+   (property	:initform nil :initarg :property)	; (or nil keyword string)
+   (scope		:initform nil :initarg :scope)))	; keyword - :instance, :class
 
 (defmethod initialize-instance :after ((op uml-class-operation) &rest initargs)
   (declare (ignore initargs))

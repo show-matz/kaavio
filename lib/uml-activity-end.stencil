@@ -11,10 +11,7 @@
 ;
 ;-------------------------------------------------------------------------------
 (defclass uml-activity-end (diagram:circle)
-  ((ratio	;:type     number
-			:initform 0
-			:initarg  :ratio
-			:accessor uml-activity-end-ratio)))
+  ((ratio :initform 0 :initarg :ratio)))	; number
 
 (defmethod check ((obj uml-activity-end) canvas dict)
   ;; this method must call super class' one.

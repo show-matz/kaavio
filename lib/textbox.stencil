@@ -9,18 +9,12 @@
 
 
 (defclass textbox (diagram:text-shape)
-  ((rx	;:type     number
-		:initform nil
-		:initarg  :rx
-		:accessor textbox-rx)
-   (ry	;:type     number
-		:initform nil
-		:initarg  :ry
-		:accessor textbox-ry)))
+  ((rx :initform nil :initarg :rx)		; number
+   (ry :initform nil :initarg :ry)))	; number
   
 ;; override of group::draw-group
 (defmethod draw-group ((box textbox) writer)
-	;;ToDo : export fill/stroke ???
+  ;;ToDo : export fill/stroke ???
   (let* ((canvas (group-get-canvas box))
 		 (width  (canvas-width  canvas))
 		 (height (canvas-height canvas)))

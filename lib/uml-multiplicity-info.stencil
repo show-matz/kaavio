@@ -7,30 +7,12 @@
 (defparameter *uml-multiplicity-distance*  10)
 
 (defclass uml-multiplicity-info ()
-  ((min			;:type     (or keyword integer)
-				:initform nil
-				:initarg  :min
-				:accessor uml-multiplicity-min)
-   (max			;:type     (or keyword integer)
-				:initform nil
-				:initarg  :max
-				:accessor uml-multiplicity-max)
-   (class		;:type     (or keyword string)
-				:initform nil
-				:initarg  :class
-				:accessor uml-multiplicity-class)
-   (font		;:type     (or nil font-info)
-				:initform nil
-				:initarg  :font
-				:accessor uml-multiplicity-font)
-   (degree		;:type     integer
-				:initform nil
-				:initarg  :degree
-				:accessor uml-multiplicity-degree)
-   (distance	;:type     integer
-				:initform nil
-				:initarg  :distance
-				:accessor uml-multiplicity-distance)))
+  ((min			:initform nil :initarg :min)		; (or keyword integer)
+   (max			:initform nil :initarg :max)		; (or keyword integer)
+   (class		:initform nil :initarg :class)		; (or keyword string)
+   (font		:initform nil :initarg :font)		; (or nil font-info)
+   (degree		:initform nil :initarg :degree)		; integer
+   (distance	:initform nil :initarg :distance)))	; integer
 
 ;;MEMO : no impl.
 ;(defmethod initialize-instance :after ((mul uml-multiplicity-info) &rest initargs)

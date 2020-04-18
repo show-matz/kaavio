@@ -13,18 +13,9 @@
 ;
 ;-------------------------------------------------------------------------------
 (defclass uml-time-event (diagram:group)
-  ((name		;:type     (or nil label-info)
-				:initform nil
-				:initarg  :name
-				:accessor uml-time-event-name)
-   (fill		;:type     (or nil fill-info)
-				:initform nil
-				:initarg  :fill
-				:accessor uml-time-event-fill)
-   (stroke		;:type     (or nil stroke-info)
-				:initform nil
-				:initarg  :stroke
-				:accessor uml-time-event-stroke)))
+  ((name	:initform nil :initarg :name)		; (or nil label-info)
+   (fill	:initform nil :initarg :fill)		; (or nil fill-info)
+   (stroke	:initform nil :initarg :stroke)))	; (or nil stroke-info)
 
 (defmethod initialize-instance :after ((event uml-time-event) &rest initargs)
   (declare (ignore initargs))

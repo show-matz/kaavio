@@ -6,10 +6,7 @@
 (defparameter *uml-implementation-dasharray* '(4 2))
 
 (defclass uml-implementation (diagram:connector)
-  ((keyword	;:type     (or nil uml-keyword-info)
-			:initform nil
-			:initarg  :keyword
-			:accessor uml-implementation-keyword)))
+  ((keyword :initform nil :initarg :keyword)))	; (or nil uml-keyword-info)
 
 (defmethod initialize-instance :after ((gen uml-implementation) &rest initargs)
   (declare (ignore initargs))

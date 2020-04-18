@@ -5,18 +5,9 @@
 (defparameter *uml-keyword-class* nil)
 
 (defclass uml-keyword-info ()
-  ((name	;:type     (or keyword string)
-			:initform nil
-			:initarg  :name
-			:accessor uml-keyword-name)
-   (class	;:type     (or keyword string)
-			:initform nil
-			:initarg  :class
-			:accessor uml-keyword-class)
-   (font	;:type     (or nil font-info)
-			:initform nil
-			:initarg  :font
-			:accessor uml-keyword-font)))
+  ((name	:initform nil :initarg :name)	; (or keyword string)
+   (class	:initform nil :initarg :class)	; (or keyword string)
+   (font	:initform nil :initarg :font)))	; (or nil font-info)
 
 
 ;;MEMO : no impl.
@@ -31,7 +22,7 @@
   nil)
 
 (defun uml-keyword-to-string (kwd)
-  (format-string "<<" (uml-keyword-name kwd) ">>"))
+  (format-string "<<" (slot-value kwd 'name) ">>"))
 
 (defun uml-keyword-draw (kwd x y align writer)
   (let ((txt (uml-keyword-to-string kwd))
@@ -54,20 +45,12 @@
 (defun uml-keyword-draw-beside-line (kwd line writer)
   (multiple-value-bind (x y sin cos) (diagram::line-get-center line)	;;ToDo : export!?
 	(declare (ignorable x y sin cos))
-;	(format t "x=~A, y=~A, sin=~A, cos=~A.~%" x y sin cos)
-	(let* ((f-size (diagram::font-size (uml-keyword-font kwd)))	;;ToDo : export!?
+	(let* ((f-size (diagram::font-size (slot-value kwd 'font)))	;;ToDo : export!?
 		   (offset f-size)
 		   (align (cond ((zerop sin) :center)
 						((<  0  sin) :left)
 						(t           :right))))
 	  (incf y (/ f-size 2))
-;	  (macrolet ((register-entity (entity)
-;				   `(check-and-draw-local-entity ,entity canvas writer)))
-;		(let ((x (+ x (* sin offset)))
-;			  (y (- y (* cos offset)))
-;			  (st (stroke :color :red :dasharray '(3 3))))
-;		  (line `(,(- x 25) ,y ,(+ x 25) ,y) :stroke st)
-;		  (line `(,x ,(- y 25) ,x ,(+ y 25)) :stroke st)))
 	  (uml-keyword-draw kwd (+ x (* sin offset))
 							(- y (* cos offset))  align writer))))
 

@@ -10,10 +10,7 @@
 ;
 ;-------------------------------------------------------------------------------
 (defclass uml-transition (diagram:connector)
-  ((info	;:type     (or nil uml-transition-spec)
-			:initform nil
-			:initarg  :info
-			:accessor uml-transition-info)))
+  ((info :initform nil :initarg :info)))	; (or nil uml-transition-spec)
 
 (defmethod initialize-instance :after ((tran uml-transition) &rest initargs)
   (declare (ignore initargs))

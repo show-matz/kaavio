@@ -9,25 +9,11 @@
 (defparameter *uml-signal-sending-margin*        10)
 
 (defclass uml-signal-sending (diagram:text-shape)
-  ((text		;:type     (or keyword string)
-				:initform nil
-				:initarg  :text
-				:accessor uml-signal-sending-text)
-   (keyword		;:type     (or nil uml-keyword-info)
-				:initform nil
-				:initarg  :keyword
-				:accessor uml-signal-sending-keyword)
-   (direction	;:type     keyword - :left, :right
-				:initform nil
-				:initarg  :direction
-				:accessor uml-signal-sending-direction)
-   (depth		;:type     number
-				:initform nil
-				:initarg  :depth
-				:accessor uml-signal-sending-depth)
-   (margin2		;:type     number    ; margin for keyword
-				:initform nil
-				:accessor uml-signal-sending-margin2)))
+  ((text		:initform nil :initarg :text)		; (or keyword string)
+   (keyword		:initform nil :initarg :keyword)	; (or nil uml-keyword-info)
+   (direction	:initform nil :initarg :direction)	; keyword - :left, :right
+   (depth		:initform nil :initarg :depth)		; number
+   (margin2		:initform nil)))					; number ( margin for keyword )
 
 (defmethod initialize-instance :after ((sig-send uml-signal-sending) &rest initargs)
   (declare (ignore initargs))

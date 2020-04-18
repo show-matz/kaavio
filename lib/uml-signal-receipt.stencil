@@ -9,25 +9,11 @@
 (defparameter *uml-signal-receipt-margin*        10)
 
 (defclass uml-signal-receipt (diagram:text-shape)
-  ((text		;:type     (or keyword string)
-				:initform nil
-				:initarg  :text
-				:accessor uml-signal-receipt-text)
-   (keyword		;:type     (or nil uml-keyword-info)
-				:initform nil
-				:initarg  :keyword
-				:accessor uml-signal-receipt-keyword)
-   (direction	;:type     keyword - :left, :right
-				:initform nil
-				:initarg  :direction
-				:accessor uml-signal-receipt-direction)
-   (depth		;:type     number
-				:initform nil
-				:initarg  :depth
-				:accessor uml-signal-receipt-depth)
-   (margin2		;:type     number    ; margin for keyword
-				:initform nil
-				:accessor uml-signal-receipt-margin2)))
+  ((text		:initform nil :initarg :text)		; (or keyword string)
+   (keyword		:initform nil :initarg :keyword)	; (or nil uml-keyword-info)
+   (direction	:initform nil :initarg :direction)	; keyword - :left, :right
+   (depth		:initform nil :initarg :depth)		; number
+   (margin2		:initform nil)))					; number (margin for keyword)
 
 (defmethod initialize-instance :after ((sig-rcpt uml-signal-receipt) &rest initargs)
   (declare (ignore initargs))

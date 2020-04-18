@@ -4,10 +4,7 @@
 (load-stencil :uml-keyword-info)
 
 (defclass uml-generalization (diagram:connector)
-  ((keyword	;:type     (or nil uml-keyword-info)
-			:initform nil
-			:initarg  :keyword
-			:accessor uml-generalization-keyword)))
+  ((keyword :initform nil :initarg :keyword)))	; (or nil uml-keyword-info)
 
 (defmethod initialize-instance :after ((gen uml-generalization) &rest initargs)
   (declare (ignore initargs))

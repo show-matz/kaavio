@@ -6,30 +6,12 @@
 (load-stencil :uml-role-info)
 
 (defclass uml-association (diagram:connector)
-  ((arrows	;:type     integer ( 0 - 2 )
-			:initform nil
-			:initarg  :arrows
-			:accessor uml-association-arrows)
-   (keyword	;:type     (or nil uml-keyword-info)
-			:initform nil
-			:initarg  :keyword
-			:accessor uml-association-keyword)
-   (role1	;:type     (or nil uml-role-info)
-			:initform nil
-			:initarg  :role1
-			:accessor uml-association-role1)
-   (role2	;:type     (or nil uml-role-info)
-			:initform nil
-			:initarg  :role2
-			:accessor uml-association-role2)
-   (mult1	;:type     (or nil uml-multiplicity-info)
-			:initform nil
-			:initarg  :mult1
-			:accessor uml-association-mult1)
-   (mult2	;:type     (or nil uml-multiplicity-info)
-			:initform nil
-			:initarg  :mult2
-			:accessor uml-association-mult2)))
+  ((arrows	:initform nil	:initarg  :arrows)	; integer ( 0 - 2 )
+   (keyword	:initform nil	:initarg  :keyword)	; (or nil uml-keyword-info)
+   (role1	:initform nil	:initarg  :role1)	; (or nil uml-role-info)
+   (role2	:initform nil	:initarg  :role2)	; (or nil uml-role-info)
+   (mult1	:initform nil	:initarg  :mult1)	; (or nil uml-multiplicity-info)
+   (mult2	:initform nil	:initarg  :mult2)))	; (or nil uml-multiplicity-info)
 
 
 (defmethod initialize-instance :after ((ass uml-association) &rest initargs)

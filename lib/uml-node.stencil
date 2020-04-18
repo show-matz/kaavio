@@ -13,38 +13,14 @@
 
 
 (defclass uml-node (diagram:group)
-  ((name		;:type     (or string keyword)
-				:initform nil
-				:initarg  :name
-				:accessor uml-node-name)
-   (keyword		;:type     (or nil uml-keyword-info)
-				:initform nil
-				:initarg  :keyword
-				:accessor uml-node-keyword)
-   (depth		;:type     number
-				:initform 0
-				:initarg  :depth
-				:accessor uml-node-depth)
-   (contents-p	;:type     boolean
-				:initform nil
-				:initarg  :contents-p
-				:accessor uml-node-contents-p)
-   (font		;:type     (or nil font-info)
-				:initform nil
-				:initarg  :font
-				:accessor uml-node-font)
-   (fill1		;:type     (or nil fill-info)
-				:initform nil
-				:initarg  :fill1
-				:accessor uml-node-fill1)
-   (fill2		;:type     (or nil fill-info)
-				:initform nil
-				:initarg  :fill2
-				:accessor uml-node-fill2)
-   (stroke		;:type     (or nil link-info)
-				:initform nil
-				:initarg  :stroke
-				:accessor uml-node-stroke)))
+  ((name		:initform nil :initarg :name)		; (or string keyword)
+   (keyword		:initform nil :initarg :keyword)	; (or nil uml-keyword-info)
+   (depth		:initform   0 :initarg :depth)		; number
+   (contents-p	:initform nil :initarg :contents-p)	; boolean
+   (font		:initform nil :initarg :font)		; (or nil font-info)
+   (fill1		:initform nil :initarg :fill1)		; (or nil fill-info)
+   (fill2		:initform nil :initarg :fill2)		; (or nil fill-info)
+   (stroke		:initform nil :initarg :stroke)))	; (or nil link-info)
 
 (defmethod initialize-instance :after ((node uml-node) &rest initargs)
   (declare (ignore initargs))

@@ -11,10 +11,7 @@
 ;
 ;-------------------------------------------------------------------------------
 (defclass uml-state-end (diagram:circle)
-  ((ratio	;:type     number
-			:initform 0
-			:initarg  :ratio
-			:accessor uml-state-end-ratio)))
+  ((ratio :initform 0 :initarg :ratio)))	; number
 
 (defmethod check ((obj uml-state-end) canvas dict)
   (with-slots (ratio) obj

@@ -5,29 +5,17 @@
 
 (defparameter *uml-note-font*         nil)
 (defparameter *uml-note-fill*      :white)
-(defparameter *uml-note-stroke*       nil)
+(defparameter *uml-note-stroke*    :black)
 (defparameter *uml-note-margin*        10)
 (defparameter *uml-note-align*      :left)
 (defparameter *uml-note-valign*   :center)
 (defparameter *uml-note-crease-size*   20)
 
 (defclass uml-note (diagram:text-shape)
-  ((keyword	;:type     (or nil uml-keyword-info)
-			:initform nil
-			:initarg  :keyword
-			:accessor uml-note-keyword)
-   (targets	;:type     list of keyword symbol
-			:initform nil
-			:initarg  :targets
-			:accessor uml-note-targets)
-   (margin2	;:type     number    ; margin for keyword
-			:initform nil
-			:initarg  :margin
-			:accessor uml-note-margin2)
-   (crease	;:type     number
-			:initform nil
-			:initarg  :margin
-			:accessor uml-note-crease)))
+  ((keyword	:initform nil :initarg :keyword)	; (or nil uml-keyword-info)
+   (targets	:initform nil :initarg :targets)	; list of keyword symbol
+   (margin2	:initform nil :initarg :margin)		; number ( margin for keyword )
+   (crease	:initform nil :initarg :margin)))	; number
 
 
 (defmethod initialize-instance :after ((note uml-note) &rest initargs)
@@ -114,12 +102,12 @@
 
 (defmethod text-shape-calc-size ((note uml-note))
   (multiple-value-bind (w h) (call-next-method)
-	(values w (+ h (uml-note-margin2 note)))))
+	(values w (+ h (slot-value note 'margin2)))))
 
 (defmethod text-shape-paragraph-area ((note uml-note))
   (let ((canvas (call-next-method)))
 	(incf (canvas-top canvas)
-		  (uml-note-margin2 note))
+		  (slot-value note 'margin2))
 	canvas))
 
 
@@ -133,6 +121,7 @@
 								   :align  (or ,align  *uml-note-align*)
 								   :valign (or ,valign *uml-note-valign*)
 								   :margin (or ,margin *uml-note-margin*)
-								   :fill ,fill :stroke ,stroke
+								   :fill   (or ,fill   *uml-note-fill*)
+								   :stroke (or ,stroke *uml-note-stroke*)
 								   :link ,link :layer ,layer :id ,id)))
 

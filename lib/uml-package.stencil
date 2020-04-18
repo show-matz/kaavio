@@ -31,43 +31,15 @@
 
 
 (defclass uml-package (diagram:group)
-  ((name		;:type     (or string keyword)
-				:initform nil
-				:initarg  :name
-				:accessor uml-package-name)
-   (keyword		;:type     (or nil uml-keyword-info)
-				:initform nil
-				:initarg  :keyword
-				:accessor uml-package-keyword)
-   (contents-p	;:type     boolean
-				:initform nil
-				:initarg  :contents-p
-				:accessor uml-package-contents-p)
-   (font		;:type     (or nil font-info)
-				:initform nil
-				:initarg  :font
-				:accessor uml-package-font)
-   (fill		;:type     (or nil fill-info)
-				:initform nil
-				:initarg  :fill
-				:accessor uml-package-fill)
-   (stroke		;:type     (or nil link-info)
-				:initform nil
-				:initarg  :stroke
-				:accessor uml-package-stroke)
-   ;;MEMO : 以下、make-instance された時点での special 変数の値を保存する必要性があるので、保有せざるを得ない‥‥‥
-   (tab-width	;:type     number
-				:initform 0
-				:initarg  :tab-width
-				:accessor uml-package-tab-width)
-   (tab-height	;:type     number
-				:initform 0
-				:initarg  :tab-height
-				:accessor uml-package-tab-height)
-   (tab-margin	;:type     number
-				:initform 0
-				:initarg  :tab-margin
-				:accessor uml-package-tab-margin)))
+  ((name		:initform nil :initarg :name)			; (or string keyword)
+   (keyword		:initform nil :initarg :keyword)		; (or nil uml-keyword-info)
+   (contents-p	:initform nil :initarg :contents-p)		; boolean
+   (font		:initform nil :initarg :font)			; (or nil font-info)
+   (fill		:initform nil :initarg :fill)			; (or nil fill-info)
+   (stroke		:initform nil :initarg :stroke)			; (or nil link-info)
+   (tab-width	:initform   0 :initarg :tab-width)		; number
+   (tab-height	:initform   0 :initarg :tab-height)		; number
+   (tab-margin	:initform   0 :initarg :tab-margin)))	; number
 
 (defmethod initialize-instance :after ((pkg uml-package) &rest initargs)
   (declare (ignore initargs))

@@ -7,17 +7,9 @@
 (defparameter *uml-usecase-margin*        20)
 
 (defclass uml-usecase (diagram:text-shape)
-  ((text	;:type     (or keyword string)
-			:initform nil
-			:initarg  :text
-			:accessor uml-usecase-text)
-   (keyword	;:type     (or nil uml-keyword-info)
-			:initform nil
-			:initarg  :keyword
-			:accessor uml-usecase-keyword)
-   (margin2	;:type     number    ; margin for keyword
-			:initform nil
-			:accessor uml-usecase-margin2)))
+  ((text	:initform nil :initarg :text)		; (or keyword string)
+   (keyword	:initform nil :initarg :keyword)	; (or nil uml-keyword-info)
+   (margin2	:initform nil)))					; number ( margin for keyword )
 
 (defmethod initialize-instance :after ((usecase uml-usecase) &rest initargs)
   (declare (ignore initargs))
@@ -70,12 +62,12 @@
 
 (defmethod text-shape-calc-size ((usecase uml-usecase))
   (multiple-value-bind (w h) (call-next-method)
-	(values w (+ h (uml-usecase-margin2 usecase)))))
+	(values w (+ h (slot-value usecase 'margin2)))))
 
 (defmethod text-shape-paragraph-area ((usecase uml-usecase))
   (let ((canvas (call-next-method)))
 	(incf (canvas-top canvas)
-		  (uml-usecase-margin2 usecase))
+		  (slot-value usecase 'margin2))
 	canvas))
 
 (defmethod shape-connect-point ((usecase uml-usecase) type arg)

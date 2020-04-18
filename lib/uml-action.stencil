@@ -8,21 +8,10 @@
 (defparameter *uml-action-margin*        10)
 
 (defclass uml-action (diagram:text-shape)
-  ((text		;:type     (or keyword string)
-				:initform nil
-				:initarg  :text
-				:accessor uml-action-text)
-   (keyword		;:type     (or nil uml-keyword-info)
-				:initform nil
-				:initarg  :keyword
-				:accessor uml-action-keyword)
-   (corner-r	;:type     number
-				:initform nil
-				:initarg  :corner-r
-				:accessor uml-action-corner-r)
-   (margin2		;:type     number    ; margin for keyword
-				:initform nil
-				:accessor uml-action-margin2)))
+  ((text		:initform nil	:initarg  :text)		; (or keyword string)
+   (keyword		:initform nil	:initarg  :keyword)		; (or nil uml-keyword-info)
+   (corner-r	:initform nil	:initarg  :corner-r)	; number
+   (margin2		:initform nil)))						; number ( margin for keyword )
 
 (defmethod initialize-instance :after ((action uml-action) &rest initargs)
   (declare (ignore initargs))
@@ -77,12 +66,12 @@
 
 (defmethod text-shape-calc-size ((action uml-action))
   (multiple-value-bind (w h) (call-next-method)
-	(values w (+ h (uml-action-margin2 action)))))
+	(values w (+ h (slot-value action 'margin2)))))
 
 (defmethod text-shape-paragraph-area ((action uml-action))
   (let ((canvas (call-next-method)))
 	(incf (canvas-top canvas)
-		  (uml-action-margin2 action))
+		  (slot-value action 'margin2))
 	canvas))
 
 (defmethod shape-connect-point ((action uml-action) type arg)

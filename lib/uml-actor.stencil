@@ -16,28 +16,12 @@
 ;
 ;-------------------------------------------------------------------------------
 (defclass uml-actor (diagram:group)
-  ((name		;:type     (or nil label-info)
-				:initform nil
-				:initarg  :name
-				:accessor uml-actor-name)
-   (fill		;:type     (or nil fill-info)
-				:initform nil
-				:initarg  :fill
-				:accessor uml-actor-fill)
-   (stroke		;:type     (or nil stroke-info)
-				:initform nil
-				:initarg  :stroke
-				:accessor uml-actor-stroke)
-   ;;MEMO : 以下、make-instance された時点での special 変数の値を保存する必要性があるので、保有せざるを得ない‥‥‥
-   (head		;:type     number
-				:initform 0
-				:accessor uml-actor-head)
-   (shoulder	;:type     number
-				:initform 0
-				:accessor uml-actor-shoulder)
-   (thigh		;:type     number
-				:initform 0
-				:accessor uml-actor-thigh)))
+  ((name		:initform nil	:initarg  :name)	; (or nil label-info)
+   (fill		:initform nil	:initarg  :fill)	; (or nil fill-info)
+   (stroke		:initform nil	:initarg  :stroke)	; (or nil stroke-info)
+   (head		:initform 0)						; number
+   (shoulder	:initform 0)						; number
+   (thigh		:initform 0)))						; number
 
 (defmethod initialize-instance :after ((actor uml-actor) &rest initargs)
   (declare (ignore initargs))

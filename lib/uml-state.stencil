@@ -51,56 +51,27 @@
 ;
 ;-------------------------------------------------------------------------------
 (defclass uml-state (diagram:group)
-  ((name		;:type     (or string keyword)
-				:initform nil
-				:initarg  :name
-				:accessor uml-state-name)
-   (keyword		;:type     (or nil uml-keyword-info)
-				:initform nil
-				:initarg  :keyword
-				:accessor uml-state-keyword)
-   (activities	;:type     list of uml-transition-spec
-				:initform nil
-				:initarg  :activities
-				:accessor uml-state-activities)
-   (font		;:type     (or nil font-info)
-				:initform nil
-				:initarg  :font
-				:accessor uml-state-font)
-   (fill		;:type     (or nil fill-info)
-				:initform nil
-				:initarg  :fill
-				:accessor uml-state-fill)
-   (stroke		;:type     (or nil stroke-info)
-				:initform nil
-				:initarg  :stroke
-				:accessor uml-state-stroke)
-   (contents-p	;:type     boolean
-				:initform nil
-				:initarg  :contents-p
-				:accessor uml-state-contents-p)
-   (corner-r	;:type     number
-				:initform 0
-				:accessor uml-state-corner-r)
-   (margin		;:type     number
-				:initform 0
-				:initarg  :margin
-				:accessor uml-state-margin)))
+  ((name		:initform nil :initarg :name)		; (or string keyword)
+   (keyword		:initform nil :initarg :keyword)	; (or nil uml-keyword-info)
+   (activities	:initform nil :initarg :activities)	; list of uml-transition-spec
+   (font		:initform nil :initarg :font)		; (or nil font-info)
+   (fill		:initform nil :initarg :fill)		; (or nil fill-info)
+   (stroke		:initform nil :initarg :stroke)		; (or nil stroke-info)
+   (contents-p	:initform nil :initarg :contents-p)	; boolean
+   (corner-r	:initform   0 :initarg :corner-r)	; number
+   (margin		:initform   0 :initarg :margin)))	; number
 
 (defmethod initialize-instance :after ((state uml-state) &rest initargs)
   (declare (ignore initargs))
   (with-slots (keyword activities
-			   font fill stroke
-			   contents-p corner-r margin) state
+			   font fill stroke contents-p) state
 	(setf keyword (and keyword (make-uml-keyword keyword)))
 	(setf activities (mapcar (lambda (entry)
 							   (make-uml-transition-spec entry)) activities))
 	(setf font    (make-font   (or font   *uml-state-font*   *default-font*  )))
 	(setf fill    (make-fill   (or fill   *uml-state-fill*   *default-fill*  )))
 	(setf stroke  (make-stroke (or stroke *uml-state-stroke* *default-stroke*)))
-	(setf contents-p (not (not (or activities contents-p))))
-	(setf corner-r    *uml-state-corner-r*)
-	(setf margin      *uml-state-margin*))
+	(setf contents-p (not (not (or activities contents-p)))))
   state)
 
 (defmethod check ((state uml-state) canvas dict)
@@ -221,7 +192,8 @@
 ;	  (draw-canvas-frame (shape-get-subcanvas state) writer))))
  
 
-(defmacro uml-state (x y name &key keyword width height activities margin
+(defmacro uml-state (x y name &key keyword width height
+									activities margin corner-r
 									font fill stroke link layer id contents)
   (let* ((contents-p (not (null contents)))
 		 (code `(register-entity (make-instance 'uml-state
@@ -229,8 +201,9 @@
 												:width ,width :height ,height
 												:name ,name :keyword ,keyword
 												:contents-p ,contents-p
-												:activities ',activities
-												:margin ,margin :font ,font
+												:corner-r (or ,corner-r *uml-state-corner-r*)
+												:margin   (or ,margin   *uml-state-margin*)
+												:activities ',activities :font ,font
 												:fill ,fill :stroke ,stroke
 												:link ,link :layer ,layer :id ,id))))
 	(if (null contents)

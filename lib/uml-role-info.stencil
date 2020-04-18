@@ -1,32 +1,17 @@
 
 (in-package :cl-diagram-user)
 
-(defparameter *uml-role-font*     nil)
 (defparameter *uml-role-class*    nil)
+(defparameter *uml-role-font*     nil)
 (defparameter *uml-role-degree*   240)
 (defparameter *uml-role-distance*  10)
 
 (defclass uml-role-info ()
-  ((name		;:type     (or keyword string)
-				:initform nil
-				:initarg  :name
-				:accessor uml-role-name)
-   (class		;:type     (or keyword string)
-				:initform nil
-				:initarg  :class
-				:accessor uml-role-class)
-   (font		;:type     (or nil font-info)
-				:initform nil
-				:initarg  :font
-				:accessor uml-role-font)
-   (degree		;:type     integer
-				:initform nil
-				:initarg  :degree
-				:accessor uml-role-degree)
-   (distance	;:type     integer
-				:initform nil
-				:initarg  :distance
-				:accessor uml-role-distance)))
+  ((name		:initform nil :initarg :name)		; (or keyword string)
+   (class		:initform nil :initarg :class)		; (or keyword string)
+   (font		:initform nil :initarg :font)		; (or nil font-info)
+   (degree		:initform nil :initarg :degree)		; integer
+   (distance	:initform nil :initarg :distance)))	; integer
 
 ;;MEMO : no impl.
 ;(defmethod initialize-instance :after ((rol uml-role-info) &rest initargs)
@@ -42,7 +27,7 @@
   nil)
 
 (defun uml-role-to-string (rol)
-  (format-string (uml-role-name rol)))
+  (format-string (slot-value rol 'name)))
 
 (defun uml-role-draw (rol x y align writer)
   (let ((txt (uml-role-to-string rol))

@@ -6,10 +6,7 @@
 (defparameter *uml-dependency-dasharray* '(4 2))
 
 (defclass uml-dependency (diagram:connector)
-  ((keyword	;:type     (or nil uml-keyword-info)
-			:initform nil
-			:initarg  :keyword
-			:accessor uml-dependency-keyword)))
+  ((keyword :initform nil :initarg :keyword)))	; (or nil uml-keyword-info)
 
 (defmethod initialize-instance :after ((dep uml-dependency) &rest initargs)
   (declare (ignore initargs))

@@ -30,10 +30,7 @@
 (defparameter *uml-interface-stroke* :black)
 
 (defclass uml-interface (diagram:circle)
-  ((name	;:type     (or nil label-info)
-			:initform nil
-			:initarg  :name
-			:accessor uml-interface-name)))
+  ((name :initform nil :initarg :name)))	; (or nil label-info)
 
 (defmethod initialize-instance :after ((obj uml-interface) &rest initargs)
   (declare (ignore initargs))
@@ -78,45 +75,24 @@
 (defparameter *uml-interface-socket-degree*      150)
 
 (defclass uml-interface-socket (diagram:entity)
-  ((name			;:type     (or nil label-info)
-					:initform nil
-					:initarg  :name
-					:accessor uml-interface-socket-name)
-   (x				;:type     number
-					:initform 0
-					:initarg  :x
-					:accessor uml-interface-socket-x)
-   (y				;:type     number
-					:initform 0
-					:initarg  :y
-					:accessor uml-interface-socket-y)
-   (from			;:type     keyword
-					:initform nil
-					:initarg  :from
-					:accessor uml-interface-socket-from)
-   (style			;:type     keyword	;; :(CC|[BLRT][123]?[BLRT][123]?) ( keyword -> list )
-					:initform nil
-					:initarg  :style
-					:accessor uml-interface-socket-style)
-   (stroke			;:type     (or nil stroke-info)
-					:initform nil
-					:initarg  :stroke
-					:accessor uml-interface-socket-stroke)
-   (points			;:type     list
-					:initform nil)
-   (canvas-cache	;:type     (or nil canvas)
-					:initform nil)
-   (dummy-circle	;:type     (or nil circle)
-					:initform nil)
-   (degree			;:type     number
-					:initform *uml-interface-socket-degree*)))
+  ((name			:initform nil :initarg :name)	; (or nil label-inf)
+   (x				:initform   0 :initarg :x)		; number
+   (y				:initform   0 :initarg :y)		; number
+   (from			:initform nil :initarg :from)	; keyword
+   (style			:initform nil :initarg :style)	; keyword - :(CC|[BLRT][123]?[BLRT][123]?) ( keyword -> list )
+   (stroke			:initform nil :initarg :stroke)	; (or nil stroke-info)
+   (points			:initform nil)					; list
+   (canvas-cache	:initform nil)					; (or nil canvas)
+   (dummy-circle	:initform nil)					; (or nil circle)
+   (degree			:initform nil)))				; number
 
 (defmethod initialize-instance :after ((sock uml-interface-socket) &rest initargs)
   (declare (ignore initargs))
   (with-slots (name style stroke degree) sock
 	(setf name   (and name (make-label name)))
 	(setf style  (or style *default-connector-style* :CC))
-	(setf stroke (make-stroke (or stroke *uml-interface-socket-stroke* *default-stroke*))))
+	(setf stroke (make-stroke (or stroke *uml-interface-socket-stroke* *default-stroke*)))
+	(setf degree *uml-interface-socket-degree*))
   sock)
 
 (defmethod check ((sock uml-interface-socket) canvas dict)
@@ -237,27 +213,20 @@
 ;
 ;-------------------------------------------------------------------------------
 (defclass uml-interface-request (diagram:connector)
-  ((arrow-p			;:type     boolean value
-					:initform nil
-					:initarg  :arrow-p
-					:accessor uml-interface-request-arrow-p)
-   (canvas-cache	;:type     (or nil canvas)
-					:initform nil)
-   (x-cache			;:type     number
-					:initform 0)
-   (y-cache			;:type     (or nil uml-role-info)
-					:initform 0)
-   (points-cache	;:type     list
-					:initform nil)
-   (radius-cache	;:type     number
-					:initform *uml-interface-radius*)
-   (degree-cache	;:type     number
-					:initform *uml-interface-request-degree*)))
+  ((arrow-p			:initform nil :initarg :arrow-p)	; boolean value
+   (x-cache			:initform 0)						; number
+   (y-cache			:initform 0)						; (or nil uml-role-info)
+   (canvas-cache	:initform nil)						; (or nil canvas)
+   (points-cache	:initform nil)						; list
+   (radius-cache	:initform nil)						; number
+   (degree-cache	:initform nil)))					; number
 
-;;no implementation...
-;;(defmethod initialize-instance :after ((req uml-interface-request) &rest initargs)
-;;  (declare (ignore initargs))
-;;  req)
+(defmethod initialize-instance :after ((req uml-interface-request) &rest initargs)
+  (declare (ignore initargs))
+  (with-slots (radius-cache degree-cache) req
+	(setf radius-cache *uml-interface-radius*)
+	(setf degree-cache *uml-interface-request-degree*))
+  req)
 
 
 (defmethod check ((req uml-interface-request) canvas dict)

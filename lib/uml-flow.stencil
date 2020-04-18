@@ -13,10 +13,10 @@
 ;
 ;-------------------------------------------------------------------------------
 (defclass uml-flow-spec ()
-  ((guard	:initform nil	:initarg  :guard)	;: (or keyword string)
-   (action	:initform nil	:initarg  :action)	;: (or keyword string)
-   (class	:initform nil	:initarg  :class)	;: (or keyword string)
-   (font	:initform nil	:initarg  :font)))	;: (or nil font-info)
+  ((guard	:initform nil :initarg :guard)	;: (or keyword string)
+   (action	:initform nil :initarg :action)	;: (or keyword string)
+   (class	:initform nil :initarg :class)	;: (or keyword string)
+   (font	:initform nil :initarg :font)))	;: (or nil font-info)
 
 
 ;;MEMO : no impl.
@@ -57,7 +57,7 @@
 
 (defun uml-flow-spec-draw-beside-line (obj line writer)
   (unless (typep line 'diagram:line)
-	(throw-exception "multiplicity-info : line parameter is not line object"))
+	(throw-exception "uml-flow-spec : line parameter is not line object"))
   (multiple-value-bind (x y sin cos) (diagram::line-get-center line)	;;ToDo : export!?
 	(declare (ignorable x y sin cos))
 	(let* ((f-size (diagram::font-size (slot-value obj 'font)))	;;ToDo : export!?
@@ -94,42 +94,36 @@
 ;
 ;-------------------------------------------------------------------------------
 (defclass uml-flow (diagram:connector)
-  ((keyword	;:type     (or nil uml-keyword-info)
-			:initform nil
-			:initarg  :keyword
-			:accessor uml-flow-keyword)
-   (info	;:type     (or nil uml-flow-spec)
-			:initform nil
-			:initarg  :info
-			:accessor uml-flow-info)))
+  ((keyword	:initform nil :initarg :keyword)	; (or nil uml-keyword-info)
+   (spec	:initform nil :initarg    :spec)))	; (or nil uml-flow-spec)
 
 (defmethod initialize-instance :after ((flow uml-flow) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (keyword info) flow
+  (with-slots (keyword spec) flow
 	(setf keyword (and keyword (make-uml-keyword   keyword)))
-	(setf info    (and info    (make-uml-flow-spec info))))
+	(setf spec    (and spec    (make-uml-flow-spec spec))))
   flow)
 
 
 (defmethod check ((flow uml-flow) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (with-slots (keyword info) flow 
+  (with-slots (keyword spec) flow 
 	(check-object keyword canvas dict :nullable t :class uml-keyword-info)
-	(check-object info    canvas dict :nullable t :class uml-flow-spec))
+	(check-object spec    canvas dict :nullable t :class uml-flow-spec))
   nil)
 	
 
 (defmethod entity-composition-p ((flow uml-flow))
-  (with-slots (keyword info) flow
+  (with-slots (keyword spec) flow
 	(or keyword
-		info
+		spec
 		(call-next-method))))
 
 (defmethod post-draw ((flow uml-flow) writer)
-  (with-slots (keyword info) flow
+  (with-slots (keyword spec) flow
 	(when keyword (uml-keyword-draw-beside-line   keyword flow writer))
-	(when info    (uml-flow-spec-draw-beside-line info    flow writer)))
+	(when spec    (uml-flow-spec-draw-beside-line spec    flow writer)))
   (call-next-method))
 	  
 
@@ -137,7 +131,7 @@
 (defmacro uml-flow (from to &key keyword spec style layer id)
   `(register-entity (make-instance 'uml-flow
 								   :from ,from :to ,to
-								   :keyword ,keyword :info ,spec
+								   :keyword ,keyword :spec ,spec
 								   :class nil :style ,style
 								   :stroke (or *uml-flow-stroke* *default-stroke*)
 								   :end1 nil :end2 :arrow :layer ,layer :id ,id)))

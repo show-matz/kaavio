@@ -37,10 +37,7 @@
 ;
 ;-------------------------------------------------------------------------------
 (defclass uml-join (diagram:rectangle)
-  ((spec	;:type     (or nil label-info)
-			:initform nil
-			:initarg  :spec
-			:accessor uml-join-spec)))
+  ((spec :initform nil :initarg :spec)))	; (or nil label-info)
 
 (defmethod initialize-instance :after ((obj uml-join) &rest initargs)
   (declare (ignore initargs))
