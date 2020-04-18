@@ -1,4 +1,5 @@
-(load-stencil :test-set)
+(load-stencil :grid)
+(load-stencil :textbox)
 
 (create-svg (:width 300 :height 200 :desc "sample of textbox" :encoding :utf8)
 	(grid)
