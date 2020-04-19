@@ -21,38 +21,14 @@
 #|EXPORT|#				:stroke-info
  |#
 (defclass stroke-info ()
-  ((color		;:type     (or keyword string)
-				:initform nil
-				:initarg  :color
-				:accessor stroke-color)
-   (width		;:type     number
-				:initform nil
-				:initarg  :width
-				:accessor stroke-width)
-   (opacity		;:type     number
-				:initform nil
-				:initarg  :opacity
-				:accessor stroke-opacity)
-   (linecap		;:type     (or nil keyword)
-				:initform nil
-				:initarg  :linecap
-				:accessor stroke-linecap)
-   (linejoin	;:type     (or nil keyword)
-				:initform nil
-				:initarg  :linejoin
-				:accessor stroke-linejoin)
-   (miterlimit	;:type     number
-				:initform nil
-				:initarg  :miterlimit
-				:accessor stroke-miterlimit)
-   (dasharray	:type     list
-				:initform nil
-				:initarg  :dasharray
-				:accessor stroke-dasharray)
-   (dashoffset	;:type     number
-				:initform nil
-				:initarg  :dashoffset
-				:accessor stroke-dashoffset)))
+  ((color		:initform nil :initarg :color)			; (or keyword string)
+   (width		:initform nil :initarg :width)			; number
+   (opacity		:initform nil :initarg :opacity)		; number
+   (linecap		:initform nil :initarg :linecap)		; (or nil keyword)
+   (linejoin	:initform nil :initarg :linejoin)		; (or nil keyword)
+   (miterlimit	:initform nil :initarg :miterlimit)		; number
+   (dasharray	:initform nil :initarg :dasharray)		; list
+   (dashoffset	:initform nil :initarg :dashoffset)))	; number
 
 (defmethod initialize-instance :after ((stroke stroke-info) &rest initargs)
   (declare (ignore initargs))
@@ -78,14 +54,14 @@
   t)
 
 (defmethod to-property-strings ((stroke stroke-info))
-  (let ((color      (stroke-color      stroke))
-		(width      (stroke-width      stroke))
-		(opacity    (stroke-opacity    stroke))
-		(linecap    (stroke-linecap    stroke))
-		(linejoin   (stroke-linejoin   stroke))
-		(miterlimit (stroke-miterlimit stroke))
-		(dasharr    (stroke-dasharray  stroke))
-		(dashoffset (stroke-dashoffset stroke)))
+  (let ((color      (slot-value stroke      'color))
+		(width      (slot-value stroke      'width))
+		(opacity    (slot-value stroke    'opacity))
+		(linecap    (slot-value stroke    'linecap))
+		(linejoin   (slot-value stroke   'linejoin))
+		(miterlimit (slot-value stroke 'miterlimit))
+		(dasharr    (slot-value stroke  'dasharray))
+		(dashoffset (slot-value stroke 'dashoffset)))
 	(when color      (setf color      (format-string "stroke='" color "' ")))
 	(when width	     (setf width      (format-string "stroke-width='" width "' ")))
 	(when opacity    (setf opacity    (format-string "stroke-opacity='" opacity "' ")))
@@ -97,14 +73,14 @@
 	(concatenate 'string color width opacity linecap linejoin miterlimit dasharr dashoffset)))
 
 (defmethod to-style-strings ((stroke stroke-info))
-  (let ((color      (stroke-color      stroke))
-		(width      (stroke-width      stroke))
-		(opacity    (stroke-opacity    stroke))
-		(linecap    (stroke-linecap    stroke))
-		(linejoin   (stroke-linejoin   stroke))
-		(miterlimit (stroke-miterlimit stroke))
-		(dasharr    (stroke-dasharray  stroke))
-		(dashoffset (stroke-dashoffset stroke)))
+  (let ((color      (slot-value stroke      'color))
+		(width      (slot-value stroke      'width))
+		(opacity    (slot-value stroke    'opacity))
+		(linecap    (slot-value stroke    'linecap))
+		(linejoin   (slot-value stroke   'linejoin))
+		(miterlimit (slot-value stroke 'miterlimit))
+		(dasharr    (slot-value stroke  'dasharray))
+		(dashoffset (slot-value stroke 'dashoffset)))
 	(when color      (setf color      (format-string "stroke: " color "; ")))
 	(when width	     (setf width      (format-string "stroke-width: " width "; ")))
 	(when opacity    (setf opacity    (format-string "stroke-opacity: " opacity "; ")))
@@ -138,17 +114,20 @@
 									(dasharray  nil  dasharray-p)
 									(dashoffset nil dashoffset-p) base) params
 			(let ((base (or base *default-stroke*)))
-			  (labels ((fixval (val-p val base-fnc default)
-						 (if val-p val (if base (funcall base-fnc base) default))))
+			  (labels ((fixval (val-p val slot-sym default)
+						 (if val-p
+							 val
+							 (if base
+								 (slot-value base slot-sym) default))))
 				(make-instance 'stroke-info
-							   :color      (fixval color-p      color      #'stroke-color   :black)
-							   :width      (fixval width-p      width      #'stroke-width        1)
-							   :opacity    (fixval opacity-p    opacity    #'stroke-opacity    nil)
-							   :linecap    (fixval linecap-p    linecap    #'stroke-linecap    nil)
-							   :linejoin   (fixval linejoin-p   linejoin   #'stroke-linejoin   nil)
-							   :miterlimit (fixval miterlimit-p miterlimit #'stroke-miterlimit nil)
-							   :dasharray  (fixval dasharray-p  dasharray  #'stroke-dasharray  nil)
-							   :dashoffset (fixval dashoffset-p dashoffset #'stroke-dashoffset nil))))))))
+							   :color      (fixval color-p      color      'color   :black)
+							   :width      (fixval width-p      width      'width        1)
+							   :opacity    (fixval opacity-p    opacity    'opacity    nil)
+							   :linecap    (fixval linecap-p    linecap    'linecap    nil)
+							   :linejoin   (fixval linejoin-p   linejoin   'linejoin   nil)
+							   :miterlimit (fixval miterlimit-p miterlimit 'miterlimit nil)
+							   :dasharray  (fixval dasharray-p  dasharray  'dasharray  nil)
+							   :dashoffset (fixval dashoffset-p dashoffset 'dashoffset nil))))))))
 
 
 

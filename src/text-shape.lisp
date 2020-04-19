@@ -30,34 +30,13 @@
 #|EXPORT|#				:text-shape-paragraph-area
  |#
 (defclass text-shape (group)
-  ((text	;:type     (or keyword string)
-			:initform nil
-			:initarg  :text
-			:accessor text-shape-text)
-   (align	;:type     keyword
-			:initform nil
-			:initarg  :align
-			:accessor text-shape-align)
-   (valign	;:type     keyword
-			:initform nil
-			:initarg  :valign
-			:accessor text-shape-valign)
-   (font	;:type     (or nil font-info)
-			:initform nil
-			:initarg  :font
-			:accessor text-shape-font)
-   (fill	;:type     (or nil fill-info)
-			:initform nil
-			:initarg  :fill
-			:accessor text-shape-fill)
-   (stroke	;:type     (or nil stroke-info)
-			:initform nil
-			:initarg  :stroke
-			:accessor text-shape-stroke)
-   (margin	;:type     number
-			:initform nil
-			:initarg  :margin
-			:accessor text-shape-margin)))
+  ((text	:initform nil :initarg :text)		; (or keyword string)
+   (align	:initform nil :initarg :align)		; keyword
+   (valign	:initform nil :initarg :valign)		; keyword
+   (font	:initform nil :initarg :font)		; (or nil font-info)
+   (fill	:initform nil :initarg :fill)		; (or nil fill-info)
+   (stroke	:initform nil :initarg :stroke)		; (or nil stroke-info)
+   (margin	:initform nil :initarg :margin)))	; number
 
 
 ; calc width & height of whole text-shape.
@@ -129,9 +108,8 @@
  
 
 (defmethod text-shape-calc-size ((txtshp text-shape))
-  (let ((margin (text-shape-margin txtshp)))
-	(multiple-value-bind (w h)
-		(font-calc-textarea (text-shape-font txtshp) (text-shape-text txtshp))
+  (with-slots (text margin font) txtshp
+	(multiple-value-bind (w h) (font-calc-textarea font text)
 	  (values (+ (* margin 2) w)
 			  (+ (* margin 2) h)))))
 

@@ -19,38 +19,14 @@
 ;
 ;-------------------------------------------------------------------------------
 (defclass rectangle (shape)
-  ((center-x	;:type     number
-				:initform 0
-				:initarg  :center-x
-				:accessor shape-center)
-   (center-y	;:type     number
-				:initform 0
-				:initarg  :center-y
-				:accessor shape-middle)
-   (width		;:type     number
-				:initform 0
-				:initarg  :width
-				:accessor shape-width)
-   (height		;:type     number
-				:initform 0
-				:initarg  :height
-				:accessor shape-height)
-   (rx			;:type     number
-				:initform nil
-				:initarg  :rx
-				:accessor rectangle-rx)
-   (ry			;:type     number
-				:initform nil
-				:initarg  :ry
-				:accessor rectangle-ry)
-   (fill		;:type     (or nil fill-info)
-				:initform nil
-				:initarg  :fill
-				:accessor rectangle-fill)
-   (stroke		;:type     (or nil link-info)
-				:initform nil
-				:initarg  :stroke
-				:accessor rectangle-stroke)))
+  ((center-x	:initform   0 :initarg :center-x)	; number
+   (center-y	:initform   0 :initarg :center-y)	; number
+   (width		:initform   0 :initarg :width)		; number
+   (height		:initform   0 :initarg :height)		; number
+   (rx			:initform nil :initarg :rx)			; number
+   (ry			:initform nil :initarg :ry)			; number
+   (fill		:initform nil :initarg :fill)		; (or nil fill-info)
+   (stroke		:initform nil :initarg :stroke)))	; (or nil link-info)
 
 
 (defmethod initialize-instance :after ((rct rectangle) &rest initargs)
@@ -80,9 +56,21 @@
 	(check-member ry        :nullable   t :types number)
 	(check-object fill      canvas dict :nullable t :class   fill-info)
 	(check-object stroke    canvas dict :nullable t :class stroke-info))
-  (incf (shape-center rct) (canvas-left canvas))
-  (incf (shape-middle rct) (canvas-top  canvas))
+  (incf (slot-value rct 'center-x) (canvas-left canvas))
+  (incf (slot-value rct 'center-y) (canvas-top  canvas))
   nil)
+
+(defmethod shape-center ((rct rectangle))
+  (slot-value rct 'center-x))
+
+(defmethod shape-middle ((rct rectangle))
+  (slot-value rct 'center-y))
+
+(defmethod shape-width ((rct rectangle))
+  (slot-value rct 'width))
+
+(defmethod shape-height ((rct rectangle))
+  (slot-value rct 'height))
 
 ;;MEMO : use impelementation of shape...
 ;;(defmethod shape-connect-point ((shp rectangle) type arg) ...)
@@ -91,30 +79,28 @@
 ;;(defmethod shape-get-subcanvas ((shp rectangle)) ...)
 
 (defmethod draw-entity ((rct rectangle) writer)
-  (let ((cls  (shape-class rct))
-		(id   (and (not (entity-composition-p rct))
+  (with-slots (rx ry fill stroke class) rct
+	(let ((id (and (not (entity-composition-p rct))
 				   (slot-value rct 'id))))
-	(pre-draw rct writer)
-	(writer-write writer
-				  "<rect "
-				  (write-when id "id='" it "' ")
-				  "x='" (shape-left rct) "' "
-				  "y='" (shape-top  rct) "' "
-				  "width='"  (shape-width  rct) "' "
-				  "height='" (shape-height rct) "' "
-				  (write-when (rectangle-rx rct) "rx='" it "' ")
-				  (write-when (rectangle-ry rct) "ry='" it "' ")
-				  (write-when cls "class='" it "' ")
-				  (unless cls
-					(let ((fill (rectangle-fill   rct)))
+	  (pre-draw rct writer)
+	  (writer-write writer
+					"<rect "
+					(write-when id "id='" it "' ")
+					"x='" (shape-left rct) "' "
+					"y='" (shape-top  rct) "' "
+					"width='"  (shape-width  rct) "' "
+					"height='" (shape-height rct) "' "
+					(write-when rx "rx='" it "' ")
+					(write-when ry "ry='" it "' ")
+					(write-when class "class='" it "' ")
+					(unless class
 					  (when fill
-						(to-property-strings fill))))
-				  (unless cls
-					(let ((strk (rectangle-stroke rct)))
-					  (when strk
-						(to-property-strings strk))))
-				  "/>")
-	(post-draw rct writer))
+						(to-property-strings fill)))
+					(unless class
+					  (when stroke
+						(to-property-strings stroke)))
+					"/>")
+	  (post-draw rct writer)))
   nil)
   
 

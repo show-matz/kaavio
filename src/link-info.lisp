@@ -16,14 +16,8 @@
 #|EXPORT|#				:link-info
  |#
 (defclass link-info ()
-  ((url ;:type     string
-		:initform ""
-		:initarg  :url
-		:accessor link-url)
-   (target ;:type     keyword	;; :replace|:self|:parent|:top|:blank
-		   :initform *default-link-target*
-		   :initarg  :target
-		   :accessor link-target)))
+  ((url		:initform nil :initarg :url)		; string
+   (target	:initform nil :initarg :target)))	; keyword - :replace :self :parent :top :blank
 
 (defmethod initialize-instance :after ((link link-info) &rest initargs)
   (declare (ignore initargs))
@@ -45,9 +39,9 @@
  |#
 (defun write-link-open (link writer)
   (when link
-	(writer-write writer "<a xlink:href='" (link-url link) "'"
-							  (write-when (link-target link)
-										  " target='_" it "'") ">")
+	(with-slots (url target) link
+	  (writer-write writer "<a xlink:href='" url "'"
+							  (write-when target " target='_" it "'") ">"))
 	(writer-incr-level writer)))
 
 #|

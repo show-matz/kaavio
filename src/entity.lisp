@@ -16,14 +16,8 @@
 #|EXPORT|#				:entity
  |#
 (defclass entity ()
-  ((id		;:type     keyword
-			:initform nil
-			:initarg  :id
-			:accessor entity-id)
-   (layer	;:type     keyword
-			:initform nil
-			:initarg  :layer
-			:accessor entity-layer)))
+  ((id		:initform nil :initarg :id)			; keyword
+   (layer	:initform nil :initarg :layer)))	; keyword
 
 (defun begin-id-group (ent writer)
   (let ((id (slot-value ent 'id)))

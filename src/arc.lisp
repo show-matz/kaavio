@@ -47,7 +47,7 @@
 	(check-member radius   :nullable nil :types number)
 	(check-member degree1  :nullable nil :types number)
 	(check-member degree2  :nullable nil :types number))
-  (setf (path-data ent) (arc-calculate-data ent))
+  (setf (slot-value ent 'data) (arc-calculate-data ent))
   ;; this method must call super class' one.
   (call-next-method))
 

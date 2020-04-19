@@ -30,38 +30,14 @@
 ;
 ;-------------------------------------------------------------------------------
 (defclass paragraph (shape)
-  ((x		;:type     number
-			:initform 0
-			:initarg  :x
-			:accessor paragraph-x)
-   (y		;:type     number
-			:initform 0
-			:initarg  :y
-			:accessor paragraph-y)
-   (text	;:type     string -> list
-			:initform nil
-			:initarg  :text
-			:accessor paragraph-text)
-   (align	;:type     keyword
-			:initform nil
-			:initarg  :align
-			:accessor paragraph-align)
-   (valign	;:type     keyword
-			:initform nil
-			:initarg  :valign
-			:accessor paragraph-valign)
-   (font	;:type     (or nil font-info)
-			:initform nil
-			:initarg  :font
-			:accessor paragraph-font)
-   (width	;:type     number
-			:initform nil
-			:initarg  :width
-			:accessor paragraph-width)
-   (height	;:type     number
-			:initform nil
-			:initarg  :height
-			:accessor paragraph-height)))
+  ((x		:initform   0 :initarg :x)			; number
+   (y		:initform   0 :initarg :y)			; number
+   (text	:initform nil :initarg :text)		; string -> list
+   (align	:initform nil :initarg :align)		; keyword
+   (valign	:initform nil :initarg :valign)		; keyword
+   (font	:initform nil :initarg :font)		; (or nil font-info)
+   (width	:initform nil :initarg :width)		; number
+   (height	:initform nil :initarg :height)))	; number
 
 
 (defmethod initialize-instance :after ((shp paragraph) &rest initargs)
@@ -93,10 +69,10 @@
   nil)
 
 (defmethod shape-width ((shp paragraph))
-  (paragraph-width shp))
+  (slot-value shp 'width))
 
 (defmethod shape-height ((shp paragraph))
-  (paragraph-height shp))
+  (slot-value shp 'height))
 
 (defmethod shape-top ((shp paragraph))
   (with-slots (valign y height) shp
@@ -141,37 +117,35 @@
 	  ((:right)  x))))
 
 (defmethod entity-composition-p ((shp paragraph))
-  (or (< 1 (length (paragraph-text shp)))
+  (or (< 1 (length (slot-value shp 'text)))
 	  (call-next-method)))
   
 (defmethod draw-entity ((shp paragraph) writer)
-  (let ((x (paragraph-x shp))
-		(y (shape-top shp))
-		(txt-anchor (ecase (paragraph-align shp)
-					  ((:left)   "start")
-					  ((:center) "middle")
-					  ((:right)  "end")))
-		(cls (shape-class shp))
-		(id   (and (not (entity-composition-p shp))
-				   (slot-value shp 'id)))
-		(font (paragraph-font shp)))
-	(with-slots ((fsize size)
-				 line-spacing) font
-	  (let ((font-prop (to-property-strings font)))
-		(pre-draw shp writer)
-		(dolist (line (paragraph-text shp))
-		  (incf y fsize)
-		  (writer-write writer
-						"<text "
-						(write-when id "id='" it "' ")
-						"x='" x "' "
-						"y='" y "' "
-						"text-anchor='" txt-anchor "' "
-						(write-when cls "class='" it "' ")
-						(unless cls font-prop)
-						">" (escape-characters line) "</text>")
-		  (incf y line-spacing))
-		(post-draw shp writer))))
+  (with-slots (class x align font text) shp
+	(let ((y (shape-top shp))
+		  (txt-anchor (ecase align
+						((:left)   "start")
+						((:center) "middle")
+						((:right)  "end")))
+		  (id   (and (not (entity-composition-p shp))
+					 (slot-value shp 'id))))
+	  (with-slots ((fsize size)
+				   line-spacing) font
+		(let ((font-prop (to-property-strings font)))
+		  (pre-draw shp writer)
+		  (dolist (line text)
+			(incf y fsize)
+			(writer-write writer
+						  "<text "
+						  (write-when id "id='" it "' ")
+						  "x='" x "' "
+						  "y='" y "' "
+						  "text-anchor='" txt-anchor "' "
+						  (write-when class "class='" it "' ")
+						  (unless class font-prop)
+						  ">" (escape-characters line) "</text>")
+			(incf y line-spacing))
+		  (post-draw shp writer)))))
   nil)
 					  
 

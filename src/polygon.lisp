@@ -17,26 +17,11 @@
 ;
 ;-------------------------------------------------------------------------------
 (defclass polygon (entity)
-  ((points	;:type     list
-			:initform nil
-			:initarg  :points
-			:accessor polygon-points)
-   (class	;:type     keyword
-			:initform nil
-			:initarg  :class
-			:accessor polygon-class)
-   (fill	;:type     (or nil fill-info)
-			:initform nil
-			:initarg  :fill
-			:accessor polygon-fill)
-   (stroke	;:type     (or nil stroke-info)
-			:initform nil
-			:initarg  :stroke
-			:accessor polygon-stroke)
-   (link	;:type     (or nil link-info)
-			:initform nil
-			:initarg  :link
-			:accessor polygon-link)))
+  ((points	:initform nil :initarg :points)	; list
+   (class	:initform nil :initarg :class)	; keyword
+   (fill	:initform nil :initarg :fill)	; (or nil fill-info)
+   (stroke	:initform nil :initarg :stroke)	; (or nil stroke-info)
+   (link	:initform nil :initarg :link)))	; (or nil link-info)
 
 
 (defmethod initialize-instance :after ((ent polygon) &rest initargs)
@@ -73,18 +58,18 @@
   nil)
 	
 (defmethod entity-composition-p ((ent polygon))
-  (not (null (polygon-link ent))))
+  (not (null (slot-value ent 'link))))
 
 (defmethod pre-draw ((ent polygon) writer)
   (call-next-method)
   (when (entity-composition-p ent)
-	(let ((lnk (polygon-link ent)))
+	(let ((lnk (slot-value ent 'link)))
 	  (when lnk
 		(write-link-open lnk writer)))))
 
 (defmethod post-draw ((ent polygon) writer)
   (when (entity-composition-p ent)
-	(let ((lnk (polygon-link ent)))
+	(let ((lnk (slot-value ent 'link)))
 	  (when lnk
 		(write-link-close lnk writer))))
   (call-next-method))
@@ -97,27 +82,25 @@
 				 (unless (zerop idx)
 				   (princ #\space stream))
 				 (format stream "~A,~A" (coerce (car  pts) 'single-float)
-										(coerce (cadr pts) 'single-float))
+						 (coerce (cadr pts) 'single-float))
 				 (setf pts (cddr pts))))))
-  (let ((cls (polygon-class ent))
-		(id  (and (not (entity-composition-p ent))
-				  (slot-value ent 'id))))
-	(pre-draw ent writer)
-	(writer-write writer
-				  "<polygon "
-				  (write-when id     "id='" it "' ")
-				  (write-when cls "class='" it "' ")
-				  (unless cls
-					(let ((fill (polygon-fill ent)))
-					  (when fill
-						(to-property-strings fill))))
-				  (unless cls
-					(let ((strk (polygon-stroke ent)))
-					  (when strk
-						(to-property-strings strk))))
-				  "points='" (format-points (polygon-points ent)) "' "
-				  "/>")
-	(pre-draw ent writer))))
+	(with-slots (points class fill stroke) ent
+	  (let ((id  (and (not (entity-composition-p ent))
+					  (slot-value ent 'id))))
+		(pre-draw ent writer)
+		(writer-write writer
+					  "<polygon "
+					  (write-when id       "id='" it "' ")
+					  (write-when class "class='" it "' ")
+					  (unless class
+						(when fill
+						  (to-property-strings fill)))
+					  (unless class
+						(when stroke
+						  (to-property-strings stroke)))
+					  "points='" (format-points points) "' "
+					  "/>")
+		(pre-draw ent writer)))))
 
 
 ;;   (:public set-points (points)

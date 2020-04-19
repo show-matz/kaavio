@@ -15,26 +15,11 @@
 #|EXPORT|#				:dictionary
  |#
 (defclass dictionary ()
-  ((history-max  :type     integer
-				 :initform 0
-				 :initarg  :hist-max
-				 :accessor dict-history-max)
-   (history-arr  ;:type     array
-				 :initform nil
-				 :initarg  :hist-arr
-				 :accessor dict-history-arr)
-   (history-size :type     integer
-				 :initform 0
-				 :initarg  :hist-size
-				 :accessor dict-history-size)
-   (history-top  :type     integer
-				 :initform 0
-				 :initarg  :hist-top
-				 :accessor dict-history-top)
-   (map          ;:type     hashtable
-				 :initform nil
-				 :initarg  :map
-				 :accessor dict-map)))
+  ((history-max		:initform   0 :initarg :hist-max)	; integer
+   (history-arr		:initform nil :initarg :hist-arr)	; array
+   (history-size	:initform   0 :initarg :hist-size)	; integer
+   (history-top		:initform   0 :initarg :hist-top)	; integer
+   (map				:initform nil :initarg :map)))		; hashtable
 
 (defun dict-create (history-size)
   (make-instance 'dictionary

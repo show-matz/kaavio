@@ -188,22 +188,10 @@
 ;
 ;-------------------------------------------------------------------------------
 (defclass path (entity)
-  ((data		;:type     list
-				:initform nil
-				:initarg  :data
-				:accessor path-data)
-   (class		;:type     keyword
-				:initform nil
-				:initarg  :class
-				:accessor path-class)
-   (fill		;:type     (or nil fill-info)
-				:initform nil
-				:initarg  :fill
-				:accessor path-fill)
-   (stroke		;:type     (or nil stroke-info)
-				:initform nil
-				:initarg  :stroke
-				:accessor path-stroke)))
+  ((data	:initform nil :initarg :data)		; list
+   (class	:initform nil :initarg :class)		; keyword
+   (fill	:initform nil :initarg :fill)		; (or nil fill-info)
+   (stroke	:initform nil :initarg :stroke)))	; (or nil stroke-info)
 
 
 (defmethod initialize-instance :after ((ent path) &rest initargs)
@@ -244,25 +232,23 @@
 					 ((numberp  elm) (format stream "~F" elm))
 					 ((stringp  elm) (format stream "~A" elm)))
 				   (incf idx))))))
-	(let ((cls (path-class ent))
-		  (id  (and (not (entity-composition-p ent))
-					(slot-value ent 'id))))
-	  (pre-draw ent writer)
-	  (writer-write writer
-					"<path "
-					(write-when id     "id='" it "' ")
-					(write-when cls "class='" it "' ")
-					(unless cls
-					  (let ((fill (path-fill ent)))
+	(with-slots (data class fill stroke) ent
+	  (let ((id  (and (not (entity-composition-p ent))
+					  (slot-value ent 'id))))
+		(pre-draw ent writer)
+		(writer-write writer
+					  "<path "
+					  (write-when id       "id='" it "' ")
+					  (write-when class "class='" it "' ")
+					  (unless class
 						(when fill
-						  (to-property-strings fill))))
-					(unless cls
-					  (let ((strk (path-stroke ent)))
-						(when strk
-						  (to-property-strings strk))))
-					"d='" (format-path-data (path-data ent)) "' "
-					"/>")
-	  (pre-draw ent writer))))
+						  (to-property-strings fill)))
+					  (unless class
+						(when stroke
+						  (to-property-strings stroke)))
+					  "d='" (format-path-data data) "' "
+					  "/>")
+		(pre-draw ent writer)))))
 
 
 #|

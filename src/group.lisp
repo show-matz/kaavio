@@ -20,22 +20,10 @@
 #|EXPORT|#				:draw-group
  |#
 (defclass group (shape)
-  ((x		;:type     number
-			:initform 0
-			:initarg  :center-x
-			:accessor group-x)
-   (y		;:type     number
-			:initform 0
-			:initarg  :center-y
-			:accessor group-y)
-   (width	;:type     number
-			:initform 0
-			:initarg  :width
-			:accessor group-width)
-   (height	;:type     number
-			:initform 0
-			:initarg  :height
-			:accessor group-height)))
+  ((x		:initform 0 :initarg :center-x)	; number
+   (y		:initform 0 :initarg :center-y)	; number
+   (width	:initform 0 :initarg :width)	; number
+   (height	:initform 0 :initarg :height)))	; number
 
 (defgeneric group-get-canvas (grp))
 (defgeneric draw-group (grp writer))
@@ -54,38 +42,38 @@
 	(check-member x      :nullable nil :types number)
 	(check-member y      :nullable nil :types number)
 	(check-member width  :nullable nil :types number)
-	(check-member height :nullable nil :types number))
-  (incf (group-x grp) (canvas-left canvas))
-  (incf (group-y grp) (canvas-top  canvas))
+	(check-member height :nullable nil :types number)
+	(incf x (canvas-left canvas))
+	(incf y (canvas-top  canvas)))
   nil)
 
 (defmethod shape-width ((grp group))
-  (group-width grp))
+  (slot-value grp 'width))
 
 (defmethod shape-height ((grp group))
-  (group-height grp))
+  (slot-value grp 'height))
 
 (defmethod shape-top ((grp group))
-  (- (group-y grp)
-	 (/ (group-height grp) 2)))
+  (- (slot-value grp 'y)
+	 (/ (slot-value grp 'height) 2)))
 
 (defmethod shape-middle ((grp group))
-  (group-y grp))
+  (slot-value grp 'y))
 
 (defmethod shape-bottom ((grp group))
-  (+ (group-y grp)
-	 (/ (group-height grp) 2)))
+  (+ (slot-value grp 'y)
+	 (/ (slot-value grp 'height) 2)))
 
 (defmethod shape-left ((grp group))
-  (- (group-x grp)
-	 (/ (group-width grp) 2)))
+  (- (slot-value grp 'x)
+	 (/ (slot-value grp 'width) 2)))
 
 (defmethod shape-center ((grp group))
-  (group-x grp))
+  (slot-value grp 'x))
 
 (defmethod shape-right ((grp group))
-  (+ (group-x grp)
-	 (/ (group-width grp) 2)))
+  (+ (slot-value grp 'x)
+	 (/ (slot-value grp 'width) 2)))
 
 ;;MEMO : use impelementation of shape...
 ;;(defmethod shape-connect-point ((grp group) type arg) ...)

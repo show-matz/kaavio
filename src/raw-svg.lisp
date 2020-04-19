@@ -8,18 +8,14 @@
 (in-package :cl-diagram)
 
 (defclass raw-svg (entity)
-  ((data	;:type     string
-			:initform ""
-			:initarg  :svgdata
-			:accessor raw-svg-data)))
+  ((data :initform nil :initarg :svgdata)))	; string
 
 (defmethod check ((ent raw-svg) canvas dict)
   (declare (ignorable canvas dict))
-  ;; this method must call super class' one.
-  (call-next-method)
   (with-slots (data) ent
 	(check-member data :nullable nil :types string))
-  nil)
+  ;; this method must call super class' one.
+  (call-next-method))
 
 (defmethod draw-entity ((ent raw-svg) writer)
   (dolist (line (string/split (raw-svg-data ent) #\newline))

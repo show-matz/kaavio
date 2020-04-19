@@ -238,7 +238,7 @@
 	(let ((new-points nil))
 	  (multiple-value-setq (new-points points-cache x-cache y-cache)
 								(fix-points arrow-p radius-cache
-											(copy-list (diagram::line-points req))))
+									(copy-list (slot-value req 'diagram::points))))
 	  (let ((left (canvas-left canvas))
 			(top  (canvas-top  canvas)))
 		(decf x-cache left)
@@ -248,7 +248,7 @@
 		  (decf (second points-cache)  top)
 		  (decf (third  points-cache) left)
 		  (decf (fourth points-cache)  top)))
-	  (setf (diagram::line-points req) new-points)))
+	  (setf (slot-value req 'diagram::points) new-points)))
   nil)
 
 (defmethod entity-composition-p ((req uml-interface-request))
@@ -269,7 +269,7 @@
 			  (multiple-value-bind (deg1 deg2)
 				  (calculate-degrees (+ x-cache (canvas-left canvas))
 									 (+ y-cache (canvas-top  canvas))
-									 (copy-list (diagram::line-points req)) degree-cache)
+									 (copy-list (slot-value req 'diagram::points)) degree-cache)
 				(when (<= 360 deg1) (decf deg1 360))
 				(when (<= 360 deg2) (decf deg2 360))
 				(arc x-cache y-cache radius-cache deg1 deg2))))))

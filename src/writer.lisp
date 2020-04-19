@@ -41,8 +41,8 @@
 		   :accessor buffer-writer-stream)))
 
 (defmethod writer-write ((writer buffer-writer) &rest params)
-  (let ((stream (buffer-writer-stream writer)))
-	(dotimes (x (writer-level writer))
+  (let ((stream (slot-value writer 'stream)))
+	(dotimes (x (slot-value writer 'level))
 	  (declare (ignorable x))
 	  (princ #\tab stream))
 	(dolist (itm params)
@@ -50,14 +50,14 @@
 	(terpri stream)))
 
 (defmethod writer-incr-level ((writer buffer-writer))
-  (incf (writer-level writer)))
+  (incf (slot-value writer 'level)))
 
 (defmethod writer-decr-level ((writer buffer-writer))
-  (decf (writer-level writer)))
+  (decf (slot-value writer 'level)))
 
 (defmethod writer-close ((writer buffer-writer))
-  (let ((stream (buffer-writer-stream writer)))
-	(setf (buffer-writer-stream writer) nil)
+  (let ((stream (slot-value writer 'stream)))
+	(setf (slot-value writer 'stream) nil)
 	(get-output-stream-string stream)))
 	
 

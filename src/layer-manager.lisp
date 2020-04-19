@@ -16,18 +16,9 @@
 #|EXPORT|#				:layer-manager
  |#
 (defclass layer-manager ()
-  ((current  ;:type     (or keyword symbol nil)
-			 :initform nil
-			 :initarg  :current
-			 :accessor layer-current)
-   (counter  :type     :integer
-			 :initform 0
-			 :initarg  :counter
-			 :accessor layer-counter)
-   (map      ;:type    hashtable
-			 :initform nil
-			 :initarg  :map
-			 :accessor layer-map)))
+  ((current  :initform nil :initarg :current)	; (or nil keyword symbol)
+   (counter  :initform   0 :initarg :counter)	; integer
+   (map      :initform nil :initarg :map)))		; hashtable
 			 
 (defun layer-create-manager ()
   (make-instance 'layer-manager

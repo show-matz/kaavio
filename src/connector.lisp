@@ -492,9 +492,7 @@
 		(throw-exception "Entity '~A' is not shape nor line object." from))
 	  (unless (or (typep dest-entity 'shape) (typep dest-entity 'line))
 		(throw-exception "Entity '~A' is not shape nor line object."   to))
-;;	  (setf (line-points ent) '(0 0 0 0)) ; HACK.
-;;	  (call-next-method)
-	  (setf (line-points ent)
+	  (setf (slot-value ent 'points)
 			(resolve-connector-points from-entity dest-entity style))
 	  (call-next-method))))
 

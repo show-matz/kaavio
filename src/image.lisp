@@ -71,34 +71,13 @@
 ;
 ;-------------------------------------------------------------------------------
 (defclass image (shape)
-  ((center-x		;:type     number
-					:initform 0
-					:initarg  :center-x
-					:accessor image-x)
-   (center-y		;:type     number
-					:initform 0
-					:initarg  :center-y
-					:accessor image-y)
-   (filename		;:type     (or string pathname)
-					:initform nil
-					:initarg  :filename
-					:accessor image-filename)
-   (width			;:type     number
-					:initform 0
-					:initarg  :width
-					:accessor image-width)
-   (height			;:type     number
-					:initform 0
-					:initarg  :height
-					:accessor image-height)
-   (label			;:type     (or nil label-info)
-					:initform nil
-					:initarg  :label
-					:accessor image-label)
-   (preserve-ratio	;:type     boolean
-					:initform t
-					:initarg  :preserve-ratio
-					:accessor image-preserve-ratio)))
+  ((center-x		:initform   0 :initarg :center-x)	; number
+   (center-y		:initform   0 :initarg :center-y)	; number
+   (filename		:initform nil :initarg :filename)	; (or string pathname)
+   (width			:initform   0 :initarg :width)		; number
+   (height			:initform   0 :initarg :height)		; number
+   (label			:initform nil :initarg :label)		; (or nil label-info)
+   (preserve-ratio	:initform nil)))					; boolean
 
 
 (defmethod initialize-instance :after ((img image) &rest initargs)
@@ -137,39 +116,39 @@
 					(setf width  (* height (/ w h)))
 					(setf height (* width  (/ h w))))))))
 	(check-member width  :nullable nil :types number)
-	(check-member height :nullable nil :types number))
-  (incf (image-x img) (canvas-left canvas))
-  (incf (image-y img) (canvas-top  canvas))
+	(check-member height :nullable nil :types number)
+	(incf center-x (canvas-left canvas))
+	(incf center-y (canvas-top  canvas)))
   nil)
 
 
 (defmethod shape-width ((img image))
-  (image-width img))
+  (slot-value img 'width))
 
 (defmethod shape-height ((img image))
-  (image-height img))
+  (slot-value img 'height))
 
 (defmethod shape-top ((img image))
-  (- (image-y img)
-	 (/ (image-height img) 2)))
+  (- (slot-value img 'center-y)
+	 (/ (slot-value img 'height) 2)))
 
 (defmethod shape-middle ((img image))
-  (image-y img))
+  (slot-value img 'center-y))
 
 (defmethod shape-bottom ((img image))
-  (+ (image-y img)
-	 (/ (image-height img) 2)))
+  (+ (slot-value img 'center-y)
+	 (/ (slot-value img 'height) 2)))
 
 (defmethod shape-left ((img image))
-  (- (image-x img)
-	 (/ (image-width img) 2)))
+  (- (slot-value img 'center-x)
+	 (/ (slot-value img 'width) 2)))
 
 (defmethod shape-center ((img image))
-  (image-x img))
+  (slot-value img 'center-x))
 
 (defmethod shape-right ((img image))
-  (+ (image-x img)
-	 (/ (image-width img) 2)))
+  (+ (slot-value img 'center-x)
+	 (/ (slot-value img 'width) 2)))
 
 ;;MEMO : use impelementation of shape...
 ;;(defmethod shape-connect-point ((img image) type arg) ...)
@@ -178,31 +157,31 @@
 ;;(defmethod shape-get-subcanvas ((img image)) ...)
 
 (defmethod entity-composition-p ((img image))
-  (if (image-label img)
+  (if (slot-value img 'label)
 	  t
 	  (call-next-method)))
 
 (defmethod draw-entity ((img image) writer)
-  (let ((cls  (shape-class img))
-		(id   (and (not (entity-composition-p img))
+  (with-slots (class filename preserve-ratio) img
+	(let ((id (and (not (entity-composition-p img))
 				   (slot-value img 'id))))
-	(pre-draw img writer)
-	(writer-write writer
-				  "<image "
-				  (write-when id "id='" it "' ")
-				  "x='" (shape-left img) "' "
-				  "y='" (shape-top  img) "' "
-				  "width='"  (shape-width  img) "' "
-				  "height='" (shape-height img) "' "
-				  (write-when cls "class='" it "' ")
-				  "xlink:href='" (image-filename img) "' "
-				  (unless (image-preserve-ratio img)
-					"preserveAspectRatio='none' ")
-				  "/>")
-	(with-slots (label) img
-	  (when label
-		(draw-label label img writer)))
-	(post-draw img writer))
+	  (pre-draw img writer)
+	  (writer-write writer
+					"<image "
+					(write-when id "id='" it "' ")
+					"x='" (shape-left img) "' "
+					"y='" (shape-top  img) "' "
+					"width='"  (shape-width  img) "' "
+					"height='" (shape-height img) "' "
+					(write-when class "class='" it "' ")
+					"xlink:href='" filename "' "
+					(unless preserve-ratio
+					  "preserveAspectRatio='none' ")
+					"/>")
+	  (with-slots (label) img
+		(when label
+		  (draw-label label img writer)))
+	  (post-draw img writer)))
   nil)
 
 

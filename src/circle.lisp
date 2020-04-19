@@ -108,27 +108,25 @@
 ;;(defmethod entity-composition-p ((shp circle)) ...)
   
 (defmethod draw-entity ((shp circle) writer)
-  (let ((cls  (shape-class shp))
-		(id   (and (not (entity-composition-p shp))
+  (with-slots (class radius fill stroke) shp
+	(let ((id (and (not (entity-composition-p shp))
 				   (slot-value shp 'id))))
-	(pre-draw shp writer)
-	(writer-write writer
-				  "<circle "
-				  (write-when id "id='" it "' ")
-				  "cx='" (shape-center shp) "' "
-				  "cy='" (shape-middle shp) "' "
-				  "r='" (slot-value shp 'radius) "' "
-				  (write-when cls "class='" it "' ")
-				  (unless cls
-					(let ((fill (slot-value shp 'fill)))
+	  (pre-draw shp writer)
+	  (writer-write writer
+					"<circle "
+					(write-when id "id='" it "' ")
+					"cx='" (shape-center shp) "' "
+					"cy='" (shape-middle shp) "' "
+					"r='" radius "' "
+					(write-when class "class='" it "' ")
+					(unless class
 					  (when fill
-						(to-property-strings fill))))
-				  (unless cls
-					(let ((strk (slot-value shp 'stroke)))
-					  (when strk
-						(to-property-strings strk))))
-				  "/>")
-	(post-draw shp writer))
+						(to-property-strings fill)))
+					(unless class
+					  (when stroke
+						(to-property-strings stroke)))
+					"/>")
+	  (post-draw shp writer)))
   nil)
 
 

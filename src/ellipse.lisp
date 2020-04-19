@@ -94,30 +94,12 @@
 ;
 ;-------------------------------------------------------------------------------
 (defclass ellipse (shape)
-  ((center-x	;:type     number
-				:initform 0
-				:initarg  :center-x
-				:accessor shape-center)
-   (center-y	;:type     number
-				:initform 0
-				:initarg  :center-y
-				:accessor shape-middle)
-   (radius-x	;:type     number
-				:initform 0
-				:initarg  :radius-x
-				:accessor ellipse-radius-x)
-   (radius-y	;:type     number
-				:initform 0
-				:initarg  :radius-y
-				:accessor ellipse-radius-y)
-   (fill		;:type     (or nil fill-info)
-				:initform nil
-				:initarg  :fill
-				:accessor ellipse-fill)
-   (stroke		;:type     (or nil stroke-info)
-				:initform nil
-				:initarg  :stroke
-				:accessor ellipse-stroke)))
+  ((center-x	:initform   0 :initarg :center-x)	; number
+   (center-y	:initform   0 :initarg :center-y)	; number
+   (radius-x	:initform   0 :initarg :radius-x)	; number
+   (radius-y	:initform   0 :initarg :radius-y)	; number
+   (fill		:initform nil :initarg :fill)		; (or nil fill-info)
+   (stroke		:initform nil :initarg :stroke)))	; (or nil stroke-info)
 
 (defmethod initialize-instance :after ((ent ellipse) &rest initargs)
   (declare (ignore initargs))
@@ -141,9 +123,9 @@
 	(check-member radius-x  :nullable nil :types number)
 	(check-member radius-y  :nullable nil :types number)
 	(check-object fill      canvas dict :nullable t :class   fill-info)
-	(check-object stroke    canvas dict :nullable t :class stroke-info))
-  (incf (shape-center shp) (canvas-left canvas))
-  (incf (shape-middle shp) (canvas-top  canvas))
+	(check-object stroke    canvas dict :nullable t :class stroke-info)
+	(incf center-x (canvas-left canvas))
+	(incf center-y (canvas-top  canvas)))
   nil)
 
 (defmethod shape-center ((shp ellipse))
@@ -183,28 +165,26 @@
 						 (slot-value shp 'radius-y) type arg))
   
 (defmethod draw-entity ((shp ellipse) writer)
-  (let ((cls  (shape-class shp))
-		(id   (and (not (entity-composition-p shp))
+  (with-slots (class radius-x radius-y fill stroke) shp
+	(let ((id (and (not (entity-composition-p shp))
 				   (slot-value shp 'id))))
-	(pre-draw shp writer)
-	(writer-write writer
-				  "<ellipse "
-				  (write-when id "id='" it "' ")
-				  "cx='" (shape-center shp) "' "
-				  "cy='" (shape-middle shp) "' "
-				  "rx='" (slot-value shp 'radius-x) "' "
-				  "ry='" (slot-value shp 'radius-y) "' "
-				  (write-when cls "class='" it "' ")
-				  (unless cls
-					(let ((fill (slot-value shp 'fill)))
+	  (pre-draw shp writer)
+	  (writer-write writer
+					"<ellipse "
+					(write-when id "id='" it "' ")
+					"cx='" (shape-center shp) "' "
+					"cy='" (shape-middle shp) "' "
+					"rx='" radius-x "' "
+					"ry='" radius-y "' "
+					(write-when class "class='" it "' ")
+					(unless class
 					  (when fill
-						(to-property-strings fill))))
-				  (unless cls
-					(let ((strk (slot-value shp 'stroke)))
-					  (when strk
-						(to-property-strings strk))))
-				  "/>")
-	(post-draw shp writer))
+						(to-property-strings fill)))
+					(unless class
+					  (when stroke
+						(to-property-strings stroke)))
+					"/>")
+	  (post-draw shp writer)))
   nil)
 
 

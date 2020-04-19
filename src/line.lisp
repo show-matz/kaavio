@@ -70,26 +70,11 @@
 ;
 ;-------------------------------------------------------------------------------
 (defclass line (entity)
-  ((points		:type     list
-				:initform nil
-				:initarg  :points
-				:accessor line-points)
-   (class		;:type     keyword
-				:initform nil
-				:initarg  :class
-				:accessor line-class)
-   (end1		;:type     keyword
-				:initform nil
-				:initarg  :end1
-				:accessor line-end1)
-   (end2		;:type     keyword
-				:initform nil
-				:initarg  :end2
-				:accessor line-end2)
-   (stroke		;:type     (or nil stroke-info)
-				:initform nil
-				:initarg  :stroke
-				:accessor line-stroke)))
+  ((points	:initform nil :initarg :points)		; list
+   (class	:initform nil :initarg :class)		; keyword
+   (end1	:initform nil :initarg :end1)		; keyword
+   (end2	:initform nil :initarg :end2)		; keyword
+   (stroke	:initform nil :initarg :stroke)))	; (or nil stroke-info)
 
 
 (defmethod initialize-instance :after ((ent line) &rest initargs)
@@ -117,7 +102,7 @@
 (defun line-get-endpoints (ent type)
   (type-assert type keyword)
   (check-keywords type :from :dest)
-  (let ((points (line-points ent)))
+  (let ((points (slot-value ent 'points)))
 	(if (eq type :from)
 		(cons (make-point (third points) (fourth points))
 			  (make-point (first points) (second points)))
@@ -130,7 +115,7 @@
 
 ;; returns multi-value. x, y, and sin/cos in point (x, y).
 (defun line-get-center (ent)
-  (__get-line-center-imp (line-points ent)))
+  (__get-line-center-imp (slot-value ent 'points)))
 
 
 
@@ -142,10 +127,9 @@
 	(check-member class  :nullable   t :types (or keyword string))
 	(check-object end1   canvas dict :nullable   t :class endmark-info)
 	(check-object end2   canvas dict :nullable   t :class endmark-info)
-	(check-object stroke canvas dict :nullable nil :class  stroke-info))
-  (when (line-end1 ent) (check (line-end1 ent) canvas dict))
-  (when (line-end2 ent) (check (line-end2 ent) canvas dict))
-  (let ((points (line-points ent)))
+	(check-object stroke canvas dict :nullable nil :class  stroke-info)
+	(when end1 (check end1 canvas dict))
+	(when end2 (check end2 canvas dict))
 	(unless (evenp (length points))
 	  (throw-exception "Odd number elements in points of line."))
 	(unless (<= 4 (length points))
@@ -162,38 +146,35 @@
   nil)
 
 (defmethod entity-composition-p ((ent line))
-  (or (line-end1 ent)
-	  (line-end2 ent)))
+  (or (slot-value ent 'end1)
+	  (slot-value ent 'end2)))
 
 (defmethod draw-entity ((ent line) writer)
-  (let ((cls (line-class ent))
-		(id  (and (not (entity-composition-p ent))
-				  (slot-value ent 'id))))
-	(pre-draw ent writer)
-	(labels ((format-points (pts st)
-			   (when pts
-				 (format st " ~A,~A" (coerce (car  pts) 'single-float)
-									 (coerce (cadr pts) 'single-float))
-				 (format-points (cddr pts) st))))
-	  (writer-write writer
-					"<polyline "
-					(write-when id "id='" it "' ")
-					"fill='none' "
-					(write-when cls "class='" it "' ")
-					(unless cls
-					  (let ((strk (line-stroke ent)))
-						(when strk
-						  (to-property-strings strk))))
-					"points='" (with-output-to-string (st)
-								 (format-points (line-points ent) st)) "' "
-					"/>"))
-	(let ((end1 (line-end1 ent))
-		  (end2 (line-end2 ent)))
+  (with-slots (points class end1 end2 stroke) ent
+	(let ((id  (and (not (entity-composition-p ent))
+					(slot-value ent 'id))))
+	  (pre-draw ent writer)
+	  (labels ((format-points (pts st)
+				 (when pts
+				   (format st " ~A,~A" (coerce (car  pts) 'single-float)
+						   (coerce (cadr pts) 'single-float))
+				   (format-points (cddr pts) st))))
+		(writer-write writer
+					  "<polyline "
+					  (write-when id "id='" it "' ")
+					  "fill='none' "
+					  (write-when class "class='" it "' ")
+					  (unless class
+						(when stroke
+						  (to-property-strings stroke)))
+					  "points='" (with-output-to-string (st)
+								   (format-points points st)) "' "
+								   "/>"))
 	  (when end1
-		(draw-endmark end1 (line-get-endpoints ent :from) cls (line-stroke ent) writer))
+		(draw-endmark end1 (line-get-endpoints ent :from) class stroke writer))
 	  (when end2
-		(draw-endmark end2 (line-get-endpoints ent :dest) cls (line-stroke ent) writer)))
-	(post-draw ent writer))
+		(draw-endmark end2 (line-get-endpoints ent :dest) class stroke writer))
+	  (post-draw ent writer)))
   nil)
   
 

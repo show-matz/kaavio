@@ -55,14 +55,8 @@
 #|EXPORT|#				:shape
  |#
 (defclass shape (entity)
-  ((class	;:type     keyword
-			:initform nil
-			:initarg  :class
-			:accessor shape-class)
-   (link	;:type     (or nil link-info)
-			:initform nil
-			:initarg  :link
-			:accessor shape-link)))
+  ((class	:initform nil :initarg :class)	; keyword
+   (link	:initform nil :initarg :link)))	; (or nil link-info)
 
 (defmethod initialize-instance :after ((shp shape) &rest initargs)
   (declare (ignore initargs))
@@ -71,7 +65,7 @@
   shp)
 
 (defmethod entity-composition-p ((shp shape))
-  (not (null (shape-link shp))))
+  (not (null (slot-value shp 'link))))
 
 #|
 #|EXPORT|#				:shape-width
@@ -130,13 +124,13 @@
 (defmethod pre-draw ((shp shape) writer)
   (call-next-method)
   (when (entity-composition-p shp)
-	(let ((lnk (shape-link shp)))
+	(let ((lnk (slot-value shp 'link)))
 	  (when lnk
 		(write-link-open lnk writer)))))
 
 (defmethod post-draw ((shp shape) writer)
   (when (entity-composition-p shp)
-	(let ((lnk (shape-link shp)))
+	(let ((lnk (slot-value shp 'link)))
 	  (when lnk
 		(write-link-close lnk writer))))
   (call-next-method))

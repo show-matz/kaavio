@@ -29,7 +29,7 @@
 	(setf name   (and name (make-label name)))
 	(setf fill   (make-fill   (or fill   *uml-actor-fill*   *default-fill*  )))
 	(setf stroke (make-stroke (or stroke *uml-actor-stroke* *default-stroke*)))
-	(let ((height (diagram::group-height actor)))
+	(let ((height (slot-value actor 'diagram::height)))
 	  (setf head  (/ (* height *uml-actor-head-ratio*) 2))
 	  (setf thigh    (* height *uml-actor-thigh-position*))
 	  (setf shoulder (* height *uml-actor-shoulder-position*))))

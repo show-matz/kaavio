@@ -17,22 +17,10 @@
 ;;------------------------------------------------------------------------------
 (defclass style-info ()
   ;;ToDo : fill / stroke / font 以外のスタイルをどう扱うか．．．
-  ((target	;:type     (or keyword string)
-			:initform nil
-			:initarg  :target
-			:accessor style-target)
-   (fill	;:type     (or nil fill-info)
-			:initform nil
-			:initarg  :fill
-			:accessor style-fill)
-   (stroke	;:type     (or nil link-info)
-			:initform nil
-			:initarg  :stroke
-			:accessor style-stroke)
-   (font	;:type     (or nil font-info)
-			:initform nil
-			:initarg  :font
-			:accessor style-font)))
+  ((target	:initform nil :initarg :target)	; (or keyword string)
+   (fill	:initform nil :initarg :fill)	; (or nil fill-info)
+   (stroke	:initform nil :initarg :stroke)	; (or nil link-info)
+   (font	:initform nil :initarg :font)))	; (or nil font-info)
 
 (defmethod initialize-instance :after ((obj style-info) &rest initargs)
   (declare (ignore initargs))
@@ -51,13 +39,13 @@
   nil)
 
 (defmethod to-style-strings ((obj style-info))
-  (let ((fill   (style-fill   obj))
-		(stroke (style-stroke obj))
-		(font   (style-font   obj)))
+  (let ((fill   (slot-value obj   'fill))
+		(stroke (slot-value obj 'stroke))
+		(font   (slot-value obj   'font)))
 	(setf fill   (and fill   (to-style-strings   fill)))
 	(setf stroke (and stroke (to-style-strings stroke)))
 	(setf font   (and font   (to-style-strings   font)))
-	(format-string (style-target obj) " { " fill stroke font " }")))
+	(format-string (slot-value obj 'target) " { " fill stroke font " }")))
 
 #|
 #|EXPORT|#				:style
@@ -86,12 +74,12 @@
 (defmethod check ((sht stylesheet) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (dolist (entry (stylesheet-styles sht))
+  (dolist (entry (slot-value sht 'styles))
 	(check entry canvas dict))
   nil)
 
 (defmethod draw-entity ((sht stylesheet) writer)
-  (let ((entries (stylesheet-styles sht)))
+  (let ((entries (slot-value sht 'styles)))
 	(when entries
 	  (writer-write writer "<style type='text/css'><![CDATA[")
 	  (writer-incr-level writer)
