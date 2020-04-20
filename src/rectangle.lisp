@@ -73,7 +73,7 @@
   (slot-value rct 'height))
 
 ;;MEMO : use impelementation of shape...
-;;(defmethod shape-connect-point ((shp rectangle) type arg) ...)
+;;(defmethod shape-connect-point ((shp rectangle) type1 type2 arg) ...)
   
 ;;MEMO : use impelementation of shape...
 ;;(defmethod shape-get-subcanvas ((shp rectangle)) ...)

@@ -37,8 +37,9 @@
 	  (t					 (make-point (- cx w/2) (- cy (* (/ p-sin p-cos) w/2)))))))	;;   left line
 
 ;; return point object.
-(defun rectangle-connect-point (cx cy width height type arg)
-  (ecase type
+(defun rectangle-connect-point (cx cy width height type1 type2 arg)
+  (declare (ignore type1))
+  (ecase type2
 	((:center) (rectangle-connect-point-C cx cy width height arg))
 	((:top)    (make-point (+ cx (* (/ width 4) arg)) (- cy (/ height 2))))
 	((:bottom) (make-point (+ cx (* (/ width 4) arg)) (+ cy (/ height 2))))
@@ -89,11 +90,12 @@
 (defgeneric shape-right  (shp))
 (defgeneric shape-get-subcanvas (shp))
 
-(defgeneric shape-connect-point (shp type arg))
+(defgeneric shape-connect-point (shp type1 type2 arg))
 ; returns point object.
-; type := :center|:top|:bottom|:left|:right
-; arg  := point object (when   (eq type :center)) |
-;         -1,0,1       (unless (eq type :center))
+; type1 := :from|:dest
+; type2 := :center|:top|:bottom|:left|:right
+; arg   := point object (when   (eq type :center)) |
+;          -1,0,1       (unless (eq type :center))
 
 
 (defmethod shape-top ((shp shape))
@@ -114,11 +116,11 @@
 			   (shape-left   shp)
 			   (shape-right  shp)))
 
-(defmethod shape-connect-point ((shp shape) type arg)
+(defmethod shape-connect-point ((shp shape) type1 type2 arg)
   (rectangle-connect-point (shape-center shp)
 						   (shape-middle shp)
 						   (shape-width  shp)
-						   (shape-height shp) type arg))
+						   (shape-height shp) type1 type2 arg))
   
 
 (defmethod pre-draw ((shp shape) writer)

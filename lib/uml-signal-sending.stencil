@@ -96,18 +96,18 @@
 	  canvas)))
 
 ;;ToDo : :CC の場合にちょっとマズいことになる‥‥‥
-(defmethod shape-connect-point ((sig-send uml-signal-sending) type arg)
+(defmethod shape-connect-point ((sig-send uml-signal-sending) type1 type2 arg)
   (let ((pt (rectangle-connect-point (shape-center sig-send)
 									 (shape-middle sig-send)
 									 (shape-width  sig-send)
-									 (shape-height sig-send) type arg)))
+									 (shape-height sig-send) type1 type2 arg)))
 	(with-slots (direction depth) sig-send
 	  (with-point (x y) pt
 		(cond
 		  ((and (eq direction :right)
-				(eq type      :right) (zerop arg)) (incf x (/ depth 2)))
+				(eq type2     :right) (zerop arg)) (incf x (/ depth 2)))
 		  ((and (eq direction  :left)
-				(eq type       :left) (zerop arg)) (decf x (/ depth 2))))))
+				(eq type2      :left) (zerop arg)) (decf x (/ depth 2))))))
 	pt))
   
 (defmacro uml-signal-sending (x y text &key keyword width height direction depth

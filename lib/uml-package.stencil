@@ -64,13 +64,13 @@
 	(check-member tab-height  :nullable nil :types number))
   nil)
 
-(defmethod shape-connect-point ((pkg uml-package) type arg)
+(defmethod shape-connect-point ((pkg uml-package) type1 type2 arg)
   ;;ToDo : 95KvWqh6oVU : タブ部分と交差する場合の考慮ができてない（まともにやると難しそう）
   (with-slots (tab-height) pkg
 	(rectangle-connect-point (shape-center    pkg)
 							 (+ (shape-middle pkg) (/ tab-height 2))
 							 (shape-width     pkg)
-							 (- (shape-height pkg) tab-height) type arg)))
+							 (- (shape-height pkg) tab-height) type1 type2 arg)))
   
 ;;MEMO : use impelementation of group...
 ;;(defmethod group-get-canvas ((pkg uml-package)) ...)

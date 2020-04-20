@@ -12,9 +12,9 @@
 (defparameter *uml-merge-height-ratio*    0.75)
 
 
-(defun uml-decision-merge-connect-point (cx cy width height type arg)
+(defun uml-decision-merge-connect-point (cx cy width height type1 type2 arg)
   ;;ToDo : ivIbc7vn2EJ : 面倒くさいので ellipse 実装に転送して終わりにする。気が向いたらちゃんとやる。
-  (ellipse-connect-point cx cy (/ width 2) (/ height 2) type arg))
+  (ellipse-connect-point cx cy (/ width 2) (/ height 2) type1 type2 arg))
 
 ;;-------------------------------------------------------------------------------
 ;;
@@ -78,11 +78,11 @@
   (+ (slot-value obj 'center-x)
 	 (/ (slot-value obj 'size) 2)))
 
-(defmethod shape-connect-point ((obj uml-decision-merge) type arg)
+(defmethod shape-connect-point ((obj uml-decision-merge) type1 type2 arg)
   (with-slots ((x center-x)
 			   (y center-y) size height-ratio) obj
 	(uml-decision-merge-connect-point x y size
-									  (* size height-ratio) type arg)))
+									  (* size height-ratio) type1 type2 arg)))
   
 ;;MEMO : use impelementation of shape...
 ;;(defmethod shape-get-subcanvas ((obj uml-decision-merge)) ...)

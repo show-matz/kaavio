@@ -22,13 +22,14 @@
 #|
 #|EXPORT|#				:circle-connect-point
  |#
-(defun circle-connect-point (cx cy radius type arg)
-  (if (eq type :center)
+(defun circle-connect-point (cx cy radius type1 type2 arg)
+  (declare (ignore type1))
+  (if (eq type2 :center)
 	  (with-point (px py) arg
 		(let ((x (* radius (math/cos4 px py cx cy)))
 			  (y (* radius (math/sin4 px py cx cy))))
 		  (make-point (- cx x) (- cy y))))
-	  (let ((degree (ecase type
+	  (let ((degree (ecase type2
 					  ((:right)  (+   0 (* arg 30)))
 					  ((:bottom) (-  90 (* arg 30)))
 					  ((:left)   (- 180 (* arg 30)))
@@ -96,10 +97,10 @@
 (defmethod shape-right ((shp circle))
   (+ (shape-center shp) (slot-value shp 'radius)))
 
-(defmethod shape-connect-point ((shp circle) type arg)
+(defmethod shape-connect-point ((shp circle) type1 type2 arg)
   (circle-connect-point (shape-center  shp)
 						(shape-middle  shp)
-						(slot-value shp 'radius) type arg))
+						(slot-value shp 'radius) type1 type2 arg))
   
 ;;MEMO : use impelementation of shape...
 ;;(defmethod shape-get-subcanvas ((shp circle)) ...)

@@ -76,7 +76,7 @@
 	 (/ (slot-value grp 'width) 2)))
 
 ;;MEMO : use impelementation of shape...
-;;(defmethod shape-connect-point ((grp group) type arg) ...)
+;;(defmethod shape-connect-point ((grp group) type1 type2 arg) ...)
   
 ;;MEMO : use impelementation of shape...
 ;;(defmethod shape-get-subcanvas ((grp group)) ...)

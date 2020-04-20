@@ -56,14 +56,15 @@
 ;  (draw-canvas-frame (shape-get-subcanvas obj) writer))
  
 
-(defmethod shape-connect-point ((event uml-time-event) type arg)
+(defmethod shape-connect-point ((event uml-time-event) type1 type2 arg)
+  (declare (ignore type1))
   (let* ((canvas (group-get-canvas event)))
 	(with-canvas (top bottom left right) canvas
 		(let* ((qw  (/ (canvas-width  canvas) 4))
 			   (qh  (/ (canvas-height canvas) 4))
 			   (center (+ left qw qw))
 			   (middle (+ top  qh qh)))
-		  (ecase type
+		  (ecase type2
 			((:center) (call-next-method))
 			((:top)    (make-point (+ center (* qw arg))    top))
 			((:bottom) (make-point (+ center (* qw arg)) bottom))

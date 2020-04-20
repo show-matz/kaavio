@@ -96,7 +96,7 @@
   
 
 ;; no override
-;;(defmethod shape-connect-point ((state uml-state) type arg)
+;;(defmethod shape-connect-point ((state uml-state) type1 type2 arg)
 ;;  (call-next-method))
 
 ;;MEMO : use impelementation of group...

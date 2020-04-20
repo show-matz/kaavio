@@ -74,11 +74,11 @@
 		  (slot-value action 'margin2))
 	canvas))
 
-(defmethod shape-connect-point ((action uml-action) type arg)
+(defmethod shape-connect-point ((action uml-action) type1 type2 arg)
   (rectangle-connect-point (shape-center action)
 						   (shape-middle action)
 						   (shape-width  action)
-						   (shape-height action) type arg))
+						   (shape-height action) type1 type2 arg))
   
 (defmacro uml-action (x y text &key keyword width height corner-r
 								  font fill stroke margin link layer id)

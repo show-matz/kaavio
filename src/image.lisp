@@ -151,7 +151,7 @@
 	 (/ (slot-value img 'width) 2)))
 
 ;;MEMO : use impelementation of shape...
-;;(defmethod shape-connect-point ((img image) type arg) ...)
+;;(defmethod shape-connect-point ((img image) type1 type2 arg) ...)
   
 ;;MEMO : use impelementation of shape...
 ;;(defmethod shape-get-subcanvas ((img image)) ...)

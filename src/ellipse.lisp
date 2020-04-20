@@ -78,8 +78,9 @@
 	(make-point (+ cx x) y)))
 
 
-(defun ellipse-connect-point (cx cy rx ry type arg)
-  (let ((handler (ecase type
+(defun ellipse-connect-point (cx cy rx ry type1 type2 arg)
+  (declare (ignore type1))
+  (let ((handler (ecase type2
 				   ((:center) #'ellipse-connect-point-C)
 				   ((:top)    #'ellipse-connect-point-T)
 				   ((:bottom) #'ellipse-connect-point-B)
@@ -158,11 +159,11 @@
 ;;MEMO : use impelementation of shape...
 ;;(defmethod entity-composition-p ((shp ellipse)) ...)
   
-(defmethod shape-connect-point ((shp ellipse) type arg)
+(defmethod shape-connect-point ((shp ellipse) type1 type2 arg)
   (ellipse-connect-point (shape-center     shp)
 						 (shape-middle     shp)
 						 (slot-value shp 'radius-x)
-						 (slot-value shp 'radius-y) type arg))
+						 (slot-value shp 'radius-y) type1 type2 arg))
   
 (defmethod draw-entity ((shp ellipse) writer)
   (with-slots (class radius-x radius-y fill stroke) shp
