@@ -47,11 +47,10 @@
 
 (defun resolve-connector-points-for-CC (pos1 pos2 e1 e2)
   (declare (ignore pos1 pos2))
-  (with-property
-	(let ((pt1 (shape-connect-point e1 :from :center (make-point e2[center] e2[middle])))
-		  (pt2 (shape-connect-point e2 :dest :center (make-point e1[center] e1[middle]))))
-	  (list (point-x pt1) (point-y pt1)
-			(point-x pt2) (point-y pt2)))))
+  (let ((pt1 (shape-connect-point e1 :from :center (shape-cc-center e2 :dest)))
+		(pt2 (shape-connect-point e2 :dest :center (shape-cc-center e1 :from))))
+	(list (point-x pt1) (point-y pt1)
+		  (point-x pt2) (point-y pt2))))
 
 (defun resolve-connector-points-for-BB (pos1 pos2 e1 e2)
   (let ((dist *default-connector-spacing*))

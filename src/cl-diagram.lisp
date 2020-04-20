@@ -173,6 +173,7 @@
 				:shape-left
 				:shape-right
 				:shape-get-subcanvas
+				:shape-cc-center
 				:shape-connect-point
 				;stencil.lisp
 				:*include-paths*

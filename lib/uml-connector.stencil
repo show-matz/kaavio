@@ -1,0 +1,109 @@
+
+(in-package :cl-diagram-user)
+
+(defparameter *uml-connector-size*       20)
+(defparameter *uml-connector-fill*   :white)
+(defparameter *uml-connector-stroke* :black)
+(defparameter *uml-connector-font*	    nil)
+
+
+;-------------------------------------------------------------------------------
+;
+; class uml-connector
+;
+;-------------------------------------------------------------------------------
+(defclass uml-connector (diagram:group)
+  ((x1		:initform   0	:initarg :x1)		; number
+   (y1		:initform   0	:initarg :y1)		; number
+   (x2		:initform   0	:initarg :x2)		; number
+   (y2		:initform   0	:initarg :y2)		; number
+   (name	:initform nil	:initarg :name)		; (or nil keyword)
+   (size	:initform   0	:initarg :size)		; number
+   (fill	:initform nil	:initarg :fill)		; (or nil fill-info)
+   (stroke	:initform nil	:initarg :stroke)	; (or nil stroke-info)
+   (font	:initform nil	:initarg :font)))	; (or nil font-info)
+
+(defmethod initialize-instance :after ((con uml-connector) &rest initargs)
+  (declare (ignore initargs))
+  (with-slots (fill stroke font) con
+	(setf fill   (make-fill   (or fill   *uml-connector-fill*   *default-fill*  )))
+	(setf stroke (make-stroke (or stroke *uml-connector-stroke* *default-stroke*)))
+	(setf font   (make-font   (or font   *uml-connector-font*   *default-font*  ))))
+  con)
+
+(defmethod check ((con uml-connector) canvas dict)
+  (with-slots (name fill stroke font) con
+	(check-member name               :nullable t :types     keyword)
+	(check-object fill   canvas dict :nullable t :class   fill-info)
+	(check-object stroke canvas dict :nullable t :class stroke-info)
+	(check-object font   canvas dict :nullable t :class   font-info)
+	(if name
+		(setf name (subseq (symbol-name name) 0 1))
+		(let* ((tmp (symbol-name (slot-value con 'diagram::id)))
+			   (len (length tmp)))
+		  (setf name (subseq tmp (1- len) len)))))
+  (with-slots (x1 y1 size
+				  diagram::x
+				  diagram::y
+				  diagram::width
+				  diagram::height) con
+	(setf diagram::x      x1)
+	(setf diagram::y      y1)
+	(setf diagram::width  size)
+	(setf diagram::height size))
+  ;; this method must call super class' one.
+  (call-next-method))
+
+(defmethod shape-cc-center ((con uml-connector) type)
+  (if (eq type :from)
+	  (make-point (slot-value con 'x2)
+				  (slot-value con 'y2))
+	  (make-point (slot-value con 'x1)
+				  (slot-value con 'y1))))
+
+(defmethod shape-connect-point ((con uml-connector) type1 type2 arg)
+  (if (eq type1 :from)
+	  (circle-connect-point (slot-value con 'x2)
+							(slot-value con 'y2)
+							(/ (slot-value con 'size) 2) :from type2 arg)
+	  (circle-connect-point (slot-value con 'x1)
+							(slot-value con 'y1)
+							(/ (slot-value con 'size) 2) :dest type2 arg)))
+  
+;; override of group::draw-group
+(defmethod draw-group ((con uml-connector) writer)
+  (with-slots (x1 y1 x2 y2 name size fill stroke font) con
+	(let* ((canvas (group-get-canvas con))
+		   (x (/ size 2))
+		   (y (/ size 2))
+		   (r (/ size 2))
+		   (fsize (slot-value font 'diagram::size))
+		   (*default-fill*     fill)
+		   (*default-stroke* stroke)
+		   (*default-font*     font))
+	  (declare (special canvas))
+	  (macrolet ((register-entity (entity)
+				   `(check-and-draw-local-entity ,entity canvas writer)))
+		(circle x y r)
+		(circle (+ x (- x2 x1)) (+ y (- y2 y1)) r)
+		(text x (+ y (/ fsize 2)) name :align :center)
+		(text (+ x (- x2 x1)) (+ y (- y2 y1) (/ fsize 2)) name :align :center))))
+  nil)
+
+;for debug...
+;(defmethod post-draw ((obj uml-connector) writer)
+;  (call-next-method)
+;  (draw-canvas-frame (shape-get-subcanvas obj) writer))
+ 
+
+
+
+(defmacro uml-connector (x1 y1 x2 y2 id &key name size fill stroke font layer)
+  `(register-entity (make-instance 'uml-connector
+								   :x1 ,x1 :y1 ,y1
+								   :x2 ,x2 :y2 ,y2
+								   :name ,name
+								   :size (or ,size *uml-connector-size*)
+								   :fill ,fill :stroke ,stroke
+								   :font ,font :link nil :layer ,layer :id ,id)))
+

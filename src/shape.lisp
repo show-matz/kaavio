@@ -78,6 +78,7 @@
 #|EXPORT|#				:shape-left
 #|EXPORT|#				:shape-right
 #|EXPORT|#				:shape-get-subcanvas
+#|EXPORT|#				:shape-cc-center
 #|EXPORT|#				:shape-connect-point
  |#
 (defgeneric shape-width  (shp))
@@ -89,6 +90,10 @@
 (defgeneric shape-left   (shp))
 (defgeneric shape-right  (shp))
 (defgeneric shape-get-subcanvas (shp))
+
+(defgeneric shape-cc-center (shp type))
+; returns point object.
+; type := :from|:dest
 
 (defgeneric shape-connect-point (shp type1 type2 arg))
 ; returns point object.
@@ -115,6 +120,11 @@
 			   (shape-bottom shp)
 			   (shape-left   shp)
 			   (shape-right  shp)))
+
+(defmethod shape-cc-center ((shp shape) type)
+  (declare (ignore type))
+  (make-point (shape-center shp)
+			  (shape-middle shp)))
 
 (defmethod shape-connect-point ((shp shape) type1 type2 arg)
   (rectangle-connect-point (shape-center shp)

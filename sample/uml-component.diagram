@@ -14,5 +14,4 @@
 				   ((rectangle 20 40 20 20 :id :rect2)))
 	(connector :cmp1 :cmp2 :style :RT)
 	(connector :cmp1 :cmp3 :style :CC)
-	(connector :rect1 :circle1)
-	)
+	(connector :rect1 :circle1))

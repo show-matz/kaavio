@@ -1,0 +1,30 @@
+(in-package :diagram-user)
+
+(load-stencil :grid)
+(load-stencil :uml-action)
+(load-stencil :uml-connector)
+(load-stencil :uml-flow)
+
+(create-svg (:width 400 :height 300 :desc "test of uml-connector" :encoding :utf8)
+	(grid) ; :size 10 :bgcolor "#F0F0FF" :stroke '(:color :blue :width 0.2))
+	;; :name なしの場合は ID の最後の文字が使用される
+	(uml-action  50 30 "action1" :id :act1)
+	(uml-action 150 80 "action2" :id :act2)
+	(uml-connector 150 30 50 80 :warp-a)
+	(uml-flow :act1 :warp-a)
+	(uml-flow :warp-a :act2)
+	;; :name ありの場合は name の最初の文字が使用される
+	(uml-action 250 30 "action3" :id :act3)
+	(uml-action 350 80 "action4" :id :act4)
+	(uml-connector 280 80 320 30 :the-warp :name :b) 
+	(uml-flow :act3 :the-warp)
+	(uml-flow :the-warp :act4)
+	;; subcanvas の確認
+	(with-subcanvas (100 130)
+	  ;;ToDo : subcanvas 配下だとactionのCCポイントが正しく取れない
+	  (uml-action  50 30 "action5" :id :act5)
+	  (uml-action 150 80 "action6" :id :act6)
+	  (uml-connector 150 30 50 80 :warp-c)
+	  (uml-flow :act5 :warp-c)
+	  (uml-flow :warp-c :act6)))
+
