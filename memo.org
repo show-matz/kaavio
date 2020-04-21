@@ -1,3 +1,13 @@
+* memo
+#+BEGIN_SRC lisp
+  (progn
+    (require :cl-diagram)
+    (load "@memo.lisp"))
+
+  (update-svg-files "sample/" :all t)
+  (update-svg-files "sample/UML/" :all t)
+#+END_SRC
+
 * todo
 ** lib [36/38]
 
