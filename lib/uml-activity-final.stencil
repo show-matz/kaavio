@@ -1,26 +1,26 @@
 (in-package :cl-diagram-user)
 
-(defparameter *uml-activity-end-radius*       15)
-(defparameter *uml-activity-end-ratio*       0.6)
-(defparameter *uml-activity-end-fill*     :white)
-(defparameter *uml-activity-end-stroke*   :black)
+(defparameter *uml-activity-final-radius*       15)
+(defparameter *uml-activity-final-ratio*       0.6)
+(defparameter *uml-activity-final-fill*     :white)
+(defparameter *uml-activity-final-stroke*   :black)
 
 ;-------------------------------------------------------------------------------
 ;
-; class uml-activity-end
+; class uml-activity-final
 ;
 ;-------------------------------------------------------------------------------
-(defclass uml-activity-end (diagram:circle)
+(defclass uml-activity-final (diagram:circle)
   ((ratio :initform 0 :initarg :ratio)))	; number
 
-(defmethod check ((obj uml-activity-end) canvas dict)
+(defmethod check ((obj uml-activity-final) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
   (with-slots (ratio) obj
 	(check-member ratio :nullable nil :types number))
   nil)
 
-(defmethod post-draw ((obj uml-activity-end) writer)
+(defmethod post-draw ((obj uml-activity-final) writer)
   (with-slots (ratio) obj
 	(let* ((canvas (shape-get-subcanvas obj))
 		   (center (/ (canvas-width canvas) 2))
@@ -34,13 +34,13 @@
   nil)
 
 
-(defmacro uml-activity-end (x y &key radius ratio fill stroke link layer id)
-  `(register-entity (make-instance 'uml-activity-end
+(defmacro uml-activity-final (x y &key radius ratio fill stroke link layer id)
+  `(register-entity (make-instance 'uml-activity-final
 								   :center-x ,x :center-y ,y
-								   :radius (or ,radius *uml-activity-end-radius*)
-								   :ratio  (or ,ratio  *uml-activity-end-ratio*)
+								   :radius (or ,radius *uml-activity-final-radius*)
+								   :ratio  (or ,ratio  *uml-activity-final-ratio*)
 								   :class nil
-								   :fill   (or ,fill   *uml-activity-end-fill*   *default-fill*)
-								   :stroke (or ,stroke *uml-activity-end-stroke* *default-stroke*)
+								   :fill   (or ,fill   *uml-activity-final-fill*   *default-fill*)
+								   :stroke (or ,stroke *uml-activity-final-stroke* *default-stroke*)
 								   :link ,link :layer ,layer :id ,id)))
 

@@ -1,9 +1,0 @@
-(load-stencil :grid)
-(load-stencil :uml-flow-begin)
-
-(create-svg (:width 300 :height 150 :desc "test of uml-flow-begin" :encoding :utf8)
-	(grid) ; :size 10 :bgcolor "#F0F0FF" :stroke '(:color :blue :width 0.2))
-	(uml-flow-begin               60  75)
-	(uml-flow-begin (+ $1[center] 60) $1[middle] :fill :navy)
-	(uml-flow-begin (+ $1[center] 60) $1[middle] :radius 20)
-	(uml-flow-begin (+ $1[center] 60) $1[middle] :fill :brown :radius 15))

@@ -1,0 +1,19 @@
+(in-package :cl-diagram-user)
+
+(defparameter *uml-activity-start-radius*     10)
+(defparameter *uml-activity-start-fill*   :black)
+
+;-------------------------------------------------------------------------------
+;
+; class uml-activity-start
+;
+;-------------------------------------------------------------------------------
+(defclass uml-activity-start (diagram:circle) ())
+
+(defmacro uml-activity-start (x y &key radius fill link layer id)
+  `(register-entity (make-instance 'uml-activity-start
+								   :center-x ,x :center-y ,y
+								   :radius (or ,radius *uml-activity-start-radius*)
+								   :fill   (or ,fill   *uml-activity-start-fill* *default-fill*)
+								   :class nil :stroke :none
+								   :link ,link :layer ,layer :id ,id)))

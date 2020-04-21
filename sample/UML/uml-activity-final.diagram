@@ -1,0 +1,11 @@
+(load-stencil :grid)
+(load-stencil :uml-activity-final)
+
+(create-svg (:width 300 :height 150 :desc "test of uml-activity-final" :encoding :utf8)
+	(grid) ; :size 10 :bgcolor "#F0F0FF" :stroke '(:color :blue :width 0.2))
+	(uml-activity-final               60  75)
+	(uml-activity-final (+ $1[center] 60) $1[middle] :radius 10)
+	(uml-activity-final (+ $1[center] 60) $1[middle] :fill :beige :radius 20)
+	(let ((*uml-activity-final-stroke* :navy)
+		  (*uml-activity-final-fill*   :lightgray))
+	  (uml-activity-final (+ $1[center] 60) $1[middle])))
