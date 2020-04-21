@@ -3,31 +3,31 @@
 
 (load-stencil :uml-keyword-info)
 
-(defparameter *uml-implementation-dasharray* '(4 2))
+(defparameter *uml-realization-dasharray* '(4 2))
 
-(defclass uml-implementation (diagram:connector)
+(defclass uml-realization (diagram:connector)
   ((keyword :initform nil :initarg :keyword)))	; (or nil uml-keyword-info)
 
-(defmethod initialize-instance :after ((gen uml-implementation) &rest initargs)
+(defmethod initialize-instance :after ((gen uml-realization) &rest initargs)
   (declare (ignore initargs))
   (with-slots (keyword) gen
 	(setf keyword (and keyword (make-uml-keyword keyword))))
   gen)
 
 
-(defmethod check ((gen uml-implementation) canvas dict)
+(defmethod check ((gen uml-realization) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
   (with-slots (keyword) gen 
 	(check-object keyword canvas dict :nullable t :class uml-keyword-info))
   nil)
 
-(defmethod entity-composition-p ((gen uml-implementation))
+(defmethod entity-composition-p ((gen uml-realization))
   (with-slots (keyword) gen
 	(or keyword
 		(call-next-method))))
 
-(defmethod post-draw ((gen uml-implementation) writer)
+(defmethod post-draw ((gen uml-realization) writer)
   (with-slots (keyword) gen
 	(when keyword
 	  (uml-keyword-draw-beside-line keyword gen writer)))
@@ -35,13 +35,13 @@
 	  
 
 
-(defmacro uml-implementation (from to &key keyword style layer id)
-  `(register-entity (make-instance 'uml-implementation
+(defmacro uml-realization (from to &key keyword style layer id)
+  `(register-entity (make-instance 'uml-realization
 								   :from ,from :to ,to
 								   :keyword ,keyword :style ,style
 								   :class nil
 								   :stroke (make-stroke
-											:dasharray (or *uml-implementation-dasharray* '(4 2))
+											:dasharray (or *uml-realization-dasharray* '(4 2))
 											:base *default-stroke*)
 								   :end1 nil :end2 `(:type :triangle :fill :white
 													 :stroke (:dasharray nil

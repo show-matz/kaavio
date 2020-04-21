@@ -9,7 +9,7 @@
 #+END_SRC
 
 * todo
-** lib [36/38]
+** lib [36/39]
 
   - [X] grid.stencil
   - [X] textbox.stencil
@@ -24,12 +24,12 @@
   - [X] uml-connector   □--->(A)    (A)--->□
   - [X] uml-decision-merge
   - [X] uml-dependency
+  - [ ] uml-expansion-region
   - [X] uml-flow-begin
   - [X] uml-flow-end
   - [X] uml-flow
   - [X] uml-fork-join
   - [X] uml-generalization
-  - [X] uml-implementation
   - [X] uml-interface
   - [X] uml-keyword-info
   - [X] uml-multiplicity-info
@@ -38,6 +38,7 @@
   - [X] uml-package
   - [ ] uml-partition
   - [X] uml-pin
+  - [X] uml-realization
   - [X] uml-role-info
   - [X] uml-signal-receipt
   - [X] uml-signal-sending
