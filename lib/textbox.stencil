@@ -9,8 +9,9 @@
 
 
 (defclass textbox (diagram:text-shape)
-  ((rx :initform nil :initarg :rx)		; number
-   (ry :initform nil :initarg :ry)))	; number
+  ((no-frame	:initform nil :initarg :no-frame)	; number
+   (rx			:initform nil :initarg       :rx)	; number
+   (ry			:initform nil :initarg       :ry)))	; number
   
 ;; override of group::draw-group
 (defmethod draw-group ((box textbox) writer)
@@ -20,10 +21,11 @@
 		 (height (canvas-height canvas)))
 	(macrolet ((register-entity (entity)
 				 `(check-and-draw-local-entity ,entity canvas writer)))
-	  (with-slots (rx ry diagram::fill diagram::stroke) box
-		;; draw box
-		(rectangle (/ width 2) (/ height 2) width height
-				   :rx rx :ry ry :fill diagram::fill :stroke diagram::stroke))))
+	  (with-slots (no-frame rx ry diagram::fill diagram::stroke) box
+		(unless no-frame
+		  ;; draw box
+		  (rectangle (/ width 2) (/ height 2) width height
+					 :rx rx :ry ry :fill diagram::fill :stroke diagram::stroke)))))
   ;; draw text
   (call-next-method))
 
@@ -35,9 +37,10 @@
 ;(defmethod text-shape-paragraph-area ((box textbox))
 ;  (call-next-method))
 
-(defmacro textbox (x y text &key rx ry width height align valign
-								 font fill stroke margin link layer id)
+(defmacro textbox (x y text &key no-frame rx ry width height align
+								 valign font fill stroke margin link layer id)
   `(register-entity (make-instance 'textbox
+								   :no-frame ,no-frame
 								   :center-x ,x :center-y ,y
 								   :width ,width :height ,height
 								   :text ,text :font ,font
