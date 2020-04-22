@@ -1,15 +1,23 @@
 
 (in-package :cl-diagram-user)
 
+(load-stencil :uml-keyword-info)
+
 (defparameter *uml-action-font*         nil)
 (defparameter *uml-action-fill*      :white)
 (defparameter *uml-action-stroke*    :black)
 (defparameter *uml-action-corner-r*       6)
 (defparameter *uml-action-margin*        10)
 
+;-------------------------------------------------------------------------------
+;
+; class uml-action
+;
+;-------------------------------------------------------------------------------
 (defclass uml-action (diagram:text-shape)
   ((text		:initform nil	:initarg  :text)		; (or keyword string)
    (keyword		:initform nil	:initarg  :keyword)		; (or nil uml-keyword-info)
+   (contents-p	:initform nil	:initarg  :contents-p)	; boolean
    (corner-r	:initform nil	:initarg  :corner-r)	; number
    (margin2		:initform nil)))						; number ( margin for keyword )
 
@@ -72,6 +80,13 @@
   (let ((canvas (call-next-method)))
 	(incf (canvas-top canvas)
 		  (slot-value action 'margin2))
+	(with-slots (contents-p text diagram::font diagram::margin) action
+	  (when contents-p
+		(multiple-value-bind (w h)
+				(font-calc-textarea diagram::font text)
+		  (declare (ignore w))
+		  (setf (canvas-bottom canvas) (+ (canvas-top canvas)
+										  (* 2 diagram::margin) h)))))
 	canvas))
 
 (defmethod shape-connect-point ((action uml-action) type1 type2 arg)
@@ -80,16 +95,34 @@
 						   (shape-width  action)
 						   (shape-height action) type1 type2 arg))
   
-(defmacro uml-action (x y text &key keyword width height corner-r
-								  font fill stroke margin link layer id)
-  `(register-entity (make-instance 'uml-action
-								   :center-x ,x :center-y ,y
-								   :width ,width :height ,height
-								   :text ,text :font ,font
-								   :keyword ,keyword
-								   :corner-r (or ,corner-r *uml-action-corner-r*)
-								   :margin   (or ,margin   *uml-action-margin*)
-								   :fill     (or ,fill   *uml-action-fill*   *default-fill*   :white)
-								   :stroke   (or ,stroke *uml-action-stroke* *default-stroke* :black)
-								   :link ,link :layer ,layer :id ,id)))
+;-------------------------------------------------------------------------------
+;
+; macro uml-action
+;
+;-------------------------------------------------------------------------------
+(defmacro uml-action (x y text &key keyword width height
+									margin corner-r
+									font fill stroke link layer id contents)
+  (let* ((contents-p (not (null contents)))
+		 (code `(register-entity
+					 (make-instance 'uml-action
+									:center-x ,x :center-y ,y
+									:width ,width :height ,height
+									:text ,text :font ,font
+									:keyword ,keyword :contents-p ,contents-p
+									:corner-r (or ,corner-r *uml-action-corner-r*)
+									:margin   (or ,margin   *uml-action-margin*)
+									:fill     (or ,fill *uml-action-fill*
+												  *default-fill*   :white)
+									:stroke   (or ,stroke *uml-action-stroke*
+												  *default-stroke* :black)
+									:fill ,fill :stroke ,stroke
+									:link ,link :layer ,layer :id ,id))))
+	(if (null contents)
+		code
+		(let ((g-obj (gensym "OBJ")))
+		  `(let* ((,g-obj ,code)
+				  (canvas (shape-get-subcanvas ,g-obj)))
+			 (declare (special canvas))
+			 ,@contents)))))
 
