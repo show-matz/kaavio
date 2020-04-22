@@ -13,8 +13,8 @@
 (in-package :cl-diagram)
 
 (defparameter *text-shape-font*       nil)
-(defparameter *text-shape-fill*    :white)
-(defparameter *text-shape-stroke*  :black)
+(defparameter *text-shape-fill*       nil)
+(defparameter *text-shape-stroke*     nil)
 (defparameter *text-shape-align*  :center)
 (defparameter *text-shape-valign* :center)
 (defparameter *text-shape-margin*      10)
