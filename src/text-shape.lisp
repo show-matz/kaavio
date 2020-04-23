@@ -60,7 +60,7 @@
 
 (defmethod check ((txtshp text-shape) canvas dict)
   (with-slots (text align valign font fill stroke margin) txtshp
-	(check-member   text    :nullable nil :types string)
+	(check-member   text    :nullable nil :types (or keyword string))
 	(check-member   align   :nullable nil :types keyword)
 	(check-member   valign  :nullable nil :types keyword)
 	(check-object   font    canvas dict :nullable t :class   font-info)
@@ -68,7 +68,10 @@
 	(check-object   stroke  canvas dict :nullable t :class stroke-info)
 	(check-member   margin  :nullable nil :types number)
 	(check-keywords align   :left :center :right)
-	(check-keywords valign  :top  :center :bottom))
+	(check-keywords valign  :top  :center :bottom)
+	(setf text (if (stringp text)
+				   text
+				   (string-downcase (symbol-name text)))))
   ;; width, height のいずれか（または両方）が省略されている場合は計算で決定
   ;;MEMO : 明示的に w/h を指定された場合、テキストがはみ出す可能性があるがそれは仕方ない
   (with-slots (width height) txtshp

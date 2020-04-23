@@ -12,88 +12,43 @@
 (defparameter *uml-state-corner-r*      10)
 (defparameter *uml-state-margin*         5)
 
-
-(defun uml-state-calc-size (state)
-  (with-slots (name keyword
-			   activities contents-p font margin) state
-	(multiple-value-bind (width height)	;; start by w/h of 'name'.
-		(font-calc-textarea font
-							(if (stringp name)
-								name
-								(string-downcase (symbol-name name))))
-	  ;; adding margin
-	  (incf width  (* margin 2))
-	  (incf height (* margin 2))
-	  ;; keyword (if exists).
-	  (when keyword
-		(with-slots (font) keyword
-		  (multiple-value-bind (w h)
-			  (font-calc-textarea font (uml-keyword-to-string keyword))
-			(setf width (cl:max width (+ w (* margin 2))))
-			(incf height h))))
-	  ;; contents
-	  (when contents-p
-		(incf height (* margin 2))
-		(dolist (act activities)
-		  (let ((txt (uml-transition-spec-to-string act)))
-			(with-slots (font) act
-			  (with-slots ((ls diagram::line-spacing)) font
-				(multiple-value-bind (w h) (font-calc-textarea font txt)
-				  (setf width (cl:max width (+ w (* margin 2))))
-				  (incf height (+ h ls))))))))
-	  (values (cl:max width  *uml-state-width*)
-			  (cl:max height *uml-state-height*)))))
-
-
 ;-------------------------------------------------------------------------------
 ;
 ; class uml-state
 ;
 ;-------------------------------------------------------------------------------
-(defclass uml-state (diagram:group)
-  ((name		:initform nil :initarg :name)		; (or string keyword)
-   (keyword		:initform nil :initarg :keyword)	; (or nil uml-keyword-info)
-   (activities	:initform nil :initarg :activities)	; list of uml-transition-spec
-   (font		:initform nil :initarg :font)		; (or nil font-info)
-   (fill		:initform nil :initarg :fill)		; (or nil fill-info)
-   (stroke		:initform nil :initarg :stroke)		; (or nil stroke-info)
+(defclass uml-state (diagram:text-shape)
+  ((keyword		:initform nil :initarg :keyword)	; (or nil uml-keyword-info)
    (contents-p	:initform nil :initarg :contents-p)	; boolean
+   (activities	:initform nil :initarg :activities)	; list of uml-transition-spec
    (corner-r	:initform   0 :initarg :corner-r)	; number
-   (margin		:initform   0 :initarg :margin)))	; number
+   (margin2		:initform   0 :initarg :margin)))	; number ( margin for keyword )
 
 (defmethod initialize-instance :after ((state uml-state) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (keyword activities
-			   font fill stroke contents-p) state
+  (with-slots (keyword activities margin2 contents-p) state
 	(setf keyword (and keyword (make-uml-keyword keyword)))
 	(setf activities (mapcar (lambda (entry)
 							   (make-uml-transition-spec entry)) activities))
-	(setf font    (make-font   (or font   *uml-state-font*   *default-font*  )))
-	(setf fill    (make-fill   (or fill   *uml-state-fill*   *default-fill*  )))
-	(setf stroke  (make-stroke (or stroke *uml-state-stroke* *default-stroke*)))
-	(setf contents-p (not (not (or activities contents-p)))))
+	(setf contents-p (not (not (or activities contents-p))))
+	(setf margin2 (if (null keyword)
+					  0
+					  (or (and *uml-state-font*  (slot-value *uml-state-font* 'diagram::size))
+						  (and *default-font*    (slot-value *default-font*   'diagram::size))
+						  12))))	;;ToDo : これはなんとかしないと。
   state)
 
 (defmethod check ((state uml-state) canvas dict)
-  (with-slots ((width  diagram::width)
-			   (height diagram::height)
-			   keyword activities font fill stroke corner-r margin) state
+  ;; this method must call super class' one.
+  (call-next-method)
+  (with-slots (keyword activities corner-r margin2) state
 	(check-object keyword    canvas dict :nullable   t :class uml-keyword-info)
-	(check-member activities             :nullable   t :types list)
-	(check-object font       canvas dict :nullable   t :class font-info)
-	(check-object fill       canvas dict :nullable   t :class fill-info)
-	(check-object stroke     canvas dict :nullable   t :class stroke-info)
-	(check-member corner-r               :nullable nil :types number)
-	(check-member margin                 :nullable nil :types number)
-	(unless (and width height)
-	  (multiple-value-bind (w h) (uml-state-calc-size state)
-		(setf width  (or width  (cl:max w *uml-state-width*)))
-		(setf height (or height (cl:max h *uml-state-height*)))))
+	(check-member activities :nullable   t :types list)
+	(check-member corner-r   :nullable nil :types number)
+	(check-member margin2    :nullable nil :types number)
 	(dolist (activity activities)
 	  (check-object activity canvas dict :class uml-transition-spec)))
-  ;; this method must call super class' one.
-  (call-next-method))
-  
+  nil)
 
 ;; no override
 ;;(defmethod shape-connect-point ((state uml-state) type1 type2 arg)
@@ -103,12 +58,15 @@
 ;;(defmethod group-get-canvas ((state uml-state)) ...)
 
 (defmethod shape-get-subcanvas ((state uml-state))
-  (with-slots (name keyword font margin) state
-	(multiple-value-bind (width height)	;; start by w/h of 'name'.
+  (with-slots (keyword
+			   (text diagram::text)
+			   (font diagram::font)
+			   (margin diagram::margin)) state
+	(multiple-value-bind (width height)	;; start by w/h of 'text'.
 		(font-calc-textarea font
-							(if (stringp name)
-								name
-								(string-downcase (symbol-name name))))
+							(if (stringp text)
+								text
+								(string-downcase (symbol-name text))))
 	  (declare (ignore width))
 	  (incf height (* margin 2))
 	  ;; keyword (if exists).
@@ -125,86 +83,118 @@
 
 ;; override of group::draw-group
 (defmethod draw-group ((state uml-state) writer)
-  (let* ((canvas (group-get-canvas state))
-		 (top    (canvas-top    canvas))
-		 (left   (canvas-left   canvas))
-		 (width  (canvas-width  canvas))
-		 (height (canvas-height canvas))
-		 (x      (/ width  2))
-		 (y      (/ height 2)))
-	(with-slots (name keyword activities
-				 margin font fill
-				 stroke contents-p corner-r) state
-	  (with-slots ((font-size    diagram::size)
-				   (line-spacing diagram::line-spacing)) font
-		(let* ((*default-font*   font)
-			   (*default-fill*   fill)
-			   (*default-stroke* stroke))
-		  (macrolet ((register-entity (entity)
-					   `(check-and-draw-local-entity ,entity canvas writer)))
-			;; draw state body
-			(rectangle x y width height :rx corner-r :ry corner-r)
-			(if (not contents-p)
-				(progn ;; contents 無しの場合は水平中心線ベースでテキストを描画（default height を考慮）
-				  ;;ToDo : keyword font が極端に小さいと、バランス悪いけど‥‥‥どうする？
-				  ;;       本気でやるなら、keyword / name の font size から計算するしかない‥‥‥
-				  ;; draw keyword
-				  (if keyword
-					  (uml-keyword-draw keyword (+ left x) (+ top y) :center writer)
-					  (decf y (/ font-size 2)))
-				  ;; draw text
-				  (incf y font-size)
-				  (text x y (if (stringp name)
-								name
-								(string-downcase (symbol-name name))) :align :center))
-				(let ((y2 margin)) ;; contents 有りの場合は top から描画（default height は採択されないと前提）
-				  ;; draw keyword
-				  (when keyword
-					(with-slots (font) keyword
-					  (incf y2 (slot-value font 'diagram::size))
-					  (uml-keyword-draw keyword (+ left x) (+ top y2) :center writer)))
-				  ;; draw text
-				  (incf y2 font-size)
-				  (text x y2 (if (stringp name)
-								 name
-								 (string-downcase (symbol-name name))) :align :center)
-				  (when contents-p
-					;;draw partition line
-					(incf y2 margin)
-					(line `(0 ,y2 ,width ,y2))
-					(incf y2 margin)
-					;;activities がある場合は順番に描画する必要がある
-					(dolist (act activities)
-					  (when act
-						(let ((txt (uml-transition-spec-to-string act)))
-						  (with-slots (font) act
-							(with-slots ((ls diagram::line-spacing)) font
-							  (incf y2 (+ ls font-size))
-							  (text margin y2 txt :align :left))))))))))))))
+  (let ((canvas (group-get-canvas state)))
+	(let ((top    (canvas-top    canvas))
+		  (left   (canvas-left   canvas))
+		  (width  (canvas-width  canvas))
+		  (height (canvas-height canvas)))
+	  (macrolet ((register-entity (entity)
+				   `(check-and-draw-local-entity ,entity canvas writer)))
+		(with-slots (keyword margin2 corner-r activities contents-p
+							 diagram::margin diagram::fill diagram::stroke) state
+		  ;; draw state body
+		  (rectangle (/ width 2) (/ height 2)
+					 width height :rx corner-r :ry corner-r
+					 :fill diagram::fill :stroke diagram::stroke)
+		  ;; draw keyword
+		  (when keyword
+			(uml-keyword-draw keyword
+							  (+ left (/ width 2))
+							  (+ top  diagram::margin margin2) :center writer))
+		  ;; draw text
+		  (call-next-method)
+		  ;;contents
+		  (when contents-p
+			(let ((y (+ margin2
+						(canvas-height (text-shape-paragraph-area state)))))
+			  ;;draw partition line
+			  (line `(0 ,y ,width ,y))
+			  ;;ToDo : 0UB9rp9CxaC : 以下の incf は必要なはずだが、あると少しズレてしまう．．．（汗
+			  ;;(incf y diagram::margin)
+			  ;;activities がある場合は順番に描画する必要がある
+			  (dolist (act activities)
+				(when act
+				  (let ((txt (uml-transition-spec-to-string act)))
+					(with-slots (font) act
+					  (with-slots ((fsize diagram::size)
+								   (ls diagram::line-spacing)) font
+						(incf y (+ ls fsize))
+						(text diagram::margin y txt :align :left))))))))))))
   nil)
 
 
-;;for debug...
-;(defmethod post-draw ((state uml-state) writer)
-;  (call-next-method))
-;  (with-slots (contents-p) state
-;	(when contents-p
-;	  (draw-canvas-frame (shape-get-subcanvas state) writer))))
+;for debug...
+;;(defmethod post-draw ((state uml-state) writer)
+;;  (call-next-method)
+;;  (with-slots (contents-p) state
+;;	(when contents-p
+;;	  (draw-canvas-frame (shape-get-subcanvas state) writer))))
  
+(defmethod text-shape-calc-size ((state uml-state))
+  (multiple-value-bind (width height) (call-next-method)	;; text area ( includes margin ).
+	(with-slots (keyword activities contents-p
+						 (margin diagram::margin)) state
+	  ;; keyword (if exists).
+	  (when keyword
+		(with-slots (font) keyword
+		  (multiple-value-bind (w h)
+				(font-calc-textarea font (uml-keyword-to-string keyword))
+			(setf width (cl:max width (+ w (* margin 2))))
+			(incf height h))))
+	  ;; contents
+	  (when contents-p
+		(incf height (* margin 2))
+		(dolist (act activities)
+		  (let ((txt (uml-transition-spec-to-string act)))
+			(with-slots (font) act
+			  (with-slots ((ls diagram::line-spacing)) font
+				(multiple-value-bind (w h) (font-calc-textarea font txt)
+				  (setf width (cl:max width (+ w (* margin 2))))
+				  (incf height (+ h ls)))))))))
+	(values (cl:max width  *uml-state-width*)
+			(cl:max height *uml-state-height*))))
 
-(defmacro uml-state (x y name &key keyword width height
+
+(defmethod text-shape-paragraph-area ((state uml-state))
+  (let ((canvas (call-next-method)))
+	(with-slots (text contents-p margin2
+					  diagram::font diagram::margin) state
+	  (incf (canvas-top canvas) margin2)
+	  (when contents-p
+		(multiple-value-bind (w h)
+				(font-calc-textarea diagram::font text)
+		  (declare (ignore w))
+		  (setf (canvas-bottom canvas)
+				(+ (canvas-top canvas) (* 2 diagram::margin) h)))))
+	canvas))
+
+(defmethod shape-connect-point ((state uml-state) type1 type2 arg)
+  (rectangle-connect-point (shape-center state)
+						   (shape-middle state)
+						   (shape-width  state)
+						   (shape-height state) type1 type2 arg))
+
+;-------------------------------------------------------------------------------
+;
+; macro uml-state
+;
+;-------------------------------------------------------------------------------
+(defmacro uml-state (x y text &key keyword width height
 									activities margin corner-r
 									font fill stroke link layer id contents)
   (let* ((contents-p (not (null contents)))
 		 (code `(register-entity (make-instance 'uml-state
 												:center-x ,x :center-y ,y
 												:width ,width :height ,height
-												:name ,name :keyword ,keyword
+												:text ,text :keyword ,keyword
 												:contents-p ,contents-p
 												:corner-r (or ,corner-r *uml-state-corner-r*)
 												:margin   (or ,margin   *uml-state-margin*)
 												:activities ',activities :font ,font
-												:fill ,fill :stroke ,stroke
+												:fill     (or ,fill *uml-state-fill*
+															  *default-fill*   :white)
+												:stroke   (or ,stroke *uml-state-stroke*
+															  *default-stroke* :black)
 												:link ,link :layer ,layer :id ,id))))
 	(if (null contents)
 		code
