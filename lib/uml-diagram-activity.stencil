@@ -1,4 +1,5 @@
 (load-stencil :uml-action)			;ToDo : add ':link' & render rake icon...
+(load-stencil :uml-action-param)
 (load-stencil :uml-activity-final)
 (load-stencil :uml-activity-start)
 (load-stencil :uml-connector)

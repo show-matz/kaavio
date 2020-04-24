@@ -1,0 +1,160 @@
+
+(in-package :cl-diagram-user)
+
+(load-stencil :uml-keyword-info)
+
+(defparameter *uml-action-param-font*         nil)
+(defparameter *uml-action-param-fill*      :white)
+(defparameter *uml-action-param-stroke*    :black)
+(defparameter *uml-action-param-width*         60)
+(defparameter *uml-action-param-height*        30)
+(defparameter *uml-action-param-margin*         5)
+
+;-------------------------------------------------------------------------------
+;
+; class uml-action-param
+;
+;-------------------------------------------------------------------------------
+(defclass uml-action-param (diagram:text-shape)
+  ((target		:initform nil	:initarg :target)		; (keyword . keyword)
+   (keyword		:initform nil	:initarg :keyword)		; (or nil uml-keyword-info)
+   (kwd-height	:initform nil)))						; number
+
+(defmethod initialize-instance :after ((param uml-action-param) &rest initargs)
+  (declare (ignore initargs))
+  ;;(format t "initialize-instance :after called.~%")
+  (with-slots (keyword kwd-height) param
+	(setf keyword (and keyword (make-uml-keyword keyword)))
+	(setf kwd-height (if (null keyword)
+						 0
+						 (or (and *uml-action-param-font*
+								  (slot-value *uml-action-param-font* 'diagram::size))
+							 (and *default-font*    (slot-value *default-font*    'diagram::size))
+							 12))))	;;ToDo : これはなんとかしないと。
+  param)
+
+(defmethod check ((param uml-action-param) canvas dict)
+  ;;(format t "check called.~%")
+  (with-slots (target keyword kwd-height) param
+	(check-object keyword  canvas dict :nullable t :class uml-keyword-info)
+	(check-member kwd-height  :nullable nil :types number)
+	(let ((target   (car target))
+		  (position (cdr target)))
+	  (check-member target   :nullable nil :types keyword)
+	  (check-member position :nullable nil :types keyword)
+	  (labels ((entity-and-position ()
+				 (let ((ent (diagram::dict-get-entity dict target))
+					   (pos (string-upcase (symbol-name position))))
+				   (unless (typep ent 'diagram:shape)
+					 (throw-exception "uml-action-param : target is not shape object."))
+				   (when (< 2 (length pos))
+					 (throw-exception "uml-action-param : invalid position."))
+				   (values ent
+						   (ecase (char pos 0)
+							 ((#\T) :top)
+							 ((#\B) :bottom)
+							 ((#\L) :left)
+							 ((#\R) :right))
+						   (if (= 1 (length pos))
+							   0
+							   (ecase (char pos 1)
+								 ((#\1) -1)
+								 ((#\2)  0)
+								 ((#\3)  1)))))))
+		(multiple-value-bind (ent pos1 pos2) (entity-and-position)
+		  (let ((pt (shape-connect-point ent :from pos1 pos2)))
+			(with-point (x y) pt
+				(decf x (canvas-left canvas))	;; group::check で incf される分の相殺
+				(decf y (canvas-top  canvas))	;; group::check で incf される分の相殺
+				(setf (slot-value param 'diagram::x) x)
+				(setf (slot-value param 'diagram::y) y)))))))
+  ;; this method must call super class' one.
+  (call-next-method))
+
+;; no override
+;;(defmethod shape-connect-point ((param uml-action-param) type1 type2 arg)
+;;  (call-next-method))
+
+;;MEMO : use impelementation of group...
+;;(defmethod group-get-canvas ((param uml-action-param)) ...)
+
+;; override of group::draw-group
+(defmethod draw-group ((param uml-action-param) writer)
+  ;;(format t "draw-group called.~%")
+  (let ((canvas (group-get-canvas param)))
+	(let ((top    (canvas-top    canvas))
+		  (left   (canvas-left   canvas))
+		  (width  (canvas-width  canvas))
+		  (height (canvas-height canvas)))
+	  (macrolet ((register-entity (entity)
+				   `(check-and-draw-local-entity ,entity canvas writer)))
+		(with-slots (keyword kwd-height
+						 diagram::margin diagram::fill diagram::stroke) param
+		  ;; draw param body
+		  (rectangle (/ width 2) (/ height 2)
+					 width height :fill diagram::fill :stroke diagram::stroke)
+		  ;; draw keyword
+		  (when keyword
+			(uml-keyword-draw keyword
+							  (+ left (/ width 2))
+							  (+ top  diagram::margin kwd-height) :center writer))
+		  ;; draw text
+		  (call-next-method)))))
+  nil)
+
+
+;for debug...
+;(defmethod post-draw ((param uml-action-param) writer)
+;  ;;(format t "post-draw called.~%")
+;  (call-next-method))
+ 
+
+(defmethod text-shape-calc-size ((param uml-action-param))
+  ;;(format t "text-shape-calc-size called.~%")
+  (multiple-value-bind (width height) (call-next-method)
+	(with-slots (keyword (margin diagram::margin)) param
+	  ;; ToDo : margin は上記 call-next-method の結果に含まれているはずだが、何故か必要。
+	  (incf height (* margin 2))
+	  ;; keyword (if exists).
+	  (when keyword
+		(with-slots (font) keyword
+		  (multiple-value-bind (w h)
+				(font-calc-textarea font (uml-keyword-to-string keyword))
+			(setf width (cl:max width (+ w (* margin 2))))
+			(incf height h)))))
+	(values (cl:max width  *uml-action-param-width*)
+			(cl:max height *uml-action-param-height*))))
+
+(defmethod text-shape-paragraph-area ((param uml-action-param))
+  ;;(format t "text-shape-paragraph-area called.~%")
+  (let ((canvas (call-next-method)))
+	(with-slots (text kwd-height diagram::font diagram::margin) param
+	  (incf (canvas-top canvas) (/ kwd-height 2)))
+	canvas))
+
+(defmethod shape-connect-point ((param uml-action-param) type1 type2 arg)
+  (rectangle-connect-point (shape-center param)
+						   (shape-middle param)
+						   (shape-width  param)
+						   (shape-height param) type1 type2 arg))
+  
+;-------------------------------------------------------------------------------
+;
+; macro uml-action-param
+;
+;-------------------------------------------------------------------------------
+(defmacro uml-action-param (name target position
+							&key keyword width height margin
+									font fill stroke link layer id)
+  `(register-entity (make-instance 'uml-action-param
+								   :text ,name
+								   :keyword ,keyword
+								   :target (cons ,target ,position)
+								   :width ,width :height ,height
+								   :margin   (or ,margin   *uml-action-param-margin*)
+								   :font     ,font 
+								   :fill     (or ,fill *uml-action-param-fill*
+												 *default-fill*   :white)
+								   :stroke   (or ,stroke *uml-action-param-stroke*
+												 *default-stroke* :black)
+								   :link ,link :layer ,layer :id ,id)))

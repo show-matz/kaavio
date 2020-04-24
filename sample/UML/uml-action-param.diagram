@@ -1,0 +1,20 @@
+(in-package :cl-diagram-user)
+
+(load-stencil :grid)
+(load-stencil :uml-action)
+(load-stencil :uml-action-param)
+(load-stencil :uml-flow)
+
+(create-svg (:width 400 :height 300 :desc "test of uml-action-param" :encoding :utf8)
+	(grid) ; :size 10 :bgcolor "#F0F0FF" :stroke '(:color :blue :width 0.2))
+	(let ((*uml-keyword-font* (make-font :size 10))
+		  ;(*uml-action-corner-r* 6)
+		  (*uml-action-font*   (make-font :size 12)))
+	  (uml-action 200 150 :action :id :action1 :width 300 :height 200
+				  :contents ((uml-action-param :param :action1 :L  :id :in-param)
+							 (uml-action-param :param :action1 :R3 :id :out-param)
+							 (uml-action 150 80 "process" :id :inner-action)))
+	  (uml-flow :in-param :inner-action)
+	  (uml-flow :inner-action :out-param)))
+
+

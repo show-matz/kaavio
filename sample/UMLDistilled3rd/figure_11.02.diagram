@@ -1,0 +1,31 @@
+(in-package :cl-diagram-user)
+
+(load-stencil :grid)
+(load-stencil :textbox)
+(load-stencil :uml-diagram-activity)
+
+(create-svg (:width 500 :height 400 :desc "test of uml-action" :encoding :utf8)
+	(grid)
+	(let ((*default-font* (make-font :family "sans-serif" :size 10))
+		  (*uml-action-fill* (make-fill "#FFFACD")))
+	  (text 250 30 "Figure 11.2. A subsidiary activity diagram"
+			:align :center :font '(:family "sans-serif" :weight :bold :size 14))
+	  (uml-action 250 220 "Deliver Order" :corner-r 20
+				  :width 380 :height 300 :fill :white :id :deliver-order
+				  :contents ((uml-action-param "Order" :deliver-order :L :id :in-param)
+							 (uml-action-param "Order" :deliver-order :R :id :out-param)
+							 (uml-decision 120 125 :id :decision)
+							 (uml-action 240 70 "Regular
+Delivery" :id :reg-delivery)
+							 (uml-action 240 190 "Overnight
+Delivery" :id :night-delivery)))
+	  (let ((*uml-flow-spec-font* (make-font :size 9)))
+		(uml-flow :in-param :decision)
+		(uml-flow :decision :reg-delivery
+				  :style :TL :spec '(:offset (5 . 40) :guard :else))
+		(uml-flow :decision :night-delivery
+				  :style :BL :spec '(:offset (25 . -30) :guard "Rush order"))
+		(uml-flow :reg-delivery   :out-param :style :RT1)
+		(uml-flow :night-delivery :out-param :style :RB1))))
+							 
+
