@@ -22,33 +22,34 @@
    (contents-p	:initform nil :initarg :contents-p)	; boolean
    (activities	:initform nil :initarg :activities)	; list of uml-transition-spec
    (corner-r	:initform   0 :initarg :corner-r)	; number
-   (margin2		:initform   0 :initarg :margin)))	; number ( margin for keyword )
+   (kwd-height	:initform   0))) 					; number
 
 (defmethod initialize-instance :after ((state uml-state) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (keyword activities margin2 contents-p) state
+  ;;(format t "initialize-instance :after called.~%")
+  (with-slots (keyword activities kwd-height contents-p) state
 	(setf keyword (and keyword (make-uml-keyword keyword)))
 	(setf activities (mapcar (lambda (entry)
 							   (make-uml-transition-spec entry)) activities))
 	(setf contents-p (not (not (or activities contents-p))))
-	(setf margin2 (if (null keyword)
-					  0
-					  (or (and *uml-state-font*  (slot-value *uml-state-font* 'diagram::size))
-						  (and *default-font*    (slot-value *default-font*   'diagram::size))
-						  12))))	;;ToDo : これはなんとかしないと。
+	(setf kwd-height (if (null keyword)
+						 0
+						 (or (and *uml-state-font*  (slot-value *uml-state-font* 'diagram::size))
+							 (and *default-font*    (slot-value *default-font*   'diagram::size))
+							 12))))	;;ToDo : これはなんとかしないと。
   state)
 
 (defmethod check ((state uml-state) canvas dict)
-  ;; this method must call super class' one.
-  (call-next-method)
-  (with-slots (keyword activities corner-r margin2) state
+  ;;(format t "check called.~%")
+  (with-slots (keyword activities corner-r kwd-height) state
 	(check-object keyword    canvas dict :nullable   t :class uml-keyword-info)
 	(check-member activities :nullable   t :types list)
 	(check-member corner-r   :nullable nil :types number)
-	(check-member margin2    :nullable nil :types number)
+	(check-member kwd-height :nullable nil :types number)
 	(dolist (activity activities)
 	  (check-object activity canvas dict :class uml-transition-spec)))
-  nil)
+  ;; this method must call super class' one.
+  (call-next-method))
 
 ;; no override
 ;;(defmethod shape-connect-point ((state uml-state) type1 type2 arg)
@@ -57,32 +58,9 @@
 ;;MEMO : use impelementation of group...
 ;;(defmethod group-get-canvas ((state uml-state)) ...)
 
-(defmethod shape-get-subcanvas ((state uml-state))
-  (with-slots (keyword
-			   (text diagram::text)
-			   (font diagram::font)
-			   (margin diagram::margin)) state
-	(multiple-value-bind (width height)	;; start by w/h of 'text'.
-		(font-calc-textarea font
-							(if (stringp text)
-								text
-								(string-downcase (symbol-name text))))
-	  (declare (ignore width))
-	  (incf height (* margin 2))
-	  ;; keyword (if exists).
-	  (when keyword
-		(with-slots (font) keyword
-		  (multiple-value-bind (w h)
-			  (font-calc-textarea font (uml-keyword-to-string keyword))
-			(declare (ignore w))
-			(incf height h))))
-	  (make-canvas (+ (shape-top state) height)
-				   (shape-bottom state)
-				   (shape-left   state)
-				   (shape-right  state)))))
-
 ;; override of group::draw-group
 (defmethod draw-group ((state uml-state) writer)
+  ;;(format t "draw-group called.~%")
   (let ((canvas (group-get-canvas state)))
 	(let ((top    (canvas-top    canvas))
 		  (left   (canvas-left   canvas))
@@ -90,8 +68,8 @@
 		  (height (canvas-height canvas)))
 	  (macrolet ((register-entity (entity)
 				   `(check-and-draw-local-entity ,entity canvas writer)))
-		(with-slots (keyword margin2 corner-r activities contents-p
-							 diagram::margin diagram::fill diagram::stroke) state
+		(with-slots (keyword kwd-height corner-r activities contents-p
+						 diagram::margin diagram::fill diagram::stroke) state
 		  ;; draw state body
 		  (rectangle (/ width 2) (/ height 2)
 					 width height :rx corner-r :ry corner-r
@@ -100,17 +78,16 @@
 		  (when keyword
 			(uml-keyword-draw keyword
 							  (+ left (/ width 2))
-							  (+ top  diagram::margin margin2) :center writer))
+							  (+ top  diagram::margin kwd-height) :center writer))
 		  ;; draw text
 		  (call-next-method)
 		  ;;contents
 		  (when contents-p
-			(let ((y (+ margin2
-						(canvas-height (text-shape-paragraph-area state)))))
+			(let ((y (canvas-height (text-shape-paragraph-area state))))
 			  ;;draw partition line
+			  (incf y diagram::margin)
 			  (line `(0 ,y ,width ,y))
-			  ;;ToDo : 0UB9rp9CxaC : 以下の incf は必要なはずだが、あると少しズレてしまう．．．（汗
-			  ;;(incf y diagram::margin)
+			  (incf y diagram::margin)
 			  ;;activities がある場合は順番に描画する必要がある
 			  (dolist (act activities)
 				(when act
@@ -124,16 +101,20 @@
 
 
 ;for debug...
-;;(defmethod post-draw ((state uml-state) writer)
-;;  (call-next-method)
-;;  (with-slots (contents-p) state
-;;	(when contents-p
-;;	  (draw-canvas-frame (shape-get-subcanvas state) writer))))
+;(defmethod post-draw ((state uml-state) writer)
+;  ;;(format t "post-draw called.~%")
+;  (call-next-method)
+;  (with-slots (contents-p) state
+;	(when contents-p
+;	  (draw-canvas-frame (shape-get-subcanvas state) writer))))
  
 (defmethod text-shape-calc-size ((state uml-state))
-  (multiple-value-bind (width height) (call-next-method)	;; text area ( includes margin ).
+  ;;(format t "text-shape-calc-size called.~%")
+  (multiple-value-bind (width height) (call-next-method)
 	(with-slots (keyword activities contents-p
 						 (margin diagram::margin)) state
+	  ;; ToDo : margin は上記 call-next-method の結果に含まれているはずだが、何故か必要。
+	  (incf height (* margin 2))
 	  ;; keyword (if exists).
 	  (when keyword
 		(with-slots (font) keyword
@@ -156,17 +137,28 @@
 
 
 (defmethod text-shape-paragraph-area ((state uml-state))
+  ;;(format t "text-shape-paragraph-area called.~%")
   (let ((canvas (call-next-method)))
-	(with-slots (text contents-p margin2
+	(with-slots (text contents-p kwd-height
 					  diagram::font diagram::margin) state
-	  (incf (canvas-top canvas) margin2)
+	  (incf (canvas-top canvas) (/ kwd-height 2))
 	  (when contents-p
 		(multiple-value-bind (w h)
 				(font-calc-textarea diagram::font text)
 		  (declare (ignore w))
 		  (setf (canvas-bottom canvas)
-				(+ (canvas-top canvas) (* 2 diagram::margin) h)))))
+				(+ (canvas-top canvas) kwd-height (* 2 diagram::margin) h)))))
 	canvas))
+
+(defmethod shape-get-subcanvas ((state uml-state))
+  ;;(format t "shape-get-subcanvas called.~%")
+  (with-slots (diagram::margin) state
+	(let ((partition (+ diagram::margin
+						(canvas-height (text-shape-paragraph-area state)))))
+	  (make-canvas (+ (shape-top state) partition)
+				   (shape-bottom state)
+				   (shape-left   state)
+				   (shape-right  state)))))
 
 (defmethod shape-connect-point ((state uml-state) type1 type2 arg)
   (rectangle-connect-point (shape-center state)
