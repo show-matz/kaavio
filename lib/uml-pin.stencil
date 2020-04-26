@@ -1,9 +1,9 @@
 (in-package :cl-diagram-user)
 
-(defparameter *uml-pin-font*   nil)
-(defparameter *uml-pin-fill*   nil)
-(defparameter *uml-pin-stroke* nil)
-(defparameter *uml-pin-size*    10)
+(defparameter *uml-pin-font*      nil)
+(defparameter *uml-pin-fill*   :white)
+(defparameter *uml-pin-stroke* :black)
+(defparameter *uml-pin-size*       10)
 
 ;;-------------------------------------------------------------------------------
 ;;
@@ -14,6 +14,7 @@
   ((name	:initform nil :initarg :name)		; (or keyword string)
    (target	:initform nil :initarg :target)		; (keyword . keyword)
    (size	:initform nil :initarg :size)		; number
+   (offset	:initform nil :initarg :offset)		; (or nil list)
    (font	:initform nil :initarg :font)		; (or nil font-info)
    (fill	:initform nil :initarg :fill)		; (or nil fill-info)
    (stroke	:initform nil :initarg :stroke)))	; (or nil stroke-info)
@@ -21,16 +22,22 @@
 
 (defmethod initialize-instance :after ((pin uml-pin) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (font fill stroke) pin
+  (with-slots (offset font fill stroke) pin
+	(setf offset  (or offset (make-point 0 0)))
 	(setf font    (make-font   (or font   *uml-pin-font*   *default-font*)))
 	(setf fill    (make-fill   (or fill   *uml-pin-fill*   *default-fill*)))
 	(setf stroke  (make-stroke (or stroke *uml-pin-stroke* *default-stroke*))))
   pin)
 
 (defmethod check ((pin uml-pin) canvas dict)
-  (with-slots (name target size font fill stroke) pin
+  (with-slots (name target size offset font fill stroke) pin
 	(check-member name               :nullable nil :types (or string keyword))
 	(check-member size               :nullable nil :types              number)
+	(check-member offset             :nullable   t :types                cons)
+	(when offset
+	  (with-point (x y) offset
+		(check-member x              :nullable nil :types              number)
+		(check-member y              :nullable nil :types              number)))
 	(check-object font   canvas dict :nullable   t :class           font-info)
 	(check-object fill   canvas dict :nullable   t :class           fill-info)
 	(check-object stroke canvas dict :nullable   t :class         stroke-info)
@@ -73,32 +80,57 @@
 	;; this method must call super class' one.
 	(call-next-method))
 
+(defun uml-pin-locate-text-for-top (x y size offset font-size)
+  (declare (ignore font-size))
+  ;; top の場合、基準点は pin box の左下から (-5 . -5)
+  (let ((px (+ (- x (/ size 2)) -5 (point-x offset)))
+		(py (+ (+ y (/ size 2)) -5 (point-y offset))))
+	(values px py
+			(if (< px x) :right :left))))
+
+(defun uml-pin-locate-text-for-bottom (x y size offset font-size)
+  ;; bottom の場合、基準点は pin box の右上から (5 . 5)
+  (let ((px (+ (+ x (/ size 2)) 5 (point-x offset)))
+		(py (+ (- y (/ size 2)) 5 (point-y offset) (/ font-size 2))))
+	(values px py
+			(if (< px x) :right :left))))
+
+(defun uml-pin-locate-text-for-left (x y size offset font-size)
+  ;; left の場合、基準点は pin box の右下から (-5 . 5)
+  (let ((px (+ (+ x (/ size 2)) -5 (point-x offset)))
+		(py (+ (+ y (/ size 2))  5 (point-y offset) (/ font-size 2))))
+	(values px py :right)))
+
+(defun uml-pin-locate-text-for-right (x y size offset font-size)
+  (declare (ignore font-size))
+  ;; right の場合、基準点は pin box の左上から (5 . -5)
+  (let ((px (+ (- x (/ size 2))  5 (point-x offset)))
+		(py (+ (- y (/ size 2)) -5 (point-y offset))))
+	(values px py :left)))
+  
+
 ;; override of group::draw-group
 (defmethod draw-group ((pin uml-pin) writer)
   (let ((canvas (group-get-canvas pin)))
-	(with-slots (name font fill stroke) pin
-	  ;;ToDo : width / height は同じになるはず
-	  (let* ((width     (canvas-width  canvas))
-			 (height    (canvas-height canvas))
-			 (x         (/ width  2))
-			 (y         (/ height 2))
+	(with-slots (name size offset font fill stroke) pin
+	  (let* ((x (/ size 2))
+			 (y (/ size 2))
 			 (font-size (slot-value font 'diagram::size)))
 		(labels ((locate-text ()
 				   (let ((pos (string-upcase
 							   (symbol-name
 								(cdr (slot-value pin 'target))))))
 					 (ecase (char pos 0)
-					   ;;ToDo : jgTupQx1fNV : 不完全 ＆ pin-size を考慮する必要がある
-					   ((#\T) (values (- x width) y :right))
-					   ((#\B) (values (+ x width) (+ y (/ font-size 2)) :left))
-					   ((#\L) (values x (+ y font-size) :right))
-					   ((#\R) (values x (- y (/ font-size 2)) :left))))))
+					   ((#\T) (uml-pin-locate-text-for-top    x y size offset font-size))
+					   ((#\B) (uml-pin-locate-text-for-bottom x y size offset font-size))
+					   ((#\L) (uml-pin-locate-text-for-left   x y size offset font-size))
+					   ((#\R) (uml-pin-locate-text-for-right  x y size offset font-size))))))
 		  (macrolet ((register-entity (entity)
 					   `(check-and-draw-local-entity ,entity canvas writer)))
 			(let ((*default-font*   font)
 				  (*default-fill*   fill)
 				  (*default-stroke* stroke))
-			  (rectangle x y width height)
+			  (rectangle x y size size)
 			  (multiple-value-bind (x y align) (locate-text)
 				(text x y name :align align))))))))
   nil)
@@ -109,11 +141,17 @@
 ;  (draw-canvas-frame (group-get-canvas #|shape-get-subcanvas|# pin) writer))
  
 
-(defmacro uml-pin (name target position &key size font fill stroke layer id)
+;;-------------------------------------------------------------------------------
+;;
+;; macro uml-pin
+;;
+;;-------------------------------------------------------------------------------
+(defmacro uml-pin (name target position &key size offset font fill stroke layer id)
   `(register-entity (make-instance 'uml-pin
 								   :name ,name
 								   :target (cons ,target ,position)
 								   :size (or ,size *uml-pin-size*)
+								   :offset ,offset
 								   :font ,font
 								   :fill ,fill :stroke ,stroke
 								   :link nil :layer ,layer :id ,id)))
