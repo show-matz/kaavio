@@ -5,7 +5,7 @@
 	(grid) ; :size 10 :bgcolor "#F0F0FF" :stroke '(:color :blue :width 0.2))
 	(uml-action  80  35 "test action" :id :act1)
 	(uml-action 120 110 "test action2
-multi lines" :id :act2)
+multi lines" :rake t :id :act2)
 	(let ((*uml-keyword-font*   (make-font 10))
 		  (*uml-action-font*         nil)
 		  (*uml-action-fill*  :lightgray)
@@ -14,7 +14,7 @@ multi lines" :id :act2)
 		  (*uml-action-margin*        10))
 	  (uml-action 320 55 "test action3
 multi lines
-with keyword" :keyword "keyword" :id :act3))
+with keyword" :keyword "keyword" :rake '(10 14 95 4) :id :act3))
 	(connector :act1 :act2)
 	(connector :act2 :act3)
 	(connector :act1 :act3))
