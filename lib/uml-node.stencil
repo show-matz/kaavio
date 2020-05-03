@@ -25,7 +25,7 @@
    (font		:initform nil :initarg :font)		; (or nil font-info)
    (fill1		:initform nil :initarg :fill1)		; (or nil fill-info)
    (fill2		:initform nil :initarg :fill2)		; (or nil fill-info)
-   (stroke		:initform nil :initarg :stroke)))	; (or nil link-info)
+   (stroke		:initform nil :initarg :stroke)))	; (or nil stroke-info)
 
 (defmethod initialize-instance :after ((node uml-node) &rest initargs)
   (declare (ignore initargs))

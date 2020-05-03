@@ -40,7 +40,7 @@
    (contents-p	:initform nil :initarg :contents-p)		; boolean
    (font		:initform nil :initarg :font)			; (or nil font-info)
    (fill		:initform nil :initarg :fill)			; (or nil fill-info)
-   (stroke		:initform nil :initarg :stroke)			; (or nil link-info)
+   (stroke		:initform nil :initarg :stroke)			; (or nil stroke-info)
    (tab-width	:initform   0 :initarg :tab-width)		; number
    (tab-height	:initform   0 :initarg :tab-height)		; number
    (tab-margin	:initform   0 :initarg :tab-margin)))	; number
