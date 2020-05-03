@@ -16,12 +16,15 @@
 				:canvas
 				:make-canvas
 				:copy-canvas
-				:canvas-top
-				:canvas-bottom
+				:canvas-p
+				:canvas-topleft
 				:canvas-left
+				:canvas-top
 				:canvas-right
+				:canvas-bottom
 				:canvas-width
 				:canvas-height
+				:canvas-fix-point
 				:with-canvas
 				:with-subcanvas
 				;circle.lisp
@@ -41,7 +44,6 @@
 				:check-numbers
 				:write-when
 				:it
-				:with-property
 				:with-dictionary
 				:escape-characters
 				:to-property-strings
@@ -137,23 +139,22 @@
 				;paragraph.lisp
 				:paragraph
 				;path.lisp
-				:move-to
-				:close-path
-				:line-to
-				:h-line-to
-				:v-line-to
-				:arc-to
-				:2d-curve-to
-				:3d-curve-to
 				:path
 				;pathutil.lisp
 				;point.lisp
 				:make-point
 				:copy-point
+				:point-p
+				:point-absolute-p
+				:point-relative-p
 				:point-x
 				:point-y
+				:point+
+				:point-
+				:point/x+
+				:point/y+
+				:point/xy+
 				:point-distance
-				:point-offset
 				:with-point
 				;polygon.lisp
 				:polygon
@@ -166,12 +167,15 @@
 				:shape
 				:shape-width
 				:shape-height
-				:shape-center
-				:shape-middle
+				:shape-topleft
 				:shape-top
-				:shape-bottom
+				:shape-topright
 				:shape-left
+				:shape-center
 				:shape-right
+				:shape-bottomleft
+				:shape-bottom
+				:shape-bottomright
 				:shape-get-subcanvas
 				:shape-cc-center
 				:shape-connect-point
@@ -419,53 +423,6 @@
 	   (format-string ,@args))))
 
 
-;;#|
-;;#|EXPORT|#				:write-object-when
-;; |#
-;;(defmacro write-object-when (obj)
-;;  (type-assert obj symbol)
-;;  `(when ,obj
-;;	 (class:invoke ,obj :to-string)))
-
-
-;;#|
-;;#|EXPORT|#				:with-abbrevs
-;; |#
-;;(defmacro with-abbrevs ((&rest pairs) &rest body)
-;;  `(macrolet (,@(mapcar (lambda (pair)
-;;						  (check-type pair list)
-;;						  (unless (= 2 (length pair))
-;;							(error "xxx."))
-;;						  `(,(car pair) (&rest args)
-;;							 `(,',(cadr pair) ,@args))) pairs))
-;;	 ,@body))
-
-#|
-#|EXPORT|#				:with-property
- |#
-(defmacro with-property (&rest body)
-  (labels ((property-ref-symbolp (x)
-			 (when (and (symbolp x) (not (keywordp x)))
-			   (let* ((name (symbol-name x))
-					  (pos1 (position #\[ name))
-					  (pos2 (position #\] name)))
-				 (when (and pos1 pos2)
-				   (and (< 0 pos1)
-						(< pos1 (1- pos2))
-						(= pos2 (1- (length name))))))))
-		   (make-symbol-macrolet (sym)
-			 (let* ((name   (symbol-name sym))
-					(pos1   (position #\[ name))
-					(pos2   (position #\] name))
-					(entity (onlisp/symb (subseq name 0 pos1)))
-					(method (onlisp/symb "SHAPE-" (subseq name (1+ pos1) pos2))))
-			   `(,sym (,method ,entity)))))
-	(let ((syms (remove-duplicates
-				 (remove-if-not #'property-ref-symbolp
-								(diagram::onlisp/flatten body)))))
-	  `(symbol-macrolet ,(mapcar #'make-symbol-macrolet syms)
-		 ,@body))))
-
 #|
 #|EXPORT|#				:with-dictionary
  |#
@@ -474,18 +431,15 @@
   (labels ((property-ref-symbolp (x)
 			 (when (and (symbolp x) (not (keywordp x)))
 			   (let* ((name (symbol-name x))
-					  (pos1 (position #\[ name))
-					  (pos2 (position #\] name)))
-				 (when (and pos1 pos2)
-				   (and (< 0 pos1)
-						(< pos1 (1- pos2))
-						(= pos2 (1- (length name))))))))
+					  (pos (position #\. name)))
+				 (when pos
+				   (and (< 0 pos)
+						(< pos (1- (length name))))))))
 		   (make-symbol-macrolet (sym)
 			 (let* ((name (symbol-name sym))
-					(pos1 (position #\[ name))
-					(pos2 (position #\] name))
-					(id   (onlisp/keysymb (subseq name 0 pos1)))
-					(method (onlisp/symb "SHAPE-" (subseq name (1+ pos1) pos2))))
+					(pos  (position #\. name))
+					(id   (onlisp/keysymb (subseq name 0 pos)))
+					(method (onlisp/symb "SHAPE-" (subseq name (1+ pos)))))
 			   `(,sym (,method (dict-get-entity ,dict ,id))))))	;;ToDo : export?
 	(let ((syms (remove-duplicates
 				 (remove-if-not #'property-ref-symbolp

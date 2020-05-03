@@ -5,10 +5,10 @@
 	(grid) ; :size 10 :bgcolor "#F0F0FF" :stroke '(:color :blue :width 0.2))
 	(let ((*uml-usecase-margin* 20)
 		  (*uml-keyword-font*   (make-font 10)))
-	  (uml-usecase  80  35 "test usecase" :id :usecase1)
-	  (uml-usecase 120 110 "test usecase2
+	  (uml-usecase '( 80  35) "test usecase" :id :usecase1)
+	  (uml-usecase '(120 110) "test usecase2
 multi lines" :id :usecase2)
-	  (uml-usecase 320 55 "test usecase3
+	  (uml-usecase '(320  55) "test usecase3
 multi lines
 with keyword" :keyword "keyword" :id :usecase3)
 	  (connector :usecase1 :usecase2)

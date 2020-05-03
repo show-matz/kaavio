@@ -66,14 +66,14 @@
 			(with-point (x y) pt
 				(decf x (canvas-left canvas))	;; group::check で incf される分の相殺
 				(decf y (canvas-top  canvas))	;; group::check で incf される分の相殺
-				(setf (slot-value param 'diagram::x) x)
-				(setf (slot-value param 'diagram::y) y)))))))
+				(setf (slot-value param 'diagram::center) (make-point x y))))))))
   ;; this method must call super class' one.
   (call-next-method))
 
-;; no override
-;;(defmethod shape-connect-point ((param uml-action-param) type1 type2 arg)
-;;  (call-next-method))
+(defmethod shape-connect-point ((param uml-action-param) type1 type2 arg)
+  (rectangle-connect-point (shape-center param)
+						   (shape-width  param)
+						   (shape-height param) type1 type2 arg))
 
 ;;MEMO : use impelementation of group...
 ;;(defmethod group-get-canvas ((param uml-action-param)) ...)
@@ -82,8 +82,7 @@
 (defmethod draw-group ((param uml-action-param) writer)
   ;;(format t "draw-group called.~%")
   (let ((canvas (group-get-canvas param)))
-	(let ((top    (canvas-top    canvas))
-		  (left   (canvas-left   canvas))
+	(let ((pt    (canvas-topleft canvas))
 		  (width  (canvas-width  canvas))
 		  (height (canvas-height canvas)))
 	  (macrolet ((register-entity (entity)
@@ -91,13 +90,13 @@
 		(with-slots (keyword kwd-height
 						 diagram::margin diagram::fill diagram::stroke) param
 		  ;; draw param body
-		  (rectangle (/ width 2) (/ height 2)
+		  (rectangle (make-point (/ width 2) (/ height 2))
 					 width height :fill diagram::fill :stroke diagram::stroke)
 		  ;; draw keyword
 		  (when keyword
 			(uml-keyword-draw keyword
-							  (+ left (/ width 2))
-							  (+ top  diagram::margin kwd-height) :center writer))
+							  (+ (point-x pt) (/ width 2))
+							  (+ (point-y pt) diagram::margin kwd-height) :center writer))
 		  ;; draw text
 		  (call-next-method)))))
   nil)
@@ -132,11 +131,6 @@
 	  (incf (canvas-top canvas) (/ kwd-height 2)))
 	canvas))
 
-(defmethod shape-connect-point ((param uml-action-param) type1 type2 arg)
-  (rectangle-connect-point (shape-center param)
-						   (shape-middle param)
-						   (shape-width  param)
-						   (shape-height param) type1 type2 arg))
   
 ;-------------------------------------------------------------------------------
 ;

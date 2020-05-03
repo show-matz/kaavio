@@ -12,11 +12,11 @@
 (defparameter *uml-state-corner-r*      10)
 (defparameter *uml-state-margin*         5)
 
-;-------------------------------------------------------------------------------
-;
-; class uml-state
-;
-;-------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------
+;;
+;; class uml-state
+;;
+;;------------------------------------------------------------------------------
 (defclass uml-state (diagram:text-shape)
   ((keyword		:initform nil :initarg :keyword)	; (or nil uml-keyword-info)
    (contents-p	:initform nil :initarg :contents-p)	; boolean
@@ -51,9 +51,10 @@
   ;; this method must call super class' one.
   (call-next-method))
 
-;; no override
-;;(defmethod shape-connect-point ((state uml-state) type1 type2 arg)
-;;  (call-next-method))
+(defmethod shape-connect-point ((state uml-state) type1 type2 arg)
+  (rectangle-connect-point (shape-center state)
+						   (shape-width  state)
+						   (shape-height state) type1 type2 arg))
 
 ;;MEMO : use impelementation of group...
 ;;(defmethod group-get-canvas ((state uml-state)) ...)
@@ -71,7 +72,7 @@
 		(with-slots (keyword kwd-height corner-r activities contents-p
 						 diagram::margin diagram::fill diagram::stroke) state
 		  ;; draw state body
-		  (rectangle (/ width 2) (/ height 2)
+		  (rectangle (make-point (/ width 2) (/ height 2))
 					 width height :rx corner-r :ry corner-r
 					 :fill diagram::fill :stroke diagram::stroke)
 		  ;; draw keyword
@@ -86,7 +87,7 @@
 			(let ((y (canvas-height (text-shape-paragraph-area state))))
 			  ;;draw partition line
 			  (incf y diagram::margin)
-			  (line `(0 ,y ,width ,y))
+			  (line `((0 ,y) (,width ,y)))
 			  (incf y diagram::margin)
 			  ;;activities がある場合は順番に描画する必要がある
 			  (dolist (act activities)
@@ -96,7 +97,7 @@
 					  (with-slots ((fsize diagram::size)
 								   (ls diagram::line-spacing)) font
 						(incf y (+ ls fsize))
-						(text diagram::margin y txt :align :left))))))))))))
+						(text `(,diagram::margin ,y) txt :align :left))))))))))))
   nil)
 
 
@@ -146,8 +147,8 @@
 		(multiple-value-bind (w h)
 				(font-calc-textarea diagram::font text)
 		  (declare (ignore w))
-		  (setf (canvas-bottom canvas)
-				(+ (canvas-top canvas) kwd-height (* 2 diagram::margin) h)))))
+		  (setf (canvas-height canvas)
+				(+ kwd-height (* 2 diagram::margin) h)))))
 	canvas))
 
 (defmethod shape-get-subcanvas ((state uml-state))
@@ -155,28 +156,22 @@
   (with-slots (diagram::margin) state
 	(let ((partition (+ diagram::margin
 						(canvas-height (text-shape-paragraph-area state)))))
-	  (make-canvas (+ (shape-top state) partition)
-				   (shape-bottom state)
-				   (shape-left   state)
-				   (shape-right  state)))))
+	  (make-canvas (point/y+ (shape-topleft state) partition)
+				   (shape-width state)
+				   (- (shape-height state) partition)))))
 
-(defmethod shape-connect-point ((state uml-state) type1 type2 arg)
-  (rectangle-connect-point (shape-center state)
-						   (shape-middle state)
-						   (shape-width  state)
-						   (shape-height state) type1 type2 arg))
 
-;-------------------------------------------------------------------------------
-;
-; macro uml-state
-;
-;-------------------------------------------------------------------------------
-(defmacro uml-state (x y text &key keyword width height
-									activities margin corner-r
-									font fill stroke link layer id contents)
+;;------------------------------------------------------------------------------
+;;
+;; macro uml-state
+;;
+;;------------------------------------------------------------------------------
+(defmacro uml-state (center text &key keyword width height
+									  activities margin corner-r
+									  font fill stroke link layer id contents)
   (let* ((contents-p (not (null contents)))
 		 (code `(register-entity (make-instance 'uml-state
-												:center-x ,x :center-y ,y
+												:center ,center
 												:width ,width :height ,height
 												:text ,text :keyword ,keyword
 												:contents-p ,contents-p

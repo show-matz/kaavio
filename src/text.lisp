@@ -17,13 +17,12 @@
 ;
 ;-------------------------------------------------------------------------------
 (defclass text (entity)
-  ((x		:initform   0 :initarg :x)		; number
-   (y		:initform   0 :initarg :y)		; number
-   (text	:initform nil :initarg :text)	; string
-   (align	:initform nil :initarg :align)	; keyword
-   (class	:initform nil :initarg :class)	; keyword
-   (font	:initform nil :initarg :font)	; (or nil font-info)
-   (link	:initform nil :initarg :link)))	; (or nil link-info)
+  ((position	:initform nil :initarg :position)	; number
+   (text		:initform nil :initarg :text)		; string
+   (align		:initform nil :initarg :align)		; keyword
+   (class		:initform nil :initarg :class)		; keyword
+   (font		:initform nil :initarg :font)		; (or nil font-info)
+   (link		:initform nil :initarg :link)))		; (or nil link-info)
 
 
 (defmethod initialize-instance :after ((txt text) &rest initargs)
@@ -38,17 +37,14 @@
   (declare (ignorable dict))
   ;; this method must call super class' one.
   (call-next-method)
-  (with-slots (x y text align class font link) txt
-	(check-member   x     :nullable nil :types number)
-	(check-member   y     :nullable nil :types number)
+  (with-slots (position text align class font link) txt
 	(check-member   text  :nullable nil :types string)
 	(check-member   align :nullable nil :types keyword)
 	(check-member   class :nullable   t :types (or keyword string))
 	(check-object   font  canvas dict :nullable nil :class font-info)
 	(check-object   link  canvas dict :nullable   t :class link-info)
 	(check-keywords align :left :center :right)
-	(incf x (canvas-left canvas))
-	(incf y (canvas-top  canvas)))
+	(setf position (canvas-fix-point canvas position)))
   nil)
 
 (defmethod entity-composition-p ((txt text))
@@ -69,7 +65,7 @@
   (call-next-method))
 
 (defmethod draw-entity ((txt text) writer)
-  (with-slots (x y align class font text) txt
+  (with-slots (position align class font text) txt
 	(let ((txt-anchor (ecase align
 						((:left)   "start")
 						((:center) "middle")
@@ -80,8 +76,8 @@
 	  (writer-write writer
 					"<text "
 					(write-when id "id='" it "' ")
-					"x='" x "' "
-					"y='" y "' "
+					"x='" (point-x position) "' "
+					"y='" (point-y position) "' "
 					"text-anchor='" txt-anchor "' "
 					(write-when class "class='" it "' ")
 					(unless class
@@ -94,9 +90,9 @@
 #|
 #|EXPORT|#				:text
  |#
-(defmacro text (x y text &key align class font link layer id)
+(defmacro text (position text &key align class font link layer id)
   `(register-entity (make-instance 'diagram:text
-								   :x ,x :y ,y :text ,text
+								   :position ,position :text ,text
 								   :align ,align :class ,class :font ,font 
 								   :link ,link :layer ,layer :id ,id)))
 

@@ -22,23 +22,25 @@
 #|
 #|EXPORT|#				:circle-connect-point
  |#
-(defun circle-connect-point (cx cy radius type1 type2 arg)
+(defun circle-connect-point (center radius type1 type2 arg)
   (declare (ignore type1))
-  (if (eq type2 :center)
-	  (with-point (px py) arg
-		(let ((x (* radius (math/cos4 px py cx cy)))
-			  (y (* radius (math/sin4 px py cx cy))))
-		  (make-point (- cx x) (- cy y))))
-	  (let ((degree (ecase type2
-					  ((:right)  (+   0 (* arg 30)))
-					  ((:bottom) (-  90 (* arg 30)))
-					  ((:left)   (- 180 (* arg 30)))
-					  ((:top)    (+ 270 (* arg 30))))))
-		(when (< degree 0)
-		  (incf degree 360))
-		(let ((x (* radius (math/cos1 degree)))
-			  (y (* radius (math/sin1 degree))))
-		  (make-point (+ cx x) (+ cy y))))))
+  (let ((cx (point-x center))
+		(cy (point-y center)))
+	(if (eq type2 :center)
+		(with-point (px py) arg
+					(let ((x (* radius (math/cos4 px py cx cy)))
+						  (y (* radius (math/sin4 px py cx cy))))
+					  (make-point (- cx x) (- cy y) :absolute)))
+		(let ((degree (ecase type2
+						((:right)  (+   0 (* arg 30)))
+						((:bottom) (-  90 (* arg 30)))
+						((:left)   (- 180 (* arg 30)))
+						((:top)    (+ 270 (* arg 30))))))
+		  (when (< degree 0)
+			(incf degree 360))
+		  (let ((x (* radius (math/cos1 degree)))
+				(y (* radius (math/sin1 degree))))
+			(make-point (+ cx x) (+ cy y) :absolute))))))
 
 
 ;-------------------------------------------------------------------------------
@@ -47,8 +49,7 @@
 ;
 ;-------------------------------------------------------------------------------
 (defclass circle (shape)
-  ((center-x	:initform   0 :initarg :center-x)	; number
-   (center-y	:initform   0 :initarg :center-y)	; number
+  ((center		:initform nil :initarg :center)		; point
    (radius		:initform   0 :initarg :radius)		; number
    (fill		:initform nil :initarg :fill)		; (or nil fill-info)
    (stroke		:initform nil :initarg :stroke)))	; (or nil stroke-info)
@@ -63,21 +64,12 @@
 (defmethod check ((shp circle) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (with-slots (center-x center-y radius fill stroke) shp
-	(check-member center-x :nullable nil :types number)
-	(check-member center-y :nullable nil :types number)
+  (with-slots (center radius fill stroke) shp
 	(check-member radius   :nullable nil :types number)
 	(check-object fill     canvas dict :nullable t :class   fill-info)
-	(check-object stroke   canvas dict :nullable t :class stroke-info))
-  (incf (slot-value shp 'center-x) (canvas-left canvas))
-  (incf (slot-value shp 'center-y) (canvas-top  canvas))
+	(check-object stroke   canvas dict :nullable t :class stroke-info)
+	(setf center (canvas-fix-point canvas center)))
   nil)
-
-(defmethod shape-center ((shp circle))
-  (slot-value shp 'center-x))
-
-(defmethod shape-middle ((shp circle))
-  (slot-value shp 'center-y))
 
 (defmethod shape-width ((shp circle))
   (* 2 (slot-value shp 'radius)))
@@ -85,21 +77,12 @@
 (defmethod shape-height ((shp circle))
   (* 2 (slot-value shp 'radius)))
 
-(defmethod shape-top ((shp circle))
-  (- (shape-middle shp) (slot-value shp 'radius)))
+(defmethod shape-center ((shp circle))
+  (slot-value shp 'center))
 
-(defmethod shape-bottom ((shp circle))
-  (+ (shape-middle shp) (slot-value shp 'radius)))
-
-(defmethod shape-left ((shp circle))
-  (- (shape-center shp) (slot-value shp 'radius)))
-
-(defmethod shape-right ((shp circle))
-  (+ (shape-center shp) (slot-value shp 'radius)))
 
 (defmethod shape-connect-point ((shp circle) type1 type2 arg)
-  (circle-connect-point (shape-center  shp)
-						(shape-middle  shp)
+  (circle-connect-point (shape-center shp)
 						(slot-value shp 'radius) type1 type2 arg))
   
 ;;MEMO : use impelementation of shape...
@@ -109,15 +92,15 @@
 ;;(defmethod entity-composition-p ((shp circle)) ...)
   
 (defmethod draw-entity ((shp circle) writer)
-  (with-slots (class radius fill stroke) shp
+  (with-slots (center class radius fill stroke) shp
 	(let ((id (and (not (entity-composition-p shp))
 				   (slot-value shp 'id))))
 	  (pre-draw shp writer)
 	  (writer-write writer
 					"<circle "
 					(write-when id "id='" it "' ")
-					"cx='" (shape-center shp) "' "
-					"cy='" (shape-middle shp) "' "
+					"cx='" (point-x center) "' "
+					"cy='" (point-y center) "' "
 					"r='" radius "' "
 					(write-when class "class='" it "' ")
 					(unless class
@@ -134,10 +117,10 @@
 #|
 #|EXPORT|#				:circle
  |#
-(defmacro circle (x y radius
+(defmacro circle (center radius
 				  &key class fill stroke link layer id contents)
   (let ((code `(register-entity (make-instance 'diagram:circle
-											   :center-x ,x :center-y ,y 
+											   :center ,center
 											   :radius ,radius :class ,class
 											   :fill ,fill :stroke ,stroke
 											   :link ,link :layer ,layer :id ,id))))

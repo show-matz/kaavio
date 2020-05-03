@@ -1,3 +1,5 @@
+(in-package :diagram-user)
+
 (load-stencil :grid)
 (load-stencil :uml-state)
 
@@ -7,23 +9,23 @@
 		  ;(*uml-state-corner-r* 6)
 		  (*uml-state-font*   (make-font :size 12)))
 	  ;;(line '(0 50 500 50) :stroke '(:color :gray :dasharray (2 2)))
-	  (uml-state                60          70 :state1)
-	  (uml-state (+ $1[center] 100) $1[middle] :state2 :keyword "keyword")
-	  (uml-state (+ $1[center] 110) $1[middle] "state3
+	  (uml-state '(60 70) :state1)
+	  (uml-state (point/x+ $1.center 100) :state2 :keyword "keyword")
+	  (uml-state (point/x+ $1.center 110) "state3
 multi-line"
 				 :activities ((:trigger "enter" :action "foo()")
 							  (:trigger "exit"  :action "bar()")))
-	  (uml-state (+ $1[center] 140) $1[middle] :state4 :keyword "keyword"
+	  (uml-state (point/x+ $1.center 140) :state4 :keyword "keyword"
 				 :activities ((:trigger "enter" :action "foo()")
 							  (:trigger "foo"   :guard "a == b" :action "bar()")
 							  (:trigger "exit"  :action "quux()")))
 	  ;;(line '(0 180 500 180) :stroke '(:color :gray :dasharray (2 2)))
-	  (uml-state 100 180 :state5 :id :st5
+	  (uml-state '(100 180) :state5 :id :st5
 				 :width 140 :height 100
-				 :contents ((rectangle 10 10 20 20 :fill :lightgray :id :rct1)))
-	  (uml-state (+ st5[center] 200) st5[middle] "state6
+				 :contents ((rectangle '(10 10) 20 20 :fill :lightgray :id :rct1)))
+	  (uml-state (point/x+ st5.center 200) "state6
 multi-line" :keyword "keyword"
 				 :width 140 :height 100
-				 :contents ((rectangle 10 10 #|60 30|# 20 20 :fill :lightgray :id :rct2)))
+				 :contents ((rectangle '(10 10) #|60 30|# 20 20 :fill :lightgray :id :rct2)))
 	  (connector :rct1 :rct2 :end2 :arrow :stroke '(:dasharray (3 3)))))
 

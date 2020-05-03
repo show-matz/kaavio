@@ -5,6 +5,11 @@
 
 (defparameter *uml-realization-dasharray* '(4 2))
 
+;;------------------------------------------------------------------------------
+;;
+;; class uml-realization
+;;
+;;------------------------------------------------------------------------------
 (defclass uml-realization (diagram:connector)
   ((keyword :initform nil :initarg :keyword)))	; (or nil uml-keyword-info)
 
@@ -35,6 +40,11 @@
 	  
 
 
+;;------------------------------------------------------------------------------
+;;
+;; macro uml-realization
+;;
+;;------------------------------------------------------------------------------
 (defmacro uml-realization (from to &key keyword style layer id)
   `(register-entity (make-instance 'uml-realization
 								   :from ,from :to ,to

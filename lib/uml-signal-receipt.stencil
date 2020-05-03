@@ -8,6 +8,11 @@
 (defparameter *uml-signal-receipt-depth*         15)
 (defparameter *uml-signal-receipt-margin*        10)
 
+;;------------------------------------------------------------------------------
+;;
+;; class uml-signal-receipt
+;;
+;;------------------------------------------------------------------------------
 (defclass uml-signal-receipt (diagram:text-shape)
   ((text		:initform nil :initarg :text)		; (or keyword string)
    (keyword		:initform nil :initarg :keyword)	; (or nil uml-keyword-info)
@@ -55,18 +60,18 @@
 				(*default-stroke* diagram::stroke))
 			;; draw body
 			(if (eq direction :right)
-				(polygon (list 0 0
-							   0 height
-							   (+ width half) height
-							   (- width half) (/ height 2)
-							   (+ width half) 0
-							   0 0))
-				(polygon (list (- half) 0
-							   half (/ height 2)
-							   (- half) height
-							   width height
-							   width 0
-							   (- half) 0))))
+				(polygon `((0 0)
+						   (0 ,height)
+						   (,(+ width half) ,height)
+						   (,(- width half) ,(/ height 2))
+						   (,(+ width half) 0)
+						   (0 0)))
+				(polygon `((,(- half) 0)
+						   (,half ,(/ height 2))
+						   (,(- half) ,height)
+						   (,width ,height)
+						   (,width 0)
+						   (,(- half) 0)))))
 		  ;; draw keyword
 		  (when keyword
 			(uml-keyword-draw keyword
@@ -89,16 +94,16 @@
 (defmethod text-shape-paragraph-area ((sig-rcpt uml-signal-receipt))
   (with-slots (direction depth margin2) sig-rcpt
 	(let ((canvas (call-next-method)))
-	  (incf (canvas-top canvas) margin2)
-	  (if (eq direction :right)
-		  (decf (canvas-right canvas) (/ depth 2))
-		  (incf (canvas-left  canvas) (/ depth 2)))
+	  (incf (canvas-top    canvas) margin2)
+	  (decf (canvas-height canvas) margin2)
+	  (decf (canvas-width  canvas) (/ depth 2))
+	  (when (eq direction :left)
+		(incf (canvas-left canvas) (/ depth 2)))
 	  canvas)))
 
 ;;ToDo : :CC の場合にちょっとマズいことになる‥‥‥
 (defmethod shape-connect-point ((sig-rcpt uml-signal-receipt) type1 type2 arg)
   (let ((pt (rectangle-connect-point (shape-center sig-rcpt)
-									 (shape-middle sig-rcpt)
 									 (shape-width  sig-rcpt)
 									 (shape-height sig-rcpt) type1 type2 arg)))
 	(with-slots (direction depth) sig-rcpt
@@ -110,10 +115,15 @@
 				(eq type2      :left) (zerop arg)) (incf x (/ depth 2))))))
 	pt))
   
-(defmacro uml-signal-receipt (x y text &key keyword width height direction depth
-											 font fill stroke margin link layer id)
+;;------------------------------------------------------------------------------
+;;
+;; macro uml-signal-receipt
+;;
+;;------------------------------------------------------------------------------
+(defmacro uml-signal-receipt (center text &key keyword width height direction depth
+											   font fill stroke margin link layer id)
   `(register-entity (make-instance 'uml-signal-receipt
-								   :center-x ,x :center-y ,y
+								   :center ,center
 								   :width ,width :height ,height
 								   :text ,text :font ,font
 								   :keyword ,keyword

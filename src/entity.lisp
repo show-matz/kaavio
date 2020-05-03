@@ -1,5 +1,6 @@
 #|
 #|ASD|#				(:file "entity"                    :depends-on ("cl-diagram"
+#|ASD|#																"canvas"
 #|ASD|#																"writer"))
 #|EXPORT|#				;entity.lisp
  |#

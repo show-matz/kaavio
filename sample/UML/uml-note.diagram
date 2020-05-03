@@ -3,14 +3,14 @@
 
 (create-svg (:width 300 :height 250 :desc "test of uml-note" :encoding :utf8)
 	(grid) ; :size 10 :bgcolor "#F0F0FF" :stroke '(:color :blue :width 0.2))
-	(rectangle  30  30 30 30 :fill :white :id :rect1)
-	(rectangle 150  30 30 30 :fill :white :id :rect2)
-	(rectangle 270  30 30 30 :fill :white :id :rect3)
-	(rectangle  30 125 30 30 :fill :white :id :rect4)
-	(rectangle 270 125 30 30 :fill :white :id :rect5)
-	(rectangle  30 220 30 30 :fill :white :id :rect6)
-	(rectangle 150 220 30 30 :fill :white :id :rect7)
-	(rectangle 270 220 30 30 :fill :white :id :rect8)
-	(uml-note 150 125 "test note.
+	(rectangle '( 30  30) 30 30 :fill :white :id :rect1)
+	(rectangle '(150  30) 30 30 :fill :white :id :rect2)
+	(rectangle '(270  30) 30 30 :fill :white :id :rect3)
+	(rectangle '( 30 125) 30 30 :fill :white :id :rect4)
+	(rectangle '(270 125) 30 30 :fill :white :id :rect5)
+	(rectangle '( 30 220) 30 30 :fill :white :id :rect6)
+	(rectangle '(150 220) 30 30 :fill :white :id :rect7)
+	(rectangle '(270 220) 30 30 :fill :white :id :rect8)
+	(uml-note  '(150 125) "test note.
 multi line is OK." :keyword "keyword"
 			  :targets '(:rect1 :rect2 :rect3 :rect4 :rect5 :rect6 :rect7 :rect8)))

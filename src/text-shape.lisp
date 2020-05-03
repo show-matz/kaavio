@@ -101,7 +101,7 @@
 					 ((:top)     margin)
 					 ((:center) (/ height 2))
 					 ((:bottom) (- height margin)))))
-			(paragraph x y text :align align :valign valign :font font))))))
+			(paragraph (list x y) text :align align :valign valign :font font))))))
   nil)
 
 ;for debug...

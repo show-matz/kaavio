@@ -5,25 +5,25 @@
 (defparameter *uml-fork-join-length*     40)
 (defparameter *uml-fork-join-color*  :black)
 
-;-------------------------------------------------------------------------------
-;
-; class uml-fork
-;
-;-------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------
+;;
+;; class uml-fork
+;;
+;;------------------------------------------------------------------------------
 (defclass uml-fork (diagram:rectangle) ())
 
-(defmacro uml-fork-v (x y &key width length fill link layer id)
+(defmacro uml-fork-v (center &key width length fill link layer id)
   `(register-entity (make-instance 'uml-fork
-								   :center-x ,x :center-y ,y
+								   :center ,center
 								   :width  (or ,length *uml-fork-join-length*)
 								   :height (or ,width  *uml-fork-join-width*)
 								   :rx nil :ry nil :class nil  :stroke :none
 								   :fill   (or ,fill *uml-fork-join-color* *default-fill*)
 								   :link ,link :layer ,layer :id ,id)))
 
-(defmacro uml-fork-h (x y &key width length fill link layer id)
+(defmacro uml-fork-h (center &key width length fill link layer id)
   `(register-entity (make-instance 'uml-fork
-								   :center-x ,x :center-y ,y
+								   :center ,center
 								   :width  (or ,width  *uml-fork-join-width*)
 								   :height (or ,length *uml-fork-join-length*)
 								   :rx nil :ry nil :class nil  :stroke :none
@@ -31,11 +31,11 @@
 								   :link ,link :layer ,layer :id ,id)))
 
 
-;-------------------------------------------------------------------------------
-;
-; class uml-join
-;
-;-------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------
+;;
+;; class uml-join
+;;
+;;------------------------------------------------------------------------------
 (defclass uml-join (diagram:rectangle)
   ((spec :initform nil :initarg :spec)))	; (or nil label-info)
 
@@ -64,18 +64,18 @@
 ;  (draw-canvas-frame (shape-get-subcanvas obj) writer)	;for debug...
   nil)
 
-(defmacro uml-join-v (x y &key spec width length fill link layer id)
+(defmacro uml-join-v (center &key spec width length fill link layer id)
   `(register-entity (make-instance 'uml-join
-								   :center-x ,x :center-y ,y :spec ,spec
+								   :center ,center :spec ,spec
 								   :width  (or ,length *uml-fork-join-length*)
 								   :height (or ,width  *uml-fork-join-width*)
 								   :rx nil :ry nil :class nil  :stroke :none
 								   :fill   (or ,fill *uml-fork-join-color* *default-fill*)
 								   :link ,link :layer ,layer :id ,id)))
 
-(defmacro uml-join-h (x y &key spec width length fill link layer id)
+(defmacro uml-join-h (center &key spec width length fill link layer id)
   `(register-entity (make-instance 'uml-join
-								   :center-x ,x :center-y ,y :spec ,spec
+								   :center ,center :spec ,spec
 								   :width  (or ,width  *uml-fork-join-width*)
 								   :height (or ,length *uml-fork-join-length*)
 								   :rx nil :ry nil :class nil  :stroke :none

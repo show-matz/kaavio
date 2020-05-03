@@ -12,9 +12,9 @@
 (defparameter *uml-merge-height-ratio*    0.75)
 
 
-(defun uml-decision-merge-connect-point (cx cy width height type1 type2 arg)
+(defun uml-decision-merge-connect-point (center width height type1 type2 arg)
   ;;ToDo : ivIbc7vn2EJ : 面倒くさいので ellipse 実装に転送して終わりにする。気が向いたらちゃんとやる。
-  (ellipse-connect-point cx cy (/ width 2) (/ height 2) type1 type2 arg))
+  (ellipse-connect-point center (/ width 2) (/ height 2) type1 type2 arg))
 
 ;;-------------------------------------------------------------------------------
 ;;
@@ -22,8 +22,7 @@
 ;;
 ;;-------------------------------------------------------------------------------
 (defclass uml-decision-merge (diagram:shape)
-  ((center-x		:initform   0 :initarg :center-x)		; number
-   (center-y		:initform   0 :initarg :center-y)		; number
+  ((center			:initform nil :initarg :center)			; point
    (size			:initform   0 :initarg :size)			; number
    (height-ratio	:initform   0 :initarg :height-ratio)	; number
    (fill			:initform nil :initarg :fill)			; (or nil fill-info)
@@ -39,22 +38,13 @@
 (defmethod check ((obj uml-decision-merge) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (with-slots (center-x center-y size height-ratio fill stroke) obj
-	(check-member center-x     :nullable nil :types number)
-	(check-member center-y     :nullable nil :types number)
+  (with-slots (center size height-ratio fill stroke) obj
 	(check-member size         :nullable nil :types number)
 	(check-member height-ratio :nullable nil :types number)
 	(check-object fill         canvas dict :nullable   t :class fill-info)
 	(check-object stroke       canvas dict :nullable   t :class stroke-info)
-	(incf center-x (canvas-left canvas))
-	(incf center-y (canvas-top  canvas)))
+	(setf center (canvas-fix-point canvas center)))
   nil)
-
-(defmethod shape-center ((obj uml-decision-merge))
-  (slot-value obj 'center-x))
-
-(defmethod shape-middle ((obj uml-decision-merge))
-  (slot-value obj 'center-y))
 
 (defmethod shape-width ((obj uml-decision-merge))
   (slot-value obj 'size))
@@ -62,26 +52,12 @@
 (defmethod shape-height ((obj uml-decision-merge))
   (* (slot-value obj 'size) (slot-value obj 'height-ratio)))
 
-(defmethod shape-top ((obj uml-decision-merge))
-  (- (slot-value obj 'center-y)
-	 (* (slot-value obj 'size) (slot-value obj 'height-ratio) 0.5)))
-
-(defmethod shape-bottom ((obj uml-decision-merge))
-  (+ (slot-value obj 'center-y)
-	 (* (slot-value obj 'size) (slot-value obj 'height-ratio) 0.5)))
-
-(defmethod shape-left ((obj uml-decision-merge))
-  (- (slot-value obj 'center-x)
-	 (/ (slot-value obj 'size) 2)))
-
-(defmethod shape-right ((obj uml-decision-merge))
-  (+ (slot-value obj 'center-x)
-	 (/ (slot-value obj 'size) 2)))
+(defmethod shape-center ((obj uml-decision-merge))
+  (slot-value obj 'center))
 
 (defmethod shape-connect-point ((obj uml-decision-merge) type1 type2 arg)
-  (with-slots ((x center-x)
-			   (y center-y) size height-ratio) obj
-	(uml-decision-merge-connect-point x y size
+  (with-slots (center size height-ratio) obj
+	(uml-decision-merge-connect-point center size
 									  (* size height-ratio) type1 type2 arg)))
   
 ;;MEMO : use impelementation of shape...
@@ -92,12 +68,10 @@
   
 (defmethod draw-entity ((obj uml-decision-merge) writer)
   (pre-draw obj writer)
-  (let ((canvas (make-canvas (shape-top    obj)
-							 (shape-bottom obj)
-							 (shape-left   obj)
-							 (shape-right  obj))))
-	(with-slots (center-x center-y size
-						  height-ratio fill stroke) obj
+  (let ((canvas (make-canvas (shape-topleft obj)
+							 (shape-width   obj)
+							 (shape-height  obj))))
+	(with-slots (center size height-ratio fill stroke) obj
 	  (let* ((width  (canvas-width  canvas))
 			 (height (canvas-height canvas))
 			 (half-w (/ width  2))
@@ -106,15 +80,19 @@
 					 `(check-and-draw-local-entity ,entity canvas writer)))
 		  (let ((*default-fill*   fill)
 				(*default-stroke* stroke))
-			(polygon `(,half-w 0 0 ,half-h ,half-w ,height ,width ,half-h ,half-w 0)))))))
+			(polygon `((,half-w 0)
+					   (0 ,half-h)
+					   (,half-w ,height)
+					   (,width ,half-h)
+					   (,half-w 0))))))))
   (post-draw obj writer)
   nil)
 
 
 
-(defmacro uml-decision (x y &key size height-ratio fill stroke layer id)
+(defmacro uml-decision (center &key size height-ratio fill stroke layer id)
   `(register-entity (make-instance 'uml-decision-merge
-								   :center-x ,x :center-y ,y
+								   :center ,center
 								   :size	(or ,size         *uml-decision-size*)
 								   :height-ratio
 											(or ,height-ratio *uml-decision-height-ratio*)
@@ -122,9 +100,9 @@
 								   :stroke	(or ,stroke       *uml-decision-stroke*)
 								   :link nil :layer ,layer :id ,id)))
 
-(defmacro uml-merge (x y &key size height-ratio fill stroke layer id)
+(defmacro uml-merge (center &key size height-ratio fill stroke layer id)
   `(register-entity (make-instance 'uml-decision-merge
-								   :center-x ,x :center-y ,y
+								   :center ,center
 								   :size	(or ,size         *uml-merge-size*)
 								   :height-ratio
 											(or ,height-ratio *uml-merge-height-ratio*)

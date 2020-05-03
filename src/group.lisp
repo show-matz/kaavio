@@ -20,8 +20,7 @@
 #|EXPORT|#				:draw-group
  |#
 (defclass group (shape)
-  ((x		:initform 0 :initarg :center-x)	; number
-   (y		:initform 0 :initarg :center-y)	; number
+  ((center	:initform 0 :initarg :center)	; number
    (width	:initform 0 :initarg :width)	; number
    (height	:initform 0 :initarg :height)))	; number
 
@@ -38,13 +37,10 @@
 (defmethod check ((grp group) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (with-slots (x y width height) grp
-	(check-member x      :nullable nil :types number)
-	(check-member y      :nullable nil :types number)
+  (with-slots (center width height) grp
 	(check-member width  :nullable nil :types number)
 	(check-member height :nullable nil :types number)
-	(incf x (canvas-left canvas))
-	(incf y (canvas-top  canvas)))
+	(setf center (canvas-fix-point canvas center)))
   nil)
 
 (defmethod shape-width ((grp group))
@@ -53,27 +49,8 @@
 (defmethod shape-height ((grp group))
   (slot-value grp 'height))
 
-(defmethod shape-top ((grp group))
-  (- (slot-value grp 'y)
-	 (/ (slot-value grp 'height) 2)))
-
-(defmethod shape-middle ((grp group))
-  (slot-value grp 'y))
-
-(defmethod shape-bottom ((grp group))
-  (+ (slot-value grp 'y)
-	 (/ (slot-value grp 'height) 2)))
-
-(defmethod shape-left ((grp group))
-  (- (slot-value grp 'x)
-	 (/ (slot-value grp 'width) 2)))
-
 (defmethod shape-center ((grp group))
-  (slot-value grp 'x))
-
-(defmethod shape-right ((grp group))
-  (+ (slot-value grp 'x)
-	 (/ (slot-value grp 'width) 2)))
+  (slot-value grp 'center))
 
 ;;MEMO : use impelementation of shape...
 ;;(defmethod shape-connect-point ((grp group) type1 type2 arg) ...)
@@ -92,10 +69,9 @@
 					  
 
 (defmethod group-get-canvas ((grp group))
-  (make-canvas (shape-top    grp)
-			   (shape-bottom grp)
-			   (shape-left   grp)
-			   (shape-right  grp)))
+  (make-canvas (shape-topleft grp)
+			   (shape-width   grp)
+			   (shape-height  grp)))
 
 
 #|
@@ -106,11 +82,10 @@
 		(*default-stroke* (make-stroke :color color :dasharray '(2 2))))
 	(macrolet ((register-entity (entity)
 				 `(check-and-draw-local-entity ,entity canvas writer)))
-	  (with-canvas (top bottom left right) canvas
-		(rectangle (/ (- right  left) 2)
-				   (/ (- bottom  top) 2)
-				   (- right left)
-				   (- bottom top))))))
+	  (with-canvas (topleft width height) canvas
+		(rectangle (point/xy+ topleft
+							  (/ width 2)
+							  (/ height 2)) width height)))))
 
 ;x y m-width m-height :fill :none)
 ;			(let ((x (- m-x (class:member canvas :left)))

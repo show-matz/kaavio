@@ -7,11 +7,11 @@
 (defparameter *uml-time-event-height-ratio*    1.5)
 
 
-;-------------------------------------------------------------------------------
-;
-; class uml-time-event
-;
-;-------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------
+;;
+;; class uml-time-event
+;;
+;;------------------------------------------------------------------------------
 (defclass uml-time-event (diagram:group)
   ((name	:initform nil :initarg :name)		; (or nil label-info)
    (fill	:initform nil :initarg :fill)		; (or nil fill-info)
@@ -39,13 +39,16 @@
 	(let* ((canvas (group-get-canvas event))
 		   (width  (canvas-width  canvas))
 		   (height (canvas-height canvas))
-		   ;(center (/ width 2))
 		   (*default-fill*   fill)
 		   (*default-stroke* stroke))
 	  (macrolet ((register-entity (entity)
 				   `(check-and-draw-local-entity ,entity canvas writer)))
 		;; draw note body
-		(polygon `(0 0 ,width 0 0 ,height ,width ,height 0 0))))
+		(polygon `((0 0)
+				   (,width 0)
+				   (0 ,height)
+				   (,width ,height)
+				   (0 0)))))
 	(when name
 	  (draw-label name event writer)))
   nil)
@@ -59,23 +62,26 @@
 (defmethod shape-connect-point ((event uml-time-event) type1 type2 arg)
   (declare (ignore type1))
   (let* ((canvas (group-get-canvas event)))
-	(with-canvas (top bottom left right) canvas
-		(let* ((qw  (/ (canvas-width  canvas) 4))
-			   (qh  (/ (canvas-height canvas) 4))
-			   (center (+ left qw qw))
-			   (middle (+ top  qh qh)))
+	(with-canvas (topleft width height) canvas
+		(let* ((qw  (/ width  4))
+			   (qh  (/ height 4)))
 		  (ecase type2
 			((:center) (call-next-method))
-			((:top)    (make-point (+ center (* qw arg))    top))
-			((:bottom) (make-point (+ center (* qw arg)) bottom))
-			((:left)   (make-point (+ center (* qw arg arg -1)) (+ middle (* qh arg))))
-			((:right)  (make-point (+ center (* qw arg arg  1)) (+ middle (* qh arg)))))))))
+			((:top)    (point/xy+ topleft (* qw (+ arg 2))                0))
+			((:bottom) (point/xy+ topleft (* qw (+ arg 2))           height))
+			((:left)   (point/xy+ topleft                0 (* qh (+ arg 2))))
+			((:right)  (point/xy+ topleft            width (* qh (+ arg 2)))))))))
 
 
 
-(defmacro uml-time-event (x y name &key width height fill stroke link layer id)
+;;------------------------------------------------------------------------------
+;;
+;; macro uml-time-event
+;;
+;;------------------------------------------------------------------------------
+(defmacro uml-time-event (center name &key width height fill stroke link layer id)
   `(register-entity (make-instance 'uml-time-event
-								   :center-x ,x :center-y ,y
+								   :center ,center
 								   :name ,name
 								   :width  (or ,width *uml-time-event-width*)
 								   :height (or ,height

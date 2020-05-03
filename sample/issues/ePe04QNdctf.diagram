@@ -1,7 +1,9 @@
 (in-package :diagram-user)
 
+(in-package :diagram-user)
+
 (create-svg (:width 200 :height 200 :encoding :utf8)
 	(grid)
-	(rectangle 100 100 100 100 :id :outer :stroke :black :fill :white
-			   :contents ((rectangle 20             20 20 20 :id :inner1)
-						  (rectangle 60 inner1[middle] 20 20 :id :inner2))))
+	(rectangle '(100 100) 100 100 :id :outer :stroke :black :fill :white
+			   :contents ((rectangle '(20 20) 20 20 :id :inner1)
+						  (rectangle (point/x+ inner1.center 60) 20 20 :id :inner2))))

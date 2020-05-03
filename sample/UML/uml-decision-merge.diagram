@@ -5,8 +5,8 @@
 
 (create-svg (:width 400 :height 150 :desc "test of uml-decision-merge" :encoding :utf8)
 	(grid) ; :size 10 :bgcolor "#F0F0FF" :stroke '(:color :blue :width 0.2))
-	(uml-decision  80  35 :id :dec1)
-	(uml-merge    200 110 :id :mrg1)
-	(uml-merge    300  50 :size 30 :fill :lightgray :stroke :red)
+	(uml-decision '( 80  35) :id :dec1)
+	(uml-merge    '(200 110) :id :mrg1)
+	(uml-merge    '(300  50) :size 30 :fill :lightgray :stroke :red)
 	(connector :dec1 :mrg1 :end2 :arrow :style :RT3)
 	(connector :mrg1 :dec1 :end2 :arrow :style :LB))

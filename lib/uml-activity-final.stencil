@@ -5,11 +5,11 @@
 (defparameter *uml-activity-final-fill*     :white)
 (defparameter *uml-activity-final-stroke*   :black)
 
-;-------------------------------------------------------------------------------
-;
-; class uml-activity-final
-;
-;-------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------
+;;
+;; class uml-activity-final
+;;
+;;------------------------------------------------------------------------------
 (defclass uml-activity-final (diagram:circle)
   ((ratio :initform 0 :initarg :ratio)))	; number
 
@@ -28,15 +28,20 @@
 		   (fill   (slot-value (slot-value obj 'diagram::stroke) 'diagram::color)))
 	  (macrolet ((register-entity (entity)
 				   `(check-and-draw-local-entity ,entity canvas writer)))
-		(circle center center radius :fill fill :stroke :none))))
+		(circle (make-point center center) radius :fill fill :stroke :none))))
   (call-next-method)
 ;  (draw-canvas-frame (shape-get-subcanvas obj) writer)	;for debug...
   nil)
 
 
-(defmacro uml-activity-final (x y &key radius ratio fill stroke link layer id)
+;;------------------------------------------------------------------------------
+;;
+;; macro uml-activity-final
+;;
+;;------------------------------------------------------------------------------
+(defmacro uml-activity-final (center &key radius ratio fill stroke link layer id)
   `(register-entity (make-instance 'uml-activity-final
-								   :center-x ,x :center-y ,y
+								   :center ,center
 								   :radius (or ,radius *uml-activity-final-radius*)
 								   :ratio  (or ,ratio  *uml-activity-final-ratio*)
 								   :class nil

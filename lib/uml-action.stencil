@@ -72,9 +72,10 @@
   ;; this method must call super class' one.
   (call-next-method))
 
-;; no override
-;;(defmethod shape-connect-point ((action uml-action) type1 type2 arg)
-;;  (call-next-method))
+(defmethod shape-connect-point ((action uml-action) type1 type2 arg)
+  (rectangle-connect-point (shape-center action)
+						   (shape-width  action)
+						   (shape-height action) type1 type2 arg))
 
 ;;MEMO : use impelementation of group...
 ;;(defmethod group-get-canvas ((action uml-action)) ...)
@@ -92,20 +93,20 @@
 		(with-slots (keyword kwd-height corner-r rake
 						 diagram::margin diagram::fill diagram::stroke) action
 		  ;; draw action body
-		  (rectangle (/ width 2) (/ height 2)
+		  (rectangle (make-point (/ width 2) (/ height 2))
 					 width height :rx corner-r :ry corner-r
 					 :fill diagram::fill :stroke diagram::stroke)
 		  ;; rake icon
 		  (when rake
 			(destructuring-bind (w h xm ym) rake
 			  (let ((*default-stroke* (make-stroke :width 2 :base diagram::stroke)))
-				(path `(,(move-to (- width xm (/ w 2)) (- height ym h))
+				(path `((:move-to (,(- width xm (/ w 2)) ,(- height ym h)))
 						:relative
-						,(line-to 0 h)
-						,(move-to (- (/ w 2)) 0)
-						,(line-to 0 (- (/ h 2)))
-						,(line-to w 0)
-						,(line-to 0 (/ h 2)))))))
+						(:line-to (0 ,h))
+						(:move-to (,(- (/ w 2)) 0))
+						(:line-to (0 ,(- (/ h 2))))
+						(:line-to (,w 0))
+						(:line-to (0 ,(/ h 2))))))))
 		  ;; draw keyword
 		  (when keyword
 			(uml-keyword-draw keyword
@@ -152,8 +153,8 @@
 		(multiple-value-bind (w h)
 				(font-calc-textarea diagram::font text)
 		  (declare (ignore w))
-		  (setf (canvas-bottom canvas)
-				(+ (canvas-top canvas) kwd-height (* 2 diagram::margin) h)))))
+		  (setf (canvas-height canvas)
+				(+ kwd-height (* 2 diagram::margin) h)))))
 	canvas))
 
 (defmethod shape-get-subcanvas ((action uml-action))
@@ -161,29 +162,23 @@
   (with-slots (diagram::margin) action
 	(let ((partition (+ diagram::margin
 						(canvas-height (text-shape-paragraph-area action)))))
-	  (make-canvas (+ (shape-top action) partition)
-				   (shape-bottom action)
-				   (shape-left   action)
-				   (shape-right  action)))))
+	  (make-canvas (point/y+ (shape-topleft action) partition)
+				   (shape-width action)
+				   (- (shape-height action) partition)))))
 
-(defmethod shape-connect-point ((action uml-action) type1 type2 arg)
-  (rectangle-connect-point (shape-center action)
-						   (shape-middle action)
-						   (shape-width  action)
-						   (shape-height action) type1 type2 arg))
   
 ;-------------------------------------------------------------------------------
 ;
 ; macro uml-action
 ;
 ;-------------------------------------------------------------------------------
-(defmacro uml-action (x y text &key keyword width height
+(defmacro uml-action (center text &key keyword width height
 									margin corner-r rake
 									font fill stroke link layer id contents)
   (let* ((contents-p (not (null contents)))
 		 (code `(register-entity
 					 (make-instance 'uml-action
-									:center-x ,x :center-y ,y
+									:center ,center
 									:width ,width :height ,height
 									:text ,text :keyword ,keyword
 									:contents-p ,contents-p :rake ,rake

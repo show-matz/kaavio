@@ -1,3 +1,5 @@
+(in-package :diagram-user)
+
 (let ((svg-width  1200)
       (svg-height  620))
   (create-svg (:width svg-width :height svg-height :desc "color sample" :encoding :utf8)
@@ -5,7 +7,7 @@
           (*default-font*   (make-font :family "monospace" :size 10 :width-spice 0.85))
           (*default-stroke* (make-stroke :color :black :width 1)))
 	  ;; back ground
-      (rectangle (/ svg-width 2) (/ svg-height 2)
+      (rectangle (make-point (/ svg-width 2) (/ svg-height 2))
                  svg-width svg-height :fill :white :stroke :white)
       (let ((x 15)
             (y  0))
@@ -14,8 +16,8 @@
                    (when (< svg-height (+ y 10))
                      (incf x 250)
                      (setf y  20))
-                   (rectangle  x  y  15  15 :fill (fourth lst))
-                   (text  (+ x 10)  (+ y 4)  (apply #'format  nil "#~2,'0x~2,'0x~2,'0x:~A" lst))))
+                   (rectangle (list x y)  15  15 :fill (fourth lst))
+                   (text (list (+ x 10)  (+ y 4)) (apply #'format  nil "#~2,'0x~2,'0x~2,'0x:~A" lst))))
           (mapcar #'imp '(
                           (  0   0   0 "black"               )
                           (  0   0 128 "navy"                )

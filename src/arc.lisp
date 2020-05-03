@@ -1,5 +1,7 @@
 #|
 #|ASD|#				(:file "arc"                       :depends-on ("cl-diagram"
+#|ASD|#																"point"
+#|ASD|#																"canvas"
 #|ASD|#																"mathutil"
 #|ASD|#																"path"))
 #|EXPORT|#				;arc.lisp
@@ -13,40 +15,37 @@
 ;
 ;-------------------------------------------------------------------------------
 (defclass arc (path)
-  ((center-x	:initform 0 :initarg :center-x)		; number
-   (center-y	:initform 0 :initarg :center-y)		; number
-   (radius		:initform 0 :initarg :radius)		; number
-   (degree1		:initform 0 :initarg :degree1)		; number
-   (degree2		:initform 0 :initarg :degree2)))	; number
+  ((center		:initform nil :initarg :center)		; point
+   (radius		:initform   0 :initarg :radius)		; number
+   (degree1		:initform   0 :initarg :degree1)	; number
+   (degree2		:initform   0 :initarg :degree2)))	; number
 
 ;;MEMO : no implementation
 ;;(defmethod initialize-instance :after ((ent arc) &rest initargs)...)
 
 
 (defun arc-calculate-data (ent)
-  (with-slots (center-x center-y
-						radius degree1 degree2) ent
-	(let ((start-x (+ center-x (* radius (math/cos1 degree1))))
-		  (start-y (+ center-y (* radius (math/sin1 degree1))))
-		  (end-x   (+ center-x (* radius (math/cos1 degree2))))
-		  (end-y   (+ center-y (* radius (math/sin1 degree2))))
+  (with-slots (center radius degree1 degree2) ent
+	(let ((start (point/xy+ center (* radius (math/cos1 degree1))
+								   (* radius (math/sin1 degree1))))
+		  (end   (point/xy+ center (* radius (math/cos1 degree2))
+								   (* radius (math/sin1 degree2))))
 		  (x-axis-rotation 0)    ; fixed.
 		  (sweep-flag      1)    ; fixed.
 		  (large-arc-flag  (if (<= 180 (let ((tmp (- degree2 degree1)))
 										 (if (minusp tmp) (+ 360 tmp) tmp))) 1 0)))
-	  `(:absolute :move-to ,start-x ,start-y
-				  :arc-to  ,radius ,radius ,x-axis-rotation
-						   ,large-arc-flag ,sweep-flag ,end-x ,end-y))))
+	  `(:absolute (:move-to ,start)
+				  (:arc-to ,radius ,radius ,x-axis-rotation
+						   ,large-arc-flag ,sweep-flag ,end)))))
 
 
 (defmethod check ((ent arc) canvas dict)
   (declare (ignorable dict))
-  (with-slots (center-x center-y radius degree1 degree2) ent
-	(check-member center-x :nullable nil :types number)
-	(check-member center-y :nullable nil :types number)
+  (with-slots (center radius degree1 degree2) ent
 	(check-member radius   :nullable nil :types number)
 	(check-member degree1  :nullable nil :types number)
-	(check-member degree2  :nullable nil :types number))
+	(check-member degree2  :nullable nil :types number)
+	(setf center (canvas-fix-point canvas center)))
   (setf (slot-value ent 'data) (arc-calculate-data ent))
   ;; this method must call super class' one.
   (call-next-method))
@@ -59,9 +58,9 @@
 #|
 #|EXPORT|#				:arc
  |#
-(defmacro arc (x y radius degree1 degree2 &key class stroke layer id)
+(defmacro arc (center radius degree1 degree2 &key class stroke layer id)
   `(register-entity (make-instance 'diagram:arc
-								   :center-x ,x :center-y ,y
+								   :center ,center
 								   :radius ,radius :degree1 ,degree1 :degree2 ,degree2
 								   :class ,class :stroke ,stroke :layer ,layer :id ,id)))
 

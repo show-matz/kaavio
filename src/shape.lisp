@@ -1,7 +1,7 @@
 #|
 #|ASD|#				(:file "shape"                     :depends-on ("cl-diagram"
-#|ASD|#																"canvas"
 #|ASD|#																"point"
+#|ASD|#																"canvas"
 #|ASD|#																"mathutil"
 #|ASD|#																"entity"
 #|ASD|#																"link-info"))
@@ -18,10 +18,12 @@
 #|
 #|EXPORT|#				:rectangle-connect-point
  |#
-(defun rectangle-connect-point-C (cx cy width height pt)
-  ;;(format t "cx=~A, cy=~A, width=~A, height=~A, pt=~A.~%" cx cy width height pt)
-  (let* ((px    (point-x pt))
-		 (py    (point-y pt))
+(defun rectangle-connect-point-C (pt1 width height pt2)
+  ;;(format t "cx=~A, cy=~A, width=~A, height=~A, pt2=~A.~%" cx cy width height pt2)
+  (let* ((cx    (point-x pt1))
+		 (cy    (point-y pt1))
+		 (px    (point-x pt2))
+		 (py    (point-y pt2))
 		 (w/2   (/ width  2))
 		 (h/2   (/ height 2))
 		 (len1  (math/len4 cx cy (+ cx w/2) (+ cy h/2)))    ; length between center to corner.
@@ -31,20 +33,22 @@
 		 (p-cos (/ (- px cx) len2)))
 	;;(format t "c-sin=~A, p-sin=~A, p-cos=~A.~%" c-sin p-sin p-cos)
 	(cond
-	  ((< 0 c-sin p-sin)	 (make-point (+ cx (* (/ p-cos p-sin) h/2)) (+ cy h/2)))	;; bottom line
-	  ((< p-sin (- c-sin) 0) (make-point (- cx (* (/ p-cos p-sin) h/2)) (- cy h/2)))	;;  upper line
-	  ((< cx px)			 (make-point (+ cx w/2) (+ cy (* (/ p-sin p-cos) w/2))))	;;  right line
-	  (t					 (make-point (- cx w/2) (- cy (* (/ p-sin p-cos) w/2)))))))	;;   left line
+	  ((< 0 c-sin p-sin)	 (make-point (+ cx (* (/ p-cos p-sin) h/2)) (+ cy h/2) :absolute))		;; bottom line
+	  ((< p-sin (- c-sin) 0) (make-point (- cx (* (/ p-cos p-sin) h/2)) (- cy h/2) :absolute))		;;  upper line
+	  ((< cx px)			 (make-point (+ cx w/2) (+ cy (* (/ p-sin p-cos) w/2)) :absolute))		;;  right line
+	  (t					 (make-point (- cx w/2) (- cy (* (/ p-sin p-cos) w/2)) :absolute)))))	;;   left line
 
 ;; return point object.
-(defun rectangle-connect-point (cx cy width height type1 type2 arg)
+(defun rectangle-connect-point (center-pt width height type1 type2 arg)
   (declare (ignore type1))
-  (ecase type2
-	((:center) (rectangle-connect-point-C cx cy width height arg))
-	((:top)    (make-point (+ cx (* (/ width 4) arg)) (- cy (/ height 2))))
-	((:bottom) (make-point (+ cx (* (/ width 4) arg)) (+ cy (/ height 2))))
-	((:left)   (make-point (- cx (/ width 2)) (+ cy (* (/ height 4) arg))))
-	((:right)  (make-point (+ cx (/ width 2)) (+ cy (* (/ height 4) arg))))))
+  (let ((cx (point-x center-pt))
+		(cy (point-y center-pt)))
+	(ecase type2
+	  ((:center) (rectangle-connect-point-C center-pt width height arg))
+	  ((:top)    (make-point (+ cx (* (/ width 4) arg)) (- cy (/ height 2)) :absolute))
+	  ((:bottom) (make-point (+ cx (* (/ width 4) arg)) (+ cy (/ height 2)) :absolute))
+	  ((:left)   (make-point (- cx (/ width 2)) (+ cy (* (/ height 4) arg)) :absolute))
+	  ((:right)  (make-point (+ cx (/ width 2)) (+ cy (* (/ height 4) arg)) :absolute)))))
 
 
 ;;------------------------------------------------------------------------------
@@ -71,30 +75,36 @@
 #|
 #|EXPORT|#				:shape-width
 #|EXPORT|#				:shape-height
-#|EXPORT|#				:shape-center
-#|EXPORT|#				:shape-middle
+#|EXPORT|#				:shape-topleft
 #|EXPORT|#				:shape-top
-#|EXPORT|#				:shape-bottom
+#|EXPORT|#				:shape-topright
 #|EXPORT|#				:shape-left
+#|EXPORT|#				:shape-center
 #|EXPORT|#				:shape-right
+#|EXPORT|#				:shape-bottomleft
+#|EXPORT|#				:shape-bottom
+#|EXPORT|#				:shape-bottomright
+ |#
+(defgeneric shape-width       (shp))	;; returns number.
+(defgeneric shape-height      (shp))	;; returns number.
+(defgeneric shape-topleft     (shp))	;; returns point object.
+(defgeneric shape-top         (shp))	;; returns point object.
+(defgeneric shape-topright    (shp))	;; returns point object.
+(defgeneric shape-left        (shp))	;; returns point object.
+(defgeneric shape-center      (shp))	;; returns point object.
+(defgeneric shape-right       (shp))	;; returns point object.
+(defgeneric shape-bottomleft  (shp))	;; returns point object.
+(defgeneric shape-bottom      (shp))	;; returns point object.
+(defgeneric shape-bottomright (shp))	;; returns point object.
+
+#|
 #|EXPORT|#				:shape-get-subcanvas
 #|EXPORT|#				:shape-cc-center
 #|EXPORT|#				:shape-connect-point
  |#
-(defgeneric shape-width  (shp))
-(defgeneric shape-height (shp))
-(defgeneric shape-center (shp))
-(defgeneric shape-middle (shp))
-(defgeneric shape-top    (shp))
-(defgeneric shape-bottom (shp))
-(defgeneric shape-left   (shp))
-(defgeneric shape-right  (shp))
-(defgeneric shape-get-subcanvas (shp))
-
-(defgeneric shape-cc-center (shp type))
-; returns point object.
-; type := :from|:dest
-
+(defgeneric shape-get-subcanvas (shp))	;; returns canvas object.
+(defgeneric shape-cc-center (shp type)) ;; returns point object.
+										;; type := :from|:dest
 (defgeneric shape-connect-point (shp type1 type2 arg))
 ; returns point object.
 ; type1 := :from|:dest
@@ -103,32 +113,64 @@
 ;          -1,0,1       (unless (eq type :center))
 
 
-(defmethod shape-top ((shp shape))
-  (- (shape-middle shp) (/ (shape-height shp) 2)))
+;; need implement in derived class...
+;;(defmethod shape-width ((shp shape)) ...)
 
-(defmethod shape-bottom ((shp shape))
-  (+ (shape-middle shp) (/ (shape-height shp) 2)))
+;; need implement in derived class...
+;;(defmethod shape-height ((shp shape)) ...)
+
+(defmethod shape-topleft ((shp shape))
+  (point/xy+ (shape-center shp)
+			 (- (/ (shape-width  shp) 2))
+			 (- (/ (shape-height shp) 2))))
+
+(defmethod shape-top ((shp shape))
+  (point/y+ (shape-center shp)
+			(- (/ (shape-height shp) 2))))
+
+(defmethod shape-topright ((shp shape))
+  (point/xy+ (shape-center shp)
+			 (/ (shape-width shp) 2)
+			 (- (/ (shape-height shp) 2))))
 
 (defmethod shape-left ((shp shape))
-  (- (shape-center shp) (/ (shape-width shp) 2)))
+  (point/x+ (shape-center shp)
+			(- (/ (shape-width shp) 2))))
+
+;; need implement in derived class...
+;;(defmethod shape-center ((shp shape)) ...)
 
 (defmethod shape-right ((shp shape))
-  (+ (shape-center shp) (/ (shape-width shp) 2)))
+  (point/x+ (shape-center shp)
+			(/ (shape-width shp) 2)))
+
+(defmethod shape-bottomleft ((shp shape))
+  (point/xy+ (shape-center shp)
+			 (- (/ (shape-width shp) 2))
+			 (/ (shape-height shp) 2)))
+
+(defmethod shape-bottom ((shp shape))
+  (point/y+ (shape-center shp)
+			 (/ (shape-height shp) 2)))
+
+(defmethod shape-bottomright ((shp shape))
+  (point/xy+ (shape-center shp)
+			 (/ (shape-width  shp) 2)
+			 (/ (shape-height shp) 2)))
+
+
 
 (defmethod shape-get-subcanvas ((shp shape))
-  (make-canvas (shape-top    shp)
-			   (shape-bottom shp)
-			   (shape-left   shp)
-			   (shape-right  shp)))
+  (make-canvas (shape-topleft shp)
+			   (shape-width   shp)
+			   (shape-height  shp)))
 
 (defmethod shape-cc-center ((shp shape) type)
   (declare (ignore type))
-  (make-point (shape-center shp)
-			  (shape-middle shp)))
+  (shape-center shp))
 
 (defmethod shape-connect-point ((shp shape) type1 type2 arg)
   (rectangle-connect-point (shape-center shp)
-						   (shape-middle shp)
 						   (shape-width  shp)
 						   (shape-height shp) type1 type2 arg))
   

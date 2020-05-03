@@ -12,7 +12,7 @@
 
 (in-package :cl-diagram)
 
-(defun caluculate-shapesize (font text)
+(defun caluculate-paragraph-shapesize (font text)
   (with-slots (size
 			   (spice width-spice)
 			   (spacing line-spacing)) font
@@ -30,14 +30,13 @@
 ;
 ;-------------------------------------------------------------------------------
 (defclass paragraph (shape)
-  ((x		:initform   0 :initarg :x)			; number
-   (y		:initform   0 :initarg :y)			; number
-   (text	:initform nil :initarg :text)		; string -> list
-   (align	:initform nil :initarg :align)		; keyword
-   (valign	:initform nil :initarg :valign)		; keyword
-   (font	:initform nil :initarg :font)		; (or nil font-info)
-   (width	:initform nil :initarg :width)		; number
-   (height	:initform nil :initarg :height)))	; number
+  ((position	:initform nil :initarg :position)	; point
+   (text		:initform nil :initarg :text)		; string -> list
+   (align		:initform nil :initarg :align)		; keyword
+   (valign		:initform nil :initarg :valign)		; keyword
+   (font		:initform nil :initarg :font)		; (or nil font-info)
+   (width		:initform nil :initarg :width)		; number
+   (height		:initform nil :initarg :height)))	; number
 
 
 (defmethod initialize-instance :after ((shp paragraph) &rest initargs)
@@ -51,9 +50,7 @@
 (defmethod check ((shp paragraph) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (with-slots (x y text align valign font width height) shp
-	(check-member   x      :nullable nil :types number)
-	(check-member   y      :nullable nil :types number)
+  (with-slots (position text align valign font width height) shp
 	(check-member   text   :nullable nil :types string)
 	(check-member   align  :nullable nil :types keyword)
 	(check-member   valign :nullable nil :types keyword)
@@ -61,9 +58,8 @@
 	(check-keywords align  :left :center :right)
 	(check-keywords valign :top  :center :bottom)
 	(setf text (string/split text #\newline))
-	(incf x (canvas-left canvas))
-	(incf y (canvas-top  canvas))
-	(multiple-value-bind (w h) (caluculate-shapesize font text)
+	(setf position (canvas-fix-point canvas position))
+	(multiple-value-bind (w h) (caluculate-paragraph-shapesize font text)
 	  (setf width  w)
 	  (setf height h)))
   nil)
@@ -74,55 +70,32 @@
 (defmethod shape-height ((shp paragraph))
   (slot-value shp 'height))
 
-(defmethod shape-top ((shp paragraph))
-  (with-slots (valign y height) shp
-	(ecase valign
-	  ((:top)    y)
-	  ((:center) (- y (/ height 2)))
-	  ((:bottom) (- y height)))))
-
-(defmethod shape-middle ((shp paragraph))
-  (with-slots (valign y height) shp
-	(ecase valign
-	  ((:top)    (+ y (/ height 2)))
-	  ((:center) y)
-	  ((:bottom) (- y (/ height 2))))))
-
-(defmethod shape-bottom ((shp paragraph))
-  (with-slots (valign y height) shp
-	(ecase valign
-	  ((:top)    (+ y height))
-	  ((:center) (+ y (/ height 2)))
-	  ((:bottom) y))))
-
-(defmethod shape-left   ((shp paragraph))
-  (with-slots (align x width) shp
-	(ecase align
-	  ((:left)   x)
-	  ((:center) (- x (/ width 2)))
-	  ((:right)  (- x width)))))
-
 (defmethod shape-center ((shp paragraph))
-  (with-slots (align x width) shp
-	(ecase align
-	  ((:left)   (+ x (/ width 2)))
-	  ((:center) x)
-	  ((:right)  (- x (/ width 2))))))
-
-(defmethod shape-right  ((shp paragraph))
-  (with-slots (align x width) shp
-	(ecase align
-	  ((:left)   (+ x width))
-	  ((:center) (+ x (/ width 2)))
-	  ((:right)  x))))
+  (with-slots (position width height align valign) shp
+	(point/xy+ position
+			   (ecase align
+				 ((:left)   (/ width 2))
+				 ((:center) 0)
+				 ((:right)  (- (/ width 2))))
+			   (ecase valign
+				 ((:top)    (/ height 2))
+				 ((:center) 0)
+				 ((:bottom) (- (/ height 2)))))))
 
 (defmethod entity-composition-p ((shp paragraph))
   (or (< 1 (length (slot-value shp 'text)))
 	  (call-next-method)))
   
+;;MEMO : use impelementation of shape...
+;;(defmethod shape-connect-point ((shp rectangle) type1 type2 arg) ...)
+  
+;;MEMO : use impelementation of shape...
+;;(defmethod shape-get-subcanvas ((shp rectangle)) ...)
+
 (defmethod draw-entity ((shp paragraph) writer)
-  (with-slots (class x align font text) shp
-	(let ((y (shape-top shp))
+  (with-slots (position class align font text) shp
+	(let ((x (point-x position))
+		  (y (point-y (shape-top shp)))
 		  (txt-anchor (ecase align
 						((:left)   "start")
 						((:center) "middle")
@@ -153,10 +126,10 @@
 #|
 #|EXPORT|#				:paragraph
  |#
-(defmacro paragraph (x y text
+(defmacro paragraph (position text
 					 &key align valign class font link layer id)
   `(register-entity (make-instance 'diagram:paragraph
-								   :x ,x :y ,y :text ,text
+								   :position ,position :text ,text
 								   :align ,align :valign ,valign :font ,font
 								   :class ,class :link ,link :layer ,layer :id ,id)))
 

@@ -1,11 +1,13 @@
+(in-package :diagram-user)
+
 (load-stencil :grid)
 (load-stencil :uml-flow-final)
 
 (create-svg (:width 300 :height 150 :desc "test of uml-flow-final" :encoding :utf8)
 	(grid) ; :size 10 :bgcolor "#F0F0FF" :stroke '(:color :blue :width 0.2))
-	(uml-flow-final               60  75)
-	(uml-flow-final (+ $1[center] 60) $1[middle] :radius 10)
-	(uml-flow-final (+ $1[center] 60) $1[middle] :fill :beige :radius 20)
+	(uml-flow-final '(60 75))
+	(uml-flow-final (point/x+ $1.center 60) :radius 10)
+	(uml-flow-final (point/x+ $1.center 60) :fill :beige :radius 20)
 	(let ((*uml-flow-final-stroke* :navy)
 		  (*uml-flow-final-fill*   :lightgray))
-	  (uml-flow-final (+ $1[center] 60) $1[middle])))
+	  (uml-flow-final (point/x+ $1.center 60))))

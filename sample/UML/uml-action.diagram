@@ -3,8 +3,8 @@
 
 (create-svg (:width 400 :height 150 :desc "test of uml-action" :encoding :utf8)
 	(grid) ; :size 10 :bgcolor "#F0F0FF" :stroke '(:color :blue :width 0.2))
-	(uml-action  80  35 "test action" :id :act1)
-	(uml-action 120 110 "test action2
+	(uml-action '( 80  35) "test action" :id :act1)
+	(uml-action '(120 110) "test action2
 multi lines" :rake t :id :act2)
 	(let ((*uml-keyword-font*   (make-font 10))
 		  (*uml-action-font*         nil)
@@ -12,7 +12,7 @@ multi lines" :rake t :id :act2)
 		  (*uml-action-stroke*     :navy)
 		  (*uml-action-corner-r*      10)
 		  (*uml-action-margin*        10))
-	  (uml-action 320 55 "test action3
+	  (uml-action '(320 55) "test action3
 multi lines
 with keyword" :keyword "keyword" :rake '(10 14 95 4) :id :act3))
 	(connector :act1 :act2)

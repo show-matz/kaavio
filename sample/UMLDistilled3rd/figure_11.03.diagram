@@ -8,24 +8,25 @@
 	(grid)
 	(let ((*default-font* (make-font :family "sans-serif" :size 10))
 		  (*uml-action-fill* (make-fill "#FFFACD")))
-	  (paragraph 225 20 "Figure 11.3. The activity of Figure 11.1 modified
+	  (paragraph '(225 20) "Figure 11.3. The activity of Figure 11.1 modified
 to invoke the activity in Figure 11.2"
 			:align :center :valign :top :font '(:family "sans-serif" :weight :bold :size 14))
-	  (uml-activity-start 225 80 :id :start)
-	  (uml-action  $1[center] (+ $1[middle] 70) "Receive
+	  (uml-activity-start '(225 80) :id :start)
+	  (uml-action (point/y+ $1.center 70) "Receive
 Order" :id :rcv-order)
-	  (uml-fork-v $1[center] (+ $1[middle] 70) :length 60 :id :fork)
-	  (uml-action 150 (+ $1[middle] 80) "Fill Order" :id :fill-order)
-	  (uml-action 300 $1[middle] "Send Invoice
+	  (uml-fork-v (point/y+ $1.center 70) :length 60 :id :fork)
+	  (uml-action (make-point 150 (+ (point-y $1.center) 80)) "Fill Order" :id :fill-order)
+	  (uml-action (make-point 300 (point-y $1.center)) "Send Invoice
 (Order::sendInvoice)" :id :send-invoice)
-	  (uml-action $2[center] (+ $2[middle] 100) "Deliver
+	  (uml-action (point/y+ $2.center 100) "Deliver
 Order" :id :deliver-order :rake t :link "./figure_11.02.svg")
-	  (uml-action $2[center] $1[middle] "Receive
+	  (uml-action (make-point (point-x $2.center) (point-y $1.center)) "Receive
 Payment" :id :rcv-payment)
-	  (uml-join-v fork[center] (+ $1[middle] 70) :length 60 :id :join)
-	  (uml-action $1[center] (+ $1[middle] 70) "Close
+	  (uml-join-v (make-point (point-x fork.center)
+							  (+ (point-y $1.center) 70)) :length 60 :id :join)
+	  (uml-action (point/y+ $1.center 70) "Close
 Order" :id :close-order)
-	  (uml-activity-final $1[center] (+ $1[middle] 70) :id :final)
+	  (uml-activity-final (point/y+ $1.center 70) :id :final)
 	  (uml-flow :start         :rcv-order)
 	  (uml-flow :rcv-order     :fork)
 	  (uml-flow :fork          :fill-order   :style :B1T)

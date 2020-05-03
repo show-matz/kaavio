@@ -4,11 +4,11 @@
 (defparameter *uml-flow-final-fill*     :white)
 (defparameter *uml-flow-final-stroke*   :black)
 
-;-------------------------------------------------------------------------------
-;
-; class uml-flow-final
-;
-;-------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------
+;;
+;; class uml-flow-final
+;;
+;;------------------------------------------------------------------------------
 (defclass uml-flow-final (diagram:circle) ())
 
 ;; no implementation
@@ -22,16 +22,21 @@
 	(macrolet ((register-entity (entity)
 				 `(check-and-draw-local-entity ,entity canvas writer)))
 	  (let ((*default-stroke* (slot-value obj 'diagram::stroke)))
-		(line `(,(- c len) ,(- c len) ,(+ c len) ,(+ c len)))
-		(line `(,(+ c len) ,(- c len) ,(- c len) ,(+ c len))))))
+		(line `((,(- c len) ,(- c len)) (,(+ c len) ,(+ c len))))
+		(line `((,(+ c len) ,(- c len)) (,(- c len) ,(+ c len)))))))
   (call-next-method)
 ;  (draw-canvas-frame (shape-get-subcanvas obj) writer)	;for debug...
   nil)
 
 
-(defmacro uml-flow-final (x y &key radius fill stroke layer id)
+;;------------------------------------------------------------------------------
+;;
+;; macro uml-flow-final
+;;
+;;------------------------------------------------------------------------------
+(defmacro uml-flow-final (center &key radius fill stroke layer id)
   `(register-entity (make-instance 'uml-flow-final
-								   :center-x ,x :center-y ,y
+								   :center ,center
 								   :radius (or ,radius *uml-flow-final-radius*)
 								   :class nil
 								   :fill   (or ,fill   *uml-flow-final-fill*   *default-fill*)

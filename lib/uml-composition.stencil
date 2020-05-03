@@ -3,8 +3,18 @@
 
 (load-stencil :uml-association)
 
+;;------------------------------------------------------------------------------
+;;
+;; class uml-composition
+;;
+;;------------------------------------------------------------------------------
 (defclass uml-composition (uml-association) ())
 
+;;------------------------------------------------------------------------------
+;;
+;; macro uml-composition
+;;
+;;------------------------------------------------------------------------------
 (defmacro uml-composition (from to &key arrow keyword style role mult layer id)
   `(register-entity (make-instance 'uml-composition
 								   :from ,from :to ,to

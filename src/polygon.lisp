@@ -11,11 +11,11 @@
 
 (in-package :cl-diagram)
 
-;-------------------------------------------------------------------------------
-;
-; class polygon
-;
-;-------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------
+;;
+;; class polygon
+;;
+;;------------------------------------------------------------------------------
 (defclass polygon (entity)
   ((points	:initform nil :initarg :points)	; list
    (class	:initform nil :initarg :class)	; keyword
@@ -42,19 +42,13 @@
 	(check-object fill   canvas dict :nullable nil :class fill-info)
 	(check-object stroke canvas dict :nullable nil :class stroke-info)
 	(check-object link   canvas dict :nullable   t :class link-info)
-	(unless (evenp (length points))
-	  (throw-exception "Odd number elements in points of polygon."))
-	(unless (<= 6 (length points))
-	  (throw-exception "Less than 6 elements in points of polygon."))
-	(dolist (v points)
-	  (unless (numberp v)
-		(throw-exception "Invalid value '~A' in points of polygon." v)))
-	(let ((x (canvas-left canvas))
-		  (y (canvas-top  canvas)))
-	  (do ((lst points (cddr lst)))
-		  ((null lst))
-		(incf (car  lst) x)
-		(incf (cadr lst) y))))
+	(unless (<= 3 (length points))
+	  (throw-exception "Less than 3 points of polygon."))
+	(dolist (pt points)
+	  (unless (point-p pt)
+		(throw-exception "Invalid value '~A' in points of polygon." pt)))
+	(setf points (mapcar (lambda (pt)
+						   (canvas-fix-point canvas pt)) points)))
   nil)
 	
 (defmethod entity-composition-p ((ent polygon))
@@ -81,9 +75,10 @@
 				   ((null pts) nil)
 				 (unless (zerop idx)
 				   (princ #\space stream))
-				 (format stream "~A,~A" (coerce (car  pts) 'single-float)
-						 (coerce (cadr pts) 'single-float))
-				 (setf pts (cddr pts))))))
+				 (format stream "~A,~A"
+						 (coerce (point-x (car pts)) 'single-float)
+						 (coerce (point-y (car pts)) 'single-float))
+				 (setf pts (cdr pts))))))
 	(with-slots (points class fill stroke) ent
 	  (let ((id  (and (not (entity-composition-p ent))
 					  (slot-value ent 'id))))
@@ -103,14 +98,12 @@
 		(pre-draw ent writer)))))
 
 
-;;   (:public set-points (points)
-;;		(type-assert points list)
-;;		(dolist (v points)
-;;		  (type-assert v number))
-;;		(setf m-points (copy-list points)))
+
+;;------------------------------------------------------------------------------
 ;;
-
-
+;; macro polygon
+;;
+;;------------------------------------------------------------------------------
 #|
 #|EXPORT|#				:polygon
  |#

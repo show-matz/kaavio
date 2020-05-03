@@ -1,5 +1,6 @@
 #|
-#|ASD|#				(:file "canvas"                    :depends-on ("cl-diagram"))
+#|ASD|#				(:file "canvas"                    :depends-on ("cl-diagram"
+#|ASD|#																"point"))
 #|EXPORT|#				;canvas.lisp
  |#
 
@@ -14,56 +15,68 @@
 #|EXPORT|#				:canvas
 #|EXPORT|#				:make-canvas
 #|EXPORT|#				:copy-canvas
+#|EXPORT|#				:canvas-p
  |#
-(defun make-canvas (top bottom left right)
-  (cons (cons top left) (cons bottom right)))
+(defun make-canvas (top-left width height)
+  (cons top-left (cons width height)))
 
 (defun copy-canvas (canvas)
-  (cons (cons (caar canvas)
-			  (cdar canvas))
-		(cons (cadr canvas)
-			  (cddr canvas))))
+  (copy-tree canvas))
+
+(defun canvas-p (canvas)
+  (and (consp         canvas)
+	   (point-p (car  canvas))
+	   (numberp (cadr canvas))
+	   (numberp (cddr canvas))))
 
 #|
-#|EXPORT|#				:canvas-top
-#|EXPORT|#				:canvas-bottom
+#|EXPORT|#				:canvas-topleft
 #|EXPORT|#				:canvas-left
+#|EXPORT|#				:canvas-top
 #|EXPORT|#				:canvas-right
+#|EXPORT|#				:canvas-bottom
  |#
-(defun canvas-top    (canvas) (caar canvas))
-(defun canvas-bottom (canvas) (cadr canvas))
-(defun canvas-left   (canvas) (cdar canvas))
-(defun canvas-right  (canvas) (cddr canvas))
-(defun (setf canvas-top)    (val canvas) (setf (caar canvas) val))
-(defun (setf canvas-bottom) (val canvas) (setf (cadr canvas) val))
-(defun (setf canvas-left)   (val canvas) (setf (cdar canvas) val))
-(defun (setf canvas-right)  (val canvas) (setf (cddr canvas) val))
+(defun canvas-topleft (canvas) (car canvas))
+(defun canvas-left    (canvas) (point-x (car canvas)))
+(defun canvas-top     (canvas) (point-y (car canvas)))
+(defun (setf canvas-left) (val canvas) (setf (point-x (car canvas)) val))
+(defun (setf canvas-top)  (val canvas) (setf (point-y (car canvas)) val))
+(defun canvas-right   (canvas) (+ (point-x (car canvas)) (cadr canvas)))
+(defun canvas-bottom  (canvas) (+ (point-y (car canvas)) (cddr canvas)))
 
 #|
 #|EXPORT|#				:canvas-width
 #|EXPORT|#				:canvas-height
  |#
-(defun canvas-width  (canvas) (- (cddr canvas) (cdar canvas)))
-(defun canvas-height (canvas) (- (cadr canvas) (caar canvas)))
+(defun canvas-width  (canvas) (cadr canvas))
+(defun canvas-height (canvas) (cddr canvas))
+(defun (setf canvas-width)  (val canvas) (setf (cadr canvas) val))
+(defun (setf canvas-height) (val canvas) (setf (cddr canvas) val))
+
+#|
+#|EXPORT|#				:canvas-fix-point
+ |#
+(defun canvas-fix-point (canvas pt)
+  (if (point-absolute-p pt)
+	  pt
+	  (point+ (canvas-topleft canvas) pt)))
 
 #|
 #|EXPORT|#				:with-canvas
  |#
-(defmacro with-canvas ((t-sym b-sym l-sym r-sym) canvas &rest body)
+(defmacro with-canvas ((sym-topleft sym-width sym-height) canvas &rest body)
   (let ((g-canvas (gensym "CANVAS")))
 	`(let ((,g-canvas ,canvas))
-	   (symbol-macrolet ((,t-sym (caar ,g-canvas))
-						 (,b-sym (cadr ,g-canvas))
-						 (,l-sym (cdar ,g-canvas))
-						 (,r-sym (cddr ,g-canvas)))
+	   (symbol-macrolet ((,sym-topleft (car  ,g-canvas))
+						 (,sym-width   (cadr ,g-canvas))
+						 (,sym-height  (cddr ,g-canvas)))
 		 ,@body))))
 
 #|
 #|EXPORT|#				:with-subcanvas
  |#
-(defmacro with-subcanvas ((left top &optional right bottom) &rest body)
-  `(let ((canvas (make-canvas ,top   (or ,bottom (canvas-bottom canvas))
-							  ,left  (or ,right  (canvas-right  canvas)))))
+(defmacro with-subcanvas ((top-left width height) &rest body)
+  `(let ((canvas (make-canvas (point+ (car canvas) ,top-left) ,width ,height)))
 	 (declare (special canvas))
 	 ,@body))
 

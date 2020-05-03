@@ -3,6 +3,11 @@
 
 (load-stencil :uml-keyword-info)
 
+;;------------------------------------------------------------------------------
+;;
+;; class uml-generalization
+;;
+;;------------------------------------------------------------------------------
 (defclass uml-generalization (diagram:connector)
   ((keyword :initform nil :initarg :keyword)))	; (or nil uml-keyword-info)
 
@@ -33,6 +38,11 @@
 	  
 
 
+;;------------------------------------------------------------------------------
+;;
+;; macro uml-generalization
+;;
+;;------------------------------------------------------------------------------
 (defmacro uml-generalization (from to &key keyword style layer id)
   `(register-entity (make-instance 'uml-generalization
 								   :from ,from :to ,to

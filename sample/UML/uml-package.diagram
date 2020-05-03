@@ -3,17 +3,17 @@
 
 (create-svg (:width 500 :height 300 :desc "test of uml-package" :encoding :utf8)
 	(grid) ; :size 10 :bgcolor "#F0F0FF" :stroke '(:color :blue :width 0.2))
-	  (uml-package  80  50 "package1" :id :pkg1)
-	  (uml-package 150 200 "package2" :id :pkg2
+	  (uml-package '( 80  50) "package1" :id :pkg1)
+	  (uml-package '(150 200) "package2" :id :pkg2
 				   :width 150 :height 100
 				   :contents
-				   ((rectangle 40 20 20 20 :id :r1)
-					(rectangle 80 60 20 20 :id :r2)))
-	  (uml-package 300  80 "package3" :keyword "keyword" :id :pkg3)
-	  (uml-package 400 200 "package4" :keyword "keyword" :id :pkg4
+				   ((rectangle '(40 20) 20 20 :id :r1)
+					(rectangle '(80 60) 20 20 :id :r2)))
+	  (uml-package '(300  80) "package3" :keyword "keyword" :id :pkg3)
+	  (uml-package '(400 200) "package4" :keyword "keyword" :id :pkg4
 				   :width 150 :height 100
 				   :contents
-				   ((rectangle 20 20 20 20 :id :r3)))
+				   ((rectangle '(20 20) 20 20 :id :r3)))
 	  (connector :r1 :r2 :style :CC)
 	  (connector :pkg1 :pkg2)
 	  (connector :pkg2 :pkg3 :style :RB)

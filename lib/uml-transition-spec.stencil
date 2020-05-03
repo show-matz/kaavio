@@ -3,11 +3,11 @@
 (defparameter *uml-transition-spec-font*  nil)
 (defparameter *uml-transition-spec-class* nil)
 
-;-------------------------------------------------------------------------------
-;
-; class uml-transition-spec
-;
-;-------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------
+;;
+;; class uml-transition-spec
+;;
+;;------------------------------------------------------------------------------
 (defclass uml-transition-spec ()
   ((trigger	:initform nil :initarg :trigger)	; (or keyword string)
    (guard	:initform nil :initarg :guard)		; (or keyword string)
@@ -66,9 +66,14 @@
 						(t           :right))))
 	  (incf y (/ f-size 2))
 	  (uml-transition-spec-draw obj (+ x (* sin offset))
-									 (- y (* cos offset)) align writer))))
+									(- y (* cos offset)) align writer))))
 
 
+;;------------------------------------------------------------------------------
+;;
+;; macro uml-transition-spec
+;;
+;;------------------------------------------------------------------------------
 (defun make-uml-transition-spec (&rest params)
   (if (= 1 (length params))
 	  (let ((param (car params)))

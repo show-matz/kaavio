@@ -3,12 +3,13 @@
 
 (create-svg (:width 300 :height 250 :desc "test of uml-note" :encoding :utf8)
 	(grid) ; :size 10 :bgcolor "#F0F0FF" :stroke '(:color :blue :width 0.2))
-	(uml-fork-h 20 40)
-	(uml-fork-v 50 40)
-	(uml-fork-h 100 40 :width 8 :length 50 :fill :brown)
-	(uml-fork-v 150 40 :width 8 :length 50 :fill :brown)
-	(uml-join-h 50 100 :spec '(:text "{spec}" :position :below))
-	(uml-join-v 80 100)
-	(uml-join-h 100 150 :width 8 :length 50 :fill :brown)
-	(uml-join-v 150 150 :width 8 :length 50 :fill :brown
-						:spec '(:text "{spec}" :position :right)))
+	(uml-fork-h '( 20  40))
+	(uml-fork-v '( 50  40))
+	(uml-fork-h '(100  40) :width 8 :length 50 :fill :brown)
+	(uml-fork-v '(150  40) :width 8 :length 50 :fill :brown)
+	(uml-join-h '( 50 100) :spec '(:text "{spec}" :position :below))
+	(uml-join-v '( 80 100))
+	(uml-join-h '(100 150) :width 8 :length 50 :fill :brown)
+	(uml-join-v '(150 150) :width 8 :length 50 :fill :brown
+						   :spec '(:text "{spec}" :position :right)))
+

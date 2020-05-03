@@ -6,6 +6,11 @@
 (defparameter *uml-usecase-stroke*    :black)
 (defparameter *uml-usecase-margin*        20)
 
+;;------------------------------------------------------------------------------
+;;
+;; class uml-usecase
+;;
+;;------------------------------------------------------------------------------
 (defclass uml-usecase (diagram:text-shape)
   ((text	:initform nil :initarg :text)		; (or keyword string)
    (keyword	:initform nil :initarg :keyword)	; (or nil uml-keyword-info)
@@ -43,7 +48,7 @@
 		(with-slots (keyword margin2
 							 diagram::margin diagram::fill diagram::stroke) usecase
 		  ;; draw usecase body
-		  (ellipse (/ width 2) (/ height 2)
+		  (ellipse `(,(/ width 2) ,(/ height 2))
 				   (/ width 2) (/ height 2) :fill diagram::fill :stroke diagram::stroke)
 		  ;; draw keyword
 		  (when keyword
@@ -66,20 +71,25 @@
 
 (defmethod text-shape-paragraph-area ((usecase uml-usecase))
   (let ((canvas (call-next-method)))
-	(incf (canvas-top canvas)
-		  (slot-value usecase 'margin2))
+	(with-slots (margin2) usecase
+	  (incf (canvas-top    canvas) margin2)
+	  (decf (canvas-height canvas) margin2))
 	canvas))
 
 (defmethod shape-connect-point ((usecase uml-usecase) type1 type2 arg)
   (ellipse-connect-point (shape-center usecase)
-						 (shape-middle usecase)
 						 (/ (shape-width  usecase) 2)
 						 (/ (shape-height usecase) 2) type1 type2 arg))
   
-(defmacro uml-usecase (x y text &key keyword width height
+;;------------------------------------------------------------------------------
+;;
+;; macro uml-usecase
+;;
+;;------------------------------------------------------------------------------
+(defmacro uml-usecase (center text &key keyword width height
 								  font fill stroke margin link layer id)
   `(register-entity (make-instance 'uml-usecase
-								   :center-x ,x :center-y ,y
+								   :center ,center
 								   :width ,width :height ,height
 								   :text ,text :font ,font
 								   :keyword ,keyword

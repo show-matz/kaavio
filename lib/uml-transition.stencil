@@ -4,11 +4,11 @@
 
 (defparameter *uml-transition-stroke* :black)
 
-;-------------------------------------------------------------------------------
-;
-; class uml-transition
-;
-;-------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------
+;;
+;; class uml-transition
+;;
+;;------------------------------------------------------------------------------
 (defclass uml-transition (diagram:connector)
   ((info :initform nil :initarg :info)))	; (or nil uml-transition-spec)
 
@@ -38,6 +38,11 @@
 	  
 
 
+;;------------------------------------------------------------------------------
+;;
+;; macro uml-transition
+;;
+;;------------------------------------------------------------------------------
 (defmacro uml-transition (from to &key spec style layer id)
   `(register-entity (make-instance 'uml-transition
 								   :from ,from :to ,to

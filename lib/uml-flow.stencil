@@ -7,11 +7,11 @@
 
 (defparameter *uml-flow-stroke* :black)
 
-;-------------------------------------------------------------------------------
-;
-; class uml-flow-spec
-;
-;-------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------
+;;
+;; class uml-flow-spec
+;;
+;;------------------------------------------------------------------------------
 (defclass uml-flow-spec ()
   ((guard	:initform nil :initarg :guard)	;: (or keyword string)
    (action	:initform nil :initarg :action)	;: (or keyword string)
@@ -69,7 +69,7 @@
 						(t           :right))))
 	  (incf y (/ f-size 2))
 	  (uml-flow-spec-draw obj (+ x (* sin offset))
-									 (- y (* cos offset)) align writer))))
+							  (- y (* cos offset)) align writer))))
 
 
 (defun make-uml-flow-spec (&rest params)
@@ -91,11 +91,11 @@
 															diagram:*default-font*))))))
 
 
-;-------------------------------------------------------------------------------
-;
-; class uml-flow
-;
-;-------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------
+;;
+;; class uml-flow
+;;
+;;------------------------------------------------------------------------------
 (defclass uml-flow (diagram:connector)
   ((keyword	:initform nil :initarg :keyword)	; (or nil uml-keyword-info)
    (spec	:initform nil :initarg    :spec)))	; (or nil uml-flow-spec)
@@ -131,6 +131,11 @@
 	  
 
 
+;;------------------------------------------------------------------------------
+;;
+;; macro uml-flow
+;;
+;;------------------------------------------------------------------------------
 (defmacro uml-flow (from to &key keyword spec style layer id)
   `(register-entity (make-instance 'uml-flow
 								   :from ,from :to ,to

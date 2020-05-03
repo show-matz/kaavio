@@ -30,6 +30,11 @@
 
 
 
+;;------------------------------------------------------------------------------
+;;
+;; class uml-package
+;;
+;;------------------------------------------------------------------------------
 (defclass uml-package (diagram:group)
   ((name		:initform nil :initarg :name)			; (or string keyword)
    (keyword		:initform nil :initarg :keyword)		; (or nil uml-keyword-info)
@@ -67,8 +72,7 @@
 (defmethod shape-connect-point ((pkg uml-package) type1 type2 arg)
   ;;ToDo : 95KvWqh6oVU : タブ部分と交差する場合の考慮ができてない（まともにやると難しそう）
   (with-slots (tab-height) pkg
-	(rectangle-connect-point (shape-center    pkg)
-							 (+ (shape-middle pkg) (/ tab-height 2))
+	(rectangle-connect-point (point/y+ (shape-center pkg) (/ tab-height 2))
 							 (shape-width     pkg)
 							 (- (shape-height pkg) tab-height) type1 type2 arg)))
   
@@ -78,10 +82,9 @@
 (defmethod shape-get-subcanvas ((pkg uml-package))
   (with-slots (tab-height) pkg
 	;;(format t "tab-height is ~A~%" tab-height)
-	(make-canvas (+ (shape-top pkg) tab-height)
-				 (shape-bottom pkg)
-				 (shape-left   pkg)
-				 (shape-right  pkg))))
+	(make-canvas (point/y+ (shape-topleft pkg) tab-height)
+				 (shape-width pkg)
+				 (- (shape-height pkg) tab-height))))
 
 ;; override of group::draw-group
 (defmethod draw-group ((pkg uml-package) writer)
@@ -95,8 +98,8 @@
 					 `(check-and-draw-local-entity ,entity canvas writer)))
 		  (let ((*default-fill*   fill)
 				(*default-stroke* stroke))
-			(rectangle (/ width 2) (/ (+ height tab-height) 2) width (- height tab-height))
-			(rectangle (/ tab-width 2) (/ tab-height 2) tab-width tab-height))
+			(rectangle `(,(/ width 2) ,(/ (+ height tab-height) 2)) width (- height tab-height))
+			(rectangle `(,(/ tab-width 2) ,(/ tab-height 2)) tab-width tab-height))
 		  (let ((name (if (stringp name)
 						  name
 						  (string-downcase (symbol-name name))))
@@ -109,7 +112,7 @@
 									(+ (canvas-left canvas) x)
 									(+ (canvas-top  canvas) y) :center writer)
 				  (incf y font-size)))
-			(text x y name :align :center :font font))))))
+			(text `(,x ,y) name :align :center :font font))))))
   nil)
 
 ;;for debug...
@@ -119,11 +122,16 @@
  
 
 
-(defmacro uml-package (x y name &key keyword width height
-									 font fill stroke link layer id contents)
+;;------------------------------------------------------------------------------
+;;
+;; macro uml-package
+;;
+;;------------------------------------------------------------------------------
+(defmacro uml-package (center name &key keyword width height
+										font fill stroke link layer id contents)
   (let* ((contents-p (not (null contents)))
 		 (code `(register-entity (make-instance 'uml-package
-											   :center-x ,x :center-y ,y
+											   :center ,center
 											   :width  (or ,width  *uml-package-width*)
 											   :height (or ,height *uml-package-height*)
 											   :name ,name :keyword ,keyword

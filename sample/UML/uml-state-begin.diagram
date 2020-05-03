@@ -3,7 +3,7 @@
 
 (create-svg (:width 300 :height 150 :desc "test of uml-state-begin" :encoding :utf8)
 	(grid) ; :size 10 :bgcolor "#F0F0FF" :stroke '(:color :blue :width 0.2))
-	(uml-state-begin               60  75)
-	(uml-state-begin (+ $1[center] 60) $1[middle] :fill :navy)
-	(uml-state-begin (+ $1[center] 60) $1[middle] :radius 20)
-	(uml-state-begin (+ $1[center] 60) $1[middle] :fill :brown :radius 15))
+	(uml-state-begin '(60 75))
+	(uml-state-begin (point/x+ $1.center 60) :fill :navy)
+	(uml-state-begin (point/x+ $1.center 60) :radius 20)
+	(uml-state-begin (point/x+ $1.center 60) :fill :brown :radius 15))

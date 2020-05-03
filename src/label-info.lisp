@@ -52,25 +52,21 @@
 	(labels ((get-location-info ()
 			   (let ((size (slot-value font 'size)))
 				 (ecase position
-				   ((:above) (values "middle" (shape-center shp)
-									 (- (shape-top    shp) offset)))
-				   ((:below) (values "middle" (shape-center shp)
-									 (+ (shape-bottom shp) offset size)))
-				   ((:left)  (values "end"    (- (shape-left  shp) offset)
-									 (+ (shape-middle shp) (/ size 2))))
-				   ((:right) (values "start"  (+ (shape-right shp) offset)
-									 (+ (shape-middle shp) (/ size 2))))))))
+				   ((:above) (values "middle" (point/y+  (shape-top    shp) (- offset))))
+				   ((:below) (values "middle" (point/y+  (shape-bottom shp) (+ offset     size))))
+				   ((:left)  (values "end"    (point/xy+ (shape-left   shp) (- offset) (/ size 2))))
+				   ((:right) (values "start"  (point/xy+ (shape-right  shp)    offset  (/ size 2))))))))
 	  (unless (typep shp 'shape)
 		(throw-exception "label-info : shp is not type of shape."))
-	  (multiple-value-bind (anchor x y) (get-location-info)
+	  (multiple-value-bind (anchor pt) (get-location-info)
 		(let ((text (slot-value label 'text)))
 		  (setf text (escape-characters (if (stringp text)
 											text
 											(string-downcase (symbol-name text)))))
 		  (writer-write writer
 						"<text "
-						"x='" x "' "
-						"y='" y "' "
+						"x='" (point-x pt) "' "
+						"y='" (point-y pt) "' "
 						"text-anchor='" anchor "' "
 						(to-property-strings font)
 						">" text "</text>"))))))

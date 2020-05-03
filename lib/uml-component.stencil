@@ -12,6 +12,11 @@
 (defparameter *uml-component-iconoffset*      5)
 
 
+;;------------------------------------------------------------------------------
+;;
+;; class uml-component
+;;
+;;------------------------------------------------------------------------------
 (defclass uml-component (diagram:group)
   ((name		:initform nil :initarg :name)			; (or string keyword)
    (keyword		:initform nil :initarg :keyword)		; (or nil uml-keyword-info)
@@ -48,10 +53,9 @@
 ;;(defmethod group-get-canvas ((cmp uml-component)) ...)
 
 (defmethod shape-get-subcanvas ((cmp uml-component))
-  (make-canvas (shape-top    cmp)
-			   (shape-bottom cmp)
-			   (shape-left   cmp)
-			   (shape-right  cmp)))
+  (make-canvas (shape-topleft cmp)
+			   (shape-width   cmp)
+			   (shape-height  cmp)))
 
 ;; override of group::draw-group
 (defmethod draw-group ((cmp uml-component) writer)
@@ -69,13 +73,16 @@
 		  (let ((*default-font*   font)
 				(*default-fill*   fill)
 				(*default-stroke* stroke))
-			(rectangle x y width height)
+			(rectangle (make-point x y) width height)
 			(let ((size   iconsize)
 				  (offset iconoffset))
 					;;draw component icon.
-			  (rectangle (- width (/ size 2) offset) (+ (/ size 2) offset) size size)
-			  (rectangle (- width size offset) (- (+ (/ size 2) offset) (/ size 5)) (* size 0.8) (/ size 4))
-			  (rectangle (- width size offset) (+ (+ (/ size 2) offset) (/ size 5)) (* size 0.8) (/ size 4))))
+			  (rectangle (make-point (- width (/ size 2) offset)
+									 (+ (/ size 2) offset)) size size)
+			  (rectangle (make-point (- width size offset)
+									 (- (+ (/ size 2) offset) (/ size 5))) (* size 0.8) (/ size 4))
+			  (rectangle (make-point (- width size offset)
+									 (+ (+ (/ size 2) offset) (/ size 5))) (* size 0.8) (/ size 4))))
 		  (let ((name (if (stringp name)
 						  name
 						  (string-downcase (symbol-name name))))
@@ -90,7 +97,7 @@
 									(+ (canvas-left canvas) x)
 									(+ (canvas-top  canvas) y) :center writer)
 				  (incf y font-size)))
-			(text x y name :align :center))))))
+			(text (make-point x y) name :align :center))))))
   nil)
 
 ;;for debug...
@@ -101,11 +108,16 @@
  
 
 
-(defmacro uml-component (x y name &key keyword width height
+;;------------------------------------------------------------------------------
+;;
+;; macro uml-component
+;;
+;;------------------------------------------------------------------------------
+(defmacro uml-component (center name &key keyword width height
 									 font fill stroke link layer id contents)
   (let* ((contents-p (not (null contents)))
 		 (code `(register-entity (make-instance 'uml-component
-											   :center-x ,x :center-y ,y
+											   :center ,center
 											   :width  (or ,width  *uml-component-width*)
 											   :height (or ,height *uml-component-height*)
 											   :name ,name :keyword ,keyword

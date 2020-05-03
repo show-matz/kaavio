@@ -5,6 +5,11 @@
 (load-stencil :uml-multiplicity-info)
 (load-stencil :uml-role-info)
 
+;;------------------------------------------------------------------------------
+;;
+;; class uml-association
+;;
+;;------------------------------------------------------------------------------
 (defclass uml-association (diagram:connector)
   ((arrows	:initform nil	:initarg  :arrows)	; integer ( 0 - 2 )
    (keyword	:initform nil	:initarg  :keyword)	; (or nil uml-keyword-info)
@@ -59,6 +64,11 @@
 	  
 
 
+;;------------------------------------------------------------------------------
+;;
+;; macro uml-association
+;;
+;;------------------------------------------------------------------------------
 (defmacro uml-association (from to &key arrows keyword style
 									 role1 role2 mult1 mult2 layer id)
   (let ((g-arr (gensym "ARROWS")))

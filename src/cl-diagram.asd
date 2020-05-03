@@ -4,10 +4,13 @@
   :depends-on  ()
   :components  (;; ---------------------------------------- BEGIN COMPONENTS
 				(:file "arc"                       :depends-on ("cl-diagram"
+																"point"
+																"canvas"
 																"mathutil"
 																"path"))
 				(:file "binutil"                   :depends-on ("cl-diagram"))
-				(:file "canvas"                    :depends-on ("cl-diagram"))
+				(:file "canvas"                    :depends-on ("cl-diagram"
+																"point"))
 				(:file "circle"                    :depends-on ("cl-diagram"
 																"constants"
 																"mathutil"
@@ -31,6 +34,7 @@
 				                                                "entity"
 				                                                "layer-manager"
 				                                                "dictionary"
+				                                                "point"
 				                                                "canvas"
 				                                                "font-info"
 				                                                "stroke-info"
@@ -54,6 +58,7 @@
 																"stroke-info"
 																"writer"))
 				(:file "entity"                    :depends-on ("cl-diagram"
+																"canvas"
 																"writer"))
 				(:file "fill-info"                 :depends-on ("cl-diagram"))
 				(:file "font-info"                 :depends-on ("cl-diagram"
@@ -125,8 +130,8 @@
 																"link-info"
 																"writer"))
 				(:file "shape"                     :depends-on ("cl-diagram"
-																"canvas"
 																"point"
+																"canvas"
 																"mathutil"
 																"entity"
 																"link-info"))

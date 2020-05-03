@@ -12,6 +12,11 @@
 (defparameter *uml-node-depth*          15)
 
 
+;;------------------------------------------------------------------------------
+;;
+;; class uml-node
+;;
+;;------------------------------------------------------------------------------
 (defclass uml-node (diagram:group)
   ((name		:initform nil :initarg :name)		; (or string keyword)
    (keyword		:initform nil :initarg :keyword)	; (or nil uml-keyword-info)
@@ -50,10 +55,10 @@
 
 (defmethod shape-get-subcanvas ((node uml-node))
   (with-slots (depth) node
-	(make-canvas (+ (shape-top   node) (/ depth 2))
-				 (shape-bottom   node)
-				 (shape-left     node)
-				 (- (shape-right node) (/ depth 2)))))
+	(let ((half (/ depth 2)))
+	  (make-canvas (point/y+ (shape-topleft node) half)
+				   (- (shape-width  node) half)
+				   (- (shape-height node) half)))))
 
 ;; override of group::draw-group
 (defmethod draw-group ((node uml-node) writer)
@@ -71,10 +76,15 @@
 					 `(check-and-draw-local-entity ,entity canvas writer)))
 		  (let ((*default-font*   font)
 				(*default-stroke* stroke))
-			(polygon `(0 ,half ,depth ,(- half) ,(+ width half) ,(- half)
-						 ,(+ width half) ,(- height depth) ,(- width half) ,height) :fill fill2)
-			(line `(,(+ width half) ,(- half) ,(- width half) ,half))
-			(rectangle (- x (/ half 2)) (+ y (/ half 2)) (- width half) (- height half) :fill fill1))
+			(polygon `((0 ,half)
+					   (,depth ,(- half))
+					   (,(+ width half) ,(- half))
+					   (,(+ width half) ,(- height depth))
+					   (,(- width half) ,height)) :fill fill2)
+			(line `((,(+ width half) ,(- half))
+					(,(- width half) ,half)))
+			(rectangle (make-point (- x (/ half 2))
+								   (+ y (/ half 2))) (- width half) (- height half) :fill fill1))
 		  (let ((name (if (stringp name)
 						  name
 						  (string-downcase (symbol-name name))))
@@ -89,7 +99,7 @@
 									(+ (canvas-left canvas) x)
 									(+ (canvas-top  canvas) y) :center writer)
 				  (incf y font-size)))
-			(text x y name :align :center))))))
+			(text (make-point x y) name :align :center))))))
   nil)
 
 ;;for debug...
@@ -99,11 +109,16 @@
  
 
 
-(defmacro uml-node (x y name &key keyword width height
+;;------------------------------------------------------------------------------
+;;
+;; macro uml-node
+;;
+;;------------------------------------------------------------------------------
+(defmacro uml-node (center name &key keyword width height
 									 font fill1 fill2 stroke link layer id contents)
   (let* ((contents-p (not (null contents)))
 		 (code `(register-entity (make-instance 'uml-node
-											   :center-x ,x :center-y ,y
+											   :center ,center
 											   :width  (or ,width  *uml-node-width*)
 											   :height (or ,height *uml-node-height*)
 											   :name ,name :keyword ,keyword

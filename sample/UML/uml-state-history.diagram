@@ -3,9 +3,9 @@
 
 (create-svg (:width 300 :height 150 :desc "test of uml-state-history" :encoding :utf8)
 	(grid) ; :size 10 :bgcolor "#F0F0FF" :stroke '(:color :blue :width 0.2))
-	(uml-state-history               60  75)
-	(uml-state-history (+ $1[center] 60) $1[middle] :radius 10)
-	(uml-state-history (+ $1[center] 60) $1[middle] :fill :beige :radius 20)
+	(uml-state-history '(60 75))
+	(uml-state-history (point/x+ $1.center 60) :radius 10)
+	(uml-state-history (point/x+ $1.center 60) :fill :beige :radius 20)
 	(let ((*uml-state-history-stroke* :navy)
 		  (*uml-state-history-fill*   :lightgray))
-	  (uml-state-history (+ $1[center] 60) $1[middle])))
+	  (uml-state-history (point/x+ $1.center 60))))

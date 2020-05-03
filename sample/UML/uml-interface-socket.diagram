@@ -5,10 +5,10 @@
 
 (diagram:create-svg (:width 400 :height 200 :desc "test of uml-interface-socket" :encoding :utf8)
 	(grid)
-	(rectangle 50 50 40 40 :fill :white :stroke :black :id :rct1)
-	(uml-interface-socket (+ rct1[center] 100) rct1[middle] :rct1 :foo :style :CC)
-	(rectangle 250 80 40 40 :fill :white :stroke :black :id :rct2)
-	(uml-interface-socket (+ rct2[center] 70) rct2[middle] :rct2 :bar :style :TR)
-	(rectangle 100 130 40 40 :fill :white :stroke :black :id :rct3)
-	(uml-interface-socket (+ rct3[center] 70) rct3[middle] :rct3 :bar :style :LR))
+	(rectangle '( 50  50) 40 40 :fill :white :stroke :black :id :rct1)
+	(rectangle '(250  80) 40 40 :fill :white :stroke :black :id :rct2)
+	(rectangle '(100 130) 40 40 :fill :white :stroke :black :id :rct3)
+	(uml-interface-socket (point/x+ rct1.center 100) :rct1 :foo :style :CC)
+	(uml-interface-socket (point/x+ rct2.center  70) :rct2 :bar :style :TR)
+	(uml-interface-socket (point/x+ rct3.center  70) :rct3 :bar :style :LR))
 

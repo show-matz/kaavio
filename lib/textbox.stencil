@@ -7,7 +7,11 @@
 (defparameter *default-textbox-valign*       :center)
 (defparameter *default-textbox-margin*       10)
 
-
+;;------------------------------------------------------------------------------
+;;
+;; class textbox
+;;
+;;------------------------------------------------------------------------------
 (defclass textbox (diagram:text-shape)
   ((no-frame	:initform nil :initarg :no-frame)	; number
    (rx			:initform nil :initarg       :rx)	; number
@@ -24,7 +28,7 @@
 	  (with-slots (no-frame rx ry diagram::fill diagram::stroke) box
 		(unless no-frame
 		  ;; draw box
-		  (rectangle (/ width 2) (/ height 2) width height
+		  (rectangle (list (/ width 2) (/ height 2)) width height
 					 :rx rx :ry ry :fill diagram::fill :stroke diagram::stroke)))))
   ;; draw text
   (call-next-method))
@@ -37,11 +41,16 @@
 ;(defmethod text-shape-paragraph-area ((box textbox))
 ;  (call-next-method))
 
-(defmacro textbox (x y text &key no-frame rx ry width height align
+;;------------------------------------------------------------------------------
+;;
+;; macro textbox
+;;
+;;------------------------------------------------------------------------------
+(defmacro textbox (center text &key no-frame rx ry width height align
 								 valign font fill stroke margin link layer id)
   `(register-entity (make-instance 'textbox
 								   :no-frame ,no-frame
-								   :center-x ,x :center-y ,y
+								   :center ,center
 								   :width ,width :height ,height
 								   :text ,text :font ,font
 								   :rx     (or ,rx     *default-textbox-rx*)

@@ -10,11 +10,11 @@
 (defparameter *uml-actor-thigh-position*    0.7)
 
 
-;-------------------------------------------------------------------------------
-;
-; class uml-actor
-;
-;-------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------
+;;
+;; class uml-actor
+;;
+;;------------------------------------------------------------------------------
 (defclass uml-actor (diagram:group)
   ((name		:initform nil	:initarg  :name)	; (or nil label-info)
    (fill		:initform nil	:initarg  :fill)	; (or nil fill-info)
@@ -59,10 +59,10 @@
 		   (*default-stroke* stroke))
 	  (macrolet ((register-entity (entity)
 				   `(check-and-draw-local-entity ,entity canvas writer)))
-		(circle center head head)
-		(line `(,center ,neck ,center ,thigh))
-		(line `(0 ,shoulder ,width ,shoulder))
-		(line `(0 ,height ,center ,thigh ,width ,height))))
+		(circle `(,center ,head) head)
+		(line `((,center ,neck) (,center ,thigh)))
+		(line `((0 ,shoulder) (,width ,shoulder)))
+		(line `((0 ,height) (,center ,thigh) (,width ,height)))))
 	(when name
 	  (draw-label name actor writer)))
   nil)
@@ -75,9 +75,9 @@
 
 
 
-(defmacro uml-actor (x y name &key width fill stroke link layer id)
+(defmacro uml-actor (center name &key width fill stroke link layer id)
   `(register-entity (make-instance 'uml-actor
-								   :center-x ,x :center-y ,y
+								   :center ,center
 								   :name ,name
 								   :width  (or ,width *uml-actor-width*)
 								   :height (* *uml-actor-height-ratio*

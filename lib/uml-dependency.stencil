@@ -5,6 +5,11 @@
 
 (defparameter *uml-dependency-dasharray* '(4 2))
 
+;;------------------------------------------------------------------------------
+;;
+;; class uml-dependency
+;;
+;;------------------------------------------------------------------------------
 (defclass uml-dependency (diagram:connector)
   ((keyword :initform nil :initarg :keyword)))	; (or nil uml-keyword-info)
 
@@ -35,6 +40,11 @@
 	  
 
 
+;;------------------------------------------------------------------------------
+;;
+;; macro uml-dependency
+;;
+;;------------------------------------------------------------------------------
 (defmacro uml-dependency (from to &key keyword style layer id)
   `(register-entity (make-instance 'uml-dependency
 								   :from ,from :to ,to

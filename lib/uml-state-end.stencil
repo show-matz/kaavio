@@ -5,19 +5,20 @@
 (defparameter *uml-state-end-fill*     :white)
 (defparameter *uml-state-end-stroke*   :black)
 
-;-------------------------------------------------------------------------------
-;
-; class uml-state-end
-;
-;-------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------
+;;
+;; class uml-state-end
+;;
+;;------------------------------------------------------------------------------
 (defclass uml-state-end (diagram:circle)
   ((ratio :initform 0 :initarg :ratio)))	; number
 
 (defmethod check ((obj uml-state-end) canvas dict)
+  ;; this method must call super class' one.
+  (call-next-method)
   (with-slots (ratio) obj
 	(check-member ratio :nullable nil :types number))
-  ;; this method must call super class' one.
-  (call-next-method))
+  nil)
 
 (defmethod post-draw ((obj uml-state-end) writer)
   (with-slots (ratio stroke) obj
@@ -27,15 +28,20 @@
 		   (fill   (slot-value (slot-value obj 'diagram::stroke) 'diagram::color)))
 	  (macrolet ((register-entity (entity)
 				   `(check-and-draw-local-entity ,entity canvas writer)))
-		(circle center center radius :fill fill :stroke :none))))
+		(circle (make-point center center) radius :fill fill :stroke :none))))
   (call-next-method)
 ;  (draw-canvas-frame (shape-get-subcanvas obj) writer)	;for debug...
   nil)
 
 
-(defmacro uml-state-end (x y &key radius ratio fill stroke link layer id)
+;;------------------------------------------------------------------------------
+;;
+;; macro uml-state-end
+;;
+;;------------------------------------------------------------------------------
+(defmacro uml-state-end (center &key radius ratio fill stroke link layer id)
   `(register-entity (make-instance 'uml-state-end
-								   :center-x ,x :center-y ,y
+								   :center ,center
 								   :radius (or ,radius *uml-state-end-radius*)
 								   :ratio  (or ,ratio  *uml-state-end-ratio*)
 								   :class nil

@@ -1,3 +1,5 @@
+(in-package :diagram-user)
+
 (load-stencil :grid)
 (load-stencil :uml-interface)
 
@@ -5,9 +7,9 @@
 	(grid) ; :size 10 :bgcolor "#F0F0FF" :stroke '(:color :blue :width 0.2))
 	(let ((*uml-interface-fill*   :white)
 		  (*uml-interface-stroke* :black))
-	  (uml-interface  70  75 '(:text "interface1" :position :above) :id :itfc1)
-	  (uml-interface 220 200 "interface2" :id :itfc2)
-	  (uml-interface itfc1[center] 200 "interface3"  :id :itfc3)
-	  (uml-interface 300  itfc1[middle] "interface4" :id :itfc4)
+	  (uml-interface '( 70  75) '(:text "interface1" :position :above) :id :itfc1)
+	  (uml-interface '(220 200) "interface2" :id :itfc2)
+	  (uml-interface (point/y+ itfc1.center 125) "interface3"  :id :itfc3)
+	  (uml-interface (point/x+ itfc1.center 230) "interface4" :id :itfc4)
 	  (connector :itfc1 :itfc2 :style :RT)
 	  (connector :itfc1 :itfc3 :style :CC)))

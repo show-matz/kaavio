@@ -1,6 +1,11 @@
 
 (in-package :cl-diagram-user)
 
+;;------------------------------------------------------------------------------
+;;
+;; class grid
+;;
+;;------------------------------------------------------------------------------
 (defclass grid (diagram:entity)
   ((size	:initform nil	:initarg  :size)		; number
    (bgcolor	:initform nil	:initarg  :bgcolor)		; (or keyword string)
@@ -59,6 +64,11 @@
 				  "/>"))
   nil)
 
+;;------------------------------------------------------------------------------
+;;
+;; macro grid
+;;
+;;------------------------------------------------------------------------------
 (defmacro grid (&key (size 10) (bgcolor :white) stroke layer)
   `(register-entity (make-instance 'grid
 								   :size ,size

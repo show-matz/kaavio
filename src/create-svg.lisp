@@ -4,6 +4,7 @@
 #|ASD|#				                                                "entity"
 #|ASD|#				                                                "layer-manager"
 #|ASD|#				                                                "dictionary"
+#|ASD|#				                                                "point"
 #|ASD|#				                                                "canvas"
 #|ASD|#				                                                "font-info"
 #|ASD|#				                                                "stroke-info"
@@ -52,7 +53,7 @@ height    := fixnum
 		   (,g-desc      ,desc)
 		   (,g-entities  nil)
 		   (,g-dict      (dict-create *default-history-count*))	;;ToDo : export dict-create!
-		   (canvas       (make-canvas  0 ,height 0 ,width)))
+		   (canvas       (make-canvas (make-point 0 0 :absolute) ,width ,height)))
 	   (declare (special canvas))
 	   (labels ((layer (name &optional (display :inline))
 				  (layer-register ,g-layer-mgr name display))
@@ -83,8 +84,8 @@ height    := fixnum
 		 (writer-write ,g-writer "<svg xmlns='http://www.w3.org/2000/svg' "
 								 "xmlns:xlink='http://www.w3.org/1999/xlink' "
 								 "version='1.1' baseProfile='full' xml:space='default' "
-								 "width='"  (canvas-right  canvas)  "' "
-								 "height='" (canvas-bottom canvas) "'>")
+								 "width='"  (canvas-width  canvas)  "' "
+								 "height='" (canvas-height canvas) "'>")
 		 (writer-incr-level ,g-writer)
 		 (when ,g-desc
 		   (writer-write ,g-writer "<desc>" ,g-desc "</desc>"))

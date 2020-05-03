@@ -12,174 +12,184 @@
 
 ;-------------------------------------------------------------------------------
 ;
-; helper macros
-;
-;-------------------------------------------------------------------------------
-#|
-#|EXPORT|#				:move-to
-#|EXPORT|#				:close-path
-#|EXPORT|#				:line-to
-#|EXPORT|#				:h-line-to
-#|EXPORT|#				:v-line-to
-#|EXPORT|#				:arc-to
-#|EXPORT|#				:2d-curve-to
-#|EXPORT|#				:3d-curve-to
- |#
-(defun move-to (x y) `(:move-to ,x ,y))
-(defun close-path ()  :close-path)
-(defun line-to (x y &rest more)  `(:line-to ,x ,y ,@more))
-(defun h-line-to (x)  `(:h-line-to ,x))
-(defun v-line-to (y)  `(:v-line-to ,y))
-(defun arc-to (rx ry x-axis-rotation large-arc-flag sweep-flag x y)
-  `(:arc-to ,rx ,ry ,x-axis-rotation ,large-arc-flag ,sweep-flag ,x ,y))
-
-(defun 2d-curve-x2 (x y)				`(:t-curve-to ,x ,y))
-(defun 2d-curve-x4 (x1 y1 x y)			`(:q-curve-to ,x1 ,y1 ,x ,y))
-(defun 3d-curve-x4 (x2 y2 x y)			`(:s-curve-to ,x2 ,y2 ,x ,y))
-(defun 3d-curve-x6 (x1 y1 x2 y2 x y)	`(:c-curve-to ,x1 ,y1 ,x2 ,y2 ,x ,y))
-
-(defmacro 2d-curve-to (&rest params)
-  (ecase (length params)
-	((2) `(2d-curve-x2 ,@params))
-	((4) `(2d-curve-x4 ,@params))))
-	
-(defmacro 3d-curve-to (&rest params)
-  (ecase (length params)
-	((4) `(3d-curve-x4 ,@params))
-	((6) `(3d-curve-x6 ,@params))))
-
-
-;-------------------------------------------------------------------------------
-;
 ; internal helper functions
 ;
 ;-------------------------------------------------------------------------------
 (macrolet ((push-cmd (v)
 			 `(push (if (eq mode :absolute)
-						,(string-upcase v) ,v) acc))
-		   (chk-loop (cnt kwd &rest fncs)
-			 (type-assert cnt integer)
-			 (type-assert kwd keyword)
-			 (labels ((conds (n acc)
-						(if (zerop n)
-							acc
-							(let ((sym (intern (string-upcase (format nil "~:r" n)) :common-lisp)))
-							  (conds (1- n) (push `(numberp (,sym lst)) acc)))))
-					  (push-num (cnt tmp exprs)
-						(if (zerop cnt)
-							(nreverse tmp)
-							(progn
-							  (push `(push (let ((it (car lst)))
-											 (if (eq mode :relative)
-												 it
-												 ,(car exprs))) acc) tmp)
-							  (push '(setf lst (cdr lst)) tmp)
-							  (push-num (1- cnt) tmp (cdr exprs))))))
-			   `(do ((cnt 0 (1+ cnt)))
-					(nil)
-				  (unless (and (<= ,cnt (length lst))
-							   ,@(conds cnt nil))
-					(if (< 0 cnt)
-						(return)
-						(throw-exception ,(format nil "~A needs at least ~A parameters." kwd cnt))))
-				  ,@(push-num cnt nil fncs)))))
+						(string-upcase ,v) ,v) acc))
+		   (push-point (pt)
+			 `(progn
+				(push (diagram:point-x ,pt) acc)
+				(push (diagram:point-y ,pt) acc))))
 
-  (defun __chk-&-fix-absolute (lst acc mode canvas)
-	(declare (ignore mode canvas))
-	(values lst acc :absolute))
+  (defun __check-&-fix-move-to (param acc mode canvas)
+	(unless param
+	  (throw-exception "No param for :move-to in path."))
+	(let ((cmd "m"))
+	  (dolist (pt param)
+		(unless (diagram:point-p pt)
+		  (throw-exception "Invalid param for :move-to in path."))
+		(cond
+		  ((diagram:point-absolute-p pt)
+		   (let ((mode :absolute))
+			 (push-cmd cmd)
+			 (push-point pt)))
+		  ((eq mode :relative)
+		   (progn
+			 (push-cmd cmd)
+			 (push-point pt)))
+		  ((eq mode :absolute)
+		   (progn
+			 (push-cmd   cmd)
+			 (push-point (diagram:point+ pt (diagram:canvas-topleft canvas))))))
+		(setf cmd "l")))
+	(values mode acc))
 
-  (defun __chk-&-fix-relative (lst acc mode canvas)
-	(declare (ignore mode canvas))
-	(values lst acc :relative))
+  (defun __check-&-fix-line-to (param acc mode canvas)
+	(unless param
+	  (throw-exception "No param for :line-to in path."))
+	(let ((cmd "l"))
+	  (dolist (pt param)
+		(unless (diagram:point-p pt)
+		  (throw-exception "Invalid param for :line-to in path."))
+		(cond
+		  ((diagram:point-absolute-p pt)
+		   (let ((mode :absolute))
+			 (push-cmd cmd)
+			 (push-point pt)))
+		  ((eq mode :relative)
+		   (progn
+			 (push-cmd cmd)
+			 (push-point pt)))
+		  ((eq mode :absolute)
+		   (progn
+			 (push-cmd   cmd)
+			 (push-point (diagram:point+ pt (diagram:canvas-topleft canvas))))))))
+	(values mode acc))
 
-  (defun __chk-&-fix-close-path (lst acc mode canvas)
-	(declare (ignore canvas))
-	(push-cmd "z")
-	(values lst acc mode))
+  (defun __check-&-fix-h-line-to (param acc mode canvas)
+	(unless (= 1 (length param))
+	  (throw-exception "No param for :h-line-to in path."))
+	(let ((cmd "h")
+		  (param (car param)))
+	  (if (and (diagram:point-p param) (diagram:point-absolute-p param))
+		  (let ((mode :absolute))
+			(push-cmd cmd)
+			(push (diagram:point-x param) acc))
+		  (progn
+			(when (diagram:point-p param)
+			  (setf param (diagram:point-x param)))
+			(if (eq mode :relative)
+				(progn
+				  (push-cmd cmd)
+				  (push param acc))
+				(progn
+				  (push-cmd cmd)
+				  (push (+ param (diagram:canvas-left canvas)) acc))))))
+	(values mode acc))
 
-  (defun __chk-&-fix-move-to (lst acc mode canvas)
-	(push-cmd "m")
-	(let ((x (canvas-left canvas))
-		  (y (canvas-top canvas)))
-	  (chk-loop 2 :move-to (+ it x) (+ it y)))
-    (values lst acc mode))
+  (defun __check-&-fix-v-line-to (param acc mode canvas)
+	(unless (= 1 (length param))
+	  (throw-exception "No param for :v-line-to in path."))
+	(let ((cmd "v")
+		  (param (car param)))
+	  (if (and (diagram:point-p param) (diagram:point-absolute-p param))
+		  (let ((mode :absolute))
+			(push-cmd cmd)
+			(push (diagram:point-y param) acc))
+		  (progn
+			(when (diagram:point-p param)
+			  (setf param (diagram:point-y param)))
+			(if (eq mode :relative)
+				(progn
+				  (push-cmd cmd)
+				  (push param acc))
+				(progn
+				  (push-cmd cmd)
+				  (push (+ param (diagram:canvas-top canvas)) acc))))))
+	(values mode acc))
 
-  (defun __chk-&-fix-line-to (lst acc mode canvas)
-	(push-cmd "l")
-	(let ((x (canvas-left canvas))
-		  (y (canvas-top canvas)))
-	  (chk-loop 2 :line-to (+ it x) (+ it y)))
-    (values lst acc mode))
+  (defun __check-&-fix-arc-to (param acc mode canvas)
+	(unless (= 6 (length param))
+	  (throw-exception "Invalid param for :arc-to in path."))
+	(destructuring-bind (rx ry x-axis-rotation
+							large-arc-flag sweep-flag pt) param
+	  ;;ToDo : check each params...
+	  (unless (diagram:point-p pt)
+		(throw-exception "Invalid pt param for :arc-to in path."))
+	  (let ((mode (if (diagram:point-absolute-p pt) :absolute mode)))
+		(push-cmd				"a")
+		(push rx				acc)
+		(push ry				acc)
+		(push x-axis-rotation	acc)
+		(push large-arc-flag	acc)
+		(push sweep-flag		acc)
+		(cond
+		  ((diagram:point-absolute-p pt)	(push-point pt))
+		  ((eq mode :relative)				(push-point pt))
+		  ((eq mode :absolute) (push-point (diagram:point+ pt (diagram:canvas-topleft canvas)))))))
+	(values mode acc))
 
-  (defun __chk-&-fix-h-line-to (lst acc mode canvas)
-	(push-cmd "h")
-	(let ((y (canvas-top canvas)))
-	  (chk-loop 1 :h-line-to (+ it y)))
-	(values lst acc mode))
+  (defun __check-&-fix-2d-curve-to (param acc mode canvas)
+	;;ToDo : 2 points の場合で、片方だけ absolute-point だった場合はどうするのか？
+	;;ToDo : 現状では、point の absolute-ness は考慮しない実装になっている。
+	(let ((len (length param)))
+	  (unless (and (<= 1 len) (<= len 2))
+		(throw-exception "Invalid param for :2d-curve-to in path."))
+	  (let ((cmd (if (= len 1) "t" "q")))
+		(push-cmd cmd)
+		(dolist (pt param)
+		  (unless (diagram:point-p pt)
+			(throw-exception "Invalid point param for :2d-curve-to in path."))
+		  (cond
+			((diagram:point-absolute-p pt) (push-point pt))
+			((eq mode :relative) (push-point pt))
+			((eq mode :absolute) (push-point (diagram:point+ pt (diagram:canvas-topleft canvas))))))))
+	(values mode acc))
 
-  (defun __chk-&-fix-v-line-to (lst acc mode canvas)
-	(push-cmd "v")
-	(let ((x (canvas-left canvas)))
-	  (chk-loop 1 :v-line-to (+ it x)))
-	(values lst acc mode))
+  (defun __check-&-fix-3d-curve-to (param acc mode canvas)
+	;;ToDo : 2 points 以上の場合で、一部だけ absolute-point だった場合はどうするのか？
+	;;ToDo : 現状では、point の absolute-ness は考慮しない実装になっている。
+	(let ((len (length param)))
+	  (unless (and (<= 2 len) (<= len 3))
+		(throw-exception "Invalid param for :3d-curve-to in path."))
+	  (let ((cmd (if (= len 2) "s" "c")))
+		(push-cmd cmd)
+		(dolist (pt param)
+		  (unless (diagram:point-p pt)
+			(throw-exception "Invalid point param for :2d-curve-to in path."))
+		  (cond
+			((diagram:point-absolute-p pt) (push-point pt))
+			((eq mode :relative) (push-point pt))
+			((eq mode :absolute) (push-point (diagram:point+ pt (diagram:canvas-topleft canvas))))))))
+	(values mode acc)))
 
-  (defun __chk-&-fix-arc-to (lst acc mode canvas)
-	(push-cmd "a")
-	(let ((x (canvas-left canvas))
-		  (y (canvas-top canvas)))
-	  (chk-loop 7 :arc-to it it it it it (+ it x) (+ it y)))
-	(values lst acc mode))
-
-  (defun __chk-&-fix-t-curve-to (lst acc mode canvas)
-	(push-cmd "t")
-	(let ((x (canvas-left canvas))
-		  (y (canvas-top canvas)))
-	  (chk-loop 2 :t-curve-to (+ it x) (+ it y)))
-	(values lst acc mode))
-
-  (defun __chk-&-fix-q-curve-to (lst acc mode canvas)
-	(push-cmd "q")
-	(let ((x (canvas-left canvas))
-		  (y (canvas-top canvas)))
-	  (chk-loop 4 :q-curve-to (+ it x) (+ it y) (+ it x) (+ it y)))
-	(values lst acc mode))
-
-  (defun __chk-&-fix-s-curve-to (lst acc mode canvas)
-	(push-cmd "s")
-	(let ((x (canvas-left canvas))
-		  (y (canvas-top canvas)))
-	  (chk-loop 4 :s-curve-to (+ it x) (+ it y) (+ it x) (+ it y)))
-	(values lst acc mode))
-
-  (defun __chk-&-fix-c-curve-to (lst acc mode canvas)
-	(push-cmd "c")
-	(let ((x (canvas-left canvas))
-		  (y (canvas-top canvas)))
-	  (chk-loop 6 :c-curve-to (+ it x) (+ it y)
-							  (+ it x) (+ it y) (+ it x) (+ it y)))
-	(values lst acc mode)))
-
-
-(defun check-and-fix-d-data (lst acc mode canvas)
+(defun __check-&-fix-data (lst acc mode canvas)
   (if (null lst)
 	  (nreverse acc)
-	  (let ((fnc (case (car lst)
-				   ((:absolute)   #'__chk-&-fix-absolute)
-				   ((:relative)   #'__chk-&-fix-relative)
-				   ((:move-to)    #'__chk-&-fix-move-to)
-				   ((:close-path) #'__chk-&-fix-close-path)
-				   ((:line-to)    #'__chk-&-fix-line-to)
-				   ((:h-line-to)  #'__chk-&-fix-h-line-to)
-				   ((:v-line-to)  #'__chk-&-fix-v-line-to)
-				   ((:arc-to)     #'__chk-&-fix-arc-to)
-				   ((:t-curve-to) #'__chk-&-fix-t-curve-to)
-				   ((:q-curve-to) #'__chk-&-fix-q-curve-to)
-				   ((:s-curve-to) #'__chk-&-fix-s-curve-to)
-				   ((:c-curve-to) #'__chk-&-fix-c-curve-to)
-				   (t (throw-exception "Invalid d sequence for path.")))))
-		(multiple-value-setq (lst acc mode)
-		  (funcall fnc (cdr lst) acc mode canvas))
-		(check-and-fix-d-data lst acc mode canvas))))
+	  (let ((next (car lst))
+			(rest (cdr lst)))
+		(cond
+		  ((keywordp next)
+		   (case next
+			 ((:absolute)	(setf mode :absolute))
+			 ((:relative)	(setf mode :relative))
+			 ((:close-path)	(push (if (eq mode :absolute) "Z" "z") acc))))
+		  ((listp next)
+		   (let ((fnc (case (car next)
+						((:move-to)		#'__check-&-fix-move-to)
+						((:line-to)		#'__check-&-fix-line-to)
+						((:h-line-to)	#'__check-&-fix-h-line-to)
+						((:v-line-to)	#'__check-&-fix-v-line-to)
+						((:arc-to)		#'__check-&-fix-arc-to)
+						((:2d-curve-to)	#'__check-&-fix-2d-curve-to)
+						((:3d-curve-to)	#'__check-&-fix-3d-curve-to)
+						(t (throw-exception "Invalid d sequence for path.")))))
+			 (multiple-value-setq (mode acc)
+					   (funcall fnc (cdr next) acc mode canvas))))
+		  (t (throw-exception "Invalid d sequence for path.")))
+		(__check-&-fix-data rest acc mode canvas))))
 
 
 ;-------------------------------------------------------------------------------
@@ -209,15 +219,7 @@
 	(check-member class   :nullable   t :types (or keyword string))
 	(check-object fill    canvas dict :nullable nil :class fill-info)
 	(check-object stroke  canvas dict :nullable nil :class stroke-info)
-	(let ((lst (onlisp/flatten data)))
-	  (dolist (elm lst)
-		(chk-type elm (or keyword number))
-		(when (keywordp elm)
-		  (check-keywords elm
-						  :absolute :relative :move-to :close-path
-						  :line-to :h-line-to :v-line-to :arc-to
-						  :t-curve-to :q-curve-to :s-curve-to :c-curve-to)))
-	  (setf data (check-and-fix-d-data lst nil :absolute canvas))))
+	(setf data (__check-&-fix-data data nil :absolute canvas)))
   nil)
 	
 (defmethod draw-entity ((ent path) writer)

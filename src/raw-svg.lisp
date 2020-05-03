@@ -7,6 +7,11 @@
 
 (in-package :cl-diagram)
 
+;;------------------------------------------------------------------------------
+;;
+;; raw-svg
+;;
+;;------------------------------------------------------------------------------
 (defclass raw-svg (entity)
   ((data :initform nil :initarg :svgdata)))	; string
 
@@ -18,7 +23,7 @@
   (call-next-method))
 
 (defmethod draw-entity ((ent raw-svg) writer)
-  (dolist (line (string/split (raw-svg-data ent) #\newline))
+  (dolist (line (string/split (slot-value ent 'data) #\newline))
 	(writer-write writer line)))
 
 

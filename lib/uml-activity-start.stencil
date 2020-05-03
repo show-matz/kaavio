@@ -10,9 +10,9 @@
 ;-------------------------------------------------------------------------------
 (defclass uml-activity-start (diagram:circle) ())
 
-(defmacro uml-activity-start (x y &key radius fill link layer id)
+(defmacro uml-activity-start (center &key radius fill link layer id)
   `(register-entity (make-instance 'uml-activity-start
-								   :center-x ,x :center-y ,y
+								   :center ,center
 								   :radius (or ,radius *uml-activity-start-radius*)
 								   :fill   (or ,fill   *uml-activity-start-fill* *default-fill*)
 								   :class nil :stroke :none

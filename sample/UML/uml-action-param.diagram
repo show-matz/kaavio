@@ -10,10 +10,10 @@
 	(let ((*uml-keyword-font* (make-font :size 10))
 		  ;(*uml-action-corner-r* 6)
 		  (*uml-action-font*   (make-font :size 12)))
-	  (uml-action 200 150 :action :id :action1 :width 300 :height 200
+	  (uml-action '(200 150) :action :id :action1 :width 300 :height 200
 				  :contents ((uml-action-param :param :action1 :L  :id :in-param)
-							 (uml-action-param :param :action1 :R3 :id :out-param)
-							 (uml-action 150 80 "process" :id :inner-action)))
+							 (uml-action-param :param :action1 :R1 :id :out-param)
+							 (uml-action (point/x+ in-param.center 150) "process" :id :inner-action)))
 	  (uml-flow :in-param :inner-action)
 	  (uml-flow :inner-action :out-param)))
 

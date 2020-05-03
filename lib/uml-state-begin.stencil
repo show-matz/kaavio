@@ -3,16 +3,21 @@
 (defparameter *uml-state-begin-radius*     10)
 (defparameter *uml-state-begin-fill*   :black)
 
-;-------------------------------------------------------------------------------
-;
-; class uml-state-begin
-;
-;-------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------
+;;
+;; class uml-state-begin
+;;
+;;------------------------------------------------------------------------------
 (defclass uml-state-begin (diagram:circle) ())
 
-(defmacro uml-state-begin (x y &key radius fill link layer id)
+;;------------------------------------------------------------------------------
+;;
+;; macro uml-state-begin
+;;
+;;------------------------------------------------------------------------------
+(defmacro uml-state-begin (center &key radius fill link layer id)
   `(register-entity (make-instance 'uml-state-begin
-								   :center-x ,x :center-y ,y
+								   :center ,center
 								   :radius (or ,radius *uml-state-begin-radius*)
 								   :fill (or ,fill *uml-state-begin-fill* *default-fill*)
 								   :class nil :stroke :none

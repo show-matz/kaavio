@@ -11,6 +11,11 @@
 (defparameter *uml-note-valign*   :center)
 (defparameter *uml-note-crease-size*   20)
 
+;;------------------------------------------------------------------------------
+;;
+;; class uml-note
+;;
+;;------------------------------------------------------------------------------
 (defclass uml-note (diagram:text-shape)
   ((keyword	:initform nil :initarg :keyword)	; (or nil uml-keyword-info)
    (targets	:initform nil :initarg :targets)	; list of keyword symbol
@@ -60,8 +65,11 @@
 		(with-slots (keyword margin2 crease
 							 diagram::fill diagram::stroke diagram::margin) note
 		  ;; draw note body
-		  (polygon `(0 0 0 ,height ,width ,height
-					   ,width ,crease ,(- width crease) 0)
+		  (polygon `((0 0)
+					 (0 ,height)
+					 (,width ,height)
+					 (,width ,crease)
+					 (,(- width crease) 0))
 				   :fill diagram::fill :stroke diagram::stroke)
 		  ;; draw keyword
 		  (when keyword
@@ -70,7 +78,9 @@
 		  ;; draw text
 		  (call-next-method)
 		  ;; draw crease
-		  (polygon `(,width ,crease ,(- width crease) ,crease ,(- width crease) 0)
+		  (polygon `((,width ,crease)
+					 (,(- width crease) ,crease)
+					 (,(- width crease) 0))
 				   :fill diagram::fill :stroke diagram::stroke)))))
   nil)
 
@@ -88,7 +98,7 @@
 				 `(check-and-draw-local-entity ,entity canvas writer)))
 	  (with-slots (targets diagram::stroke) note
 		;; draw connections
-		(let ((canvas (make-canvas 0 height 0 width))
+		(let ((canvas (make-canvas '(0 0) width height))
 			  (*default-stroke* (make-stroke :dasharray '(3 3)
 											 :base diagram::stroke))) ;;ToDo : fixed ?
 		  (dolist (ent targets)
@@ -111,10 +121,15 @@
 	canvas))
 
 
-(defmacro uml-note (x y text &key keyword targets width height
+;;------------------------------------------------------------------------------
+;;
+;; macro uml-note
+;;
+;;------------------------------------------------------------------------------
+(defmacro uml-note (center text &key keyword targets width height
 							   align valign font fill stroke margin link layer id)
   `(register-entity (make-instance 'uml-note
-								   :center-x ,x :center-y ,y
+								   :center ,center
 								   :width ,width :height ,height
 								   :text ,text :font ,font
 								   :keyword ,keyword :targets ,targets

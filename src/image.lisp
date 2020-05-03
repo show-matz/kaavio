@@ -71,11 +71,10 @@
 ;
 ;-------------------------------------------------------------------------------
 (defclass image (shape)
-  ((center-x		:initform   0 :initarg :center-x)	; number
-   (center-y		:initform   0 :initarg :center-y)	; number
-   (filename		:initform nil :initarg :filename)	; (or string pathname)
+  ((filename		:initform nil :initarg :filename)	; (or string pathname)
    (width			:initform   0 :initarg :width)		; number
    (height			:initform   0 :initarg :height)		; number
+   (center			:initform nil :initarg :center)		; point
    (label			:initform nil :initarg :label)		; (or nil label-info)
    (preserve-ratio	:initform nil)))					; boolean
 
@@ -91,9 +90,7 @@
 (defmethod check ((img image) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (with-slots (center-x center-y filename width height label preserve-ratio) img
-	(check-member center-x :nullable nil :types number)
-	(check-member center-y :nullable nil :types number)
+  (with-slots (center filename width height label preserve-ratio) img
 	(check-member filename :nullable nil :types (or pathname string))
 	(check-member width    :nullable   t :types number)
 	(check-member height   :nullable   t :types number)
@@ -117,8 +114,7 @@
 					(setf height (* width  (/ h w))))))))
 	(check-member width  :nullable nil :types number)
 	(check-member height :nullable nil :types number)
-	(incf center-x (canvas-left canvas))
-	(incf center-y (canvas-top  canvas)))
+	(setf center (canvas-fix-point canvas center)))
   nil)
 
 
@@ -128,27 +124,8 @@
 (defmethod shape-height ((img image))
   (slot-value img 'height))
 
-(defmethod shape-top ((img image))
-  (- (slot-value img 'center-y)
-	 (/ (slot-value img 'height) 2)))
-
-(defmethod shape-middle ((img image))
-  (slot-value img 'center-y))
-
-(defmethod shape-bottom ((img image))
-  (+ (slot-value img 'center-y)
-	 (/ (slot-value img 'height) 2)))
-
-(defmethod shape-left ((img image))
-  (- (slot-value img 'center-x)
-	 (/ (slot-value img 'width) 2)))
-
 (defmethod shape-center ((img image))
-  (slot-value img 'center-x))
-
-(defmethod shape-right ((img image))
-  (+ (slot-value img 'center-x)
-	 (/ (slot-value img 'width) 2)))
+  (slot-value img 'center))
 
 ;;MEMO : use impelementation of shape...
 ;;(defmethod shape-connect-point ((img image) type1 type2 arg) ...)
@@ -162,17 +139,18 @@
 	  (call-next-method)))
 
 (defmethod draw-entity ((img image) writer)
-  (with-slots (class filename preserve-ratio) img
+  (with-slots (width height class filename preserve-ratio) img
 	(let ((id (and (not (entity-composition-p img))
-				   (slot-value img 'id))))
+				   (slot-value img 'id)))
+		  (topleft (shape-topleft img)))
 	  (pre-draw img writer)
 	  (writer-write writer
 					"<image "
 					(write-when id "id='" it "' ")
-					"x='" (shape-left img) "' "
-					"y='" (shape-top  img) "' "
-					"width='"  (shape-width  img) "' "
-					"height='" (shape-height img) "' "
+					"x='" (point-x topleft) "' "
+					"y='" (point-y topleft) "' "
+					"width='"  width  "' "
+					"height='" height "' "
 					(write-when class "class='" it "' ")
 					"xlink:href='" filename "' "
 					(unless preserve-ratio
@@ -188,10 +166,10 @@
 #|
 #|EXPORT|#				:image
  |#
-(defmacro image (x y filename
+(defmacro image (center filename
 				 &key width height label class link layer id contents)
   (let ((code `(register-entity (make-instance 'diagram:image
-											   :center-x ,x :center-y ,y
+											   :center ,center
 											   :filename ,filename
 											   :width ,width :height ,height
 											   :label ,label :class ,class

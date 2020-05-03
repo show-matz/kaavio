@@ -5,11 +5,11 @@
 (defparameter *uml-pin-stroke* :black)
 (defparameter *uml-pin-size*       10)
 
-;;-------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------
 ;;
 ;; class uml-pin
 ;;
-;;-------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------
 (defclass uml-pin (diagram:group)
   ((name	:initform nil :initarg :name)		; (or keyword string)
    (target	:initform nil :initarg :target)		; (keyword . keyword)
@@ -73,8 +73,7 @@
 						  ((:bottom) (incf y half))
 						  ((:left)   (decf x half))
 						  ((:right)  (incf x half)))
-						(setf (slot-value pin 'diagram::x)      x)
-						(setf (slot-value pin 'diagram::y)      y)
+						(setf (slot-value pin 'diagram::center) (make-point x y :absolute))
 						(setf (slot-value pin 'diagram::width)  (* half 2))
 						(setf (slot-value pin 'diagram::height) (* half 2))))))))
 	;; this method must call super class' one.
@@ -130,9 +129,9 @@
 			(let ((*default-font*   font)
 				  (*default-fill*   fill)
 				  (*default-stroke* stroke))
-			  (rectangle x y size size)
+			  (rectangle `(,x ,y) size size)
 			  (multiple-value-bind (x y align) (locate-text)
-				(text x y name :align align))))))))
+				(text `(,x ,y) name :align align))))))))
   nil)
 
 ;;for debug...
@@ -141,11 +140,11 @@
 ;  (draw-canvas-frame (group-get-canvas #|shape-get-subcanvas|# pin) writer))
  
 
-;;-------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------
 ;;
 ;; macro uml-pin
 ;;
-;;-------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------
 (defmacro uml-pin (name target position &key size offset font fill stroke layer id)
   `(register-entity (make-instance 'uml-pin
 								   :name ,name
