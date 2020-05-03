@@ -3,13 +3,18 @@
 (defparameter *uml-activity-start-radius*     10)
 (defparameter *uml-activity-start-fill*   :black)
 
-;-------------------------------------------------------------------------------
-;
-; class uml-activity-start
-;
-;-------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------
+;;
+;; class uml-activity-start
+;;
+;;------------------------------------------------------------------------------
 (defclass uml-activity-start (diagram:circle) ())
 
+;;------------------------------------------------------------------------------
+;;
+;; macro uml-activity-start
+;;
+;;------------------------------------------------------------------------------
 (defmacro uml-activity-start (center &key radius fill link layer id)
   `(register-entity (make-instance 'uml-activity-start
 								   :center ,center

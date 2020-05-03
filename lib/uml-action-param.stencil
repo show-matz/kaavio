@@ -10,11 +10,11 @@
 (defparameter *uml-action-param-height*        30)
 (defparameter *uml-action-param-margin*         5)
 
-;-------------------------------------------------------------------------------
-;
-; class uml-action-param
-;
-;-------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------
+;;
+;; class uml-action-param
+;;
+;;------------------------------------------------------------------------------
 (defclass uml-action-param (diagram:text-shape)
   ((target		:initform nil	:initarg :target)		; (keyword . keyword)
    (keyword		:initform nil	:initarg :keyword)		; (or nil uml-keyword-info)
@@ -132,11 +132,11 @@
 	canvas))
 
   
-;-------------------------------------------------------------------------------
-;
-; macro uml-action-param
-;
-;-------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------
+;;
+;; macro uml-action-param
+;;
+;;------------------------------------------------------------------------------
 (defmacro uml-action-param (name target position
 							&key keyword width height margin
 									font fill stroke link layer id)

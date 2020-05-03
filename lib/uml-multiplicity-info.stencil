@@ -6,6 +6,11 @@
 (defparameter *uml-multiplicity-degree*   120)
 (defparameter *uml-multiplicity-distance*  10)
 
+;;------------------------------------------------------------------------------
+;;
+;; class uml-multiplicity-info
+;;
+;;------------------------------------------------------------------------------
 (defclass uml-multiplicity-info ()
   ((min			:initform nil :initarg :min)		; (or keyword integer)
    (max			:initform nil :initarg :max)		; (or keyword integer)

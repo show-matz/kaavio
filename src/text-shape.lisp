@@ -21,7 +21,7 @@
 
 ;;------------------------------------------------------------------------------
 ;;
-;; text-shape
+;; abstract class text-shape
 ;;
 ;;------------------------------------------------------------------------------
 #|
@@ -118,14 +118,4 @@
 
 (defmethod text-shape-paragraph-area ((txtshp text-shape))
   (copy-canvas (group-get-canvas txtshp)))
-
-
-;;(defmacro text-shape (x y text &key width height align valign font fill stroke margin link layer id)
-;;  `(register-entity (make-instance 'text-shape
-;;								   :center-x ,x :center-y ,y
-;;								   :width ,width :height ,height
-;;								   :text ,text :font ,font
-;;								   :align ,align :valign ,valign
-;;								   :fill ,fill :stroke ,stroke :margin ,margin
-;;								   :link ,link :layer ,layer :id ,id)))
 

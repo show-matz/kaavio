@@ -90,6 +90,11 @@
 
 
 
+;;-------------------------------------------------------------------------------
+;;
+;; macro uml-decision
+;;
+;;-------------------------------------------------------------------------------
 (defmacro uml-decision (center &key size height-ratio fill stroke layer id)
   `(register-entity (make-instance 'uml-decision-merge
 								   :center ,center
@@ -100,6 +105,11 @@
 								   :stroke	(or ,stroke       *uml-decision-stroke*)
 								   :link nil :layer ,layer :id ,id)))
 
+;;-------------------------------------------------------------------------------
+;;
+;; macro uml-merge
+;;
+;;-------------------------------------------------------------------------------
 (defmacro uml-merge (center &key size height-ratio fill stroke layer id)
   `(register-entity (make-instance 'uml-decision-merge
 								   :center ,center

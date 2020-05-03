@@ -89,4 +89,3 @@
 												  (or ,width *uml-time-event-width*)))
 								   :fill ,fill :stroke ,stroke
 								   :link ,link :layer ,layer :id ,id)))
-

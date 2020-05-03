@@ -6,6 +6,11 @@
 (defparameter *uml-role-degree*   240)
 (defparameter *uml-role-distance*  10)
 
+;;------------------------------------------------------------------------------
+;;
+;; class uml-role-info
+;;
+;;------------------------------------------------------------------------------
 (defclass uml-role-info ()
   ((name		:initform nil :initarg :name)		; (or keyword string)
    (class		:initform nil :initarg :class)		; (or keyword string)

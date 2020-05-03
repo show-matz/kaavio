@@ -54,6 +54,11 @@
 ;  (draw-canvas-frame (shape-get-subcanvas obj) writer)	;for debug...
   nil)
 
+;;------------------------------------------------------------------------------
+;;
+;; macro uml-interface
+;;
+;;------------------------------------------------------------------------------
 (defmacro uml-interface (center name &key fill stroke link layer id)
   `(register-entity (make-instance 'uml-interface
 								   :center ,center
@@ -142,6 +147,11 @@
 		  
 
 
+;;------------------------------------------------------------------------------
+;;
+;; macro uml-interface-socket
+;;
+;;------------------------------------------------------------------------------
 (defmacro uml-interface-socket (center from name &key style stroke layer id)
   `(register-entity (make-instance 'uml-interface-socket
 								   :name ,name :center ,center
@@ -256,6 +266,11 @@
   (call-next-method))
 
 
+;;------------------------------------------------------------------------------
+;;
+;; macro uml-interface-request
+;;
+;;------------------------------------------------------------------------------
 (defmacro uml-interface-request (from to &key arrow-p style stroke layer id)
   `(register-entity (make-instance 'uml-interface-request
 								   :from ,from :to ,to

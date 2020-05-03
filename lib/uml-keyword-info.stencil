@@ -4,6 +4,11 @@
 (defparameter *uml-keyword-font*  nil)
 (defparameter *uml-keyword-class* nil)
 
+;;------------------------------------------------------------------------------
+;;
+;; class uml-keyword-info
+;;
+;;------------------------------------------------------------------------------
 (defclass uml-keyword-info ()
   ((name	:initform nil :initarg :name)	; (or keyword string)
    (class	:initform nil :initarg :class)	; (or keyword string)

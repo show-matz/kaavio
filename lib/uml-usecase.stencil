@@ -97,4 +97,3 @@
 								   :fill     (or ,fill   *uml-usecase-fill*   *default-fill*   :white)
 								   :stroke   (or ,stroke *uml-usecase-stroke* *default-stroke* :black)
 								   :link ,link :layer ,layer :id ,id)))
-

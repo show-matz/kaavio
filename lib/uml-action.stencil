@@ -30,11 +30,11 @@
 			   (or x *uml-action-rake-margin-x*)
 			   (or y *uml-action-rake-margin-y*))))))
 
-;-------------------------------------------------------------------------------
-;
-; class uml-action
-;
-;-------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------
+;;
+;; class uml-action
+;;
+;;------------------------------------------------------------------------------
 (defclass uml-action (diagram:text-shape)
   ((keyword		:initform nil	:initarg  :keyword)		; (or nil uml-keyword-info)
    (contents-p	:initform nil	:initarg  :contents-p)	; boolean
@@ -167,11 +167,11 @@
 				   (- (shape-height action) partition)))))
 
   
-;-------------------------------------------------------------------------------
-;
-; macro uml-action
-;
-;-------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------
+;;
+;; macro uml-action
+;;
+;;------------------------------------------------------------------------------
 (defmacro uml-action (center text &key keyword width height
 									margin corner-r rake
 									font fill stroke link layer id contents)

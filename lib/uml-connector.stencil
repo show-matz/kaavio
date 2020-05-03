@@ -7,11 +7,11 @@
 (defparameter *uml-connector-font*	    nil)
 
 
-;-------------------------------------------------------------------------------
-;
-; class uml-connector
-;
-;-------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------
+;;
+;; class uml-connector
+;;
+;;------------------------------------------------------------------------------
 (defclass uml-connector (diagram:group)
   ((center2	:initform nil	:initarg :center2)	; point
    (name	:initform nil	:initarg :name)		; (or nil keyword)
@@ -88,6 +88,11 @@
 
 
 
+;;------------------------------------------------------------------------------
+;;
+;; macro uml-connector
+;;
+;;------------------------------------------------------------------------------
 (defmacro uml-connector (center1 center2 id &key name size fill stroke font layer)
   `(register-entity (make-instance 'uml-connector
 								   :center ,center1 :center2 ,center2

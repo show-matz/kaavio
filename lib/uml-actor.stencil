@@ -75,6 +75,11 @@
 
 
 
+;;------------------------------------------------------------------------------
+;;
+;; macro uml-actor
+;;
+;;------------------------------------------------------------------------------
 (defmacro uml-actor (center name &key width fill stroke link layer id)
   `(register-entity (make-instance 'uml-actor
 								   :center ,center
