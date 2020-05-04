@@ -1,0 +1,38 @@
+(in-package :diagram-user)
+
+(load-stencil :uml-class)
+
+(create-svg (:width 600 :height 400 :encoding :utf8)
+	(grid)
+	(let ((*default-font* (make-font :width-spice 0.6)))
+	  (uml-class '(70 50) "Test1" :active nil :id :cls1)
+	  (uml-class (point/y+ $1.center 65) "Test2" :abstract t :keyword :abstract :id :cls2)
+	  (uml-class (point/y+ $1.center 65) "Test3" :active   t :keyword :process  :id :cls3)
+	  (uml-class (point/y+ $1.center 65) "Test4" :active nil :keyword :process  :id :cls4)
+	  (uml-class (point/y+ $1.center 80) "Test5" :active   t :id :cls5
+				 :attributes (:m-data1 :m-data2))
+	  (uml-class (point/x+ cls1.center 150) "Test6" :template "T, S" :id :cls6)
+	  (uml-class (point/y+   $1.center 90) "Test7" :id :cls7
+				 :responsibilities "-- xxx
+-- yyy
+-- zzz")
+	  (uml-class (point/xy+ $1.center 30 150) "Test8" :abstract t :id :cls8
+				 :attributes (:m-data1
+							  (:private :s-data2 :scope :class))
+				 :operations ((:public "DoSomething" :abstract t)
+							  (:private "InnerMethod" :type :uint32_t :parameters (:etc)))
+				 :responsibilities "-- xxx
+-- yyy
+-- zzz")
+	  (uml-class (point/xy+ cls1.center 370 60) "Test9" :id :cls9
+				 :attributes (:m-data1
+							  (:private :s-data2 :scope :class))
+				 :operations (:<<constructor>>
+							  "Test9"
+							  (:public "Test9" :parameters ((:rhs :type "Test9")))
+							  :<<methods>>
+							  (:public "DoSomething" :abstract t
+									   :parameters ((:prm1 :type :int :io :in)
+													(:prm2 :type :int :io :out)))
+							  (:private "InnerMethod" :type :uint32_t :parameters (:etc))
+							  :etc))))

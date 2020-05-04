@@ -2,13 +2,13 @@
 
 (load-stencil :uml-keyword-info)
 
-(defparameter *uml-class-font*        nil)
-(defparameter *uml-class-fill*        nil)
-(defparameter *uml-class-stroke*      nil)
-(defparameter *uml-class-min-width*    80)
-(defparameter *uml-class-min-height*   40)
-(defparameter *uml-class-name-margin*  10)
-(defparameter *uml-class-margin*        5)
+(defparameter *uml-class-font*           nil)
+(defparameter *uml-class-fill*        :white)
+(defparameter *uml-class-stroke*      :black)
+(defparameter *uml-class-width*           70)
+(defparameter *uml-class-height*          30)
+(defparameter *uml-class-name-margin*      5)
+(defparameter *uml-class-margin*           5)
 
 (defun uml-stereotype-keyword-p (param)
   (when (keywordp param)
@@ -133,10 +133,10 @@
 							 :info (make-instance 'uml-keyword-info :name tmp))	;;ToDo : class/font はどうする？
 			  (cond
 				((eq param :etc) (make-instance 'uml-class-omission))
-				((name-p param)  (make-uml-class-attribute :name param))
+				((name-p param)  (make-uml-class-attribute :private param))
 				((typep param 'uml-class-attribute) param)
 				((listp param)   (apply #'make-uml-class-attribute param))
-				(t               (make-uml-class-attribute :name param)))))
+				(t               (make-uml-class-attribute :private param)))))
 		(destructuring-bind (visibility name &key type
 								  multiplicity default property scope) params
 		  (make-instance 'uml-class-attribute
@@ -168,7 +168,8 @@
 	(check-member name          :nullable nil :types (or string keyword))
 	(check-member type          :nullable   t :types (or string keyword))
 	(check-member default-value :nullable   t :types (or number keyword string))
-	(check-keywords io :in :out :inout))
+	(when io
+	  (check-keywords io :in :out :inout)))
   nil)
 
 ;; use implementaion of base class.
@@ -197,7 +198,7 @@
 			((typep param 'uml-class-operation-param) param)
 			((listp param)   (apply #'make-uml-class-operation-param param))
 			(t               (make-uml-class-operation-param :name param))))
-		(destructuring-bind (&key io name type default) params
+		(destructuring-bind (name &key io type default) params
 		  (make-instance 'uml-class-operation-param
 						 :io			io
 						 :name			name
@@ -303,20 +304,20 @@
 ;;
 ;;-------------------------------------------------------------------------------
 (defclass uml-class (diagram:group)
-  ((name				:initform nil :initarg :name)				; type (or keyword string)
-   (keyword				:initform nil :initarg :keyword)			; type uml-keyword-info
-   (abstract			:initform nil :initarg :abstract)			; type boolean
-   (active				:initform nil :initarg :active)				; type boolean
-   (attributes			:initform nil :initarg :attributes)			; type list
-   (operations			:initform nil :initarg :operations)			; type list
-   (template			:initform nil :initarg :template)			; type string
-   (responsibilities	:initform nil :initarg :responsibilities)	; type string
-   (font				:initform nil :initarg :font)				;:type (or nil font-info)
-   (fill				:initform nil :initarg :fill)				;:type (or nil fill-info)
-   (stroke				:initform nil :initarg :stroke)				;:type (or nil stroke-info)
-   (heights-cache		:initform nil)								;:type list
-   (margin-cache		:initform nil)								;:type number? ToDo : here!
-   (name-margin-cache	:initform nil)))							;:type number? ToDo : here!
+  ((name				:initform nil :initarg :name)				; (or keyword string)
+   (keyword				:initform nil :initarg :keyword)			; uml-keyword-info
+   (abstract-p			:initform nil :initarg :abstract-p)			; boolean
+   (active-p			:initform nil :initarg :active-p)			; boolean
+   (attributes			:initform nil :initarg :attributes)			; list
+   (operations			:initform nil :initarg :operations)			; list
+   (template			:initform nil :initarg :template)			; string
+   (responsibilities	:initform nil :initarg :responsibilities)	; string
+   (font				:initform nil :initarg :font)				; (or nil font-info)
+   (fill				:initform nil :initarg :fill)				; (or nil fill-info)
+   (stroke				:initform nil :initarg :stroke)				; (or nil stroke-info)
+   (heights-cache		:initform nil)	#|list of box heights|#		; list
+   (margin-cache		:initform nil)								; number
+   (name-margin-cache	:initform nil)))							; number
 
 
 (defmethod initialize-instance :after ((cls uml-class) &rest initargs)
@@ -332,44 +333,59 @@
   cls)
 
 (defun uml-class-caluculate-shapesize (cls)
-  (with-slots (name keyword font attributes operations
+  (with-slots (name keyword font attributes operations active-p
 				responsibilities heights-cache margin-cache name-margin-cache) cls
-	(let ((size    (slot-value font 'diagram::size))
+	(let ((height  0)
+		  (width   0)
+		  (size    (slot-value font 'diagram::size))
 		  (spice   (slot-value font 'diagram::width-spice))
-		  (spacing (slot-value font 'diagram::line-spacing))
-		  (height  0)
-		  (width   *uml-class-min-width*))
+		  (spacing (slot-value font 'diagram::line-spacing)))
 	  (setf heights-cache nil)
 	  (labels ((get-width (line margin)
-				 (+ (* 2 margin)
-					(* (length line) size spice)))    ;ToDo : what can I do ?
+				 (+ (* 2 margin) (* (length line) size spice))) ;ToDo : what can I do ?
 			   (get-object-width (obj margin)
-				 (get-width (class:invoke obj :to-string) margin))
-			   (operate-box (lst fnc v-margin h-margin)
-				 (when lst
-				   (setf width (apply #'max width
-									  (mapcar (lambda (x)
-												(funcall fnc x h-margin)) lst)))
-				   (let ((h (+ (* 2 v-margin)
-							   (* (length lst) size)
-							   (* (1- (length lst)) spacing))))
-					 (incf height h)
-					 (push h heights-cache)))))
+				 (get-width (uml-class-stuff-to-string obj) margin))
+			   (calc-box (lst fnc tail-p v-margin &optional h-margin)
+				 (unless h-margin
+				   (setf h-margin v-margin))
+				 (if (null lst)
+					 (cons 0 (if tail-p (* 2 v-margin) 0))
+					 (cons (apply #'max (mapcar (lambda (x)
+												  (funcall fnc x h-margin)) lst))
+						   (+ (* 2 v-margin)
+							  (* (length lst) size)
+							  (* (1- (length lst)) spacing))))))
 		;; name
 		(let ((lst (list (if (keywordp name)
 							 (symbol-name name) name))))
 		  (when keyword
 			(setf lst (cons (uml-keyword-to-string keyword) lst)))
-		  (operate-box lst #'get-width margin-cache
-					   (+ margin-cache name-margin-cache))
-		  (setf height (max height *uml-class-min-height*))
-		  (setf (car heights-cache) height))
+		  (let ((w.h (calc-box lst #'get-width margin-cache
+							   (+ margin-cache name-margin-cache))))
+			(setf width  (max (car w.h) *uml-class-width*))
+			(setf height (max (cdr w.h) *uml-class-height*))
+			(push height heights-cache)))
 		;; members
-		(operate-box attributes #'get-object-width margin-cache margin-cache)
+		(let ((w.h (calc-box attributes #'get-object-width
+							 (or operations responsibilities) margin-cache)))
+		  (setf width  (max width (car w.h)))
+		  (incf height (cdr w.h))
+		  (push (cdr w.h) heights-cache))
 		;; operations
-		(operate-box operations #'get-object-width margin-cache margin-cache)
-		;; resposibilities
-		(operate-box responsibilities #'get-width  margin-cache margin-cache))
+		(let ((w.h (calc-box operations #'get-object-width
+							 (not (null responsibilities)) margin-cache)))
+		  (setf width  (max width (car w.h)))
+		  (incf height (cdr w.h))
+		  (push (cdr w.h) heights-cache))
+		;; responsibilities
+		(let* ((lst (when responsibilities (cons "Responcibilities"
+												  responsibilities)))
+			   (w.h (calc-box lst #'get-width nil margin-cache)))
+		  (setf width  (max width (car w.h)))
+		  (incf height (cdr w.h))
+		  (push (cdr w.h) heights-cache)))
+	  (when active-p
+		(incf width (* 2 margin-cache)))
 	  (setf heights-cache (nreverse heights-cache))
 	  (values width height))))
 
@@ -380,14 +396,14 @@
   (with-slots (name keyword attributes operations
 					template responsibilities font fill stroke) cls
 	(check-member name             :nullable nil :types (or string keyword))
-	(check-object keyword          :nullable t :class uml-keyword-info)
-	(check-member attributes       :nullable t :types list)
-	(check-member operations       :nullable t :types list)
-	(check-member template         :nullable t :types string)
-	(check-member responsibilities :nullable t :types string)
-	(check-object font             :nullable t :class font-info)
-	(check-object fill             :nullable t :class fill-info)
-	(check-object stroke           :nullable t :class stroke-info)
+	(check-object keyword canvas dict :nullable t :class uml-keyword-info)
+	(check-member attributes       :nullable   t :types list)
+	(check-member operations       :nullable   t :types list)
+	(check-member template         :nullable   t :types string)
+	(check-member responsibilities :nullable   t :types string)
+	(check-object font   canvas dict :nullable t :class   font-info)
+	(check-object fill   canvas dict :nullable t :class   fill-info)
+	(check-object stroke canvas dict :nullable t :class stroke-info)
 	(setf attributes (mapcar #'make-uml-class-attribute attributes))
 	(dolist (attribute attributes)
 	  (check-object attribute canvas dict :nullable nil :class uml-class-stuff)
@@ -403,219 +419,125 @@
 	(setf (slot-value cls 'diagram::height) h))
   nil)
 
+;;MEMO : use impelementation of shape...
+;;(defmethod shape-connect-point ((cls uml-class) type1 type2 arg) ...)
 
 ;;MEMO : use impelementation of group...
 ;;(defmethod group-get-canvas ((cls uml-class)) ...)
 
-;;;; override of group::draw-group
-;;(defmethod draw-group ((cls uml-class) writer)
-;;  (let ((canvas (group-get-canvas cls)))
-;;	(with-slots (name keyword depth contents-p
-;;							  font fill1 fill2 stroke) cls
-;;	  (let* ((width     (canvas-width  canvas))
-;;			 (height    (canvas-height canvas))
-;;			 (x         (/ width  2))
-;;			 (y         (/ height 2))
-;;			 (half      (/ depth  2))
-;;			 (font-size (slot-value font 'diagram::size))
-;;			 (spacing   (slot-value font 'diagram::line-spacing)))
-;;		(macrolet ((register-entity (entity)
-;;					 `(check-and-draw-local-entity ,entity canvas writer)))
-;;		  (let ((*default-font*   font)
-;;				(*default-stroke* stroke))
-;;			(polygon `(0 ,half ,depth ,(- half) ,(+ width half) ,(- half)
-;;						 ,(+ width half) ,(- height depth) ,(- width half) ,height) :fill fill2)
-;;			(line `(,(+ width half) ,(- half) ,(- width half) ,half))
-;;			(rectangle (- x (/ half 2)) (+ y (/ half 2)) (- width half) (- height half) :fill fill1))
-;;		  (let ((name (if (stringp name)
-;;						  name
-;;						  (string-downcase (symbol-name name))))
-;;				(x    (/ (- width half) 2))
-;;				(y    (if contents-p
-;;						  (+ half spacing font-size)
-;;						  (/ (+ height half) 2))))
-;;			(if (null keyword)
-;;				(incf y (/ font-size 2))
-;;				(progn
-;;				  (uml-keyword-draw keyword
-;;									(+ (canvas-left canvas) x)
-;;									(+ (canvas-top  canvas) y) :center writer)
-;;				  (incf y font-size)))
-;;			(text x y name :align :center))))))
-;;  nil)
-;;
-;;;;for debug...
-;;;(defmethod post-draw ((cls uml-class) writer)
-;;;  (call-next-method)
-;;;  (draw-canvas-frame (group-get-canvas #|shape-get-subcanvas|# cls) writer))
-;; 
-;;
-;;
-;;(defmacro uml-class (x y name &key keyword width height
-;;									 font fill1 fill2 stroke link layer id contents)
-;;  (let* ((contents-p (not (null contents)))
-;;		 (code `(register-entity (make-instance 'uml-class
-;;											   :center-x ,x :center-y ,y
-;;											   :width  (or ,width  *uml-class-width*)
-;;											   :height (or ,height *uml-class-height*)
-;;											   :name ,name :keyword ,keyword
-;;											   :depth *uml-class-depth*
-;;											   :contents-p ,contents-p
-;;											   :font ,font :stroke ,stroke
-;;											   :fill1 ,fill1 :fill2 ,fill2
-;;											   :link ,link :layer ,layer :id ,id))))
-;;	(if (null contents)
-;;		code
-;;		(let ((g-obj (gensym "OBJ")))
-;;		  `(let* ((,g-obj ,code)
-;;				  (canvas (shape-get-subcanvas ,g-obj)))
-;;			 (declare (special canvas))
-;;			 ,@contents)))))
-;;
-;;(defmacro uml-class (x y name &key width fill stroke link layer id)
-;;  `(register-entity (make-instance 'uml-class
-;;								   :center-x ,x :center-y ,y
-;;								   :name ,name
-;;								   :width  (or ,width *uml-class-width*)
-;;								   :height (* *uml-class-height-ratio*
-;;											  (or ,width *uml-class-width*))
-;;								   :fill ,fill :stroke ,stroke
-;;								   :link ,link :layer ,layer :id ,id)))
-;;
+;;MEMO : use impelementation of shape...
+;;(defmethod shape-get-subcanvas ((grp group)) ...)
 
+;; override of group::draw-group
+(defmethod draw-group ((cls uml-class) writer)
+  (let ((canvas (group-get-canvas cls)))
+	(with-slots (name keyword active-p abstract-p template
+					  attributes operations responsibilities
+					  margin-cache heights-cache font fill stroke) cls
+	  (with-canvas (topleft width height) canvas
+		(let ((font-size (slot-value font 'diagram::size))
+			  (spice     (slot-value font 'diagram::width-spice))
+			  (spacing   (slot-value font 'diagram::line-spacing)))
+		  (macrolet ((register-entity (entity)
+					   `(check-and-draw-local-entity ,entity canvas writer)))
+			(let ((left             0)
+				  (right            width)
+				  (*default-font*   font)
+				  (*default-fill*   fill)
+				  (*default-stroke* stroke))
+			  ;; draw whole box
+			  (rectangle (make-point (/ width 2) (/ height 2)) width height)
+			  (when active-p
+				;; line of active-class
+				(setf left  margin-cache
+					  right (- width margin-cache))
+				(line `((,left  0) (,left  ,height)))
+				(line `((,right 0) (,right ,height))))
+			  (let ((y 0)
+					(center (/ width 2)))
+				;; draw name box.
+				(let ((name   (if (stringp name)
+								  name (string-downcase (symbol-name name))))
+					  (height (car heights-cache)))
+				  (setf y (/ height 2))
+				  ;; keyword and name
+				  (if (null keyword)
+					  (incf y (/ font-size 2))
+					  (progn
+						(uml-keyword-draw keyword
+										  (+ (canvas-left canvas) center)
+										  (+ (canvas-top  canvas) y) :center writer)
+						(incf y font-size)))
+				  (text (make-point center y) name :align :center
+						:font (when abstract-p
+								(make-font :style :italic :base font)))
+				  (setf y height))
+				;; draw template box ( if exists ).
+				(when template
+				  (rectangle (make-point width 0)
+							 (+ (* 2 margin-cache)
+								(* (length template) font-size spice))
+							 (+ font-size (* 2 margin-cache))
+							 :stroke `(:dasharray (3 3) :base ,stroke))
+				  (text (make-point width (/ font-size 2)) template :align :center))
+				(labels ((additional-box (fnc lst tail-p &optional title)
+						   (if (null lst)
+							   (when tail-p
+								 (line `((,left ,y) (,right ,y)))
+								 (incf y (* 2 margin-cache)))
+							   (progn
+								 (line `((,left ,y) (,right ,y)))
+								 (incf y margin-cache)
+								 (when title
+								   (incf y font-size)
+								   (text (make-point (/ width 2) y) title :align :center)
+								   (incf y spacing))
+								 (dolist (entry lst)
+								   (unless (eq entry (car lst))
+									 (incf y spacing))
+								   (incf y font-size)
+								   (text (make-point (+ left margin-cache) y)
+										 (funcall fnc entry)
+										 :font (unless (stringp entry)
+												 (cond
+												   ((uml-class-stuff-abstract-p entry)
+													(make-font :style :italic :base font))
+												   ((uml-class-stuff-class-scope-p entry)
+													(make-font :decoration :underline :base font))
+												   (t nil)))))
+								 (incf y margin-cache)))))
+				  ;; attributes box
+				  (additional-box #'uml-class-stuff-to-string
+								  attributes (or operations responsibilities))
+				  ;; operations box
+				  (additional-box #'uml-class-stuff-to-string
+												 operations responsibilities)
+				  ;; responsibilities box
+				  (additional-box #'identity responsibilities nil "Responsibilities"))))))))))
+				  
+;;for debug...
+;(defmethod post-draw ((cls uml-class) writer)
+;  (call-next-method)
+;  (draw-canvas-frame (group-get-canvas #|shape-get-subcanvas|# cls) writer))
+ 
 
-;;   ;; override of group::draw-group
-;;   (:public draw-group (writer)
-;;		;(class:invoke class:super :draw-debug-frame writer)    ; MEMO : for debug...
-;;		(let* ((canvas (class:invoke class:super :get-subcanvas))
-;;			   (h-list m-cache-height-list)
-;;			   (font-abstract    nil)    ; create on demand.
-;;			   (font-classscope  nil)    ; create on demand.
-;;			   (*default-font*   m-font)
-;;			   (*default-fill*   m-fill)
-;;			   (*default-stroke* m-stroke)
-;;			   (font-size        (class:member m-font :size))
-;;			   (line-spacing     (class:member m-font :line-spacing))
-;;			   (width-spice      (class:member m-font :width-spice)))
-;;		  (declare (special canvas))
-;;		  (macrolet ((register-entity (entity)
-;;					   (let ((g-entity (gensym "ENTITY")))
-;;						 `(let ((,g-entity ,entity))
-;;							(setf (class:member ,g-entity :canvas) canvas)
-;;							(class:invoke ,g-entity :check canvas nil)    ;MEMO : dictionary is nil.
-;;							(class:invoke ,g-entity :draw  writer)))))
-;;			(class:bind-members (top left right) canvas
-;;				(let* ((width  (- right left))
-;;					   (x      (/ width 2))
-;;					   (y      0))
-;;				  ;;draw name box
-;;				  (let ((name   (if (stringp m-name)
-;;									m-name (string-downcase (symbol-name m-name))))
-;;						(height (car h-list)))
-;;					(rectangle x (/ height 2) width height)
-;;					(when m-active
-;;					  (let ((x1 m-cache-name-margin)
-;;							(x2 (- width m-cache-name-margin)))
-;;						(line `(,x1 0 ,x1 ,height))
-;;						(line `(,x2 0 ,x2 ,height))))
-;;					(when m-keyword
-;;					  (class:invoke m-keyword :draw
-;;									(+ left x)
-;;									(- (+ top (/ height 2))
-;;									   (/ font-size 2)
-;;									   #|line-spacing|#) :center writer))    ; ToDo : temporary...
-;;					(text x (+ (/ height 2) (/ font-size 2)) name
-;;						  :align :center :font (when m-abstract
-;;												 (font :style :italic :base m-font)))
-;;					(incf y height)
-;;					(setf h-list (cdr h-list)))
+;;------------------------------------------------------------------------------
 ;;
-;;				  ;;draw template box
-;;				  (when m-template
-;;					(rectangle width 0
-;;							   (+ (* 2 m-cache-margin)
-;;								  (* (length m-template) font-size width-spice))
-;;							   (+ font-size (* 2 m-cache-margin))
-;;							   :stroke (stroke :dasharray '(3 3) :base m-stroke))
-;;					(text width (/ font-size 2) m-template :align :center))
+;; macro uml-class
 ;;
-;;				  ;;draw attribute section
-;;				  (when m-attributes
-;;					(let ((height (car h-list)))
-;;					  (rectangle x (+ y (/ height 2)) width height)
-;;					  (incf y m-cache-margin)
-;;					  (dolist (attrib m-attributes)
-;;						(incf y font-size)
-;;						(text m-cache-margin y (class:invoke attrib :to-string)
-;;							  :align :left
-;;							  :font (when (class:invoke attrib :is-class-scope)
-;;									  (unless font-classscope
-;;										(setf font-classscope (font :decoration :underline :base m-font)))
-;;									  font-classscope))
-;;						(incf y line-spacing))
-;;					  (decf y line-spacing)
-;;					  (incf y m-cache-margin)
-;;					  (setf h-list (cdr h-list))))
-;;
-;;				  ;;draw operation section
-;;				  (when m-operations
-;;					(let ((height (car h-list)))
-;;					  (rectangle x (+ y (/ height 2)) width height)
-;;					  (incf y m-cache-margin)
-;;					  (dolist (operation m-operations)
-;;						(incf y font-size)
-;;						(text m-cache-margin y (class:invoke operation :to-string)
-;;							  :align :left
-;;							  :font (if (class:invoke operation :is-abstract)
-;;										(progn
-;;										  (unless font-abstract
-;;											(setf font-abstract (font :style :italic :base m-font)))
-;;										  font-abstract)
-;;										(when (class:invoke operation :is-class-scope)
-;;										  (unless font-classscope
-;;											(setf font-classscope (font :decoration :underline :base m-font)))
-;;										  font-classscope)))
-;;						(incf y line-spacing))
-;;					  (decf y line-spacing)
-;;					  (incf y m-cache-margin)
-;;					  (setf h-list (cdr h-list))))
-;;
-;;				  ;;draw responsibilities section
-;;				  (when m-responsibilities
-;;					(let ((height (car h-list)))
-;;					  (rectangle x (+ y (/ height 2)) width height)
-;;					  (incf y m-cache-margin)
-;;					  (dolist (txt m-responsibilities)
-;;						(incf y font-size)
-;;						(text m-cache-margin y txt :align :left)
-;;						(incf y line-spacing))
-;;					  (decf y line-spacing)
-;;					  (incf y m-cache-margin)
-;;					  (setf h-list (cdr h-list))))))))
-;;		nil)
-;;
-;;
-;;(defmacro uml-class (name x y &key attributes operations keyword abstract
-;;								   active template responsibilities link layer id)
-;;  (labels ((fix-list (name lst acc)
-;;			 (if (null lst)
-;;				 (cons 'cl:list (nreverse acc))
-;;				 (let ((itm (car lst)))
-;;				   (when (and (listp itm) (keywordp (car itm)))
-;;					 (setf itm (cons name itm)))
-;;				   (fix-list name (cdr lst) (push itm acc))))))
-;;	`(register-entity (ol:new uml-class ,name ,x ,y
-;;							  ,(fix-list 'uml-class-attribute attributes nil)
-;;							  ,(fix-list 'uml-class-operation operations nil)
-;;							  ,keyword ,abstract ,active
-;;							  ,template ,responsibilities ,link ,layer ,id))))
-;;
-;;;(uml-class :foo-class
-;;;		   :attributes
-;;;		   (:m-data1
-;;;			(:m-data2 :int))
-;;;		   :operations
-;;;		   (:m-method1
-;;;			(:private :method-6 :abstract t :type :int
-;;;								:params (:param1 (:param2 :string)))))
-;;
+;;------------------------------------------------------------------------------
+(defmacro uml-class (center name &key width height keyword
+									  abstract active template
+									  attributes operations
+									  responsibilities font fill stroke link layer id)
+  `(register-entity (make-instance 'uml-class
+								   :center ,center :name ,name
+								   :width  (or ,width  *uml-class-width*)
+								   :height (or ,height *uml-class-height*)
+								   :keyword ,keyword :abstract-p ,abstract
+								   :active-p ,active :template ,template
+								   :attributes ',attributes :operations ',operations
+								   :responsibilities ,responsibilities
+								   :font ,font :fill ,fill :stroke ,stroke
+								   :link ,link :layer ,layer :id ,id)))
+
