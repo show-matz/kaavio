@@ -11,25 +11,20 @@
 	  (text '(200 30) "Figure 11.1. A simple activity diagram"
 			:align :center :font '(:family "sans-serif" :weight :bold :size 14))
 	  (uml-activity-start '(200 70) :id :start)
-	  (uml-action (point/y+ $1.center 70) "Receive
-Order" :id :rcv-order)
+	  (uml-action (point/y+ $1.center 70) "Receive~%Order" :id :rcv-order)
 	  (uml-fork-v (point/y+ $1.center 70) :length 60 :id :fork)
 	  (uml-action (make-point 130 (+ (point-y $1.center) 80)) "Fill Order" :id :fill-order)
 	  (uml-action (make-point 320 (point-y $1.center)) "Send Invoice" :id :send-invoice)
-	  (uml-action (point/y+ $1.center 160) "Receive
-Payment" :id :rcv-payment)
+	  (uml-action (point/y+ $1.center 160) "Receive~%Payment" :id :rcv-payment)
 	  (uml-decision (point/y+ $3.center 70) :id :decision)
-	  (uml-action (point/xy+ $1.center -70 70) "Overnight
-Delivery" :id :night-delivery)
+	  (uml-action (point/xy+ $1.center -70 70) "Overnight~%Delivery" :id :night-delivery)
 	  (uml-action (make-point (+ (point-x $2.center) 70)
-							  (point-y $1.center)) "Regular
-Delivery" :id :reg-delivery)
+							  (point-y $1.center)) "Regular~%Delivery" :id :reg-delivery)
 	  (uml-merge  (make-point (point-x decision.center)
 							  (+ (point-y $1.center) 70)) :id :merge)
 	  (uml-join-v (make-point (point-x fork.center)
 							  (+ (point-y $1.center) 70)) :length 60 :id :join)
-	  (uml-action (point/y+ $1.center 70) "Close
-Order" :id :close-order)
+	  (uml-action (point/y+ $1.center 70) "Close~%Order" :id :close-order)
 	  (uml-activity-final (point/y+ $1.center 70) :id :final)
 	  (uml-flow :start :rcv-order)
 	  (uml-flow :rcv-order :fork)

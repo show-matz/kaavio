@@ -19,7 +19,7 @@
 #|EXPORT|#				:label-info
  |#
 (defclass label-info ()
-  ((text	 :initform  "" :initarg :text)		; string
+  ((text	 :initform  "" :initarg :text)		; (or keyword string)
    (position :initform nil :initarg :position)	; keyword - :above :below :left :right
    (offset	 :initform   0 :initarg :offset)	; number
    (font	 :initform nil :initarg :font)))	; font-info
@@ -60,9 +60,7 @@
 		(throw-exception "label-info : shp is not type of shape."))
 	  (multiple-value-bind (anchor pt) (get-location-info)
 		(let ((text (slot-value label 'text)))
-		  (setf text (escape-characters (if (stringp text)
-											text
-											(string-downcase (symbol-name text)))))
+		  (setf text (escape-characters (fix-name text t)))
 		  (writer-write writer
 						"<text "
 						"x='" (point-x pt) "' "

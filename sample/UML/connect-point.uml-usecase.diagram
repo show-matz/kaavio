@@ -4,9 +4,8 @@
 (create-svg (:width 300 :height 300 :desc "connector test of ellipse" :encoding :utf8)
 	(grid) ; :size 10 :bgcolor "#F0F0FF" :stroke '(:color :blue :width 0.2))
 	;;(rectangle 300 200 600 400 :fill :lightgray :id :background)
-	(uml-usecase '(150 150) "test usecase
-for connection point.
-are you OK ?" :width 170 :fill :white :stroke :black :id :usecase)
+	(uml-usecase '(150 150) "test usecase~%for connection point.~%are you OK ?"
+				 :width 170 :fill :white :stroke :black :id :usecase)
 	(rectangle '( 20  20) 10 10 :fill :white :stroke :black :id :rctC1)
 	(rectangle '(280  20) 10 10 :fill :white :stroke :black :id :rctC2)
 	(rectangle '( 20 280) 10 10 :fill :white :stroke :black :id :rctC3)

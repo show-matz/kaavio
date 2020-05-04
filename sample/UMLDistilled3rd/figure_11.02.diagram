@@ -15,10 +15,10 @@
 				  :contents ((uml-action-param "Order" :deliver-order :L :id :in-param)
 							 (uml-action-param "Order" :deliver-order :R :id :out-param)
 							 (uml-decision (point/x+  in-param.center 120) :id :decision)
-							 (uml-action   (point/xy+ $1.center 120 -60) "Regular
-Delivery" :id :reg-delivery)
-							 (uml-action   (point/y+  $1.center 120) "Overnight
-Delivery" :id :night-delivery)))
+							 (uml-action   (point/xy+ $1.center 120 -60)
+										   "Regular~%Delivery" :id :reg-delivery)
+							 (uml-action   (point/y+  $1.center 120)
+										   "Overnight~%Delivery" :id :night-delivery)))
 	  (let ((*uml-flow-spec-font* (make-font :size 9)))
 		(uml-flow :in-param :decision)
 		(uml-flow :decision :reg-delivery

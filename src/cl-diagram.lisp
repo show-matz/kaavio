@@ -31,6 +31,7 @@
 				:circle-connect-point
 				:circle
 				;cl-diagram.lisp
+				:fix-name
 				:exception
 				:caution
 				:throw-exception
@@ -305,6 +306,18 @@
 
 
 
+#|
+#|EXPORT|#				:fix-name
+ |#
+(defun fix-name (name &optional no-multiline)
+  (setf name (if (symbolp name)
+				 (string-downcase (symbol-name name)) name))
+  (unless (stringp name)
+	(error "fix-name : invalid data type."))
+  (if no-multiline
+	  name
+	  (string/replace name "~%" "
+")))
 
 
 

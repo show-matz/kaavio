@@ -12,20 +12,18 @@
 to invoke the activity in Figure 11.2"
 			:align :center :valign :top :font '(:family "sans-serif" :weight :bold :size 14))
 	  (uml-activity-start '(225 80) :id :start)
-	  (uml-action (point/y+ $1.center 70) "Receive
-Order" :id :rcv-order)
+	  (uml-action (point/y+ $1.center 70) "Receive~%Order" :id :rcv-order)
 	  (uml-fork-v (point/y+ $1.center 70) :length 60 :id :fork)
 	  (uml-action (make-point 150 (+ (point-y $1.center) 80)) "Fill Order" :id :fill-order)
-	  (uml-action (make-point 300 (point-y $1.center)) "Send Invoice
-(Order::sendInvoice)" :id :send-invoice)
-	  (uml-action (point/y+ $2.center 100) "Deliver
-Order" :id :deliver-order :rake t :link "./figure_11.02.svg")
-	  (uml-action (make-point (point-x $2.center) (point-y $1.center)) "Receive
-Payment" :id :rcv-payment)
+	  (uml-action (make-point 300 (point-y $1.center))
+				  "Send Invoice~%(Order::sendInvoice)" :id :send-invoice)
+	  (uml-action (point/y+ $2.center 100) "Deliver~%Order"
+				  :id :deliver-order :rake t :link "./figure_11.02.svg")
+	  (uml-action (make-point (point-x $2.center) (point-y $1.center))
+				  "Receive~%Payment" :id :rcv-payment)
 	  (uml-join-v (make-point (point-x fork.center)
 							  (+ (point-y $1.center) 70)) :length 60 :id :join)
-	  (uml-action (point/y+ $1.center 70) "Close
-Order" :id :close-order)
+	  (uml-action (point/y+ $1.center 70) "Close~%Order" :id :close-order)
 	  (uml-activity-final (point/y+ $1.center 70) :id :final)
 	  (uml-flow :start         :rcv-order)
 	  (uml-flow :rcv-order     :fork)

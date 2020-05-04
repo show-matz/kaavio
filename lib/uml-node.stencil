@@ -85,9 +85,7 @@
 					(,(- width half) ,half)))
 			(rectangle (make-point (- x (/ half 2))
 								   (+ y (/ half 2))) (- width half) (- height half) :fill fill1))
-		  (let ((name (if (stringp name)
-						  name
-						  (string-downcase (symbol-name name))))
+		  (let ((name (fix-name name t))
 				(x    (/ (- width half) 2))
 				(y    (if contents-p
 						  (+ half spacing font-size)

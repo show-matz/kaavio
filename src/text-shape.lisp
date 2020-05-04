@@ -69,9 +69,7 @@
 	(check-member   margin  :nullable nil :types number)
 	(check-keywords align   :left :center :right)
 	(check-keywords valign  :top  :center :bottom)
-	(setf text (if (stringp text)
-				   text
-				   (string-downcase (symbol-name text)))))
+	(setf text (fix-name text)))
   ;; width, height のいずれか（または両方）が省略されている場合は計算で決定
   ;;MEMO : 明示的に w/h を指定された場合、テキストがはみ出す可能性があるがそれは仕方ない
   (with-slots (width height) txtshp

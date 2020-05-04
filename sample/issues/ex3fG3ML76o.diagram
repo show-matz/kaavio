@@ -12,11 +12,9 @@
 						  (circle    (point/y+  in1.center 50) (/ in1.width 2) :id :in3)
 						  (ellipse   (point/xy+ in1.center 50 50)
 									 (/ in1.width 2) (/ in1.height 3) :id :in4)
-						  (paragraph '(50 100) "paragraph
-multi-line." :align :center :valign :top)
+						  (paragraph '(50 100) "paragraph~%multi-line." :align :center :valign :top)
 						  (polygon '((25 135) (10 155) (40 155)) :fill :lightgreen :stroke :black)
-						  (textbox '(50 190) "text
-box" :rx 5 :ry 5 :fill :wheat)
+						  (textbox '(50 190) "text~%box" :rx 5 :ry 5 :fill :wheat)
 						  (path '((:move-to (110 10))
 								  :relative
 								  (:line-to (30 0) (-15 15))

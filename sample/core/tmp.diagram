@@ -30,8 +30,7 @@
 	(text '(20 370) "This is test string." :align :left
 		  :link "http://www.google.co.jp"
 		  :font '(:size 20 :fill :blue :decoration :underline))
-	(paragraph '(350 350) "This is paragraph text.
-multi-line is OK." :align :left :valign :top
-:link "http://www.google.co.jp"
-:font '(:size 12 :fill :red :decoration :underline :line-spacing 5)))
+	(paragraph '(350 350) "This is paragraph text.~%multi-line is OK."
+			   :align :left :valign :top :link "http://www.google.co.jp"
+			   :font '(:size 12 :fill :red :decoration :underline :line-spacing 5)))
 

@@ -413,7 +413,7 @@
 	  (check-object operation canvas dict :nullable nil :class uml-class-stuff)
 	  (check operation canvas dict))
 	(when responsibilities
-	  (setf responsibilities (diagram::string/split responsibilities #\newline))))
+	  (setf responsibilities (diagram::string/split (fix-name responsibilities) #\newline))))
   (multiple-value-bind (w h) (uml-class-caluculate-shapesize cls)
 	(setf (slot-value cls 'diagram::width)  w)
 	(setf (slot-value cls 'diagram::height) h))
@@ -456,8 +456,7 @@
 			  (let ((y 0)
 					(center (/ width 2)))
 				;; draw name box.
-				(let ((name   (if (stringp name)
-								  name (string-downcase (symbol-name name))))
+				(let ((name   (fix-name name t))
 					  (height (car heights-cache)))
 				  (setf y (/ height 2))
 				  ;; keyword and name

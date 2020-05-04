@@ -13,17 +13,13 @@
 				 :attributes (:m-data1 :m-data2))
 	  (uml-class (point/x+ cls1.center 150) "Test6" :template "T, S" :id :cls6)
 	  (uml-class (point/y+   $1.center 90) "Test7" :id :cls7
-				 :responsibilities "-- xxx
--- yyy
--- zzz")
+				 :responsibilities "-- xxx~%-- yyy~%-- zzz")
 	  (uml-class (point/xy+ $1.center 30 150) "Test8" :abstract t :id :cls8
 				 :attributes (:m-data1
 							  (:private :s-data2 :scope :class))
 				 :operations ((:public "DoSomething" :abstract t)
 							  (:private "InnerMethod" :type :uint32_t :parameters (:etc)))
-				 :responsibilities "-- xxx
--- yyy
--- zzz")
+				 :responsibilities "-- xxx~%-- yyy~%-- zzz")
 	  (uml-class (point/xy+ cls1.center 370 60) "Test9" :id :cls9
 				 :attributes (:m-data1
 							  (:private :s-data2 :scope :class))

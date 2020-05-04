@@ -57,7 +57,7 @@
 	(check-object   font   canvas dict :nullable nil :class font-info)
 	(check-keywords align  :left :center :right)
 	(check-keywords valign :top  :center :bottom)
-	(setf text (string/split text #\newline))
+	(setf text (string/split (fix-name text) #\newline))
 	(setf position (canvas-fix-point canvas position))
 	(multiple-value-bind (w h) (caluculate-paragraph-shapesize font text)
 	  (setf width  w)

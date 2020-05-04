@@ -8,8 +8,7 @@
 	(let ((*uml-keyword-font* (make-font :size 10))
 		  ;(*uml-state-corner-r* 6)
 		  (*uml-state-font*   (make-font :size 12)))
-	  (uml-state '(250 125) "state
-multi-line" :keyword "keyword"
+	  (uml-state '(250 125) "state~%multi-line" :keyword "keyword"
 				 :activities ((:trigger "enter" :action "OnEnter()")
 							  (:trigger "foo"   :guard "a == b" :action "foo()")
 							  (:trigger "exit"  :action "OnExit()")

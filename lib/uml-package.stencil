@@ -99,9 +99,7 @@
 				(*default-stroke* stroke))
 			(rectangle `(,(/ width 2) ,(/ (+ height tab-height) 2)) width (- height tab-height))
 			(rectangle `(,(/ tab-width 2) ,(/ tab-height 2)) tab-width tab-height))
-		  (let ((name (if (stringp name)
-						  name
-						  (string-downcase (symbol-name name))))
+		  (let ((name (fix-name name t))
 				(x    (/ (if contents-p tab-width   width) 2))
 				(y    (/ (if contents-p tab-height height) 2)))
 			(if (null keyword)

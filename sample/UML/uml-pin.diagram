@@ -7,11 +7,8 @@
 (create-svg (:width 400 :height 150 :desc "test of uml-pin" :encoding :utf8)
 	(grid) ; :size 10 :bgcolor "#F0F0FF" :stroke '(:color :blue :width 0.2))
 	(uml-action '( 80  30) "test action" :id :act1)
-	(uml-action '(120 115) "test action2
-multi lines" :id :act2)
-	(uml-action '(320  60) "test action3
-multi lines
-with keyword" :keyword "keyword" :id :act3)
+	(uml-action '(120 115) "test action2~%multi lines" :id :act2)
+	(uml-action '(320  60) "test action3~%multi lines~%with keyword" :keyword "keyword" :id :act3)
 	(uml-pin "pin1a" :act1 :B  :id :pin1a)
 	(uml-pin "pin1b" :act1 :R  :id :pin1b)
 	(uml-pin "pin2a" :act2 :T  :id :pin2a)

@@ -18,7 +18,8 @@
 (defmethod check ((ent raw-svg) canvas dict)
   (declare (ignorable canvas dict))
   (with-slots (data) ent
-	(check-member data :nullable nil :types string))
+	(check-member data :nullable nil :types string)
+	(setf data (fix-name data)))
   ;; this method must call super class' one.
   (call-next-method))
 
