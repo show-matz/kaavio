@@ -15,6 +15,7 @@
    (target	:initform nil :initarg :target)		; (keyword . keyword)
    (size	:initform nil :initarg :size)		; number
    (offset	:initform nil :initarg :offset)		; (or nil list)
+   (multi	:initform nil :initarg :multi)		; boolean
    (font	:initform nil :initarg :font)		; (or nil font-info)
    (fill	:initform nil :initarg :fill)		; (or nil fill-info)
    (stroke	:initform nil :initarg :stroke)))	; (or nil stroke-info)
@@ -30,7 +31,7 @@
   pin)
 
 (defmethod check ((pin uml-pin) canvas dict)
-  (with-slots (name target size offset font fill stroke) pin
+  (with-slots (name target size offset multi font fill stroke) pin
 	(check-member name               :nullable   t :types (or string keyword))
 	(check-member size               :nullable nil :types              number)
 	(check-member offset             :nullable   t :types                cons)
@@ -66,16 +67,19 @@
 								 ((#\3)  1)))))))
 		(multiple-value-bind (ent pos1 pos2) (entity-and-position)
 		  (let ((half (/ (slot-value pin 'size) 2))
-				(pt (shape-connect-point ent :from pos1 pos2)))
+				(pt   (shape-connect-point ent :from pos1 pos2))
+				(w4   (and multi (or (eq pos1 :top) (eq pos1 :bottom))))
+				(h4   (and multi (or (eq pos1 :left) (eq pos1 :right)))))
 			(with-point (x y) pt
-						(ecase pos1
-						  ((:top)    (decf y half))
-						  ((:bottom) (incf y half))
-						  ((:left)   (decf x half))
-						  ((:right)  (incf x half)))
-						(setf (slot-value pin 'diagram::center) (make-point x y :absolute))
-						(setf (slot-value pin 'diagram::width)  (* half 2))
-						(setf (slot-value pin 'diagram::height) (* half 2))))))))
+				(unless (and multi (eq (type-of ent) 'uml-expansion-region))
+				  (ecase pos1
+					((:top)    (decf y half))
+					((:bottom) (incf y half))
+					((:left)   (decf x half))
+					((:right)  (incf x half))))
+				(setf (slot-value pin 'diagram::center) (make-point x y :absolute))
+				(setf (slot-value pin 'diagram::width)  (* half 2 (if w4 4 1)))
+				(setf (slot-value pin 'diagram::height) (* half 2 (if h4 4 1)))))))))
 	;; this method must call super class' one.
 	(call-next-method))
 
@@ -111,28 +115,37 @@
 ;; override of group::draw-group
 (defmethod draw-group ((pin uml-pin) writer)
   (let ((canvas (group-get-canvas pin)))
-	(with-slots (name size offset font fill stroke) pin
-	  (let* ((x (/ size 2))
-			 (y (/ size 2))
-			 (font-size (slot-value font 'diagram::size)))
-		(labels ((locate-text ()
-				   (let ((pos (string-upcase
-							   (symbol-name
-								(cdr (slot-value pin 'target))))))
-					 (ecase (char pos 0)
-					   ((#\T) (uml-pin-locate-text-for-top    x y size offset font-size))
-					   ((#\B) (uml-pin-locate-text-for-bottom x y size offset font-size))
-					   ((#\L) (uml-pin-locate-text-for-left   x y size offset font-size))
-					   ((#\R) (uml-pin-locate-text-for-right  x y size offset font-size))))))
-		  (macrolet ((register-entity (entity)
-					   `(check-and-draw-local-entity ,entity canvas writer)))
-			(let ((*default-font*   font)
-				  (*default-fill*   fill)
-				  (*default-stroke* stroke))
-			  (rectangle `(,x ,y) size size)
-			  (when name
-				(multiple-value-bind (x y align) (locate-text)
-				  (text `(,x ,y) name :align align)))))))))
+	(with-slots (name size offset multi font fill stroke) pin
+	  (with-canvas (topleft width height) canvas
+		(let* ((x (/ width  2))
+			   (y (/ height 2))
+			   (font-size (slot-value font 'diagram::size)))
+		  (labels ((locate-text ()
+					 (let ((pos (string-upcase
+								 (symbol-name
+								  (cdr (slot-value pin 'target))))))
+					   (ecase (char pos 0)
+						 ((#\T) (uml-pin-locate-text-for-top    x y size offset font-size))
+						 ((#\B) (uml-pin-locate-text-for-bottom x y size offset font-size))
+						 ((#\L) (uml-pin-locate-text-for-left   x y size offset font-size))
+						 ((#\R) (uml-pin-locate-text-for-right  x y size offset font-size))))))
+			(macrolet ((register-entity (entity)
+						 `(check-and-draw-local-entity ,entity canvas writer)))
+			  (let ((*default-font*   font)
+					(*default-fill*   fill)
+					(*default-stroke* stroke))
+				(rectangle `(,x ,y) width height)
+				(when multi
+				  (if (< width height)
+					  (path `((:move-to (0 ,(* size 1)) (,size ,(* size 1)))
+							  (:move-to (0 ,(* size 2)) (,size ,(* size 2)))
+							  (:move-to (0 ,(* size 3)) (,size ,(* size 3)))))
+					  (path `((:move-to (,(* size 1) 0) (,(* size 1) ,size))
+							  (:move-to (,(* size 2) 0) (,(* size 2) ,size))
+							  (:move-to (,(* size 3) 0) (,(* size 3) ,size))))))
+				(when name
+				  (multiple-value-bind (x y align) (locate-text)
+					(text `(,x ,y) name :align align))))))))))
   nil)
 
 ;;for debug...
@@ -146,12 +159,12 @@
 ;; macro uml-pin
 ;;
 ;;------------------------------------------------------------------------------
-(defmacro uml-pin (name target position &key size offset font fill stroke layer id)
+(defmacro uml-pin (name target position &key size offset multi font fill stroke layer id)
   `(register-entity (make-instance 'uml-pin
 								   :name ,name
 								   :target (cons ,target ,position)
 								   :size (or ,size *uml-pin-size*)
-								   :offset ,offset
+								   :offset ,offset :multi ,multi
 								   :font ,font
 								   :fill ,fill :stroke ,stroke
 								   :link nil :layer ,layer :id ,id)))
