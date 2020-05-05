@@ -17,7 +17,7 @@
 		:keyword :concurrent ;:offset '(5 15)
 		:contents (;;ToDo : uml-pin の list 化がまだですよ。
 				   (uml-pin "list of topics" :exregion :T1 :offset '(20 -10) :id :pin1)
-				   (uml-pin "" :exregion :R :id :pin2)
+				   (uml-pin nil :exregion :R :id :pin2)
 				   (uml-action (make-point (point-x $2.center)
 										   (point-y $1.center) :absolute)
 							   "Write Article" :id :act2)

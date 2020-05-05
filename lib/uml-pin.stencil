@@ -31,7 +31,7 @@
 
 (defmethod check ((pin uml-pin) canvas dict)
   (with-slots (name target size offset font fill stroke) pin
-	(check-member name               :nullable nil :types (or string keyword))
+	(check-member name               :nullable   t :types (or string keyword))
 	(check-member size               :nullable nil :types              number)
 	(check-member offset             :nullable   t :types                cons)
 	(when offset
@@ -130,8 +130,9 @@
 				  (*default-fill*   fill)
 				  (*default-stroke* stroke))
 			  (rectangle `(,x ,y) size size)
-			  (multiple-value-bind (x y align) (locate-text)
-				(text `(,x ,y) name :align align))))))))
+			  (when name
+				(multiple-value-bind (x y align) (locate-text)
+				  (text `(,x ,y) name :align align)))))))))
   nil)
 
 ;;for debug...
