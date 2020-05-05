@@ -4,6 +4,7 @@
 (load-stencil :uml-activity-start)
 (load-stencil :uml-connector)
 (load-stencil :uml-decision-merge)
+(load-stencil :uml-expansion-region)
 (load-stencil :uml-flow-final)
 (load-stencil :uml-flow)
 (load-stencil :uml-fork-join)

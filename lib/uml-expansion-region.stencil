@@ -1,0 +1,90 @@
+
+(in-package :cl-diagram-user)
+
+(load-stencil :uml-keyword-info)
+
+(defparameter *uml-expansion-region-fill*      :white)
+(defparameter *uml-expansion-region-stroke*    :black)
+(defparameter *uml-expansion-region-corner-r*      10)
+
+
+;;------------------------------------------------------------------------------
+;;
+;; class uml-expansion-region
+;;
+;;------------------------------------------------------------------------------
+(defclass uml-expansion-region (diagram:rectangle)
+  ((keyword	:initform nil	:initarg  :keyword)		; (or nil uml-keyword-info)
+   (offset	:initform nil	:initarg  :offset)))	; offset
+
+(defmethod initialize-instance :after ((region uml-expansion-region) &rest initargs)
+  (declare (ignore initargs))
+  ;;(format t "initialize-instance :after called.~%")
+  (with-slots (keyword offset) region
+	(setf keyword (and keyword (make-uml-keyword keyword)))
+	(unless offset
+	  (setf offset (make-point 0 0))))
+  region)
+
+(defmethod check ((region uml-expansion-region) canvas dict)
+  ;;(format t "check called.~%")
+  (with-slots (keyword offset
+					   (stroke diagram::stroke)) region
+	(check-object keyword  canvas dict :nullable t :class uml-keyword-info)
+	(unless (point-p offset)
+	  (throw-exception "offset is not point object."))
+	(setf stroke (make-stroke :dasharray '(5 5) :base stroke)))
+  ;; this method must call super class' one.
+  (call-next-method))
+
+
+;;MEMO : use impelementation of shape...
+;;(defmethod shape-connect-point ((region uml-expansion-region) type1 type2 arg) ...)
+
+;;MEMO : use impelementation of group...
+;;(defmethod group-get-canvas ((region uml-expansion-region)) ...)
+
+;; override of entity::draw-entity
+(defmethod draw-entity ((region uml-expansion-region) writer)
+  ;; draw text
+  (call-next-method)
+  ;; draw keyword ( if exists ).
+  (with-slots (keyword offset) region
+	(when keyword
+	  (let* ((canvas    (shape-get-subcanvas region))
+			 (topleft   (canvas-topleft   canvas))
+			 (font-size (slot-value (slot-value keyword 'font) 'diagram::size)))
+		(macrolet ((register-entity (entity)
+					 `(check-and-draw-local-entity ,entity canvas writer)))
+		  (uml-keyword-draw keyword
+							(+ (point-x topleft) 5 (point-x offset))
+							(+ (point-y topleft) 5 (point-y offset) font-size) :left writer)))))
+  nil)
+
+;;------------------------------------------------------------------------------
+;;
+;; macro uml-expansion-region
+;;
+;;------------------------------------------------------------------------------
+(defmacro uml-expansion-region (center width height &key keyword offset
+										 corner-r fill stroke link layer id contents)
+  (let* ((code `(register-entity
+					 (make-instance 'uml-expansion-region
+									:center ,center
+									:width ,width :height ,height
+									:keyword ,keyword :offset ,offset
+									:rx (or ,corner-r *uml-expansion-region-corner-r*)
+									:ry (or ,corner-r *uml-expansion-region-corner-r*)
+									:fill     (or ,fill *uml-expansion-region-fill*
+												  *default-fill*   :white)
+									:stroke   (or ,stroke *uml-expansion-region-stroke*
+												  *default-stroke* :black)
+									:link ,link :layer ,layer :id ,id))))
+	(if (null contents)
+		code
+		(let ((g-obj (gensym "OBJ")))
+		  `(let* ((,g-obj ,code)
+				  (canvas (shape-get-subcanvas ,g-obj)))
+			 (declare (special canvas))
+			 ,@contents)))))
+
