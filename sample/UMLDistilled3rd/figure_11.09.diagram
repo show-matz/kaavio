@@ -1,16 +1,14 @@
 (in-package :diagram-user)
 
 (load-stencil :grid)
-(load-stencil :uml-action)
-(load-stencil :uml-pin)
-(load-stencil :uml-flow)
-(load-stencil :uml-expansion-region)
+(load-stencil :uml-diagram-activity)
 
 (create-svg (:width 530 :height 300 :desc "test of bTqHslMPVbF" :encoding :utf8)
 	(grid) ; :size 10 :bgcolor "#F0F0FF" :stroke '(:color :blue :width 0.2))
 	(paragraph '(265 20) "Figure 11.9. Expansion region"
 			:align :center :valign :top :font '(:family "sans-serif" :weight :bold :size 14))
 	(let ((*uml-keyword-font* (make-font :size 10))
+		  (*uml-action-fill*  (make-fill "#FFFACD"))
 		  (*uml-action-font*  (make-font :size 12)))
 	  ;;(line '(0 50 500 50) :stroke '(:color :gray :dasharray (2 2)))
 	  (uml-expansion-region '(200 220) 360 140 :id :exregion

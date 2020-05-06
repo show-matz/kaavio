@@ -1,0 +1,25 @@
+(in-package :cl-diagram-user)
+
+(load-stencil :grid)
+(load-stencil :textbox)
+(load-stencil :uml-diagram-activity)
+
+(create-svg (:width 500 :height 350 :desc "figure_11.08" :encoding :utf8)
+	(grid)
+	(let ((*default-font* (make-font :family "sans-serif" :size 10))
+		  (*uml-action-fill* (make-fill "#FFFACD")))
+	  (paragraph '(250 20) "Figure 11.8. Transformation of a flow"
+				 :align :center :valign :top
+				 :font '(:family "sans-serif" :weight :bold :size 14))
+	  (uml-action '(260 80)                "Cancel~%Appointment" :id :act1)
+	  (uml-action (point/y+ $1.center 200) "Notify Patient"      :id :act2)
+	  (uml-pin "Appointment" :act1 :B  :id :pin1)
+	  (uml-pin "Message"     :act2 :T1 :id :pin2a)
+	  (uml-pin "Patient"     :act2 :T3 :id :pin2b :offset '(20 0))
+	  (uml-flow :pin1 :pin2a :style :BT :id :flow1)
+	  (uml-flow :pin1 :pin2b :style :BT :id :flow2)
+	  (uml-note '(130 140) "appointment.cancellationNotice"
+				:keyword :transformation :targets :flow1)
+	  (uml-note '(390 140) "appointment.patient"
+				:keyword :transformation :targets :flow2)))
+

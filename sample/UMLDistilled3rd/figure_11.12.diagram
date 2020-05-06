@@ -1,0 +1,22 @@
+(in-package :diagram-user)
+
+(load-stencil :grid)
+(load-stencil :uml-diagram-activity)
+
+(create-svg (:width 500 :height 300 :desc "Figure 11.12" :encoding :utf8)
+	(grid) ; :size 10 :bgcolor "#F0F0FF" :stroke '(:color :blue :width 0.2))
+	(paragraph '(250 20) "Figure 11.12. Join specification"
+			:align :center :valign :top :font '(:family "sans-serif" :weight :bold :size 14))
+	(let ((*uml-action-fill*  (make-fill "#FFFACD"))
+		  (*uml-action-font*  (make-font :size 12)))
+	  (uml-join-h '(250 150) :id :join
+				  ;; :spec は label-info だが offset の point 化によって影響を受けるよ
+				  :spec '(:text "{joinSpec = A and B and~%value of inserted coins >= price of selected drink}" :offset 35))
+	  (uml-signal-sending (point/xy+ join.center -150 -40) "Select Drink"
+						  :height 50 :id :send1)
+	  (uml-signal-sending (point/xy+ join.center -150  40) "Insert Coin"
+						  :height 50 :id :send2)
+	  (uml-action (point/x+ join.center 140) "Dispense~%Drink" :id :act)
+	  (uml-flow :send1 :join :style :RL1)
+	  (uml-flow :send2 :join :style :RL3)
+	  (uml-flow :join  :act)))

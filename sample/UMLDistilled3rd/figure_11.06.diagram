@@ -1,0 +1,30 @@
+(in-package :cl-diagram-user)
+
+(load-stencil :grid)
+(load-stencil :textbox)
+(load-stencil :uml-diagram-activity)
+
+(create-svg (:width 500 :height 300 :desc "test of uml-action" :encoding :utf8)
+	(grid)
+	(let ((*default-font* (make-font :family "sans-serif" :size 10))
+		  (*uml-action-fill* (make-fill "#FFFACD")))
+	  (paragraph '(250 20) "Figure 11.6. Sending and receiving signals"
+				 :align :center :valign :top
+				 :font '(:family "sans-serif" :weight :bold :size 14))
+	  (uml-action '(70 90) "Reserve Itinerary" :id :act1)
+	  (uml-signal-sending (point/y+  $1.center 70) "Send Itinerary" :height 40 :id :send)
+	  (uml-fork-h         (point/x+  $1.center 100) :id :fork)
+	  (uml-signal-receipt (point/xy+ $1.center 100 -10) "Itinerary~%Confirmed" :id :rcpt)
+	  (uml-action         (point/x+  $1.center 120) "Book Itinarary" :id :act2)
+	  (uml-time-event     (point/xy+ $3.center  90 70) "Wait 48 hours" :id :evnt)
+	  (uml-action         (point/x+  $1.center 120) "Cancel Itinerary" :id :act3)
+	  (uml-activity-final (point/xy+ $1.center  90 -40) :id :final)
+	  (uml-flow :act1 :send)
+	  (uml-flow :send :fork :style :RL)
+	  (uml-flow :fork :rcpt :style :R1L)
+	  (uml-flow :fork :evnt :style :R3L)
+	  (uml-flow :rcpt :act2)
+	  (uml-flow :evnt :act3)
+	  (uml-flow :act2 :final :style :RT)
+	  (uml-flow :act3 :final :style :RB)))
+
