@@ -48,26 +48,28 @@
 #|EXPORT|#				:draw-label
  |#
 (defun draw-label (label shp writer)
-  (with-slots (offset position font) label
-	(labels ((get-location-info ()
-			   (let ((size (slot-value font 'size)))
+  (with-slots (text offset position font) label
+	(let ((size    (slot-value font 'size))
+		  (spacing (slot-value font 'line-spacing))
+		  (lines   (string/split (escape-characters (fix-name text)) #\newline)))
+	  (unless (typep shp 'shape)
+		(throw-exception "label-info : shp is not type of shape."))
+	  (labels ((get-location-info ()
 				 (ecase position
 				   ((:above) (values "middle" (point/y+  (shape-top    shp) (- offset))))
 				   ((:below) (values "middle" (point/y+  (shape-bottom shp) (+ offset     size))))
 				   ((:left)  (values "end"    (point/xy+ (shape-left   shp) (- offset) (/ size 2))))
-				   ((:right) (values "start"  (point/xy+ (shape-right  shp)    offset  (/ size 2))))))))
-	  (unless (typep shp 'shape)
-		(throw-exception "label-info : shp is not type of shape."))
-	  (multiple-value-bind (anchor pt) (get-location-info)
-		(let ((text (slot-value label 'text)))
-		  (setf text (escape-characters (fix-name text t)))
-		  (writer-write writer
-						"<text "
-						"x='" (point-x pt) "' "
-						"y='" (point-y pt) "' "
-						"text-anchor='" anchor "' "
-						(to-property-strings font)
-						">" text "</text>"))))))
+				   ((:right) (values "start"  (point/xy+ (shape-right  shp)    offset  (/ size 2)))))))
+		(multiple-value-bind (anchor pt) (get-location-info)
+		  (dolist (line lines)
+			(writer-write writer
+						  "<text "
+						  "x='" (point-x pt) "' "
+						  "y='" (point-y pt) "' "
+						  "text-anchor='" anchor "' "
+						  (to-property-strings font)
+						  ">" line "</text>")
+			(incf (point-y pt) (+ spacing size))))))))
   
   
 #|
