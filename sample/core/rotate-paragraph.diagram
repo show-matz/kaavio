@@ -1,0 +1,16 @@
+(in-package :diagram-user)
+
+(load-stencil :grid)
+
+(create-svg (:width 200 :height 200 :desc "test of paragraph rotation" :encoding :utf8)
+	(grid) ; :size 10 :bgcolor "#F0F0FF" :stroke '(:color :blue :width 0.2))
+	(let ((rotate 90))
+	  (paragraph '(100 100) "This is paragraph text.~%multi-line is OK." :rotate rotate
+				 :align :center :valign :center :link "http://www.google.co.jp"
+				 :font '(:size 12 :fill :black :line-spacing 5) :id :text)
+	  (rectangle '(180 180) 20 20 :fill :gray :id :rect)
+	  (when (or (null rotate) (zerop rotate) (= 180 rotate))
+		(connector :rect :text))))
+
+	
+
