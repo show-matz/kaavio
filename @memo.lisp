@@ -1,4 +1,5 @@
 ;;(load "./@load.lisp")
+(require :cl-diagram)
 (load "./misc/cl-apps-main.lisp")
 
 (let ((path (if (member :linux *features*)

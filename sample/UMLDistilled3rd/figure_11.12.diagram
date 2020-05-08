@@ -10,7 +10,6 @@
 	(let ((*uml-action-fill*  (make-fill "#FFFACD"))
 		  (*uml-action-font*  (make-font :size 12)))
 	  (uml-join-h '(250 150) :id :join
-				  ;; :spec は label-info だが offset の point 化によって影響を受けるよ
 				  :spec '(:text "{joinSpec = A and B and~%value of inserted coins >= price of selected drink}" :offset (60 15)))
 	  (uml-signal-sending (point/xy+ join.center -150 -40) "Select Drink"
 						  :height 50 :id :send1)
