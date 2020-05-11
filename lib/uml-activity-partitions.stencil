@@ -244,7 +244,7 @@
 	  (multiple-value-bind (x w) (recur vertical
 										(fix-name (first keys)) (point-x topleft))
 		(multiple-value-bind (y h) (values (+ (point-y topleft) height-cache-v) horizontal)
-		  (make-canvas (make-point x y) w h)))))
+		  (make-canvas (make-point x y :absolute) w h)))))
 
   (defun uml-activity-partitions-get-subcanvas-4-horizontal (obj keys)
 	(unless (= 1 (length keys))
@@ -253,7 +253,7 @@
 	  (multiple-value-bind (x w) (values (+ (point-x topleft) height-cache-h) vertical)
 		(multiple-value-bind (y h) (recur horizontal
 										  (fix-name (first keys)) (point-y topleft))
-		  (make-canvas (make-point x y) w h)))))
+		  (make-canvas (make-point x y :absolute) w h)))))
 
   (defun uml-activity-partitions-get-subcanvas-4-matrix (obj keys)
 	(unless (= 2 (length keys))
@@ -264,7 +264,7 @@
 										(+ (point-x topleft) height-cache-h))
 		(multiple-value-bind (y h) (recur horizontal (fix-name (second keys))
 										  (+ (point-y topleft) height-cache-v))
-		  (make-canvas (make-point x y) w h))))))
+		  (make-canvas (make-point x y :absolute) w h))))))
   
 (defun uml-activity-partitions-get-subcanvas (obj &rest keys)
   (let ((handler (ecase (slot-value obj 'mode)
