@@ -1,0 +1,17 @@
+(in-package :diagram-user)
+
+(load-stencil :grid)
+(load-stencil :uml-diagram-activity)
+
+(create-svg (:width 400 :height 300 :encoding :utf8)
+	(grid)
+	(with-subcanvas ('(0 0) 400 300)
+	  (uml-diagram '(20 20) 360 260 "act XXXX" :margin 8
+		:contents ((uml-activity-start '(40 100) :id :start)
+				   (uml-action (point/x+ $1.center 130) :action1 :id :act1)
+				   (uml-action (point/y+ $1.center  80) :action2 :id :act2)
+				   (uml-activity-final (point/x+ $1.center 130) :id :final)
+				   (uml-flow :start :act1)
+				   (uml-flow :act1  :act2)
+				   (uml-flow :act2 :final)))))
+

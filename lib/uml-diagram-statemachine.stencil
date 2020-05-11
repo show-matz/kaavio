@@ -1,3 +1,5 @@
+(in-package :cl-diagram-user)
+
 (load-stencil :uml-note)
 (load-stencil :uml-state-begin)
 (load-stencil :uml-state-end)
@@ -5,3 +7,4 @@
 (load-stencil :uml-transition-spec)
 (load-stencil :uml-transition)
 (load-stencil :uml-state)
+(load-stencil :uml-diagram)
