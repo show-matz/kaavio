@@ -1,0 +1,53 @@
+(in-package :cl-diagram-user)
+
+(load-stencil :grid)
+(load-stencil :uml-diagram-class)
+
+(create-svg (:width 500 :height 600 :desc "Figure 1.1" :encoding :utf8)
+	(grid)
+	(let ((*default-font* (make-font :family "sans-serif" :size 10)))
+	  (text '(250 30) "Figure 3.1. A simple class diagram"
+			:align :center :font '(:family "sans-serif" :weight :bold :size 14))
+	  (uml-class '(80 120) "Order" :id :order
+				 ;;ToDo : multiplicity で 0..1 とか指定する方法がない（数値しか受け入れてくれない）
+				 :attributes ((:private "dateReceived" :type "Date"    :multiplicity 1 #|"0..1"|#)
+							  (:private "isPrepaid"    :type "Boolean" :multiplicity 1)
+							  (:private "number"       :type "String"  :multiplicity 1)
+							  (:private "price"        :type "Money"))
+				 :operations ((:public :dispatch)
+							  (:public :close)))
+	  (let ((*default-font* (make-font :size 9 :width-spice 0.58 :base *default-font*)))
+		(uml-note (point/xy+ $1.center 110 120)
+				"{if Order.customer.getCreditRating is
+\"poor\" then Order.isPrepaid must be
+true}" :targets '(:order)))
+	  (uml-class (point/x+ $2.center 280) "Customer" :id :customer
+				 :attributes ((:private "name"    :multiplicity 1)
+							  (:private "address" :multiplicity 1 #|"0..1"|#))
+				 :operations ((:public "getCreditRating" :type "String")))
+	  ;;ToDo : mult の指定をもっと簡単にしたい
+	  (uml-association :order :customer :arrows 1 :mult1 '(:min :* :max :*) :mult2 '(:min 1 :max 1))
+	  ;;ToDo : uml-class は height 指定を（付加情報ありの場合に限り？）無視する？それは仕様通り？
+	  ;;       :employee では付加情報なしでも無視してるっぽいぞ。
+	  (uml-class (point/xy+ customer.center 70 200) "Personal Customer" :id :p-customer :height 110
+				 :attributes ((:private "creditCardNumber")))
+	  (uml-class (point/xy+ $1.center -160 28) "Corporate Customer" :id :c-customer :height 110
+				 :attributes ((:private "contactname")
+							  (:private "creditRating")
+							  (:private "creditLimit"))
+				 :operations ((:public "billForMonth" :parameters (("" :type "Integer")))
+							  (:public "remind")))
+	  (uml-generalization :p-customer :customer :style :TB)
+	  (uml-generalization :c-customer :customer :style :T3B)
+	  (uml-class (point/y+ c-customer.center 150) "Employee" :width 40 :height 80 :id :employee)
+	  (uml-association :c-customer :employee :style :BT :arrows 1
+					   :mult1 '(:min :* :max :*) :mult2 '(:min 0 :max 1) :role2 "salesRep")
+	  (uml-class (point/y+ order.center 250) "Order Line" :id :order-line
+				 :attributes ((:private :quantity :type "Integer")
+							  (:private :price    :type "Money")))
+	  (uml-association :order :order-line :style :BT :arrows 1
+					   ;;ToDo : multiplicity-info で制約を指定できない "* {ordered}"
+					   :mult1 '(:min 1 :max 1) :mult2 '(:min :* :max :*) :role2 "lineItems")
+	  (uml-class (point/y+ order-line.center 150) "Product" :id :product)
+	  (uml-association :order-line :product :style :BT :arrows 1
+					   :mult1 '(:min :* :max :*) :mult2 '(:min 1 :max 1))))

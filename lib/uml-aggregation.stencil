@@ -15,7 +15,7 @@
 ;; macro uml-aggregation
 ;;
 ;;------------------------------------------------------------------------------
-(defmacro uml-aggregation (from to &key arrow keyword style role mult layer id)
+(defmacro uml-aggregation (from to &key arrow keyword style role1 mult1 role2 mult2 layer id)
   `(register-entity (make-instance 'uml-aggregation
 								   :from ,from :to ,to
 								   :keyword ,keyword :style ,style
@@ -23,6 +23,6 @@
 								   :stroke (make-stroke :dasharray nil :base *default-stroke*)
 								   :end1 '(:type :diamond :fill :white)
 								   :end2 (and ,arrow :arrow)
-								   :role1 nil :role2 ,role
-								   :mult1 nil :mult2 ,mult :layer ,layer :id ,id)))
+								   :role1 ,role1 :role2 ,role2
+								   :mult1 ,mult1 :mult2 ,mult2 :layer ,layer :id ,id)))
 

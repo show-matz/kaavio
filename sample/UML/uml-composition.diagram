@@ -10,5 +10,5 @@
 	(uml-composition :rect1 :rect2 :keyword :use)
 	(uml-composition :rect1 :rect2 :style :BL :arrow t)
 	(uml-composition :rect2 :rect3 :style :CC :arrow t
-					 :role :client :mult '(1 . :*) :id :agg)
+					 :role1 :client :role2 :server :mult1 '(0 . 1) :mult2 '(1 . :*) :id :agg)
 	(uml-note '(230 115) "test note" :targets '(:agg)))

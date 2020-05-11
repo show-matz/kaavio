@@ -1,0 +1,19 @@
+(in-package :cl-diagram-user)
+
+(load-stencil :grid)
+(load-stencil :uml-diagram-class)
+
+(create-svg (:width 450 :height 350 :desc "Figure 1.1" :encoding :utf8)
+	(grid)
+	(let ((*default-font* (make-font :family "sans-serif" :size 10)))
+	  (text '(225 30) "Figure 1.1. A small piece of the UML meta-model"
+			:align :center :font '(:family "sans-serif" :weight :bold :size 14))
+	  (uml-class '(225  80) "Feature" :id :feature)
+	  ;;ToDo : BUG : class name に改行コードを入れられない
+	  (uml-class '( 80 180) "Structural~%Feature" :id :s-feature)
+	  (uml-class '(370 180) "Behavioral~%Feature" :id :b-feature)
+	  (uml-class '(370 300) "Parameter" :id :parameter)
+	  (uml-generalization :s-feature :feature :style :TB)
+	  (uml-generalization :b-feature :feature :style :TB)
+	  ;;ToDo : BUG : composition に制約を指定できない（roleで代替） - aggregation も多分同様
+	  (uml-composition :b-feature :parameter :mult1 '(0 . 1) :role2 "{ordered}" :mult2 '(:* . :*))))
