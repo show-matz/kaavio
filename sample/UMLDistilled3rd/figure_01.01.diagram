@@ -16,4 +16,4 @@
 	  (uml-generalization :s-feature :feature :style :TB)
 	  (uml-generalization :b-feature :feature :style :TB)
 	  ;;ToDo : BUG : composition に制約を指定できない（roleで代替） - aggregation も多分同様
-	  (uml-composition :b-feature :parameter :mult1 '(0 . 1) :role2 "{ordered}" :mult2 '(:* . :*))))
+	  (uml-composition :b-feature :parameter :mult1 '(0 . 1) :role2 "{ordered}" :mult2 :*)))

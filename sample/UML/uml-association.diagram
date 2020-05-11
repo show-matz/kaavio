@@ -10,5 +10,5 @@
 	(uml-association :rect1 :rect2 :keyword :use)
 	(uml-association :rect1 :rect2 :style :BL :arrows 1)
 	(uml-association :rect2 :rect3 :style :CC :arrows 2
-					 :role1 :host :role2 :client :mult1 '(1 . 1) :mult2 '(0 . :*) :id :ass)
+					 :role1 :host :role2 :client :mult1 1 :mult2 '(0 . :*) :id :ass)
 	(uml-note '(230 115) "test note" :targets '(:ass)))

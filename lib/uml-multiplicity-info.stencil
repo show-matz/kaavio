@@ -90,7 +90,7 @@
 													:max (cdr param)))
 			((typep   param  'uml-multiplicity-info) param)
 			((listp   param) (apply #'make-uml-multiplicity param))
-			(t               (make-uml-multiplicity :min param))))
+			(t               (make-uml-multiplicity :min param :max param))))
 		(destructuring-bind (&key (min      nil      min-p)
 								  (max      nil      max-p)
 								  (class    nil    class-p)

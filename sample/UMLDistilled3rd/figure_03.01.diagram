@@ -25,8 +25,7 @@ true}" :targets '(:order)))
 				 :attributes ((:private "name"    :multiplicity 1)
 							  (:private "address" :multiplicity 1 #|"0..1"|#))
 				 :operations ((:public "getCreditRating" :type "String")))
-	  ;;ToDo : mult の指定をもっと簡単にしたい
-	  (uml-association :order :customer :arrows 1 :mult1 '(:min :* :max :*) :mult2 '(:min 1 :max 1))
+	  (uml-association :order :customer :arrows 1 :mult1 :* :mult2 1)
 	  ;;ToDo : uml-class は height 指定を（付加情報ありの場合に限り？）無視する？それは仕様通り？
 	  ;;       :employee では付加情報なしでも無視してるっぽいぞ。
 	  (uml-class (point/xy+ customer.center 70 200) "Personal Customer" :id :p-customer :height 110
@@ -41,13 +40,12 @@ true}" :targets '(:order)))
 	  (uml-generalization :c-customer :customer :style :T3B)
 	  (uml-class (point/y+ c-customer.center 150) "Employee" :width 40 :height 80 :id :employee)
 	  (uml-association :c-customer :employee :style :BT :arrows 1
-					   :mult1 '(:min :* :max :*) :mult2 '(:min 0 :max 1) :role2 "salesRep")
+					   :mult1 :* :mult2 '(0 . 1) :role2 "salesRep")
 	  (uml-class (point/y+ order.center 250) "Order Line" :id :order-line
 				 :attributes ((:private :quantity :type "Integer")
 							  (:private :price    :type "Money")))
 	  (uml-association :order :order-line :style :BT :arrows 1
 					   ;;ToDo : multiplicity-info で制約を指定できない "* {ordered}"
-					   :mult1 '(:min 1 :max 1) :mult2 '(:min :* :max :*) :role2 "lineItems")
+					   :mult1 1 :mult2 :* :role2 "lineItems")
 	  (uml-class (point/y+ order-line.center 150) "Product" :id :product)
-	  (uml-association :order-line :product :style :BT :arrows 1
-					   :mult1 '(:min :* :max :*) :mult2 '(:min 1 :max 1))))
+	  (uml-association :order-line :product :style :BT :arrows 1 :mult1 :* :mult2 1)))
