@@ -315,6 +315,7 @@
    (font				:initform nil :initarg :font)				; (or nil font-info)
    (fill				:initform nil :initarg :fill)				; (or nil fill-info)
    (stroke				:initform nil :initarg :stroke)				; (or nil stroke-info)
+   (name-actual-height	:initform nil)								; number
    (heights-cache		:initform nil)	#|list of box heights|#		; list
    (margin-cache		:initform nil)								; number
    (name-margin-cache	:initform nil)))							; number
@@ -334,9 +335,11 @@
 
 (defun uml-class-caluculate-shapesize (cls)
   (with-slots (name keyword font attributes operations active-p
+				;;ToDo : 5ZKfgt20esy : 多分、diagram::(width|height) を追加する必要あり。
 				responsibilities heights-cache margin-cache name-margin-cache) cls
-	(let ((height  0)
-		  (width   0)
+	(let ((total-height  0)
+		  (total-width   0)
+		  (name-height   0)
 		  (size    (slot-value font 'diagram::size))
 		  (spice   (slot-value font 'diagram::width-spice))
 		  (spacing (slot-value font 'diagram::line-spacing)))
@@ -356,45 +359,46 @@
 							  (* (length lst) size)
 							  (* (1- (length lst)) spacing))))))
 		;; name
-		(let ((lst (list (if (keywordp name)
-							 (symbol-name name) name))))
+		(let ((lst (diagram::string/split (fix-name name) #\newline)))
 		  (when keyword
 			(setf lst (cons (uml-keyword-to-string keyword) lst)))
-		  (let ((w.h (calc-box lst #'get-width margin-cache
+		  (let ((w.h (calc-box lst #'get-width nil margin-cache
 							   (+ margin-cache name-margin-cache))))
-			(setf width  (max (car w.h) *uml-class-width*))
-			(setf height (max (cdr w.h) *uml-class-height*))
-			(push height heights-cache)))
+			;;ToDo : 5ZKfgt20esy : 多分、diagram::(width|height) に変更する必要あり。
+			(setf name-height  (cdr w.h))
+			(setf total-width  (max (car w.h) *uml-class-width*))
+			(setf total-height (max (cdr w.h) *uml-class-height*))
+			(push total-height heights-cache)))
 		;; members
 		(let ((w.h (calc-box attributes #'get-object-width
 							 (or operations responsibilities) margin-cache)))
-		  (setf width  (max width (car w.h)))
-		  (incf height (cdr w.h))
+		  (setf total-width  (max total-width (car w.h)))
+		  (incf total-height (cdr w.h))
 		  (push (cdr w.h) heights-cache))
 		;; operations
 		(let ((w.h (calc-box operations #'get-object-width
 							 (not (null responsibilities)) margin-cache)))
-		  (setf width  (max width (car w.h)))
-		  (incf height (cdr w.h))
+		  (setf total-width  (max total-width (car w.h)))
+		  (incf total-height (cdr w.h))
 		  (push (cdr w.h) heights-cache))
 		;; responsibilities
 		(let* ((lst (when responsibilities (cons "Responcibilities"
 												  responsibilities)))
 			   (w.h (calc-box lst #'get-width nil margin-cache)))
-		  (setf width  (max width (car w.h)))
-		  (incf height (cdr w.h))
+		  (setf total-width  (max total-width (car w.h)))
+		  (incf total-height (cdr w.h))
 		  (push (cdr w.h) heights-cache)))
 	  (when active-p
-		(incf width (* 2 margin-cache)))
+		(incf total-width (* 2 margin-cache)))
 	  (setf heights-cache (nreverse heights-cache))
-	  (values width height))))
+	  (values total-width total-height name-height))))
 
 
 (defmethod check ((cls uml-class) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (with-slots (name keyword attributes operations
-					template responsibilities font fill stroke) cls
+  (with-slots (name keyword attributes operations template 
+					responsibilities font fill stroke name-actual-height) cls
 	(check-member name             :nullable nil :types (or string keyword))
 	(check-object keyword canvas dict :nullable t :class uml-keyword-info)
 	(check-member attributes       :nullable   t :types list)
@@ -413,10 +417,11 @@
 	  (check-object operation canvas dict :nullable nil :class uml-class-stuff)
 	  (check operation canvas dict))
 	(when responsibilities
-	  (setf responsibilities (diagram::string/split (fix-name responsibilities) #\newline))))
-  (multiple-value-bind (w h) (uml-class-caluculate-shapesize cls)
-	(setf (slot-value cls 'diagram::width)  w)
-	(setf (slot-value cls 'diagram::height) h))
+	  (setf responsibilities (diagram::string/split (fix-name responsibilities) #\newline)))
+	(multiple-value-bind (w h nh) (uml-class-caluculate-shapesize cls)
+	  (setf name-actual-height nh)
+	  (setf (slot-value cls 'diagram::width)  w)
+	  (setf (slot-value cls 'diagram::height) h)))
   nil)
 
 ;;MEMO : use impelementation of shape...
@@ -432,8 +437,8 @@
 (defmethod draw-group ((cls uml-class) writer)
   (let ((canvas (group-get-canvas cls)))
 	(with-slots (name keyword active-p abstract-p template
-					  attributes operations responsibilities
-					  margin-cache heights-cache font fill stroke) cls
+				  attributes operations responsibilities
+				  name-actual-height margin-cache heights-cache font fill stroke) cls
 	  (with-canvas (topleft width height) canvas
 		(let ((font-size (slot-value font 'diagram::size))
 			  (spice     (slot-value font 'diagram::width-spice))
@@ -456,20 +461,22 @@
 			  (let ((y 0)
 					(center (/ width 2)))
 				;; draw name box.
-				(let ((name   (fix-name name t))
-					  (height (car heights-cache)))
-				  (setf y (/ height 2))
+				(let ((height (car heights-cache))
+					  (names  (diagram::string/split (fix-name name) #\newline)))
+				  (setf y (+ (/ (- height name-actual-height) 2) margin-cache))
 				  ;; keyword and name
-				  (if (null keyword)
-					  (incf y (/ font-size 2))
-					  (progn
-						(uml-keyword-draw keyword
-										  (+ (canvas-left canvas) center)
-										  (+ (canvas-top  canvas) y) :center writer)
-						(incf y font-size)))
-				  (text (make-point center y) name :align :center
-						:font (when abstract-p
-								(make-font :style :italic :base font)))
+				  (when keyword
+					(incf y font-size)
+					(uml-keyword-draw keyword
+									  (+ (canvas-left canvas) center)
+									  (+ (canvas-top  canvas) y) :center writer)
+					(incf y spacing))
+				  (dolist (name names)
+					(incf y font-size)
+					(text (make-point center y) name :align :center
+						  :font (when abstract-p
+								  (make-font :style :italic :base font)))
+					(incf y spacing))
 				  (setf y height))
 				;; draw template box ( if exists ).
 				(when template
