@@ -80,7 +80,7 @@
   ((visibility		:initform nil :initarg :visibility)		; keyword - :public :private :protected :derived :package
    (name			:initform nil :initarg :name)			; (or keyword string)
    (type			:initform nil :initarg :type)			; (or nil keyword string)
-   (multiplicity	:initform nil :initarg :multiplicity)	; (or nil number)
+   (multiplicity	:initform nil :initarg :multiplicity)	; (or nil number  string)
    (default-value	:initform nil :initarg :default-value)	; (or number keyword string)
    (property		:initform nil :initarg :property)		; (or keyword string)
    (scope			:initform nil :initarg :scope)))		; keyword - :instance :class
@@ -92,7 +92,7 @@
 	(check-member visibility    :nullable nil :types keyword)
 	(check-member name          :nullable nil :types (or string keyword))
 	(check-member type          :nullable   t :types (or string keyword))
-	(check-member multiplicity  :nullable   t :types number)
+	(check-member multiplicity  :nullable   t :types (or string number))
 	(check-member default-value :nullable   t :types (or number keyword string))
 	(check-member property      :nullable   t :types (or string keyword))
 	(check-member scope         :nullable nil :types keyword)
