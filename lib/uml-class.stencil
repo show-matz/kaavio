@@ -335,7 +335,7 @@
 
 (defun uml-class-caluculate-shapesize (cls)
   (with-slots (name keyword font attributes operations active-p
-				;;ToDo : 5ZKfgt20esy : 多分、diagram::(width|height) を追加する必要あり。
+				diagram::width diagram::height
 				responsibilities heights-cache margin-cache name-margin-cache) cls
 	(let ((total-height  0)
 		  (total-width   0)
@@ -364,10 +364,9 @@
 			(setf lst (cons (uml-keyword-to-string keyword) lst)))
 		  (let ((w.h (calc-box lst #'get-width nil margin-cache
 							   (+ margin-cache name-margin-cache))))
-			;;ToDo : 5ZKfgt20esy : 多分、diagram::(width|height) に変更する必要あり。
 			(setf name-height  (cdr w.h))
-			(setf total-width  (max (car w.h) *uml-class-width*))
-			(setf total-height (max (cdr w.h) *uml-class-height*))
+			(setf total-width  (max (car w.h) diagram::width))
+			(setf total-height (max (cdr w.h) diagram::height))
 			(push total-height heights-cache)))
 		;; members
 		(let ((w.h (calc-box attributes #'get-object-width

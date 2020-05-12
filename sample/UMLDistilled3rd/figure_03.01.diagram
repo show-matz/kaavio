@@ -3,7 +3,7 @@
 (load-stencil :grid)
 (load-stencil :uml-diagram-class)
 
-(create-svg (:width 500 :height 600 :desc "Figure 1.1" :encoding :utf8)
+(create-svg (:width 500 :height 550 :desc "Figure 1.1" :encoding :utf8)
 	(grid)
 	(let ((*default-font* (make-font :family "sans-serif" :size 10)))
 	  (text '(250 30) "Figure 3.1. A simple class diagram"
@@ -25,11 +25,9 @@ true}" :targets '(:order)))
 							  (:private "address" :multiplicity 1 #|"0..1"|#))
 				 :operations ((:public "getCreditRating" :type "String")))
 	  (uml-association :order :customer :arrows 1 :mult1 :* :mult2 1)
-	  ;;ToDo : uml-class は height 指定を（付加情報ありの場合に限り？）無視する？それは仕様通り？
-	  ;;       :employee では付加情報なしでも無視してるっぽいぞ。
-	  (uml-class (point/xy+ customer.center 70 200) "Personal Customer" :id :p-customer :height 110
+	  (uml-class (point/xy+ customer.center 70 200) "Personal Customer" :id :p-customer
 				 :attributes ((:private "creditCardNumber")))
-	  (uml-class (point/xy+ $1.center -160 28) "Corporate Customer" :id :c-customer :height 110
+	  (uml-class (point/xy+ $1.center -160 28) "Corporate Customer" :id :c-customer
 				 :attributes ((:private "contactname")
 							  (:private "creditRating")
 							  (:private "creditLimit"))
@@ -37,7 +35,7 @@ true}" :targets '(:order)))
 							  (:public "remind")))
 	  (uml-generalization :p-customer :customer :style :TB)
 	  (uml-generalization :c-customer :customer :style :T3B)
-	  (uml-class (point/y+ c-customer.center 150) "Employee" :width 40 :height 80 :id :employee)
+	  (uml-class (point/y+ c-customer.center 150) "Employee" :width 80 :height 40 :id :employee)
 	  (uml-association :c-customer :employee :style :BT :arrows 1
 					   :mult1 :* :mult2 '(0 . 1) :role2 "salesRep")
 	  (uml-class (point/y+ order.center 250) "Order Line" :id :order-line
@@ -46,5 +44,5 @@ true}" :targets '(:order)))
 	  (uml-association :order :order-line :style :BT :arrows 1
 					   ;;ToDo : multiplicity-info で制約を指定できない "* {ordered}"
 					   :mult1 1 :mult2 :* :role2 "lineItems")
-	  (uml-class (point/y+ order-line.center 150) "Product" :id :product)
+	  (uml-class (point/y+ order-line.center 130) "Product" :width 80 :height 40 :id :product)
 	  (uml-association :order-line :product :style :BT :arrows 1 :mult1 :* :mult2 1)))

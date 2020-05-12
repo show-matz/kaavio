@@ -1,0 +1,23 @@
+(in-package :diagram-user)
+
+(load-stencil :uml-class)
+
+(create-svg (:width 600 :height 400 :encoding :utf8)
+	(grid)
+	(let ((*default-font* (make-font :width-spice 0.6)))
+	  (uml-class '(70 50) "Test1" :active nil  :id :cls1)
+	  (uml-class (point/y+ $1.center 70) "Test2" :active nil :width 100 :height 50 :id :cls2)
+	  (uml-class (point/y+ $1.center 70) "Test3~%TooLarge" :active nil  :id :cls3)
+	  (uml-class (point/y+ $1.center 70) "Test4~%TooLarge" :active nil :width 10 :height 5 :id :cls4)
+	  (uml-class (point/xy+ cls1.center 150 70) "Test5" :abstract t :id :cls5
+				 :attributes (:m-data1
+							  (:private :s-data2 :scope :class))
+				 :operations ((:public "DoSomething" :abstract t)
+							  (:private "InnerMethod" :parameters (:etc)))
+				 :responsibilities "-- xxx~%-- yyy~%-- zzz")
+	  (uml-class (point/x+ $1.center 200) "Test6" :abstract t :width 200 :height 50 :id :cls6
+				 :attributes (:m-data1
+							  (:private :s-data2 :scope :class))
+				 :operations ((:public "DoSomething" :abstract t)
+							  (:private "InnerMethod" :parameters (:etc)))
+				 :responsibilities "-- xxx~%-- yyy~%-- zzz")))
