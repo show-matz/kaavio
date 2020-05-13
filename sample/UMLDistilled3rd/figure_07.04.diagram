@@ -1,0 +1,20 @@
+(in-package :cl-diagram-user)
+
+(load-stencil :grid)
+(load-stencil :uml-diagram-package)
+
+(create-svg (:width 500 :height 300 :desc "Figure 7.4" :encoding :utf8)
+	(grid)
+	(let ((*default-font* (make-font :family "sans-serif" :size 10)))
+	  (text '(250 30) "Figure 7.4. A package implemented by other packages"
+			:align :center :font '(:family "sans-serif" :weight :bold :size 14))
+	  (uml-package '(80 100)                 "Application"          :id :app)
+	  (uml-package (point/x+ $1.center  200) "Database~%Gateway"    :id :db-gateway)
+	  (uml-package (point/y+ $1.center  140) "SQL Server~%Gateway"  :id :sql-server)
+	  (uml-package (point/x+ $1.center -135) "Oracle Gateway"       :id :oracle)
+	  (uml-package (point/x+ $2.center  135) "Test Stub~%Gateway"   :id :test-stub)
+	  (uml-dependency  :app        :db-gateway)
+	  (uml-realization :sql-server :db-gateway :style :TB)
+	  (uml-realization :oracle     :db-gateway :style :TB)
+	  (uml-realization :test-stub  :db-gateway :style :TB)))
+

@@ -1,0 +1,8 @@
+(in-package :cl-diagram-user)
+
+(load-stencil :uml-keyword-info)
+(load-stencil :uml-dependency)
+(load-stencil :uml-diagram)
+(load-stencil :uml-note)
+(load-stencil :uml-package)
+(load-stencil :uml-realization)

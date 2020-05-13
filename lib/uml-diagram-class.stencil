@@ -13,3 +13,4 @@
 (load-stencil :uml-note)
 (load-stencil :uml-interface)
 (load-stencil :uml-class)
+(load-stencil :uml-package)
