@@ -10,23 +10,17 @@
 (defparameter *uml-package-height*      80)
 (defparameter *uml-package-tab-width*   40)
 (defparameter *uml-package-tab-height*  15)
-(defparameter *uml-package-tab-margin*   3)
+(defparameter *uml-package-tab-margin*   4)
 
 
-(defun uml-package-calc-tabsize (pkg)
-  (with-slots (contents-p keyword name font tab-margin) pkg
-	(if (not contents-p)
-		(values *uml-package-tab-width*
-				*uml-package-tab-height*)
-		(let ((txt (with-output-to-string (s)
-					 (when keyword
-					   (format s "~A~%" (uml-keyword-to-string keyword)))
-					 (princ name s))))
-		  (multiple-value-bind (w h) (diagram:font-calc-textarea font txt)
-			(incf w (* 2 tab-margin))
-			(incf h (* 2 tab-margin))
-			(values (max w *uml-package-tab-width*)
-					(max h *uml-package-tab-height*)))))))
+(defun uml-package-calc-namearea-size (pkg)
+  (with-slots (keyword name font
+					   tab-width tab-height tab-margin) pkg
+	(let ((txt (with-output-to-string (s)
+				 (when keyword
+				   (format s "~A~%" (uml-keyword-to-string keyword)))
+				 (princ (fix-name name) s))))
+	  (diagram:font-calc-textarea font txt))))
 
 
 ;;------------------------------------------------------------------------------
@@ -35,37 +29,47 @@
 ;;
 ;;------------------------------------------------------------------------------
 (defclass uml-package (diagram:group)
-  ((name		:initform nil :initarg :name)			; (or string keyword)
-   (keyword		:initform nil :initarg :keyword)		; (or nil uml-keyword-info)
-   (contents-p	:initform nil :initarg :contents-p)		; boolean
-   (font		:initform nil :initarg :font)			; (or nil font-info)
-   (fill		:initform nil :initarg :fill)			; (or nil fill-info)
-   (stroke		:initform nil :initarg :stroke)			; (or nil stroke-info)
-   (tab-width	:initform   0 :initarg :tab-width)		; number
-   (tab-height	:initform   0 :initarg :tab-height)		; number
-   (tab-margin	:initform   0 :initarg :tab-margin)))	; number
+  ((name		:initform nil :initarg :name)		; (or string keyword)
+   (keyword		:initform nil :initarg :keyword)	; (or nil uml-keyword-info)
+   (contents-p	:initform nil :initarg :contents-p)	; boolean
+   (font		:initform nil :initarg :font)		; (or nil font-info)
+   (fill		:initform nil :initarg :fill)		; (or nil fill-info)
+   (stroke		:initform nil :initarg :stroke)		; (or nil stroke-info)
+   (tab-width	:initform   0)						; number
+   (tab-height	:initform   0)						; number
+   (tab-margin	:initform   0)))					; number
 
 (defmethod initialize-instance :after ((pkg uml-package) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (keyword font fill stroke #|tab-width tab-height tab-margin|#) pkg
+  (with-slots (keyword font fill stroke tab-width tab-height tab-margin) pkg
 	(setf keyword (and keyword (make-uml-keyword keyword)))
 	(setf font    (make-font   (or font   *uml-package-font*   *default-font*  )))
 	(setf fill    (make-fill   (or fill   *uml-package-fill*   *default-fill*  )))
-	(setf stroke  (make-stroke (or stroke *uml-package-stroke* *default-stroke*))))
+	(setf stroke  (make-stroke (or stroke *uml-package-stroke* *default-stroke*)))
+	(setf tab-width  *uml-package-tab-width*)
+	(setf tab-height *uml-package-tab-height*)
+	(setf tab-margin *uml-package-tab-margin*))
   pkg)
 
 (defmethod check ((pkg uml-package) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (with-slots (name keyword font fill stroke tab-width tab-height) pkg
-	(multiple-value-setq (tab-width tab-height) (uml-package-calc-tabsize pkg))
+  (with-slots (name keyword font fill stroke
+					contents-p tab-width tab-height tab-margin) pkg
 	(check-member name       :nullable nil :types (or string keyword))
 	(check-object keyword    canvas dict :nullable t :class uml-keyword-info)
 	(check-object font       canvas dict :nullable t :class   font-info)
 	(check-object fill       canvas dict :nullable t :class   fill-info)
 	(check-object stroke     canvas dict :nullable t :class stroke-info)
 	(check-member tab-width   :nullable nil :types number)
-	(check-member tab-height  :nullable nil :types number))
+	(check-member tab-height  :nullable nil :types number)
+	(check-member tab-margin  :nullable nil :types number)
+	(multiple-value-bind (name-area-width name-area-height)
+								(uml-package-calc-namearea-size pkg)
+	  (if contents-p
+		  (progn
+			(setf tab-width  (max tab-width  (+ name-area-width  (* 2 tab-margin))))
+			(setf tab-height (max tab-height (+ name-area-height (* 2 tab-margin))))))))
   nil)
 
 (defmethod shape-connect-point ((pkg uml-package) type1 type2 arg)
@@ -92,24 +96,31 @@
 					  fill stroke tab-width tab-height tab-margin) pkg
 	  (let* ((width     (canvas-width  canvas))
 			 (height    (canvas-height canvas))
-			 (font-size (slot-value font 'diagram::size)))
+			 (font-size (slot-value font 'diagram::size))
+			 (spacing   (slot-value font 'diagram::line-spacing)))
 		(macrolet ((register-entity (entity)
 					 `(check-and-draw-local-entity ,entity canvas writer)))
 		  (let ((*default-fill*   fill)
 				(*default-stroke* stroke))
 			(rectangle `(,(/ width 2) ,(/ (+ height tab-height) 2)) width (- height tab-height))
 			(rectangle `(,(/ tab-width 2) ,(/ tab-height 2)) tab-width tab-height))
-		  (let ((name (fix-name name t))
-				(x    (/ (if contents-p tab-width   width) 2))
-				(y    (/ (if contents-p tab-height height) 2)))
-			(if (null keyword)
-				(incf y (/ font-size 2))
-				(progn
-				  (uml-keyword-draw keyword
-									(+ (canvas-left canvas) x)
-									(+ (canvas-top  canvas) y) :center writer)
-				  (incf y font-size)))
-			(text `(,x ,y) name :align :center :font font))))))
+		  (let ((names (diagram::string/split (fix-name name) #\newline)))
+			(let ((x (if contents-p (/ tab-width 2) (/ width 2)))
+				  (y (if contents-p
+						 tab-margin
+						 (multiple-value-bind (w h) (uml-package-calc-namearea-size pkg)
+						   (declare (ignore w))
+						   (+ tab-height (/ (- height tab-height h) 2))))))
+			  (when keyword
+				(incf y font-size)
+				(uml-keyword-draw keyword
+								  (+ (canvas-left canvas) x)
+								  (+ (canvas-top  canvas) y) :center writer)
+				(incf y spacing))
+			  (dolist (name names)
+				(incf y font-size)
+				(text `(,x ,y) name :align :center :font font)
+				(incf y spacing))))))))
   nil)
 
 ;;for debug...
@@ -134,9 +145,6 @@
 											   :name ,name :keyword ,keyword
 											   :contents-p ,contents-p
 											   :font ,font :fill ,fill :stroke ,stroke
-											   :tab-width  *uml-package-tab-width*
-											   :tab-height *uml-package-tab-height*
-											   :tab-margin *uml-package-tab-margin*
 											   :link ,link :layer ,layer :id ,id))))
 	(if (null contents)
 		code

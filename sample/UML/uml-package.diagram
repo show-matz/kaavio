@@ -9,8 +9,8 @@
 				   :contents
 				   ((rectangle '(40 20) 20 20 :id :r1)
 					(rectangle '(80 60) 20 20 :id :r2)))
-	  (uml-package '(300  80) "package3" :keyword "keyword" :id :pkg3)
-	  (uml-package '(400 200) "package4" :keyword "keyword" :id :pkg4
+	  (uml-package '(300  80) "package3~%multiline" :keyword "keyword" :id :pkg3)
+	  (uml-package '(400 200) "package4~%multiline" :keyword "keyword" :id :pkg4
 				   :width 150 :height 100
 				   :contents
 				   ((rectangle '(20 20) 20 20 :id :r3)))
