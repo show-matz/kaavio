@@ -9,6 +9,7 @@
 (defparameter *uml-class-height*          30)
 (defparameter *uml-class-name-margin*      5)
 (defparameter *uml-class-margin*           5)
+(defparameter *uml-class-draw-emptybox*  nil)
 
 (defun uml-stereotype-keyword-p (param)
   (when (keywordp param)
@@ -314,6 +315,7 @@
    (operations			:initform nil :initarg :operations)			; list
    (template			:initform nil :initarg :template)			; string
    (responsibilities	:initform nil :initarg :responsibilities)	; string
+   (emptybox			:initform nil :initarg :emptybox)			; boolean
    (font				:initform nil :initarg :font)				; (or nil font-info)
    (fill				:initform nil :initarg :fill)				; (or nil fill-info)
    (stroke				:initform nil :initarg :stroke)				; (or nil stroke-info)
@@ -337,7 +339,7 @@
 
 (defun uml-class-caluculate-shapesize (cls)
   (with-slots (name keyword font attributes operations active-p
-				diagram::width diagram::height
+				diagram::width diagram::height emptybox
 				responsibilities heights-cache margin-cache name-margin-cache) cls
 	(let ((total-height  0)
 		  (total-width   0)
@@ -354,7 +356,7 @@
 				 (unless h-margin
 				   (setf h-margin v-margin))
 				 (if (null lst)
-					 (cons 0 (if tail-p (* 2 v-margin) 0))
+					 (cons 0 (if (and tail-p emptybox) (* 2 v-margin) 0))
 					 (cons (apply #'max (mapcar (lambda (x)
 												  (funcall fnc x h-margin)) lst))
 						   (+ (* 2 v-margin)
@@ -438,7 +440,7 @@
 (defmethod draw-group ((cls uml-class) writer)
   (let ((canvas (group-get-canvas cls)))
 	(with-slots (name keyword active-p abstract-p template
-				  attributes operations responsibilities
+				  attributes operations responsibilities emptybox
 				  name-actual-height margin-cache heights-cache font fill stroke) cls
 	  (with-canvas (topleft width height) canvas
 		(let ((font-size (slot-value font 'diagram::size))
@@ -489,7 +491,7 @@
 				  (text (make-point width (/ font-size 2)) template :align :center))
 				(labels ((additional-box (fnc lst tail-p &optional title)
 						   (if (null lst)
-							   (when tail-p
+							   (when (and tail-p emptybox)
 								 (line `((,left ,y) (,right ,y)))
 								 (incf y (* 2 margin-cache)))
 							   (progn
@@ -536,15 +538,21 @@
 (defmacro uml-class (center name &key width height keyword
 									  abstract active template
 									  attributes operations
-									  responsibilities font fill stroke link layer id)
+									  responsibilities
+									  (emptybox nil emptybox-p)
+									  font fill stroke link layer id)
   `(register-entity (make-instance 'uml-class
 								   :center ,center :name ,name
 								   :width  (or ,width  *uml-class-width*)
 								   :height (or ,height *uml-class-height*)
 								   :keyword ,keyword :abstract-p ,abstract
 								   :active-p ,active :template ,template
-								   :attributes ',attributes :operations ',operations
+								   :attributes ',attributes
+								   :operations ',operations
 								   :responsibilities ,responsibilities
+								   :emptybox ,(if emptybox-p
+												  emptybox
+												  '*uml-class-draw-emptybox*)
 								   :font ,font :fill ,fill :stroke ,stroke
 								   :link ,link :layer ,layer :id ,id)))
 
