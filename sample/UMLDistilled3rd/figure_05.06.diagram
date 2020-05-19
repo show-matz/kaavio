@@ -1,0 +1,27 @@
+(in-package :cl-diagram-user)
+
+(load-stencil :grid)
+(load-stencil :uml-diagram-class)
+
+(create-svg (:width 600 :height 500 :desc "Figure 5.6" :encoding :utf8)
+	(grid)
+	(text '(300 30) "Figure 5.6. A Java example of interfaces and an abstract class"
+		  :align :center :font '(:family "sans-serif" :weight :bold :size 14))
+	(let ((*uml-class-draw-emptybox* t))
+	  (uml-class '(300 120) "Collection" :keyword :interface :id :collection
+				 :operations (:equals :add))
+	  (uml-class (point/y+ $1.center 150) "List" :keyword :interface :id :list
+				 :operations (:get))
+	  (uml-class (point/x+ $1.center -200) "Order" :id :order
+				 :attributes ((:none "Line Items" :multiplicity "*")))
+	  (uml-class (point/x+ $2.center  200) "Abstract List" :abstract t :id :a-list
+				 :operations (:equals
+							  (:none :get :abstract t)
+							  :add))
+	  (uml-class (point/y+ $1.center  150) "ArrayList" :id :arr-list
+				 :operations (:get :add))
+	  (uml-generalization :list   :collection)
+	  (uml-dependency     :order  :list)
+	  (uml-realization    :a-list :list)
+	  (uml-generalization :arr-list :a-list)))
+
