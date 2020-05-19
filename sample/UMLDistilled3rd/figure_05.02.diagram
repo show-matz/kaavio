@@ -1,0 +1,16 @@
+(in-package :cl-diagram-user)
+
+(load-stencil :grid)
+(load-stencil :uml-diagram-class)
+
+(create-svg (:width 300 :height 200 :desc "Figure 5.2" :encoding :utf8)
+	(grid)
+	(let ((*uml-class-draw-emptybox* t)
+		  (*default-font* (make-font :family "sans-serif" :size 10 :width-spice 0.7)))
+	  (text '(150 30) "Figure 5.2. Static notation"
+			:align :center :font '(:family "sans-serif" :weight :bold :size 14))
+	  (uml-class '(150 110) "Order"
+				 :operations ("getNumber"
+							  (:none "getNextNewNumber" :scope :class)))))
+
+

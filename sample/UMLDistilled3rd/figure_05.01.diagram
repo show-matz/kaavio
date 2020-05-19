@@ -1,0 +1,20 @@
+(in-package :cl-diagram-user)
+
+(load-stencil :grid)
+(load-stencil :uml-diagram-class)
+
+(create-svg (:width 450 :height 300 :desc "Figure 5.1" :encoding :utf8)
+	(grid)
+	(let ((*uml-class-draw-emptybox* nil)
+		  (*default-font* (make-font :family "sans-serif" :size 10)))
+	  (text '(225 30) "Figure 5.1. Showing responsibilities in a class diagram"
+			:align :center :font '(:family "sans-serif" :weight :bold :size 12))
+	  (uml-class '(110 100) "View" :id :view
+				 :responsibilities "-- displays information~%about the model")
+	  (uml-class (point/x+  $1.center 250) "Model" :id :model
+				 :responsibilities "-- domain logic")
+	  (uml-class (point/xy+ $2.center 130 140) "Input Controller" :id :ctrlr
+				 :responsibilities "-- handles input events")
+	  (uml-association :view  :model :arrows 1)
+	  (uml-association :ctrlr :view  :arrows 1)
+	  (uml-association :ctrlr :model :arrows 1)))
