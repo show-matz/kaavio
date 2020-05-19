@@ -1,0 +1,13 @@
+(in-package :cl-diagram-user)
+
+(load-stencil :grid)
+(load-stencil :uml-diagram-class)
+
+(create-svg (:width 400 :height 100 :desc "Figure 5.3" :encoding :utf8)
+	(grid)
+	(text '(200 30) "Figure 5.3. Aggregation"
+		  :align :center :font '(:family "sans-serif" :weight :bold :size 14))
+	(uml-class '(100 70) "Club"   :id :club)
+	(uml-class '(300 70) "Person" :id :person)
+	(uml-aggregation :club :person :arrow t :mult1 :* :mult2 :* :role2 :members))
+
