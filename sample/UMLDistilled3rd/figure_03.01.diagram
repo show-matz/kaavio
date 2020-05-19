@@ -27,7 +27,9 @@ true}" :targets '(:order)))
 	  (uml-association :order :customer :arrows 1 :mult1 :* :mult2 1)
 	  (uml-class (point/xy+ customer.center 70 200) "Personal Customer" :id :p-customer
 				 :attributes ("creditCardNumber"))
-	  (uml-class (point/xy+ $1.center -160 28) "Corporate Customer" :id :c-customer
+	  (text (point/y+ $1.center 40) "{getCreditRating() == \"poor\"}"
+			:align :center :font '(:size 8))
+	  (uml-class (point/xy+ $2.center -160 28) "Corporate Customer" :id :c-customer
 				 :attributes ("contactName"
 							  "creditRating"
 							  "creditLimit")
@@ -42,7 +44,7 @@ true}" :targets '(:order)))
 				 :attributes ((:none :quantity :type "Integer")
 							  (:none :price    :type "Money")))
 	  (uml-association :order :order-line :style :BT :arrows 1
-					   ;;ToDo : multiplicity-info で制約を指定できない "* {ordered}"
+					   ;;ToDo : 関連端に制約を指定できない "{ordered}"
 					   :mult1 1 :mult2 :* :role2 "lineItems")
 	  (uml-class (point/y+ order-line.center 130) "Product" :width 80 :height 40 :id :product)
 	  (uml-association :order-line :product :style :BT :arrows 1 :mult1 :* :mult2 1)))
