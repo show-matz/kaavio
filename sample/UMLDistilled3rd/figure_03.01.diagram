@@ -9,38 +9,38 @@
 	  (text '(250 30) "Figure 3.1. A simple class diagram"
 			:align :center :font '(:family "sans-serif" :weight :bold :size 14))
 	  (uml-class '(90 120) "Order" :id :order
-				 :attributes ((:private "dateReceived" :type "Date"    :multiplicity "0..1")
-							  (:private "isPrepaid"    :type "Boolean" :multiplicity 1)
-							  (:private "number"       :type "String"  :multiplicity 1)
-							  (:private "price"        :type "Money"))
-				 :operations ((:public :dispatch)
-							  (:public :close)))
+				 :attributes ((:none "dateReceived" :type "Date"    :multiplicity "0..1")
+							  (:none "isPrepaid"    :type "Boolean" :multiplicity 1)
+							  (:none "number"       :type "String"  :multiplicity 1)
+							  (:none "price"        :type "Money"))
+				 :operations ((:none :dispatch)
+							  (:none :close)))
 	  (let ((*default-font* (make-font :size 9 :width-spice 0.58 :base *default-font*)))
 		(uml-note (point/xy+ $1.center 110 120)
 				"{if Order.customer.getCreditRating is
 \"poor\" then Order.isPrepaid must be
 true}" :targets '(:order)))
 	  (uml-class (point/x+ $2.center 270) "Customer" :id :customer
-				 :attributes ((:private "name"    :multiplicity 1)
-							  (:private "address" :multiplicity 1 #|"0..1"|#))
-				 :operations ((:public "getCreditRating" :type "String")))
+				 :attributes ((:none "name"    :multiplicity 1)
+							  (:none "address" :multiplicity "0..1"))
+				 :operations ((:none "getCreditRating" :type "String")))
 	  (uml-association :order :customer :arrows 1 :mult1 :* :mult2 1)
 	  (uml-class (point/xy+ customer.center 70 200) "Personal Customer" :id :p-customer
-				 :attributes ((:private "creditCardNumber")))
+				 :attributes ("creditCardNumber"))
 	  (uml-class (point/xy+ $1.center -160 28) "Corporate Customer" :id :c-customer
-				 :attributes ((:private "contactname")
-							  (:private "creditRating")
-							  (:private "creditLimit"))
-				 :operations ((:public "billForMonth" :parameters (("" :type "Integer")))
-							  (:public "remind")))
+				 :attributes ("contactName"
+							  "creditRating"
+							  "creditLimit")
+				 :operations ((:none "billForMonth" :parameters (("" :type "Integer")))
+							  "remind"))
 	  (uml-generalization :p-customer :customer :style :TB)
 	  (uml-generalization :c-customer :customer :style :T3B)
 	  (uml-class (point/y+ c-customer.center 150) "Employee" :width 80 :height 40 :id :employee)
 	  (uml-association :c-customer :employee :style :BT :arrows 1
 					   :mult1 :* :mult2 '(0 . 1) :role2 "salesRep")
 	  (uml-class (point/y+ order.center 250) "Order Line" :id :order-line
-				 :attributes ((:private :quantity :type "Integer")
-							  (:private :price    :type "Money")))
+				 :attributes ((:none :quantity :type "Integer")
+							  (:none :price    :type "Money")))
 	  (uml-association :order :order-line :style :BT :arrows 1
 					   ;;ToDo : multiplicity-info で制約を指定できない "* {ordered}"
 					   :mult1 1 :mult2 :* :role2 "lineItems")

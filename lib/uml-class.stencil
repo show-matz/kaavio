@@ -77,7 +77,7 @@
 ;;
 ;;-------------------------------------------------------------------------------
 (defclass uml-class-attribute (uml-class-stuff)
-  ((visibility		:initform nil :initarg :visibility)		; keyword - :public :private :protected :derived :package
+  ((visibility		:initform nil :initarg :visibility)		; keyword - :none :public :private :protected :derived :package
    (name			:initform nil :initarg :name)			; (or keyword string)
    (type			:initform nil :initarg :type)			; (or nil keyword string)
    (multiplicity	:initform nil :initarg :multiplicity)	; (or nil number  string)
@@ -96,7 +96,7 @@
 	(check-member default-value :nullable   t :types (or number keyword string))
 	(check-member property      :nullable   t :types (or string keyword))
 	(check-member scope         :nullable nil :types keyword)
-	(check-keywords visibility :public :private :protected :package :derived)
+	(check-keywords visibility :none :public :private :protected :package :derived)
 	(check-keywords scope      :instance :class))
   nil)
 
@@ -111,6 +111,7 @@
   (with-slots (visibility name type
 				multiplicity default-value property) attr
 	(format-string (ecase visibility
+					 ((:none)      " ")
 					 ((:public)    "+")
 					 ((:private)   "-")
 					 ((:protected) "#")
@@ -133,14 +134,14 @@
 							 :info (make-instance 'uml-keyword-info :name tmp))	;;ToDo : class/font はどうする？
 			  (cond
 				((eq param :etc) (make-instance 'uml-class-omission))
-				((name-p param)  (make-uml-class-attribute :private param))
+				((name-p param)  (make-uml-class-attribute :none param))
 				((typep param 'uml-class-attribute) param)
 				((listp param)   (apply #'make-uml-class-attribute param))
-				(t               (make-uml-class-attribute :private param)))))
+				(t               (make-uml-class-attribute :none param)))))
 		(destructuring-bind (visibility name &key type
 								  multiplicity default property scope) params
 		  (make-instance 'uml-class-attribute
-						 :visibility	(or visibility :private)
+						 :visibility	(or visibility :none)
 						 :name			name
 						 :type			type
 						 :multiplicity	multiplicity
@@ -211,7 +212,7 @@
 ;;
 ;;-------------------------------------------------------------------------------
 (defclass uml-class-operation (uml-class-stuff)
-  ((visibility	:initform nil :initarg :visibility)	; keyword - :public, :private, :protected, :package
+  ((visibility	:initform nil :initarg :visibility)	; keyword - :none :public :private :protected :package
    (name		:initform nil :initarg :name)		; (or keyword string)
    (abstract	:initform nil :initarg :abstract)	; boolean
    (parameters	:initform nil :initarg :parameters)	; list of uml-class-operation-param
@@ -235,7 +236,7 @@
 	(check-member type       :nullable   t :types (or string keyword))
 	(check-member property   :nullable   t :types (or string keyword))
 	(check-member scope      :nullable nil :types keyword)
-	(check-keywords visibility :public :private :protected :package)
+	(check-keywords visibility :none :public :private :protected :package)
 	(check-keywords scope      :instance :class)
 	(dolist (param parameters)
 	  (check-object param canvas dict :class uml-class-stuff)
@@ -262,6 +263,7 @@
 				   (princ (uml-class-stuff-to-string (car params)) stream))))))
 	(with-slots (visibility name parameters type property) op
 	  (format-string (ecase visibility
+					   ((:none)      " ")
 					   ((:public)    "+")
 					   ((:private)   "-")
 					   ((:protected) "#")
@@ -283,14 +285,14 @@
 							 :info (make-instance 'uml-keyword-info :name tmp))	;;ToDo : class/font はどうする？
 			  (cond
 				((eq param :etc) (make-instance 'uml-class-omission))
-				((name-p param)  (make-uml-class-operation :public param))
+				((name-p param)  (make-uml-class-operation :none param))
 				((typep param 'uml-class-operation) param)
 				((listp param)   (apply #'make-uml-class-operation param))
-				(t               (make-uml-class-operation :public param)))))
+				(t               (make-uml-class-operation :none param)))))
 		(destructuring-bind (visibility name &key abstract 
 								parameters type property scope) params
 		  (make-instance 'uml-class-operation
-						 :visibility	visibility
+						 :visibility	(or visibility :none)
 						 :name			name
 						 :abstract		abstract
 						 :parameters	parameters
