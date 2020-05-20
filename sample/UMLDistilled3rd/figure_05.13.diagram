@@ -1,0 +1,15 @@
+(in-package :cl-diagram-user)
+
+(load-stencil :grid)
+(load-stencil :uml-diagram-class)
+
+(create-svg (:width 500 :height 200 :desc "Figure 5.13" :encoding :utf8)
+	(grid)
+	(text '(250 30) "Figure 5.13. Promoting an association class to a full class"
+		  :align :center :font '(:family "sans-serif" :weight :bold :size 12))
+	(uml-class '( 80 110) "Person"     :id :person  :width 80 :height 40)
+	(uml-class '(250 110) "Attendance" :id :attendance :attributes (:attentiveness))
+	(uml-class '(420 110) "Meeting"    :id :meeting :width 80 :height 40)
+	(uml-association :person :attendance  :mult1 1         :mult2 :*)
+	(uml-association :attendance :meeting :mult1 '(2 . :*) :mult2  1))
+
