@@ -1,0 +1,17 @@
+(in-package :cl-diagram-user)
+
+(load-stencil :grid)
+(load-stencil :uml-diagram-class)
+
+(create-svg (:width 300 :height 200 :desc "Figure 5.21" :encoding :utf8)
+	(grid)
+	(text '(150 30) "Figure 5.21. Active class"
+		  :align :center :font '(:family "sans-serif" :weight :bold :size 14))
+	(let ((*uml-class-width*  100)
+		  (*uml-class-height*  40))
+	  (let ((*uml-class-stroke* 2.5))
+		(uml-class '(80 100) "Command~%Processor"))
+	  (uml-class '(220 100) "Command~%Processor" :active t))
+	(let ((*default-font* (make-font :size 9 :fill :blue)))
+	  (text '( 50 140) "active object(UML 1)")
+	  (text '(190 140) "active object(UML 2)")))
