@@ -1,0 +1,10 @@
+(in-package :cl-diagram-user)
+
+(load-stencil :grid)
+(load-stencil :uml-diagram-class)
+
+(create-svg (:width 360 :height 200 :desc "Figure 5.18" :encoding :utf8)
+	(grid)
+	(text '(180 30) "Figure 5.18. Bound element(version 1)"
+		  :align :center :font '(:family "sans-serif" :weight :bold :size 14))
+	(uml-class '(180 120) "Set<T::Employee>" :width 100 :height 60))
