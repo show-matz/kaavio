@@ -120,6 +120,8 @@
 		  (slot-value note 'margin2))
 	canvas))
 
+;;MEMO : use impelementation of shape...
+;;(defmethod shape-get-subcanvas ((note uml-note)) ...)
 
 ;;------------------------------------------------------------------------------
 ;;
@@ -127,16 +129,26 @@
 ;;
 ;;------------------------------------------------------------------------------
 (defmacro uml-note (center text &key keyword targets width height
-							   align valign font fill stroke margin link layer id)
-  `(register-entity (make-instance 'uml-note
-								   :center ,center
-								   :width ,width :height ,height
-								   :text ,text :font ,font
-								   :keyword ,keyword :targets ,targets
-								   :align  (or ,align  *uml-note-align*)
-								   :valign (or ,valign *uml-note-valign*)
-								   :margin (or ,margin *uml-note-margin*)
-								   :fill   (or ,fill   *uml-note-fill*)
-								   :stroke (or ,stroke *uml-note-stroke*)
-								   :link ,link :layer ,layer :id ,id)))
+									 align valign margin
+									 font fill stroke link layer id contents)
+  (let ((code `(register-entity (make-instance 'uml-note
+											   :center ,center
+											   :width ,width :height ,height
+											   :text ,text :keyword ,keyword
+											   :targets ,targets
+											   :align  (or ,align  *uml-note-align*)
+											   :valign (or ,valign *uml-note-valign*)
+											   :margin (or ,margin *uml-note-margin*)
+											   :font ,font
+											   :fill   (or ,fill   *uml-note-fill*)
+											   :stroke (or ,stroke *uml-note-stroke*)
+											   :link ,link :layer ,layer :id ,id))))
+	(if (null contents)
+		code
+		(let ((g-obj (gensym "OBJ")))
+		  `(let* ((,g-obj ,code)
+				  (canvas (shape-get-subcanvas ,g-obj)))
+			 (declare (special canvas))
+			 ,@contents)))))
+	
 

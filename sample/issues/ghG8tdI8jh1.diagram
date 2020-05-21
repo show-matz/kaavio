@@ -1,0 +1,17 @@
+(in-package :diagram-user)
+
+(load-stencil :grid)
+(load-stencil :uml-class)
+(load-stencil :uml-note)
+
+(create-svg (:width 300 :height 300 :desc "test of ghG8tdI8jh1" :encoding :utf8)
+	(grid)
+	(uml-class '( 70  50) :test :id :cls)
+	(uml-note  '(150 180) "" :targets :cls :valign :top :width 200 :height 150
+			   :contents ((rectangle '(50 40)                    20 20 :id :rct1)
+						  (rectangle (point/xy+ $1.center 80 20) 20 20 :id :rct2)
+						  (rectangle (point/xy+ $2.center 10 70) 20 20 :id :rct3)
+						  (text (point/y+ $2.center 40) "comment" :align :center)
+						  (connector :rct1 :rct2 :style :CC)
+						  (connector :rct2 :rct3 :style :CC)
+						  (connector :rct3 :rct1 :style :CC))))
