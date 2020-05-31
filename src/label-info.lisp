@@ -136,13 +136,13 @@
 	  (let ((param (car params)))
 		(cond
 		  ((typep param 'label-info) param)
-		  ((keywordp param) (make-label :text param))
-		  ((stringp  param) (make-label :text param))
+		  ((keywordp param) (make-label param :offset nil))
+		  ((stringp  param) (make-label param :offset nil))
 		  ((listp    param) (apply #'make-label param))
-		  (t                (make-label :text param))))
+		  (t                (make-label param :offset nil))))
 	  (if (null params)
 		  nil
-		  (destructuring-bind (&key text position offset font) params
+		  (destructuring-bind (text &key position offset font) params
 			(make-instance 'label-info
 						   :text     text   :position position
 						   :offset   offset :font     font)))))

@@ -7,9 +7,9 @@
 	(uml-fork-v '( 50  40))
 	(uml-fork-h '(100  40) :width 8 :length 50 :fill :brown)
 	(uml-fork-v '(150  40) :width 8 :length 50 :fill :brown)
-	(uml-join-h '( 50 100) :spec '(:text "{spec}" :position :below))
+	(uml-join-h '( 50 100) :spec '("{spec}" :position :below))
 	(uml-join-v '( 80 100))
 	(uml-join-h '(100 150) :width 8 :length 50 :fill :brown)
 	(uml-join-v '(150 150) :width 8 :length 50 :fill :brown
-						   :spec '(:text "{spec}" :position :right)))
+						   :spec '("{spec}" :position :right)))
 
