@@ -77,6 +77,29 @@
   
   
 #|
+#|EXPORT|#				:draw-label-with-point
+ |#
+(defun draw-label-with-point (label x y anchor writer)
+  (with-slots (text offset font) label
+	(let* ((size    (slot-value font 'size))
+		   (spacing (slot-value font 'line-spacing))
+		   (lines   (string/split (escape-characters (fix-name text)) #\newline))
+		   (cnt     (length lines))
+		   (height  (+ (* cnt size) (* (1- cnt) spacing)))
+		   (x          (+ x (point-x offset)))
+		   (y       (- (+ y (point-y offset)) (/ height 2))))
+	  (dolist (line lines)
+		(incf y size)
+		(writer-write writer
+					  "<text "
+					  "x='" x "' "
+					  "y='" y "' "
+					  "text-anchor='" anchor "' "
+					  (to-property-strings font)
+					  ">" line "</text>")
+		(incf y spacing)))))
+
+#|
 #|EXPORT|#				:draw-label
  |#
 (defun draw-label (label shp writer)
@@ -87,11 +110,12 @@
 	  (unless (typep shp 'shape)
 		(throw-exception "label-info : shp is not type of shape."))
 	  (labels ((get-location-info ()
-				 (ecase position
-				   ((:above) (label-info-locate-text-for-above shp offset lines size spacing))
-				   ((:below) (label-info-locate-text-for-below shp offset lines size spacing))
-				   ((:left)  (label-info-locate-text-for-left  shp offset lines size spacing))
-				   ((:right) (label-info-locate-text-for-right shp offset lines size spacing)))))
+				 (let ((locater (ecase position
+								  ((:above) #'label-info-locate-text-for-above)
+								  ((:below) #'label-info-locate-text-for-below)
+								  ((:left)  #'label-info-locate-text-for-left )
+								  ((:right) #'label-info-locate-text-for-right))))
+				   (funcall locater shp offset lines size spacing))))
 		(multiple-value-bind (anchor pt) (get-location-info)
 		  (dolist (line lines)
 			(writer-write writer

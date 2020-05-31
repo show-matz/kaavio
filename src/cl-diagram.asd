@@ -77,6 +77,7 @@
 																"writer"))
 				(:file "label-info"                :depends-on ("cl-diagram"
 																"constants"
+																"point"
 																"canvas"
 																"font-info"
 																"shape"
@@ -87,6 +88,7 @@
 																"constants"
 																"point"
 																"mathutil"
+																"label-info"
 																"stroke-info"
 																"endmark-info"
 																"entity"

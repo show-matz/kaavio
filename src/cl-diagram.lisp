@@ -113,6 +113,7 @@
 				:image
 				;label-info.lisp
 				:label-info
+				:draw-label-with-point
 				:draw-label
 				:make-label
 				;layer-manager.lisp

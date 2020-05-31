@@ -1,0 +1,12 @@
+(in-package :diagram-user)
+
+(load-stencil :grid)
+
+(create-svg (:width 350 :height 300 :desc "test of 14Ufvo0Mqk1" :encoding :utf8)
+	(grid)
+	(line '((50 50) (50 100) (300 100) (300 150))
+		  :stroke :black :label '(:text "foo~%bar~%quux" :offset (0 -30)))
+	(rectangle '( 50 150) 20 20 :id :rct1)
+	(rectangle '(300 250) 20 20 :id :rct2)
+	(connector :rct1 :rct2 :style :CC
+			   :stroke :black :label '(:text "multi-line~%text" :offset (-20 20))))
