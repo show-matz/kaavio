@@ -21,24 +21,26 @@
 		(setf name-size (slot-value name-font 'diagram::size))
 		(setf spacing   (slot-value name-font 'diagram::line-spacing))
 		(let ((text (slot-value name 'diagram::text)))
-		  (setf lines   (diagram::string/split (fix-name text) #\newline)))
+		  (setf lines   (diagram::string/split
+						 (escape-characters (fix-name text)) #\newline)))
 		(setf offset    (slot-value name 'diagram::offset)))
 	  (let* ((height (+ kwd-size
 						(if (zerop kwd-size) 0 spacing)
 						(* (1- (length lines)) spacing)
 						(* (length lines) name-size)))
-			 (font-property (to-property-strings name-font))
 			 (x    (+ x (point-x offset)))
 			 (y (- (+ y (point-y offset)) (/ height 2))))
 		(when keyword
 		  (incf y kwd-size)
 		  (uml-keyword-draw keyword x y :center writer)
 		  (incf y spacing))
-		(dolist (line lines)
-		  (incf y name-size)
-		  (writer-write writer
-						"<text x='" x "' y='" y "' "
-						"text-anchor='middle' "
-						font-property ">" line "</text>")
-		  (incf y spacing))))))
+		(when name
+		  (let ((font-property (to-property-strings name-font)))
+			(dolist (line lines)
+			  (incf y name-size)
+			  (writer-write writer
+							"<text x='" x "' y='" y "' "
+							"text-anchor='middle' "
+							font-property ">" line "</text>")
+			  (incf y spacing))))))))
 
