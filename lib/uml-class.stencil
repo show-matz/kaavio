@@ -309,6 +309,7 @@
 (defclass uml-class (diagram:group)
   ((name				:initform nil :initarg :name)				; (or keyword string)
    (keyword				:initform nil :initarg :keyword)			; uml-keyword-info
+   (multiplicity		:initform nil :initarg :multiplicity)		; (or nil uml-multiplicity-info)
    (abstract-p			:initform nil :initarg :abstract-p)			; boolean
    (active-p			:initform nil :initarg :active-p)			; boolean
    (attributes			:initform nil :initarg :attributes)			; list
@@ -327,9 +328,11 @@
 
 (defmethod initialize-instance :after ((cls uml-class) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (keyword font fill stroke
+  (with-slots (keyword multiplicity
+					font fill stroke
 					margin-cache name-margin-cache) cls
 	(setf keyword (and keyword (make-uml-keyword keyword)))
+	(setf multiplicity (and multiplicity (make-uml-multiplicity multiplicity)))
 	(setf font    (make-font   (or font   *uml-class-font*   *default-font*)))
 	(setf fill    (make-fill   (or fill   *uml-class-fill*   *default-fill*)))
 	(setf stroke  (make-stroke (or stroke *uml-class-stroke* *default-stroke*)))
@@ -400,10 +403,11 @@
 (defmethod check ((cls uml-class) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (with-slots (name keyword attributes operations template 
+  (with-slots (name keyword multiplicity attributes operations template 
 					responsibilities font fill stroke name-actual-height) cls
 	(check-member name             :nullable nil :types (or string keyword))
 	(check-object keyword canvas dict :nullable t :class uml-keyword-info)
+	(check-object multiplicity canvas dict :nullable t :class uml-multiplicity-info)
 	(check-member attributes       :nullable   t :types list)
 	(check-member operations       :nullable   t :types list)
 	(check-member template         :nullable   t :types string)
@@ -439,7 +443,8 @@
 ;; override of group::draw-group
 (defmethod draw-group ((cls uml-class) writer)
   (let ((canvas (group-get-canvas cls)))
-	(with-slots (name keyword active-p abstract-p template
+	(with-slots (name keyword multiplicity
+				  active-p abstract-p template
 				  attributes operations responsibilities emptybox
 				  name-actual-height margin-cache heights-cache font fill stroke) cls
 	  (with-canvas (topleft width height) canvas
@@ -481,6 +486,13 @@
 								  (make-font :style :italic :base font)))
 					(incf y spacing))
 				  (setf y height))
+				;; draw multiplicity ( if exists ).
+				(when multiplicity
+				  (let* ((font  (slot-value multiplicity 'font))
+						 (fsize (slot-value font         'diagram::size))
+						 (x (- (+ (point-x topleft) width) margin-cache))
+						 (y    (+ (point-y topleft) fsize  margin-cache)))
+					(uml-multiplicity-draw multiplicity x y :right writer)))
 				;; draw template box ( if exists ).
 				(when template
 				  (rectangle (make-point width 0)
@@ -536,15 +548,15 @@
 ;;
 ;;------------------------------------------------------------------------------
 (defmacro uml-class (center name &key width height keyword
-									  abstract active template
-									  attributes operations
-									  responsibilities
+									  multiplicity abstract active template
+									  attributes operations responsibilities
 									  (emptybox nil emptybox-p)
 									  font fill stroke link layer id)
   `(register-entity (make-instance 'uml-class
 								   :center ,center :name ,name
 								   :width  (or ,width  *uml-class-width*)
 								   :height (or ,height *uml-class-height*)
+								   :multiplicity ,multiplicity
 								   :keyword ,keyword :abstract-p ,abstract
 								   :active-p ,active :template ,template
 								   :attributes ',attributes
