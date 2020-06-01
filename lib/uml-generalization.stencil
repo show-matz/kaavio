@@ -1,6 +1,7 @@
 
 (in-package :cl-diagram-user)
 
+(load-stencil :uml-connection-common)
 (load-stencil :uml-keyword-info)
 
 ;;------------------------------------------------------------------------------
@@ -9,11 +10,14 @@
 ;;
 ;;------------------------------------------------------------------------------
 (defclass uml-generalization (diagram:connector)
-  ((keyword :initform nil :initarg :keyword)))	; (or nil uml-keyword-info)
+  ((name	:initform nil :initarg :name)		; (or nil diagram::label-info)
+   (keyword :initform nil :initarg :keyword)))	; (or nil uml-keyword-info)
 
 (defmethod initialize-instance :after ((gen uml-generalization) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (keyword) gen
+  (with-slots (name keyword) gen
+	(when name
+	  (setf name (make-label name)))
 	(setf keyword (and keyword (make-uml-keyword keyword))))
   gen)
 
@@ -21,20 +25,20 @@
 (defmethod check ((gen uml-generalization) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (with-slots (keyword) gen
+  (with-slots (name keyword) gen
+	(check-object name    canvas dict :nullable t :class label-info)
 	(check-object keyword canvas dict :nullable t :class uml-keyword-info))
   nil)
 
 (defmethod entity-composition-p ((gen uml-generalization))
-  (with-slots (keyword) gen
-	(or keyword
+  (with-slots (name keyword) gen
+	(or name
+		keyword
 		(call-next-method))))
 
-(defmethod post-draw ((gen uml-generalization) writer)
-  (with-slots (keyword) gen
-	(when keyword
-	  (uml-keyword-draw-beside-line keyword gen writer)))
-  (call-next-method))
+;;no implementation
+;(defmethod post-draw ((gen uml-generalization) writer)
+;  (call-next-method))
 	  
 
 
@@ -43,14 +47,21 @@
 ;; macro uml-generalization
 ;;
 ;;------------------------------------------------------------------------------
-(defmacro uml-generalization (from to &key keyword style layer id)
-  `(register-entity (make-instance 'uml-generalization
-								   :from ,from :to ,to
-								   :keyword ,keyword :style ,style
-								   :class nil
-								   :stroke (make-stroke :dasharray nil :base *default-stroke*)
-								   :end1 nil :end2 `(:type :triangle :fill :white
-													 :stroke (:dasharray nil
-															  :base ,*default-stroke*))
-								   :layer ,layer :id ,id)))
+(defmacro uml-generalization (from to &key keyword name style layer id)
+  (let ((g-kwd  (gensym "KEYWORD"))
+		(g-name (gensym "NAME")))
+	`(let ((,g-kwd  ,keyword)
+		   (,g-name ,name))
+	   (register-entity (make-instance 'uml-generalization
+									   :from ,from :to ,to
+									   :keyword ,g-kwd :style ,style
+									   :class nil
+									   :name ,g-name
+									   :label (and (or ,g-kwd ,g-name)
+												   #'uml-connection-draw-label)
+									   :stroke (make-stroke :dasharray nil :base *default-stroke*)
+									   :end1 nil
+									   :end2 `(:type :triangle :fill :white
+													 :stroke (:dasharray nil :base ,*default-stroke*))
+									   :layer ,layer :id ,id)))))
 

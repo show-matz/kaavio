@@ -1,0 +1,44 @@
+
+(in-package :cl-diagram-user)
+
+(load-stencil :uml-keyword-info)
+
+(defun uml-connection-draw-label (connection x y sin cos writer)
+  (declare (ignore sin cos))
+  (with-slots (name keyword) connection
+	(let ((kwd-font  nil)
+		  (name-font nil)
+		  (kwd-size  0)
+		  (name-size 0)
+		  (spacing   0)
+		  (lines     nil)
+		  (offset    '(0 0)))
+	  (when keyword
+		(setf kwd-font (slot-value keyword   'font))
+		(setf kwd-size (slot-value kwd-font  'diagram::size)))
+	  (when name
+		(setf name-font (slot-value name      'diagram::font))
+		(setf name-size (slot-value name-font 'diagram::size))
+		(setf spacing   (slot-value name-font 'diagram::line-spacing))
+		(let ((text (slot-value name 'diagram::text)))
+		  (setf lines   (diagram::string/split (fix-name text) #\newline)))
+		(setf offset    (slot-value name 'diagram::offset)))
+	  (let* ((height (+ kwd-size
+						(if (zerop kwd-size) 0 spacing)
+						(* (1- (length lines)) spacing)
+						(* (length lines) name-size)))
+			 (font-property (to-property-strings name-font))
+			 (x    (+ x (point-x offset)))
+			 (y (- (+ y (point-y offset)) (/ height 2))))
+		(when keyword
+		  (incf y kwd-size)
+		  (uml-keyword-draw keyword x y :center writer)
+		  (incf y spacing))
+		(dolist (line lines)
+		  (incf y name-size)
+		  (writer-write writer
+						"<text x='" x "' y='" y "' "
+						"text-anchor='middle' "
+						font-property ">" line "</text>")
+		  (incf y spacing))))))
+

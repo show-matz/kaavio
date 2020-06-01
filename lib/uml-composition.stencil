@@ -15,14 +15,21 @@
 ;; macro uml-composition
 ;;
 ;;------------------------------------------------------------------------------
-(defmacro uml-composition (from to &key arrow keyword style role1 mult1 role2 mult2 layer id)
-  `(register-entity (make-instance 'uml-composition
-								   :from ,from :to ,to
-								   :keyword ,keyword :style ,style
-								   :class nil
-								   :stroke (make-stroke :dasharray nil :base *default-stroke*)
-								   :end1 '(:type :diamond :fill :black)
-								   :end2 (and ,arrow :arrow)
-								   :role1 ,role1 :role2 ,role2
-								   :mult1 ,mult1 :mult2 ,mult2 :layer ,layer :id ,id)))
+(defmacro uml-composition (from to &key arrow keyword name style role1 mult1 role2 mult2 layer id)
+  (let ((g-kwd  (gensym "KEYWORD"))
+		(g-name (gensym "NAME")))
+	`(let ((,g-kwd  ,keyword)
+		   (,g-name ,name))
+	   (register-entity (make-instance 'uml-composition
+									   :from ,from :to ,to
+									   :keyword ,g-kwd :style ,style
+									   :class nil
+									   :name ,g-name
+									   :label (and (or ,g-kwd ,g-name)
+												   #'uml-connection-draw-label)
+									   :stroke (make-stroke :dasharray nil :base *default-stroke*)
+									   :end1 '(:type :diamond :fill :black)
+									   :end2 (and ,arrow :arrow)
+									   :role1 ,role1 :role2 ,role2
+									   :mult1 ,mult1 :mult2 ,mult2 :layer ,layer :id ,id)))))
 

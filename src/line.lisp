@@ -150,7 +150,7 @@
 	  (when label
 		(multiple-value-bind (x y sin cos) (line-get-center ent)
 		  (if (functionp label)
-			  (funcall label ent x y sin cos)
+			  (funcall label ent x y sin cos writer)
 			  (draw-label-with-point label x y "middle" writer))))
 	  (when end1
 		(draw-endmark end1 (line-get-endpoints ent :from) class stroke writer))
