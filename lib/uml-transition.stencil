@@ -10,32 +10,38 @@
 ;;
 ;;------------------------------------------------------------------------------
 (defclass uml-transition (diagram:connector)
-  ((info :initform nil :initarg :info)))	; (or nil uml-transition-spec)
+  ((spec :initform nil :initarg :spec)))	; (or nil uml-transition-spec)
 
 (defmethod initialize-instance :after ((tran uml-transition) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (info) tran
-	(setf info (and info (make-uml-transition-spec info))))
+  (with-slots (spec) tran
+	(setf spec (and spec (make-uml-transition-spec spec))))
   tran)
 
 
 (defmethod check ((tran uml-transition) canvas dict)
-  (with-slots (info) tran
-	(check-object info canvas dict :nullable t :class uml-transition-spec))
+  (with-slots (spec) tran
+	(check-object spec canvas dict :nullable t :class uml-transition-spec))
   ;; this method must call super class' one.
   (call-next-method))
 
 (defmethod entity-composition-p ((tran uml-transition))
-  (with-slots (info) tran
-	(or info
+  (with-slots (spec) tran
+	(or spec
 		(call-next-method))))
 
-(defmethod post-draw ((tran uml-transition) writer)
-  (with-slots (info) tran
-	(when info
-	  (uml-transition-spec-draw-beside-line info tran writer)))
-  (call-next-method))
-	  
+(defun uml-transition-draw-spec (tran x y sin cos writer)
+  (with-slots (spec) tran
+	(with-slots (offset font) spec
+	  (let ((f-size (slot-value font 'diagram::size))
+			(align (cond ((zerop sin) :center)
+						 ((<  0  sin) :left)
+						 (t           :right))))
+		(incf y (/ f-size 2))
+		(with-point (px py) offset
+			(uml-transition-spec-draw spec
+									  (+ (+ x px) (* sin f-size))
+									  (- (+ y py) (* cos f-size)) align writer))))))
 
 
 ;;------------------------------------------------------------------------------
@@ -44,10 +50,13 @@
 ;;
 ;;------------------------------------------------------------------------------
 (defmacro uml-transition (from to &key spec style layer id)
-  `(register-entity (make-instance 'uml-transition
-								   :from ,from :to ,to
-								   :info ,spec :style ,style
-								   :class nil
-								   :stroke (or *uml-transition-stroke* *default-stroke*)
-								   :end1 nil :end2 :arrow :layer ,layer :id ,id)))
+  (let ((g-spec  (gensym "SPEC")))
+	`(let ((,g-spec  ,spec))
+	   (register-entity (make-instance 'uml-transition
+									   :from ,from :to ,to
+									   :spec ,g-spec :style ,style
+									   :label (and ,g-spec #'uml-transition-draw-spec)
+									   :class nil
+									   :stroke (or *uml-transition-stroke* *default-stroke*)
+									   :end1 nil :end2 :arrow :layer ,layer :id ,id)))))
 

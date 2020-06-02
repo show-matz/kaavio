@@ -1,0 +1,32 @@
+(in-package :cl-diagram-user)
+
+(load-stencil :grid)
+(load-stencil :uml-diagram-statemachine)
+
+(create-svg (:width 600 :height 350 :desc "Figure 10.1" :encoding :utf8)
+	(grid)
+	(let ((*default-font* (make-font :family "sans-serif" :size 10)))
+	  (text '(300 30) "Figure 10.1. A simple state machine diagram"
+			:align :center :font '(:family "sans-serif" :weight :bold :size 14))
+	  (uml-state-begin '(30 220)                      :id :begin)
+	  (uml-state     (point/x+ $1.center   90) "Wait" :id :wait)
+	  (uml-state     (point/x+ $1.center  400) "Lock" :id :lock)
+	  (uml-state     (point/y+ $1.center -150) "Open" :id :open)
+	  (uml-state-end (point/y+ $2.center  100)        :id :end)
+	  (uml-transition :begin :wait)
+	  (uml-transition :wait  :lock
+					  :spec '(:trigger "candle removed"
+							  :guard   "door closed"
+							  :action  "reveal lock"))
+	  (uml-transition :lock  :open
+					  :spec '(:trigger "key turned"
+							  :guard   "candle in"
+							  :action  "open safe"))
+	  (uml-transition :open  :wait :style :LT
+					  :spec '(:trigger "safe closed"
+							  :offset  (150 -20)))
+	  (uml-transition :lock  :end
+					  :spec '(:trigger "key turned"
+							  :guard   "candle out"
+							  :action  "release killer rabbit"
+							  :offset  (-290 0)))))

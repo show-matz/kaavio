@@ -13,19 +13,26 @@
    (guard	:initform nil :initarg :guard)		; (or keyword string)
    (action	:initform nil :initarg :action)		; (or keyword string)
    (class	:initform nil :initarg :class)		; (or keyword string)
+   (offset	:initform nil :initarg :offset)		; (or nil list)
    (font	:initform nil :initarg :font)))		; (or nil font-info)
 
 
-;;MEMO : no impl.
-;(defmethod initialize-instance :after ((obj uml-transition-spec) &rest initargs)
-;;  ...)
+(defmethod initialize-instance :after ((obj uml-transition-spec) &rest initargs)
+  (declare (ignore initargs))
+  (with-slots (offset) obj
+	(setf offset (or offset (make-point 0 0)))))
 
 (defmethod check ((mul uml-transition-spec) canvas dict)
-  (with-slots (trigger guard action class font) mul
+  (with-slots (trigger guard action class offset font) mul
 	(check-member trigger :nullable t :types (or keyword string))
 	(check-member guard   :nullable t :types (or keyword string))
 	(check-member action  :nullable t :types (or keyword string))
 	(check-member class   :nullable t :types (or keyword string))
+	(check-member offset  :nullable t :types cons)
+	(when offset
+	  (with-point (x y) offset
+		(check-member x   :nullable nil :types number)
+		(check-member y   :nullable nil :types number)))
 	(check-object font    canvas dict :nullable t :class font-info))
   nil)
 
@@ -54,20 +61,6 @@
 					  (to-property-strings font))
 					">" (escape-characters txt) "</text>"))))
 
-(defun uml-transition-spec-draw-beside-line (obj line writer)
-  (unless (typep line 'diagram:line)
-	(throw-exception "multiplicity-info : line parameter is not line object"))
-  (multiple-value-bind (x y sin cos) (diagram::line-get-center line)	;;ToDo : export!?
-	(declare (ignorable x y sin cos))
-	(let* ((f-size (slot-value (slot-value obj 'font) 'diagram::size))
-		   (offset f-size)
-		   (align (cond ((zerop sin) :center)
-						((<  0  sin) :left)
-						(t           :right))))
-	  (incf y (/ f-size 2))
-	  (uml-transition-spec-draw obj (+ x (* sin offset))
-									(- y (* cos offset)) align writer))))
-
 
 ;;------------------------------------------------------------------------------
 ;;
@@ -81,13 +74,14 @@
 		  ((typep   param  'uml-transition-spec) param)
 		  ((listp   param) (apply #'make-uml-transition-spec param))
 		  (t               (make-uml-transition-spec :trigger param))))
-	  (destructuring-bind (&key trigger guard action
+	  (destructuring-bind (&key trigger guard action offset
 								(class nil class-p)
 								(font  nil  font-p)) params
 		(make-instance 'uml-transition-spec
 					   :trigger   trigger
 					   :guard     guard
 					   :action    action
+					   :offset    offset
 					   :class    (if class-p class *uml-transition-spec-class*)
 					   :font     (if font-p  font  (or *uml-transition-spec-font*
 															diagram:*default-font*))))))
