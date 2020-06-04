@@ -20,16 +20,21 @@
    (font	:initform nil :initarg :font)))	;: (or nil font-info)
 
 
-;;MEMO : no impl.
-;(defmethod initialize-instance :after ((obj uml-flow-spec) &rest initargs)
-;;  ...)
+(defmethod initialize-instance :after ((obj uml-flow-spec) &rest initargs)
+  (declare (ignore initargs))
+  (with-slots (offset) obj
+	(setf offset (or offset (make-point 0 0)))))
 
 (defmethod check ((spec uml-flow-spec) canvas dict)
   (with-slots (guard action offset class font) spec
-	(check-member guard  :nullable t :types (or keyword string))
-	(check-member action :nullable t :types (or keyword string))
-	(check-member offset :nullable t :types cons)
-	(check-member class  :nullable t :types (or keyword string))
+	(check-member guard  :nullable   t :types (or keyword string))
+	(check-member action :nullable   t :types (or keyword string))
+	(check-member offset :nullable nil :types cons)
+	(when offset
+	  (with-point (x y) offset
+		(check-member x   :nullable nil :types number)
+		(check-member y   :nullable nil :types number)))
+	(check-member class  :nullable   t :types (or keyword string))
 	(check-object font   canvas dict :nullable t :class font-info))
   nil)
 
@@ -49,28 +54,13 @@
 	(with-slots (offset class font) obj
 	  (writer-write writer
 					"<text "
-					"x='" (+ x (if offset (point-x offset) 0)) "' "
-					"y='" (+ y (if offset (point-y offset) 0)) "' "
+					"x='" (+ x (point-x offset)) "' "
+					"y='" (+ y (point-y offset)) "' "
 					"text-anchor='" txt-anchor "' "
 					(write-when class "class='" it "' ")
 					(when font
 					  (to-property-strings font))
 					">" (escape-characters txt) "</text>"))))
-
-(defun uml-flow-spec-draw-beside-line (obj line writer)
-  (unless (typep line 'diagram:line)
-	(throw-exception "uml-flow-spec : line parameter is not line object"))
-  (multiple-value-bind (x y sin cos) (diagram::line-get-center line)	;;ToDo : export!?
-	(declare (ignorable x y sin cos))
-	(let* ((f-size (slot-value (slot-value obj 'font) 'diagram::size))
-		   (offset f-size)
-		   (align (cond ((zerop sin) :center)
-						((<  0  sin) :left)
-						(t           :right))))
-	  (incf y (/ f-size 2))
-	  (uml-flow-spec-draw obj (+ x (* sin offset))
-							  (- y (* cos offset)) align writer))))
-
 
 (defun make-uml-flow-spec (&rest params)
   (if (= 1 (length params))
@@ -123,13 +113,45 @@
 		spec
 		(call-next-method))))
 
-(defmethod post-draw ((flow uml-flow) writer)
-  (with-slots (keyword spec) flow
-	(when keyword (uml-keyword-draw-beside-line   keyword flow writer))
-	(when spec    (uml-flow-spec-draw-beside-line spec    flow writer)))
-  (call-next-method))
-	  
 
+(defun uml-flow-draw-spec (tran x y sin cos writer)
+  (with-slots (keyword spec) tran
+	(labels ((calc-width-and-height ()
+			   (let* ((width   0)
+					  (height  0)
+					  (offset  (if spec (slot-value spec 'offset) '(0 0)))
+					  (k-font  (and keyword (slot-value keyword 'font)))
+					  (k-size  (if  k-font  (slot-value k-font  'diagram::size) 0))
+					  (s-font  (and spec    (slot-value spec    'font)))
+					  (s-size  (if  s-font  (slot-value s-font  'diagram::size) 0))
+					  (spacing (if  s-font  (slot-value s-font  'diagram::line-spacing) 0)))
+				 (when keyword
+				   (multiple-value-setq (width height)
+										(font-calc-textarea k-font
+												 (uml-keyword-to-string keyword))))
+				 (when spec
+				   (incf height spacing)
+				   (multiple-value-bind (w h)
+					   (font-calc-textarea s-font (uml-flow-spec-to-string spec))
+					 (setf width (max width w))
+					 (incf height h)))
+				 (values width height offset k-size s-size spacing))))
+	  (multiple-value-bind (width height offset
+							kwd-size spec-size spacing) (calc-width-and-height)
+		(let (;(x (+ x (* sin height)))
+			  (y (- y (* cos height))))
+		  (decf y (/ height 2))
+		  (when (< 0 sin) (incf x (/ width 2)))
+		  (when (< sin 0) (decf x (/ width 2)))
+		  (when keyword
+			(incf y kwd-size)
+			(uml-keyword-draw keyword (+ x (point-x offset))
+									  (+ y (point-y offset)) :center writer)
+			(incf y spacing))
+		  (when spec
+			(incf y spec-size)
+			(uml-flow-spec-draw spec x y :center writer)))))))
+		
 
 ;;------------------------------------------------------------------------------
 ;;
@@ -137,10 +159,16 @@
 ;;
 ;;------------------------------------------------------------------------------
 (defmacro uml-flow (from to &key keyword spec style layer id)
-  `(register-entity (make-instance 'uml-flow
-								   :from ,from :to ,to
-								   :keyword ,keyword :spec ,spec
-								   :class nil :style ,style
-								   :stroke (or *uml-flow-stroke* *default-stroke*)
-								   :end1 nil :end2 :arrow :layer ,layer :id ,id)))
+  (let ((g-kwd  (gensym "KWD"))
+		(g-spec (gensym "SPEC")))
+	`(let ((,g-kwd  ,keyword)
+		   (,g-spec ,spec))
+	   (register-entity (make-instance 'uml-flow
+									   :from ,from :to ,to
+									   :keyword ,g-kwd :spec ,g-spec
+									   :label (and (or ,g-kwd ,g-spec)
+												   #'uml-flow-draw-spec)
+									   :class nil :style ,style
+									   :stroke (or *uml-flow-stroke* *default-stroke*)
+									   :end1 nil :end2 :arrow :layer ,layer :id ,id)))))
 
