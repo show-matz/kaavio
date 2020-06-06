@@ -79,25 +79,36 @@
 #|
 #|EXPORT|#				:draw-label-with-point
  |#
-(defun draw-label-with-point (label x y anchor writer)
+(defun draw-label-with-point (label x y sin cos writer)
   (with-slots (text offset font) label
-	(let* ((size    (slot-value font 'size))
-		   (spacing (slot-value font 'line-spacing))
-		   (lines   (string/split (escape-characters (fix-name text)) #\newline))
-		   (cnt     (length lines))
-		   (height  (+ (* cnt size) (* (1- cnt) spacing)))
-		   (x          (+ x (point-x offset)))
-		   (y       (- (+ y (point-y offset)) (/ height 2))))
-	  (dolist (line lines)
-		(incf y size)
-		(writer-write writer
-					  "<text "
-					  "x='" x "' "
-					  "y='" y "' "
-					  "text-anchor='" anchor "' "
-					  (to-property-strings font)
-					  ">" line "</text>")
-		(incf y spacing)))))
+	(labels ((calc-width-and-height ()
+			   (let* ((width     0)
+					  (height    0)
+					  (lines     (escape-characters (fix-name text)))
+					  (font-size (slot-value font 'diagram::size))
+					  (spacing   (slot-value font 'diagram::line-spacing)))
+				 (multiple-value-setq (width height)
+									  (font-calc-textarea font lines))
+				 (values width height font-size
+						 spacing (string/split lines #\newline)))))
+	  (multiple-value-bind (width height
+							font-size spacing lines) (calc-width-and-height)
+		;(format t "x:~A, y:~A, sin:~A, cos:~A, width=~A, height~A~%" x y sin cos width height)
+		(let ((x (+ x (* sin (/ height 2))))
+			  (y (- y (* cos (/ height 2)))))
+		  (decf y (/ height 2))
+		  (when (< 0 sin) (incf x (/ width 2)))
+		  (when (< sin 0) (decf x (/ width 2)))
+		  (dolist (line lines)
+			(incf y font-size)
+			(writer-write writer
+						  "<text "
+						  "x='" (+ x (point-x offset)) "' "
+						  "y='" (+ y (point-y offset)) "' "
+						  "text-anchor='middle' "
+						  (to-property-strings font)
+						  ">" line "</text>")
+			(incf y spacing)))))))
 
 #|
 #|EXPORT|#				:draw-label

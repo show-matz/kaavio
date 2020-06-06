@@ -2,11 +2,16 @@
 
 (load-stencil :grid)
 
-(create-svg (:width 350 :height 300 :desc "test of 14Ufvo0Mqk1" :encoding :utf8)
+(create-svg (:width 400 :height 400 :desc "test of 14Ufvo0Mqk1" :encoding :utf8)
 	(grid)
-	(line '((50 50) (50 100) (300 100) (300 150))
-		  :stroke :black :label '("foo~%bar~%quux" :offset (0 -30)))
-	(rectangle '( 50 150) 20 20 :id :rct1)
-	(rectangle '(300 250) 20 20 :id :rct2)
-	(connector :rct1 :rct2 :style :CC
-			   :stroke :black :label '("multi-line~%text" :offset (-20 20))))
+	(rectangle '(100 100) 20 20 :id :rct1 :fill :lightgray)
+	(rectangle '(300 100) 20 20 :id :rct2 :fill :lightgray)
+	(rectangle '(300 300) 20 20 :id :rct3 :fill :lightgray)
+	(rectangle '(100 300) 20 20 :id :rct4 :fill :lightgray)
+	(let ((*uml-keyword-font* (make-font :size 9 :fill :blue)))
+	  (connector :rct1 :rct2 :style :CC :label "rct1~%rct2")
+	  (connector :rct2 :rct3 :style :CC :label "rct2~%rct3")
+	  (connector :rct3 :rct4 :style :CC :label "rct3~%rct4")
+	  (connector :rct4 :rct1 :style :CC :label "rct4~%rct1")
+	  (connector :rct1 :rct3 :style :CC :label "rct1~%rct3")
+	  (connector :rct4 :rct2 :style :CC :label "rct4~%rct2")))
