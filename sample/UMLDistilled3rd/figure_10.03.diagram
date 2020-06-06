@@ -1,0 +1,18 @@
+(in-package :cl-diagram-user)
+
+(load-stencil :grid)
+(load-stencil :uml-diagram-statemachine)
+
+(create-svg (:width 500 :height 300 :desc "Figure 10.3" :encoding :utf8)
+	(grid)
+	(let ((*default-font* (make-font :family "sans-serif" :size 10 :width-spice 0.7)))
+	  (text '(250 30) "Figure 10.3. A state with an activity"
+			:align :center :font '(:family "sans-serif" :weight :bold :size 14))
+	  (uml-state     '(70 100) "Update~%Hardware~%Window" :id :st1)
+	  (uml-state     (point/x+ $1.center  300) "Searching" :id :st2
+					 :activities ((:trigger :do
+								   :action "search for new hardware")))
+	  (uml-state     (point/y+ $1.center  150) "Display new~%Hardware~%Window" :id :st3)
+	  (uml-transition :st1 :st2 :spec :search)
+	  (uml-transition :st2 :st1 :style :B1B :spec :cancel)
+	  (uml-transition :st2 :st3)))

@@ -1,0 +1,25 @@
+(in-package :cl-diagram-user)
+
+(load-stencil :grid)
+(load-stencil :uml-diagram-statemachine)
+
+(create-svg (:width 500 :height 300 :desc "Figure 10.4" :encoding :utf8)
+	(grid)
+	(let ((*default-font* (make-font :family "sans-serif" :size 10 :width-spice 0.75)))
+	  (text '(250 30) "Figure 10.4. Superstate with nested substates"
+			:align :center :font '(:family "sans-serif" :weight :bold :size 14))
+	  (uml-state     '(250 80) "Show Connections" :id :st1)
+	  (uml-state     (point/y+ $1.center  130) "Enter Connection Details"
+					 :id :st2 :width 480 :height 120
+		:contents ((uml-state-begin '(20 50) :id :in1)
+				   (uml-state (point/x+ $1.center 80) "Enter Phone~%Number" :height 40 :id :in2)
+				   (uml-state (point/x+ $1.center 160) "Choose Shared~%or Solo" :height 40 :id :in3)
+				   (uml-state (point/x+ $1.center 160) "Enter Name" :height 40 :id :in4)))
+	  (uml-transition :st1 :st2 :spec :new)
+	  (uml-transition :st2 :st1 :style :T1L :spec '(:trigger :cancel :offset (0 30)))
+	  (uml-transition :in1 :in2)
+	  (uml-transition :in2 :in3 :style :R1L1 :spec :next)
+	  (uml-transition :in3 :in2 :style :L3R3 :spec :back)
+	  (uml-transition :in3 :in4 :style :R1L1 :spec :next)
+	  (uml-transition :in4 :in3 :style :L3R3 :spec :back)
+	  (uml-transition :in4 :st1 :style :TR   :spec '(:trigger :save :offset (40 30)))))
