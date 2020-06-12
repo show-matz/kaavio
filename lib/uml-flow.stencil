@@ -52,15 +52,9 @@
 					  ((:center) "middle")
 					  ((:right)  "end"))))
 	(with-slots (offset class font) obj
-	  (writer-write writer
-					"<text "
-					"x='" (+ x (point-x offset)) "' "
-					"y='" (+ y (point-y offset)) "' "
-					"text-anchor='" txt-anchor "' "
-					(write-when class "class='" it "' ")
-					(when font
-					  (to-property-strings font))
-					">" (escape-characters txt) "</text>"))))
+	  (write-text-tag (+ x (point-x offset))
+					  (+ y (point-y offset))
+					  txt-anchor txt writer :class class :font font))))
 
 (defun make-uml-flow-spec (&rest params)
   (if (= 1 (length params))

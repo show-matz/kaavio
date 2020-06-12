@@ -26,7 +26,8 @@
 	(rectangle '(400 250) 30 30 :stroke :brown  :fill :none :id :rectA)
 	(rectangle '(500 300) 30 30 :stroke :purple :fill :none :id :rectB)
 	(connector :rectA :rectB :style :T3T1 :stroke :red :end2 :arrow)
-	(image '(50 50) "test.png")
+	(image '(50 50) "test.png"
+		   :label '("test~%label" :position :right :offset (5 0)))
 	(text '(20 370) "This is test string." :align :left
 		  :link "http://www.google.co.jp"
 		  :font '(:size 20 :fill :blue :decoration :underline))

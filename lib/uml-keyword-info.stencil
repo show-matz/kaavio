@@ -36,15 +36,7 @@
 							((:center) "middle")
 							((:right)  "end"))))
 	(with-slots (class font) kwd
-	  (writer-write writer
-					"<text "
-					"x='" x "' "
-					"y='" y "' "
-					"text-anchor='" txt-anchor "' "
-					(write-when class "class='" it "' ")
-					(when font
-					  (to-property-strings font))
-					">" (escape-characters txt) "</text>"))))
+	  (write-text-tag x y txt-anchor txt writer :class class :font font))))
 
 
 (defun uml-keyword-draw-beside-line (kwd line writer)

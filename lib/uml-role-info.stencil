@@ -41,15 +41,7 @@
 					  ((:center) "middle")
 					  ((:right)  "end"))))
 	(with-slots (class font) rol
-	  (writer-write writer
-					"<text "
-					"x='" x "' "
-					"y='" y "' "
-					"text-anchor='" txt-anchor "' "
-					(write-when class "class='" it "' ")
-					(when font
-					  (to-property-strings font))
-					">" (escape-characters txt) "</text>"))))
+	  (write-text-tag x y txt-anchor txt writer :class class :font font))))
 
 ;; type := :from|:dest
 (defun uml-role-draw-beside-line (rol line type writer)

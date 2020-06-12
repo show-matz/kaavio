@@ -52,15 +52,7 @@
 					  ((:center) "middle")
 					  ((:right)  "end"))))
 	(with-slots (class font) mul
-	  (writer-write writer
-					"<text "
-					"x='" x "' "
-					"y='" y "' "
-					"text-anchor='" txt-anchor "' "
-					(write-when class "class='" it "' ")
-					(when font
-					  (to-property-strings font))
-					">" (escape-characters txt) "</text>"))))
+	  (write-text-tag x y txt-anchor txt writer :class class :font font))))
 
 ;; type := :from|:dest
 (defun uml-multiplicity-draw-beside-line (mul line type writer)

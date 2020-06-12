@@ -198,6 +198,7 @@
 				:text-shape-calc-size
 				:text-shape-paragraph-area
 				;text.lisp
+				:write-text-tag
 				:text
 				;writer.lisp
 				:writer-write

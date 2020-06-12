@@ -131,15 +131,8 @@
 		  (pre-draw shp writer)
 		  (dolist (line text)
 			(incf y fsize)
-			(writer-write writer
-						  "<text "
-						  (write-when id "id='" it "' ")
-						  "x='" x "' "
-						  "y='" y "' "
-						  "text-anchor='" txt-anchor "' "
-						  (write-when class "class='" it "' ")
-						  (unless class font-prop)
-						  ">" (escape-characters line) "</text>")
+			(write-text-tag x y txt-anchor line writer
+							:id id :class class :font font-prop)
 			(incf y line-spacing))
 		  (post-draw shp writer)))))
   nil)

@@ -101,13 +101,8 @@
 		  (when (< sin 0) (decf x (/ width 2)))
 		  (dolist (line lines)
 			(incf y font-size)
-			(writer-write writer
-						  "<text "
-						  "x='" (+ x (point-x offset)) "' "
-						  "y='" (+ y (point-y offset)) "' "
-						  "text-anchor='middle' "
-						  (to-property-strings font)
-						  ">" line "</text>")
+			(write-text-tag (+ x (point-x offset))
+							(+ y (point-y offset)) "middle" line writer :font font)
 			(incf y spacing)))))))
 
 #|
@@ -129,13 +124,8 @@
 				   (funcall locater shp offset lines size spacing))))
 		(multiple-value-bind (anchor pt) (get-location-info)
 		  (dolist (line lines)
-			(writer-write writer
-						  "<text "
-						  "x='" (point-x pt) "' "
-						  "y='" (point-y pt) "' "
-						  "text-anchor='" anchor "' "
-						  (to-property-strings font)
-						  ">" line "</text>")
+			(write-text-tag (point-x pt)
+							(point-y pt) anchor line writer :font font)
 			(incf (point-y pt) (+ spacing size))))))))
   
   

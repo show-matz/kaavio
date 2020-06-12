@@ -11,6 +11,23 @@
 
 (in-package :cl-diagram)
 
+#|
+#|EXPORT|#				:write-text-tag
+ |#
+(defun write-text-tag (x y anchor txt writer &key id class font)
+  ;;ToDo : bFkLwknQj2R : 必要に応じて xml:space='preserve' を挿入する必要がある
+  (writer-write writer
+				"<text x='" x "' y='" y "' "
+				(write-when id "id='" it "' ")
+				"text-anchor='" anchor "' "
+				(write-when class "class='" it "' ")
+				(unless class
+				  (if (stringp font)
+					  font
+					  (when font
+						(to-property-strings font))))
+				">" (escape-characters txt) "</text>"))
+
 ;;------------------------------------------------------------------------------
 ;;
 ;; class text
@@ -73,16 +90,10 @@
 		  (id  (and (not (entity-composition-p txt))
 					(slot-value txt 'id))))
 	  (pre-draw txt writer)
-	  (writer-write writer
-					"<text "
-					(write-when id "id='" it "' ")
-					"x='" (point-x position) "' "
-					"y='" (point-y position) "' "
-					"text-anchor='" txt-anchor "' "
-					(write-when class "class='" it "' ")
-					(unless class
-					  (to-property-strings font))
-					">" (escape-characters text) "</text>")
+	  (write-text-tag (point-x position)
+					  (point-y position)
+					  txt-anchor text writer
+					  :id id :class class :font font)
 	  (post-draw txt writer))))
 
 
