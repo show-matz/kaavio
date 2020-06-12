@@ -1,0 +1,34 @@
+(in-package :cl-diagram-user)
+
+(load-stencil :grid)
+(load-stencil :uml-diagram-class)
+
+(create-svg (:width 650 :height 400 :desc "Figure 10.7" :encoding :utf8)
+	(grid)
+	(let ((*default-font* (make-font :family "sans-serif" :size 10 :width-spice 0.7))
+		  (*uml-class-draw-emptybox*  t))
+	  (text '(325 30) "Figure 10.7. A State pattern implementation for Figure 10.1"
+			:align :center :font '(:family "sans-serif" :weight :bold :size 14))
+	  (uml-class '(130 120) "Secret Panel Controller" :id :cntrlr
+				 :operations ((:none "changeStateTo"
+							   :parameters (("" :type "SecretPanelState")))
+							  (:none "handleCandleRemoved")
+							  (:none "handleKeyTurned")
+							  (:none "handleSafeClosed")))
+	  (uml-class (point/x+ $1.center 280) "Secret Panel State" :id :state
+				 :operations ((:none "handleCandleRemoved")
+							  (:none "handleKeyTurned")
+							  (:none "handleSafeClosed")))
+	  (uml-class (point/y+ $1.center 150) "Lock State" :id :lock-state
+				 :operations ((:none "handleKeyTurned")))
+	  (uml-class (point/x+ $1.center -160) "Wait State" :id :wait-state
+				 :operations ((:none "handleCandleRemoved")))
+	  (uml-class (point/x+ $2.center 150) "Open State" :id :open-state
+				 :operations ((:none "handleSafeClosed")))
+	  (uml-note (point/xy+ state.center 170 30) "do nothing" :targets :state)
+	  (uml-note (point/xy+ cntrlr.center 10 80) "state.handleCandleRemoved" :targets :cntrlr)
+	  (uml-note (point/xy+ wait-state.center -100 80) "if( door open ) {~%    revealLock()~%    changeStateTo(LockState)~%}" :targets :wait-state)
+	  (uml-generalization :lock-state :state :style :TB)
+	  (uml-generalization :open-state :state :style :TB)
+	  (uml-generalization :wait-state :state :style :TB)
+	  (uml-association :cntrlr :state :arrows 1 :role2 :state :mult2 1)))
