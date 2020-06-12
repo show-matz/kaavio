@@ -11,11 +11,21 @@
 
 (in-package :cl-diagram)
 
+
+(defun need-preserve-space-p (txt &optional (start 0))
+  (labels ((somewhat-space-p (c)
+			 (or (char= c #\space) (char= c #\tab))))
+	(let ((idx (position-if #'somewhat-space-p txt :start start)))
+	  (unless (or (null idx)
+				  (= idx (1- (length txt))))
+		(if (somewhat-space-p (char txt (1+ idx)))
+			idx
+			(need-preserve-space-p txt (1+ idx)))))))
+
 #|
 #|EXPORT|#				:write-text-tag
  |#
 (defun write-text-tag (x y anchor txt writer &key id class font)
-  ;;ToDo : bFkLwknQj2R : 必要に応じて xml:space='preserve' を挿入する必要がある
   (writer-write writer
 				"<text x='" x "' y='" y "' "
 				(write-when id "id='" it "' ")
@@ -26,6 +36,8 @@
 					  font
 					  (when font
 						(to-property-strings font))))
+				(when (need-preserve-space-p txt)
+				  "xml:space='preserve' ")
 				">" (escape-characters txt) "</text>"))
 
 ;;------------------------------------------------------------------------------
