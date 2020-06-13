@@ -18,9 +18,11 @@
    (degree		:initform nil :initarg :degree)		; integer
    (distance	:initform nil :initarg :distance)))	; integer
 
-;;MEMO : no impl.
-;(defmethod initialize-instance :after ((rol uml-role-info) &rest initargs)
-;;  ...)
+(defmethod initialize-instance :after ((rol uml-role-info) &rest initargs)
+  (declare (ignore initargs))
+  (with-slots (font) rol
+	(when font
+	  (setf font (make-font font)))))
 
 (defmethod check ((rol uml-role-info) canvas dict)
   (with-slots (name class font degree distance) rol

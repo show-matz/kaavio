@@ -15,9 +15,11 @@
    (font	:initform nil :initarg :font)))	; (or nil font-info)
 
 
-;;MEMO : no impl.
-;(defmethod initialize-instance :after ((kwd uml-keyword-info) &rest initargs)
-;;  ...)
+(defmethod initialize-instance :after ((kwd uml-keyword-info) &rest initargs)
+  (declare (ignore initargs))
+  (with-slots (font) kwd
+	(when font
+	  (setf font (make-font font)))))
 
 (defmethod check ((kwd uml-keyword-info) canvas dict)
   (with-slots (name class font) kwd

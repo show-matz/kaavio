@@ -22,8 +22,10 @@
 
 (defmethod initialize-instance :after ((obj uml-flow-spec) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (offset) obj
-	(setf offset (or offset (make-point 0 0)))))
+  (with-slots (offset font) obj
+	(setf offset (or offset (make-point 0 0)))
+	(when font
+	  (setf font (make-font font)))))
 
 (defmethod check ((spec uml-flow-spec) canvas dict)
   (with-slots (guard action offset class font) spec
