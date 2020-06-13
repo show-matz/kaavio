@@ -97,7 +97,7 @@
 					  (with-slots ((fsize diagram::size)
 								   (ls diagram::line-spacing)) font
 						(incf y (+ ls fsize))
-						(text `(,diagram::margin ,y) txt :align :left))))))))))))
+						(text `(,diagram::margin ,y) txt :align :left :font font))))))))))))
   nil)
 
 
