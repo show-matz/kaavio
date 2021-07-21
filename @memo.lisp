@@ -3,8 +3,8 @@
 (load "./misc/cl-apps-main.lisp")
 
 (let ((path (if (member :linux *features*)
-				"~/sandbox/cl-diagram/lib/"
-				(merge-pathnames "cl-diagram/lib/"
+				"~/sandbox.github/cl-diagram.github/lib/"
+				(merge-pathnames "cl-diagram.github/lib/"
 								 (sb-ext:posix-getenv "CVS_SANDBOX")))))
   (setf diagram:*include-paths* (list path)))
 

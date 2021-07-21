@@ -1,5 +1,8 @@
+(require :cl-diagram)
 (require :jp)
 (require :pathnames)
+
+(in-package :cl-diagram)
 
 (labels ((fix-encoding (arg candidates)
 		   (let ((kwd (intern (string-upcase arg) :keyword)))
@@ -25,7 +28,7 @@
 			   (diagram::throw-exception "Output file '~A' can't open." pathname)))
 		   nil))
 
-  (defun cl-apps-main (args)
+  (defun cl-diagram-main (args)
 	(handler-bind ((condition
 					(lambda (c)
 					  (let ((is-warn (typep c 'warning)))
@@ -35,7 +38,7 @@
 												  (print-object c stream))))
 						(if is-warn
 							(muffle-warning)
-							(return-from cl-apps-main nil))))))
+							(return-from cl-diagram-main nil))))))
 	  (if (/= 4 (length args))
 		  (diagram::throw-exception "Invalid parameter count.")
 		  (destructuring-bind (ifile  input-encoding
