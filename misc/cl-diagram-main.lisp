@@ -4,13 +4,7 @@
 
 (in-package :cl-diagram)
 
-(labels ((fix-encoding (arg candidates)
-		   (let ((kwd (intern (string-upcase arg) :keyword)))
-			 (if (member kwd candidates)
-				 kwd
-				 (diagram::throw-exception "Invalid encoding '~A'." arg))))
-
-		 (load-whole-file (pathname)
+(labels ((load-whole-file (pathname)
 		   (with-open-file (stream pathname :direction :input
 											:element-type 'unsigned-byte)
 			 (let* ((filesize (file-length stream))
@@ -45,25 +39,19 @@
 									 :directory (append (pathname-directory self) (list "lib")))))
 		(setf diagram:*include-paths* (list lib-path)))
 
-	  (if (/= 4 (length args))
+	  (if (/= 2 (length args))
 		  (diagram::throw-exception "Invalid parameter count.")
-		  (destructuring-bind (ifile  input-encoding
-							   ofile output-encoding) args
+		  (destructuring-bind (ifile ofile) args
 			(let ((in-file  (merge-pathnames ifile (path:get-current-directory)))
 				  (out-file (merge-pathnames ofile (path:get-current-directory))))
 			  ;; check in-file existence.
 			  (unless (path:is-existing-file in-file)
 				(diagram::throw-exception "Input file '~A' is not exist." in-file))
 			  ;; check encoding parameters.
-			  (let* ((candidates '(:guess :jis :euc-jp :sjis :utf8 :ascii))
-					 (enc1 (fix-encoding  input-encoding candidates))
-					 (enc2 (fix-encoding output-encoding (cdr candidates)))
-					 (buf (load-whole-file in-file))
-					 (encoding (if (eq enc1 :guess)
-								   (jp:guess buf)
-								   (jp:make-encoding enc1))))
+			  (let* ((buf      (load-whole-file in-file))
+					 (encoding (jp:guess buf)))
 				(setf buf (concatenate 'string "(progn " (jp:decode buf encoding) ")"))
-				(let ((diagram:*default-output-encoding* enc2)
+				(let ((diagram:*default-output-encoding* :utf8)
 					  (*package* (find-package :diagram-user)))
 				  (setf buf (eval (read-from-string buf))))
-				(save-whole-file out-file (jp:encode buf enc2)))))))))
+				(save-whole-file out-file (jp:encode buf :utf8)))))))))
