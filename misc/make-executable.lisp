@@ -5,7 +5,7 @@
 ;      #+clisp "/cygdrive/d/user/lib/clisp/asd/"
 ;      asdf:*central-registry*)
 
-(defconstant +OUTPUT-FILENAME+  "diagram.exe")
+
 #+sbcl
 (defconstant +SBCL-COMPRESSION+ nil)
 
@@ -24,20 +24,23 @@
   ;; application entry ------------------------------------------
   (defun application-entry ()
 
-	;; load .rc file
-	(let ((rcfile (merge-pathnames ".clappsrc"
-								   (path:get-as-directory-name 
-									(sb-ext:posix-getenv "HOME")))))
-	  ;;(format t "checking ~A...~%" rcfile)
-	  (when (path:is-existing-file rcfile)
-		;;(format t ".clappsrc file is found, now loading...~%")
-		(unless (handler-case (progn (load rcfile) t)
-				  (error () nil))
-		  (format t "ERROR : fail to load ~A file.~%" rcfile)
-		  #+clisp (ext:exit)
-		  (return-from application-entry nil))))
+;;	;; load .rc file
+;;	(let ((rcfile (merge-pathnames ".clappsrc"
+;;								   (path:get-as-directory-name 
+;;									(sb-ext:posix-getenv "HOME")))))
+;;	  ;;(format t "checking ~A...~%" rcfile)
+;;	  (when (path:is-existing-file rcfile)
+;;		;;(format t ".clappsrc file is found, now loading...~%")
+;;		(unless (handler-case (progn (load rcfile) t)
+;;				  (error () nil))
+;;		  (format t "ERROR : fail to load ~A file.~%" rcfile)
+;;		  #+clisp (ext:exit)
+;;		  (return-from application-entry nil))))
 
-	(let ((args #+clisp *ARGS*
+	(let ((self #+clisp +OUTPUT-FILENAME+
+				#+sbcl  (car *posix-argv*)
+				#-(or clisp sbcl) (error "not yet implemented."))
+		  (args #+clisp *ARGS*
 				#+sbcl  (cdr *posix-argv*)
 				#-(or clisp sbcl) (error "not yet implemented.")))
 	  (let ((app (find-if (lambda (info)
@@ -47,7 +50,7 @@
 			(let ((fnc (symbol-function
 						(find-symbol (fourth app)
 									 (find-package (third app))))))
-			  (funcall fnc (cdr args))))))
+			  (funcall fnc self (cdr args))))))
 	#+clisp (ext:exit)))
 		
 

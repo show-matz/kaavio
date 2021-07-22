@@ -28,7 +28,7 @@
 			   (diagram::throw-exception "Output file '~A' can't open." pathname)))
 		   nil))
 
-  (defun cl-diagram-main (args)
+  (defun cl-diagram-main (self args)
 	(handler-bind ((condition
 					(lambda (c)
 					  (let ((is-warn (typep c 'warning)))
@@ -39,6 +39,12 @@
 						(if is-warn
 							(muffle-warning)
 							(return-from cl-diagram-main nil))))))
+
+	  ;; 起動した実行可能ファイルと同じ場所にある lib ディレクトリ配下を include-path に指定する
+	  (let ((lib-path (make-pathname :name nil :type nil :defaults self
+									 :directory (append (pathname-directory self) (list "lib")))))
+		(setf diagram:*include-paths* (list lib-path)))
+
 	  (if (/= 4 (length args))
 		  (diagram::throw-exception "Invalid parameter count.")
 		  (destructuring-bind (ifile  input-encoding
