@@ -1,6 +1,7 @@
 (in-package :cl-diagram-user)
 
 (load-stencil :grid)
+(load-stencil :uml-dependency)
 (load-stencil :uml-package)
 
 (create-svg (:width 550 :height 550 :desc "Figure 7.2" :encoding :utf8)

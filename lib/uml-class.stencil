@@ -1,6 +1,7 @@
 (in-package :cl-diagram-user)
 
 (load-stencil :uml-keyword-info)
+(load-stencil :uml-multiplicity-info)
 
 (defparameter *uml-class-font*           nil)
 (defparameter *uml-class-fill*        :white)

@@ -1,5 +1,6 @@
 (in-package :diagram-user)
 
+(load-stencil :grid)
 (load-stencil :uml-action)
 (load-stencil :uml-pin)
 

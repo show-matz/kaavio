@@ -2,6 +2,7 @@
 
 (load-stencil :grid)
 (load-stencil :uml-transition)
+(load-stencil :uml-keyword-info)	;;ToDo : need this ?
 
 (create-svg (:width 400 :height 400 :desc "test of 85oARiZtduf" :encoding :utf8)
 	(grid)
@@ -9,7 +10,7 @@
 	(rectangle '(300 100) 20 20 :id :rct2 :fill :lightgray)
 	(rectangle '(300 300) 20 20 :id :rct3 :fill :lightgray)
 	(rectangle '(100 300) 20 20 :id :rct4 :fill :lightgray)
-	(let ((*uml-keyword-font* (make-font :size 9 :fill :blue)))
+	(let ((*uml-keyword-font* (make-font :size 9 :fill :blue)))	;;ToDo : need this ?
 	  (uml-transition :rct1 :rct2 :style :CC :spec '(:guard "rct1" :action "rct2"))
 	  (uml-transition :rct2 :rct3 :style :CC :spec '(:guard "rct2" :action "rct3"))
 	  (uml-transition :rct3 :rct4 :style :CC :spec '(:guard "rct3" :action "rct4"))

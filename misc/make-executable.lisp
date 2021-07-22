@@ -24,6 +24,9 @@
   ;; application entry ------------------------------------------
   (defun application-entry ()
 
+	(setf sb-impl::*default-external-format* :utf-8)
+	(setf sb-alien::*default-c-string-external-format* :utf-8)
+
 ;;	;; load .rc file
 ;;	(let ((rcfile (merge-pathnames ".clappsrc"
 ;;								   (path:get-as-directory-name 

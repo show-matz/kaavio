@@ -1,6 +1,8 @@
 
 (in-package :cl-diagram-user)
 
+(load-stencil :uml-keyword-info)
+
 (defparameter *uml-signal-sending-font*         nil)
 (defparameter *uml-signal-sending-fill*      :white)
 (defparameter *uml-signal-sending-stroke*    :black)

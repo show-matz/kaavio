@@ -1,6 +1,8 @@
 
 (in-package :cl-diagram-user)
 
+(load-stencil :uml-keyword-info)
+
 (defparameter *uml-usecase-font*         nil)
 (defparameter *uml-usecase-fill*      :white)
 (defparameter *uml-usecase-stroke*    :black)

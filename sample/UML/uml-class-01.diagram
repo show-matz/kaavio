@@ -1,6 +1,7 @@
 (in-package :diagram-user)
 
 (load-stencil :uml-class)
+(load-stencil :grid)
 
 (create-svg (:width 600 :height 400 :encoding :utf8)
 	(grid)
