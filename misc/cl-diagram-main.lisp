@@ -35,8 +35,10 @@
 							(return-from cl-diagram-main nil))))))
 
 	  ;; 起動した実行可能ファイルと同じ場所にある lib ディレクトリ配下を include-path に指定する
-	  (let ((lib-path (make-pathname :name nil :type nil :defaults self
-									 :directory (append (pathname-directory self) (list "lib")))))
+	  ;; ToDo : 環境によってはフルパスを取れないのでこれではダメっぽい
+	  (let* ((dir-list (append (pathname-directory self) (list "lib")))
+			 (lib-path (make-pathname :directory dir-list
+									  :name nil :type nil :defaults self)))
 		(setf diagram:*include-paths* (list lib-path)))
 
 	  (if (/= 2 (length args))

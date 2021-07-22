@@ -40,6 +40,7 @@
 ;;		  #+clisp (ext:exit)
 ;;		  (return-from application-entry nil))))
 
+	;;ToDo : (car *posix-argv*) がフルパスになってくれないので、このやり方は良くなかった．．．
 	(let ((self #+clisp +OUTPUT-FILENAME+
 				#+sbcl  (car *posix-argv*)
 				#-(or clisp sbcl) (error "not yet implemented."))
