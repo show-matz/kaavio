@@ -146,6 +146,14 @@
 							   :width-spice  (fixval width-spice-p  width-spice  'width-spice 0.65)
 							   :line-spacing (fixval line-spacing-p line-spacing 'line-spacing   2))))))))
 
+
+#|
+#|EXPORT|#				:with-font
+ |#
+(defmacro with-font ((&rest param) &rest body)
+  `(let ((*default-font* (make-font ,@param)))
+	 ,@body))
+
 #|
 #|EXPORT|#				:font-calc-textarea
  |#

@@ -104,6 +104,7 @@
 				:*default-font-stroke*
 				:font-info
 				:make-font
+				:with-font
 				:font-calc-textarea
 				;group.lisp
 				:group
