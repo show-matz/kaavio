@@ -104,3 +104,13 @@ height    := fixnum
 
 
 
+;;------------------------------------------------------------------------------
+;;
+;; macro diagram ( alias to 'create-svg' )
+;;
+;;------------------------------------------------------------------------------
+#|
+#|EXPORT|#				:diagram
+ |#
+(defmacro diagram ((&key w h) &rest body)
+  `(create-svg (:width ,w :height ,h) ,@body))

@@ -73,6 +73,7 @@
 				:*default-history-count*
 				;create-svg.lisp
 				:create-svg
+				:diagram
 				:register-entity
 				:layer
 				:width
