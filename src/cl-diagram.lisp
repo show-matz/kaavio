@@ -190,6 +190,7 @@
 				:*default-stroke*
 				:stroke-info
 				:make-stroke
+				:with-stroke
 				;stylesheet.lisp
 				:style
 				:stylesheet
@@ -291,7 +292,8 @@
 ;;------------------------------------------------------------------------------
 (defun onlisp/mkstr (&rest args)
   (with-output-to-string (s)
-	(dolist (a args) (princ a s))))
+	(dolist (a args)
+	  (princ a s))))
 
 (defun onlisp/symb (&rest args)
   (values (intern (apply #'onlisp/mkstr args) 'cl-diagram)))
