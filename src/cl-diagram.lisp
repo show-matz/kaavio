@@ -97,6 +97,7 @@
 				:*default-fill*
 				:fill-info
 				:make-fill
+				:with-fill
 				;font-info.lisp
 				:*default-font*
 				:*default-font-fill*

@@ -92,6 +92,13 @@
 							   :rule    (fixval rule-p    rule    'rule     nil))))))))
 
 
+#|
+#|EXPORT|#				:with-fill
+ |#
+(defmacro with-fill ((&rest param) &rest body)
+  `(let ((*default-fill* (make-fill ,@param)))
+	 ,@body))
+
 
 (setf *default-fill* (make-fill :color :none
 								:opacity nil
