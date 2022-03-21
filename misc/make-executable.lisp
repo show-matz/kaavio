@@ -7,7 +7,7 @@
 
 
 #+sbcl
-(defconstant +SBCL-COMPRESSION+ nil)
+(defconstant +SBCL-COMPRESSION+ t)
 
 #+sbcl (require :sb-posix)
 (require :pathnames)

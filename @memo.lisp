@@ -1,6 +1,6 @@
 ;;(load "./@load.lisp")
 (require :cl-diagram)
-(load "./misc/cl-apps-main.lisp")
+(load "./misc/cl-diagram-main.lisp")
 
 (let ((path (if (member :linux *features*)
 				"~/sandbox.github/cl-diagram.github/lib/"
@@ -30,5 +30,5 @@
 		(let ((outfile (make-pathname :type "svg" :defaults file)))
 		  (when (funcall pred file outfile)
 			(format t "~A~%" file)
-			(cl-apps-main `(,file :utf8 ,outfile :utf8))))))
+			(diagram::cl-diagram-main "" `(,file :utf8 ,outfile :utf8))))))
 	(path:set-current-directory org-path)))
