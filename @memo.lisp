@@ -30,5 +30,5 @@
 		(let ((outfile (make-pathname :type "svg" :defaults file)))
 		  (when (funcall pred file outfile)
 			(format t "~A~%" file)
-			(diagram::cl-diagram-main "" `(,file :utf8 ,outfile :utf8))))))
+			(diagram::cl-diagram-main "./" `(,file ,outfile))))))
 	(path:set-current-directory org-path)))
