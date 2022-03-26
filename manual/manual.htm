@@ -18,22 +18,28 @@
 <li><a href='#0qJQvVjc3Xy'>1 Table of contents</a></li>
 <li><a href='#0Ofny2DArqY'>2 diagram とは</a></li>
 <li><a href='#9LLncE6hWlx'>3 簡単なサンプル</a></li>
-<li><a href='#aOvOKsKAT1o'>4 線・塗り潰し・文字</a></li>
+<li><a href='#2msfXdtEc6a'>4 基本的な図形</a></li>
 <ul>
-<li><a href='#4HFjqmTuIU6'>4.1 ストローク</a></li>
+<li><a href='#c0zGKVu0hBA'>4.1 rectangle</a></li>
+</ul>
+<li><a href='#aOvOKsKAT1o'>5 線・塗り潰し・文字</a></li>
 <ul>
-<li><a href='#ezUVhtPwl3J'>4.1.1 make-stroke 関数</a></li>
-<li><a href='#bw6LIFogC17'>4.1.2 ＊default-stroke＊ 変数</a></li>
-</ul>
-<li><a href='#dBUd7L4C3dx'>4.2 フィル</a></li>
-<li><a href='#3kZ9FkounyK'>4.3 フォント</a></li>
-</ul>
-<li><a href='#7TyOD7TaDM2'>5 リファレンス</a></li>
+<li><a href='#4HFjqmTuIU6'>5.1 ストローク</a></li>
 <ul>
-<li><a href='#hK4u1oSPHKz'>5.1 create-svg</a></li>
-<li><a href='#cO92wFlsFW7'>5.2 with-subcanvas</a></li>
+<li><a href='#ezUVhtPwl3J'>5.1.1 make-stroke 関数</a></li>
+<li><a href='#bw6LIFogC17'>5.1.2 ＊default-stroke＊ 変数</a></li>
 </ul>
-<li><a href='#dGdSPnvay5N'>6 更新履歴</a></li>
+<li><a href='#dBUd7L4C3dx'>5.2 フィル</a></li>
+<li><a href='#3kZ9FkounyK'>5.3 フォント</a></li>
+</ul>
+<li><a href='#9Mem3Hn01qM'>6 色</a></li>
+<li><a href='#7TyOD7TaDM2'>7 リファレンス</a></li>
+<ul>
+<li><a href='#hK4u1oSPHKz'>7.1 create-svg</a></li>
+<li><a href='#cO92wFlsFW7'>7.2 with-subcanvas</a></li>
+<li><a href='#dR01Jh257Q6'>7.3 色の名前</a></li>
+</ul>
+<li><a href='#dGdSPnvay5N'>8 更新履歴</a></li>
 </ul>
 <p>　　</p>
 <h2><a name='0Ofny2DArqY'></a>2 diagram とは</h2>
@@ -42,13 +48,13 @@
 <h2><a name='9LLncE6hWlx'></a>3 簡単なサンプル</h2>
 <p>　簡単なサンプルから始めましょう。以下のような入力を diagram に与えると、</p>
 <!-- snippet: FIRST-SAMPLE
-(create-svg (:width 300 :height 150)
+(diagram (:w 300 :h 150)
   (rectangle '( 50  50) 80 60 :id :x)
   (circle    '(250 100) 40    :id :y)
   (connector :x :y :end2 :arrow))
 -->
 <pre class='code'>
-(create-svg (<span class='keyword3'>:width</span> 300 <span class='keyword3'>:height</span> 150)
+(diagram (<span class='keyword3'>:w</span> 300 <span class='keyword3'>:h</span> 150)
   (rectangle '( 50  50) 80 60 <span class='keyword3'>:id</span> <span class='keyword3'>:x</span>)
   (circle    '(250 100) 40    <span class='keyword3'>:id</span> <span class='keyword3'>:y</span>)
   (connector <span class='keyword3'>:x</span> <span class='keyword3'>:y</span> <span class='keyword3'>:end2</span> <span class='keyword3'>:arrow</span>))
@@ -78,7 +84,7 @@
 <li>connector で、:x から :y に向かって接続線を引き、終端の形状を矢印にしています</li>
 </ul>
 <!-- snippet: SECOND-SAMPLE
-(create-svg (:width 300 :height 200)
+(diagram (:w 300 :h 200)
 ; (rectangle '(150 100) 300 200)
   (rectangle '( 50  50) 50 50     :id :a1)
   (circle    (point/x+ a1.center 100) 25 :id :a2)
@@ -89,7 +95,7 @@
   (connector :a3 :a4 :end2 :arrow))
 -->
 <pre class='code'>
-(create-svg (<span class='keyword3'>:width</span> 300 <span class='keyword3'>:height</span> 200)
+(diagram (<span class='keyword3'>:w</span> 300 <span class='keyword3'>:h</span> 200)
 <span class='comment'>; (rectangle '(150 100) 300 200)</span>
   (rectangle '( 50  50) 50 50     <span class='keyword3'>:id</span> <span class='keyword3'>:a1</span>)
   (circle    (point/x+ a1.center 100) 25 <span class='keyword3'>:id</span> <span class='keyword3'>:a2</span>)
@@ -125,9 +131,29 @@
 </div>
 
 <p class='fig_title'><a name='aw36ReN8sMQ'></a>Figure.2 簡単なサンプル-2</p>
-<h2><a name='aOvOKsKAT1o'></a>4 線・塗り潰し・文字</h2>
-<h3><a name='4HFjqmTuIU6'></a>4.1 ストローク</h3>
-<h4><a name='ezUVhtPwl3J'></a>4.1.1 make-stroke 関数</h4>
+<h2><a name='2msfXdtEc6a'></a>4 基本的な図形</h2>
+<h3><a name='c0zGKVu0hBA'></a>4.1 rectangle</h3>
+<!-- snippet: RECTANGLE-SAMPLE
+(diagram (:w 300 :h 100)
+  (rectangle '(150 50) 150 80 :rx 10 :ry 10 :fill :skyblue :stroke :blue))
+-->
+<pre class='code'>
+(diagram (<span class='keyword3'>:w</span> 300 <span class='keyword3'>:h</span> 100)
+  (rectangle '(150 50) 150 80 <span class='keyword3'>:rx</span> 10 <span class='keyword3'>:ry</span> 10 <span class='keyword3'>:fill</span> <span class='keyword3'>:skyblue</span> <span class='keyword3'>:stroke</span> <span class='keyword3'>:blue</span>))
+</pre>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='100'>
+	
+	<!-- rectangle -->
+	<rect x='75' y='10' width='150' height='80' rx='10' ry='10' fill='skyblue' stroke='blue' stroke-width='1' />
+
+</svg>
+</div>
+
+<h2><a name='aOvOKsKAT1o'></a>5 線・塗り潰し・文字</h2>
+<h3><a name='4HFjqmTuIU6'></a>5.1 ストローク</h3>
+<h4><a name='ezUVhtPwl3J'></a>5.1.1 make-stroke 関数</h4>
 <pre class='code'>
 (make-stroke 10)       <span class='comment'>;; equal to (make-stroke :width 10)</span>
 
@@ -186,13 +212,622 @@
 </div>
 
 <p class='fig_title'><a name='4fQnwjWZpzi'></a>Figure.3 dashoffset, linecap, linejoin のサンプル</p>
-<h4><a name='bw6LIFogC17'></a>4.1.2 ＊default-stroke＊ 変数</h4>
-<h3><a name='dBUd7L4C3dx'></a>4.2 フィル</h3>
-<h3><a name='3kZ9FkounyK'></a>4.3 フォント</h3>
-<h2><a name='7TyOD7TaDM2'></a>5 リファレンス</h2>
-<h3><a name='hK4u1oSPHKz'></a>5.1 create-svg</h3>
-<h3><a name='cO92wFlsFW7'></a>5.2 with-subcanvas</h3>
-<h2><a name='dGdSPnvay5N'></a>6 更新履歴</h2>
+<h4><a name='bw6LIFogC17'></a>5.1.2 ＊default-stroke＊ 変数</h4>
+<h3><a name='dBUd7L4C3dx'></a>5.2 フィル</h3>
+<h3><a name='3kZ9FkounyK'></a>5.3 フォント</h3>
+<h2><a name='9Mem3Hn01qM'></a>6 色</h2>
+<p>　diagram は SVG 形式で図形を生成するため、色の指定は SVG の規格に準拠します。</p>
+<ul>
+<li>#rrggbb 表記による、6 桁の16進指定。rr、gg、bb は順に赤、緑、青の成分で、 00〜ff の範囲で指定します。</li>
+<li>#rgb 表記による、3 桁の16進指定。r、g、b は順に赤、緑、青の成分で、 0〜f の範囲で指定します。これは #rrggbb の簡略表記で、#136 は #113366 に相当します。</li>
+<li>rgb 関数による指定。これは <code>(rgb r g b)</code> の要領で使用します。r、g、b は順に赤、緑、青の成分で、それぞれ 0〜255 の整数または 0.0〜1.0 の小数点数で指定します。0.0〜1.0 の指定の場合、それに 255 をかけた値が指定されます。</li>
+<li>色名での指定。使用できる色の名前とサンプルは <a href='#dR01Jh257Q6'>7.3  節</a> を参照してください。</li>
+</ul>
+<p>　</p>
+<h2><a name='7TyOD7TaDM2'></a>7 リファレンス</h2>
+<h3><a name='hK4u1oSPHKz'></a>7.1 create-svg</h3>
+<h3><a name='cO92wFlsFW7'></a>7.2 with-subcanvas</h3>
+<h3><a name='dR01Jh257Q6'></a>7.3 色の名前</h3>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='750' height='1000'>
+	
+	<!-- rectangle -->
+	<rect x='0' y='0' width='750' height='1000' fill='white' stroke='white' stroke-width='1' />
+	<!-- rectangle -->
+	<rect x='7.5' y='12.5' width='15' height='15' fill='black' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='24' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#000000:black</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='32.5' width='15' height='15' fill='navy' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='44' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#000080:navy</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='52.5' width='15' height='15' fill='darkblue' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='64' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#00008B:darkblue</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='72.5' width='15' height='15' fill='mediumblue' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='84' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#0000CD:mediumblue</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='92.5' width='15' height='15' fill='blue' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='104' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#0000FF:blue</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='112.5' width='15' height='15' fill='darkgreen' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='124' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#006400:darkgreen</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='132.5' width='15' height='15' fill='green' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='144' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#008000:green</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='152.5' width='15' height='15' fill='teal' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='164' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#008080:teal</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='172.5' width='15' height='15' fill='darkcyan' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='184' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#008B8B:darkcyan</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='192.5' width='15' height='15' fill='deepskyblue' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='204' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#00BFFF:deepskyblue</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='212.5' width='15' height='15' fill='darkturquoise' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='224' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#00CED1:darkturquoise</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='232.5' width='15' height='15' fill='mediumspringgreen' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='244' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#00FA9A:mediumspringgreen</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='252.5' width='15' height='15' fill='lime' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='264' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#00FF00:lime</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='272.5' width='15' height='15' fill='springgreen' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='284' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#00FF7F:springgreen</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='292.5' width='15' height='15' fill='aqua' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='304' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#00FFFF:aqua</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='312.5' width='15' height='15' fill='cyan' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='324' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#00FFFF:cyan</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='332.5' width='15' height='15' fill='midnightblue' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='344' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#191970:midnightblue</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='352.5' width='15' height='15' fill='dodgerblue' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='364' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#1E90FF:dodgerblue</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='372.5' width='15' height='15' fill='lightseagreen' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='384' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#20B2AA:lightseagreen</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='392.5' width='15' height='15' fill='forestgreen' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='404' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#228B22:forestgreen</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='412.5' width='15' height='15' fill='seagreen' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='424' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#2E8B57:seagreen</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='432.5' width='15' height='15' fill='darkslategray' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='444' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#2F4F4F:darkslategray</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='452.5' width='15' height='15' fill='darkslategrey' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='464' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#2F4F4F:darkslategrey</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='472.5' width='15' height='15' fill='limegreen' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='484' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#32CD32:limegreen</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='492.5' width='15' height='15' fill='mediumseagreen' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='504' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#3CB371:mediumseagreen</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='512.5' width='15' height='15' fill='turquoise' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='524' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#40E0D0:turquoise</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='532.5' width='15' height='15' fill='royalblue' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='544' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#4169E1:royalblue</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='552.5' width='15' height='15' fill='steelblue' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='564' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#4682B4:steelblue</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='572.5' width='15' height='15' fill='darkslateblue' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='584' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#483D8B:darkslateblue</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='592.5' width='15' height='15' fill='mediumturquoise' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='604' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#48D1CC:mediumturquoise</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='612.5' width='15' height='15' fill='indigo' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='624' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#4B0082:indigo</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='632.5' width='15' height='15' fill='darkolivegreen' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='644' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#556B2F:darkolivegreen</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='652.5' width='15' height='15' fill='cadetblue' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='664' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#5F9EA0:cadetblue</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='672.5' width='15' height='15' fill='cornflowerblue' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='684' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#6495ED:cornflowerblue</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='692.5' width='15' height='15' fill='mediumaquamarine' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='704' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#66CDAA:mediumaquamarine</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='712.5' width='15' height='15' fill='dimgray' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='724' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#696969:dimgray</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='732.5' width='15' height='15' fill='dimgrey' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='744' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#696969:dimgrey</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='752.5' width='15' height='15' fill='slateblue' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='764' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#6A5ACD:slateblue</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='772.5' width='15' height='15' fill='olivedrab' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='784' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#6B8E23:olivedrab</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='792.5' width='15' height='15' fill='slategray' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='804' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#708090:slategray</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='812.5' width='15' height='15' fill='slategrey' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='824' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#708090:slategrey</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='832.5' width='15' height='15' fill='lightslategray' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='844' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#778899:lightslategray</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='852.5' width='15' height='15' fill='lightslategrey' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='864' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#778899:lightslategrey</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='872.5' width='15' height='15' fill='mediumslateblue' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='884' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#7B68EE:mediumslateblue</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='892.5' width='15' height='15' fill='lawngreen' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='904' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#7CFC00:lawngreen</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='912.5' width='15' height='15' fill='chartreuse' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='924' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#7FFF00:chartreuse</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='932.5' width='15' height='15' fill='aquamarine' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='944' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#7FFFD4:aquamarine</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='952.5' width='15' height='15' fill='maroon' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='964' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#800000:maroon</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='972.5' width='15' height='15' fill='purple' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='984' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#800080:purple</text>
+	<!-- rectangle -->
+	<rect x='257.5' y='12.5' width='15' height='15' fill='olive' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='275' y='24' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#808000:olive</text>
+	<!-- rectangle -->
+	<rect x='257.5' y='32.5' width='15' height='15' fill='gray' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='275' y='44' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#808080:gray</text>
+	<!-- rectangle -->
+	<rect x='257.5' y='52.5' width='15' height='15' fill='grey' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='275' y='64' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#808080:grey</text>
+	<!-- rectangle -->
+	<rect x='257.5' y='72.5' width='15' height='15' fill='skyblue' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='275' y='84' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#87CEEB:skyblue</text>
+	<!-- rectangle -->
+	<rect x='257.5' y='92.5' width='15' height='15' fill='lightskyblue' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='275' y='104' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#87CEFA:lightskyblue</text>
+	<!-- rectangle -->
+	<rect x='257.5' y='112.5' width='15' height='15' fill='blueviolet' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='275' y='124' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#8A2BE2:blueviolet</text>
+	<!-- rectangle -->
+	<rect x='257.5' y='132.5' width='15' height='15' fill='darkred' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='275' y='144' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#8B0000:darkred</text>
+	<!-- rectangle -->
+	<rect x='257.5' y='152.5' width='15' height='15' fill='darkmagenta' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='275' y='164' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#8B008B:darkmagenta</text>
+	<!-- rectangle -->
+	<rect x='257.5' y='172.5' width='15' height='15' fill='saddlebrown' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='275' y='184' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#8B4513:saddlebrown</text>
+	<!-- rectangle -->
+	<rect x='257.5' y='192.5' width='15' height='15' fill='darkseagreen' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='275' y='204' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#8FBC8F:darkseagreen</text>
+	<!-- rectangle -->
+	<rect x='257.5' y='212.5' width='15' height='15' fill='lightgreen' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='275' y='224' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#90EE90:lightgreen</text>
+	<!-- rectangle -->
+	<rect x='257.5' y='232.5' width='15' height='15' fill='mediumpurple' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='275' y='244' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#9370DB:mediumpurple</text>
+	<!-- rectangle -->
+	<rect x='257.5' y='252.5' width='15' height='15' fill='darkviolet' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='275' y='264' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#9400D3:darkviolet</text>
+	<!-- rectangle -->
+	<rect x='257.5' y='272.5' width='15' height='15' fill='palegreen' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='275' y='284' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#98FB98:palegreen</text>
+	<!-- rectangle -->
+	<rect x='257.5' y='292.5' width='15' height='15' fill='darkorchid' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='275' y='304' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#9932CC:darkorchid</text>
+	<!-- rectangle -->
+	<rect x='257.5' y='312.5' width='15' height='15' fill='yellowgreen' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='275' y='324' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#9ACD32:yellowgreen</text>
+	<!-- rectangle -->
+	<rect x='257.5' y='332.5' width='15' height='15' fill='sienna' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='275' y='344' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#A0522D:sienna</text>
+	<!-- rectangle -->
+	<rect x='257.5' y='352.5' width='15' height='15' fill='brown' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='275' y='364' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#A52A2A:brown</text>
+	<!-- rectangle -->
+	<rect x='257.5' y='372.5' width='15' height='15' fill='darkgray' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='275' y='384' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#A9A9A9:darkgray</text>
+	<!-- rectangle -->
+	<rect x='257.5' y='392.5' width='15' height='15' fill='darkgrey' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='275' y='404' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#A9A9A9:darkgrey</text>
+	<!-- rectangle -->
+	<rect x='257.5' y='412.5' width='15' height='15' fill='lightblue' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='275' y='424' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#ADD8E6:lightblue</text>
+	<!-- rectangle -->
+	<rect x='257.5' y='432.5' width='15' height='15' fill='greenyellow' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='275' y='444' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#ADFF2F:greenyellow</text>
+	<!-- rectangle -->
+	<rect x='257.5' y='452.5' width='15' height='15' fill='paleturquoise' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='275' y='464' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#AFEEEE:paleturquoise</text>
+	<!-- rectangle -->
+	<rect x='257.5' y='472.5' width='15' height='15' fill='lightsteelblue' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='275' y='484' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#B0C4DE:lightsteelblue</text>
+	<!-- rectangle -->
+	<rect x='257.5' y='492.5' width='15' height='15' fill='powderblue' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='275' y='504' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#B0E0E6:powderblue</text>
+	<!-- rectangle -->
+	<rect x='257.5' y='512.5' width='15' height='15' fill='firebrick' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='275' y='524' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#B22222:firebrick</text>
+	<!-- rectangle -->
+	<rect x='257.5' y='532.5' width='15' height='15' fill='darkgoldenrod' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='275' y='544' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#B8860B:darkgoldenrod</text>
+	<!-- rectangle -->
+	<rect x='257.5' y='552.5' width='15' height='15' fill='mediumorchid' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='275' y='564' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#BA55D3:mediumorchid</text>
+	<!-- rectangle -->
+	<rect x='257.5' y='572.5' width='15' height='15' fill='rosybrown' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='275' y='584' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#BC8F8F:rosybrown</text>
+	<!-- rectangle -->
+	<rect x='257.5' y='592.5' width='15' height='15' fill='darkkhaki' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='275' y='604' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#BDB76B:darkkhaki</text>
+	<!-- rectangle -->
+	<rect x='257.5' y='612.5' width='15' height='15' fill='silver' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='275' y='624' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#C0C0C0:silver</text>
+	<!-- rectangle -->
+	<rect x='257.5' y='632.5' width='15' height='15' fill='mediumvioletred' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='275' y='644' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#C71585:mediumvioletred</text>
+	<!-- rectangle -->
+	<rect x='257.5' y='652.5' width='15' height='15' fill='indianred' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='275' y='664' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#CD5C5C:indianred</text>
+	<!-- rectangle -->
+	<rect x='257.5' y='672.5' width='15' height='15' fill='peru' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='275' y='684' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#CD853F:peru</text>
+	<!-- rectangle -->
+	<rect x='257.5' y='692.5' width='15' height='15' fill='chocolate' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='275' y='704' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#D2691E:chocolate</text>
+	<!-- rectangle -->
+	<rect x='257.5' y='712.5' width='15' height='15' fill='tan' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='275' y='724' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#D2B48C:tan</text>
+	<!-- rectangle -->
+	<rect x='257.5' y='732.5' width='15' height='15' fill='lightgray' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='275' y='744' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#D3D3D3:lightgray</text>
+	<!-- rectangle -->
+	<rect x='257.5' y='752.5' width='15' height='15' fill='lightgrey' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='275' y='764' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#D3D3D3:lightgrey</text>
+	<!-- rectangle -->
+	<rect x='257.5' y='772.5' width='15' height='15' fill='thistle' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='275' y='784' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#D8BFD8:thistle</text>
+	<!-- rectangle -->
+	<rect x='257.5' y='792.5' width='15' height='15' fill='orchid' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='275' y='804' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#DA70D6:orchid</text>
+	<!-- rectangle -->
+	<rect x='257.5' y='812.5' width='15' height='15' fill='goldenrod' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='275' y='824' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#DAA520:goldenrod</text>
+	<!-- rectangle -->
+	<rect x='257.5' y='832.5' width='15' height='15' fill='palevioletred' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='275' y='844' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#DB7093:palevioletred</text>
+	<!-- rectangle -->
+	<rect x='257.5' y='852.5' width='15' height='15' fill='crimson' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='275' y='864' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#DC143C:crimson</text>
+	<!-- rectangle -->
+	<rect x='257.5' y='872.5' width='15' height='15' fill='gainsboro' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='275' y='884' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#DCDCDC:gainsboro</text>
+	<!-- rectangle -->
+	<rect x='257.5' y='892.5' width='15' height='15' fill='plum' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='275' y='904' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#DDA0DD:plum</text>
+	<!-- rectangle -->
+	<rect x='257.5' y='912.5' width='15' height='15' fill='burlywood' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='275' y='924' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#DEB887:burlywood</text>
+	<!-- rectangle -->
+	<rect x='257.5' y='932.5' width='15' height='15' fill='lightcyan' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='275' y='944' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#E0FFFF:lightcyan</text>
+	<!-- rectangle -->
+	<rect x='257.5' y='952.5' width='15' height='15' fill='lavender' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='275' y='964' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#E6E6FA:lavender</text>
+	<!-- rectangle -->
+	<rect x='257.5' y='972.5' width='15' height='15' fill='darksalmon' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='275' y='984' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#E9967A:darksalmon</text>
+	<!-- rectangle -->
+	<rect x='507.5' y='12.5' width='15' height='15' fill='violet' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='525' y='24' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#EE82EE:violet</text>
+	<!-- rectangle -->
+	<rect x='507.5' y='32.5' width='15' height='15' fill='palegoldenrod' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='525' y='44' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#EEE8AA:palegoldenrod</text>
+	<!-- rectangle -->
+	<rect x='507.5' y='52.5' width='15' height='15' fill='lightcoral' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='525' y='64' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#F08080:lightcoral</text>
+	<!-- rectangle -->
+	<rect x='507.5' y='72.5' width='15' height='15' fill='khaki' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='525' y='84' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#F0E68C:khaki</text>
+	<!-- rectangle -->
+	<rect x='507.5' y='92.5' width='15' height='15' fill='aliceblue' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='525' y='104' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#F0F8FF:aliceblue</text>
+	<!-- rectangle -->
+	<rect x='507.5' y='112.5' width='15' height='15' fill='honeydew' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='525' y='124' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#F0FFF0:honeydew</text>
+	<!-- rectangle -->
+	<rect x='507.5' y='132.5' width='15' height='15' fill='azure' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='525' y='144' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#F0FFFF:azure</text>
+	<!-- rectangle -->
+	<rect x='507.5' y='152.5' width='15' height='15' fill='sandybrown' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='525' y='164' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#F4A460:sandybrown</text>
+	<!-- rectangle -->
+	<rect x='507.5' y='172.5' width='15' height='15' fill='wheat' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='525' y='184' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#F5DEB3:wheat</text>
+	<!-- rectangle -->
+	<rect x='507.5' y='192.5' width='15' height='15' fill='beige' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='525' y='204' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#F5F5DC:beige</text>
+	<!-- rectangle -->
+	<rect x='507.5' y='212.5' width='15' height='15' fill='whitesmoke' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='525' y='224' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#F5F5F5:whitesmoke</text>
+	<!-- rectangle -->
+	<rect x='507.5' y='232.5' width='15' height='15' fill='mintcream' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='525' y='244' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#F5FFFA:mintcream</text>
+	<!-- rectangle -->
+	<rect x='507.5' y='252.5' width='15' height='15' fill='ghostwhite' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='525' y='264' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#F8F8FF:ghostwhite</text>
+	<!-- rectangle -->
+	<rect x='507.5' y='272.5' width='15' height='15' fill='salmon' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='525' y='284' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FA8072:salmon</text>
+	<!-- rectangle -->
+	<rect x='507.5' y='292.5' width='15' height='15' fill='antiquewhite' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='525' y='304' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FAEBD7:antiquewhite</text>
+	<!-- rectangle -->
+	<rect x='507.5' y='312.5' width='15' height='15' fill='linen' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='525' y='324' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FAF0E6:linen</text>
+	<!-- rectangle -->
+	<rect x='507.5' y='332.5' width='15' height='15' fill='lightgoldenrodyellow' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='525' y='344' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FAFAD2:lightgoldenrodyellow</text>
+	<!-- rectangle -->
+	<rect x='507.5' y='352.5' width='15' height='15' fill='oldlace' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='525' y='364' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FDF5E6:oldlace</text>
+	<!-- rectangle -->
+	<rect x='507.5' y='372.5' width='15' height='15' fill='red' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='525' y='384' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FF0000:red</text>
+	<!-- rectangle -->
+	<rect x='507.5' y='392.5' width='15' height='15' fill='fuchsia' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='525' y='404' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FF00FF:fuchsia</text>
+	<!-- rectangle -->
+	<rect x='507.5' y='412.5' width='15' height='15' fill='magenta' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='525' y='424' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FF00FF:magenta</text>
+	<!-- rectangle -->
+	<rect x='507.5' y='432.5' width='15' height='15' fill='deeppink' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='525' y='444' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FF1493:deeppink</text>
+	<!-- rectangle -->
+	<rect x='507.5' y='452.5' width='15' height='15' fill='orangered' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='525' y='464' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FF4500:orangered</text>
+	<!-- rectangle -->
+	<rect x='507.5' y='472.5' width='15' height='15' fill='tomato' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='525' y='484' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FF6347:tomato</text>
+	<!-- rectangle -->
+	<rect x='507.5' y='492.5' width='15' height='15' fill='hotpink' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='525' y='504' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FF69B4:hotpink</text>
+	<!-- rectangle -->
+	<rect x='507.5' y='512.5' width='15' height='15' fill='coral' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='525' y='524' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FF7F50:coral</text>
+	<!-- rectangle -->
+	<rect x='507.5' y='532.5' width='15' height='15' fill='darkorange' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='525' y='544' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FF8C00:darkorange</text>
+	<!-- rectangle -->
+	<rect x='507.5' y='552.5' width='15' height='15' fill='lightsalmon' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='525' y='564' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FFA07A:lightsalmon</text>
+	<!-- rectangle -->
+	<rect x='507.5' y='572.5' width='15' height='15' fill='orange' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='525' y='584' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FFA500:orange</text>
+	<!-- rectangle -->
+	<rect x='507.5' y='592.5' width='15' height='15' fill='lightpink' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='525' y='604' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FFB6C1:lightpink</text>
+	<!-- rectangle -->
+	<rect x='507.5' y='612.5' width='15' height='15' fill='pink' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='525' y='624' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FFC0CB:pink</text>
+	<!-- rectangle -->
+	<rect x='507.5' y='632.5' width='15' height='15' fill='gold' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='525' y='644' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FFD700:gold</text>
+	<!-- rectangle -->
+	<rect x='507.5' y='652.5' width='15' height='15' fill='peachpuff' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='525' y='664' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FFDAB9:peachpuff</text>
+	<!-- rectangle -->
+	<rect x='507.5' y='672.5' width='15' height='15' fill='navajowhite' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='525' y='684' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FFDEAD:navajowhite</text>
+	<!-- rectangle -->
+	<rect x='507.5' y='692.5' width='15' height='15' fill='moccasin' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='525' y='704' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FFE4B5:moccasin</text>
+	<!-- rectangle -->
+	<rect x='507.5' y='712.5' width='15' height='15' fill='bisque' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='525' y='724' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FFE4C4:bisque</text>
+	<!-- rectangle -->
+	<rect x='507.5' y='732.5' width='15' height='15' fill='mistyrose' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='525' y='744' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FFE4E1:mistyrose</text>
+	<!-- rectangle -->
+	<rect x='507.5' y='752.5' width='15' height='15' fill='blanchedalmond' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='525' y='764' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FFEBCD:blanchedalmond</text>
+	<!-- rectangle -->
+	<rect x='507.5' y='772.5' width='15' height='15' fill='papayawhip' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='525' y='784' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FFEFD5:papayawhip</text>
+	<!-- rectangle -->
+	<rect x='507.5' y='792.5' width='15' height='15' fill='lavenderblush' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='525' y='804' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FFF0F5:lavenderblush</text>
+	<!-- rectangle -->
+	<rect x='507.5' y='812.5' width='15' height='15' fill='seashell' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='525' y='824' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FFF5EE:seashell</text>
+	<!-- rectangle -->
+	<rect x='507.5' y='832.5' width='15' height='15' fill='cornsilk' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='525' y='844' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FFF8DC:cornsilk</text>
+	<!-- rectangle -->
+	<rect x='507.5' y='852.5' width='15' height='15' fill='lemonchiffon' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='525' y='864' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FFFACD:lemonchiffon</text>
+	<!-- rectangle -->
+	<rect x='507.5' y='872.5' width='15' height='15' fill='floralwhite' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='525' y='884' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FFFAF0:floralwhite</text>
+	<!-- rectangle -->
+	<rect x='507.5' y='892.5' width='15' height='15' fill='snow' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='525' y='904' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FFFAFA:snow</text>
+	<!-- rectangle -->
+	<rect x='507.5' y='912.5' width='15' height='15' fill='yellow' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='525' y='924' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FFFF00:yellow</text>
+	<!-- rectangle -->
+	<rect x='507.5' y='932.5' width='15' height='15' fill='lightyellow' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='525' y='944' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FFFFE0:lightyellow</text>
+	<!-- rectangle -->
+	<rect x='507.5' y='952.5' width='15' height='15' fill='ivory' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='525' y='964' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FFFFF0:ivory</text>
+	<!-- rectangle -->
+	<rect x='507.5' y='972.5' width='15' height='15' fill='white' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='525' y='984' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FFFFFF:white</text>
+
+</svg>
+</div>
+
+<p class='fig_title'><a name='2sDmAkevog1'></a>Figure.4 色の名前とサンプル</p>
+<h2><a name='dGdSPnvay5N'></a>8 更新履歴</h2>
 <p>　更新履歴です。</p>
 <hr>
 <p class='footnote'><a name='footnote1' href='#footnote_ref1'>1</a> : SVG は Scalable Vector Graphics の略です。</p>

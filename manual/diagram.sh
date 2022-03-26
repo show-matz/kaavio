@@ -12,7 +12,7 @@ fi
 if [ -e ./${CACHE}/${OUT}.svg ]; then
 	touch ./${CACHE}/${OUT}.svg
 else
-	./diagram cl-diagram ${IN} ./${CACHE}/${OUT}.svg
+	./diagram ${IN} ./${CACHE}/${OUT}.svg
 fi
 
 echo "<div align='center'>"  > ./${OUT}
