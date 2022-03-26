@@ -50,6 +50,7 @@
 				:to-property-strings
 				:to-style-strings
 				:check
+				:rgb
 				;connector.lisp
 				:resolve-connector-points
 				:connector
@@ -499,3 +500,16 @@
 #|EXPORT|#				:check
  |#
 (defgeneric check (obj canvas dict))
+
+
+#|
+#|EXPORT|#				:rgb
+ |#
+(defun rgb (r g b)
+  (labels ((fix (n)
+			 (let ((n (if (floatp n)
+						  (round (* 255 n)) n)))
+			   (if (not (numberp n))
+				   0
+				   (if (< 255 n) 255 n)))))
+	(format nil "#~2,'0x~2,'0x~2,'0x" (fix r) (fix g) (fix b))))
