@@ -27,7 +27,7 @@ ${BLANK_PARAGRAPH}
 　${APPNAME} は、テキストベースの作図ツールです。テキスト形式で作成したデータファイルを入力として、
 SVG 形式{{fn:SVG は Scalable Vector Graphics の略です。}}の画像ファイルを生成します。
 
-　入力データの記述には Common LISP 言語を使用します。これは、diagram 自身が Common LISP で
+　入力データの記述には Common LISP 言語を使用します。これは、${APPNAME} 自身が Common LISP で
 書かれているからですが、
 
 
@@ -88,7 +88,7 @@ Figure. 簡単なサンプル-2
 
 ## 基本的な図形
 
-### rectangle
+### 四角形
 
 <!-- snippet: RECTANGLE-SAMPLE
 (diagram (:w 300 :h 100)
@@ -103,14 +103,40 @@ Figure. 簡単なサンプル-2
 <!-- expand: RECTANGLE-SAMPLE -->
 ```
 
+### 円
+
+### 楕円
+
+### 線
+
+### コネクタ
+
+### テキスト
+
+### テキストボックス
 
 
-## 線・塗り潰し・文字
+## 色の指定
+
+　${APPNAME} は SVG 形式で図形を生成するため、色の指定は SVG の規格に準拠します。
+
+* #rrggbb 表記による、6 桁の16進指定。rr、gg、bb は順に赤、緑、青の成分で、 00〜ff の範囲で \
+指定します。
+* #rgb 表記による、3 桁の16進指定。r、g、b は順に赤、緑、青の成分で、 0〜f の範囲で指定します。 \
+これは #rrggbb の簡略表記で、#136 は #113366 に相当します。
+* [$$](#rgb関数)による指定。これは `(rgb r g b)` の要領で使用します。r、g、b は順に赤、緑、青の \
+成分で、それぞれ 0〜255 の整数または 0.0〜1.0 の小数点数で指定します。0.0〜1.0 の指定の場合、 \
+それに 255 をかけた値が指定されます。
+* 色名での指定。使用できる色の名前とサンプルは [$@ 節](#色の名前) を参照してください。
+
+${BLANK_PARAGRAPH}
+
+
+## 線・塗りつぶし・文字
+
+　ここでは、図形の線や塗りつぶし、およびフォントの指定方法を紹介します。
 
 ### ストローク
-
-
-#### make-stroke 関数
 
 ```lisp
 (make-stroke 10)       ;; equal to (make-stroke :width 10)
@@ -123,22 +149,112 @@ Figure. 簡単なサンプル-2
 
 ```
 
+
+### フィル
+
+
+
+### フォント
+
+
+## リファレンス
+
+### 関数とマクロ
+
+#### *default-fill*変数
+
+#### *default-stroke*変数
+
+#### diagram マクロ
+
+#### make-fill 関数
+
+```lisp
+(defun make-fill &key :color :opacity :rule)
+```
+
+Table. make-fill 関数のパラメータ
+| parameter   | default 値 | description          |
+|:============|:===========|:---------------------|
+| :color      | `:none`    | 塗りつぶしの色を指定します。[$@ 節](#色の指定)参照。 |
+| :opacity    | 1.0        | 0 から 1 までで透明度を指定します。 |
+| :rule       | `:nonzero` | 塗りつぶしのルールを `:nonzero` または `:evenodd` で指定します。|
+
+
+${BLANK_PARAGRAPH}
+
+<!-- snippet: FILL-OPACITY-SAMPLE
+(diagram (:w 400 :h 100)
+  (text '(200 55) "this is test text." :align :center)
+  (with-fill (:color :red)
+    (rectangle '(150 50) 30 30 :fill (make-fill :opacity 0.2))
+    (text      '(150 80) "0.2" :align :center)
+    (rectangle '(200 50) 30 30 :fill (make-fill :opacity 0.5))
+    (text      '(200 80) "0.5" :align :center)
+    (rectangle '(250 50) 30 30 :fill (make-fill :opacity 0.8))
+    (text      '(250 80) "0.8" :align :center)))
+-->
+p
+```diagram
+<!-- expand: FILL-OPACITY-SAMPLE -->
+```
+Figure. fill における opacity のサンプル
+
+<!-- collapse:begin -->
+[$@](F#fill における opacity のサンプル) のソースはこちら
+
+```lisp
+<!-- expand: FILL-OPACITY-SAMPLE -->
+```
+<!-- collapse:end -->
+
+
+
+
+<!-- snippet: FILL-RULE-SAMPLE
+(diagram (:w 400 :h 120)
+  (with-subcanvas ('(75 0) 100 100)
+    (polygon '((50 10) (20 90) (90 40) (10 40) (80 90))
+             :fill (make-fill :color :skyblue :rule :nonzero))
+    (text '(50 110) ":nonzero" :align :center))
+  (with-subcanvas ('(225 0) 100 100)
+    (polygon '((50 10) (20 90) (90 40) (10 40) (80 90))
+             :fill (make-fill :color :skyblue :rule :evenodd))
+    (text '(50 110) ":evenodd" :align :center)))
+-->
+
+```diagram
+<!-- expand: FILL-RULE-SAMPLE -->
+```
+Figure. fill における rule のサンプル
+
+<!-- collapse:begin -->
+[$@](F#fill における rule のサンプル) のソースはこちら
+
+```lisp
+<!-- expand: FILL-RULE-SAMPLE -->
+```
+<!-- collapse:end -->
+
+
+#### make-stroke 関数
+
 ```lisp
 (defun make-stroke &key :color :width :opacity :linecap
                         :linejoin :miterlimit :dasharray :dashoffset)
 ```
 
 Table. make-stroke 関数のパラメータ
-| parameter   | description          | default 値 |
-|:============|:---------------------|:===========|
-| :color      |                      | :black     |
-| :width      |                      | 1          |
-| :opacity    |                      | nil        |
-| :linecap    |                      | nil        |
-| :linejoin   |                      | nil        |
-| :miterlimit |                      | nil        |
-| :dasharray  |                      | nil        |
-| :dashoffset |                      | nil        |
+| parameter   | default 値 | description          |
+|:============|:===========|:---------------------|
+| :color      | :black     | ストロークの色を指定します。[$@ 節](#色の指定)参照。 |
+| :width      | 1          |                      |
+| :opacity    | nil        |                      |
+| :linecap    | nil        |                      |
+| :linejoin   | nil        |                      |
+| :miterlimit | nil        |                      |
+| :dasharray  | nil        |                      |
+| :dashoffset | nil        |                      |
 
 
 ${BLANK_PARAGRAPH}
@@ -147,19 +263,19 @@ ${BLANK_PARAGRAPH}
 ```diagram
 (diagram (:w 400 :h 100)
 	(with-subcanvas ('(0 0) 100 100)
-	  (let ((*default-stroke* (make-stroke :color :black :width 4 :dasharray '(8 4))))
+	  (with-stroke (:color :black :width 4 :dasharray '(8 4))
 		(line '((30 20) (70 20)))
 		(line '((30 40) (70 40)) :stroke '(:dashoffset 2))
 		(line '((30 60) (70 60)) :stroke '(:dashoffset 4))
 		(line '((30 80) (70 80)) :stroke '(:dashoffset 6))))
 	(with-subcanvas ('(100 0) 100 100)
-	  (let ((*default-stroke* (make-stroke :color :black :width 8)))
+	  (with-stroke (:color :black :width 8)
 		(line '((30 20) (70 20)))
 		(line '((30 40) (70 40)) :stroke '(:linecap   :butt))
 		(line '((30 60) (70 60)) :stroke '(:linecap  :round))
 		(line '((30 80) (70 80)) :stroke '(:linecap :square))))
 	(with-subcanvas ('(200 0) 100 100)
-	  (let ((*default-stroke* (make-stroke :color :black :width 12)))
+	  (with-stroke (:color :black :width 12)
 		(line '(( 30 60) ( 45 45) ( 60 60)) :stroke '(:linejoin :miter))
 		(line '(( 90 60) (105 45) (120 60)) :stroke '(:linejoin :round))
 		(line '((150 60) (165 45) (180 60)) :stroke '(:linejoin :bevel)))))
@@ -168,47 +284,30 @@ Figure. dashoffset, linecap, linejoin のサンプル
 
 
 
-#### ＊default-stroke＊ 変数
+#### rgb関数
 
+```lisp
+(rgb r g b)
+```
 
+#### with-fillマクロ
 
-### フィル
+#### with-fontマクロ
 
-### フォント
+#### with-strokeマクロ
 
-
-## 色
-
-　${APPNAME} は SVG 形式で図形を生成するため、色の指定は SVG の規格に準拠します。
-
-* #rrggbb 表記による、6 桁の16進指定。rr、gg、bb は順に赤、緑、青の成分で、 00〜ff の範囲で \
-指定します。
-* #rgb 表記による、3 桁の16進指定。r、g、b は順に赤、緑、青の成分で、 0〜f の範囲で指定します。 \
-これは #rrggbb の簡略表記で、#136 は #113366 に相当します。
-* rgb 関数による指定。これは `(rgb r g b)` の要領で使用します。r、g、b は順に赤、緑、青の \
-成分で、それぞれ 0〜255 の整数または 0.0〜1.0 の小数点数で指定します。0.0〜1.0 の指定の場合、 \
-それに 255 をかけた値が指定されます。
-* 色名での指定。使用できる色の名前とサンプルは [$@ 節](#色の名前) を参照してください。
-
-　
-
-
-## リファレンス
-
-### create-svg
-
-### with-subcanvas
+#### with-subcanvasマクロ
 
 ### 色の名前
 
-```diagram
+<!-- snippet: COLOR-NAME-SAMPLE
 (let ((svg-width   750)
       (svg-height 1000))
   (diagram (:w svg-width :h svg-height)
     (let ((*default-fill*   (make-fill :color :white))
           (*default-font*   (make-font :family "monospace" :size 10 :width-spice 0.85))
           (*default-stroke* (make-stroke :color :black :width 1)))
-	  ;; back ground
+      ;; back ground
       (rectangle (make-point (/ svg-width 2) (/ svg-height 2))
                  svg-width svg-height :fill :white :stroke :white)
       (let ((x 15)
@@ -219,9 +318,9 @@ Figure. dashoffset, linecap, linejoin のサンプル
                      (incf x 250)
                      (setf y  20))
                    (rectangle (list x y)  15  15 :fill (fourth lst))
-                   (text (list (+ x 10)  (+ y 4)) (apply #'format  nil "#~2,'0x~2,'0x~2,'0x:~A" lst))))
-          (mapcar #'imp '(
-                          (  0   0   0 "black"               )
+                   (text (list (+ x 10)  (+ y 4))
+                         (apply #'format  nil "#~2,'0x~2,'0x~2,'0x:~A" lst))))
+          (mapcar #'imp '((  0   0   0 "black"               )
                           (  0   0 128 "navy"                )
                           (  0   0 139 "darkblue"            )
                           (  0   0 205 "mediumblue"          )
@@ -367,11 +466,21 @@ Figure. dashoffset, linecap, linejoin のサンプル
                           (255 255   0 "yellow"              )
                           (255 255 224 "lightyellow"         )
                           (255 255 240 "ivory"               )
-                          (255 255 255 "white"               )
-                        )))))))
+                          (255 255 255 "white"               ))))))))
+-->
+
+```diagram
+<!-- expand: COLOR-NAME-SAMPLE -->
 ```
 Figure. 色の名前とサンプル
 
+<!-- collapse:begin -->
+[$@](F#色の名前とサンプル) のソースはこちら
+
+```lisp
+<!-- expand: COLOR-NAME-SAMPLE -->
+```
+<!-- collapse:end -->
 
 
 ## 更新履歴
