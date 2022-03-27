@@ -3,3 +3,5 @@ fist.log
 *~
 *.svg
 sample/UMLDistilled3rd/*.png
+manual/diagram
+manual/plantuml-1.2022.2.jar
