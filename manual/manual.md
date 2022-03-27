@@ -1,11 +1,12 @@
 <!-- define: APPNAME = diagram -->
 <!-- define: BLANK_PARAGRAPH = '　　' -->
+<!-- define: TODO = '@((background:red;color:white;)(ToDo : %1))' -->
 
 <!-- title:${APPNAME} readme -->    
 <!-- style:./default.css -->			
 <!-- config:term-link-in-header -->			
 
-<!-- filter:diagram = bash ./diagram.sh %in %out -->
+<!-- filter:diagram  = bash ./diagram.sh  %in %out -->
 <!-- filter:plantuml = bash ./plantuml.sh %in %out -->
 
 <!-- config:write-comment -->			
@@ -28,7 +29,8 @@ ${BLANK_PARAGRAPH}
 SVG 形式{{fn:SVG は Scalable Vector Graphics の略です。}}の画像ファイルを生成します。
 
 　入力データの記述には Common LISP 言語を使用します。これは、${APPNAME} 自身が Common LISP で
-書かれているからですが、
+書かれているからですが、このツールを使ってみたいからといって知りもしない言語をマスターしたいとは思わない
+でしょう。${{TODO}{まだ記述されていません。}}
 
 
 ## 簡単なサンプル
@@ -37,8 +39,9 @@ SVG 形式{{fn:SVG は Scalable Vector Graphics の略です。}}の画像ファ
 
 <!-- snippet: FIRST-SAMPLE
 (diagram (:w 300 :h 150)
-  (rectangle '( 50  50) 80 60 :id :x)
-  (circle    '(250 100) 40    :id :y)
+  (grid)
+  (rectangle '( 50  50) 80 60 :fill :powderblue :id :x)
+  (circle    '(250 100) 40    :fill :moccasin   :id :y)
   (connector :x :y :end2 :arrow))
 -->
 
@@ -57,21 +60,43 @@ ${BLANK_PARAGRAPH}
 Figure. 簡単なサンプル
 
 
-* create-svg で、幅 300、高さ 150 の画像を作成します
-* rectangle で、左上から (50, 50) の位置に幅 80、高さ 60 の矩形を作成し、これに :x という ID をつけます
-* circle で、左上から (250, 100) の位置に半径 40 の円を作成し、これに :y という ID をつけます
-* connector で、:x から :y に向かって接続線を引き、終端の形状を矢印にしています
+　「入力を ${APPNAME} に与える」というのは、具体的には以下のように入力ファイルと出力ファイルの名前を
+パラメータとして ${APPNAME} を起動することを意味します。${{TODO}{まだ記述されていません。}}
+
+```sh
+diagram ./input.digram ./output.svg
+```
+
+
+　先程の入力データをもう一度みてみましょう。
+
+```lisp
+<!-- expand: FIRST-SAMPLE -->
+```
+
+* diagram で、幅 300、高さ 150 の画像を作成します
+* grid で、背景にグリッド線を描画しています
+* rectangle で、左上から (50, 50) の位置に幅 80、高さ 60 の矩形を作成し、これに x という ID をつけます
+* circle で、左上から (250, 100) の位置に半径 40 の円を作成し、これに y という ID をつけます
+* connector で、x から y に向かって接続線を引き、終端の形状を矢印にしています
+
+
+${BLANK_PARAGRAPH}
+
+　次のサンプルはもう少し複雑です。
 
 <!-- snippet: SECOND-SAMPLE
 (diagram (:w 300 :h 200)
-; (rectangle '(150 100) 300 200)
-  (rectangle '( 50  50) 50 50     :id :a1)
-  (circle    (point/x+ a1.center 100) 25 :id :a2)
-  (rectangle (point/y+ a2.center 100) 50 50 :id :a3)
-  (circle    (point/x+ a3.center 100) 25 :id :a4)
+  (grid)
+  (with-fill (:color :honeydew)
+    (rectangle '( 50  50) 50 50               :id :a1)
+    (circle    (point/x+ a1.center 100) 25    :id :a2)
+    (rectangle (point/y+ a2.center 100) 50 50 :id :a3)
+    (circle    (point/x+ a3.center 100) 25    :id :a4))
   (connector :a1 :a2 :end2 :arrow)
   (connector :a2 :a3 :end2 :arrow)
-  (connector :a3 :a4 :end2 :arrow))
+  (connector :a3 :a4 :end2 :arrow)
+  (connector :a3 :a1 :end2 :arrow :style :LB))
 -->
 
 
@@ -85,6 +110,13 @@ Figure. 簡単なサンプル
 Figure. 簡単なサンプル-2
 
 
+* diagram と grid は先程と同じなので省略。
+* with-fill で、ここから先は「デフォルトの塗りつぶしを `honeydew` にしています
+* drectangle で、左上から (50, 50) の位置に一辺 50 の正方形を作成し、これに a1 という ID をつけます
+* a1 の中央（center）から x軸（水平）方向に 100 の位置に、circle で 半径 40 の円を作成し、これに a2 と \
+いう ID をつけます
+* connector で、x から y に向かって接続線を引き、終端の形状を矢印にしています
+
 
 ## 基本的な図形
 
@@ -92,28 +124,64 @@ Figure. 簡単なサンプル-2
 
 <!-- snippet: RECTANGLE-SAMPLE
 (diagram (:w 300 :h 100)
-  (rectangle '(150 50) 150 80 :rx 10 :ry 10 :fill :skyblue :stroke :blue))
+  (grid)
+  (rectangle '(150 50) 150 60 :rx 10 :ry 10 :fill :skyblue :stroke :blue))
 -->
+
+```diagram
+<!-- expand: RECTANGLE-SAMPLE -->
+```
+Figure. rectangle のサンプル
+
 
 ```lisp
 <!-- expand: RECTANGLE-SAMPLE -->
 ```
 
-```diagram
-<!-- expand: RECTANGLE-SAMPLE -->
-```
+
 
 ### 円
 
+　${{TODO}{まだ記述されていません。}}
+
 ### 楕円
+
+　${{TODO}{まだ記述されていません。}}
 
 ### 線
 
+　${{TODO}{まだ記述されていません。}}
+
 ### コネクタ
+
+　${{TODO}{まだ記述されていません。}}
 
 ### テキスト
 
+　${{TODO}{まだ記述されていません。}}
+
 ### テキストボックス
+
+　テキストボックスは、[$$](#四角形) と [$$](#テキスト) を組み合わせたようなものです。
+
+<!-- snippet: TEXTBOX-SAMPLE
+(diagram (:w 200 :h 100)
+  (grid)
+  (textbox '(100 50) "test text.~%multi line."
+                     :rx 10 :ry 10 :stroke :black :fill :white))
+-->
+
+```diagram
+<!-- expand: TEXTBOX-SAMPLE -->
+```
+Figure. テキストボックスのサンプル
+
+```lisp
+<!-- expand: TEXTBOX-SAMPLE -->
+```
+
+　${{TODO}{まだ記述されていません。}}
+
 
 
 ## 色の指定
@@ -138,10 +206,12 @@ ${BLANK_PARAGRAPH}
 
 ### ストローク
 
-```lisp
-(make-stroke 10)       ;; equal to (make-stroke :width 10)
+　${{TODO}{まだ記述されていません。}}
 
+```lisp
 (make-stroke :blue)    ;; equal to (make-stroke :color :blue)
+
+(make-stroke 10)       ;; equal to (make-stroke :width 10)
 
 (make-stroke :color :red :width 3)
 
@@ -152,22 +222,57 @@ ${BLANK_PARAGRAPH}
 
 ### フィル
 
-
+　${{TODO}{まだ記述されていません。}}
 
 ### フォント
 
+　${{TODO}{まだ記述されていません。}}
+
+
+${BLANK_PARAGRAPH}
+
+## レイヤー
+
+　${{TODO}{まだ記述されていません。}}
+
+
+${BLANK_PARAGRAPH}
+
+## 座標と位置
+
+　${{TODO}{まだ記述されていません。}}
+
+
+${BLANK_PARAGRAPH}
+
+## サブキャンバス
+
+　${{TODO}{まだ記述されていません。}}
+
+
+${BLANK_PARAGRAPH}
 
 ## リファレンス
+
+　${{TODO}{まだ記述されていません。}}
 
 ### 関数とマクロ
 
 #### *default-fill*変数
 
+　${{TODO}{まだ記述されていません。}}
+
 #### *default-stroke*変数
+
+　${{TODO}{まだ記述されていません。}}
 
 #### diagram マクロ
 
+　${{TODO}{まだ記述されていません。}}
+
 #### make-fill 関数
+
+　${{TODO}{まだ記述されていません。}}
 
 ```lisp
 (defun make-fill &key :color :opacity :rule)
@@ -194,11 +299,14 @@ ${BLANK_PARAGRAPH}
     (rectangle '(250 50) 30 30 :fill (make-fill :opacity 0.8))
     (text      '(250 80) "0.8" :align :center)))
 -->
-p
+
 ```diagram
 <!-- expand: FILL-OPACITY-SAMPLE -->
 ```
 Figure. fill における opacity のサンプル
+
+
+
 
 <!-- collapse:begin -->
 [$@](F#fill における opacity のサンプル) のソースはこちら

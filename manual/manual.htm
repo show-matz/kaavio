@@ -8,6 +8,7 @@
 <body>
 <!-- define: APPNAME = diagram -->
 <!-- define: BLANK_PARAGRAPH = '　　' -->
+<!-- define: TODO = '@((background:red;color:white;)(ToDo : %1))' -->
 <!-- config:term-link-in-header -->			
 <!-- config:write-comment -->			
 <!-- config:header-numbering 2 4 -->			
@@ -35,41 +36,46 @@
 <li><a href='#dBUd7L4C3dx'>6.2 フィル</a></li>
 <li><a href='#3kZ9FkounyK'>6.3 フォント</a></li>
 </ul>
-<li><a href='#7TyOD7TaDM2'>7 リファレンス</a></li>
+<li><a href='#1ovJxG7Ie9O'>7 レイヤー</a></li>
+<li><a href='#h1RNMQY1C0b'>8 座標と位置</a></li>
+<li><a href='#kgs1vf3AbTN'>9 サブキャンバス</a></li>
+<li><a href='#7TyOD7TaDM2'>10 リファレンス</a></li>
 <ul>
-<li><a href='#gKJ1gWcMPT8'>7.1 関数とマクロ</a></li>
+<li><a href='#gKJ1gWcMPT8'>10.1 関数とマクロ</a></li>
 <ul>
-<li><a href='#g99vlb6tXRZ'>7.1.1 *default-fill*変数</a></li>
-<li><a href='#7pITpDTSaVn'>7.1.2 *default-stroke*変数</a></li>
-<li><a href='#2xCCaUuNLlH'>7.1.3 diagram マクロ</a></li>
-<li><a href='#8IkB7VinE7h'>7.1.4 make-fill 関数</a></li>
-<li><a href='#ezUVhtPwl3J'>7.1.5 make-stroke 関数</a></li>
-<li><a href='#if12ldF3hxG'>7.1.6 rgb関数</a></li>
-<li><a href='#dhtdq1yi3tM'>7.1.7 with-fillマクロ</a></li>
-<li><a href='#fp4ncG4oCnL'>7.1.8 with-fontマクロ</a></li>
-<li><a href='#9jN2FHSU54t'>7.1.9 with-strokeマクロ</a></li>
-<li><a href='#lsGULoUqoK4'>7.1.10 with-subcanvasマクロ</a></li>
+<li><a href='#g99vlb6tXRZ'>10.1.1 *default-fill*変数</a></li>
+<li><a href='#7pITpDTSaVn'>10.1.2 *default-stroke*変数</a></li>
+<li><a href='#2xCCaUuNLlH'>10.1.3 diagram マクロ</a></li>
+<li><a href='#8IkB7VinE7h'>10.1.4 make-fill 関数</a></li>
+<li><a href='#ezUVhtPwl3J'>10.1.5 make-stroke 関数</a></li>
+<li><a href='#if12ldF3hxG'>10.1.6 rgb関数</a></li>
+<li><a href='#dhtdq1yi3tM'>10.1.7 with-fillマクロ</a></li>
+<li><a href='#fp4ncG4oCnL'>10.1.8 with-fontマクロ</a></li>
+<li><a href='#9jN2FHSU54t'>10.1.9 with-strokeマクロ</a></li>
+<li><a href='#lsGULoUqoK4'>10.1.10 with-subcanvasマクロ</a></li>
 </ul>
-<li><a href='#dR01Jh257Q6'>7.2 色の名前</a></li>
+<li><a href='#dR01Jh257Q6'>10.2 色の名前</a></li>
 </ul>
-<li><a href='#dGdSPnvay5N'>8 更新履歴</a></li>
+<li><a href='#dGdSPnvay5N'>11 更新履歴</a></li>
 </ul>
 <p>　　</p>
 <h2><a name='0Ofny2DArqY'></a>2 diagram とは</h2>
 <p>　diagram は、テキストベースの作図ツールです。テキスト形式で作成したデータファイルを入力として、SVG 形式<sup><a name='footnote_ref1' href='#footnote1'>1</a></sup>の画像ファイルを生成します。</p>
-<p>　入力データの記述には Common LISP 言語を使用します。これは、diagram 自身が Common LISP で書かれているからですが、</p>
+<p>　入力データの記述には Common LISP 言語を使用します。これは、diagram 自身が Common LISP で書かれているからですが、このツールを使ってみたいからといって知りもしない言語をマスターしたいとは思わないでしょう。<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <h2><a name='9LLncE6hWlx'></a>3 簡単なサンプル</h2>
 <p>　簡単なサンプルから始めましょう。以下のような入力を diagram に与えると、</p>
 <!-- snippet: FIRST-SAMPLE
 (diagram (:w 300 :h 150)
-  (rectangle '( 50  50) 80 60 :id :x)
-  (circle    '(250 100) 40    :id :y)
+  (grid)
+  (rectangle '( 50  50) 80 60 :fill :powderblue :id :x)
+  (circle    '(250 100) 40    :fill :moccasin   :id :y)
   (connector :x :y :end2 :arrow))
 -->
 <pre class='code'>
 (diagram (<span class='keyword3'>:w</span> 300 <span class='keyword3'>:h</span> 150)
-  (rectangle '( 50  50) 80 60 <span class='keyword3'>:id</span> <span class='keyword3'>:x</span>)
-  (circle    '(250 100) 40    <span class='keyword3'>:id</span> <span class='keyword3'>:y</span>)
+  (grid)
+  (rectangle '( 50  50) 80 60 <span class='keyword3'>:fill</span> <span class='keyword3'>:powderblue</span> <span class='keyword3'>:id</span> <span class='keyword3'>:x</span>)
+  (circle    '(250 100) 40    <span class='keyword3'>:fill</span> <span class='keyword3'>:moccasin</span>   <span class='keyword3'>:id</span> <span class='keyword3'>:y</span>)
   (connector <span class='keyword3'>:x</span> <span class='keyword3'>:y</span> <span class='keyword3'>:end2</span> <span class='keyword3'>:arrow</span>))
 </pre>
 <p>　　</p>
@@ -78,10 +84,16 @@
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='150'>
 	
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
 	<!-- x : rectangle -->
-	<rect id='x' x='10' y='20' width='80' height='60' fill='none' stroke='black' stroke-width='1' />
+	<rect id='x' x='10' y='20' width='80' height='60' fill='powderblue' stroke='black' stroke-width='1' />
 	<!-- y : circle -->
-	<circle id='y' cx='250' cy='100' r='40' fill='none' stroke='black' stroke-width='1' />
+	<circle id='y' cx='250' cy='100' r='40' fill='moccasin' stroke='black' stroke-width='1' />
 	<!-- connector from x to y -->
 	<polyline fill='none' stroke='black' stroke-width='1' points=' 90.0,60.0 211.1943,90.29858' />
 	<polyline fill='none' stroke='black' stroke-width='1' points='196.77277,94.42401 211.1943,90.29858 200.4108,79.87188' />
@@ -90,46 +102,71 @@
 </div>
 
 <p class='fig_title'><a name='euwIyAjslFq'></a>Figure.1 簡単なサンプル</p>
+<p>　「入力を diagram に与える」というのは、具体的には以下のように入力ファイルと出力ファイルの名前をパラメータとして diagram を起動することを意味します。<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<pre class='code'>
+diagram ./input.digram ./output.svg
+</pre>
+<p>　先程の入力データをもう一度みてみましょう。</p>
+<pre class='code'>
+(diagram (<span class='keyword3'>:w</span> 300 <span class='keyword3'>:h</span> 150)
+  (grid)
+  (rectangle '( 50  50) 80 60 <span class='keyword3'>:fill</span> <span class='keyword3'>:powderblue</span> <span class='keyword3'>:id</span> <span class='keyword3'>:x</span>)
+  (circle    '(250 100) 40    <span class='keyword3'>:fill</span> <span class='keyword3'>:moccasin</span>   <span class='keyword3'>:id</span> <span class='keyword3'>:y</span>)
+  (connector <span class='keyword3'>:x</span> <span class='keyword3'>:y</span> <span class='keyword3'>:end2</span> <span class='keyword3'>:arrow</span>))
+</pre>
 <ul>
-<li>create-svg で、幅 300、高さ 150 の画像を作成します</li>
-<li>rectangle で、左上から (50, 50) の位置に幅 80、高さ 60 の矩形を作成し、これに :x という ID をつけます</li>
-<li>circle で、左上から (250, 100) の位置に半径 40 の円を作成し、これに :y という ID をつけます</li>
-<li>connector で、:x から :y に向かって接続線を引き、終端の形状を矢印にしています</li>
+<li>diagram で、幅 300、高さ 150 の画像を作成します</li>
+<li>grid で、背景にグリッド線を描画しています</li>
+<li>rectangle で、左上から (50, 50) の位置に幅 80、高さ 60 の矩形を作成し、これに x という ID をつけます</li>
+<li>circle で、左上から (250, 100) の位置に半径 40 の円を作成し、これに y という ID をつけます</li>
+<li>connector で、x から y に向かって接続線を引き、終端の形状を矢印にしています</li>
 </ul>
+<p>　　</p>
+<p>　次のサンプルはもう少し複雑です。</p>
 <!-- snippet: SECOND-SAMPLE
 (diagram (:w 300 :h 200)
-; (rectangle '(150 100) 300 200)
-  (rectangle '( 50  50) 50 50     :id :a1)
-  (circle    (point/x+ a1.center 100) 25 :id :a2)
-  (rectangle (point/y+ a2.center 100) 50 50 :id :a3)
-  (circle    (point/x+ a3.center 100) 25 :id :a4)
+  (grid)
+  (with-fill (:color :honeydew)
+    (rectangle '( 50  50) 50 50               :id :a1)
+    (circle    (point/x+ a1.center 100) 25    :id :a2)
+    (rectangle (point/y+ a2.center 100) 50 50 :id :a3)
+    (circle    (point/x+ a3.center 100) 25    :id :a4))
   (connector :a1 :a2 :end2 :arrow)
   (connector :a2 :a3 :end2 :arrow)
-  (connector :a3 :a4 :end2 :arrow))
+  (connector :a3 :a4 :end2 :arrow)
+  (connector :a3 :a1 :end2 :arrow :style :LB))
 -->
 <pre class='code'>
 (diagram (<span class='keyword3'>:w</span> 300 <span class='keyword3'>:h</span> 200)
-<span class='comment'>; (rectangle '(150 100) 300 200)</span>
-  (rectangle '( 50  50) 50 50     <span class='keyword3'>:id</span> <span class='keyword3'>:a1</span>)
-  (circle    (point/x+ a1.center 100) 25 <span class='keyword3'>:id</span> <span class='keyword3'>:a2</span>)
-  (rectangle (point/y+ a2.center 100) 50 50 <span class='keyword3'>:id</span> <span class='keyword3'>:a3</span>)
-  (circle    (point/x+ a3.center 100) 25 <span class='keyword3'>:id</span> <span class='keyword3'>:a4</span>)
+  (grid)
+  (with-fill (<span class='keyword3'>:color</span> <span class='keyword3'>:honeydew</span>)
+    (rectangle '( 50  50) 50 50               <span class='keyword3'>:id</span> <span class='keyword3'>:a1</span>)
+    (circle    (point/x+ a1.center 100) 25    <span class='keyword3'>:id</span> <span class='keyword3'>:a2</span>)
+    (rectangle (point/y+ a2.center 100) 50 50 <span class='keyword3'>:id</span> <span class='keyword3'>:a3</span>)
+    (circle    (point/x+ a3.center 100) 25    <span class='keyword3'>:id</span> <span class='keyword3'>:a4</span>))
   (connector <span class='keyword3'>:a1</span> <span class='keyword3'>:a2</span> <span class='keyword3'>:end2</span> <span class='keyword3'>:arrow</span>)
   (connector <span class='keyword3'>:a2</span> <span class='keyword3'>:a3</span> <span class='keyword3'>:end2</span> <span class='keyword3'>:arrow</span>)
-  (connector <span class='keyword3'>:a3</span> <span class='keyword3'>:a4</span> <span class='keyword3'>:end2</span> <span class='keyword3'>:arrow</span>))
+  (connector <span class='keyword3'>:a3</span> <span class='keyword3'>:a4</span> <span class='keyword3'>:end2</span> <span class='keyword3'>:arrow</span>)
+  (connector <span class='keyword3'>:a3</span> <span class='keyword3'>:a1</span> <span class='keyword3'>:end2</span> <span class='keyword3'>:arrow</span> <span class='keyword3'>:style</span> <span class='keyword3'>:LB</span>))
 </pre>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='200'>
 	
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
 	<!-- a1 : rectangle -->
-	<rect id='a1' x='25' y='25' width='50' height='50' fill='none' stroke='black' stroke-width='1' />
+	<rect id='a1' x='25' y='25' width='50' height='50' fill='honeydew' stroke='black' stroke-width='1' />
 	<!-- a2 : circle -->
-	<circle id='a2' cx='150' cy='50' r='25' fill='none' stroke='black' stroke-width='1' />
+	<circle id='a2' cx='150' cy='50' r='25' fill='honeydew' stroke='black' stroke-width='1' />
 	<!-- a3 : rectangle -->
-	<rect id='a3' x='125' y='125' width='50' height='50' fill='none' stroke='black' stroke-width='1' />
+	<rect id='a3' x='125' y='125' width='50' height='50' fill='honeydew' stroke='black' stroke-width='1' />
 	<!-- a4 : circle -->
-	<circle id='a4' cx='250' cy='150' r='25' fill='none' stroke='black' stroke-width='1' />
+	<circle id='a4' cx='250' cy='150' r='25' fill='honeydew' stroke='black' stroke-width='1' />
 	<!-- connector from a1 to a2 -->
 	<polyline fill='none' stroke='black' stroke-width='1' points=' 75.0,50.0 125.0,50.0' />
 	<polyline fill='none' stroke='black' stroke-width='1' points='112.00962,57.5 125.0,50.0 112.00962,42.5' />
@@ -139,53 +176,111 @@
 	<!-- connector from a3 to a4 -->
 	<polyline fill='none' stroke='black' stroke-width='1' points=' 175.0,150.0 225.0,150.0' />
 	<polyline fill='none' stroke='black' stroke-width='1' points='212.00961,157.5 225.0,150.0 212.00961,142.5' />
+	<!-- connector from a3 to a1 -->
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 125.0,150.0 50.0,150.0 50.0,75.0' />
+	<polyline fill='none' stroke='black' stroke-width='1' points='57.5,87.99038 50,75 42.5,87.99038' />
 
 </svg>
 </div>
 
 <p class='fig_title'><a name='aw36ReN8sMQ'></a>Figure.2 簡単なサンプル-2</p>
+<ul>
+<li>diagram と grid は先程と同じなので省略。</li>
+<li>with-fill で、ここから先は「デフォルトの塗りつぶしを <code>honeydew</code> にしています</li>
+<li>drectangle で、左上から (50, 50) の位置に一辺 50 の正方形を作成し、これに a1 という ID をつけます</li>
+<li>a1 の中央（center）から x軸（水平）方向に 100 の位置に、circle で 半径 40 の円を作成し、これに a2 という ID をつけます</li>
+<li>connector で、x から y に向かって接続線を引き、終端の形状を矢印にしています</li>
+</ul>
 <h2><a name='2msfXdtEc6a'></a>4 基本的な図形</h2>
 <h3><a name='kJonRG8GtHF'></a>4.1 四角形</h3>
 <!-- snippet: RECTANGLE-SAMPLE
 (diagram (:w 300 :h 100)
-  (rectangle '(150 50) 150 80 :rx 10 :ry 10 :fill :skyblue :stroke :blue))
+  (grid)
+  (rectangle '(150 50) 150 60 :rx 10 :ry 10 :fill :skyblue :stroke :blue))
 -->
-<pre class='code'>
-(diagram (<span class='keyword3'>:w</span> 300 <span class='keyword3'>:h</span> 100)
-  (rectangle '(150 50) 150 80 <span class='keyword3'>:rx</span> 10 <span class='keyword3'>:ry</span> 10 <span class='keyword3'>:fill</span> <span class='keyword3'>:skyblue</span> <span class='keyword3'>:stroke</span> <span class='keyword3'>:blue</span>))
-</pre>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='100'>
 	
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
 	<!-- rectangle -->
-	<rect x='75' y='10' width='150' height='80' rx='10' ry='10' fill='skyblue' stroke='blue' stroke-width='1' />
+	<rect x='75' y='20' width='150' height='60' rx='10' ry='10' fill='skyblue' stroke='blue' stroke-width='1' />
 
 </svg>
 </div>
 
+<p class='fig_title'><a name='gbojqhHwzvq'></a>Figure.3 rectangle のサンプル</p>
+<pre class='code'>
+(diagram (<span class='keyword3'>:w</span> 300 <span class='keyword3'>:h</span> 100)
+  (grid)
+  (rectangle '(150 50) 150 60 <span class='keyword3'>:rx</span> 10 <span class='keyword3'>:ry</span> 10 <span class='keyword3'>:fill</span> <span class='keyword3'>:skyblue</span> <span class='keyword3'>:stroke</span> <span class='keyword3'>:blue</span>))
+</pre>
 <h3><a name='aU9abq0lSrR'></a>4.2 円</h3>
+<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <h3><a name='7YzIcjhyGKN'></a>4.3 楕円</h3>
+<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <h3><a name='9PcPWa05BEU'></a>4.4 線</h3>
+<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <h3><a name='eFhVs4WwYUG'></a>4.5 コネクタ</h3>
+<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <h3><a name='cTdCvBeU6ZJ'></a>4.6 テキスト</h3>
+<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <h3><a name='e7hkC2YUaKe'></a>4.7 テキストボックス</h3>
+<p>　テキストボックスは、<a href='#kJonRG8GtHF'>四角形</a> と <a href='#cTdCvBeU6ZJ'>テキスト</a> を組み合わせたようなものです。</p>
+<!-- snippet: TEXTBOX-SAMPLE
+(diagram (:w 200 :h 100)
+  (grid)
+  (textbox '(100 50) "test text.~%multi line."
+                     :rx 10 :ry 10 :stroke :black :fill :white))
+-->
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='200' height='100'>
+	
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- textbox -->
+	<rect x='47.100002' y='27' width='105.799995' height='46' rx='10' ry='10' fill='white' stroke='black' stroke-width='1' />
+	<text x='100.0' y='49' text-anchor='middle' font-size='12pt' fill='black' >test text.</text>
+	<text x='100.0' y='63' text-anchor='middle' font-size='12pt' fill='black' >multi line.</text>
+
+</svg>
+</div>
+
+<p class='fig_title'><a name='4NTtjXsX7EZ'></a>Figure.4 テキストボックスのサンプル</p>
+<pre class='code'>
+(diagram (<span class='keyword3'>:w</span> 200 <span class='keyword3'>:h</span> 100)
+  (grid)
+  (textbox '(100 50) <span class='literal'>"test text.~%multi line."</span>
+                     <span class='keyword3'>:rx</span> 10 <span class='keyword3'>:ry</span> 10 <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span> <span class='keyword3'>:fill</span> <span class='keyword3'>:white</span>))
+</pre>
+<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <h2><a name='1rpUB3fre67'></a>5 色の指定</h2>
 <p>　diagram は SVG 形式で図形を生成するため、色の指定は SVG の規格に準拠します。</p>
 <ul>
 <li>#rrggbb 表記による、6 桁の16進指定。rr、gg、bb は順に赤、緑、青の成分で、 00〜ff の範囲で指定します。</li>
 <li>#rgb 表記による、3 桁の16進指定。r、g、b は順に赤、緑、青の成分で、 0〜f の範囲で指定します。これは #rrggbb の簡略表記で、#136 は #113366 に相当します。</li>
 <li><a href='#if12ldF3hxG'>rgb関数</a>による指定。これは <code>(rgb r g b)</code> の要領で使用します。r、g、b は順に赤、緑、青の成分で、それぞれ 0〜255 の整数または 0.0〜1.0 の小数点数で指定します。0.0〜1.0 の指定の場合、それに 255 をかけた値が指定されます。</li>
-<li>色名での指定。使用できる色の名前とサンプルは <a href='#dR01Jh257Q6'>7.2  節</a> を参照してください。</li>
+<li>色名での指定。使用できる色の名前とサンプルは <a href='#dR01Jh257Q6'>10.2  節</a> を参照してください。</li>
 </ul>
 <p>　　</p>
 <h2><a name='blviLzaq3nk'></a>6 線・塗りつぶし・文字</h2>
 <p>　ここでは、図形の線や塗りつぶし、およびフォントの指定方法を紹介します。</p>
 <h3><a name='4HFjqmTuIU6'></a>6.1 ストローク</h3>
+<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <pre class='code'>
-(make-stroke 10)       <span class='comment'>;; equal to (make-stroke :width 10)</span>
-
 (make-stroke <span class='keyword3'>:blue</span>)    <span class='comment'>;; equal to (make-stroke :color :blue)</span>
+
+(make-stroke 10)       <span class='comment'>;; equal to (make-stroke :width 10)</span>
 
 (make-stroke <span class='keyword3'>:color</span> <span class='keyword3'>:red</span> <span class='keyword3'>:width</span> 3)
 
@@ -193,13 +288,30 @@
 
 </pre>
 <h3><a name='dBUd7L4C3dx'></a>6.2 フィル</h3>
+<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <h3><a name='3kZ9FkounyK'></a>6.3 フォント</h3>
-<h2><a name='7TyOD7TaDM2'></a>7 リファレンス</h2>
-<h3><a name='gKJ1gWcMPT8'></a>7.1 関数とマクロ</h3>
-<h4><a name='g99vlb6tXRZ'></a>7.1.1 *default-fill*変数</h4>
-<h4><a name='7pITpDTSaVn'></a>7.1.2 *default-stroke*変数</h4>
-<h4><a name='2xCCaUuNLlH'></a>7.1.3 diagram マクロ</h4>
-<h4><a name='8IkB7VinE7h'></a>7.1.4 make-fill 関数</h4>
+<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<p>　　</p>
+<h2><a name='1ovJxG7Ie9O'></a>7 レイヤー</h2>
+<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<p>　　</p>
+<h2><a name='h1RNMQY1C0b'></a>8 座標と位置</h2>
+<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<p>　　</p>
+<h2><a name='kgs1vf3AbTN'></a>9 サブキャンバス</h2>
+<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<p>　　</p>
+<h2><a name='7TyOD7TaDM2'></a>10 リファレンス</h2>
+<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<h3><a name='gKJ1gWcMPT8'></a>10.1 関数とマクロ</h3>
+<h4><a name='g99vlb6tXRZ'></a>10.1.1 *default-fill*変数</h4>
+<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<h4><a name='7pITpDTSaVn'></a>10.1.2 *default-stroke*変数</h4>
+<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<h4><a name='2xCCaUuNLlH'></a>10.1.3 diagram マクロ</h4>
+<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<h4><a name='8IkB7VinE7h'></a>10.1.4 make-fill 関数</h4>
+<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <pre class='code'>
 (<span class='keyword1'>defun</span> <span class='keyword5'>make-fill</span> <span class='keyword2'>&amp;key</span> <span class='keyword3'>:color</span> <span class='keyword3'>:opacity</span> <span class='keyword3'>:rule</span>)
 </pre>
@@ -222,9 +334,31 @@
     (rectangle '(250 50) 30 30 :fill (make-fill :opacity 0.8))
     (text      '(250 80) "0.8" :align :center)))
 -->
-<p>p```diagram(diagram (:w 400 :h 100)  (text '(200 55) "this is test text." :align :center)  (with-fill (:color :red)    (rectangle '(150 50) 30 30 :fill (make-fill :opacity 0.2))    (text      '(150 80) "0.2" :align :center)    (rectangle '(200 50) 30 30 :fill (make-fill :opacity 0.5))    (text      '(200 80) "0.5" :align :center)    (rectangle '(250 50) 30 30 :fill (make-fill :opacity 0.8))    (text      '(250 80) "0.8" :align :center)))<code>`</code>Figure. fill における opacity のサンプル</p>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='400' height='100'>
+	
+	<!-- text -->
+	<text x='200' y='55' text-anchor='middle' font-size='12pt' fill='black' >this is test text.</text>
+	<!-- rectangle -->
+	<rect x='135' y='35' width='30' height='30' fill='red' fill-opacity='0.2' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='150' y='80' text-anchor='middle' font-size='12pt' fill='black' >0.2</text>
+	<!-- rectangle -->
+	<rect x='185' y='35' width='30' height='30' fill='red' fill-opacity='0.5' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='200' y='80' text-anchor='middle' font-size='12pt' fill='black' >0.5</text>
+	<!-- rectangle -->
+	<rect x='235' y='35' width='30' height='30' fill='red' fill-opacity='0.8' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='250' y='80' text-anchor='middle' font-size='12pt' fill='black' >0.8</text>
+
+</svg>
+</div>
+
+<p class='fig_title'><a name='hOZzwQd2DMS'></a>Figure.5 fill における opacity のサンプル</p>
 <details>
-<summary><a href='#hOZzwQd2DMS'>Figure.3</a> のソースはこちら</summary>
+<summary><a href='#hOZzwQd2DMS'>Figure.5</a> のソースはこちら</summary>
 <pre class='code'>
 (diagram (<span class='keyword3'>:w</span> 400 <span class='keyword3'>:h</span> 100)
   (text '(200 55) <span class='literal'>"this is test text."</span> <span class='keyword3'>:align</span> <span class='keyword3'>:center</span>)
@@ -264,9 +398,9 @@
 </svg>
 </div>
 
-<p class='fig_title'><a name='9n3NgPBJGzS'></a>Figure.4 fill における rule のサンプル</p>
+<p class='fig_title'><a name='9n3NgPBJGzS'></a>Figure.6 fill における rule のサンプル</p>
 <details>
-<summary><a href='#9n3NgPBJGzS'>Figure.4</a> のソースはこちら</summary>
+<summary><a href='#9n3NgPBJGzS'>Figure.6</a> のソースはこちら</summary>
 <pre class='code'>
 (diagram (<span class='keyword3'>:w</span> 400 <span class='keyword3'>:h</span> 120)
   (with-subcanvas ('(75 0) 100 100)
@@ -279,7 +413,7 @@
     (text '(50 110) <span class='literal'>":evenodd"</span> <span class='keyword3'>:align</span> <span class='keyword3'>:center</span>)))
 </pre>
 </details>
-<h4><a name='ezUVhtPwl3J'></a>7.1.5 make-stroke 関数</h4>
+<h4><a name='ezUVhtPwl3J'></a>10.1.5 make-stroke 関数</h4>
 <pre class='code'>
 (<span class='keyword1'>defun</span> <span class='keyword5'>make-stroke</span> <span class='keyword2'>&amp;key</span> <span class='keyword3'>:color</span> <span class='keyword3'>:width</span> <span class='keyword3'>:opacity</span> <span class='keyword3'>:linecap</span>
                         <span class='keyword3'>:linejoin</span> <span class='keyword3'>:miterlimit</span> <span class='keyword3'>:dasharray</span> <span class='keyword3'>:dashoffset</span>)
@@ -327,16 +461,16 @@
 </svg>
 </div>
 
-<p class='fig_title'><a name='4fQnwjWZpzi'></a>Figure.5 dashoffset, linecap, linejoin のサンプル</p>
-<h4><a name='if12ldF3hxG'></a>7.1.6 rgb関数</h4>
+<p class='fig_title'><a name='4fQnwjWZpzi'></a>Figure.7 dashoffset, linecap, linejoin のサンプル</p>
+<h4><a name='if12ldF3hxG'></a>10.1.6 rgb関数</h4>
 <pre class='code'>
 (rgb r g b)
 </pre>
-<h4><a name='dhtdq1yi3tM'></a>7.1.7 with-fillマクロ</h4>
-<h4><a name='fp4ncG4oCnL'></a>7.1.8 with-fontマクロ</h4>
-<h4><a name='9jN2FHSU54t'></a>7.1.9 with-strokeマクロ</h4>
-<h4><a name='lsGULoUqoK4'></a>7.1.10 with-subcanvasマクロ</h4>
-<h3><a name='dR01Jh257Q6'></a>7.2 色の名前</h3>
+<h4><a name='dhtdq1yi3tM'></a>10.1.7 with-fillマクロ</h4>
+<h4><a name='fp4ncG4oCnL'></a>10.1.8 with-fontマクロ</h4>
+<h4><a name='9jN2FHSU54t'></a>10.1.9 with-strokeマクロ</h4>
+<h4><a name='lsGULoUqoK4'></a>10.1.10 with-subcanvasマクロ</h4>
+<h3><a name='dR01Jh257Q6'></a>10.2 色の名前</h3>
 <!-- snippet: COLOR-NAME-SAMPLE
 (let ((svg-width   750)
       (svg-height 1000))
@@ -1103,9 +1237,9 @@
 </svg>
 </div>
 
-<p class='fig_title'><a name='2sDmAkevog1'></a>Figure.6 色の名前とサンプル</p>
+<p class='fig_title'><a name='2sDmAkevog1'></a>Figure.8 色の名前とサンプル</p>
 <details>
-<summary><a href='#2sDmAkevog1'>Figure.6</a> のソースはこちら</summary>
+<summary><a href='#2sDmAkevog1'>Figure.8</a> のソースはこちら</summary>
 <pre class='code'>
 (<span class='keyword1'>let</span> ((svg-width   750)
       (svg-height 1000))
@@ -1275,7 +1409,7 @@
                           (255 255 255 <span class='literal'>"white"</span>               ))))))))
 </pre>
 </details>
-<h2><a name='dGdSPnvay5N'></a>8 更新履歴</h2>
+<h2><a name='dGdSPnvay5N'></a>11 更新履歴</h2>
 <p>　更新履歴です。</p>
 <hr>
 <p class='footnote'><a name='footnote1' href='#footnote_ref1'>1</a> : SVG は Scalable Vector Graphics の略です。</p>
