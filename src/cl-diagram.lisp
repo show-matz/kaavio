@@ -459,9 +459,14 @@
 		   (make-symbol-macrolet (sym)
 			 (let* ((name (symbol-name sym))
 					(pos  (position #\. name))
-					(id   (onlisp/keysymb (subseq name 0 pos)))
-					(method (onlisp/symb "SHAPE-" (subseq name (1+ pos)))))
-			   `(,sym (,method (dict-get-entity ,dict ,id))))))	;;ToDo : export?
+					(id   (subseq name 0 pos)))
+			   (if (string= id "CANVAS")
+				   (let ((id-sym (onlisp/symb (subseq name 0 pos)))
+						 (method (onlisp/symb "CANVAS-DICT-" (subseq name (1+ pos)))))
+					 `(,sym (,method ,id-sym)))
+				   (let ((id-kwd (onlisp/keysymb (subseq name 0 pos)))
+						 (method (onlisp/symb "SHAPE-" (subseq name (1+ pos)))))
+					 `(,sym (,method (dict-get-entity ,dict ,id-kwd))))))))
 	(let ((syms (remove-duplicates
 				 (remove-if-not #'property-ref-symbolp
 								(diagram::onlisp/flatten body)))))

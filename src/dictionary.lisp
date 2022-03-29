@@ -30,13 +30,15 @@
 				 :map       (make-hash-table :test 'eq)))
 				 
 
-(defun dict-register (dict id entity)
+(defun dict-register (dict entity)
   (with-slots (history-max history-arr
 			   history-size history-top map) dict
-	(when id
-	  (when (gethash id map)
-		(throw-exception "ID '~A' has already exist in dictionary." id))
-	  (setf (gethash id map) entity))
+	(let ((id (slot-value entity 'id)))
+	  (when id
+		(when (or (eq id :canvas)
+				  (gethash id map))
+		  (throw-exception "ID '~A' has already exist in dictionary." id))
+		(setf (gethash id map) entity)))
 	(decf history-top)
 	(when (< history-top 0)
 	  (setf history-top (1- history-max)))

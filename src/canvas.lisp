@@ -80,3 +80,20 @@
 	 (declare (special canvas))
 	 ,@body))
 
+
+
+
+
+
+;; for expansion in 'with-dictionary'
+(defun canvas-dict-width       (canvas) (cadr canvas))
+(defun canvas-dict-height      (canvas) (cddr canvas))
+(defun canvas-dict-topleft     (canvas) (car  canvas))
+(defun canvas-dict-top         (canvas) (point/x+  (car canvas) (/ (cadr canvas) 2)))
+(defun canvas-dict-topright    (canvas) (point/x+  (car canvas)    (cadr canvas)))
+(defun canvas-dict-left        (canvas) (point/y+  (car canvas) (/ (cddr canvas) 2)))
+(defun canvas-dict-center      (canvas) (point/xy+ (car canvas) (/ (cadr canvas) 2) (/ (cddr canvas) 2)))
+(defun canvas-dict-right       (canvas) (point/xy+ (car canvas)    (cadr canvas)    (/ (cddr canvas) 2)))
+(defun canvas-dict-bottomleft  (canvas) (point/y+  (car canvas)    (cddr canvas)))
+(defun canvas-dict-bottom      (canvas) (point/xy+ (car canvas) (/ (cadr canvas) 2)    (cddr canvas)))
+(defun canvas-dict-bottomright (canvas) (point/xy+ (car canvas)    (cadr canvas)       (cddr canvas)))
