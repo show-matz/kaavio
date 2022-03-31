@@ -1,7 +1,6 @@
 (require :cl-diagram)
-(require :pathnames)
 
-(in-package :cl-diagram)    ;;ToDo : :diagram-user でもいける？
+(in-package :cl-diagram)    ;;ToDo : :diagram-user でもいける？ → path/xxx の参照が問題になる
 
 (labels ((read-whole-file (pathname)
 		   (with-open-file (in pathname :direction :input)
@@ -34,9 +33,9 @@
 	  (if (/= 1 (length args))
 		  (diagram::throw-exception "Invalid parameter count.")
 		  (destructuring-bind (ifile) args
-			(let ((in-file  (merge-pathnames ifile (path:get-current-directory))))
+			(let ((in-file  (merge-pathnames ifile (path/get-current-directory))))	;; ToDo : merge 不要？
 			  ;; check in-file existence.
-			  (unless (path:is-existing-file in-file)
+			  (unless (path/is-existing-file in-file)
 				(diagram::throw-exception "Input file '~A' is not exist." in-file))
 			  (let ((*package* (find-package :diagram-user)))
 				(write-string (eval (read-whole-file in-file))))))))))
