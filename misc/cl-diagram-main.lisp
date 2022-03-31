@@ -1,16 +1,16 @@
 (require :cl-diagram)
-(require :jp)
 (require :pathnames)
 
-(in-package :cl-diagram)
+(in-package :cl-diagram)    ;;ToDo : :diagram-user でもいける？
 
-(labels ((load-whole-file (pathname)
-		   (with-open-file (stream pathname :direction :input
-											:element-type 'unsigned-byte)
-			 (let* ((filesize (file-length stream))
-					(buf      (make-array filesize :initial-element nil)))
-			   (read-sequence buf stream)
-			   buf))))
+(labels ((read-whole-file (pathname)
+		   (with-open-file (in pathname :direction :input)
+			 (labels ((impl (acc)
+						(let ((lst (read in nil nil)))
+						  (if (null lst)
+							  (cons 'progn (nreverse acc))
+							  (impl (cons lst acc))))))
+			   (impl nil)))))
 
   (defun cl-diagram-main (self args)
 	(handler-bind ((condition
@@ -38,9 +38,5 @@
 			  ;; check in-file existence.
 			  (unless (path:is-existing-file in-file)
 				(diagram::throw-exception "Input file '~A' is not exist." in-file))
-			  ;; check encoding parameters.
-			  (let* ((buf      (load-whole-file in-file))
-					 (encoding (jp:guess buf)))
-				(setf buf (concatenate 'string "(progn " (jp:decode buf encoding) ")"))
-				(let ((*package* (find-package :diagram-user)))
-				  (write-string (eval (read-from-string buf)))))))))))
+			  (let ((*package* (find-package :diagram-user)))
+				(write-string (eval (read-whole-file in-file))))))))))
