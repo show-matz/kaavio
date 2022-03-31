@@ -71,9 +71,7 @@
 (defparameter *default-paragraph-valign*       :top)
 
 #|
-#|EXPORT|#				:*default-output-encoding*
 #|EXPORT|#				:*default-history-count*
  |#
-(defparameter *default-output-encoding*        :utf8)
 (defparameter *default-history-count*          9)
 

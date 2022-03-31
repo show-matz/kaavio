@@ -70,7 +70,6 @@
 				:*default-text-align*
 				:*default-paragraph-align*
 				:*default-paragraph-valign*
-				:*default-output-encoding*
 				:*default-history-count*
 				;create-svg.lisp
 				:create-svg

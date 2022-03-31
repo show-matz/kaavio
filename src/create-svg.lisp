@@ -14,15 +14,6 @@
 
 (in-package :cl-diagram)
 
-(defun __get-xml-encoding-name (kwd)
-  (case kwd
-	((:utf8)	"utf-8")
-	((:sjis)	"Shift_JIS")
-	((:euc-jp)	"EUC-JP")
-	((:jis)		"ISO-2022-JP")
-	((:ascii)	"us-ascii")
-	(t          nil)))
-
 
 ;;------------------------------------------------------------------------------
 ;;
@@ -36,8 +27,7 @@
 #|EXPORT|#				:width
 #|EXPORT|#				:height
  |#
-(defmacro create-svg ((&key width height desc
-							(encoding *default-output-encoding*)) &rest body)
+(defmacro create-svg ((&key width height desc) &rest body)
 "
 desc      := string
 width     := fixnum
@@ -77,9 +67,7 @@ height    := fixnum
 										   (layer-get-priority ,g-layer-mgr (slot-value e2 'layer))))))
 
 	   (let ((,g-writer (create-svg-writer)))
-		 (writer-write ,g-writer "<?xml version='1.0'"
-					   (when ,encoding
-						 (format nil " encoding='~A'" (__get-xml-encoding-name ,encoding))) " ?>")
+		 (writer-write ,g-writer "<?xml version='1.0' encoding='utf-8' ?>")
 ;		 (writer-write ,g-writer "<?xml-stylesheet href='svg.css' type='text/css'?>") ;;ToDo : svg.css!!!!
 		 (writer-write ,g-writer "<svg xmlns='http://www.w3.org/2000/svg' "
 								 "xmlns:xlink='http://www.w3.org/1999/xlink' "

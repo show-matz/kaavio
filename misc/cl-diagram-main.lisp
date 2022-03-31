@@ -10,17 +10,7 @@
 			 (let* ((filesize (file-length stream))
 					(buf      (make-array filesize :initial-element nil)))
 			   (read-sequence buf stream)
-			   buf)))
-
-		 (save-whole-file (pathname byte-buf)
-		   (handler-case
-			   (with-open-file (stream pathname :direction :output
-												:if-exists :supersede
-												:element-type 'unsigned-byte)
-				 (write-sequence byte-buf stream))
-			 (error ()
-			   (diagram::throw-exception "Output file '~A' can't open." pathname)))
-		   nil))
+			   buf))))
 
   (defun cl-diagram-main (self args)
 	(handler-bind ((condition
@@ -41,11 +31,10 @@
 									  :name nil :type nil :defaults self)))
 		(setf diagram:*include-paths* (list lib-path)))
 
-	  (if (/= 2 (length args))
+	  (if (/= 1 (length args))
 		  (diagram::throw-exception "Invalid parameter count.")
-		  (destructuring-bind (ifile ofile) args
-			(let ((in-file  (merge-pathnames ifile (path:get-current-directory)))
-				  (out-file (merge-pathnames ofile (path:get-current-directory))))
+		  (destructuring-bind (ifile) args
+			(let ((in-file  (merge-pathnames ifile (path:get-current-directory))))
 			  ;; check in-file existence.
 			  (unless (path:is-existing-file in-file)
 				(diagram::throw-exception "Input file '~A' is not exist." in-file))
@@ -53,7 +42,5 @@
 			  (let* ((buf      (load-whole-file in-file))
 					 (encoding (jp:guess buf)))
 				(setf buf (concatenate 'string "(progn " (jp:decode buf encoding) ")"))
-				(let ((diagram:*default-output-encoding* :utf8)
-					  (*package* (find-package :diagram-user)))
-				  (setf buf (eval (read-from-string buf))))
-				(save-whole-file out-file (jp:encode buf :utf8)))))))))
+				(let ((*package* (find-package :diagram-user)))
+				  (write-string (eval (read-from-string buf)))))))))))
