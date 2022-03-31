@@ -297,9 +297,91 @@ diagram ./input.digram ./output.svg
 <p>　　</p>
 <h2><a name='h1RNMQY1C0b'></a>8 座標と位置</h2>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<!-- snippet: GEOMETRY-SAMPLE
+(diagram (:w 300 :h 200)
+  (grid)
+  (text '(10 20) "(0, 0)")
+  (circle (point/xy+ canvas.topleft 2 2)     2 :stroke :red :fill :red)
+  (circle canvas.topright    2 :stroke :red :fill :red)
+  (circle canvas.bottomleft  2 :stroke :red :fill :red)
+  (circle canvas.bottomright 2 :stroke :red :fill :red))
+-->
+<pre class='code'>
+(diagram (<span class='keyword3'>:w</span> 300 <span class='keyword3'>:h</span> 200)
+  (grid)
+  (text '(10 20) <span class='literal'>"(0, 0)"</span>)
+  (circle (point/xy+ canvas.topleft 2 2)     2 <span class='keyword3'>:stroke</span> <span class='keyword3'>:red</span> <span class='keyword3'>:fill</span> <span class='keyword3'>:red</span>)
+  (circle canvas.topright    2 <span class='keyword3'>:stroke</span> <span class='keyword3'>:red</span> <span class='keyword3'>:fill</span> <span class='keyword3'>:red</span>)
+  (circle canvas.bottomleft  2 <span class='keyword3'>:stroke</span> <span class='keyword3'>:red</span> <span class='keyword3'>:fill</span> <span class='keyword3'>:red</span>)
+  (circle canvas.bottomright 2 <span class='keyword3'>:stroke</span> <span class='keyword3'>:red</span> <span class='keyword3'>:fill</span> <span class='keyword3'>:red</span>))
+</pre>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='200'>
+	
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- text -->
+	<text x='10' y='20' text-anchor='start' font-size='12pt' fill='black' >(0, 0)</text>
+	<!-- circle -->
+	<circle cx='2' cy='2' r='2' fill='red' stroke='red' stroke-width='1' />
+	<!-- circle -->
+	<circle cx='300' cy='0' r='2' fill='red' stroke='red' stroke-width='1' />
+	<!-- circle -->
+	<circle cx='0' cy='200' r='2' fill='red' stroke='red' stroke-width='1' />
+	<!-- circle -->
+	<circle cx='300' cy='200' r='2' fill='red' stroke='red' stroke-width='1' />
+
+</svg>
+</div>
+
+<p class='fig_title'><a name='br3mf6bkjtv'></a>Figure.5 xxxのサンプル</p>
 <p>　　</p>
 <h2><a name='kgs1vf3AbTN'></a>9 サブキャンバス</h2>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<!-- snippet: SUBCANVAS-SAMPLE
+(diagram (:w 300 :h 200)
+  (grid)
+  (circle (point/xy+ canvas.topleft 50 50) 20 :stroke :brown :fill :wheat)
+  (with-subcanvas ('(150 50) 100 100)
+    (rectangle canvas.center
+               canvas.width canvas.height :stroke :gray :fill :lightgray)
+    (circle (point/xy+ canvas.topleft 50 50) 20 :stroke :brown :fill :wheat)))
+-->
+<pre class='code'>
+(diagram (<span class='keyword3'>:w</span> 300 <span class='keyword3'>:h</span> 200)
+  (grid)
+  (circle (point/xy+ canvas.topleft 50 50) 20 <span class='keyword3'>:stroke</span> <span class='keyword3'>:brown</span> <span class='keyword3'>:fill</span> <span class='keyword3'>:wheat</span>)
+  (with-subcanvas ('(150 50) 100 100)
+    (rectangle canvas.center
+               canvas.width canvas.height <span class='keyword3'>:stroke</span> <span class='keyword3'>:gray</span> <span class='keyword3'>:fill</span> <span class='keyword3'>:lightgray</span>)
+    (circle (point/xy+ canvas.topleft 50 50) 20 <span class='keyword3'>:stroke</span> <span class='keyword3'>:brown</span> <span class='keyword3'>:fill</span> <span class='keyword3'>:wheat</span>)))
+</pre>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='200'>
+	
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- circle -->
+	<circle cx='50' cy='50' r='20' fill='wheat' stroke='brown' stroke-width='1' />
+	<!-- rectangle -->
+	<rect x='150' y='50' width='100' height='100' fill='lightgray' stroke='gray' stroke-width='1' />
+	<!-- circle -->
+	<circle cx='200' cy='100' r='20' fill='wheat' stroke='brown' stroke-width='1' />
+
+</svg>
+</div>
+
+<p class='fig_title'><a name='kV8JVeAiwLR'></a>Figure.6 サブキャンバスのサンプル</p>
 <p>　　</p>
 <h2><a name='7TyOD7TaDM2'></a>10 リファレンス</h2>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
@@ -356,9 +438,9 @@ diagram ./input.digram ./output.svg
 </svg>
 </div>
 
-<p class='fig_title'><a name='hOZzwQd2DMS'></a>Figure.5 fill における opacity のサンプル</p>
+<p class='fig_title'><a name='hOZzwQd2DMS'></a>Figure.7 fill における opacity のサンプル</p>
 <details>
-<summary><a href='#hOZzwQd2DMS'>Figure.5</a> のソースはこちら</summary>
+<summary><a href='#hOZzwQd2DMS'>Figure.7</a> のソースはこちら</summary>
 <pre class='code'>
 (diagram (<span class='keyword3'>:w</span> 400 <span class='keyword3'>:h</span> 100)
   (text '(200 55) <span class='literal'>"this is test text."</span> <span class='keyword3'>:align</span> <span class='keyword3'>:center</span>)
@@ -398,9 +480,9 @@ diagram ./input.digram ./output.svg
 </svg>
 </div>
 
-<p class='fig_title'><a name='9n3NgPBJGzS'></a>Figure.6 fill における rule のサンプル</p>
+<p class='fig_title'><a name='9n3NgPBJGzS'></a>Figure.8 fill における rule のサンプル</p>
 <details>
-<summary><a href='#9n3NgPBJGzS'>Figure.6</a> のソースはこちら</summary>
+<summary><a href='#9n3NgPBJGzS'>Figure.8</a> のソースはこちら</summary>
 <pre class='code'>
 (diagram (<span class='keyword3'>:w</span> 400 <span class='keyword3'>:h</span> 120)
   (with-subcanvas ('(75 0) 100 100)
@@ -461,7 +543,7 @@ diagram ./input.digram ./output.svg
 </svg>
 </div>
 
-<p class='fig_title'><a name='4fQnwjWZpzi'></a>Figure.7 dashoffset, linecap, linejoin のサンプル</p>
+<p class='fig_title'><a name='4fQnwjWZpzi'></a>Figure.9 dashoffset, linecap, linejoin のサンプル</p>
 <h4><a name='if12ldF3hxG'></a>10.1.6 rgb関数</h4>
 <pre class='code'>
 (rgb r g b)
@@ -1237,9 +1319,9 @@ diagram ./input.digram ./output.svg
 </svg>
 </div>
 
-<p class='fig_title'><a name='2sDmAkevog1'></a>Figure.8 色の名前とサンプル</p>
+<p class='fig_title'><a name='2sDmAkevog1'></a>Figure.10 色の名前とサンプル</p>
 <details>
-<summary><a href='#2sDmAkevog1'>Figure.8</a> のソースはこちら</summary>
+<summary><a href='#2sDmAkevog1'>Figure.10</a> のソースはこちら</summary>
 <pre class='code'>
 (<span class='keyword1'>let</span> ((svg-width   750)
       (svg-height 1000))

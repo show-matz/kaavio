@@ -242,12 +242,53 @@ ${BLANK_PARAGRAPH}
 
 　${{TODO}{まだ記述されていません。}}
 
+<!-- snippet: GEOMETRY-SAMPLE
+(diagram (:w 300 :h 200)
+  (grid)
+  (text '(10 20) "(0, 0)")
+  (rectanglecircle (point/xy+ canvas.topleft 2 2)     2 :stroke :red :fill :red)
+  (circle canvas.topright    2 :stroke :red :fill :red)
+  (circle canvas.bottomleft  2 :stroke :red :fill :red)
+  (circle canvas.bottomright 2 :stroke :red :fill :red))
+-->
+
+```lisp
+<!-- expand: GEOMETRY-SAMPLE -->
+```
+
+
+```diagram
+<!-- expand: GEOMETRY-SAMPLE -->
+```
+Figure. xxxのサンプル
+
 
 ${BLANK_PARAGRAPH}
 
 ## サブキャンバス
 
 　${{TODO}{まだ記述されていません。}}
+
+
+<!-- snippet: SUBCANVAS-SAMPLE
+(diagram (:w 300 :h 200)
+  (grid)
+  (circle (point/xy+ canvas.topleft 50 50) 20 :stroke :brown :fill :wheat)
+  (with-subcanvas ('(150 50) 100 100)
+    (rectangle canvas.center
+               canvas.width canvas.height :stroke :gray :fill :lightgray)
+    (circle (point/xy+ canvas.topleft 50 50) 20 :stroke :brown :fill :wheat)))
+-->
+
+```lisp
+<!-- expand: SUBCANVAS-SAMPLE -->
+```
+
+
+```diagram
+<!-- expand: SUBCANVAS-SAMPLE -->
+```
+Figure. サブキャンバスのサンプル
 
 
 ${BLANK_PARAGRAPH}
