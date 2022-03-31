@@ -36,9 +36,8 @@
 		  (let ((*package* (find-package :diagram-user)))
 			(if (zerop (length args))
 				(write-string (eval (read-whole *standard-input* nil)))
-				(destructuring-bind (ifile) args
-				  (let ((in-file  (merge-pathnames ifile (path/get-current-directory))))	;; ToDo : merge 不要？
-					;; check in-file existence.
-					(unless (path/is-existing-file in-file)
-					  (diagram::throw-exception "Input file '~A' is not exist." in-file))
-					(write-string (eval (read-whole-file in-file)))))))))))
+				(let ((in-file (car args)))
+				  ;; check in-file existence.
+				  (unless (path/is-existing-file in-file)
+					(diagram::throw-exception "Input file '~A' is not exist." in-file))
+				  (write-string (eval (read-whole-file in-file))))))))))
