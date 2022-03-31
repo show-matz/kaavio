@@ -246,7 +246,7 @@ ${BLANK_PARAGRAPH}
 (diagram (:w 300 :h 200)
   (grid)
   (text '(10 20) "(0, 0)")
-  (rectanglecircle (point/xy+ canvas.topleft 2 2)     2 :stroke :red :fill :red)
+  (circle (point/xy+ canvas.topleft 2 2)     2 :stroke :red :fill :red)
   (circle canvas.topright    2 :stroke :red :fill :red)
   (circle canvas.bottomleft  2 :stroke :red :fill :red)
   (circle canvas.bottomright 2 :stroke :red :fill :red))
