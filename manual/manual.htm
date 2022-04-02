@@ -102,11 +102,19 @@
 </div>
 
 <p class='fig_title'><a name='euwIyAjslFq'></a>Figure.1 簡単なサンプル</p>
-<p>　「入力を diagram に与える」というのは、具体的には以下のように入力ファイルと出力ファイルの名前をパラメータとして diagram を起動することを意味します。<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<p>　「入力を diagram に与える」というのは、具体的には以下のように入力ファイルをパラメータとして diagram を起動することを意味します。作成される SVG 画像は標準出力に書き出されるので、ファイルにリダイレクトしてください。</p>
 <pre class='code'>
-diagram ./input.digram ./output.svg
+diagram ./input.digram &gt; ./output.svg
 </pre>
-<p>　先程の入力データをもう一度みてみましょう。</p>
+<p>　入力ファイル名が与えられない場合、diagram は標準入力からデータを読み取ろうとします。そのため、以下のように書くこともできます。</p>
+<pre class='code'>
+cat ./input.digram | diagram &gt; ./output.svg
+</pre>
+<p>　余談ですが、SVG 画像には gzip 圧縮した svgz という形式もあります。以下のようにすれば作成できます。</p>
+<pre class='code'>
+cat ./input.digram | diagram | gzip &gt; ./output.svgz
+</pre>
+<p>　では、改めて、先ほどの入力データをもう一度みてみましょう。</p>
 <pre class='code'>
 (diagram (<span class='keyword3'>:w</span> 300 <span class='keyword3'>:h</span> 150)
   (grid)
@@ -114,12 +122,24 @@ diagram ./input.digram ./output.svg
   (circle    '(250 100) 40    <span class='keyword3'>:fill</span> <span class='keyword3'>:moccasin</span>   <span class='keyword3'>:id</span> <span class='keyword3'>:y</span>)
   (connector <span class='keyword3'>:x</span> <span class='keyword3'>:y</span> <span class='keyword3'>:end2</span> <span class='keyword3'>:arrow</span>))
 </pre>
+<p>　初めての diagram データなので、順番に内容をみていきましょう。</p>
 <ul>
-<li>diagram で、幅 300、高さ 150 の画像を作成します</li>
-<li>grid で、背景にグリッド線を描画しています</li>
-<li>rectangle で、左上から (50, 50) の位置に幅 80、高さ 60 の矩形を作成し、これに x という ID をつけます</li>
-<li>circle で、左上から (250, 100) の位置に半径 40 の円を作成し、これに y という ID をつけます</li>
-<li>connector で、x から y に向かって接続線を引き、終端の形状を矢印にしています</li>
+<li><code>diagram</code> で、幅 300、高さ 150 の画像を作成</li>
+<li><code>grid</code> で、背景にグリッド線を描画</li>
+<li><code>rectangle</code> で、左上から (50, 50) の位置に幅 80、高さ 60 の矩形を作成</li>
+<ul>
+<li><code>:fill</code> で塗り潰しの色を powderblue に指定</li>
+<li>これに x という ID を設定</li>
+</ul>
+<li><code>circle</code> で、左上から (250, 100) の位置に半径 40 の円を作成</li>
+<ul>
+<li><code>:fill</code> で塗り潰しの色を moccasin に指定</li>
+<li>これに y という ID を設定</li>
+</ul>
+<li><code>connector</code> で、x から y に向かって接続線を描画</li>
+<ul>
+<li><code>:end2</code> で終端の形状を arrow に設定</li>
+</ul>
 </ul>
 <p>　　</p>
 <p>　次のサンプルはもう少し複雑です。</p>
