@@ -20,4 +20,5 @@
 (sb-ext:save-lisp-and-die +OUTPUT-FILENAME+
 						  :toplevel #'application-entry
 						  :compression +SBCL-COMPRESSION+
-						  :executable t)
+						  :executable t
+						  :save-runtime-options t)
