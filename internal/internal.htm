@@ -1,0 +1,116 @@
+<html>
+<header>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta http-equiv="Content-Style-Type" content="text/css">
+	<title>diagram internal</title>
+	<link rel=stylesheet href="./default.css">
+</header>
+<body>
+<!-- define: APPNAME = diagram -->
+<!-- define: BLANK_PARAGRAPH = '　　' -->
+<!-- define: TODO = '@((background:red;color:white;)(ToDo : %1))' -->
+<!-- config:term-link-in-header -->			
+<!-- config:write-comment -->			
+<!-- config:header-numbering 2 4 -->			
+<h1><a name='kfFuRvOrdfv'></a>diagram internal documents</h1>
+<p>　この文書は、 <strong>diagram</strong> の内部設計文書です。</p>
+<h2><a name='0qJQvVjc3Xy'></a>1 Table of contents</h2>
+<ul>
+<li><a href='#0qJQvVjc3Xy'>1 Table of contents</a></li>
+<li><a href='#7tYseCIPP6g'>2 コンポーネント</a></li>
+<ul>
+<li><a href='#6yJYvlwDidI'>2.1 point</a></li>
+<ul>
+<li><a href='#cV08aR4hVCU'>2.1.1 make-point 関数</a></li>
+<li><a href='#i9EtqjnJKkh'>2.1.2 copy-point 関数</a></li>
+<li><a href='#eYsB94h8ozm'>2.1.3 point-p 関数</a></li>
+<li><a href='#k76Q8kszUmj'>2.1.4 point-absolute-p 関数</a></li>
+<li><a href='#8ARSCNEXCwM'>2.1.5 point-relative-p 関数</a></li>
+<li><a href='#et6gePtgg50'>2.1.6 point-x 関数</a></li>
+<li><a href='#3B2wOhg6fxU'>2.1.7 point-y 関数</a></li>
+<li><a href='#fCZ08hHsf3N'>2.1.8 point+ 関数</a></li>
+<li><a href='#6mwEJ7qyOKN'>2.1.9 point- 関数</a></li>
+<li><a href='#lEZ6oy96fUH'>2.1.10 point/x+ 関数</a></li>
+<li><a href='#awgH1J8YsIC'>2.1.11 point/y+ 関数</a></li>
+<li><a href='#3nSG8ftc6m8'>2.1.12 point/xy+ 関数</a></li>
+<li><a href='#1cQLTt5yCRi'>2.1.13 point-distance 関数</a></li>
+<li><a href='#ekClPzGH4mL'>2.1.14 with-point マクロ</a></li>
+</ul>
+</ul>
+</ul>
+<p>　　</p>
+<h2><a name='7tYseCIPP6g'></a>2 コンポーネント</h2>
+<h3><a name='6yJYvlwDidI'></a>2.1 point</h3>
+<p>　diagram の座標は point を使って表現します。これは基本的に 2 要素の数値のリストで、通常は <code>make-point</code> 関数で作成します。</p>
+<pre class='code'>
+ (make-point 1 2) <span class='comment'>; =&gt; (1 2)</span>
+</pre>
+<p>　実際には、座標には <strong>絶対座標</strong> と <strong>相対座標</strong> があり、それを指定するための <code>&amp;optional</code> パラメータが存在します。</p>
+<pre class='code'>
+ (make-point 1 2 <span class='keyword3'>:absolute</span>) <span class='comment'>; =&gt; (1 2 . :absolute)</span>
+</pre>
+<h4><a name='cV08aR4hVCU'></a>2.1.1 make-point 関数</h4>
+<p>　<code>point</code> を作成するには、x, y を指定して <code>make-point</code> 関数をコールします。オプションで <code>:abosolute</code> か <code>:relative</code> を指定できます。省略した場合は <code>:relative</code> になります。これらは絶対座標か相対座標の区別です。</p>
+<pre class='code'>
+(<span class='keyword1'>defun</span> <span class='keyword5'>make-point</span> (x y <span class='keyword2'>&amp;optional</span> type) ... )
+</pre>
+<h4><a name='i9EtqjnJKkh'></a>2.1.2 copy-point 関数</h4>
+<p>　<code>point</code> を複製するには <code>copy-point</code> 関数を使ってください。</p>
+<pre class='code'>
+(<span class='keyword1'>defun</span> <span class='keyword5'>copy-point</span> (pt) ... )
+</pre>
+<h4><a name='eYsB94h8ozm'></a>2.1.3 point-p 関数</h4>
+<pre class='code'>
+(<span class='keyword1'>defun</span> <span class='keyword5'>point-p</span> (pt) ... )
+</pre>
+<h4><a name='k76Q8kszUmj'></a>2.1.4 point-absolute-p 関数</h4>
+<pre class='code'>
+(<span class='keyword1'>defun</span> <span class='keyword5'>point-absolute-p</span> (pt) ... )
+</pre>
+<h4><a name='8ARSCNEXCwM'></a>2.1.5 point-relative-p 関数</h4>
+<pre class='code'>
+(<span class='keyword1'>defun</span> <span class='keyword5'>point-relative-p</span> (pt) ... )
+</pre>
+<h4><a name='et6gePtgg50'></a>2.1.6 point-x 関数</h4>
+<pre class='code'>
+(<span class='keyword1'>defun</span> <span class='keyword5'>point-x</span> (pt) ... )
+(<span class='keyword1'>defun</span> (setf point-x) (val pt) ... )
+</pre>
+<h4><a name='3B2wOhg6fxU'></a>2.1.7 point-y 関数</h4>
+<pre class='code'>
+(<span class='keyword1'>defun</span> <span class='keyword5'>point-y</span> (pt) ... )
+(<span class='keyword1'>defun</span> (setf point-y) (val pt) ... )
+</pre>
+<h4><a name='fCZ08hHsf3N'></a>2.1.8 point+ 関数</h4>
+<pre class='code'>
+(<span class='keyword1'>defun</span> <span class='keyword5'>point+</span> (pt1 pt2) ... )
+</pre>
+<h4><a name='6mwEJ7qyOKN'></a>2.1.9 point- 関数</h4>
+<pre class='code'>
+(<span class='keyword1'>defun</span> <span class='keyword5'>point-</span> (pt1 pt2) ... )
+</pre>
+<h4><a name='lEZ6oy96fUH'></a>2.1.10 point/x+ 関数</h4>
+<pre class='code'>
+(<span class='keyword1'>defun</span> <span class='keyword5'>point/x+</span> (pt x) ... )
+</pre>
+<h4><a name='awgH1J8YsIC'></a>2.1.11 point/y+ 関数</h4>
+<pre class='code'>
+(<span class='keyword1'>defun</span> <span class='keyword5'>point/y+</span> (pt y) ... )
+</pre>
+<h4><a name='3nSG8ftc6m8'></a>2.1.12 point/xy+ 関数</h4>
+<pre class='code'>
+(<span class='keyword1'>defun</span> <span class='keyword5'>point/xy+</span> (pt x y) ... )
+</pre>
+<h4><a name='1cQLTt5yCRi'></a>2.1.13 point-distance 関数</h4>
+<p>　2 つの <code>point</code> 間の距離は <code>point-distance</code> 関数で測ることができます。</p>
+<pre class='code'>
+(<span class='keyword1'>defun</span> <span class='keyword5'>point-distance</span> (pt1 pt2) ... )
+</pre>
+<h4><a name='ekClPzGH4mL'></a>2.1.14 with-point マクロ</h4>
+<p>　<code>point</code> の x, y に <code>symbol-macrolet</code> でアクセスしたければ <code>with-point</code> マクロが使えます。</p>
+<pre class='code'>
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>with-point</span> ((sym-x sym-y) pt <span class='keyword2'>&amp;rest</span> body) ... )
+</pre>
+<hr>
+</body>
+</html>
