@@ -16,10 +16,9 @@
 
 　この文書は、 **${APPNAME}** のためのマニュアル文書です。
 
-
 ## Table of contents
 
-<!-- embed:toc 2 4 -->
+<!-- embed:toc-x 2 4 -->
 
 ${BLANK_PARAGRAPH}
 
@@ -31,7 +30,6 @@ SVG 形式{{fn:SVG は Scalable Vector Graphics の略です。}}の画像ファ
 　入力データの記述には Common LISP 言語を使用します。これは、${APPNAME} 自身が Common LISP で
 書かれているからですが、このツールを使ってみたいからといって知りもしない言語をマスターしたいとは思わない
 でしょう。${{TODO}{まだ記述されていません。}}
-
 
 ## 簡単なサンプル
 
@@ -138,9 +136,7 @@ Figure. 簡単なサンプル-2
 いう ID をつけます
 * connector で、x から y に向かって接続線を引き、終端の形状を矢印にしています
 
-
 ## 基本的な図形
-
 ### 四角形
 
 <!-- snippet: RECTANGLE-SAMPLE
@@ -158,8 +154,6 @@ Figure. rectangle のサンプル
 ```lisp
 <!-- expand: RECTANGLE-SAMPLE -->
 ```
-
-
 
 ### 円
 
@@ -203,8 +197,6 @@ Figure. テキストボックスのサンプル
 
 　${{TODO}{まだ記述されていません。}}
 
-
-
 ## 色の指定
 
 　${APPNAME} は SVG 形式で図形を生成するため、色の指定は SVG の規格に準拠します。
@@ -219,7 +211,6 @@ Figure. テキストボックスのサンプル
 * 色名での指定。使用できる色の名前とサンプルは [$@ 節](#色の名前) を参照してください。
 
 ${BLANK_PARAGRAPH}
-
 
 ## 線・塗りつぶし・文字
 
@@ -239,7 +230,6 @@ ${BLANK_PARAGRAPH}
 (make-stroke '(:color :red :width 3))
 
 ```
-
 
 ### フィル
 
@@ -319,7 +309,6 @@ ${BLANK_PARAGRAPH}
 　${{TODO}{まだ記述されていません。}}
 
 ### 関数とマクロ
-
 #### *default-fill*変数
 
 　${{TODO}{まだ記述されていません。}}
