@@ -4,7 +4,7 @@
 
 <!-- title:${APPNAME} readme -->    
 <!-- style:./default.css -->			
-<!-- config:term-link-in-header -->			
+<!-- <!-- config:term-link-in-header -->
 
 <!-- filter:diagram  = bash ./diagram.sh  %in %out -->
 <!-- filter:plantuml = bash ./plantuml.sh %in %out -->
@@ -19,6 +19,7 @@
 ## Table of contents
 
 <!-- embed:toc-x 2 4 -->
+<!-- toc-link: top 'Table of contents' -->
 
 ${BLANK_PARAGRAPH}
 
@@ -108,10 +109,10 @@ ${BLANK_PARAGRAPH}
 (diagram (:w 300 :h 200)
   (grid)
   (with-fill (:color :honeydew)
-    (rectangle '( 50  50) 50 50               :id :a1)
-    (circle    (point/x+ a1.center 100) 25    :id :a2)
-    (rectangle (point/y+ a2.center 100) 50 50 :id :a3)
-    (circle    (point/x+ a3.center 100) 25    :id :a4))
+    (rectangle '( 50  50)          50 50 :id :a1)
+    (circle     (x+ a1.center 100) 25    :id :a2)
+    (rectangle  (y+ a2.center 100) 50 50 :id :a3)
+    (circle     (x+ a3.center 100) 25    :id :a4))
   (connector :a1 :a2 :end2 :arrow)
   (connector :a2 :a3 :end2 :arrow)
   (connector :a3 :a4 :end2 :arrow)
@@ -257,10 +258,10 @@ ${BLANK_PARAGRAPH}
 (diagram (:w 300 :h 200)
   (grid)
   (text '(10 20) "(0, 0)")
-  (circle (point/xy+ canvas.topleft 2 2)     2 :stroke :red :fill :red)
-  (circle canvas.topright    2 :stroke :red :fill :red)
-  (circle canvas.bottomleft  2 :stroke :red :fill :red)
-  (circle canvas.bottomright 2 :stroke :red :fill :red))
+  (circle (xy+ canvas.topleft 2 2) 2 :stroke :red :fill :red)
+  (circle canvas.topright          2 :stroke :red :fill :red)
+  (circle canvas.bottomleft        2 :stroke :red :fill :red)
+  (circle canvas.bottomright       2 :stroke :red :fill :red))
 -->
 
 ```lisp
@@ -284,11 +285,11 @@ ${BLANK_PARAGRAPH}
 <!-- snippet: SUBCANVAS-SAMPLE
 (diagram (:w 300 :h 200)
   (grid)
-  (circle (point/xy+ canvas.topleft 50 50) 20 :stroke :brown :fill :wheat)
+  (circle (xy+ canvas.topleft 50 50) 20 :stroke :brown :fill :wheat)
   (with-subcanvas ('(150 50) 100 100)
     (rectangle canvas.center
                canvas.width canvas.height :stroke :gray :fill :lightgray)
-    (circle (point/xy+ canvas.topleft 50 50) 20 :stroke :brown :fill :wheat)))
+    (circle (xy+ canvas.topleft 50 50) 20 :stroke :brown :fill :wheat)))
 -->
 
 ```lisp

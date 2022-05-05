@@ -16,6 +16,10 @@ body{
 	background:#fefefe;
 }
 
+/* floating toc link button */
+.toc_button_top    { position: fixed; top:    20px; right: -30px; padding: 6px 40px; }
+.toc_button_bottom { position: fixed; bottom: 20px; right: -30px; padding: 6px 40px; }
+
 a{ color: #0645ad; text-decoration:none;}
 a:visited{ color: #0b0080; }
 a:hover{ color: #06e; }
@@ -24,6 +28,7 @@ a:focus{ outline: thin dotted; }
 a:hover, a:active{ outline: 0; }
 
 a.term:hover{ text-decoration:underline; }
+a.autolink:hover{ text-decoration:underline; }
 
 ::-moz-selection{background:rgba(255,255,0,0.3);color:#000}
 ::selection{background:rgba(255,255,0,0.3);color:#000}
@@ -176,6 +181,32 @@ details[open] summary {
     margin-bottom: .5em;
 }
 
+/* for toc-x */
+blockquote.tocx {
+	color:#666666;
+	margin:0;
+	padding-left: 1.5em;
+	border-left: 0.5em white solid;
+}
+li.tocx {
+}
+details.tocx {
+    border: 1px solid white;*/
+    border-radius: 0px;
+    padding: .2em .2em 0;
+    background: white;
+}
+summary.tocx {
+    margin: -.2em -.2em 0;
+    padding: 0em;
+}
+details.tocx[open] {
+    padding: .2em;
+}
+details.tocx[open] summary.tocx {
+    border-bottom: 1px solid white;
+    margin-bottom: .2em;
+}
 
 
 @media only screen and (min-width: 480px) {
