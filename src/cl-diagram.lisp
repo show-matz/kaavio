@@ -159,6 +159,9 @@
 				:point/x+
 				:point/y+
 				:point/xy+
+				:x+
+				:y+
+				:xy+
 				:point-distance
 				:with-point
 				;polygon.lisp

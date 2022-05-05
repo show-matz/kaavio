@@ -56,6 +56,9 @@
 #|EXPORT|#				:point/x+
 #|EXPORT|#				:point/y+
 #|EXPORT|#				:point/xy+
+#|EXPORT|#				:x+
+#|EXPORT|#				:y+
+#|EXPORT|#				:xy+
  |#
 (defun point+ (pt1 pt2)
   (make-point (+  (car  pt1) (car  pt2))
@@ -74,6 +77,16 @@
   (make-point (car pt) (+ (cadr pt) y) (cddr pt)))
 
 (defun point/xy+ (pt x y)
+  (make-point (+ (car  pt) x)
+			  (+ (cadr pt) y) (cddr pt)))
+
+(defun x+ (pt x)
+  (make-point (+ (car pt) x) (cadr pt) (cddr pt)))
+
+(defun y+ (pt y)
+  (make-point (car pt) (+ (cadr pt) y) (cddr pt)))
+
+(defun xy+ (pt x y)
   (make-point (+ (car  pt) x)
 			  (+ (cadr pt) y) (cddr pt)))
 
