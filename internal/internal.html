@@ -1,0 +1,512 @@
+<html>
+<header>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta http-equiv="Content-Style-Type" content="text/css">
+	<title>diagram internal</title>
+	<link rel=stylesheet href="./default.css">
+</header>
+<body>
+<div class='toc_button_top'><a href='#0qJQvVjc3Xy'>
+<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 200 200'>
+<defs><g id='line'>
+  <circle cx='45' cy='50' r='15' fill='white' stroke='none' stroke-width='1' />
+  <polyline fill='none' stroke='white' stroke-width='20' points=' 75.0,50.0 170.0,50.0' />
+</g></defs>
+<rect x='0' y='0' width='200' height='200' rx='30' ry='30' fill='lightgray' stroke='none' stroke-width='1' />
+<use xlink:href='#line' x='0' y='0' />
+<use xlink:href='#line' x='0' y='50' />
+<use xlink:href='#line' x='0' y='100' />
+</svg>
+</a></div>
+<!-- define: APPNAME = diagram -->
+<!-- define: BLANK_PARAGRAPH = '　　' -->
+<!-- define: TODO = '@((background:red;color:white;)(ToDo : %1))' -->
+<!-- <!-- config:term-link-in-header -->			
+<!-- config:write-comment -->			
+<!-- config:header-numbering 2 5 -->
+<h1><a name='kfFuRvOrdfv'></a>diagram internal documents</h1>
+<p>　この文書は、 <strong>diagram</strong> の内部設計文書です。</p>
+<h2><a name='0qJQvVjc3Xy'></a>1 Table of contents</h2>
+<li class='tocx'><a href='#0qJQvVjc3Xy'>1 Table of contents</a></li>
+<details class='tocx' open>
+<summary class='tocx'><a href='#bzrfEUL5NBz'>2 src 配下のコンポーネント</a></summary>
+<blockquote class='tocx'>
+<li class='tocx'><a href='#5PHdXU1SAwU'>2.1 arc.lisp</a></li>
+<li class='tocx'><a href='#jRts0Y6YUfH'>2.2 binutil.lisp</a></li>
+<li class='tocx'><a href='#jkshMjTfNSO'>2.3 canvas.lisp</a></li>
+<li class='tocx'><a href='#0vu6jIAdrHn'>2.4 circle.lisp</a></li>
+<li class='tocx'><a href='#6qK0TBix0mp'>2.5 cl-diagram.lisp</a></li>
+<li class='tocx'><a href='#gjxTJAKDoPj'>2.6 connector.lisp</a></li>
+<li class='tocx'><a href='#3c2PhHDsO5I'>2.7 constants.lisp</a></li>
+<li class='tocx'><a href='#jCwDkKC4S8s'>2.8 create-svg.lisp</a></li>
+<li class='tocx'><a href='#kCVvdOT2S7L'>2.9 dictionary.lisp</a></li>
+<li class='tocx'><a href='#hd7ThdvzqQq'>2.10 ellipse.lisp</a></li>
+<li class='tocx'><a href='#4V2uI4HhR9d'>2.11 endmark-info.lisp</a></li>
+<li class='tocx'><a href='#h05k6V1sTsF'>2.12 entity.lisp</a></li>
+<li class='tocx'><a href='#au8IebMfeov'>2.13 fill-info.lisp</a></li>
+<li class='tocx'><a href='#l9bqLva3rj6'>2.14 font-info.lisp</a></li>
+<li class='tocx'><a href='#dxGh4wRHKeg'>2.15 group.lisp</a></li>
+<li class='tocx'><a href='#4ukAyTPlA3e'>2.16 image.lisp</a></li>
+<li class='tocx'><a href='#hNccIQgX3H4'>2.17 label-info.lisp</a></li>
+<li class='tocx'><a href='#g6PVqK0GAdf'>2.18 layer-manager.lisp</a></li>
+<li class='tocx'><a href='#7Y5KOwJXVqF'>2.19 line.lisp</a></li>
+<li class='tocx'><a href='#k0U5yutENit'>2.20 link-info.lisp</a></li>
+<li class='tocx'><a href='#0uaBbu9jd7a'>2.21 mathutil.lisp</a></li>
+<li class='tocx'><a href='#bFs5bJqLCfb'>2.22 paragraph.lisp</a></li>
+<li class='tocx'><a href='#9k30aVu2Utl'>2.23 path.lisp</a></li>
+<li class='tocx'><a href='#kEmV3k1rXYD'>2.24 pathutil.lisp</a></li>
+<details class='tocx' open>
+<summary class='tocx'><a href='#g7U0GGx7sCV'>2.25 point.lisp</a></summary>
+<blockquote class='tocx'>
+<li class='tocx'><a href='#cV08aR4hVCU'>2.25.1 make-point 関数</a></li>
+<li class='tocx'><a href='#i9EtqjnJKkh'>2.25.2 copy-point 関数</a></li>
+<li class='tocx'><a href='#eYsB94h8ozm'>2.25.3 point-p 関数</a></li>
+<li class='tocx'><a href='#k76Q8kszUmj'>2.25.4 point-absolute-p 関数</a></li>
+<li class='tocx'><a href='#8ARSCNEXCwM'>2.25.5 point-relative-p 関数</a></li>
+<li class='tocx'><a href='#et6gePtgg50'>2.25.6 point-x 関数</a></li>
+<li class='tocx'><a href='#3B2wOhg6fxU'>2.25.7 point-y 関数</a></li>
+<li class='tocx'><a href='#fCZ08hHsf3N'>2.25.8 point+ 関数</a></li>
+<li class='tocx'><a href='#6mwEJ7qyOKN'>2.25.9 point- 関数</a></li>
+<li class='tocx'><a href='#lEZ6oy96fUH'>2.25.10 point/x+ 関数</a></li>
+<li class='tocx'><a href='#awgH1J8YsIC'>2.25.11 point/y+ 関数</a></li>
+<li class='tocx'><a href='#3nSG8ftc6m8'>2.25.12 point/xy+ 関数</a></li>
+<li class='tocx'><a href='#1cQLTt5yCRi'>2.25.13 point-distance 関数</a></li>
+<li class='tocx'><a href='#ekClPzGH4mL'>2.25.14 with-point マクロ</a></li>
+</blockquote>
+</details>
+<li class='tocx'><a href='#ggdkX0SpYat'>2.26 polygon.lisp</a></li>
+<li class='tocx'><a href='#g7IEYVlAFRK'>2.27 raw-svg.lisp</a></li>
+<li class='tocx'><a href='#c1IDRaD20g3'>2.28 rectangle.lisp</a></li>
+<li class='tocx'><a href='#jzen8zyw08N'>2.29 shape.lisp</a></li>
+<li class='tocx'><a href='#0ACA2jPppKO'>2.30 stencil.lisp</a></li>
+<li class='tocx'><a href='#5S5mEI6PrDL'>2.31 stroke-info.lisp</a></li>
+<li class='tocx'><a href='#b75JrIWLwQA'>2.32 stylesheet.lisp</a></li>
+<li class='tocx'><a href='#kNkTqs2VjiA'>2.33 text-shape.lisp</a></li>
+<li class='tocx'><a href='#e2wwJD0JZFB'>2.34 text.lisp</a></li>
+<details class='tocx' open>
+<summary class='tocx'><a href='#7NkNOcI9zDh'>2.35 writer.lisp</a></summary>
+<blockquote class='tocx'>
+<details class='tocx' open>
+<summary class='tocx'><a href='#lfl3LZgcQAj'>2.35.1 buffer-writer クラス</a></summary>
+<blockquote class='tocx'>
+<li class='tocx'><a href='#k0nOlL9rkAA'>2.35.1.1 writer-write メソッド</a></li>
+<li class='tocx'><a href='#4OQ1LGMatRX'>2.35.1.2 writer-incr-level メソッド</a></li>
+<li class='tocx'><a href='#fFHRToz0LBB'>2.35.1.3 writer-decr-level メソッド</a></li>
+<li class='tocx'><a href='#27c0tsawNaI'>2.35.1.4 writer-close メソッド</a></li>
+</blockquote>
+</details>
+<li class='tocx'><a href='#b2iyvLVaRzT'>2.35.2 create-svg-writer 関数</a></li>
+</blockquote>
+</details>
+</blockquote>
+</details>
+<p>　　</p>
+<h2><a name='bzrfEUL5NBz'></a>2 src 配下のコンポーネント</h2>
+<h3><a name='5PHdXU1SAwU'></a>2.1 arc.lisp</h3>
+<p>　<a class='autolink' href='#5PHdXU1SAwU'>arc.lisp</a> は以下のコンポーネントに依存しています。</p>
+<ul>
+<li><a class='autolink' href='#6qK0TBix0mp'>cl-diagram.lisp</a></li>
+<li><a class='autolink' href='#g7U0GGx7sCV'>point.lisp</a></li>
+<li><a class='autolink' href='#jkshMjTfNSO'>canvas.lisp</a></li>
+<li><a class='autolink' href='#0uaBbu9jd7a'>mathutil.lisp</a></li>
+<li><a class='autolink' href='#9k30aVu2Utl'>path.lisp</a></li>
+</ul>
+<h3><a name='jRts0Y6YUfH'></a>2.2 binutil.lisp</h3>
+<p>　<a class='autolink' href='#jRts0Y6YUfH'>binutil.lisp</a> は以下のコンポーネントに依存しています。</p>
+<ul>
+<li><a class='autolink' href='#6qK0TBix0mp'>cl-diagram.lisp</a></li>
+</ul>
+<h3><a name='jkshMjTfNSO'></a>2.3 canvas.lisp</h3>
+<p>　<a class='autolink' href='#jkshMjTfNSO'>canvas.lisp</a> は以下のコンポーネントに依存しています。</p>
+<ul>
+<li><a class='autolink' href='#6qK0TBix0mp'>cl-diagram.lisp</a></li>
+<li><a class='autolink' href='#g7U0GGx7sCV'>point.lisp</a></li>
+</ul>
+<h3><a name='0vu6jIAdrHn'></a>2.4 circle.lisp</h3>
+<p>　<a class='autolink' href='#0vu6jIAdrHn'>circle.lisp</a> は以下のコンポーネントに依存しています。</p>
+<ul>
+<li><a class='autolink' href='#6qK0TBix0mp'>cl-diagram.lisp</a></li>
+<li><a class='autolink' href='#3c2PhHDsO5I'>constants.lisp</a></li>
+<li><a class='autolink' href='#0uaBbu9jd7a'>mathutil.lisp</a></li>
+<li><a class='autolink' href='#jkshMjTfNSO'>canvas.lisp</a></li>
+<li><a class='autolink' href='#g7U0GGx7sCV'>point.lisp</a></li>
+<li><a class='autolink' href='#jzen8zyw08N'>shape.lisp</a></li>
+<li><a class='autolink' href='#5S5mEI6PrDL'>stroke-info.lisp</a></li>
+<li><a class='autolink' href='#k0U5yutENit'>link-info.lisp</a></li>
+<li><a class='autolink' href='#7NkNOcI9zDh'>writer.lisp</a></li>
+</ul>
+<h3><a name='6qK0TBix0mp'></a>2.5 cl-diagram.lisp</h3>
+<p>　<a class='autolink' href='#6qK0TBix0mp'>cl-diagram.lisp</a> は他のコンポーネントには依存していません。</p>
+<h3><a name='gjxTJAKDoPj'></a>2.6 connector.lisp</h3>
+<p>　<a class='autolink' href='#gjxTJAKDoPj'>connector.lisp</a> は以下のコンポーネントに依存しています。</p>
+<ul>
+<li><a class='autolink' href='#6qK0TBix0mp'>cl-diagram.lisp</a></li>
+<li><a class='autolink' href='#3c2PhHDsO5I'>constants.lisp</a></li>
+<li><a class='autolink' href='#kCVvdOT2S7L'>dictionary.lisp</a></li>
+<li><a class='autolink' href='#7Y5KOwJXVqF'>line.lisp</a></li>
+<li><a class='autolink' href='#c1IDRaD20g3'>rectangle.lisp</a></li>
+<li><a class='autolink' href='#jzen8zyw08N'>shape.lisp</a></li>
+<li><a class='autolink' href='#7NkNOcI9zDh'>writer.lisp</a></li>
+</ul>
+<h3><a name='3c2PhHDsO5I'></a>2.7 constants.lisp</h3>
+<p>　<a class='autolink' href='#3c2PhHDsO5I'>constants.lisp</a> は以下のコンポーネントに依存しています。</p>
+<ul>
+<li><a class='autolink' href='#6qK0TBix0mp'>cl-diagram.lisp</a></li>
+</ul>
+<h3><a name='jCwDkKC4S8s'></a>2.8 create-svg.lisp</h3>
+<p>　<a class='autolink' href='#jCwDkKC4S8s'>create-svg.lisp</a> は以下のコンポーネントに依存しています。</p>
+<ul>
+<li><a class='autolink' href='#6qK0TBix0mp'>cl-diagram.lisp</a></li>
+<li><a class='autolink' href='#3c2PhHDsO5I'>constants.lisp</a></li>
+<li><a class='autolink' href='#h05k6V1sTsF'>entity.lisp</a></li>
+<li><a class='autolink' href='#g6PVqK0GAdf'>layer-manager.lisp</a></li>
+<li><a class='autolink' href='#kCVvdOT2S7L'>dictionary.lisp</a></li>
+<li><a class='autolink' href='#g7U0GGx7sCV'>point.lisp</a></li>
+<li><a class='autolink' href='#jkshMjTfNSO'>canvas.lisp</a></li>
+<li><a class='autolink' href='#l9bqLva3rj6'>font-info.lisp</a></li>
+<li><a class='autolink' href='#5S5mEI6PrDL'>stroke-info.lisp</a></li>
+<li><a class='autolink' href='#7NkNOcI9zDh'>writer.lisp</a></li>
+</ul>
+<h3><a name='kCVvdOT2S7L'></a>2.9 dictionary.lisp</h3>
+<p>　<a class='autolink' href='#kCVvdOT2S7L'>dictionary.lisp</a> は以下のコンポーネントに依存しています。</p>
+<ul>
+<li><a class='autolink' href='#6qK0TBix0mp'>cl-diagram.lisp</a></li>
+</ul>
+<h3><a name='hd7ThdvzqQq'></a>2.10 ellipse.lisp</h3>
+<p>　<a class='autolink' href='#hd7ThdvzqQq'>ellipse.lisp</a> は以下のコンポーネントに依存しています。</p>
+<ul>
+<li><a class='autolink' href='#6qK0TBix0mp'>cl-diagram.lisp</a></li>
+<li><a class='autolink' href='#3c2PhHDsO5I'>constants.lisp</a></li>
+<li><a class='autolink' href='#jkshMjTfNSO'>canvas.lisp</a></li>
+<li><a class='autolink' href='#g7U0GGx7sCV'>point.lisp</a></li>
+<li><a class='autolink' href='#jzen8zyw08N'>shape.lisp</a></li>
+<li><a class='autolink' href='#5S5mEI6PrDL'>stroke-info.lisp</a></li>
+<li><a class='autolink' href='#k0U5yutENit'>link-info.lisp</a></li>
+<li><a class='autolink' href='#7NkNOcI9zDh'>writer.lisp</a></li>
+</ul>
+<h3><a name='4V2uI4HhR9d'></a>2.11 endmark-info.lisp</h3>
+<p>　<a class='autolink' href='#4V2uI4HhR9d'>endmark-info.lisp</a> は以下のコンポーネントに依存しています。</p>
+<ul>
+<li><a class='autolink' href='#6qK0TBix0mp'>cl-diagram.lisp</a></li>
+<li><a class='autolink' href='#3c2PhHDsO5I'>constants.lisp</a></li>
+<li><a class='autolink' href='#0uaBbu9jd7a'>mathutil.lisp</a></li>
+<li><a class='autolink' href='#g7U0GGx7sCV'>point.lisp</a></li>
+<li><a class='autolink' href='#jkshMjTfNSO'>canvas.lisp</a></li>
+<li><a class='autolink' href='#kCVvdOT2S7L'>dictionary.lisp</a></li>
+<li><a class='autolink' href='#au8IebMfeov'>fill-info.lisp</a></li>
+<li><a class='autolink' href='#5S5mEI6PrDL'>stroke-info.lisp</a></li>
+<li><a class='autolink' href='#7NkNOcI9zDh'>writer.lisp</a></li>
+</ul>
+<h3><a name='h05k6V1sTsF'></a>2.12 entity.lisp</h3>
+<p>　<a class='autolink' href='#h05k6V1sTsF'>entity.lisp</a> は以下のコンポーネントに依存しています。</p>
+<ul>
+<li><a class='autolink' href='#6qK0TBix0mp'>cl-diagram.lisp</a></li>
+<li><a class='autolink' href='#jkshMjTfNSO'>canvas.lisp</a></li>
+<li><a class='autolink' href='#7NkNOcI9zDh'>writer.lisp</a></li>
+</ul>
+<h3><a name='au8IebMfeov'></a>2.13 fill-info.lisp</h3>
+<p>　<a class='autolink' href='#au8IebMfeov'>fill-info.lisp</a> は以下のコンポーネントに依存しています。</p>
+<ul>
+<li><a class='autolink' href='#6qK0TBix0mp'>cl-diagram.lisp</a></li>
+</ul>
+<h3><a name='l9bqLva3rj6'></a>2.14 font-info.lisp</h3>
+<p>　<a class='autolink' href='#l9bqLva3rj6'>font-info.lisp</a> は以下のコンポーネントに依存しています。</p>
+<ul>
+<li><a class='autolink' href='#6qK0TBix0mp'>cl-diagram.lisp</a></li>
+<li><a class='autolink' href='#au8IebMfeov'>fill-info.lisp</a></li>
+<li><a class='autolink' href='#5S5mEI6PrDL'>stroke-info.lisp</a></li>
+</ul>
+<h3><a name='dxGh4wRHKeg'></a>2.15 group.lisp</h3>
+<p>　<a class='autolink' href='#dxGh4wRHKeg'>group.lisp</a> は以下のコンポーネントに依存しています。</p>
+<ul>
+<li><a class='autolink' href='#6qK0TBix0mp'>cl-diagram.lisp</a></li>
+<li><a class='autolink' href='#jkshMjTfNSO'>canvas.lisp</a></li>
+<li><a class='autolink' href='#jzen8zyw08N'>shape.lisp</a></li>
+<li><a class='autolink' href='#7NkNOcI9zDh'>writer.lisp</a></li>
+</ul>
+<h3><a name='4ukAyTPlA3e'></a>2.16 image.lisp</h3>
+<p>　<a class='autolink' href='#4ukAyTPlA3e'>image.lisp</a> は以下のコンポーネントに依存しています。</p>
+<ul>
+<li><a class='autolink' href='#6qK0TBix0mp'>cl-diagram.lisp</a></li>
+<li><a class='autolink' href='#jRts0Y6YUfH'>binutil.lisp</a></li>
+<li><a class='autolink' href='#jzen8zyw08N'>shape.lisp</a></li>
+<li><a class='autolink' href='#hNccIQgX3H4'>label-info.lisp</a></li>
+<li><a class='autolink' href='#k0U5yutENit'>link-info.lisp</a></li>
+<li><a class='autolink' href='#g7U0GGx7sCV'>point.lisp</a></li>
+<li><a class='autolink' href='#7NkNOcI9zDh'>writer.lisp</a></li>
+</ul>
+<h3><a name='hNccIQgX3H4'></a>2.17 label-info.lisp</h3>
+<p>　<a class='autolink' href='#hNccIQgX3H4'>label-info.lisp</a> は以下のコンポーネントに依存しています。</p>
+<ul>
+<li><a class='autolink' href='#6qK0TBix0mp'>cl-diagram.lisp</a></li>
+<li><a class='autolink' href='#3c2PhHDsO5I'>constants.lisp</a></li>
+<li><a class='autolink' href='#g7U0GGx7sCV'>point.lisp</a></li>
+<li><a class='autolink' href='#jkshMjTfNSO'>canvas.lisp</a></li>
+<li><a class='autolink' href='#l9bqLva3rj6'>font-info.lisp</a></li>
+<li><a class='autolink' href='#jzen8zyw08N'>shape.lisp</a></li>
+<li><a class='autolink' href='#7NkNOcI9zDh'>writer.lisp</a></li>
+</ul>
+<h3><a name='g6PVqK0GAdf'></a>2.18 layer-manager.lisp</h3>
+<p>　<a class='autolink' href='#g6PVqK0GAdf'>layer-manager.lisp</a> は以下のコンポーネントに依存しています。</p>
+<ul>
+<li><a class='autolink' href='#6qK0TBix0mp'>cl-diagram.lisp</a></li>
+<li><a class='autolink' href='#7NkNOcI9zDh'>writer.lisp</a></li>
+</ul>
+<h3><a name='7Y5KOwJXVqF'></a>2.19 line.lisp</h3>
+<p>　<a class='autolink' href='#7Y5KOwJXVqF'>line.lisp</a> は以下のコンポーネントに依存しています。</p>
+<ul>
+<li><a class='autolink' href='#6qK0TBix0mp'>cl-diagram.lisp</a></li>
+<li><a class='autolink' href='#3c2PhHDsO5I'>constants.lisp</a></li>
+<li><a class='autolink' href='#g7U0GGx7sCV'>point.lisp</a></li>
+<li><a class='autolink' href='#0uaBbu9jd7a'>mathutil.lisp</a></li>
+<li><a class='autolink' href='#hNccIQgX3H4'>label-info.lisp</a></li>
+<li><a class='autolink' href='#5S5mEI6PrDL'>stroke-info.lisp</a></li>
+<li><a class='autolink' href='#4V2uI4HhR9d'>endmark-info.lisp</a></li>
+<li><a class='autolink' href='#h05k6V1sTsF'>entity.lisp</a></li>
+<li><a class='autolink' href='#7NkNOcI9zDh'>writer.lisp</a></li>
+</ul>
+<h3><a name='k0U5yutENit'></a>2.20 link-info.lisp</h3>
+<p>　<a class='autolink' href='#k0U5yutENit'>link-info.lisp</a> は以下のコンポーネントに依存しています。</p>
+<ul>
+<li><a class='autolink' href='#6qK0TBix0mp'>cl-diagram.lisp</a></li>
+<li><a class='autolink' href='#3c2PhHDsO5I'>constants.lisp</a></li>
+<li><a class='autolink' href='#7NkNOcI9zDh'>writer.lisp</a></li>
+</ul>
+<h3><a name='0uaBbu9jd7a'></a>2.21 mathutil.lisp</h3>
+<p>　<a class='autolink' href='#0uaBbu9jd7a'>mathutil.lisp</a> は以下のコンポーネントに依存しています。</p>
+<ul>
+<li><a class='autolink' href='#6qK0TBix0mp'>cl-diagram.lisp</a></li>
+<li><a class='autolink' href='#g7U0GGx7sCV'>point.lisp</a></li>
+<li><a class='autolink' href='#g7U0GGx7sCV'>point.lisp</a></li>
+</ul>
+<h3><a name='bFs5bJqLCfb'></a>2.22 paragraph.lisp</h3>
+<p>　<a class='autolink' href='#bFs5bJqLCfb'>paragraph.lisp</a> は以下のコンポーネントに依存しています。</p>
+<ul>
+<li><a class='autolink' href='#6qK0TBix0mp'>cl-diagram.lisp</a></li>
+<li><a class='autolink' href='#3c2PhHDsO5I'>constants.lisp</a></li>
+<li><a class='autolink' href='#jzen8zyw08N'>shape.lisp</a></li>
+<li><a class='autolink' href='#l9bqLva3rj6'>font-info.lisp</a></li>
+<li><a class='autolink' href='#k0U5yutENit'>link-info.lisp</a></li>
+<li><a class='autolink' href='#g7U0GGx7sCV'>point.lisp</a></li>
+<li><a class='autolink' href='#7NkNOcI9zDh'>writer.lisp</a></li>
+</ul>
+<h3><a name='9k30aVu2Utl'></a>2.23 path.lisp</h3>
+<p>　<a class='autolink' href='#9k30aVu2Utl'>path.lisp</a> は以下のコンポーネントに依存しています。</p>
+<ul>
+<li><a class='autolink' href='#6qK0TBix0mp'>cl-diagram.lisp</a></li>
+<li><a class='autolink' href='#3c2PhHDsO5I'>constants.lisp</a></li>
+<li><a class='autolink' href='#au8IebMfeov'>fill-info.lisp</a></li>
+<li><a class='autolink' href='#5S5mEI6PrDL'>stroke-info.lisp</a></li>
+<li><a class='autolink' href='#h05k6V1sTsF'>entity.lisp</a></li>
+<li><a class='autolink' href='#7NkNOcI9zDh'>writer.lisp</a></li>
+</ul>
+<h3><a name='kEmV3k1rXYD'></a>2.24 pathutil.lisp</h3>
+<p>　<a class='autolink' href='#kEmV3k1rXYD'>pathutil.lisp</a> は以下のコンポーネントに依存しています。</p>
+<ul>
+<li><a class='autolink' href='#6qK0TBix0mp'>cl-diagram.lisp</a></li>
+</ul>
+<h3><a name='g7U0GGx7sCV'></a>2.25 point.lisp</h3>
+<p>　<a class='autolink' href='#g7U0GGx7sCV'>point.lisp</a> は以下のコンポーネントに依存しています。</p>
+<ul>
+<li><a class='autolink' href='#6qK0TBix0mp'>cl-diagram.lisp</a></li>
+</ul>
+<p>　diagram の座標は point を使って表現します。これは基本的に 2 要素の数値のリストで、通常は <a class='autolink' href='#cV08aR4hVCU'>make-point</a> 関数で作成します。</p>
+<pre class='code'>
+ (make-point 1 2) <span class='comment'>; =&gt; (1 2)</span>
+</pre>
+<p>　実際には、座標には <strong>絶対座標</strong> と <strong>相対座標</strong> があり、それを指定するための <code>&amp;optional</code> パラメータが存在します。</p>
+<pre class='code'>
+ (make-point 1 2 <span class='keyword3'>:absolute</span>) <span class='comment'>; =&gt; (1 2 . :absolute)</span>
+</pre>
+<h4><a name='cV08aR4hVCU'></a>2.25.1 make-point 関数</h4>
+<pre class='code'>
+(<span class='keyword1'>defun</span> <span class='keyword5'>make-point</span> (x y <span class='keyword2'>&amp;optional</span> type) ... )
+</pre>
+<p>　point を作成するには、x, y を指定して <a class='autolink' href='#cV08aR4hVCU'>make-point</a> 関数をコールします。オプションで <code>:abosolute</code> か <code>:relative</code> を指定できます。省略した場合は <code>:relative</code> になります。これらは絶対座標か相対座標の区別です。</p>
+<h4><a name='i9EtqjnJKkh'></a>2.25.2 copy-point 関数</h4>
+<pre class='code'>
+(<span class='keyword1'>defun</span> <span class='keyword5'>copy-point</span> (pt) ... )
+</pre>
+<p>　point を複製するには <a class='autolink' href='#i9EtqjnJKkh'>copy-point</a> 関数を使ってください。</p>
+<h4><a name='eYsB94h8ozm'></a>2.25.3 point-p 関数</h4>
+<pre class='code'>
+(<span class='keyword1'>defun</span> <span class='keyword5'>point-p</span> (pt) ... )
+</pre>
+<h4><a name='k76Q8kszUmj'></a>2.25.4 point-absolute-p 関数</h4>
+<pre class='code'>
+(<span class='keyword1'>defun</span> <span class='keyword5'>point-absolute-p</span> (pt) ... )
+</pre>
+<p>　point が絶対座標か否かは <a class='autolink' href='#k76Q8kszUmj'>point-absolute-p</a> 関数を使って判定します。</p>
+<h4><a name='8ARSCNEXCwM'></a>2.25.5 point-relative-p 関数</h4>
+<pre class='code'>
+(<span class='keyword1'>defun</span> <span class='keyword5'>point-relative-p</span> (pt) ... )
+</pre>
+<p>　point が相対座標か否かは <a class='autolink' href='#8ARSCNEXCwM'>point-relative-p</a> 関数を使って判定します。</p>
+<h4><a name='et6gePtgg50'></a>2.25.6 point-x 関数</h4>
+<pre class='code'>
+(<span class='keyword1'>defun</span> <span class='keyword5'>point-x</span> (pt) ... )
+(<span class='keyword1'>defun</span> (setf point-x) (val pt) ... )
+</pre>
+<p>　point が保持する x 座標の値を取得／設定するには <a class='autolink' href='#et6gePtgg50'>point-x</a> 関数を使用します。</p>
+<h4><a name='3B2wOhg6fxU'></a>2.25.7 point-y 関数</h4>
+<pre class='code'>
+(<span class='keyword1'>defun</span> <span class='keyword5'>point-y</span> (pt) ... )
+(<span class='keyword1'>defun</span> (setf point-y) (val pt) ... )
+</pre>
+<p>　point が保持する y 座標の値を取得／設定するには <a class='autolink' href='#3B2wOhg6fxU'>point-y</a> 関数を使用します。</p>
+<h4><a name='fCZ08hHsf3N'></a>2.25.8 point+ 関数</h4>
+<pre class='code'>
+(<span class='keyword1'>defun</span> <span class='keyword5'>point+</span> (pt1 pt2) ... )
+</pre>
+<h4><a name='6mwEJ7qyOKN'></a>2.25.9 point- 関数</h4>
+<pre class='code'>
+(<span class='keyword1'>defun</span> <span class='keyword5'>point-</span> (pt1 pt2) ... )
+</pre>
+<h4><a name='lEZ6oy96fUH'></a>2.25.10 point/x+ 関数</h4>
+<pre class='code'>
+(<span class='keyword1'>defun</span> <span class='keyword5'>point/x+</span> (pt x) ... )
+</pre>
+<p>　point の x に加減算をした新しい point を作成して返します。頻繁に使用するため、同じことをする <a class='autolink' href='#lEZ6oy96fUH'>x+</a> という関数も用意しています。</p>
+<h4><a name='awgH1J8YsIC'></a>2.25.11 point/y+ 関数</h4>
+<pre class='code'>
+(<span class='keyword1'>defun</span> <span class='keyword5'>point/y+</span> (pt y) ... )
+</pre>
+<p>　point の y に加減算をした新しい point を作成して返します。頻繁に使用するため、同じことをする <a class='autolink' href='#awgH1J8YsIC'>y+</a> という関数も用意しています。</p>
+<h4><a name='3nSG8ftc6m8'></a>2.25.12 point/xy+ 関数</h4>
+<pre class='code'>
+(<span class='keyword1'>defun</span> <span class='keyword5'>point/xy+</span> (pt x y) ... )
+</pre>
+<p>　point の x, y に加減算をした新しい point を作成して返します。頻繁に使用するため、同じことをする <a class='autolink' href='#3nSG8ftc6m8'>xy+</a> という関数も用意しています。</p>
+<h4><a name='1cQLTt5yCRi'></a>2.25.13 point-distance 関数</h4>
+<pre class='code'>
+(<span class='keyword1'>defun</span> <span class='keyword5'>point-distance</span> (pt1 pt2) ... )
+</pre>
+<p>　2 つの point 間の距離は <a class='autolink' href='#1cQLTt5yCRi'>point-distance</a> 関数で測ることができます。</p>
+<h4><a name='ekClPzGH4mL'></a>2.25.14 with-point マクロ</h4>
+<pre class='code'>
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>with-point</span> ((sym-x sym-y) pt <span class='keyword2'>&amp;rest</span> body) ... )
+</pre>
+<p>　point の x, y に symbol-macrolet でアクセスしたければ <a class='autolink' href='#ekClPzGH4mL'>with-point</a> マクロが使えます。</p>
+<p>　　</p>
+<h3><a name='ggdkX0SpYat'></a>2.26 polygon.lisp</h3>
+<p>　<a class='autolink' href='#ggdkX0SpYat'>polygon.lisp</a> は以下のコンポーネントに依存しています。</p>
+<ul>
+<li><a class='autolink' href='#6qK0TBix0mp'>cl-diagram.lisp</a></li>
+<li><a class='autolink' href='#3c2PhHDsO5I'>constants.lisp</a></li>
+<li><a class='autolink' href='#au8IebMfeov'>fill-info.lisp</a></li>
+<li><a class='autolink' href='#5S5mEI6PrDL'>stroke-info.lisp</a></li>
+<li><a class='autolink' href='#k0U5yutENit'>link-info.lisp</a></li>
+<li><a class='autolink' href='#h05k6V1sTsF'>entity.lisp</a></li>
+<li><a class='autolink' href='#7NkNOcI9zDh'>writer.lisp</a></li>
+</ul>
+<h3><a name='g7IEYVlAFRK'></a>2.27 raw-svg.lisp</h3>
+<p>　<a class='autolink' href='#g7IEYVlAFRK'>raw-svg.lisp</a> は以下のコンポーネントに依存しています。</p>
+<ul>
+<li><a class='autolink' href='#6qK0TBix0mp'>cl-diagram.lisp</a></li>
+<li><a class='autolink' href='#h05k6V1sTsF'>entity.lisp</a></li>
+<li><a class='autolink' href='#7NkNOcI9zDh'>writer.lisp</a></li>
+</ul>
+<h3><a name='c1IDRaD20g3'></a>2.28 rectangle.lisp</h3>
+<p>　<a class='autolink' href='#c1IDRaD20g3'>rectangle.lisp</a> は以下のコンポーネントに依存しています。</p>
+<ul>
+<li><a class='autolink' href='#6qK0TBix0mp'>cl-diagram.lisp</a></li>
+<li><a class='autolink' href='#3c2PhHDsO5I'>constants.lisp</a></li>
+<li><a class='autolink' href='#jkshMjTfNSO'>canvas.lisp</a></li>
+<li><a class='autolink' href='#g7U0GGx7sCV'>point.lisp</a></li>
+<li><a class='autolink' href='#jzen8zyw08N'>shape.lisp</a></li>
+<li><a class='autolink' href='#5S5mEI6PrDL'>stroke-info.lisp</a></li>
+<li><a class='autolink' href='#k0U5yutENit'>link-info.lisp</a></li>
+<li><a class='autolink' href='#7NkNOcI9zDh'>writer.lisp</a></li>
+</ul>
+<h3><a name='jzen8zyw08N'></a>2.29 shape.lisp</h3>
+<p>　<a class='autolink' href='#jzen8zyw08N'>shape.lisp</a> は以下のコンポーネントに依存しています。</p>
+<ul>
+<li><a class='autolink' href='#6qK0TBix0mp'>cl-diagram.lisp</a></li>
+<li><a class='autolink' href='#g7U0GGx7sCV'>point.lisp</a></li>
+<li><a class='autolink' href='#jkshMjTfNSO'>canvas.lisp</a></li>
+<li><a class='autolink' href='#0uaBbu9jd7a'>mathutil.lisp</a></li>
+<li><a class='autolink' href='#h05k6V1sTsF'>entity.lisp</a></li>
+<li><a class='autolink' href='#k0U5yutENit'>link-info.lisp</a></li>
+</ul>
+<h3><a name='0ACA2jPppKO'></a>2.30 stencil.lisp</h3>
+<p>　<a class='autolink' href='#0ACA2jPppKO'>stencil.lisp</a> は以下のコンポーネントに依存しています。</p>
+<ul>
+<li><a class='autolink' href='#6qK0TBix0mp'>cl-diagram.lisp</a></li>
+<li><a class='autolink' href='#kEmV3k1rXYD'>pathutil.lisp</a></li>
+</ul>
+<h3><a name='5S5mEI6PrDL'></a>2.31 stroke-info.lisp</h3>
+<p>　<a class='autolink' href='#5S5mEI6PrDL'>stroke-info.lisp</a> は以下のコンポーネントに依存しています。</p>
+<ul>
+<li><a class='autolink' href='#6qK0TBix0mp'>cl-diagram.lisp</a></li>
+</ul>
+<h3><a name='b75JrIWLwQA'></a>2.32 stylesheet.lisp</h3>
+<p>　<a class='autolink' href='#b75JrIWLwQA'>stylesheet.lisp</a> は以下のコンポーネントに依存しています。</p>
+<ul>
+<li><a class='autolink' href='#6qK0TBix0mp'>cl-diagram.lisp</a></li>
+<li><a class='autolink' href='#h05k6V1sTsF'>entity.lisp</a></li>
+<li><a class='autolink' href='#5S5mEI6PrDL'>stroke-info.lisp</a></li>
+<li><a class='autolink' href='#au8IebMfeov'>fill-info.lisp</a></li>
+<li><a class='autolink' href='#l9bqLva3rj6'>font-info.lisp</a></li>
+<li><a class='autolink' href='#7NkNOcI9zDh'>writer.lisp</a></li>
+</ul>
+<h3><a name='kNkTqs2VjiA'></a>2.33 text-shape.lisp</h3>
+<p>　<a class='autolink' href='#kNkTqs2VjiA'>text-shape.lisp</a> は以下のコンポーネントに依存しています。</p>
+<ul>
+<li><a class='autolink' href='#6qK0TBix0mp'>cl-diagram.lisp</a></li>
+<li><a class='autolink' href='#jkshMjTfNSO'>canvas.lisp</a></li>
+<li><a class='autolink' href='#dxGh4wRHKeg'>group.lisp</a></li>
+<li><a class='autolink' href='#bFs5bJqLCfb'>paragraph.lisp</a></li>
+<li><a class='autolink' href='#l9bqLva3rj6'>font-info.lisp</a></li>
+<li><a class='autolink' href='#au8IebMfeov'>fill-info.lisp</a></li>
+<li><a class='autolink' href='#5S5mEI6PrDL'>stroke-info.lisp</a></li>
+<li><a class='autolink' href='#7NkNOcI9zDh'>writer.lisp</a></li>
+</ul>
+<h3><a name='e2wwJD0JZFB'></a>2.34 text.lisp</h3>
+<p>　<a class='autolink' href='#e2wwJD0JZFB'>text.lisp</a> は以下のコンポーネントに依存しています。</p>
+<ul>
+<li><a class='autolink' href='#6qK0TBix0mp'>cl-diagram.lisp</a></li>
+<li><a class='autolink' href='#3c2PhHDsO5I'>constants.lisp</a></li>
+<li><a class='autolink' href='#h05k6V1sTsF'>entity.lisp</a></li>
+<li><a class='autolink' href='#l9bqLva3rj6'>font-info.lisp</a></li>
+<li><a class='autolink' href='#k0U5yutENit'>link-info.lisp</a></li>
+<li><a class='autolink' href='#7NkNOcI9zDh'>writer.lisp</a></li>
+</ul>
+<h3><a name='7NkNOcI9zDh'></a>2.35 writer.lisp</h3>
+<p>　<a class='autolink' href='#7NkNOcI9zDh'>writer.lisp</a> は以下のコンポーネントに依存しています。</p>
+<ul>
+<li><a class='autolink' href='#6qK0TBix0mp'>cl-diagram.lisp</a></li>
+</ul>
+<p>　<a class='autolink' href='#7NkNOcI9zDh'>writer.lisp</a> では、<a class='autolink' href='#lfl3LZgcQAj'>buffer-writer</a> クラスを定義しています。</p>
+<h4><a name='lfl3LZgcQAj'></a>2.35.1 buffer-writer クラス</h4>
+<p>　diagram において SVG データを出力するために使用するクラスです。基本的には、以下のように使用します。</p>
+<ul>
+<li><a class='autolink' href='#b2iyvLVaRzT'>create-svg-writer</a> 関数でインスタンスを作成し、</li>
+<li><a class='autolink' href='#4OQ1LGMatRX'>writer-incr-level</a> / <a class='autolink' href='#fFHRToz0LBB'>writer-decr-level</a> メソッドでインデントを調整</li>
+<li><a class='autolink' href='#k0nOlL9rkAA'>writer-write</a> メソッドで行を出力</li>
+<li><a class='autolink' href='#27c0tsawNaI'>writer-close</a> メソッドで出力全体の文字列を取得</li>
+</ul>
+<h5><a name='k0nOlL9rkAA'></a>2.35.1.1 writer-write メソッド</h5>
+<pre class='code'>
+(<span class='keyword1'>defmethod</span> <span class='keyword5'>writer-write</span> ((writer buffer-writer) <span class='keyword2'>&amp;rest</span> params) ... )
+</pre>
+<h5><a name='4OQ1LGMatRX'></a>2.35.1.2 writer-incr-level メソッド</h5>
+<pre class='code'>
+(<span class='keyword1'>defmethod</span> <span class='keyword5'>writer-incr-level</span> ((writer buffer-writer)) ... )
+</pre>
+<h5><a name='fFHRToz0LBB'></a>2.35.1.3 writer-decr-level メソッド</h5>
+<pre class='code'>
+(<span class='keyword1'>defmethod</span> <span class='keyword5'>writer-decr-level</span> ((writer buffer-writer)) ... )
+</pre>
+<h5><a name='27c0tsawNaI'></a>2.35.1.4 writer-close メソッド</h5>
+<pre class='code'>
+(<span class='keyword1'>defmethod</span> <span class='keyword5'>writer-close</span> ((writer buffer-writer)) ... )
+</pre>
+<p>　<a class='autolink' href='#lfl3LZgcQAj'>buffer-writer</a> のストリームを閉じ、そのストリームにバッファリングされていた文字列を返します。</p>
+<h4><a name='b2iyvLVaRzT'></a>2.35.2 create-svg-writer 関数</h4>
+<pre class='code'>
+(<span class='keyword1'>defun</span> <span class='keyword5'>create-svg-writer</span> () ... )
+</pre>
+<p>　<a class='autolink' href='#lfl3LZgcQAj'>buffer-writer</a> クラスを作成して返します。パラメータは取りません。</p>
+<hr>
+</body>
+</html>

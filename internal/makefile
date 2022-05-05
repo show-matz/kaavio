@@ -1,5 +1,5 @@
 
-build: internal.htm
+build: internal.html
 
-%.htm: %.md
+%.html: %.md
 	turnup $< > $@
