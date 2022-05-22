@@ -176,6 +176,7 @@ Figure. rectangle のサンプル
 
 　${{TODO}{まだ記述されていません。}}
 
+## その他の図形
 ### テキストボックス
 
 　テキストボックスは、[$$](#四角形) と [$$](#テキスト) を組み合わせたようなものです。
@@ -194,6 +195,28 @@ Figure. テキストボックスのサンプル
 
 ```lisp
 <!-- expand: TEXTBOX-SAMPLE -->
+```
+
+　${{TODO}{まだ記述されていません。}}
+
+### フォルダ
+
+　フォルダは、テキストボックスと良く似ていますが、${{TODO}{まだ記述されていません。}}
+
+<!-- snippet: FOLDER-SAMPLE
+(diagram (:w 200 :h 100)
+  (grid)
+  (folder '(100 50) "folder.~%multi line."
+                    :stroke :black :fill :white))
+-->
+
+```diagram
+<!-- expand: FOLDER-SAMPLE -->
+```
+Figure. テキストボックスのサンプル
+
+```lisp
+<!-- expand: FOLDER-SAMPLE -->
 ```
 
 　${{TODO}{まだ記述されていません。}}

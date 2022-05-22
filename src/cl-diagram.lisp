@@ -73,11 +73,11 @@
 				:*default-history-count*
 				;create-svg.lisp
 				:create-svg
-				:diagram
 				:register-entity
 				:layer
 				:width
 				:height
+				:diagram
 				;dictionary.lisp
 				:dictionary
 				;ellipse.lisp
@@ -99,6 +99,13 @@
 				:fill-info
 				:make-fill
 				:with-fill
+				;folder.lisp
+				:*default-folder-tabwidth*
+				:*default-folder-tabheight*
+				:*default-folder-align*
+				:*default-folder-valign*
+				:*default-folder-margin*
+				:folder
 				;font-info.lisp
 				:*default-font*
 				:*default-font-fill*

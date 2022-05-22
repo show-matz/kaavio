@@ -61,6 +61,9 @@
 																"canvas"
 																"writer"))
 				(:file "fill-info"                 :depends-on ("cl-diagram"))
+				(:file "folder"                    :depends-on ("cl-diagram"
+																"polygon"
+																"text-shape"))
 				(:file "font-info"                 :depends-on ("cl-diagram"
 																"fill-info"
 																"stroke-info"))
