@@ -207,7 +207,13 @@
 </details>
 <li class='tocx'><a href='#ggdkX0SpYat'>3.26 polygon.lisp</a></li>
 <li class='tocx'><a href='#g7IEYVlAFRK'>3.27 raw-svg.lisp</a></li>
-<li class='tocx'><a href='#c1IDRaD20g3'>3.28 rectangle.lisp</a></li>
+<details class='tocx' open>
+<summary class='tocx'><a href='#c1IDRaD20g3'>3.28 rectangle.lisp</a></summary>
+<blockquote class='tocx'>
+<li class='tocx'><a href='#3tdfONeMMwb'>3.28.1 rectangle クラス</a></li>
+<li class='tocx'><a href='#5jhnitiGAkC'>3.28.2 rectangle マクロ</a></li>
+</blockquote>
+</details>
 <details class='tocx' open>
 <summary class='tocx'><a href='#jzen8zyw08N'>3.29 shape.lisp</a></summary>
 <blockquote class='tocx'>
@@ -1539,6 +1545,90 @@ Country: JP
 <li><a class='autolink' href='#k0U5yutENit'>link-info.lisp</a></li>
 <li><a class='autolink' href='#7NkNOcI9zDh'>writer.lisp</a></li>
 </ul>
+<h4><a name='3tdfONeMMwb'></a>3.28.1 rectangle クラス</h4>
+<p>　rectangle は <a class='autolink' href='#f9LBhHlQ8Wm'>shape</a> クラスから派生し、以下のメンバを保持します。center, width、height 以外は nil が許可されます。</p>
+<pre class='code'>
+(<span class='keyword1'>defclass</span> <span class='keyword2'>rectangle</span> (shape)
+  ((center  <span class='keyword3'>:initform</span> nil <span class='keyword3'>:initarg</span> <span class='keyword3'>:center</span>)      <span class='comment'>; point</span>
+   (width   <span class='keyword3'>:initform</span>   0 <span class='keyword3'>:initarg</span> <span class='keyword3'>:width</span>)       <span class='comment'>; number</span>
+   (height  <span class='keyword3'>:initform</span>   0 <span class='keyword3'>:initarg</span> <span class='keyword3'>:height</span>)      <span class='comment'>; number</span>
+   (rx      <span class='keyword3'>:initform</span> nil <span class='keyword3'>:initarg</span> <span class='keyword3'>:rx</span>)          <span class='comment'>; number</span>
+   (ry      <span class='keyword3'>:initform</span> nil <span class='keyword3'>:initarg</span> <span class='keyword3'>:ry</span>)          <span class='comment'>; number</span>
+   (fill    <span class='keyword3'>:initform</span> nil <span class='keyword3'>:initarg</span> <span class='keyword3'>:fill</span>)        <span class='comment'>; (or nil fill-info)</span>
+   (stroke  <span class='keyword3'>:initform</span> nil <span class='keyword3'>:initarg</span> <span class='keyword3'>:stroke</span>)))    <span class='comment'>; (or nil link-info)</span>
+</pre>
+<p>　rectangle は四角形を描画します。</p>
+<div align='center'>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentStyleType="text/css" height="160px" preserveAspectRatio="none" style="width:463px;height:160px;background:#FFFFFF;" version="1.1" viewBox="0 0 463 160" width="463px" zoomAndPan="magnify"><defs/><g><!--MD5=[467568f20bbf29da492dca29e9e0779e]
+class entity--><g id="elem_entity"><rect codeLine="2" fill="#F1F1F1" height="76" id="entity" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="103" x="7" y="42"/><ellipse cx="37.3" cy="58" fill="#ADD1B2" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/><path d="M40.6906,59.9844 Q40.2688,64.9688 36.9563,64.9688 Q35.0031,64.9688 33.9563,62.9688 Q33.0813,61.2969 33.0813,58.3594 Q33.0813,55.3438 34.05,53.5781 Q35.05,51.7031 36.9563,51.7031 Q39.9875,51.7031 40.6125,56.1406 L38.5344,56.1406 Q38.175,53.6719 36.9563,53.6719 Q35.2219,53.6719 35.2219,58.3594 Q35.2219,63 36.9719,63 Q38.4094,63 38.5656,59.9844 L40.6906,59.9844 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="37" x="54.7" y="63.3184">entity</text><line style="stroke:#181818;stroke-width:0.5;" x1="8" x2="109" y1="74" y2="74"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="72" x="13" y="90.3184">keyword id</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="91" x="13" y="104.3184">keyword layer</text><line style="stroke:#181818;stroke-width:0.5;" x1="8" x2="109" y1="110" y2="110"/></g><!--MD5=[4f91157a5a9a4f567f981e6a00c140e3]
+class shape--><g id="elem_shape"><rect codeLine="6" fill="#F1F1F1" height="76" id="shape" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="103" x="170" y="42"/><ellipse cx="198.95" cy="58" fill="#ADD1B2" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/><path d="M202.3406,59.9844 Q201.9188,64.9688 198.6063,64.9688 Q196.6531,64.9688 195.6063,62.9688 Q194.7313,61.2969 194.7313,58.3594 Q194.7313,55.3438 195.7,53.5781 Q196.7,51.7031 198.6063,51.7031 Q201.6375,51.7031 202.2625,56.1406 L200.1844,56.1406 Q199.825,53.6719 198.6063,53.6719 Q196.8719,53.6719 196.8719,58.3594 Q196.8719,63 198.6219,63 Q200.0594,63 200.2156,59.9844 L202.3406,59.9844 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="40" x="216.05" y="63.3184">shape</text><line style="stroke:#181818;stroke-width:0.5;" x1="171" x2="272" y1="74" y2="74"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="91" x="176" y="90.3184">keyword class</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="79" x="176" y="104.3184">link-info link</text><line style="stroke:#181818;stroke-width:0.5;" x1="171" x2="272" y1="110" y2="110"/></g><!--MD5=[74e1d77dd60f3f8f49267096f993430e]
+class rectangle--><g id="elem_rectangle"><rect codeLine="10" fill="#F1F1F1" height="146" id="rectangle" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="123" x="333" y="7"/><ellipse cx="361.05" cy="23" fill="#ADD1B2" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/><path d="M364.4406,24.9844 Q364.0188,29.9688 360.7063,29.9688 Q358.7531,29.9688 357.7063,27.9688 Q356.8313,26.2969 356.8313,23.3594 Q356.8313,20.3438 357.8,18.5781 Q358.8,16.7031 360.7063,16.7031 Q363.7375,16.7031 364.3625,21.1406 L362.2844,21.1406 Q361.925,18.6719 360.7063,18.6719 Q358.9719,18.6719 358.9719,23.3594 Q358.9719,28 360.7219,28 Q362.1594,28 362.3156,24.9844 L364.4406,24.9844 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="62" x="377.95" y="28.3184">rectangle</text><line style="stroke:#181818;stroke-width:0.5;" x1="334" x2="455" y1="39" y2="39"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="80" x="339" y="55.3184">point center</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="92" x="339" y="69.3184">number width</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="97" x="339" y="83.3184">number height</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="66" x="339" y="97.3184">number rx</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="66" x="339" y="111.3184">number ry</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="65" x="339" y="125.3184">fill-info fill</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="111" x="339" y="139.3184">stroke-info stroke</text><line style="stroke:#181818;stroke-width:0.5;" x1="334" x2="455" y1="145" y2="145"/></g><!--MD5=[401a871b595d3ba5385d1c54de4066b6]
+reverse link entity to shape--><g id="link_entity_shape"><path codeLine="19" d="M130.71,80 C143.91,80 157.46,80 169.89,80 " fill="none" id="entity-backto-shape" style="stroke:#181818;stroke-width:1.0;"/><polygon fill="none" points="130.44,87,110.44,80,130.44,73,130.44,87" style="stroke:#181818;stroke-width:1.0;"/></g><!--MD5=[675210f04edff83c1f8bf64ecae28272]
+reverse link shape to rectangle--><g id="link_shape_rectangle"><path codeLine="20" d="M293.39,80 C306.52,80 320.11,80 332.9,80 " fill="none" id="shape-backto-rectangle" style="stroke:#181818;stroke-width:1.0;"/><polygon fill="none" points="293.34,87,273.34,80,293.34,73,293.34,87" style="stroke:#181818;stroke-width:1.0;"/></g><!--MD5=[ca4afc0f2a5588b1b40410de4399d63c]
+@startuml
+left to right direction
+class entity {
+  keyword id
+  keyword layer
+}
+class shape {
+  keyword class
+  link-info link
+}
+class rectangle {
+  point center
+  number width
+  number height
+  number rx
+  number ry
+  fill-info fill
+  stroke-info stroke
+}
+entity <|- - shape
+shape  <|- - rectangle
+@enduml
+
+PlantUML version 1.2022.5(Sat Apr 30 19:55:52 JST 2022)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Default Encoding: UTF-8
+Language: ja
+Country: JP
+--></g></svg></div>
+
+<p>　<a class='autolink' href='#3tdfONeMMwb'>rectangle クラス</a>向けに、以下の総称関数のメソッドが実装されています。</p>
+<ul>
+<li>initialize-instance </li>
+<li><a class='autolink' href='#dam9QmgaZrq'>check</a> </li>
+<li><a class='autolink' href='#2UPPgaElgvy'>shape-width</a></li>
+<li><a class='autolink' href='#lNU1gDLketF'>shape-height</a></li>
+<li><a class='autolink' href='#9FXddyX6ENz'>shape-center</a></li>
+<li><a class='autolink' href='#eRs3IQibPlS'>draw-entity</a></li>
+</ul>
+<h4><a name='5jhnitiGAkC'></a>3.28.2 rectangle マクロ</h4>
+<pre class='code'>
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>rectangle</span> (center width height
+                     <span class='keyword2'>&amp;key</span> rx ry class fill stroke link layer id contents) ... )
+</pre>
+<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<!--
+(defmacro rectangle (center width height
+					 &key rx ry class fill stroke link layer id contents)
+  (let ((code `(register-entity (make-instance 'diagram:rectangle
+											   :center ,center
+											   :width ,width :height ,height
+											   :rx ,rx :ry ,ry :class ,class
+											   :fill ,fill :stroke ,stroke
+											   :link ,link :layer ,layer :id ,id))))
+	(if (null contents)
+		code
+		(let ((g-obj (gensym "OBJ")))
+		  `(let* ((,g-obj ,code)
+				  (canvas (diagram:shape-get-subcanvas ,g-obj)))
+			 (declare (special canvas))
+			 ,@contents)))))
+-->
 <h3><a name='jzen8zyw08N'></a>3.29 shape.lisp</h3>
 <p>　<a class='autolink' href='#jzen8zyw08N'>shape.lisp</a> は以下のコンポーネントに依存しています。</p>
 <ul>
@@ -2059,6 +2149,8 @@ Country: JP
 <summary class='idx_x'>R</summary>
 <blockquote class='idx_x'>
 <li class='idx_x'><a class='autolink' href='#g7IEYVlAFRK'>raw-svg.lisp</a></li>
+<li class='idx_x'><a class='autolink' href='#3tdfONeMMwb'>rectangle クラス</a></li>
+<li class='idx_x'><a class='autolink' href='#5jhnitiGAkC'>rectangle マクロ</a></li>
 <li class='idx_x'><a class='autolink' href='#c1IDRaD20g3'>rectangle.lisp</a></li>
 <li class='idx_x'><a class='autolink' href='#7QraN5WNGea'>rgb</a></li>
 </blockquote>

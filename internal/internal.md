@@ -1619,6 +1619,85 @@ ${BLANK_PARAGRAPH}
 * link-info.lisp
 * writer.lisp
 
+#### rectangle クラス
+<!-- autolink: [rectangle クラス](#rectangle クラス) -->
+
+　rectangle は shape クラスから派生し、以下のメンバを保持します。center, width、height 以外は nil が
+許可されます。
+
+```lisp
+(defclass rectangle (shape)
+  ((center  :initform nil :initarg :center)      ; point
+   (width   :initform   0 :initarg :width)       ; number
+   (height  :initform   0 :initarg :height)      ; number
+   (rx      :initform nil :initarg :rx)          ; number
+   (ry      :initform nil :initarg :ry)          ; number
+   (fill    :initform nil :initarg :fill)        ; (or nil fill-info)
+   (stroke  :initform nil :initarg :stroke)))    ; (or nil link-info)
+```
+
+　rectangle は四角形を描画します。
+
+<!-- snippet: CLASS_DEF_RECTANGLE
+class rectangle {
+  point center
+  number width
+  number height
+  number rx
+  number ry
+  fill-info fill
+  stroke-info stroke
+}
+-->
+
+```plantuml
+@startuml
+left to right direction
+<!-- expand: CLASS_DEF_ENTITY -->
+<!-- expand: CLASS_DEF_SHAPE -->
+<!-- expand: CLASS_DEF_RECTANGLE -->
+entity <|-- shape
+shape  <|-- rectangle
+@enduml
+```
+
+　rectangle クラス向けに、以下の総称関数のメソッドが実装されています。
+
+* initialize-instance 
+* check 
+* shape-width
+* shape-height
+* shape-center
+* draw-entity
+
+#### rectangle マクロ
+<!-- autolink: [rectangle マクロ](#rectangle マクロ) -->
+
+```lisp
+(defmacro rectangle (center width height
+                     &key rx ry class fill stroke link layer id contents) ... )
+```
+
+　${{TODO}{まだ記述されていません。}}
+
+<!--
+(defmacro rectangle (center width height
+					 &key rx ry class fill stroke link layer id contents)
+  (let ((code `(register-entity (make-instance 'diagram:rectangle
+											   :center ,center
+											   :width ,width :height ,height
+											   :rx ,rx :ry ,ry :class ,class
+											   :fill ,fill :stroke ,stroke
+											   :link ,link :layer ,layer :id ,id))))
+	(if (null contents)
+		code
+		(let ((g-obj (gensym "OBJ")))
+		  `(let* ((,g-obj ,code)
+				  (canvas (diagram:shape-get-subcanvas ,g-obj)))
+			 (declare (special canvas))
+			 ,@contents)))))
+-->
+
 ### shape.lisp
 <!-- autolink: [$$](#shape.lisp) -->
 
