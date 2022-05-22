@@ -66,6 +66,11 @@ ${BLANK_PARAGRAPH}
 
 　${{TODO}{まだ記述されていません}}
 
+### 色の指定
+<!-- autolink: [$$](#色の指定) -->
+
+　${{TODO}{まだ記述されていません}}
+
 ## src 配下のコンポーネント
 ### arc.lisp
 <!-- autolink: [$$](#arc.lisp) -->
@@ -726,18 +731,203 @@ ID でハッシュテーブルを検索し、みつけたエンティティを�
 ### entity.lisp
 <!-- autolink: [$$](#entity.lisp) -->
 
-　entity.lisp は以下のコンポーネントに依存しています。
+　entity.lisp は、エンティティを実装します。以下のコンポーネントに依存しています。
 
 * cl-diagram.lisp
 * canvas.lisp
 * writer.lisp
 
+#### entity クラス
+<!-- autolink: [entity](#entity クラス) -->
+
+　entity は id と layer を保持します。どちらもキーワードシンボルとしての保有で、
+nil が許可されます。
+
+```lisp
+(defclass entity ()
+  ((id    :initform nil :initarg :id)       ; keyword
+   (layer :initform nil :initarg :layer)))  ; keyword
+```
+
+<!-- snippet: CLASS_DEF_ENTITY
+class entity {
+  keyword id
+  keyword layer
+}
+-->
+
+```plantuml
+@startuml
+<!-- expand: CLASS_DEF_ENTITY -->
+@enduml
+```
+
+#### begin-id-group 関数
+<!-- autolink: [begin-id-group](#begin-id-group 関数) -->
+
+```lisp
+(defun begin-id-group (ent writer) ... )
+```
+
+　id を持つエンティティの場合、svg 出力において id を指定した g タグで全体を括るための
+関数です。デフォルト実装では pre-draw 総称関数の実装からコールされます。
+
+#### end-id-group 関数
+<!-- autolink: [end-id-group](#end-id-group 関数) -->
+
+```lisp
+(defun end-id-group (ent writer) ... )
+```
+
+　id を持つエンティティの場合、svg 出力において id を指定した g タグを閉じるための関数
+です。デフォルト実装では post-draw 総称関数の実装からコールされます。
+
+#### entity-composition-p 総称関数
+<!-- autolink: [entity-composition-p](#entity-composition-p 総称関数) -->
+
+```lisp
+(defgeneric entity-composition-p (ent)) ... )
+```
+
+　エンティティが複合オブジェクトであるか否かを調べるための総称関数です。entity に対する
+実装では nil を返します。
+
+#### write-header 総称関数
+<!-- autolink: [write-header](#write-header 総称関数) -->
+
+```lisp
+(defgeneric write-header (entity writer)) ... )
+```
+
+　エンティティの svg コードを出力前にヘッダコメントを出力するための総称関数です。
+
+#### pre-draw 総称関数
+<!-- autolink: [pre-draw](#pre-draw 総称関数) -->
+
+```lisp
+(defgeneric pre-draw (entity writer)) ... )
+```
+
+　エンティティの svg コードを出力する draw-entity 総称関数の実装の冒頭でコールされることを
+想定した総称関数です。entity に対するデフォルト実装では、複合エンティティであった場合に
+begin-id-group 関数をコールします。
+
+#### post-draw 総称関数
+<!-- autolink: [post-draw](#post-draw 総称関数) -->
+
+```lisp
+(defgeneric post-draw (entity writer)) ... )
+```
+
+　エンティティの svg コードを出力する draw-entity 総称関数の実装の最後にコールされることを
+想定した総称関数です。entity に対するデフォルト実装では、複合エンティティであった場合に
+end-id-group 関数をコールします。
+
+#### draw-entity 総称関数
+<!-- autolink: [draw-entity](#draw-entity 総称関数) -->
+
+```lisp
+(defgeneric draw-entity (entity writer)) ... )
+```
+
+　エンティティの svg コードを出力するための総称関数です。entity に対する実装は存在しません。
+派生クラスで必ず実装してください。
+
+#### check-and-draw-local-entity 関数
+<!-- autolink: [check-and-draw-local-entity](#check-and-draw-local-entity 関数) -->
+
+```lisp
+(defun check-and-draw-local-entity (entity canvas writer) ... )
+```
+
+　dictionary に登録されないローカルな entity を描画するための関数です。確認されている
+利用個所としては以下があります。
+
+* group.lisp - draw-canvas-frame 関数
+* text-shape.lisp - draw-group メソッド
+
 ### fill-info.lisp
 <!-- autolink: [$$](#fill-info.lisp) -->
 
-　fill-info.lisp は以下のコンポーネントに依存しています。
+　fill-info.lisp は塗り潰しの指定を表現するクラスです。以下のコンポーネントに依存しています。
 
 * cl-diagram.lisp
+
+#### *default-fill*変数
+<!-- autolink: [*default-fill*](#*default-fill*変数) -->
+
+```lisp
+(defparameter *default-fill* nil)
+```
+
+　デフォルトの塗り潰しを表現するダイナミック変数です。初期状態では
+`(make-fill :color :none :opacity nil :rule nil)` の結果が設定されます。
+
+#### fill-info クラス
+<!-- autolink: [fill-info](#fill-info クラス) -->
+
+　fill-info は color、opacity、rule を保持します。いずれも nil が許可されます。
+
+```lisp
+(defclass fill-info ()
+  ((color   :initform nil :initarg :color)    ; (or keyword string)
+   (opacity :initform nil :initarg :opacity)  ; number
+   (rule    :initform nil :initarg :rule)))   ; (or nil keyword)
+```
+
+　fill-info クラス向けに、以下の総称関数のメソッドが実装されています。
+
+* initialize-instance 
+* check 
+* to-property-strings
+* to-style-strings
+
+#### make-fill 関数
+<!-- autolink: [make-fill](#make-fill 関数) -->
+
+```lisp
+(defun make-fill (&rest params) ... )
+```
+
+　fill-info インスタンスを作成します。パラメータの数や種類に応じて作り方が異なります。
+
+* パラメータ無しの場合、 `*default-fill*` を返します
+* パラメータ数が 1 の場合、そのパラメータを param として
+	* param が fill-info インスタンスの場合、渡されたものをそのまま返します
+	* param がリストの場合、 `(apply #'make-fill param)` の結果を返します
+	* 上記のいずれでもない場合、 `(make-fill :color param)` の結果を返します
+* パラメータ数が 2 以上の場合、以下の関数のように振舞います。
+
+	```lisp
+	(defun make-fill (&key color opacity rule base) ... )
+	```
+
+	* `base` は `color opacity rule` が省略された場合にデフォルト値を取得するための `fill-info` インスタンスで、これが省略された場合は `*default-fill*` が使用されます。
+	* `color` は色の指定です。指定方法の詳細は「色の指定」を参照してください。
+	* `opacity` で透明度を指定します。0 から 1 までの浮動小数点数で指定します。
+	* `rule` は塗りつぶしに関するルールです。 `:nonzero` または `:evenodd` で指定します。
+
+#### with-fill マクロ
+<!-- autolink: [with-fill](#with-fill マクロ) -->
+
+```lisp
+(defmacro with-fill ((&rest param) &rest body) ... )
+```
+
+　`*default-fill*` を一時的に変更します。 `params` には make-fill に与えるパラメータと
+同じものを指定します。以下のコードは、
+
+```lisp
+(with-fill (:color :red :opacity 0.2)
+   ... )
+```
+
+　以下と同等です。
+
+```lisp
+(let ((*default-fill* (make-fill :color :red :opacity 0.2)))
+   ... )
+```
 
 ### font-info.lisp
 <!-- autolink: [$$](#font-info.lisp) -->
@@ -815,6 +1005,13 @@ ID でハッシュテーブルを検索し、みつけたエンティティを�
 * cl-diagram.lisp
 * constants.lisp
 * writer.lisp
+
+```diagram
+(diagram (:w 300 :h 100)
+  (grid)
+  (rectangle '(100 50) 30 30 :fill :lightgray :stroke :black
+             :link (make-link :url "http://www.google.co.jp/" :target :blank)))
+```
 
 ### mathutil.lisp
 <!-- autolink: [$$](#mathutil.lisp) -->
@@ -1434,6 +1631,225 @@ ${BLANK_PARAGRAPH}
 * entity.lisp
 * link-info.lisp
 
+#### shape クラス
+<!-- autolink: [shape](#shape クラス) -->
+
+　shape は class と link を保持します。どちらも nil が許可されます。
+
+```lisp
+(defclass shape (entity)
+  ((class :initform nil :initarg :class)  ; keyword
+   (link  :initform nil :initarg :link))) ; (or nil link-info)
+```
+
+　shape はおおまかに言って、entity のうち「矩形領域を持つもの」です。つまりコネクタなどの接続
+線のようなものは含みません。
+
+<!-- snippet: CLASS_DEF_SHAPE
+class shape {
+  keyword class
+  link-info link
+}
+-->
+
+```plantuml
+@startuml
+left to right direction
+<!-- expand: CLASS_DEF_ENTITY -->
+<!-- expand: CLASS_DEF_SHAPE -->
+entity <|-- shape
+@enduml
+```
+
+#### shape-width 総称関数
+<!-- autolink: [shape-width](#shape-width 総称関数) -->
+
+```lisp
+(defgeneric shape-width (shp)) ... )
+```
+
+　shape かその派生クラスの「幅」を数値で返します。shape クラスでのデフォルト実装はありません。
+派生クラスで実装する必要があります。
+
+#### shape-height 総称関数
+<!-- autolink: [shape-height](#shape-height 総称関数) -->
+
+```lisp
+(defgeneric shape-height (shp)) ... )
+```
+
+　shape かその派生クラスの「高さ」を数値で返します。shape クラスでのデフォルト実装はありません。
+派生クラスで実装する必要があります。
+
+#### shape-topleft 総称関数
+<!-- autolink: [shape-topleft](#shape-topleft 総称関数) -->
+
+```lisp
+(defgeneric shape-topleft (shp)) ... )
+```
+
+　shape かその派生クラスの「左上の座標」を point で返します。shape クラスでのデフォルト実装では、
+以下から計算します。
+
+* shape-center
+* shape-width
+* shape-height
+
+#### shape-top 総称関数
+<!-- autolink: [shape-top](#shape-top 総称関数) -->
+
+```lisp
+(defgeneric shape-top (shp)) ... )
+```
+
+　shape かその派生クラスの「上端の座標」を point で返します。shape クラスでのデフォルト実装では、
+以下から計算します。
+
+* shape-center
+* shape-height
+
+
+#### shape-topright 総称関数
+<!-- autolink: [shape-topright](#shape-topright 総称関数) -->
+
+```lisp
+(defgeneric shape-topright (shp)) ... )
+```
+
+　shape かその派生クラスの「右上の座標」を point で返します。shape クラスでのデフォルト実装では、
+以下から計算します。
+
+* shape-center
+* shape-width
+* shape-height
+
+#### shape-left 総称関数
+<!-- autolink: [shape-left](#shape-left 総称関数) -->
+
+```lisp
+(defgeneric shape-left (shp)) ... )
+```
+
+　shape かその派生クラスの「左端の座標」を point で返します。shape クラスでのデフォルト実装では、
+以下から計算します。
+
+* shape-center
+* shape-width
+
+#### shape-center 総称関数
+<!-- autolink: [shape-center](#shape-center 総称関数) -->
+
+```lisp
+(defgeneric shape-center (shp)) ... )
+```
+
+　shape かその派生クラスの「中心」を point で返します。shape クラスでのデフォルト実装はありません。
+派生クラスで実装する必要があります。
+
+#### shape-right 総称関数
+<!-- autolink: [shape-right](#shape-right 総称関数) -->
+
+```lisp
+(defgeneric shape-right (shp)) ... )
+```
+
+　shape かその派生クラスの「右端の座標」を point で返します。shape クラスでのデフォルト実装では、
+以下から計算します。
+
+* shape-center
+* shape-width
+
+#### shape-bottomleft 総称関数
+<!-- autolink: [shape-bottomleft](#shape-bottomleft 総称関数) -->
+
+```lisp
+(defgeneric shape-bottomleft (shp)) ... )
+```
+
+　shape かその派生クラスの「左下の座標」を point で返します。shape クラスでのデフォルト実装では、
+以下から計算します。
+
+* shape-center
+* shape-width
+* shape-height
+
+#### shape-bottom 総称関数
+<!-- autolink: [shape-bottom](#shape-bottom 総称関数) -->
+
+```lisp
+(defgeneric shape-bottom (shp)) ... )
+```
+
+　shape かその派生クラスの「下端の座標」を point で返します。shape クラスでのデフォルト実装では、
+以下から計算します。
+
+* shape-center
+* shape-height
+
+#### shape-bottomright 総称関数
+<!-- autolink: [shape-bottomright](#shape-bottomright 総称関数) -->
+
+```lisp
+(defgeneric shape-bottomright (shp)) ... )
+```
+
+　shape かその派生クラスの「右下の座標」を point で返します。shape クラスでのデフォルト実装では、
+以下から計算します。
+
+* shape-center
+* shape-width
+* shape-height
+
+#### shape-get-subcanvas 総称関数
+<!-- autolink: [shape-get-subcanvas](#shape-get-subcanvas 総称関数) -->
+
+```lisp
+(defgeneric shape-get-subcanvas (shp)) ... )
+```
+
+　shape のサブキャンバスを canvas で返します。shape クラスでのデフォルト実装では、
+以下から計算します。つまり、単純に shape の矩形を返します。
+
+* shape-topleft
+* shape-width
+* shape-height
+
+#### shape-cc-center 総称関数
+<!-- autolink: [shape-cc-center](#shape-cc-center 総称関数) -->
+
+```lisp
+(defgeneric shape-cc-center (shp type)) ... )
+```
+
+　connector が shape `:CC` で接続するときの中心点を point で返します。type には 
+`:from` または `:dest` が渡されます。shape クラスでのデフォルト実装では、
+`type` を無視して `(shape-center shp)` の呼び出し結果をそのまま返します。
+
+　この総称関数は、特殊な shape のために用意されています。例としては uml-connector が
+挙げられます。これは、単一の shape で２ケ所に円を描画し、 `:from` で connector に接続
+する場合と `:dest` で connector に接続する場合で異なる円を使います。
+
+#### shape-connect-point 総称関数
+<!-- autolink: [shape-connect-point](#shape-connect-point 総称関数) -->
+
+```lisp
+(defgeneric shape-connect-point (shp type1 type2 arg)) ... )
+```
+
+　shape に connector を接続する際の接続点を決定します。
+
+| param | description                                                                          |
+|:-----:|:-------------------------------------------------------------------------------------|
+| shp   | 接続点を決定したい shape オブジェクトが指定されます。                                   |
+| type1 | connector のどちらの端点かが `:from, :dest` で指定されます。                           |
+| type2 | connector の shp への接続先が `:center, :top, :bottom, :left, :right` で指定されます。 |
+| arg   | type2 が `:center` の場合、point オブジェクトで、connector の反対側の端点が指定されます。<br> \
+         type2 が `:center` でない場合、-1,0,1 で補助的な接続位置が指定されます。            |
+
+　rectangle のような矩形の shape であれば、shape 向けのデフォルト実装で問題なく
+機能するはずです。円や楕円などの形状や、もっと複雑な形状の場合、独自に実装をする必要が
+あるかもしれません。
+
 ### stencil.lisp
 <!-- autolink: [$$](#stencil.lisp) -->
 
@@ -1445,9 +1861,20 @@ ${BLANK_PARAGRAPH}
 ### stroke-info.lisp
 <!-- autolink: [$$](#stroke-info.lisp) -->
 
-　stroke-info.lisp は以下のコンポーネントに依存しています。
+　stroke-info.lisp はストロークの指定を表現するクラスです。以下のコンポーネントに依存しています。
 
 * cl-diagram.lisp
+
+#### *default-stroke*変数
+<!-- autolink: [*default-stroke*](#*default-stroke*変数) -->
+
+```lisp
+(defparameter *default-stroke* nil)
+```
+
+　デフォルトのストロークを表現するダイナミック変数です。初期状態では
+`(make-stroke :color :black :width 1 :opacity nil :linecap nil :linejoin nil :miterlimit nil :dasharray nil :dashoffset nil)` の
+結果が設定されます。
 
 ### stylesheet.lisp
 <!-- autolink: [$$](#stylesheet.lisp) -->

@@ -35,6 +35,7 @@
 <li class='tocx'><a href='#jXsxcbXYkll'>2.2 キャンバス</a></li>
 <li class='tocx'><a href='#hQqTfTkbNyq'>2.3 エンティティ</a></li>
 <li class='tocx'><a href='#hv2FXS6j5gn'>2.4 ディクショナリ</a></li>
+<li class='tocx'><a href='#1rpUB3fre67'>2.5 色の指定</a></li>
 </blockquote>
 </details>
 <details class='tocx' open>
@@ -124,8 +125,29 @@
 </details>
 <li class='tocx'><a href='#hd7ThdvzqQq'>3.10 ellipse.lisp</a></li>
 <li class='tocx'><a href='#4V2uI4HhR9d'>3.11 endmark-info.lisp</a></li>
-<li class='tocx'><a href='#h05k6V1sTsF'>3.12 entity.lisp</a></li>
-<li class='tocx'><a href='#au8IebMfeov'>3.13 fill-info.lisp</a></li>
+<details class='tocx' open>
+<summary class='tocx'><a href='#h05k6V1sTsF'>3.12 entity.lisp</a></summary>
+<blockquote class='tocx'>
+<li class='tocx'><a href='#coMfaBWu7eG'>3.12.1 entity クラス</a></li>
+<li class='tocx'><a href='#h7eqOL9fNA4'>3.12.2 begin-id-group 関数</a></li>
+<li class='tocx'><a href='#bFrl4dwpxKu'>3.12.3 end-id-group 関数</a></li>
+<li class='tocx'><a href='#dBxV4D4cAYB'>3.12.4 entity-composition-p 総称関数</a></li>
+<li class='tocx'><a href='#3ffyzBxLMJk'>3.12.5 write-header 総称関数</a></li>
+<li class='tocx'><a href='#aOXIgO3wNWv'>3.12.6 pre-draw 総称関数</a></li>
+<li class='tocx'><a href='#9lFMWTnv8EC'>3.12.7 post-draw 総称関数</a></li>
+<li class='tocx'><a href='#eRs3IQibPlS'>3.12.8 draw-entity 総称関数</a></li>
+<li class='tocx'><a href='#kXeJPcGPcpP'>3.12.9 check-and-draw-local-entity 関数</a></li>
+</blockquote>
+</details>
+<details class='tocx' open>
+<summary class='tocx'><a href='#au8IebMfeov'>3.13 fill-info.lisp</a></summary>
+<blockquote class='tocx'>
+<li class='tocx'><a href='#g99vlb6tXRZ'>3.13.1 *default-fill*変数</a></li>
+<li class='tocx'><a href='#fDv1lctqo7i'>3.13.2 fill-info クラス</a></li>
+<li class='tocx'><a href='#8IkB7VinE7h'>3.13.3 make-fill 関数</a></li>
+<li class='tocx'><a href='#apbktIICmZP'>3.13.4 with-fill マクロ</a></li>
+</blockquote>
+</details>
 <li class='tocx'><a href='#l9bqLva3rj6'>3.14 font-info.lisp</a></li>
 <li class='tocx'><a href='#dxGh4wRHKeg'>3.15 group.lisp</a></li>
 <li class='tocx'><a href='#4ukAyTPlA3e'>3.16 image.lisp</a></li>
@@ -186,9 +208,33 @@
 <li class='tocx'><a href='#ggdkX0SpYat'>3.26 polygon.lisp</a></li>
 <li class='tocx'><a href='#g7IEYVlAFRK'>3.27 raw-svg.lisp</a></li>
 <li class='tocx'><a href='#c1IDRaD20g3'>3.28 rectangle.lisp</a></li>
-<li class='tocx'><a href='#jzen8zyw08N'>3.29 shape.lisp</a></li>
+<details class='tocx' open>
+<summary class='tocx'><a href='#jzen8zyw08N'>3.29 shape.lisp</a></summary>
+<blockquote class='tocx'>
+<li class='tocx'><a href='#f9LBhHlQ8Wm'>3.29.1 shape クラス</a></li>
+<li class='tocx'><a href='#2UPPgaElgvy'>3.29.2 shape-width 総称関数</a></li>
+<li class='tocx'><a href='#lNU1gDLketF'>3.29.3 shape-height 総称関数</a></li>
+<li class='tocx'><a href='#7aZE8rCgP1F'>3.29.4 shape-topleft 総称関数</a></li>
+<li class='tocx'><a href='#kt6vKeEZlsN'>3.29.5 shape-top 総称関数</a></li>
+<li class='tocx'><a href='#85obV2niPlm'>3.29.6 shape-topright 総称関数</a></li>
+<li class='tocx'><a href='#jmh0xrnq31t'>3.29.7 shape-left 総称関数</a></li>
+<li class='tocx'><a href='#9FXddyX6ENz'>3.29.8 shape-center 総称関数</a></li>
+<li class='tocx'><a href='#h5SgyhRzdMg'>3.29.9 shape-right 総称関数</a></li>
+<li class='tocx'><a href='#jDeI5NMpwGo'>3.29.10 shape-bottomleft 総称関数</a></li>
+<li class='tocx'><a href='#5oyJIEI5Oql'>3.29.11 shape-bottom 総称関数</a></li>
+<li class='tocx'><a href='#3LYUCViihmz'>3.29.12 shape-bottomright 総称関数</a></li>
+<li class='tocx'><a href='#00NZ1og0jJj'>3.29.13 shape-get-subcanvas 総称関数</a></li>
+<li class='tocx'><a href='#cGVh1Proq0b'>3.29.14 shape-cc-center 総称関数</a></li>
+<li class='tocx'><a href='#itSpZJR99MH'>3.29.15 shape-connect-point 総称関数</a></li>
+</blockquote>
+</details>
 <li class='tocx'><a href='#0ACA2jPppKO'>3.30 stencil.lisp</a></li>
-<li class='tocx'><a href='#5S5mEI6PrDL'>3.31 stroke-info.lisp</a></li>
+<details class='tocx' open>
+<summary class='tocx'><a href='#5S5mEI6PrDL'>3.31 stroke-info.lisp</a></summary>
+<blockquote class='tocx'>
+<li class='tocx'><a href='#7pITpDTSaVn'>3.31.1 *default-stroke*変数</a></li>
+</blockquote>
+</details>
 <li class='tocx'><a href='#b75JrIWLwQA'>3.32 stylesheet.lisp</a></li>
 <li class='tocx'><a href='#kNkTqs2VjiA'>3.33 text-shape.lisp</a></li>
 <li class='tocx'><a href='#e2wwJD0JZFB'>3.34 text.lisp</a></li>
@@ -256,6 +302,8 @@
 <h3><a name='hv2FXS6j5gn'></a>2.4 ディクショナリ</h3>
 <p>　<a class='autolink' href='#hv2FXS6j5gn'>ディクショナリ</a>は、<a class='autolink' href='#hQqTfTkbNyq'>エンティティ</a>を ID で管理するためのクラスです。また、$1 などの履歴でアクセスするための履歴機能も提供します。</p>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません</span></p>
+<h3><a name='1rpUB3fre67'></a>2.5 色の指定</h3>
+<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません</span></p>
 <h2><a name='bzrfEUL5NBz'></a>3 src 配下のコンポーネント</h2>
 <h3><a name='5PHdXU1SAwU'></a>3.1 arc.lisp</h3>
 <p>　<a class='autolink' href='#5PHdXU1SAwU'>arc.lisp</a> は以下のコンポーネントに依存しています。</p>
@@ -272,7 +320,7 @@
 <li><a class='autolink' href='#6qK0TBix0mp'>cl-diagram.lisp</a></li>
 </ul>
 <h3><a name='jkshMjTfNSO'></a>3.3 canvas.lisp</h3>
-<p>　<a class='autolink' href='#jkshMjTfNSO'>canvas.lisp</a> は以下のコンポーネントに依存しています。</p>
+<p>　<a class='autolink' href='#jkshMjTfNSO'>canvas.lisp</a> は<a class='autolink' href='#jXsxcbXYkll'>キャンバス</a>を実装します。以下のコンポーネントに依存しています。</p>
 <ul>
 <li><a class='autolink' href='#6qK0TBix0mp'>cl-diagram.lisp</a></li>
 <li><a class='autolink' href='#g7U0GGx7sCV'>point.lisp</a></li>
@@ -651,17 +699,147 @@
 <li><a class='autolink' href='#7NkNOcI9zDh'>writer.lisp</a></li>
 </ul>
 <h3><a name='h05k6V1sTsF'></a>3.12 entity.lisp</h3>
-<p>　<a class='autolink' href='#h05k6V1sTsF'>entity.lisp</a> は以下のコンポーネントに依存しています。</p>
+<p>　<a class='autolink' href='#h05k6V1sTsF'>entity.lisp</a> は、<a class='autolink' href='#hQqTfTkbNyq'>エンティティ</a>を実装します。以下のコンポーネントに依存しています。</p>
 <ul>
 <li><a class='autolink' href='#6qK0TBix0mp'>cl-diagram.lisp</a></li>
 <li><a class='autolink' href='#jkshMjTfNSO'>canvas.lisp</a></li>
 <li><a class='autolink' href='#7NkNOcI9zDh'>writer.lisp</a></li>
 </ul>
+<h4><a name='coMfaBWu7eG'></a>3.12.1 entity クラス</h4>
+<p>　<a class='autolink' href='#coMfaBWu7eG'>entity</a> は id と layer を保持します。どちらもキーワードシンボルとしての保有で、nil が許可されます。</p>
+<pre class='code'>
+(<span class='keyword1'>defclass</span> <span class='keyword2'>entity</span> ()
+  ((id    <span class='keyword3'>:initform</span> nil <span class='keyword3'>:initarg</span> <span class='keyword3'>:id</span>)       <span class='comment'>; keyword</span>
+   (layer <span class='keyword3'>:initform</span> nil <span class='keyword3'>:initarg</span> <span class='keyword3'>:layer</span>)))  <span class='comment'>; keyword</span>
+</pre>
+<div align='center'>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentStyleType="text/css" height="97px" preserveAspectRatio="none" style="width:124px;height:97px;background:#FFFFFF;" version="1.1" viewBox="0 0 124 97" width="124px" zoomAndPan="magnify"><defs/><g><!--MD5=[467568f20bbf29da492dca29e9e0779e]
+class entity--><g id="elem_entity"><rect codeLine="1" fill="#F1F1F1" height="76" id="entity" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="103" x="7" y="7"/><ellipse cx="37.3" cy="23" fill="#ADD1B2" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/><path d="M40.6906,24.9844 Q40.2688,29.9688 36.9563,29.9688 Q35.0031,29.9688 33.9563,27.9688 Q33.0813,26.2969 33.0813,23.3594 Q33.0813,20.3438 34.05,18.5781 Q35.05,16.7031 36.9563,16.7031 Q39.9875,16.7031 40.6125,21.1406 L38.5344,21.1406 Q38.175,18.6719 36.9563,18.6719 Q35.2219,18.6719 35.2219,23.3594 Q35.2219,28 36.9719,28 Q38.4094,28 38.5656,24.9844 L40.6906,24.9844 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="37" x="54.7" y="28.3184">entity</text><line style="stroke:#181818;stroke-width:0.5;" x1="8" x2="109" y1="39" y2="39"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="72" x="13" y="55.3184">keyword id</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="91" x="13" y="69.3184">keyword layer</text><line style="stroke:#181818;stroke-width:0.5;" x1="8" x2="109" y1="75" y2="75"/></g><!--MD5=[dbbae946c0bcc891c9a6f723520e9842]
+@startuml
+class entity {
+  keyword id
+  keyword layer
+}
+@enduml
+
+PlantUML version 1.2022.2(Sun Mar 06 01:30:19 JST 2022)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Default Encoding: UTF-8
+Language: ja
+Country: JP
+--></g></svg></div>
+
+<h4><a name='h7eqOL9fNA4'></a>3.12.2 begin-id-group 関数</h4>
+<pre class='code'>
+(<span class='keyword1'>defun</span> <span class='keyword5'>begin-id-group</span> (ent writer) ... )
+</pre>
+<p>　id を持つ<a class='autolink' href='#hQqTfTkbNyq'>エンティティ</a>の場合、svg 出力において id を指定した g タグで全体を括るための関数です。デフォルト実装では <a class='autolink' href='#aOXIgO3wNWv'>pre-draw</a> 総称関数の実装からコールされます。</p>
+<h4><a name='bFrl4dwpxKu'></a>3.12.3 end-id-group 関数</h4>
+<pre class='code'>
+(<span class='keyword1'>defun</span> <span class='keyword5'>end-id-group</span> (ent writer) ... )
+</pre>
+<p>　id を持つ<a class='autolink' href='#hQqTfTkbNyq'>エンティティ</a>の場合、svg 出力において id を指定した g タグを閉じるための関数です。デフォルト実装では <a class='autolink' href='#9lFMWTnv8EC'>post-draw</a> 総称関数の実装からコールされます。</p>
+<h4><a name='dBxV4D4cAYB'></a>3.12.4 entity-composition-p 総称関数</h4>
+<pre class='code'>
+(<span class='keyword1'>defgeneric</span> <span class='keyword5'>entity-composition-p</span> (ent)) ... )
+</pre>
+<p>　<a class='autolink' href='#hQqTfTkbNyq'>エンティティ</a>が複合オブジェクトであるか否かを調べるための総称関数です。<a class='autolink' href='#coMfaBWu7eG'>entity</a> に対する実装では nil を返します。</p>
+<h4><a name='3ffyzBxLMJk'></a>3.12.5 write-header 総称関数</h4>
+<pre class='code'>
+(<span class='keyword1'>defgeneric</span> <span class='keyword5'>write-header</span> (entity writer)) ... )
+</pre>
+<p>　<a class='autolink' href='#hQqTfTkbNyq'>エンティティ</a>の svg コードを出力前にヘッダコメントを出力するための総称関数です。</p>
+<h4><a name='aOXIgO3wNWv'></a>3.12.6 pre-draw 総称関数</h4>
+<pre class='code'>
+(<span class='keyword1'>defgeneric</span> <span class='keyword5'>pre-draw</span> (entity writer)) ... )
+</pre>
+<p>　<a class='autolink' href='#hQqTfTkbNyq'>エンティティ</a>の svg コードを出力する <a class='autolink' href='#eRs3IQibPlS'>draw-entity</a> 総称関数の実装の冒頭でコールされることを想定した総称関数です。<a class='autolink' href='#coMfaBWu7eG'>entity</a> に対するデフォルト実装では、複合<a class='autolink' href='#hQqTfTkbNyq'>エンティティ</a>であった場合に<a class='autolink' href='#h7eqOL9fNA4'>begin-id-group</a> 関数をコールします。</p>
+<h4><a name='9lFMWTnv8EC'></a>3.12.7 post-draw 総称関数</h4>
+<pre class='code'>
+(<span class='keyword1'>defgeneric</span> <span class='keyword5'>post-draw</span> (entity writer)) ... )
+</pre>
+<p>　<a class='autolink' href='#hQqTfTkbNyq'>エンティティ</a>の svg コードを出力する <a class='autolink' href='#eRs3IQibPlS'>draw-entity</a> 総称関数の実装の最後にコールされることを想定した総称関数です。<a class='autolink' href='#coMfaBWu7eG'>entity</a> に対するデフォルト実装では、複合<a class='autolink' href='#hQqTfTkbNyq'>エンティティ</a>であった場合に<a class='autolink' href='#bFrl4dwpxKu'>end-id-group</a> 関数をコールします。</p>
+<h4><a name='eRs3IQibPlS'></a>3.12.8 draw-entity 総称関数</h4>
+<pre class='code'>
+(<span class='keyword1'>defgeneric</span> <span class='keyword5'>draw-entity</span> (entity writer)) ... )
+</pre>
+<p>　<a class='autolink' href='#hQqTfTkbNyq'>エンティティ</a>の svg コードを出力するための総称関数です。<a class='autolink' href='#coMfaBWu7eG'>entity</a> に対する実装は存在しません。派生クラスで必ず実装してください。</p>
+<h4><a name='kXeJPcGPcpP'></a>3.12.9 check-and-draw-local-entity 関数</h4>
+<pre class='code'>
+(<span class='keyword1'>defun</span> <span class='keyword5'>check-and-draw-local-entity</span> (entity canvas writer) ... )
+</pre>
+<p>　<a class='autolink' href='#8sXKk1Q8d2H'>dictionary</a> に登録されないローカルな <a class='autolink' href='#coMfaBWu7eG'>entity</a> を描画するための関数です。確認されている利用個所としては以下があります。</p>
+<ul>
+<li><a class='autolink' href='#dxGh4wRHKeg'>group.lisp</a> - draw-canvas-frame 関数</li>
+<li><a class='autolink' href='#kNkTqs2VjiA'>text-shape.lisp</a> - draw-group メソッド</li>
+</ul>
 <h3><a name='au8IebMfeov'></a>3.13 fill-info.lisp</h3>
-<p>　<a class='autolink' href='#au8IebMfeov'>fill-info.lisp</a> は以下のコンポーネントに依存しています。</p>
+<p>　<a class='autolink' href='#au8IebMfeov'>fill-info.lisp</a> は塗り潰しの指定を表現するクラスです。以下のコンポーネントに依存しています。</p>
 <ul>
 <li><a class='autolink' href='#6qK0TBix0mp'>cl-diagram.lisp</a></li>
 </ul>
+<h4><a name='g99vlb6tXRZ'></a>3.13.1 *default-fill*変数</h4>
+<pre class='code'>
+(<span class='keyword1'>defparameter</span> <span class='keyword4'>*default-fill*</span> nil)
+</pre>
+<p>　デフォルトの塗り潰しを表現するダイナミック変数です。初期状態では<code>(make-fill :color :none :opacity nil :rule nil)</code> の結果が設定されます。</p>
+<h4><a name='fDv1lctqo7i'></a>3.13.2 fill-info クラス</h4>
+<p>　<a class='autolink' href='#fDv1lctqo7i'>fill-info</a> は color、opacity、rule を保持します。いずれも nil が許可されます。</p>
+<pre class='code'>
+(<span class='keyword1'>defclass</span> <span class='keyword2'>fill-info</span> ()
+  ((color   <span class='keyword3'>:initform</span> nil <span class='keyword3'>:initarg</span> <span class='keyword3'>:color</span>)    <span class='comment'>; (or keyword string)</span>
+   (opacity <span class='keyword3'>:initform</span> nil <span class='keyword3'>:initarg</span> <span class='keyword3'>:opacity</span>)  <span class='comment'>; number</span>
+   (rule    <span class='keyword3'>:initform</span> nil <span class='keyword3'>:initarg</span> <span class='keyword3'>:rule</span>)))   <span class='comment'>; (or nil keyword)</span>
+</pre>
+<p>　<a class='autolink' href='#fDv1lctqo7i'>fill-info</a> クラス向けに、以下の総称関数のメソッドが実装されています。</p>
+<ul>
+<li>initialize-instance </li>
+<li><a class='autolink' href='#dam9QmgaZrq'>check</a> </li>
+<li><a class='autolink' href='#kWO3U8sB5EC'>to-property-strings</a></li>
+<li><a class='autolink' href='#6KE7wGjrGwN'>to-style-strings</a></li>
+</ul>
+<h4><a name='8IkB7VinE7h'></a>3.13.3 make-fill 関数</h4>
+<pre class='code'>
+(<span class='keyword1'>defun</span> <span class='keyword5'>make-fill</span> (<span class='keyword2'>&amp;rest</span> params) ... )
+</pre>
+<p>　<a class='autolink' href='#fDv1lctqo7i'>fill-info</a> インスタンスを作成します。パラメータの数や種類に応じて作り方が異なります。</p>
+<ul>
+<li>パラメータ無しの場合、 <code>*default-fill*</code> を返します</li>
+<li>パラメータ数が 1 の場合、そのパラメータを param として
+<ul>
+<li>param が <a class='autolink' href='#fDv1lctqo7i'>fill-info</a> インスタンスの場合、渡されたものをそのまま返します</li>
+<li>param がリストの場合、 <code>(apply #'make-fill param)</code> の結果を返します</li>
+<li>上記のいずれでもない場合、 <code>(make-fill :color param)</code> の結果を返します</li>
+</ul>
+</li>
+<li>パラメータ数が 2 以上の場合、以下の関数のように振舞います。
+<pre class='code'>
+(<span class='keyword1'>defun</span> <span class='keyword5'>make-fill</span> (<span class='keyword2'>&amp;key</span> color opacity rule base) ... )
+</pre>
+<ul>
+<li><code>base</code> は <code>color opacity rule</code> が省略された場合にデフォルト値を取得するための <code>fill-info</code> インスタンスで、これが省略された場合は <code>*default-fill*</code> が使用されます。</li>
+<li><code>color</code> は<a class='autolink' href='#1rpUB3fre67'>色の指定</a>です。指定方法の詳細は「<a class='autolink' href='#1rpUB3fre67'>色の指定</a>」を参照してください。</li>
+<li><code>opacity</code> で透明度を指定します。0 から 1 までの浮動小数点数で指定します。</li>
+<li><code>rule</code> は塗りつぶしに関するルールです。 <code>:nonzero</code> または <code>:evenodd</code> で指定します。</li>
+</ul>
+</li>
+</ul>
+<h4><a name='apbktIICmZP'></a>3.13.4 with-fill マクロ</h4>
+<pre class='code'>
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>with-fill</span> ((<span class='keyword2'>&amp;rest</span> param) <span class='keyword2'>&amp;rest</span> body) ... )
+</pre>
+<p>　<code>*default-fill*</code> を一時的に変更します。 <code>params</code> には <a class='autolink' href='#8IkB7VinE7h'>make-fill</a> に与えるパラメータと同じものを指定します。以下のコードは、</p>
+<pre class='code'>
+(with-fill (<span class='keyword3'>:color</span> <span class='keyword3'>:red</span> <span class='keyword3'>:opacity</span> 0.2)
+   ... )
+</pre>
+<p>　以下と同等です。</p>
+<pre class='code'>
+(<span class='keyword1'>let</span> ((*default-fill* (make-fill <span class='keyword3'>:color</span> <span class='keyword3'>:red</span> <span class='keyword3'>:opacity</span> 0.2)))
+   ... )
+</pre>
 <h3><a name='l9bqLva3rj6'></a>3.14 font-info.lisp</h3>
 <p>　<a class='autolink' href='#l9bqLva3rj6'>font-info.lisp</a> は以下のコンポーネントに依存しています。</p>
 <ul>
@@ -725,6 +903,24 @@
 <li><a class='autolink' href='#3c2PhHDsO5I'>constants.lisp</a></li>
 <li><a class='autolink' href='#7NkNOcI9zDh'>writer.lisp</a></li>
 </ul>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='100'>
+	
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- rectangle -->
+	<a xlink:href='http://www.google.co.jp/' target='_blank'>
+		<rect x='85' y='35' width='30' height='30' fill='lightgray' stroke='black' stroke-width='1' />
+	</a>
+
+</svg>
+</div>
+
 <h3><a name='0uaBbu9jd7a'></a>3.21 mathutil.lisp</h3>
 <p>　<a class='autolink' href='#0uaBbu9jd7a'>mathutil.lisp</a> は以下のコンポーネントに依存しています。</p>
 <ul>
@@ -1350,6 +1546,161 @@
 <li><a class='autolink' href='#h05k6V1sTsF'>entity.lisp</a></li>
 <li><a class='autolink' href='#k0U5yutENit'>link-info.lisp</a></li>
 </ul>
+<h4><a name='f9LBhHlQ8Wm'></a>3.29.1 shape クラス</h4>
+<p>　<a class='autolink' href='#f9LBhHlQ8Wm'>shape</a> は class と link を保持します。どちらも nil が許可されます。</p>
+<pre class='code'>
+(<span class='keyword1'>defclass</span> <span class='keyword2'>shape</span> (entity)
+  ((class <span class='keyword3'>:initform</span> nil <span class='keyword3'>:initarg</span> <span class='keyword3'>:class</span>)  <span class='comment'>; keyword</span>
+   (link  <span class='keyword3'>:initform</span> nil <span class='keyword3'>:initarg</span> <span class='keyword3'>:link</span>))) <span class='comment'>; (or nil link-info)</span>
+</pre>
+<p>　<a class='autolink' href='#f9LBhHlQ8Wm'>shape</a> はおおまかに言って、<a class='autolink' href='#coMfaBWu7eG'>entity</a> のうち「矩形領域を持つもの」です。つまりコネクタなどの接続線のようなものは含みません。</p>
+<div align='center'>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentStyleType="text/css" height="90px" preserveAspectRatio="none" style="width:280px;height:90px;background:#FFFFFF;" version="1.1" viewBox="0 0 280 90" width="280px" zoomAndPan="magnify"><defs/><g><!--MD5=[467568f20bbf29da492dca29e9e0779e]
+class entity--><g id="elem_entity"><rect codeLine="2" fill="#F1F1F1" height="76" id="entity" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="103" x="7" y="7"/><ellipse cx="37.3" cy="23" fill="#ADD1B2" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/><path d="M40.6906,24.9844 Q40.2688,29.9688 36.9563,29.9688 Q35.0031,29.9688 33.9563,27.9688 Q33.0813,26.2969 33.0813,23.3594 Q33.0813,20.3438 34.05,18.5781 Q35.05,16.7031 36.9563,16.7031 Q39.9875,16.7031 40.6125,21.1406 L38.5344,21.1406 Q38.175,18.6719 36.9563,18.6719 Q35.2219,18.6719 35.2219,23.3594 Q35.2219,28 36.9719,28 Q38.4094,28 38.5656,24.9844 L40.6906,24.9844 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="37" x="54.7" y="28.3184">entity</text><line style="stroke:#181818;stroke-width:0.5;" x1="8" x2="109" y1="39" y2="39"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="72" x="13" y="55.3184">keyword id</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="91" x="13" y="69.3184">keyword layer</text><line style="stroke:#181818;stroke-width:0.5;" x1="8" x2="109" y1="75" y2="75"/></g><!--MD5=[4f91157a5a9a4f567f981e6a00c140e3]
+class shape--><g id="elem_shape"><rect codeLine="6" fill="#F1F1F1" height="76" id="shape" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="103" x="170" y="7"/><ellipse cx="198.95" cy="23" fill="#ADD1B2" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/><path d="M202.3406,24.9844 Q201.9188,29.9688 198.6063,29.9688 Q196.6531,29.9688 195.6063,27.9688 Q194.7313,26.2969 194.7313,23.3594 Q194.7313,20.3438 195.7,18.5781 Q196.7,16.7031 198.6063,16.7031 Q201.6375,16.7031 202.2625,21.1406 L200.1844,21.1406 Q199.825,18.6719 198.6063,18.6719 Q196.8719,18.6719 196.8719,23.3594 Q196.8719,28 198.6219,28 Q200.0594,28 200.2156,24.9844 L202.3406,24.9844 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="40" x="216.05" y="28.3184">shape</text><line style="stroke:#181818;stroke-width:0.5;" x1="171" x2="272" y1="39" y2="39"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="91" x="176" y="55.3184">keyword class</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="79" x="176" y="69.3184">link-info link</text><line style="stroke:#181818;stroke-width:0.5;" x1="171" x2="272" y1="75" y2="75"/></g><!--MD5=[401a871b595d3ba5385d1c54de4066b6]
+reverse link entity to shape--><g id="link_entity_shape"><path codeLine="10" d="M130.71,45 C143.91,45 157.46,45 169.89,45 " fill="none" id="entity-backto-shape" style="stroke:#181818;stroke-width:1.0;"/><polygon fill="none" points="130.44,52,110.44,45,130.44,38,130.44,52" style="stroke:#181818;stroke-width:1.0;"/></g><!--MD5=[d7468789fd2fd315a643dc30ce856a71]
+@startuml
+left to right direction
+class entity {
+  keyword id
+  keyword layer
+}
+class shape {
+  keyword class
+  link-info link
+}
+entity <|- - shape
+@enduml
+
+PlantUML version 1.2022.2(Sun Mar 06 01:30:19 JST 2022)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Default Encoding: UTF-8
+Language: ja
+Country: JP
+--></g></svg></div>
+
+<h4><a name='2UPPgaElgvy'></a>3.29.2 shape-width 総称関数</h4>
+<pre class='code'>
+(<span class='keyword1'>defgeneric</span> <span class='keyword5'>shape-width</span> (shp)) ... )
+</pre>
+<p>　<a class='autolink' href='#f9LBhHlQ8Wm'>shape</a> かその派生クラスの「幅」を数値で返します。<a class='autolink' href='#f9LBhHlQ8Wm'>shape</a> クラスでのデフォルト実装はありません。派生クラスで実装する必要があります。</p>
+<h4><a name='lNU1gDLketF'></a>3.29.3 shape-height 総称関数</h4>
+<pre class='code'>
+(<span class='keyword1'>defgeneric</span> <span class='keyword5'>shape-height</span> (shp)) ... )
+</pre>
+<p>　<a class='autolink' href='#f9LBhHlQ8Wm'>shape</a> かその派生クラスの「高さ」を数値で返します。<a class='autolink' href='#f9LBhHlQ8Wm'>shape</a> クラスでのデフォルト実装はありません。派生クラスで実装する必要があります。</p>
+<h4><a name='7aZE8rCgP1F'></a>3.29.4 shape-topleft 総称関数</h4>
+<pre class='code'>
+(<span class='keyword1'>defgeneric</span> <span class='keyword5'>shape-topleft</span> (shp)) ... )
+</pre>
+<p>　<a class='autolink' href='#f9LBhHlQ8Wm'>shape</a> かその派生クラスの「左上の座標」を point で返します。<a class='autolink' href='#f9LBhHlQ8Wm'>shape</a> クラスでのデフォルト実装では、以下から計算します。</p>
+<ul>
+<li><a class='autolink' href='#9FXddyX6ENz'>shape-center</a></li>
+<li><a class='autolink' href='#2UPPgaElgvy'>shape-width</a></li>
+<li><a class='autolink' href='#lNU1gDLketF'>shape-height</a></li>
+</ul>
+<h4><a name='kt6vKeEZlsN'></a>3.29.5 shape-top 総称関数</h4>
+<pre class='code'>
+(<span class='keyword1'>defgeneric</span> <span class='keyword5'>shape-top</span> (shp)) ... )
+</pre>
+<p>　<a class='autolink' href='#f9LBhHlQ8Wm'>shape</a> かその派生クラスの「上端の座標」を point で返します。<a class='autolink' href='#f9LBhHlQ8Wm'>shape</a> クラスでのデフォルト実装では、以下から計算します。</p>
+<ul>
+<li><a class='autolink' href='#9FXddyX6ENz'>shape-center</a></li>
+<li><a class='autolink' href='#lNU1gDLketF'>shape-height</a></li>
+</ul>
+<h4><a name='85obV2niPlm'></a>3.29.6 shape-topright 総称関数</h4>
+<pre class='code'>
+(<span class='keyword1'>defgeneric</span> <span class='keyword5'>shape-topright</span> (shp)) ... )
+</pre>
+<p>　<a class='autolink' href='#f9LBhHlQ8Wm'>shape</a> かその派生クラスの「右上の座標」を point で返します。<a class='autolink' href='#f9LBhHlQ8Wm'>shape</a> クラスでのデフォルト実装では、以下から計算します。</p>
+<ul>
+<li><a class='autolink' href='#9FXddyX6ENz'>shape-center</a></li>
+<li><a class='autolink' href='#2UPPgaElgvy'>shape-width</a></li>
+<li><a class='autolink' href='#lNU1gDLketF'>shape-height</a></li>
+</ul>
+<h4><a name='jmh0xrnq31t'></a>3.29.7 shape-left 総称関数</h4>
+<pre class='code'>
+(<span class='keyword1'>defgeneric</span> <span class='keyword5'>shape-left</span> (shp)) ... )
+</pre>
+<p>　<a class='autolink' href='#f9LBhHlQ8Wm'>shape</a> かその派生クラスの「左端の座標」を point で返します。<a class='autolink' href='#f9LBhHlQ8Wm'>shape</a> クラスでのデフォルト実装では、以下から計算します。</p>
+<ul>
+<li><a class='autolink' href='#9FXddyX6ENz'>shape-center</a></li>
+<li><a class='autolink' href='#2UPPgaElgvy'>shape-width</a></li>
+</ul>
+<h4><a name='9FXddyX6ENz'></a>3.29.8 shape-center 総称関数</h4>
+<pre class='code'>
+(<span class='keyword1'>defgeneric</span> <span class='keyword5'>shape-center</span> (shp)) ... )
+</pre>
+<p>　<a class='autolink' href='#f9LBhHlQ8Wm'>shape</a> かその派生クラスの「中心」を point で返します。<a class='autolink' href='#f9LBhHlQ8Wm'>shape</a> クラスでのデフォルト実装はありません。派生クラスで実装する必要があります。</p>
+<h4><a name='h5SgyhRzdMg'></a>3.29.9 shape-right 総称関数</h4>
+<pre class='code'>
+(<span class='keyword1'>defgeneric</span> <span class='keyword5'>shape-right</span> (shp)) ... )
+</pre>
+<p>　<a class='autolink' href='#f9LBhHlQ8Wm'>shape</a> かその派生クラスの「右端の座標」を point で返します。<a class='autolink' href='#f9LBhHlQ8Wm'>shape</a> クラスでのデフォルト実装では、以下から計算します。</p>
+<ul>
+<li><a class='autolink' href='#9FXddyX6ENz'>shape-center</a></li>
+<li><a class='autolink' href='#2UPPgaElgvy'>shape-width</a></li>
+</ul>
+<h4><a name='jDeI5NMpwGo'></a>3.29.10 shape-bottomleft 総称関数</h4>
+<pre class='code'>
+(<span class='keyword1'>defgeneric</span> <span class='keyword5'>shape-bottomleft</span> (shp)) ... )
+</pre>
+<p>　<a class='autolink' href='#f9LBhHlQ8Wm'>shape</a> かその派生クラスの「左下の座標」を point で返します。<a class='autolink' href='#f9LBhHlQ8Wm'>shape</a> クラスでのデフォルト実装では、以下から計算します。</p>
+<ul>
+<li><a class='autolink' href='#9FXddyX6ENz'>shape-center</a></li>
+<li><a class='autolink' href='#2UPPgaElgvy'>shape-width</a></li>
+<li><a class='autolink' href='#lNU1gDLketF'>shape-height</a></li>
+</ul>
+<h4><a name='5oyJIEI5Oql'></a>3.29.11 shape-bottom 総称関数</h4>
+<pre class='code'>
+(<span class='keyword1'>defgeneric</span> <span class='keyword5'>shape-bottom</span> (shp)) ... )
+</pre>
+<p>　<a class='autolink' href='#f9LBhHlQ8Wm'>shape</a> かその派生クラスの「下端の座標」を point で返します。<a class='autolink' href='#f9LBhHlQ8Wm'>shape</a> クラスでのデフォルト実装では、以下から計算します。</p>
+<ul>
+<li><a class='autolink' href='#9FXddyX6ENz'>shape-center</a></li>
+<li><a class='autolink' href='#lNU1gDLketF'>shape-height</a></li>
+</ul>
+<h4><a name='3LYUCViihmz'></a>3.29.12 shape-bottomright 総称関数</h4>
+<pre class='code'>
+(<span class='keyword1'>defgeneric</span> <span class='keyword5'>shape-bottomright</span> (shp)) ... )
+</pre>
+<p>　<a class='autolink' href='#f9LBhHlQ8Wm'>shape</a> かその派生クラスの「右下の座標」を point で返します。<a class='autolink' href='#f9LBhHlQ8Wm'>shape</a> クラスでのデフォルト実装では、以下から計算します。</p>
+<ul>
+<li><a class='autolink' href='#9FXddyX6ENz'>shape-center</a></li>
+<li><a class='autolink' href='#2UPPgaElgvy'>shape-width</a></li>
+<li><a class='autolink' href='#lNU1gDLketF'>shape-height</a></li>
+</ul>
+<h4><a name='00NZ1og0jJj'></a>3.29.13 shape-get-subcanvas 総称関数</h4>
+<pre class='code'>
+(<span class='keyword1'>defgeneric</span> <span class='keyword5'>shape-get-subcanvas</span> (shp)) ... )
+</pre>
+<p>　<a class='autolink' href='#f9LBhHlQ8Wm'>shape</a> のサブ<a class='autolink' href='#jXsxcbXYkll'>キャンバス</a>を canvas で返します。<a class='autolink' href='#f9LBhHlQ8Wm'>shape</a> クラスでのデフォルト実装では、以下から計算します。つまり、単純に <a class='autolink' href='#f9LBhHlQ8Wm'>shape</a> の矩形を返します。</p>
+<ul>
+<li><a class='autolink' href='#7aZE8rCgP1F'>shape-topleft</a></li>
+<li><a class='autolink' href='#2UPPgaElgvy'>shape-width</a></li>
+<li><a class='autolink' href='#lNU1gDLketF'>shape-height</a></li>
+</ul>
+<h4><a name='cGVh1Proq0b'></a>3.29.14 shape-cc-center 総称関数</h4>
+<pre class='code'>
+(<span class='keyword1'>defgeneric</span> <span class='keyword5'>shape-cc-center</span> (shp type)) ... )
+</pre>
+<p>　connector が <a class='autolink' href='#f9LBhHlQ8Wm'>shape</a> <code>:CC</code> で接続するときの中心点を point で返します。type には <code>:from</code> または <code>:dest</code> が渡されます。<a class='autolink' href='#f9LBhHlQ8Wm'>shape</a> クラスでのデフォルト実装では、<code>type</code> を無視して <code>(shape-center shp)</code> の呼び出し結果をそのまま返します。</p>
+<p>　この総称関数は、特殊な <a class='autolink' href='#f9LBhHlQ8Wm'>shape</a> のために用意されています。例としては uml-connector が挙げられます。これは、単一の <a class='autolink' href='#f9LBhHlQ8Wm'>shape</a> で２ケ所に円を描画し、 <code>:from</code> で connector に接続する場合と <code>:dest</code> で connector に接続する場合で異なる円を使います。</p>
+<h4><a name='itSpZJR99MH'></a>3.29.15 shape-connect-point 総称関数</h4>
+<pre class='code'>
+(<span class='keyword1'>defgeneric</span> <span class='keyword5'>shape-connect-point</span> (shp type1 type2 arg)) ... )
+</pre>
+<p>　<a class='autolink' href='#f9LBhHlQ8Wm'>shape</a> に connector を接続する際の接続点を決定します。</p>
+<table align='center'>
+<tr><th>param</th><th>description</th></tr>
+<tr><td align='center'>shp</td><td align='left'>接続点を決定したい <a class='autolink' href='#f9LBhHlQ8Wm'>shape</a> オブジェクトが指定されます。</td></tr>
+<tr><td align='center'>type1</td><td align='left'>connector のどちらの端点かが <code>:from, :dest</code> で指定されます。</td></tr>
+<tr><td align='center'>type2</td><td align='left'>connector の shp への接続先が <code>:center, :top, :bottom, :left, :right</code> で指定されます。</td></tr>
+<tr><td align='center'>arg</td><td align='left'>type2 が <code>:center</code> の場合、point オブジェクトで、connector の反対側の端点が指定されます。<br>         type2 が <code>:center</code> でない場合、-1,0,1 で補助的な接続位置が指定されます。</td></tr>
+</table>
+<p>　rectangle のような矩形の <a class='autolink' href='#f9LBhHlQ8Wm'>shape</a> であれば、<a class='autolink' href='#f9LBhHlQ8Wm'>shape</a> 向けのデフォルト実装で問題なく機能するはずです。円や楕円などの形状や、もっと複雑な形状の場合、独自に実装をする必要があるかもしれません。</p>
 <h3><a name='0ACA2jPppKO'></a>3.30 stencil.lisp</h3>
 <p>　<a class='autolink' href='#0ACA2jPppKO'>stencil.lisp</a> は以下のコンポーネントに依存しています。</p>
 <ul>
@@ -1357,10 +1708,15 @@
 <li><a class='autolink' href='#kEmV3k1rXYD'>pathutil.lisp</a></li>
 </ul>
 <h3><a name='5S5mEI6PrDL'></a>3.31 stroke-info.lisp</h3>
-<p>　<a class='autolink' href='#5S5mEI6PrDL'>stroke-info.lisp</a> は以下のコンポーネントに依存しています。</p>
+<p>　<a class='autolink' href='#5S5mEI6PrDL'>stroke-info.lisp</a> はストロークの指定を表現するクラスです。以下のコンポーネントに依存しています。</p>
 <ul>
 <li><a class='autolink' href='#6qK0TBix0mp'>cl-diagram.lisp</a></li>
 </ul>
+<h4><a name='7pITpDTSaVn'></a>3.31.1 *default-stroke*変数</h4>
+<pre class='code'>
+(<span class='keyword1'>defparameter</span> <span class='keyword4'>*default-stroke*</span> nil)
+</pre>
+<p>　デフォルトのストロークを表現するダイナミック変数です。初期状態では<code>(make-stroke :color :black :width 1 :opacity nil :linecap nil :linejoin nil :miterlimit nil :dasharray nil :dashoffset nil)</code> の結果が設定されます。</p>
 <h3><a name='b75JrIWLwQA'></a>3.32 stylesheet.lisp</h3>
 <p>　<a class='autolink' href='#b75JrIWLwQA'>stylesheet.lisp</a> は以下のコンポーネントに依存しています。</p>
 <ul>
@@ -1449,6 +1805,8 @@
 <details class='idx_x' open>
 <summary class='idx_x'>Symbols</summary>
 <blockquote class='idx_x'>
+<li class='idx_x'><a class='autolink' href='#g99vlb6tXRZ'>*default-fill*</a></li>
+<li class='idx_x'><a class='autolink' href='#7pITpDTSaVn'>*default-stroke*</a></li>
 <li class='idx_x'><a class='autolink' href='#aILr24BuzyN'>__write-imp</a></li>
 </blockquote>
 </details>
@@ -1461,6 +1819,7 @@
 <details class='idx_x' open>
 <summary class='idx_x'>B</summary>
 <blockquote class='idx_x'>
+<li class='idx_x'><a class='autolink' href='#h7eqOL9fNA4'>begin-id-group</a></li>
 <li class='idx_x'><a class='autolink' href='#jRts0Y6YUfH'>binutil.lisp</a></li>
 <li class='idx_x'><a class='autolink' href='#lfl3LZgcQAj'>buffer-writer</a></li>
 </blockquote>
@@ -1491,6 +1850,7 @@
 <li class='idx_x'><a class='autolink' href='#jkshMjTfNSO'>canvas.lisp</a></li>
 <li class='idx_x'><a class='autolink' href='#kiT1zMbnS1G'>caution</a></li>
 <li class='idx_x'><a class='autolink' href='#dam9QmgaZrq'>check</a></li>
+<li class='idx_x'><a class='autolink' href='#kXeJPcGPcpP'>check-and-draw-local-entity</a></li>
 <li class='idx_x'><a class='autolink' href='#byoOCbZmVzI'>check-keywords</a></li>
 <li class='idx_x'><a class='autolink' href='#4agHkkJhiI1'>check-member</a></li>
 <li class='idx_x'><a class='autolink' href='#7OeiJB9pyPw'>check-numbers</a></li>
@@ -1516,13 +1876,17 @@
 <li class='idx_x'><a class='autolink' href='#1X7zDLB8Dho'>dict-register</a></li>
 <li class='idx_x'><a class='autolink' href='#8sXKk1Q8d2H'>dictionary</a></li>
 <li class='idx_x'><a class='autolink' href='#kCVvdOT2S7L'>dictionary.lisp</a></li>
+<li class='idx_x'><a class='autolink' href='#eRs3IQibPlS'>draw-entity</a></li>
 </blockquote>
 </details>
 <details class='idx_x' open>
 <summary class='idx_x'>E</summary>
 <blockquote class='idx_x'>
 <li class='idx_x'><a class='autolink' href='#hd7ThdvzqQq'>ellipse.lisp</a></li>
+<li class='idx_x'><a class='autolink' href='#bFrl4dwpxKu'>end-id-group</a></li>
 <li class='idx_x'><a class='autolink' href='#4V2uI4HhR9d'>endmark-info.lisp</a></li>
+<li class='idx_x'><a class='autolink' href='#coMfaBWu7eG'>entity</a></li>
+<li class='idx_x'><a class='autolink' href='#dBxV4D4cAYB'>entity-composition-p</a></li>
 <li class='idx_x'><a class='autolink' href='#h05k6V1sTsF'>entity.lisp</a></li>
 <li class='idx_x'><a class='autolink' href='#koEWNsjRkGS'>escape-characters</a></li>
 <li class='idx_x'><a class='autolink' href='#8n4YMx0lEny'>exception</a></li>
@@ -1531,6 +1895,7 @@
 <details class='idx_x' open>
 <summary class='idx_x'>F</summary>
 <blockquote class='idx_x'>
+<li class='idx_x'><a class='autolink' href='#fDv1lctqo7i'>fill-info</a></li>
 <li class='idx_x'><a class='autolink' href='#au8IebMfeov'>fill-info.lisp</a></li>
 <li class='idx_x'><a class='autolink' href='#8bLRXqBRaO7'>fix-name</a></li>
 <li class='idx_x'><a class='autolink' href='#l9bqLva3rj6'>font-info.lisp</a></li>
@@ -1562,6 +1927,7 @@
 <summary class='idx_x'>M</summary>
 <blockquote class='idx_x'>
 <li class='idx_x'><a class='autolink' href='#92zJ4HjAUik'>make-canvas</a></li>
+<li class='idx_x'><a class='autolink' href='#8IkB7VinE7h'>make-fill</a></li>
 <li class='idx_x'><a class='autolink' href='#cV08aR4hVCU'>make-point</a></li>
 <li class='idx_x'><a class='autolink' href='#19JyiABSLdD'>math/cos1</a></li>
 <li class='idx_x'><a class='autolink' href='#9Uw5mXSJ6LO'>math/cos2</a></li>
@@ -1613,6 +1979,8 @@
 <li class='idx_x'><a class='autolink' href='#3nSG8ftc6m8'>point/xy+</a></li>
 <li class='idx_x'><a class='autolink' href='#awgH1J8YsIC'>point/y+</a></li>
 <li class='idx_x'><a class='autolink' href='#ggdkX0SpYat'>polygon.lisp</a></li>
+<li class='idx_x'><a class='autolink' href='#9lFMWTnv8EC'>post-draw</a></li>
+<li class='idx_x'><a class='autolink' href='#aOXIgO3wNWv'>pre-draw</a></li>
 </blockquote>
 </details>
 <details class='idx_x' open>
@@ -1626,6 +1994,21 @@
 <details class='idx_x' open>
 <summary class='idx_x'>S</summary>
 <blockquote class='idx_x'>
+<li class='idx_x'><a class='autolink' href='#f9LBhHlQ8Wm'>shape</a></li>
+<li class='idx_x'><a class='autolink' href='#5oyJIEI5Oql'>shape-bottom</a></li>
+<li class='idx_x'><a class='autolink' href='#jDeI5NMpwGo'>shape-bottomleft</a></li>
+<li class='idx_x'><a class='autolink' href='#3LYUCViihmz'>shape-bottomright</a></li>
+<li class='idx_x'><a class='autolink' href='#cGVh1Proq0b'>shape-cc-center</a></li>
+<li class='idx_x'><a class='autolink' href='#9FXddyX6ENz'>shape-center</a></li>
+<li class='idx_x'><a class='autolink' href='#itSpZJR99MH'>shape-connect-point</a></li>
+<li class='idx_x'><a class='autolink' href='#00NZ1og0jJj'>shape-get-subcanvas</a></li>
+<li class='idx_x'><a class='autolink' href='#lNU1gDLketF'>shape-height</a></li>
+<li class='idx_x'><a class='autolink' href='#jmh0xrnq31t'>shape-left</a></li>
+<li class='idx_x'><a class='autolink' href='#h5SgyhRzdMg'>shape-right</a></li>
+<li class='idx_x'><a class='autolink' href='#kt6vKeEZlsN'>shape-top</a></li>
+<li class='idx_x'><a class='autolink' href='#7aZE8rCgP1F'>shape-topleft</a></li>
+<li class='idx_x'><a class='autolink' href='#85obV2niPlm'>shape-topright</a></li>
+<li class='idx_x'><a class='autolink' href='#2UPPgaElgvy'>shape-width</a></li>
 <li class='idx_x'><a class='autolink' href='#jzen8zyw08N'>shape.lisp</a></li>
 <li class='idx_x'><a class='autolink' href='#0ACA2jPppKO'>stencil.lisp</a></li>
 <li class='idx_x'><a class='autolink' href='#dQph0tOdHQ4'>string/mid</a></li>
@@ -1652,8 +2035,10 @@
 <blockquote class='idx_x'>
 <li class='idx_x'><a class='autolink' href='#8SwZig7eicm'>with-canvas</a></li>
 <li class='idx_x'><a class='autolink' href='#k9ex0jPxy6W'>with-dictionary</a></li>
+<li class='idx_x'><a class='autolink' href='#apbktIICmZP'>with-fill</a></li>
 <li class='idx_x'><a class='autolink' href='#ekClPzGH4mL'>with-point</a></li>
 <li class='idx_x'><a class='autolink' href='#a48ATArhBUk'>with-subcanvas</a></li>
+<li class='idx_x'><a class='autolink' href='#3ffyzBxLMJk'>write-header</a></li>
 <li class='idx_x'><a class='autolink' href='#banMcDxF6dd'>write-when</a></li>
 <li class='idx_x'><a class='autolink' href='#27c0tsawNaI'>writer-close</a></li>
 <li class='idx_x'><a class='autolink' href='#fFHRToz0LBB'>writer-decr-level</a></li>
@@ -1681,6 +2066,7 @@
 <li class='idx_x'><a class='autolink' href='#hQqTfTkbNyq'>エンティティ</a></li>
 <li class='idx_x'><a class='autolink' href='#jXsxcbXYkll'>キャンバス</a></li>
 <li class='idx_x'><a class='autolink' href='#hv2FXS6j5gn'>ディクショナリ</a></li>
+<li class='idx_x'><a class='autolink' href='#1rpUB3fre67'>色の指定</a></li>
 </blockquote>
 </details>
 <p>　　</p>

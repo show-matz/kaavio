@@ -95,8 +95,8 @@
 #|
 #|EXPORT|#				:with-fill
  |#
-(defmacro with-fill ((&rest param) &rest body)
-  `(let ((*default-fill* (make-fill ,@param)))
+(defmacro with-fill ((&rest params) &rest body)
+  `(let ((*default-fill* (make-fill ,@params)))
 	 ,@body))
 
 
