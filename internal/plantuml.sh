@@ -3,7 +3,7 @@
 IN=$1
 OUT=$2
 CACHE=.cache
-JAR=~/lib/plantuml-1.2022.2.jar
+JAR=~/lib/plantuml.jar
 OPT=-Dfile.encoding=UTF-8
 CFG=
 #CFG=-config uml.theme

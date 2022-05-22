@@ -902,7 +902,7 @@ end-id-group 関数をコールします。
 	(defun make-fill (&key color opacity rule base) ... )
 	```
 
-	* `base` は `color opacity rule` が省略された場合にデフォルト値を取得するための `fill-info` インスタンスで、これが省略された場合は `*default-fill*` が使用されます。
+	* `base` はその他のパラメータが省略された場合にデフォルト値を取得するための `fill-info` インスタンスで、これが省略された場合は `*default-fill*` が使用されます。
 	* `color` は色の指定です。指定方法の詳細は「色の指定」を参照してください。
 	* `opacity` で透明度を指定します。0 から 1 までの浮動小数点数で指定します。
 	* `rule` は塗りつぶしに関するルールです。 `:nonzero` または `:evenodd` で指定します。
@@ -1873,8 +1873,86 @@ entity <|-- shape
 ```
 
 　デフォルトのストロークを表現するダイナミック変数です。初期状態では
-`(make-stroke :color :black :width 1 :opacity nil :linecap nil :linejoin nil :miterlimit nil :dasharray nil :dashoffset nil)` の
-結果が設定されます。
+`(make-stroke :color :black :width 1 :opacity nil :linecap nil :linejoin nil :miterlimit nil  \
+:dasharray nil :dashoffset nil)` の結果が設定されます。
+
+#### stroke-info クラス
+<!-- autolink: [stroke-info](#stroke-info クラス) -->
+
+　stroke-info は 8 種類のメンバを保持します。いずれも nil が許可されます。
+
+```lisp
+(defclass stroke-info ()
+  ((color      :initform nil :initarg :color)          ; (or keyword string)
+   (width      :initform nil :initarg :width)          ; number
+   (opacity    :initform nil :initarg :opacity)        ; number
+   (linecap    :initform nil :initarg :linecap)        ; (or nil keyword)
+   (linejoin   :initform nil :initarg :linejoin)       ; (or nil keyword)
+   (miterlimit :initform nil :initarg :miterlimit)     ; number
+   (dasharray  :initform nil :initarg :dasharray)      ; list
+   (dashoffset :initform nil :initarg :dashoffset)))   ; number
+```
+
+　stroke-info クラス向けに、以下の総称関数のメソッドが実装されています。
+
+* initialize-instance 
+* check 
+* to-property-strings
+* to-style-strings
+
+#### make-stroke 関数
+<!-- autolink: [make-stroke](#make-stroke 関数) -->
+
+```lisp
+(defun make-stroke (&rest params) ... )
+```
+
+　stroke-info インスタンスを作成します。パラメータの数や種類に応じて作り方が異なります。
+
+* パラメータ無しの場合、 `*default-stroke*` を返します
+* パラメータ数が 1 の場合、そのパラメータを param として
+	* param が stroke-info インスタンスの場合、渡されたものをそのまま返します
+	* param が数値の場合、 `(make-stroke :width param)` の結果を返します
+	* param がリストの場合、 `(apply #'make-stroke param)` の結果を返します
+	* 上記のいずれでもない場合、 `(make-stroke :color param)` の結果を返します
+* パラメータ数が 2 以上の場合、以下の関数のように振舞います。
+
+	```lisp
+	(defun make-stroke (&key color opacity rule base) ... )
+	```
+
+	* `base` はその他のパラメータが省略された場合にデフォルト値を取得するための `stroke-info` インスタンスで、これが省略された場合は `*default-stroke*` が使用されます。
+
+	* `color` は色の指定です。指定方法の詳細は「色の指定」を参照してください。
+	* `width` でストロークの幅を指定します。数値で指定します。
+	* `opacity` で透明度を指定します。0 から 1 までの浮動小数点数で指定します。
+	* `linecap` は${{TODO}{まだ記述されていません}}  `:butt :round :square`
+	* `linejoin` は${{TODO}{まだ記述されていません}} `:miter :round :bevel`
+	* `miterlimit` は${{TODO}{まだ記述されていません}}
+	* `dasharray` は${{TODO}{まだ記述されていません}}
+	* `dashoffset` は${{TODO}{まだ記述されていません}}
+
+#### with-stroke マクロ
+<!-- autolink: [with-stroke](#with-stroke マクロ) -->
+
+```lisp
+(defmacro with-stroke ((&rest param) &rest body) ... )
+```
+
+　`*default-stroke*` を一時的に変更します。 `params` には make-stroke に与えるパラメータと
+同じものを指定します。以下のコードは、
+
+```lisp
+(with-stroke (:color :blue :width 3)
+   ... )
+```
+
+　以下と同等です。
+
+```lisp
+(let ((*default-stroke* (make-stroke :color :blue :width 3)))
+   ... )
+```
 
 ### stylesheet.lisp
 <!-- autolink: [$$](#stylesheet.lisp) -->
