@@ -597,4 +597,14 @@
 								   :end1 ,end1 :end2 ,end2
 								   :stroke ,stroke :layer ,layer :id ,id)))
 
+#|
+#|EXPORT|#				:connect
+ |#
+(defmacro connect (from to &key style label class stroke end1 end2 layer id)
+  `(register-entity (make-instance 'diagram:connector
+								   :from ,from :to ,to :class ,class
+								   :style ,style :label ,label
+								   :end1 ,end1 :end2 ,end2
+								   :stroke ,stroke :layer ,layer :id ,id)))
+
 

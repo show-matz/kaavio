@@ -54,6 +54,7 @@
 				;connector.lisp
 				:resolve-connector-points
 				:connector
+				:connect
 				;constants.lisp
 				:*default-link-target*
 				:*default-endmark-1*
@@ -179,6 +180,7 @@
 				:raw-svg
 				;rectangle.lisp
 				:rectangle
+				:rect
 				;shape.lisp
 				:rectangle-connect-point
 				:shape

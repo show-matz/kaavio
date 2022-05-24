@@ -19,15 +19,15 @@
  "~/sandbox/cl-diagram/tmp.svg"
  (diagram (:w 800 :h 800)		  
 	(with-subcanvas ('(100 100 0) 600 600)
-	  (rectangle canvas.center canvas.width canvas.height :fill :white :stroke :black)
+	  (rect canvas.center canvas.width canvas.height :fill :white :stroke :black)
 	  (let ((*default-fill*   (make-fill   :skyblue))
 			(*default-stroke* (make-stroke :blue)))
-		(diagram::folder '(300 300) "top~%folder"
-						 :tab-width 100 :margin 20 :width 300 :height 300 :valign :top :align :left
-						 :contents
-						 ((folder '(200 100) "sub-folder1" :margin 20 :id :folder1)
-						  (folder '(100 200) "sub-folder2" :margin 20 :id :folder2)
-						  (connector :folder1 :folder2 :stroke :black :end2 :arrow)))))))
+		(folder '(300 300) "top~%folder"
+				:tab-width 100 :margin 20 :width 300 :height 300 :valign :top :align :left
+				:contents
+				((folder '(200 100) "sub-folder1" :margin 20 :id :folder1)
+				 (folder '(100 200) "sub-folder2" :margin 20 :id :folder2)
+				 (connect :folder1 :folder2 :stroke :black :end2 :arrow)))))))
 
 * todo
 ** lib [36/39]

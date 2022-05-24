@@ -39,9 +39,9 @@ SVG 形式{{fn:SVG は Scalable Vector Graphics の略です。}}の画像ファ
 <!-- snippet: FIRST-SAMPLE
 (diagram (:w 300 :h 150)
   (grid)
-  (rectangle '( 50  50) 80 60 :fill :powderblue :id :x)
-  (circle    '(250 100) 40    :fill :moccasin   :id :y)
-  (connector :x :y :end2 :arrow))
+  (rect   '( 50  50) 80 60 :fill :powderblue :id :x)
+  (circle '(250 100) 40    :fill :moccasin   :id :y)
+  (connect :x :y :end2 :arrow))
 -->
 
 ```lisp
@@ -109,14 +109,14 @@ ${BLANK_PARAGRAPH}
 (diagram (:w 300 :h 200)
   (grid)
   (with-fill (:color :honeydew)
-    (rectangle '( 50  50)          50 50 :id :a1)
-    (circle     (x+ a1.center 100) 25    :id :a2)
-    (rectangle  (y+ a2.center 100) 50 50 :id :a3)
-    (circle     (x+ a3.center 100) 25    :id :a4))
-  (connector :a1 :a2 :end2 :arrow)
-  (connector :a2 :a3 :end2 :arrow)
-  (connector :a3 :a4 :end2 :arrow)
-  (connector :a3 :a1 :end2 :arrow :style :LB))
+    (rect   '( 50  50)          50 50 :id :a1)
+    (circle  (x+ a1.center 100) 25    :id :a2)
+    (rect    (y+ a2.center 100) 50 50 :id :a3)
+    (circle  (x+ a3.center 100) 25    :id :a4))
+  (connect :a1 :a2 :end2 :arrow)
+  (connect :a2 :a3 :end2 :arrow)
+  (connect :a3 :a4 :end2 :arrow)
+  (connect :a3 :a1 :end2 :arrow :style :LB))
 -->
 
 
@@ -156,6 +156,8 @@ Figure. rectangle のサンプル
 <!-- expand: RECTANGLE-SAMPLE -->
 ```
 
+　${{TODO}{rect でもいいよ。}}
+
 ### 円
 
 　${{TODO}{まだ記述されていません。}}
@@ -171,6 +173,8 @@ Figure. rectangle のサンプル
 ### コネクタ
 
 　${{TODO}{まだ記述されていません。}}
+
+　${{TODO}{connect でもいいよ。}}
 
 ### テキスト
 
@@ -274,7 +278,7 @@ ${BLANK_PARAGRAPH}
 (diagram (:w 400 :h 200)
   (grid)
   (defs (70 50 :frame)
-    (rectangle canvas.center canvas.width canvas.height :fill :white :stroke :black)
+    (rect canvas.center canvas.width canvas.height :fill :white :stroke :black)
     (line '((0 10) (70 10)) :stroke :black))
   (use :frame '(100 70) :id :frame1
        :contents
@@ -282,7 +286,7 @@ ${BLANK_PARAGRAPH}
   (use :frame '(300 130) :id :frame2
        :contents
        ((text (y+ canvas.center 10) "frame 2" :align :center)))
-  (connector :frame1 :frame2 :end2 :arrow))
+  (connect :frame1 :frame2 :end2 :arrow))
 -->
 
 ```lisp
@@ -343,8 +347,8 @@ ${BLANK_PARAGRAPH}
   (grid)
   (circle (xy+ canvas.topleft 50 50) 20 :stroke :brown :fill :wheat)
   (with-subcanvas ('(150 50) 100 100)
-    (rectangle canvas.center
-               canvas.width canvas.height :stroke :gray :fill :lightgray)
+    (rect canvas.center
+          canvas.width canvas.height :stroke :gray :fill :lightgray)
     (circle (xy+ canvas.topleft 50 50) 20 :stroke :brown :fill :wheat)))
 -->
 
@@ -400,12 +404,12 @@ ${BLANK_PARAGRAPH}
 (diagram (:w 400 :h 100)
   (text '(200 55) "this is test text." :align :center)
   (with-fill (:color :red)
-    (rectangle '(150 50) 30 30 :fill (make-fill :opacity 0.2))
-    (text      '(150 80) "0.2" :align :center)
-    (rectangle '(200 50) 30 30 :fill (make-fill :opacity 0.5))
-    (text      '(200 80) "0.5" :align :center)
-    (rectangle '(250 50) 30 30 :fill (make-fill :opacity 0.8))
-    (text      '(250 80) "0.8" :align :center)))
+    (rect '(150 50) 30 30 :fill (make-fill :opacity 0.2))
+    (text '(150 80) "0.2" :align :center)
+    (rect '(200 50) 30 30 :fill (make-fill :opacity 0.5))
+    (text '(200 80) "0.5" :align :center)
+    (rect '(250 50) 30 30 :fill (make-fill :opacity 0.8))
+    (text '(250 80) "0.8" :align :center)))
 -->
 
 ```diagram
@@ -524,8 +528,8 @@ Figure. dashoffset, linecap, linejoin のサンプル
           (*default-font*   (make-font :family "monospace" :size 10 :width-spice 0.85))
           (*default-stroke* (make-stroke :color :black :width 1)))
       ;; back ground
-      (rectangle (make-point (/ svg-width 2) (/ svg-height 2))
-                 svg-width svg-height :fill :white :stroke :white)
+      (rect (make-point (/ svg-width 2) (/ svg-height 2))
+            svg-width svg-height :fill :white :stroke :white)
       (let ((x 15)
             (y  0))
         (labels ((imp (lst)
@@ -533,7 +537,7 @@ Figure. dashoffset, linecap, linejoin のサンプル
                    (when (< svg-height (+ y 10))
                      (incf x 250)
                      (setf y  20))
-                   (rectangle (list x y)  15  15 :fill (fourth lst))
+                   (rect (list x y)  15  15 :fill (fourth lst))
                    (text (list (+ x 10)  (+ y 4))
                          (apply #'format  nil "#~2,'0x~2,'0x~2,'0x:~A" lst))))
           (mapcar #'imp '((  0   0   0 "black"               )

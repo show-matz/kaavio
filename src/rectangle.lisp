@@ -122,3 +122,22 @@
 			 (declare (special canvas))
 			 ,@contents)))))
 
+#|
+#|EXPORT|#				:rect
+ |#
+(defmacro rect (center width height
+				&key rx ry class fill stroke link layer id contents)
+  (let ((code `(register-entity (make-instance 'diagram:rectangle
+											   :center ,center
+											   :width ,width :height ,height
+											   :rx ,rx :ry ,ry :class ,class
+											   :fill ,fill :stroke ,stroke
+											   :link ,link :layer ,layer :id ,id))))
+	(if (null contents)
+		code
+		(let ((g-obj (gensym "OBJ")))
+		  `(let* ((,g-obj ,code)
+				  (canvas (diagram:shape-get-subcanvas ,g-obj)))
+			 (declare (special canvas))
+			 ,@contents)))))
+
