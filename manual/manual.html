@@ -1,4 +1,3 @@
-ERROR : figure 'テキストボックスのサンプル' is duplicated.
 <html>
 <header>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -58,31 +57,32 @@ ERROR : figure 'テキストボックスのサンプル' is duplicated.
 <li class='tocx'><a href='#3kZ9FkounyK'>7.3 フォント</a></li>
 </blockquote>
 </details>
-<li class='tocx'><a href='#1ovJxG7Ie9O'>8 レイヤー</a></li>
-<li class='tocx'><a href='#h1RNMQY1C0b'>9 座標と位置</a></li>
-<li class='tocx'><a href='#kgs1vf3AbTN'>10 サブキャンバス</a></li>
+<li class='tocx'><a href='#lkPJSquGS6Q'>8 defs と use</a></li>
+<li class='tocx'><a href='#1ovJxG7Ie9O'>9 レイヤー</a></li>
+<li class='tocx'><a href='#h1RNMQY1C0b'>10 座標と位置</a></li>
+<li class='tocx'><a href='#kgs1vf3AbTN'>11 サブキャンバス</a></li>
 <details class='tocx' open>
-<summary class='tocx'><a href='#7TyOD7TaDM2'>11 リファレンス</a></summary>
+<summary class='tocx'><a href='#7TyOD7TaDM2'>12 リファレンス</a></summary>
 <blockquote class='tocx'>
 <details class='tocx' open>
-<summary class='tocx'><a href='#gKJ1gWcMPT8'>11.1 関数とマクロ</a></summary>
+<summary class='tocx'><a href='#gKJ1gWcMPT8'>12.1 関数とマクロ</a></summary>
 <blockquote class='tocx'>
-<li class='tocx'><a href='#g99vlb6tXRZ'>11.1.1 *default-fill*変数</a></li>
-<li class='tocx'><a href='#7pITpDTSaVn'>11.1.2 *default-stroke*変数</a></li>
-<li class='tocx'><a href='#2xCCaUuNLlH'>11.1.3 diagram マクロ</a></li>
-<li class='tocx'><a href='#8IkB7VinE7h'>11.1.4 make-fill 関数</a></li>
-<li class='tocx'><a href='#ezUVhtPwl3J'>11.1.5 make-stroke 関数</a></li>
-<li class='tocx'><a href='#if12ldF3hxG'>11.1.6 rgb関数</a></li>
-<li class='tocx'><a href='#dhtdq1yi3tM'>11.1.7 with-fillマクロ</a></li>
-<li class='tocx'><a href='#fp4ncG4oCnL'>11.1.8 with-fontマクロ</a></li>
-<li class='tocx'><a href='#9jN2FHSU54t'>11.1.9 with-strokeマクロ</a></li>
-<li class='tocx'><a href='#lsGULoUqoK4'>11.1.10 with-subcanvasマクロ</a></li>
+<li class='tocx'><a href='#g99vlb6tXRZ'>12.1.1 *default-fill*変数</a></li>
+<li class='tocx'><a href='#7pITpDTSaVn'>12.1.2 *default-stroke*変数</a></li>
+<li class='tocx'><a href='#2xCCaUuNLlH'>12.1.3 diagram マクロ</a></li>
+<li class='tocx'><a href='#8IkB7VinE7h'>12.1.4 make-fill 関数</a></li>
+<li class='tocx'><a href='#ezUVhtPwl3J'>12.1.5 make-stroke 関数</a></li>
+<li class='tocx'><a href='#if12ldF3hxG'>12.1.6 rgb関数</a></li>
+<li class='tocx'><a href='#dhtdq1yi3tM'>12.1.7 with-fillマクロ</a></li>
+<li class='tocx'><a href='#fp4ncG4oCnL'>12.1.8 with-fontマクロ</a></li>
+<li class='tocx'><a href='#9jN2FHSU54t'>12.1.9 with-strokeマクロ</a></li>
+<li class='tocx'><a href='#lsGULoUqoK4'>12.1.10 with-subcanvasマクロ</a></li>
 </blockquote>
 </details>
-<li class='tocx'><a href='#dR01Jh257Q6'>11.2 色の名前</a></li>
+<li class='tocx'><a href='#dR01Jh257Q6'>12.2 色の名前</a></li>
 </blockquote>
 </details>
-<li class='tocx'><a href='#dGdSPnvay5N'>12 更新履歴</a></li>
+<li class='tocx'><a href='#dGdSPnvay5N'>13 更新履歴</a></li>
 <p>　　</p>
 <h2><a name='0Ofny2DArqY'></a>2 diagram とは</h2>
 <p>　diagram は、テキストベースの作図ツールです。テキスト形式で作成したデータファイルを入力として、SVG 形式<sup><a name='footnote_ref1' href='#footnote1'>1</a></sup>の画像ファイルを生成します。</p>
@@ -303,7 +303,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='4NTtjXsX7EZ'></a>Figure.4 テキストボックスのサンプル</p>
+<p class='fig_title'><a name='bB2F9DVM9ic'></a>Figure.5 フォルダのサンプル</p>
 <pre class='code'>
 (diagram (<span class='keyword3'>:w</span> 200 <span class='keyword3'>:h</span> 100)
   (grid)
@@ -317,7 +317,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <li>#rrggbb 表記による、6 桁の16進指定。rr、gg、bb は順に赤、緑、青の成分で、 00〜ff の範囲で指定します。</li>
 <li>#rgb 表記による、3 桁の16進指定。r、g、b は順に赤、緑、青の成分で、 0〜f の範囲で指定します。これは #rrggbb の簡略表記で、#136 は #113366 に相当します。</li>
 <li><a href='#if12ldF3hxG'>rgb関数</a>による指定。これは <code>(rgb r g b)</code> の要領で使用します。r、g、b は順に赤、緑、青の成分で、それぞれ 0〜255 の整数または 0.0〜1.0 の小数点数で指定します。0.0〜1.0 の指定の場合、それに 255 をかけた値が指定されます。</li>
-<li>色名での指定。使用できる色の名前とサンプルは <a href='#dR01Jh257Q6'>11.2  節</a> を参照してください。</li>
+<li>色名での指定。使用できる色の名前とサンプルは <a href='#dR01Jh257Q6'>12.2  節</a> を参照してください。</li>
 </ul>
 <p>　　</p>
 <h2><a name='blviLzaq3nk'></a>7 線・塗りつぶし・文字</h2>
@@ -339,10 +339,64 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <h3><a name='3kZ9FkounyK'></a>7.3 フォント</h3>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <p>　　</p>
-<h2><a name='1ovJxG7Ie9O'></a>8 レイヤー</h2>
+<h2><a name='lkPJSquGS6Q'></a>8 defs と use</h2>
+<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません</span></p>
+<pre class='code'>
+(diagram (<span class='keyword3'>:w</span> 400 <span class='keyword3'>:h</span> 200)
+  (grid)
+  (defs (70 50 <span class='keyword3'>:frame</span>)
+    (rectangle canvas.center canvas.width canvas.height <span class='keyword3'>:fill</span> <span class='keyword3'>:white</span> <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span>)
+    (line '((0 10) (70 10)) <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span>))
+  (use <span class='keyword3'>:frame</span> '(100 70) <span class='keyword3'>:id</span> <span class='keyword3'>:frame1</span>
+       <span class='keyword3'>:contents</span>
+       ((text (y+ canvas.center 10) <span class='literal'>"frame 1"</span> <span class='keyword3'>:align</span> <span class='keyword3'>:center</span>)))
+  (use <span class='keyword3'>:frame</span> '(300 130) <span class='keyword3'>:id</span> <span class='keyword3'>:frame2</span>
+       <span class='keyword3'>:contents</span>
+       ((text (y+ canvas.center 10) <span class='literal'>"frame 2"</span> <span class='keyword3'>:align</span> <span class='keyword3'>:center</span>)))
+  (connector <span class='keyword3'>:frame1</span> <span class='keyword3'>:frame2</span> <span class='keyword3'>:end2</span> <span class='keyword3'>:arrow</span>))
+</pre>
+<p>　　</p>
+<p>　以下のような画像が生成されます。</p>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='400' height='200'>
+	
+	<!-- frame : defs -->
+	<defs>
+		<g id='frame'>
+			<!-- rectangle -->
+			<rect x='0' y='0' width='70' height='50' fill='white' stroke='black' stroke-width='1' />
+			<!-- line -->
+			<polyline fill='none' stroke='black' stroke-width='1' points=' 0.0,10.0 70.0,10.0' />
+			
+		</g>
+	</defs>
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- frame1 : use -->
+	<use xlink:href='#frame' x='65' y='45' />
+	<!-- text -->
+	<text x='100' y='80' text-anchor='middle' font-size='12pt' fill='black' >frame 1</text>
+	<!-- frame2 : use -->
+	<use xlink:href='#frame' x='265' y='105' />
+	<!-- text -->
+	<text x='300' y='140' text-anchor='middle' font-size='12pt' fill='black' >frame 2</text>
+	<!-- connector from frame1 to frame2 -->
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 135.0,80.5 265.0,119.5' />
+	<polyline fill='none' stroke='black' stroke-width='1' points='250.40236,122.950935 265,119.5 254.71259,108.58354' />
+
+</svg>
+</div>
+
+<p class='fig_title'><a name='iZLxsV5YAK6'></a>Figure.6 defs と use のサンプル</p>
+<h2><a name='1ovJxG7Ie9O'></a>9 レイヤー</h2>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <p>　　</p>
-<h2><a name='h1RNMQY1C0b'></a>9 座標と位置</h2>
+<h2><a name='h1RNMQY1C0b'></a>10 座標と位置</h2>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <pre class='code'>
 (diagram (<span class='keyword3'>:w</span> 300 <span class='keyword3'>:h</span> 200)
@@ -377,9 +431,9 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='br3mf6bkjtv'></a>Figure.6 xxxのサンプル</p>
+<p class='fig_title'><a name='br3mf6bkjtv'></a>Figure.7 xxxのサンプル</p>
 <p>　　</p>
-<h2><a name='kgs1vf3AbTN'></a>10 サブキャンバス</h2>
+<h2><a name='kgs1vf3AbTN'></a>11 サブキャンバス</h2>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <pre class='code'>
 (diagram (<span class='keyword3'>:w</span> 300 <span class='keyword3'>:h</span> 200)
@@ -410,18 +464,18 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='kV8JVeAiwLR'></a>Figure.7 サブキャンバスのサンプル</p>
+<p class='fig_title'><a name='kV8JVeAiwLR'></a>Figure.8 サブキャンバスのサンプル</p>
 <p>　　</p>
-<h2><a name='7TyOD7TaDM2'></a>11 リファレンス</h2>
+<h2><a name='7TyOD7TaDM2'></a>12 リファレンス</h2>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h3><a name='gKJ1gWcMPT8'></a>11.1 関数とマクロ</h3>
-<h4><a name='g99vlb6tXRZ'></a>11.1.1 *default-fill*変数</h4>
+<h3><a name='gKJ1gWcMPT8'></a>12.1 関数とマクロ</h3>
+<h4><a name='g99vlb6tXRZ'></a>12.1.1 *default-fill*変数</h4>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='7pITpDTSaVn'></a>11.1.2 *default-stroke*変数</h4>
+<h4><a name='7pITpDTSaVn'></a>12.1.2 *default-stroke*変数</h4>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='2xCCaUuNLlH'></a>11.1.3 diagram マクロ</h4>
+<h4><a name='2xCCaUuNLlH'></a>12.1.3 diagram マクロ</h4>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='8IkB7VinE7h'></a>11.1.4 make-fill 関数</h4>
+<h4><a name='8IkB7VinE7h'></a>12.1.4 make-fill 関数</h4>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <pre class='code'>
 (<span class='keyword1'>defun</span> <span class='keyword5'>make-fill</span> <span class='keyword2'>&amp;key</span> <span class='keyword3'>:color</span> <span class='keyword3'>:opacity</span> <span class='keyword3'>:rule</span>)
@@ -456,9 +510,9 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='hOZzwQd2DMS'></a>Figure.8 fill における opacity のサンプル</p>
+<p class='fig_title'><a name='hOZzwQd2DMS'></a>Figure.9 fill における opacity のサンプル</p>
 <details>
-<summary><a href='#hOZzwQd2DMS'>Figure.8</a> のソースはこちら</summary>
+<summary><a href='#hOZzwQd2DMS'>Figure.9</a> のソースはこちら</summary>
 <pre class='code'>
 (diagram (<span class='keyword3'>:w</span> 400 <span class='keyword3'>:h</span> 100)
   (text '(200 55) <span class='literal'>"this is test text."</span> <span class='keyword3'>:align</span> <span class='keyword3'>:center</span>)
@@ -487,9 +541,9 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='9n3NgPBJGzS'></a>Figure.9 fill における rule のサンプル</p>
+<p class='fig_title'><a name='9n3NgPBJGzS'></a>Figure.10 fill における rule のサンプル</p>
 <details>
-<summary><a href='#9n3NgPBJGzS'>Figure.9</a> のソースはこちら</summary>
+<summary><a href='#9n3NgPBJGzS'>Figure.10</a> のソースはこちら</summary>
 <pre class='code'>
 (diagram (<span class='keyword3'>:w</span> 400 <span class='keyword3'>:h</span> 120)
   (with-subcanvas ('(75 0) 100 100)
@@ -502,7 +556,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
     (text '(50 110) <span class='literal'>":evenodd"</span> <span class='keyword3'>:align</span> <span class='keyword3'>:center</span>)))
 </pre>
 </details>
-<h4><a name='ezUVhtPwl3J'></a>11.1.5 make-stroke 関数</h4>
+<h4><a name='ezUVhtPwl3J'></a>12.1.5 make-stroke 関数</h4>
 <pre class='code'>
 (<span class='keyword1'>defun</span> <span class='keyword5'>make-stroke</span> <span class='keyword2'>&amp;key</span> <span class='keyword3'>:color</span> <span class='keyword3'>:width</span> <span class='keyword3'>:opacity</span> <span class='keyword3'>:linecap</span>
                         <span class='keyword3'>:linejoin</span> <span class='keyword3'>:miterlimit</span> <span class='keyword3'>:dasharray</span> <span class='keyword3'>:dashoffset</span>)
@@ -550,16 +604,16 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='4fQnwjWZpzi'></a>Figure.10 dashoffset, linecap, linejoin のサンプル</p>
-<h4><a name='if12ldF3hxG'></a>11.1.6 rgb関数</h4>
+<p class='fig_title'><a name='4fQnwjWZpzi'></a>Figure.11 dashoffset, linecap, linejoin のサンプル</p>
+<h4><a name='if12ldF3hxG'></a>12.1.6 rgb関数</h4>
 <pre class='code'>
 (rgb r g b)
 </pre>
-<h4><a name='dhtdq1yi3tM'></a>11.1.7 with-fillマクロ</h4>
-<h4><a name='fp4ncG4oCnL'></a>11.1.8 with-fontマクロ</h4>
-<h4><a name='9jN2FHSU54t'></a>11.1.9 with-strokeマクロ</h4>
-<h4><a name='lsGULoUqoK4'></a>11.1.10 with-subcanvasマクロ</h4>
-<h3><a name='dR01Jh257Q6'></a>11.2 色の名前</h3>
+<h4><a name='dhtdq1yi3tM'></a>12.1.7 with-fillマクロ</h4>
+<h4><a name='fp4ncG4oCnL'></a>12.1.8 with-fontマクロ</h4>
+<h4><a name='9jN2FHSU54t'></a>12.1.9 with-strokeマクロ</h4>
+<h4><a name='lsGULoUqoK4'></a>12.1.10 with-subcanvasマクロ</h4>
+<h3><a name='dR01Jh257Q6'></a>12.2 色の名前</h3>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='750' height='1000'>
@@ -1158,9 +1212,9 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='2sDmAkevog1'></a>Figure.11 色の名前とサンプル</p>
+<p class='fig_title'><a name='2sDmAkevog1'></a>Figure.12 色の名前とサンプル</p>
 <details>
-<summary><a href='#2sDmAkevog1'>Figure.11</a> のソースはこちら</summary>
+<summary><a href='#2sDmAkevog1'>Figure.12</a> のソースはこちら</summary>
 <pre class='code'>
 (<span class='keyword1'>let</span> ((svg-width   750)
       (svg-height 1000))
@@ -1330,7 +1384,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
                           (255 255 255 <span class='literal'>"white"</span>               ))))))))
 </pre>
 </details>
-<h2><a name='dGdSPnvay5N'></a>12 更新履歴</h2>
+<h2><a name='dGdSPnvay5N'></a>13 更新履歴</h2>
 <p>　更新履歴です。</p>
 <hr>
 <p class='footnote'><a name='footnote1' href='#footnote_ref1'>1</a> : SVG は Scalable Vector Graphics の略です。</p>

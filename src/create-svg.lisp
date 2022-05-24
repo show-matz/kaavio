@@ -79,11 +79,18 @@ height    := fixnum
 		   (writer-write ,g-writer "<desc>" ,g-desc "</desc>"))
 		 (writer-write ,g-writer)
 
-		 (dolist (,g-entity ,g-entities)
-		   (layer-change ,g-layer-mgr (slot-value ,g-entity 'layer) ,g-writer)
-		   (write-header ,g-entity ,g-writer)
-		   (draw-entity  ,g-entity ,g-writer))
-		 (layer-change ,g-layer-mgr nil ,g-writer)
+		 (labels ((defsp (ent)
+					(typep ent 'defs)))
+		   ;; defs は layer とは無関係に先頭に出力
+		   (dolist (,g-entity (remove-if-not #'defsp ,g-entities))
+			 (write-header ,g-entity ,g-writer)
+			 (draw-entity  ,g-entity ,g-writer))
+		   ;; defs 以外を layer の優先順で出力
+		   (dolist (,g-entity (remove-if #'defsp ,g-entities))
+			 (layer-change ,g-layer-mgr (slot-value ,g-entity 'layer) ,g-writer)
+			 (write-header ,g-entity ,g-writer)
+			 (draw-entity  ,g-entity ,g-writer))
+		   (layer-change ,g-layer-mgr nil ,g-writer))
 
 		 (writer-decr-level ,g-writer)
 		 (writer-write ,g-writer)

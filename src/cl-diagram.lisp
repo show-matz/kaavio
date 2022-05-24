@@ -78,6 +78,8 @@
 				:width
 				:height
 				:diagram
+				;defs.lisp
+				:defs
 				;dictionary.lisp
 				:dictionary
 				;ellipse.lisp
@@ -214,6 +216,8 @@
 				;text.lisp
 				:write-text-tag
 				:text
+				;use.lisp
+				:use
 				;writer.lisp
 				:writer-write
 				:writer-incr-level

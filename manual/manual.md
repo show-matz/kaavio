@@ -213,7 +213,7 @@ Figure. テキストボックスのサンプル
 ```diagram
 <!-- expand: FOLDER-SAMPLE -->
 ```
-Figure. テキストボックスのサンプル
+Figure. フォルダのサンプル
 
 ```lisp
 <!-- expand: FOLDER-SAMPLE -->
@@ -265,6 +265,39 @@ ${BLANK_PARAGRAPH}
 
 
 ${BLANK_PARAGRAPH}
+
+## defs と use
+
+　${{TODO}{まだ記述されていません}}
+
+<!-- snippet: DEFS-USE-SAMPLE
+(diagram (:w 400 :h 200)
+  (grid)
+  (defs (70 50 :frame)
+    (rectangle canvas.center canvas.width canvas.height :fill :white :stroke :black)
+    (line '((0 10) (70 10)) :stroke :black))
+  (use :frame '(100 70) :id :frame1
+       :contents
+       ((text (y+ canvas.center 10) "frame 1" :align :center)))
+  (use :frame '(300 130) :id :frame2
+       :contents
+       ((text (y+ canvas.center 10) "frame 2" :align :center)))
+  (connector :frame1 :frame2 :end2 :arrow))
+-->
+
+```lisp
+<!-- expand: DEFS-USE-SAMPLE -->
+```
+
+${BLANK_PARAGRAPH}
+
+
+　以下のような画像が生成されます。
+
+```diagram
+<!-- expand: DEFS-USE-SAMPLE -->
+```
+Figure. defs と use のサンプル
 
 ## レイヤー
 

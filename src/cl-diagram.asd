@@ -39,6 +39,16 @@
 				                                                "font-info"
 				                                                "stroke-info"
 				                                                "writer"))
+				(:file "defs"                      :depends-on ("cl-diagram"
+				                                                "constants"
+																"entity"
+				                                                "layer-manager"
+				                                                "dictionary"
+				                                                "point"
+				                                                "canvas"
+				                                                "font-info"
+				                                                "stroke-info"
+				                                                "writer"))
 				(:file "dictionary"                :depends-on ("cl-diagram"))
 				(:file "ellipse"                   :depends-on ("cl-diagram"
 																"constants"
@@ -162,6 +172,12 @@
 																"entity"
 																"font-info"
 																"link-info"
+																"writer"))
+				(:file "use"                       :depends-on ("cl-diagram"
+																"constants"
+																"canvas"
+																"point"
+																"shape"
 																"writer"))
 				(:file "writer"                    :depends-on ("cl-diagram"))
 				;; ------------------------------------------ END COMPONENTS
