@@ -20,17 +20,6 @@
   ((id		:initform nil :initarg :id)			; keyword
    (layer	:initform nil :initarg :layer)))	; keyword
 
-(defun begin-id-group (ent writer)
-  (let ((id (slot-value ent 'id)))
-	(when id
-	  (writer-write writer "<g id='" id "'>")
-	  (writer-incr-level writer))))
-
-(defun end-id-group (ent writer)
-  (when (slot-value ent 'id)
-	(writer-decr-level writer)
-	(writer-write writer "</g>")))
-
 
 #|
 #|EXPORT|#				:write-header
@@ -57,11 +46,16 @@
 
 (defmethod pre-draw ((ent entity) writer)
   (when (entity-composition-p ent)
-	(begin-id-group ent writer)))
+	(let ((id (slot-value ent 'id)))
+	  (when id
+		(writer-write writer "<g id='" id "'>")
+		(writer-incr-level writer)))))
 
 (defmethod post-draw ((ent entity) writer)
   (when (entity-composition-p ent)
-	(end-id-group ent writer)))
+	(when (slot-value ent 'id)
+	  (writer-decr-level writer)
+	  (writer-write writer "</g>"))))
 
 (defmethod check ((ent entity) canvas dict)
   (declare (ignore canvas dict))

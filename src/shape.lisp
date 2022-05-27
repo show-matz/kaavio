@@ -61,6 +61,7 @@
  |#
 (defclass shape (entity)
   ((class	:initform nil :initarg :class)	; keyword
+   (rotate	:initform nil :initarg :rotate)	; number
    (link	:initform nil :initarg :link)))	; (or nil link-info)
 
 (defmethod initialize-instance :after ((shp shape) &rest initargs)
@@ -70,7 +71,8 @@
   shp)
 
 (defmethod entity-composition-p ((shp shape))
-  (not (null (slot-value shp 'link))))
+  (or (slot-value shp 'link)
+	  (slot-value shp 'rotate)))
 
 #|
 #|EXPORT|#				:shape-width
@@ -176,25 +178,39 @@
   
 
 (defmethod pre-draw ((shp shape) writer)
-  (call-next-method)
   (when (entity-composition-p shp)
-	(let ((lnk (slot-value shp 'link)))
+	(let ((id     (slot-value shp 'id))
+		  (lnk    (slot-value shp 'link))
+		  (rotate (slot-value shp 'rotate)))
+	  (when (or id rotate)
+		(let ((cc (shape-center shp)))
+		  (writer-write writer "<g"
+						(write-when id "id='" it "'")
+						(write-when rotate " transform='rotate(" it ","
+											(point-x cc) "," (point-y cc) ")'" )
+						">"))
+		(writer-incr-level writer))
 	  (when lnk
 		(write-link-open lnk writer)))))
 
 (defmethod post-draw ((shp shape) writer)
   (when (entity-composition-p shp)
-	(let ((lnk (slot-value shp 'link)))
+	(let ((id     (slot-value shp 'id))
+		  (lnk    (slot-value shp 'link))
+		  (rotate (slot-value shp 'rotate)))
 	  (when lnk
-		(write-link-close lnk writer))))
-  (call-next-method))
+		(write-link-close lnk writer))
+	  (when (or id rotate)
+		(writer-decr-level writer)
+		(writer-write writer "</g>")))))
 
 
 (defmethod check ((shp shape) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (with-slots (class link) shp
-	(check-member class :nullable t :types (or keyword string))
+  (with-slots (class rotate link) shp
+	(check-member class  :nullable t :types (or keyword string))
+	(check-member rotate :nullable t :types number)
 	(check-object link  canvas dict :nullable t :class link-info))
   nil)
   

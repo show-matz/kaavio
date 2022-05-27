@@ -34,7 +34,6 @@
    (text		:initform nil :initarg :text)		; string -> list
    (align		:initform nil :initarg :align)		; keyword
    (valign		:initform nil :initarg :valign)		; keyword
-   (rotate		:initform nil :initarg :rotate)		; (or nil number)
    (font		:initform nil :initarg :font)		; (or nil font-info)
    (width		:initform nil :initarg :width)		; number
    (height		:initform nil :initarg :height)))	; number
@@ -84,36 +83,12 @@
 				 ((:bottom) (- (/ height 2)))))))
 
 (defmethod entity-composition-p ((shp paragraph))
-  (with-slots (text rotate) shp
-	(or rotate
-		(< 1 (length text))
+  (with-slots (text) shp
+	(or (< 1 (length text))
 		(call-next-method))))
   
-(defmethod shape-connect-point ((shp paragraph) type1 type2 arg)
-  (with-slots (rotate) shp
-	(unless (or (null rotate) (zerop rotate) (= 180 rotate))
-	  (throw-exception "Can't connect to rotated paragraph.")))
-  (call-next-method))
-	
 ;;MEMO : use impelementation of shape...
 ;;(defmethod shape-get-subcanvas ((shp rectangle)) ...)
-
-(defmethod pre-draw ((shp paragraph) writer)
-  (call-next-method)
-  (with-slots (rotate) shp
-	(when (and rotate (/= rotate 0))
-	  (let ((pt (shape-center shp)))
-		(writer-write writer "<g transform='rotate(" rotate ", "
-									  (point-x pt) ", " (point-y pt) ")'>")
-		(writer-incr-level writer)))))
-
-(defmethod post-draw ((shp paragraph) writer)
-  (with-slots (rotate) shp
-	(when (and rotate (/= rotate 0))
-	  (writer-decr-level writer)
-	  (writer-write writer "</g>")))
-  (call-next-method))
-
 
 (defmethod draw-entity ((shp paragraph) writer)
   (with-slots (position class align font text) shp

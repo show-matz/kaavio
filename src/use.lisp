@@ -70,10 +70,11 @@
 #|
 #|EXPORT|#				:use
  |#
-(defmacro use (ref center &key link layer id contents)
+(defmacro use (ref center &key link rotate layer id contents)
   (let ((code `(register-entity (make-instance 'diagram:use
-											   :ref    ,ref  :center ,center
-											   :link   ,link :layer  ,layer  :id ,id))))
+											   :ref   ,ref   :center ,center
+											   :link  ,link  :rotate ,rotate
+											   :layer ,layer :id ,id))))
 	(if (null contents)
 		code
 		(let ((g-obj (gensym "OBJ")))

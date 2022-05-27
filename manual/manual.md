@@ -270,6 +270,31 @@ ${BLANK_PARAGRAPH}
 
 ${BLANK_PARAGRAPH}
 
+## 回転
+
+　${{TODO}{まだ記述されていません}}
+
+<!-- snippet: ROTATE-SAMPLE
+(diagram (:w 400 :h 200)
+  (grid)
+  (rect '(200 100) 100 70 :fill :lightgray :stroke :black :rotate 30))
+-->
+
+```lisp
+<!-- expand: ROTATE-SAMPLE -->
+```
+
+${BLANK_PARAGRAPH}
+
+
+　以下のような画像が生成されます。
+
+```diagram
+<!-- expand: ROTATE-SAMPLE -->
+```
+Figure. 回転のサンプル
+
+
 ## defs と use
 
 　${{TODO}{まだ記述されていません}}

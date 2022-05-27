@@ -43,16 +43,18 @@
 		  (polygon `((0 0) (0 ,height)
 					 (,width ,height)
 					 (,width ,(/ tab-h 2))
-					 (,(- width (/ tab-h 2)) 0) (0 0)) :fill fill :stroke stroke)
+					 (,(- width (/ tab-h 2)) 0)
+					 (,tab-w 0)
+					 (,(- tab-w (/ tab-h 2)) ,(- (/ tab-h 2)))
+					 (,(/ tab-h 2) ,(- (/ tab-h 2)))
+					 (0 0)) :fill fill :stroke stroke)
 		  (polygon `((0 0)
 					 (,(/ tab-h 2) ,(/ tab-h 2))
 					 (,(- tab-w (/ tab-h 2)) ,(/ tab-h 2))
 					 (,tab-w 0)
 					 (,(- tab-w (/ tab-h 2)) ,(- (/ tab-h 2)))
 					 (,(/ tab-h 2) ,(- (/ tab-h 2)))
-					 (10 -10)
-					 (0 0))
-					 :fill fill :stroke stroke)))))
+					 (0 0)) :fill fill :stroke stroke)))))
   ;; draw text
   (call-next-method))
 
@@ -73,7 +75,7 @@
 #|EXPORT|#				:folder
  |#
 (defmacro folder (center text &key width height tab-width tab-height align
-								   valign font fill stroke margin link layer id contents)
+								   valign font fill stroke margin link rotate layer id contents)
   (let ((code `(register-entity (make-instance 'folder
 											   :center ,center
 											   :width ,width :height ,height
@@ -84,7 +86,8 @@
 											   :valign (or ,valign *default-folder-valign*)
 											   :margin (or ,margin *default-folder-margin*)
 											   :fill ,fill :stroke ,stroke
-											   :link ,link :layer ,layer :id ,id))))
+											   :link ,link :rotate ,rotate
+											   :layer ,layer :id ,id))))
 	(if (null contents)
 		code
 		(let ((g-obj (gensym "OBJ")))

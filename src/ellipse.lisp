@@ -180,9 +180,9 @@
 #|EXPORT|#				:ellipse
  |#
 (defmacro ellipse (center rx ry
-				   &key class fill stroke link layer id contents)
+				   &key class fill stroke rotate link layer id contents)
   (let ((code `(register-entity (make-instance 'diagram:ellipse
-											   :center ,center
+											   :center ,center :rotate ,rotate
 											   :radius-x ,rx :radius-y ,ry :class ,class
 											   :fill ,fill :stroke ,stroke
 											   :link ,link :layer ,layer :id ,id))))

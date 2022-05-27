@@ -172,13 +172,14 @@
 #|EXPORT|#				:image
  |#
 (defmacro image (center filename
-				 &key width height label class link layer id contents)
+				 &key width height label class link rotate layer id contents)
   (let ((code `(register-entity (make-instance 'diagram:image
 											   :center ,center
 											   :filename ,filename
 											   :width ,width :height ,height
 											   :label ,label :class ,class
-											   :link ,link :layer ,layer :id ,id))))
+											   :link ,link :rotate ,rotate
+											   :layer ,layer :id ,id))))
 	(if (null contents)
 		code
 		(let ((g-obj (gensym "OBJ")))
