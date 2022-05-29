@@ -225,6 +225,29 @@ Figure. フォルダのサンプル
 
 　${{TODO}{まだ記述されていません。}}
 
+### 吹き出し
+
+　吹き出しはテキストボックスと良く似ていますが、${{TODO}{まだ記述されていません。}}
+
+<!-- snippet: BALLOON-SAMPLE
+(diagram (:w 200 :h 100)
+  (grid)
+  (rect '(30 70) 30 30 :fill :gray :stroke :black :id :r)
+  (balloon '(130 50) "balloon text.~%multi line." r.right
+                                   :fill :skyblue :stroke :navy))
+-->
+
+```diagram
+<!-- expand: BALLOON-SAMPLE -->
+```
+Figure. フォルダのサンプル
+
+```lisp
+<!-- expand: BALLOON-SAMPLE -->
+```
+
+　${{TODO}{まだ記述されていません。}}
+
 ## 色の指定
 
 　${APPNAME} は SVG 形式で図形を生成するため、色の指定は SVG の規格に準拠します。

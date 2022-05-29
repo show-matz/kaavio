@@ -33,10 +33,14 @@
 		 (p-cos (/ (- px cx) len2)))
 	;;(format t "c-sin=~A, p-sin=~A, p-cos=~A.~%" c-sin p-sin p-cos)
 	(cond
-	  ((< 0 c-sin p-sin)	 (make-point (+ cx (* (/ p-cos p-sin) h/2)) (+ cy h/2) :absolute))		;; bottom line
-	  ((< p-sin (- c-sin) 0) (make-point (- cx (* (/ p-cos p-sin) h/2)) (- cy h/2) :absolute))		;;  upper line
-	  ((< cx px)			 (make-point (+ cx w/2) (+ cy (* (/ p-sin p-cos) w/2)) :absolute))		;;  right line
-	  (t					 (make-point (- cx w/2) (- cy (* (/ p-sin p-cos) w/2)) :absolute)))))	;;   left line
+	  ((< 0 c-sin p-sin)		;; bottom line
+	   (values (make-point (+ cx (* (/ p-cos p-sin) h/2)) (+ cy h/2) :absolute) :bottom))
+	  ((< p-sin (- c-sin) 0)	;;  upper line
+	   (values (make-point (- cx (* (/ p-cos p-sin) h/2)) (- cy h/2) :absolute) :top))
+	  ((< cx px)				;;  right line
+	   (values (make-point (+ cx w/2) (+ cy (* (/ p-sin p-cos) w/2)) :absolute) :right))
+	  (t						;;   left line
+	   (values (make-point (- cx w/2) (- cy (* (/ p-sin p-cos) w/2)) :absolute) :left)))))
 
 ;; return point object.
 (defun rectangle-connect-point (center-pt width height type1 type2 arg)
@@ -44,7 +48,8 @@
   (let ((cx (point-x center-pt))
 		(cy (point-y center-pt)))
 	(ecase type2
-	  ((:center) (rectangle-connect-point-C center-pt width height arg))
+	  ((:center) (let ((pt (rectangle-connect-point-C center-pt width height arg)))
+				   pt))
 	  ((:top)    (make-point (+ cx (* (/ width 4) arg)) (- cy (/ height 2)) :absolute))
 	  ((:bottom) (make-point (+ cx (* (/ width 4) arg)) (+ cy (/ height 2)) :absolute))
 	  ((:left)   (make-point (- cx (/ width 2)) (+ cy (* (/ height 4) arg)) :absolute))
@@ -185,7 +190,7 @@
 	  (when (or id rotate)
 		(let ((cc (shape-center shp)))
 		  (writer-write writer "<g"
-						(write-when id "id='" it "'")
+						(write-when id " id='" it "'")
 						(write-when rotate " transform='rotate(" it ","
 											(point-x cc) "," (point-y cc) ")'" )
 						">"))

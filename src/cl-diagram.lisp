@@ -11,6 +11,12 @@
   (:export  	;--------------- BEGIN EXPORT
 				;arc.lisp
 				:arc
+				;balloon.lisp
+				:*default-balloon-round*
+				:*default-balloon-align*
+				:*default-balloon-valign*
+				:*default-balloon-margin*
+				:balloon
 				;binutil.lisp
 				;canvas.lisp
 				:canvas

@@ -8,6 +8,10 @@
 																"canvas"
 																"mathutil"
 																"path"))
+				(:file "balloon"                   :depends-on ("cl-diagram"
+																"arc"
+																"polygon"
+																"text-shape"))
 				(:file "binutil"                   :depends-on ("cl-diagram"))
 				(:file "canvas"                    :depends-on ("cl-diagram"
 																"point"))

@@ -1,3 +1,4 @@
+ERROR : figure 'フォルダのサンプル' is duplicated.
 <html>
 <header>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -46,6 +47,7 @@
 <blockquote class='tocx'>
 <li class='tocx'><a href='#e7hkC2YUaKe'>5.1 テキストボックス</a></li>
 <li class='tocx'><a href='#5ZT843xJDiq'>5.2 フォルダ</a></li>
+<li class='tocx'><a href='#5IHcv4bxjLU'>5.3 吹き出し</a></li>
 </blockquote>
 </details>
 <li class='tocx'><a href='#1rpUB3fre67'>6 色の指定</a></li>
@@ -314,6 +316,37 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
                     <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span> <span class='keyword3'>:fill</span> <span class='keyword3'>:white</span>))
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<h3><a name='5IHcv4bxjLU'></a>5.3 吹き出し</h3>
+<p>　吹き出しはテキストボックスと良く似ていますが、<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='200' height='100'>
+	
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- r : rectangle -->
+	<rect id='r' x='15' y='55' width='30' height='30' fill='gray' stroke='black' stroke-width='1' />
+	<!-- balloon -->
+	<path fill='skyblue' stroke='navy' stroke-width='1' d='M 79.3 27 L 180.7 27 A 10 10 1 0 1 190.7 37 L 190.7 63 A 10 10 1 0 1 180.7 73 L 79.3 73 A 10 10 1 0 1 69.3 63 L 45.0 70 L 69.3 50 L 69.3 37 A 10 10 1 0 1 79.3 27 Z' />
+	<text x='130.0' y='49' text-anchor='middle' font-size='12pt' fill='black' >balloon text.</text>
+	<text x='130.0' y='63' text-anchor='middle' font-size='12pt' fill='black' >multi line.</text>
+
+</svg>
+</div>
+
+<p class='fig_title'><a name='bB2F9DVM9ic'></a>Figure.5 フォルダのサンプル</p>
+<pre class='code'>
+(diagram (<span class='keyword3'>:w</span> 200 <span class='keyword3'>:h</span> 100)
+  (grid)
+  (rect '(30 70) 30 30 <span class='keyword3'>:fill</span> <span class='keyword3'>:gray</span> <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span> <span class='keyword3'>:id</span> <span class='keyword3'>:r</span>)
+  (balloon '(130 50) <span class='literal'>"balloon text.~%multi line."</span> r.right
+                                   <span class='keyword3'>:fill</span> <span class='keyword3'>:skyblue</span> <span class='keyword3'>:stroke</span> <span class='keyword3'>:navy</span>))
+</pre>
+<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <h2><a name='1rpUB3fre67'></a>6 色の指定</h2>
 <p>　diagram は SVG 形式で図形を生成するため、色の指定は SVG の規格に準拠します。</p>
 <ul>
@@ -369,7 +402,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='h7K5JgIwvZY'></a>Figure.6 回転のサンプル</p>
+<p class='fig_title'><a name='h7K5JgIwvZY'></a>Figure.7 回転のサンプル</p>
 <h2><a name='lkPJSquGS6Q'></a>9 defs と use</h2>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません</span></p>
 <pre class='code'>
@@ -423,7 +456,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='iZLxsV5YAK6'></a>Figure.7 defs と use のサンプル</p>
+<p class='fig_title'><a name='iZLxsV5YAK6'></a>Figure.8 defs と use のサンプル</p>
 <h2><a name='1ovJxG7Ie9O'></a>10 レイヤー</h2>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <p>　　</p>
@@ -462,7 +495,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='br3mf6bkjtv'></a>Figure.8 xxxのサンプル</p>
+<p class='fig_title'><a name='br3mf6bkjtv'></a>Figure.9 xxxのサンプル</p>
 <p>　　</p>
 <h2><a name='kgs1vf3AbTN'></a>12 サブキャンバス</h2>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
@@ -495,7 +528,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='kV8JVeAiwLR'></a>Figure.9 サブキャンバスのサンプル</p>
+<p class='fig_title'><a name='kV8JVeAiwLR'></a>Figure.10 サブキャンバスのサンプル</p>
 <p>　　</p>
 <h2><a name='7TyOD7TaDM2'></a>13 リファレンス</h2>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
@@ -541,9 +574,9 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='hOZzwQd2DMS'></a>Figure.10 fill における opacity のサンプル</p>
+<p class='fig_title'><a name='hOZzwQd2DMS'></a>Figure.11 fill における opacity のサンプル</p>
 <details>
-<summary><a href='#hOZzwQd2DMS'>Figure.10</a> のソースはこちら</summary>
+<summary><a href='#hOZzwQd2DMS'>Figure.11</a> のソースはこちら</summary>
 <pre class='code'>
 (diagram (<span class='keyword3'>:w</span> 400 <span class='keyword3'>:h</span> 100)
   (text '(200 55) <span class='literal'>"this is test text."</span> <span class='keyword3'>:align</span> <span class='keyword3'>:center</span>)
@@ -572,9 +605,9 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='9n3NgPBJGzS'></a>Figure.11 fill における rule のサンプル</p>
+<p class='fig_title'><a name='9n3NgPBJGzS'></a>Figure.12 fill における rule のサンプル</p>
 <details>
-<summary><a href='#9n3NgPBJGzS'>Figure.11</a> のソースはこちら</summary>
+<summary><a href='#9n3NgPBJGzS'>Figure.12</a> のソースはこちら</summary>
 <pre class='code'>
 (diagram (<span class='keyword3'>:w</span> 400 <span class='keyword3'>:h</span> 120)
   (with-subcanvas ('(75 0) 100 100)
@@ -635,7 +668,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='4fQnwjWZpzi'></a>Figure.12 dashoffset, linecap, linejoin のサンプル</p>
+<p class='fig_title'><a name='4fQnwjWZpzi'></a>Figure.13 dashoffset, linecap, linejoin のサンプル</p>
 <h4><a name='if12ldF3hxG'></a>13.1.6 rgb関数</h4>
 <pre class='code'>
 (rgb r g b)
@@ -1243,9 +1276,9 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='2sDmAkevog1'></a>Figure.13 色の名前とサンプル</p>
+<p class='fig_title'><a name='2sDmAkevog1'></a>Figure.14 色の名前とサンプル</p>
 <details>
-<summary><a href='#2sDmAkevog1'>Figure.13</a> のソースはこちら</summary>
+<summary><a href='#2sDmAkevog1'>Figure.14</a> のソースはこちら</summary>
 <pre class='code'>
 (<span class='keyword1'>let</span> ((svg-width   750)
       (svg-height 1000))
