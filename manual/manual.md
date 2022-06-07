@@ -240,7 +240,7 @@ Figure. フォルダのサンプル
 ```diagram
 <!-- expand: BALLOON-SAMPLE -->
 ```
-Figure. フォルダのサンプル
+Figure. 吹き出しのサンプル
 
 ```lisp
 <!-- expand: BALLOON-SAMPLE -->
@@ -317,6 +317,37 @@ ${BLANK_PARAGRAPH}
 ```
 Figure. 回転のサンプル
 
+
+## フィルタ
+
+　${{TODO}{まだ記述されていません}}
+
+<!-- snippet: FILTER-SAMPLE
+(diagram (:w 400 :h 200)
+  (grid)
+  (drop-shadow)
+  (glow-shadow :color-matrix '(0 0 0 0   0
+                               0 0 0 0.6 0
+                               0 0 0 0.3 0
+                               0 0 0 0.5 0))
+  (rect '(200 100) 100 70 :fill :lightgray :stroke :black :filter :drop-shadow)
+  (text '(200 180) "sample text" :align :center :filter :glow-shadow
+                                 :font (make-font :size 24 :fill :cadetblue)))
+-->
+
+```lisp
+<!-- expand: FILTER-SAMPLE -->
+```
+
+${BLANK_PARAGRAPH}
+
+
+　以下のような画像が生成されます。
+
+```diagram
+<!-- expand: FILTER-SAMPLE -->
+```
+Figure. フィルタのサンプル
 
 ## defs と use
 

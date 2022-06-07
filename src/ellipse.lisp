@@ -6,6 +6,7 @@
 #|ASD|#																"shape"
 #|ASD|#																"stroke-info"
 #|ASD|#																"link-info"
+#|ASD|#																"filter"
 #|ASD|#																"writer"))
 #|EXPORT|#				;ellipse.lisp
  |#
@@ -101,28 +102,33 @@
    (radius-x	:initform   0 :initarg :radius-x)	; number
    (radius-y	:initform   0 :initarg :radius-y)	; number
    (fill		:initform nil :initarg :fill)		; (or nil fill-info)
-   (stroke		:initform nil :initarg :stroke)))	; (or nil stroke-info)
+   (stroke		:initform nil :initarg :stroke)		; (or nil stroke-info)
+   (filter		:initform nil :initarg :filter)))	; (or nil keyword)
 
 (defmethod initialize-instance :after ((ent ellipse) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (fill stroke) ent
+  (with-slots (fill stroke filter) ent
 	(setf fill (if (null fill)
 				   *default-fill*
 				   (make-fill fill)))
 	(setf stroke (if (null stroke)
 					 *default-stroke*
-					 (make-stroke stroke))))
+					 (make-stroke stroke)))
+	(setf filter (if (eq filter :none)
+					 nil
+					 (or filter *default-shape-filter* *default-filter*))))
   ent)
 
 (defmethod check ((shp ellipse) canvas dict)
   (declare (ignorable dict))
   ;; this method must call super class' one.
   (call-next-method)
-  (with-slots (center radius-x radius-y fill stroke) shp
+  (with-slots (center radius-x radius-y fill stroke filter) shp
 	(check-member radius-x  :nullable nil :types number)
 	(check-member radius-y  :nullable nil :types number)
 	(check-object fill      canvas dict :nullable t :class   fill-info)
 	(check-object stroke    canvas dict :nullable t :class stroke-info)
+	(check-member filter    :nullable   t :types keyword)
 	(setf center (canvas-fix-point canvas center)))
   nil)
 
@@ -148,7 +154,7 @@
 ;;(defmethod entity-composition-p ((shp ellipse)) ...)
   
 (defmethod draw-entity ((shp ellipse) writer)
-  (with-slots (center class radius-x radius-y fill stroke) shp
+  (with-slots (center class radius-x radius-y fill stroke filter) shp
 	(let ((id (and (not (entity-composition-p shp))
 				   (slot-value shp 'id))))
 	  (pre-draw shp writer)
@@ -166,6 +172,7 @@
 					(unless class
 					  (when stroke
 						(to-property-strings stroke)))
+					(write-when filter "filter='url(#" it ")' ")
 					"/>")
 	  (post-draw shp writer)))
   nil)
@@ -180,12 +187,13 @@
 #|EXPORT|#				:ellipse
  |#
 (defmacro ellipse (center rx ry
-				   &key class fill stroke rotate link layer id contents)
+				   &key class fill stroke rotate link layer id filter contents)
   (let ((code `(register-entity (make-instance 'diagram:ellipse
 											   :center ,center :rotate ,rotate
 											   :radius-x ,rx :radius-y ,ry :class ,class
 											   :fill ,fill :stroke ,stroke
-											   :link ,link :layer ,layer :id ,id))))
+											   :filter ,filter :link ,link
+											   :layer ,layer :id ,id))))
 	(if (null contents)
 		code
 		(let ((g-obj (gensym "OBJ")))

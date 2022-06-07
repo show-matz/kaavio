@@ -1,10 +1,12 @@
 #|
 #|ASD|#				(:file "paragraph"                 :depends-on ("cl-diagram"
 #|ASD|#																"constants"
+#|ASD|#																"text"
 #|ASD|#																"shape"
 #|ASD|#																"font-info"
 #|ASD|#																"link-info"
 #|ASD|#																"point"
+#|ASD|#																"filter"
 #|ASD|#																"writer"))
 #|EXPORT|#				;paragraph.lisp
  |#
@@ -36,27 +38,32 @@
    (valign		:initform nil :initarg :valign)		; keyword
    (font		:initform nil :initarg :font)		; (or nil font-info)
    (width		:initform nil :initarg :width)		; number
-   (height		:initform nil :initarg :height)))	; number
+   (height		:initform nil :initarg :height)		; number
+   (filter		:initform nil :initarg :filter)))	; (or nil keyword)
 
 
 (defmethod initialize-instance :after ((shp paragraph) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (align valign font) shp
+  (with-slots (align valign font filter) shp
 	(setf align  (or align  *default-paragraph-align*))
 	(setf valign (or valign *default-paragraph-valign*))
-	(setf font   (make-font (or font *default-font*))))
+	(setf font   (make-font (or font *default-font*)))
+	(setf filter (if (eq filter :none)
+					 nil
+					 (or filter *default-text-filter* *default-filter*))))
   shp)
 
 (defmethod check ((shp paragraph) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (with-slots (position text align valign font width height) shp
+  (with-slots (position text align valign font width height filter) shp
 	(check-member   text   :nullable nil :types string)
 	(check-member   align  :nullable nil :types keyword)
 	(check-member   valign :nullable nil :types keyword)
 	(check-object   font   canvas dict :nullable nil :class font-info)
 	(check-keywords align  :left :center :right)
 	(check-keywords valign :top  :center :bottom)
+	(check-member   filter :nullable  t :types keyword)
 	(setf text (string/split (fix-name text) #\newline))
 	(setf position (canvas-fix-point canvas position))
 	(multiple-value-bind (w h) (caluculate-paragraph-shapesize font text)
@@ -91,7 +98,7 @@
 ;;(defmethod shape-get-subcanvas ((shp rectangle)) ...)
 
 (defmethod draw-entity ((shp paragraph) writer)
-  (with-slots (position class align font text) shp
+  (with-slots (position class align font text filter) shp
 	(let ((x (point-x position))
 		  (y (point-y (shape-top shp)))
 		  (txt-anchor (ecase align
@@ -107,7 +114,7 @@
 		  (dolist (line text)
 			(incf y fsize)
 			(write-text-tag x y txt-anchor line writer
-							:id id :class class :font font-prop)
+							:id id :class class :font font-prop :filter filter)
 			(incf y line-spacing))
 		  (post-draw shp writer)))))
   nil)
@@ -123,9 +130,10 @@
 #|EXPORT|#				:paragraph
  |#
 (defmacro paragraph (position text
-					 &key align valign rotate class font link layer id)
+					 &key align valign rotate class font link layer filter id)
   `(register-entity (make-instance 'diagram:paragraph
 								   :position ,position :text ,text
 								   :align ,align :valign ,valign :rotate ,rotate
-								   :font ,font :class ,class :link ,link :layer ,layer :id ,id)))
+								   :font ,font :class ,class :link ,link
+								   :filter ,filter :layer ,layer :id ,id)))
 

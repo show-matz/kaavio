@@ -16,6 +16,7 @@
 				:*default-balloon-align*
 				:*default-balloon-valign*
 				:*default-balloon-margin*
+				:*default-balloon-filter*
 				:balloon
 				;binutil.lisp
 				;canvas.lisp
@@ -108,12 +109,20 @@
 				:fill-info
 				:make-fill
 				:with-fill
+				;filter.lisp
+				:*default-filter*
+				:*default-text-filter*
+				:*default-line-filter*
+				:*default-shape-filter*
+				:filter
+				:write-filter
 				;folder.lisp
 				:*default-folder-tabwidth*
 				:*default-folder-tabheight*
 				:*default-folder-align*
 				:*default-folder-valign*
 				:*default-folder-margin*
+				:*default-folder-filter*
 				:folder
 				;font-info.lisp
 				:*default-font*
@@ -187,6 +196,9 @@
 				;rectangle.lisp
 				:rectangle
 				:rect
+				;shadow-filter.lisp
+				:drop-shadow
+				:glow-shadow
 				;shape.lisp
 				:rectangle-connect-point
 				:shape

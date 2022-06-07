@@ -2,6 +2,7 @@
 #|ASD|#				(:file "balloon"                   :depends-on ("cl-diagram"
 #|ASD|#																"arc"
 #|ASD|#																"polygon"
+#|ASD|#																"filter"
 #|ASD|#																"text-shape"))
 #|EXPORT|#				;balloon.lisp
  |#
@@ -13,11 +14,13 @@
 #|EXPORT|#				:*default-balloon-align*
 #|EXPORT|#				:*default-balloon-valign*
 #|EXPORT|#				:*default-balloon-margin*
+#|EXPORT|#				:*default-balloon-filter*
  |#
 (defparameter *default-balloon-round*  10)
 (defparameter *default-balloon-align*  :center)
 (defparameter *default-balloon-valign* :center)
 (defparameter *default-balloon-margin* 10)
+(defparameter *default-balloon-filter* nil)
 
 
 
@@ -98,8 +101,22 @@
 ;;------------------------------------------------------------------------------
 (defclass balloon (text-shape)
   ((round	:initform nil :initarg :round)    ; number
-   (anchor	:initform nil :initarg :anchor))) ; point
+   (anchor	:initform nil :initarg :anchor)   ; point
+   (filter	:initform nil :initarg :filter))) ; (or nil keyword)
   
+(defmethod initialize-instance :after ((bln balloon) &rest initargs)
+  (declare (ignore initargs))
+  (with-slots (filter) bln
+	(setf filter (or filter *default-balloon-filter* *default-shape-filter* *default-filter*)))
+  bln)
+   
+(defmethod check ((bln balloon) canvas dict)
+  ;; this method must call super class' one.
+  (call-next-method)
+  (with-slots (filter) bln
+	(check-member filter    :nullable   t :types keyword))
+  nil)
+
 ;; override of group::draw-group
 (defmethod draw-group ((box balloon) writer)
   (let* ((canvas (group-get-canvas box))
@@ -107,7 +124,7 @@
 		 (height (canvas-height canvas)))
 	(macrolet ((register-entity (entity)
 				 `(check-and-draw-local-entity ,entity canvas writer)))
-	  (with-slots (round anchor fill stroke) box
+	  (with-slots (round anchor fill stroke filter) box
 		(labels ((abs2rel (pt)
 				   (let ((topleft (canvas-topleft canvas)))
 					 (make-point (- (point-x pt) (point-x topleft))
@@ -117,7 +134,7 @@
 			  (rectangle-connect-point-C (shape-center box) width height anchor)
 			(let ((points (balloon-make-path width height (or round 0)
 											(abs2rel anchor) (abs2rel pt) pos)))
-			  (path points :fill fill :stroke stroke)))))))
+			  (path points :fill fill :stroke stroke :filter filter)))))))
   ;; draw text
   (call-next-method))
 
@@ -138,7 +155,7 @@
 #|EXPORT|#				:balloon
  |#
 (defmacro balloon (center text anchor &key round width height align valign
-										   font fill stroke margin link rotate layer id contents)
+										   font fill stroke margin link rotate layer id filter contents)
   (let ((code `(register-entity (make-instance 'balloon
 											   :anchor ,anchor
 											   :round  (or ,round  *default-balloon-round*)
@@ -150,7 +167,7 @@
 											   :margin (or ,margin *default-balloon-margin*)
 											   :fill ,fill :stroke ,stroke
 											   :link ,link :rotate ,rotate
-											   :layer ,layer :id ,id))))
+											   :filter ,filter :layer ,layer :id ,id))))
 	(if (null contents)
 		code
 		(let ((g-obj (gensym "OBJ")))

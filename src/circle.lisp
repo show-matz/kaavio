@@ -7,6 +7,7 @@
 #|ASD|#																"shape"
 #|ASD|#																"stroke-info"
 #|ASD|#																"link-info"
+#|ASD|#																"filter"
 #|ASD|#																"writer"))
 #|EXPORT|#				;circle.lisp
  |#
@@ -52,22 +53,27 @@
   ((center		:initform nil :initarg :center)		; point
    (radius		:initform   0 :initarg :radius)		; number
    (fill		:initform nil :initarg :fill)		; (or nil fill-info)
-   (stroke		:initform nil :initarg :stroke)))	; (or nil stroke-info)
+   (stroke		:initform nil :initarg :stroke)		; (or nil stroke-info)
+   (filter		:initform nil :initarg :filter)))	; (or nil keyword)
 
 (defmethod initialize-instance :after ((ent circle) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (fill stroke) ent
+  (with-slots (fill stroke filter) ent
 	(setf fill   (make-fill   (or fill   *default-fill*)))
-	(setf stroke (make-stroke (or stroke *default-stroke*))))
+	(setf stroke (make-stroke (or stroke *default-stroke*)))
+	(setf filter (if (eq filter :none)
+					 nil
+					 (or filter *default-shape-filter* *default-filter*))))
   ent)
 
 (defmethod check ((shp circle) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (with-slots (center radius fill stroke) shp
+  (with-slots (center radius fill stroke filter) shp
 	(check-member radius   :nullable nil :types number)
 	(check-object fill     canvas dict :nullable t :class   fill-info)
 	(check-object stroke   canvas dict :nullable t :class stroke-info)
+	(check-member filter   :nullable   t :types keyword)
 	(setf center (canvas-fix-point canvas center)))
   nil)
 
@@ -92,7 +98,7 @@
 ;;(defmethod entity-composition-p ((shp circle)) ...)
   
 (defmethod draw-entity ((shp circle) writer)
-  (with-slots (center class radius fill stroke) shp
+  (with-slots (center class radius fill stroke filter) shp
 	(let ((id (and (not (entity-composition-p shp))
 				   (slot-value shp 'id))))
 	  (pre-draw shp writer)
@@ -109,6 +115,7 @@
 					(unless class
 					  (when stroke
 						(to-property-strings stroke)))
+					(write-when filter "filter='url(#" it ")' ")
 					"/>")
 	  (post-draw shp writer)))
   nil)
@@ -123,12 +130,12 @@
 #|EXPORT|#				:circle
  |#
 (defmacro circle (center radius
-				  &key class fill stroke link layer id contents)
+				  &key class fill stroke link layer id filter contents)
   (let ((code `(register-entity (make-instance 'diagram:circle
 											   :center ,center
 											   :radius ,radius :class ,class
-											   :fill ,fill :stroke ,stroke
-											   :link ,link :layer ,layer :id ,id))))
+											   :fill ,fill :stroke ,stroke :link ,link
+											   :filter ,filter :layer ,layer :id ,id))))
 	(if (null contents)
 		code
 		(let ((g-obj (gensym "OBJ")))

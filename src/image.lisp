@@ -5,6 +5,7 @@
 #|ASD|#																"label-info"
 #|ASD|#																"link-info"
 #|ASD|#																"point"
+#|ASD|#																"filter"
 #|ASD|#																"writer"))
 #|EXPORT|#				;image.lisp
  |#
@@ -76,25 +77,30 @@
    (height			:initform   0 :initarg :height)		; number
    (center			:initform nil :initarg :center)		; point
    (label			:initform nil :initarg :label)		; (or nil label-info)
-   (preserve-ratio	:initform nil)))					; boolean
+   (preserve-ratio	:initform nil)						; boolean
+   (filter			:initform nil :initarg :filter)))	; (or nil keyword)
 
 
 (defmethod initialize-instance :after ((img image) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (label) img
+  (with-slots (label filter) img
 	(when label
-	  (setf label (make-label label))))
+	  (setf label (make-label label)))
+	(setf filter (if (eq filter :none)
+					 nil
+					 (or filter *default-shape-filter* *default-filter*))))
   img)
 
 
 (defmethod check ((img image) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (with-slots (center filename width height label preserve-ratio) img
+  (with-slots (center filename width height label preserve-ratio filter) img
 	(check-member filename :nullable nil :types (or pathname string))
 	(check-member width    :nullable   t :types number)
 	(check-member height   :nullable   t :types number)
 	(check-object label    canvas dict :nullable t :class label-info)
+	(check-member filter   :nullable   t :types keyword)
 	(let ((path (merge-pathnames filename (path/get-current-directory))))
 	  ;; 指定された名前のファイルがカレントディレクトリに存在することをチェック
 	  (unless (path/is-existing-file path)
@@ -139,7 +145,7 @@
 	  (call-next-method)))
 
 (defmethod draw-entity ((img image) writer)
-  (with-slots (width height class filename preserve-ratio) img
+  (with-slots (width height class filename preserve-ratio filter) img
 	(let ((id (and (not (entity-composition-p img))
 				   (slot-value img 'id)))
 		  (topleft (shape-topleft img)))
@@ -155,6 +161,7 @@
 					"xlink:href='" filename "' "
 					(unless preserve-ratio
 					  "preserveAspectRatio='none' ")
+					(write-when filter "filter='url(#" it ")' ")
 					"/>")
 	  (with-slots (label) img
 		(when label
@@ -172,14 +179,14 @@
 #|EXPORT|#				:image
  |#
 (defmacro image (center filename
-				 &key width height label class link rotate layer id contents)
+				 &key width height label class link rotate layer id filter contents)
   (let ((code `(register-entity (make-instance 'diagram:image
 											   :center ,center
 											   :filename ,filename
 											   :width ,width :height ,height
 											   :label ,label :class ,class
 											   :link ,link :rotate ,rotate
-											   :layer ,layer :id ,id))))
+											   :filter ,filter :layer ,layer :id ,id))))
 	(if (null contents)
 		code
 		(let ((g-obj (gensym "OBJ")))

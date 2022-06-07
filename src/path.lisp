@@ -4,6 +4,7 @@
 #|ASD|#																"fill-info"
 #|ASD|#																"stroke-info"
 #|ASD|#																"entity"
+#|ASD|#																"filter"
 #|ASD|#																"writer"))
 #|EXPORT|#				;path.lisp
  |#
@@ -201,24 +202,29 @@
   ((data	:initform nil :initarg :data)		; list
    (class	:initform nil :initarg :class)		; keyword
    (fill	:initform nil :initarg :fill)		; (or nil fill-info)
-   (stroke	:initform nil :initarg :stroke)))	; (or nil stroke-info)
+   (stroke	:initform nil :initarg :stroke)		; (or nil stroke-info)
+   (filter	:initform nil :initarg :filter)))	; (or nil keyword)
 
 
 (defmethod initialize-instance :after ((ent path) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (fill stroke) ent
+  (with-slots (fill stroke filter) ent
 	(setf fill   (make-fill   (or fill   *default-fill*)))
-	(setf stroke (make-stroke (or stroke *default-stroke*))))
+	(setf stroke (make-stroke (or stroke *default-stroke*)))
+	(setf filter (if (eq filter :none)
+					 nil
+					 (or filter *default-filter*))))
   ent)
   
 (defmethod check ((ent path) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (with-slots (data class fill stroke) ent
+  (with-slots (data class fill stroke filter) ent
 	(check-member data    :nullable nil :types list)
 	(check-member class   :nullable   t :types (or keyword string))
 	(check-object fill    canvas dict :nullable nil :class fill-info)
 	(check-object stroke  canvas dict :nullable nil :class stroke-info)
+	(check-member filter  :nullable   t :types keyword)
 	(setf data (__check-&-fix-data data nil :absolute canvas)))
   nil)
 	
@@ -234,7 +240,7 @@
 					 ((numberp  elm) (format stream "~F" elm))
 					 ((stringp  elm) (format stream "~A" elm)))
 				   (incf idx))))))
-	(with-slots (data class fill stroke) ent
+	(with-slots (data class fill stroke filter) ent
 	  (let ((id  (and (not (entity-composition-p ent))
 					  (slot-value ent 'id))))
 		(pre-draw ent writer)
@@ -249,6 +255,7 @@
 						(when stroke
 						  (to-property-strings stroke)))
 					  "d='" (format-path-data data) "' "
+					  (write-when filter "filter='url(#" it ")' ")
 					  "/>")
 		(pre-draw ent writer)))))
 
@@ -261,8 +268,9 @@
 #|
 #|EXPORT|#				:path
  |#
-(defmacro path (data &key class fill stroke layer id)
+(defmacro path (data &key class fill stroke layer filter id)
   `(register-entity (make-instance 'diagram:path
-								   :data ,data :class ,class :fill ,fill
-								   :stroke ,stroke :layer ,layer :id ,id)))
+								   :data ,data :class ,class
+								   :fill ,fill :stroke ,stroke
+								   :layer ,layer :filter ,filter :id ,id)))
 

@@ -11,6 +11,7 @@
 				(:file "balloon"                   :depends-on ("cl-diagram"
 																"arc"
 																"polygon"
+																"filter"
 																"text-shape"))
 				(:file "binutil"                   :depends-on ("cl-diagram"))
 				(:file "canvas"                    :depends-on ("cl-diagram"
@@ -23,6 +24,7 @@
 																"shape"
 																"stroke-info"
 																"link-info"
+																"filter"
 																"writer"))
 				(:file "cl-diagram")
 				(:file "connector"                 :depends-on ("cl-diagram"
@@ -61,6 +63,7 @@
 																"shape"
 																"stroke-info"
 																"link-info"
+																"filter"
 																"writer"))
 				(:file "endmark-info"              :depends-on ("cl-diagram"
 																"constants"
@@ -75,8 +78,11 @@
 																"canvas"
 																"writer"))
 				(:file "fill-info"                 :depends-on ("cl-diagram"))
+				(:file "filter"                    :depends-on ("cl-diagram"
+																"writer"))
 				(:file "folder"                    :depends-on ("cl-diagram"
 																"polygon"
+																"filter"
 																"text-shape"))
 				(:file "font-info"                 :depends-on ("cl-diagram"
 																"fill-info"
@@ -91,6 +97,7 @@
 																"label-info"
 																"link-info"
 																"point"
+																"filter"
 																"writer"))
 				(:file "label-info"                :depends-on ("cl-diagram"
 																"constants"
@@ -109,6 +116,7 @@
 																"stroke-info"
 																"endmark-info"
 																"entity"
+																"filter"
 																"writer"))
 				(:file "link-info"                 :depends-on ("cl-diagram"
 																"constants"
@@ -117,16 +125,19 @@
 																"point"))
 				(:file "paragraph"                 :depends-on ("cl-diagram"
 																"constants"
+																"text"
 																"shape"
 																"font-info"
 																"link-info"
 																"point"
+																"filter"
 																"writer"))
 				(:file "path"                      :depends-on ("cl-diagram"
 																"constants"
 																"fill-info"
 																"stroke-info"
 																"entity"
+																"filter"
 																"writer"))
 				(:file "pathutil"                  :depends-on ("cl-diagram"))
 				(:file "point"                     :depends-on ("cl-diagram"))
@@ -136,6 +147,7 @@
 																"stroke-info"
 																"link-info"
 																"entity"
+																"filter"
 																"writer"))
 				(:file "raw-svg"                   :depends-on ("cl-diagram"
 																"entity"
@@ -147,6 +159,10 @@
 																"shape"
 																"stroke-info"
 																"link-info"
+																"filter"
+																"writer"))
+				(:file "shadow-filter"             :depends-on ("cl-diagram"
+																"filter"
 																"writer"))
 				(:file "shape"                     :depends-on ("cl-diagram"
 																"point"
@@ -176,6 +192,7 @@
 																"entity"
 																"font-info"
 																"link-info"
+																"filter"
 																"writer"))
 				(:file "use"                       :depends-on ("cl-diagram"
 																"constants"

@@ -6,6 +6,7 @@
 #|ASD|#																"shape"
 #|ASD|#																"stroke-info"
 #|ASD|#																"link-info"
+#|ASD|#																"filter"
 #|ASD|#																"writer"))
 #|EXPORT|#				;rectangle.lisp
  |#
@@ -25,12 +26,13 @@
    (rx			:initform nil :initarg :rx)			; number
    (ry			:initform nil :initarg :ry)			; number
    (fill		:initform nil :initarg :fill)		; (or nil fill-info)
-   (stroke		:initform nil :initarg :stroke)))	; (or nil link-info)
+   (stroke		:initform nil :initarg :stroke)		; (or nil fill-info)
+   (filter		:initform nil :initarg :filter)))	; (or nil keyword)
 
 
 (defmethod initialize-instance :after ((rct rectangle) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (rx ry fill stroke) rct
+  (with-slots (rx ry fill stroke filter) rct
 	(unless rx
 	  (setf rx *default-rectangle-rx*))
 	(unless ry
@@ -40,19 +42,23 @@
 				   (make-fill fill)))
 	(setf stroke (if (null stroke)
 					 *default-stroke*
-					 (make-stroke stroke))))
+					 (make-stroke stroke)))
+	(setf filter (if (eq filter :none)
+					 nil
+					 (or filter *default-shape-filter* *default-filter*))))
   rct)
 
 (defmethod check ((rct rectangle) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (with-slots (center width height rx ry fill stroke) rct
+  (with-slots (center width height rx ry fill stroke filter) rct
 	(check-member width     :nullable nil :types number)
 	(check-member height    :nullable nil :types number)
 	(check-member rx        :nullable   t :types number)
 	(check-member ry        :nullable   t :types number)
 	(check-object fill      canvas dict :nullable t :class   fill-info)
 	(check-object stroke    canvas dict :nullable t :class stroke-info)
+	(check-member filter    :nullable   t :types keyword)
 	(setf center (canvas-fix-point canvas center)))
   nil)
 
@@ -72,7 +78,7 @@
 ;;(defmethod shape-get-subcanvas ((shp rectangle)) ...)
 
 (defmethod draw-entity ((rct rectangle) writer)
-  (with-slots (rx ry fill stroke class) rct
+  (with-slots (rx ry fill stroke class filter) rct
 	(let ((id (and (not (entity-composition-p rct))
 				   (slot-value rct 'id)))
 		  (topleft (shape-topleft rct)))
@@ -93,6 +99,7 @@
 					(unless class
 					  (when stroke
 						(to-property-strings stroke)))
+					(write-when filter "filter='url(#" it ")' ")
 					"/>")
 	  (post-draw rct writer)))
   nil)
@@ -107,14 +114,14 @@
 #|EXPORT|#				:rectangle
  |#
 (defmacro rectangle (center width height
-					 &key rx ry class fill stroke rotate link layer id contents)
+					 &key rx ry class fill stroke rotate link layer id filter contents)
   (let ((code `(register-entity (make-instance 'diagram:rectangle
 											   :center ,center
 											   :width ,width :height ,height
 											   :rx ,rx :ry ,ry :class ,class
 											   :fill ,fill :stroke ,stroke
 											   :rotate ,rotate :link ,link
-											   :layer ,layer :id ,id))))
+											   :filter ,filter :layer ,layer :id ,id))))
 	(if (null contents)
 		code
 		(let ((g-obj (gensym "OBJ")))
@@ -127,14 +134,14 @@
 #|EXPORT|#				:rect
  |#
 (defmacro rect (center width height
-				&key rx ry class fill stroke rotate link layer id contents)
+				&key rx ry class fill stroke rotate link layer id filter contents)
   (let ((code `(register-entity (make-instance 'diagram:rectangle
 											   :center ,center
 											   :width ,width :height ,height
 											   :rx ,rx :ry ,ry :class ,class
 											   :fill ,fill :stroke ,stroke
 											   :rotate ,rotate :link ,link
-											   :layer ,layer :id ,id))))
+											   :filter ,filter :layer ,layer :id ,id))))
 	(if (null contents)
 		code
 		(let ((g-obj (gensym "OBJ")))

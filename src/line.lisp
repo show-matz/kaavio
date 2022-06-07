@@ -7,6 +7,7 @@
 #|ASD|#																"stroke-info"
 #|ASD|#																"endmark-info"
 #|ASD|#																"entity"
+#|ASD|#																"filter"
 #|ASD|#																"writer"))
 #|EXPORT|#				;line.lisp
  |#
@@ -25,17 +26,21 @@
    (end1	:initform nil :initarg :end1)		; keyword
    (end2	:initform nil :initarg :end2)		; keyword
    (label	:initform nil :initarg :label)  	; (or nil label-info function)
-   (stroke	:initform nil :initarg :stroke)))	; (or nil stroke-info)
+   (stroke	:initform nil :initarg :stroke)		; (or nil stroke-info)
+   (filter	:initform nil :initarg :filter)))	; (or nil keyword)
 
 
 (defmethod initialize-instance :after ((ent line) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (end1 end2 label stroke) ent
+  (with-slots (end1 end2 label stroke filter) ent
 	(setf end1   (make-endmark (or end1   *default-endmark-1*)))
 	(setf end2   (make-endmark (or end2   *default-endmark-2*)))
 	(when (and label (not (functionp label)))
 	  (setf label (make-label label)))
-	(setf stroke (make-stroke  (or stroke *default-stroke*))))
+	(setf stroke (make-stroke  (or stroke *default-stroke*)))
+	(setf filter (if (eq filter :none)
+					 nil
+					 (or filter *default-line-filter* *default-filter*))))
   ent)
 
 ;; type := :from|:dest
@@ -96,7 +101,7 @@
 (defmethod check ((ent line) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (with-slots (points class end1 end2 label stroke) ent
+  (with-slots (points class end1 end2 label stroke filter) ent
 	(check-member points :nullable nil :types list)
 	(check-member class  :nullable   t :types (or keyword string))
 	(check-object end1   canvas dict :nullable   t :class endmark-info)
@@ -104,6 +109,7 @@
 	(unless (functionp label)
 	  (check-object label canvas dict :nullable t :class label-info))
 	(check-object stroke canvas dict :nullable nil :class  stroke-info)
+	(check-member filter :nullable   t :types keyword)
 	(when end1 (check end1 canvas dict))
 	(when end2 (check end2 canvas dict))
 	(unless (<= 2 (length points))
@@ -125,7 +131,7 @@
 	  (slot-value ent 'label)))
 
 (defmethod draw-entity ((ent line) writer)
-  (with-slots (points class label end1 end2 stroke) ent
+  (with-slots (points class label end1 end2 stroke filter) ent
 	(let ((id  (and (not (entity-composition-p ent))
 					(slot-value ent 'id))))
 	  (pre-draw ent writer)
@@ -146,7 +152,8 @@
 						  (to-property-strings stroke)))
 					  "points='" (with-output-to-string (st)
 								   (format-points points st)) "' "
-								   "/>"))
+					  (write-when filter "filter='url(#" it ")' ")
+					  "/>"))
 	  (when label
 		(multiple-value-bind (x y sin cos) (line-get-center ent)
 		  (if (functionp label)
@@ -168,9 +175,10 @@
 #|
 #|EXPORT|#				:line
  |#
-(defmacro line (points &key class stroke label end1 end2 layer id)
+(defmacro line (points &key class stroke label end1 end2 layer filter id)
   `(register-entity (make-instance 'diagram:line
 								   :points ,points :class ,class
 								   :end1 ,end1 :end2 ,end2 :label ,label
-								   :stroke ,stroke :layer ,layer :id ,id)))
+								   :stroke ,stroke :filter ,filter
+								   :layer ,layer :id ,id)))
 
