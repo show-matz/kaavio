@@ -104,6 +104,10 @@
 				:post-draw
 				:entity-composition-p
 				:check-and-draw-local-entity
+				;explosion.lisp
+				:*default-explosion-filter*
+				:explosion1
+				:explosion2
 				;fill-info.lisp
 				:*default-fill*
 				:fill-info

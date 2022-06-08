@@ -248,6 +248,28 @@ Figure. 吹き出しのサンプル
 
 　${{TODO}{まだ記述されていません。}}
 
+### 爆発
+
+　${{TODO}{まだ記述されていません。}}
+
+<!-- snippet: EXPLOSION-SAMPLE
+(diagram (:w 350 :h 150)
+  (grid)
+  (explosion1 '(100 75) 140 120 "explosion1" :fill :pink :stroke :red)
+  (explosion2 '(250 75) 140 120 "explosion2" :fill :pink :stroke :red))
+-->
+
+```diagram
+<!-- expand: EXPLOSION-SAMPLE -->
+```
+Figure. 爆発のサンプル
+
+```lisp
+<!-- expand: EXPLOSION-SAMPLE -->
+```
+
+　${{TODO}{まだ記述されていません。}}
+
 ## 色の指定
 
 　${APPNAME} は SVG 形式で図形を生成するため、色の指定は SVG の規格に準拠します。

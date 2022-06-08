@@ -3,7 +3,6 @@
 IN=$1
 OUT=$2
 CACHE=.cache
-APP=./diagram
 
 if [ ! -e ./${CACHE} ]; then
 	mkdir ${CACHE}

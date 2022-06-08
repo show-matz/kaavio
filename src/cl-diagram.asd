@@ -77,6 +77,10 @@
 				(:file "entity"                    :depends-on ("cl-diagram"
 																"canvas"
 																"writer"))
+				(:file "explosion"                 :depends-on ("cl-diagram"
+																"polygon"
+																"filter"
+																"text-shape"))
 				(:file "fill-info"                 :depends-on ("cl-diagram"))
 				(:file "filter"                    :depends-on ("cl-diagram"
 																"writer"))
