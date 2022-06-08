@@ -47,7 +47,8 @@
 <li class='tocx'><a href='#e7hkC2YUaKe'>5.1 テキストボックス</a></li>
 <li class='tocx'><a href='#5ZT843xJDiq'>5.2 フォルダ</a></li>
 <li class='tocx'><a href='#5IHcv4bxjLU'>5.3 吹き出し</a></li>
-<li class='tocx'><a href='#hjZ26isLw42'>5.4 爆発</a></li>
+<li class='tocx'><a href='#5ME1Xv0K4sM'>5.4 円柱</a></li>
+<li class='tocx'><a href='#hjZ26isLw42'>5.5 爆発</a></li>
 </blockquote>
 </details>
 <li class='tocx'><a href='#1rpUB3fre67'>6 色の指定</a></li>
@@ -348,7 +349,36 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
                                    <span class='keyword3'>:fill</span> <span class='keyword3'>:skyblue</span> <span class='keyword3'>:stroke</span> <span class='keyword3'>:navy</span>))
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h3><a name='hjZ26isLw42'></a>5.4 爆発</h3>
+<h3><a name='5ME1Xv0K4sM'></a>5.4 円柱</h3>
+<p>　円柱は<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='200' height='100'>
+	
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- cylinder -->
+	<path fill='honeydew' stroke='forestgreen' stroke-width='1' d='M 60 20 L 60 80 A 40 6 0 0 0 140 80 L 140 20 A 40 6 0 0 0 60 20' />
+	<path fill='none' stroke='forestgreen' stroke-width='1' d='M 60 20 A 40 6 0 0 0 140 20' />
+	<text x='100' y='49' text-anchor='middle' font-size='12pt' fill='black' >cylinder</text>
+	<text x='100' y='63' text-anchor='middle' font-size='12pt' fill='black' >text</text>
+
+</svg>
+</div>
+
+<p class='fig_title'><a name='c33W6fj0jlH'></a>Figure.7 円柱のサンプル</p>
+<pre class='code'>
+(diagram (<span class='keyword3'>:w</span> 200 <span class='keyword3'>:h</span> 100)
+  (grid)
+  (cylinder canvas.center 80 60 <span class='literal'>"cylinder~%text"</span>
+                                   <span class='keyword3'>:fill</span> <span class='keyword3'>:honeydew</span> <span class='keyword3'>:stroke</span> <span class='keyword3'>:forestgreen</span>))
+</pre>
+<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<h3><a name='hjZ26isLw42'></a>5.5 爆発</h3>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
@@ -370,7 +400,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='alxN8u8h3HH'></a>Figure.7 爆発のサンプル</p>
+<p class='fig_title'><a name='alxN8u8h3HH'></a>Figure.8 爆発のサンプル</p>
 <pre class='code'>
 (diagram (<span class='keyword3'>:w</span> 350 <span class='keyword3'>:h</span> 150)
   (grid)
@@ -433,7 +463,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='h7K5JgIwvZY'></a>Figure.8 回転のサンプル</p>
+<p class='fig_title'><a name='h7K5JgIwvZY'></a>Figure.9 回転のサンプル</p>
 <h2><a name='gPGlqSbIfdL'></a>9 フィルタ</h2>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません</span></p>
 <pre class='code'>
@@ -485,7 +515,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='9Z8wQykrThD'></a>Figure.9 フィルタのサンプル</p>
+<p class='fig_title'><a name='9Z8wQykrThD'></a>Figure.10 フィルタのサンプル</p>
 <h2><a name='lkPJSquGS6Q'></a>10 defs と use</h2>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません</span></p>
 <pre class='code'>
@@ -539,7 +569,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='iZLxsV5YAK6'></a>Figure.10 defs と use のサンプル</p>
+<p class='fig_title'><a name='iZLxsV5YAK6'></a>Figure.11 defs と use のサンプル</p>
 <h2><a name='1ovJxG7Ie9O'></a>11 レイヤー</h2>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <p>　　</p>
@@ -578,7 +608,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='br3mf6bkjtv'></a>Figure.11 xxxのサンプル</p>
+<p class='fig_title'><a name='br3mf6bkjtv'></a>Figure.12 xxxのサンプル</p>
 <p>　　</p>
 <h2><a name='kgs1vf3AbTN'></a>13 サブキャンバス</h2>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
@@ -611,7 +641,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='kV8JVeAiwLR'></a>Figure.12 サブキャンバスのサンプル</p>
+<p class='fig_title'><a name='kV8JVeAiwLR'></a>Figure.13 サブキャンバスのサンプル</p>
 <p>　　</p>
 <h2><a name='7TyOD7TaDM2'></a>14 リファレンス</h2>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
@@ -657,9 +687,9 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='hOZzwQd2DMS'></a>Figure.13 fill における opacity のサンプル</p>
+<p class='fig_title'><a name='hOZzwQd2DMS'></a>Figure.14 fill における opacity のサンプル</p>
 <details>
-<summary><a href='#hOZzwQd2DMS'>Figure.13</a> のソースはこちら</summary>
+<summary><a href='#hOZzwQd2DMS'>Figure.14</a> のソースはこちら</summary>
 <pre class='code'>
 (diagram (<span class='keyword3'>:w</span> 400 <span class='keyword3'>:h</span> 100)
   (text '(200 55) <span class='literal'>"this is test text."</span> <span class='keyword3'>:align</span> <span class='keyword3'>:center</span>)
@@ -688,9 +718,9 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='9n3NgPBJGzS'></a>Figure.14 fill における rule のサンプル</p>
+<p class='fig_title'><a name='9n3NgPBJGzS'></a>Figure.15 fill における rule のサンプル</p>
 <details>
-<summary><a href='#9n3NgPBJGzS'>Figure.14</a> のソースはこちら</summary>
+<summary><a href='#9n3NgPBJGzS'>Figure.15</a> のソースはこちら</summary>
 <pre class='code'>
 (diagram (<span class='keyword3'>:w</span> 400 <span class='keyword3'>:h</span> 120)
   (with-subcanvas ('(75 0) 100 100)
@@ -751,7 +781,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='4fQnwjWZpzi'></a>Figure.15 dashoffset, linecap, linejoin のサンプル</p>
+<p class='fig_title'><a name='4fQnwjWZpzi'></a>Figure.16 dashoffset, linecap, linejoin のサンプル</p>
 <h4><a name='if12ldF3hxG'></a>14.1.6 rgb関数</h4>
 <pre class='code'>
 (rgb r g b)
@@ -1359,9 +1389,9 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='2sDmAkevog1'></a>Figure.16 色の名前とサンプル</p>
+<p class='fig_title'><a name='2sDmAkevog1'></a>Figure.17 色の名前とサンプル</p>
 <details>
-<summary><a href='#2sDmAkevog1'>Figure.16</a> のソースはこちら</summary>
+<summary><a href='#2sDmAkevog1'>Figure.17</a> のソースはこちら</summary>
 <pre class='code'>
 (<span class='keyword1'>let</span> ((svg-width   750)
       (svg-height 1000))

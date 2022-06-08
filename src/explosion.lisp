@@ -8,11 +8,6 @@
 
 (in-package :cl-diagram)
 
-#|
-#|EXPORT|#				:*default-explosion-filter*
- |#
-(defparameter *default-explosion-filter*       nil)
-
 
 (defun explosion-get-points (pattern w h)
   (cond
@@ -84,9 +79,17 @@
 (defmethod initialize-instance :after ((exp explosion) &rest initargs)
   (declare (ignore initargs))
   (with-slots (filter) exp
-	(setf filter (or filter *default-explosion-filter* *default-shape-filter* *default-filter*)))
+	(setf filter (or filter *default-shape-filter* *default-filter*)))
   exp)
    
+(defmethod check ((exp explosion) canvas dict)
+  ;; this method must call super class' one.
+  (call-next-method)
+  (with-slots (pattern filter) exp
+	(check-member pattern :nullable nil :types number)
+	(check-member filter  :nullable   t :types keyword))
+  nil)
+
 ;; override of group::draw-group
 (defmethod draw-group ((exp explosion) writer)
   (let* ((canvas (group-get-canvas exp))

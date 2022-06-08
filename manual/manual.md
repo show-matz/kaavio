@@ -248,6 +248,28 @@ Figure. 吹き出しのサンプル
 
 　${{TODO}{まだ記述されていません。}}
 
+### 円柱
+
+　円柱は${{TODO}{まだ記述されていません。}}
+
+<!-- snippet: CYLINDER-SAMPLE
+(diagram (:w 200 :h 100)
+  (grid)
+  (cylinder canvas.center 80 60 "cylinder~%text"
+                                   :fill :honeydew :stroke :forestgreen))
+-->
+
+```diagram
+<!-- expand: CYLINDER-SAMPLE -->
+```
+Figure. 円柱のサンプル
+
+```lisp
+<!-- expand: CYLINDER-SAMPLE -->
+```
+
+　${{TODO}{まだ記述されていません。}}
+
 ### 爆発
 
 　${{TODO}{まだ記述されていません。}}

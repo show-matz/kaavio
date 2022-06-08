@@ -45,6 +45,10 @@
 				                                                "font-info"
 				                                                "stroke-info"
 				                                                "writer"))
+				(:file "cylinder"                  :depends-on ("cl-diagram"
+																"path"
+																"filter"
+																"text-shape"))
 				(:file "defs"                      :depends-on ("cl-diagram"
 				                                                "constants"
 																"entity"
