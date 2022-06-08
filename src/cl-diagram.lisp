@@ -132,6 +132,8 @@
 				:make-font
 				:with-font
 				:font-calc-textarea
+				;grid.lisp
+				:grid
 				;group.lisp
 				:group
 				:group-get-canvas
@@ -236,6 +238,14 @@
 				;text.lisp
 				:write-text-tag
 				:text
+				;textbox.lisp
+				:*default-textbox-rx*
+				:*default-textbox-ry*
+				:*default-textbox-align*
+				:*default-textbox-valign*
+				:*default-textbox-margin*
+				:*default-textbox-filter*
+				:textbox
 				;use.lisp
 				:use
 				;writer.lisp

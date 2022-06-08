@@ -1,12 +1,19 @@
+#|
+#|ASD|#				(:file "grid"                      :depends-on ("cl-diagram"
+#|ASD|#																"stroke-info"
+#|ASD|#																"entity"
+#|ASD|#																"writer"))
+#|EXPORT|#				;grid.lisp
+ |#
 
-(in-package :cl-diagram-user)
+(in-package :cl-diagram)
 
 ;;------------------------------------------------------------------------------
 ;;
 ;; class grid
 ;;
 ;;------------------------------------------------------------------------------
-(defclass grid (diagram:entity)
+(defclass grid (entity)
   ((size	:initform nil	:initarg  :size)		; number
    (bgcolor	:initform nil	:initarg  :bgcolor)		; (or keyword string)
    (stroke	:initform nil	:initarg  :stroke)))	; (or nil stroke-info)
@@ -69,6 +76,9 @@
 ;; macro grid
 ;;
 ;;------------------------------------------------------------------------------
+#|
+#|EXPORT|#				:grid
+ |#
 (defmacro grid (&key (size 10) (bgcolor :white) stroke layer)
   `(register-entity (make-instance 'grid
 								   :size ,size

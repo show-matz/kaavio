@@ -4,8 +4,6 @@
 (require :cl-diagram)
 
 ;; @todo : lib 配下のファイルを検索して自動登録する
-(load "../lib/grid.stencil")
-(load "../lib/textbox.stencil")
 
 ;; application entry ------------------------------------------
 (defun application-entry ()

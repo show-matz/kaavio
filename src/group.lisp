@@ -2,6 +2,7 @@
 #|ASD|#				(:file "group"                     :depends-on ("cl-diagram"
 #|ASD|#																"canvas"
 #|ASD|#																"shape"
+#|ASD|#																"rectangle"
 #|ASD|#																"writer"))
 #|EXPORT|#				;group.lisp
  |#

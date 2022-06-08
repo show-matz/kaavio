@@ -87,9 +87,14 @@
 				(:file "font-info"                 :depends-on ("cl-diagram"
 																"fill-info"
 																"stroke-info"))
+				(:file "grid"                      :depends-on ("cl-diagram"
+																"stroke-info"
+																"entity"
+																"writer"))
 				(:file "group"                     :depends-on ("cl-diagram"
 																"canvas"
 																"shape"
+																"rectangle"
 																"writer"))
 				(:file "image"                     :depends-on ("cl-diagram"
 																"binutil"
@@ -194,6 +199,10 @@
 																"link-info"
 																"filter"
 																"writer"))
+				(:file "textbox"                   :depends-on ("cl-diagram"
+																"rectangle"
+																"filter"
+																"text-shape"))
 				(:file "use"                       :depends-on ("cl-diagram"
 																"constants"
 																"canvas"
