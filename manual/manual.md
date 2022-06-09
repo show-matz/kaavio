@@ -203,6 +203,28 @@ Figure. テキストボックスのサンプル
 
 　${{TODO}{まだ記述されていません。}}
 
+### ドキュメント
+
+　ドキュメントは、テキストボックスと良く似ていますが、${{TODO}{まだ記述されていません。}}
+
+<!-- snippet: DOCUMENT-SAMPLE
+(diagram (:w 200 :h 100)
+  (grid)
+  (document '(100 50) 100 70 "document~%name"
+                    :stroke :navy :fill :skyblue))
+-->
+
+```diagram
+<!-- expand: DOCUMENT-SAMPLE -->
+```
+Figure. フォルダのサンプル
+
+```lisp
+<!-- expand: DOCUMENT-SAMPLE -->
+```
+
+　${{TODO}{まだ記述されていません。}}
+
 ### フォルダ
 
 　フォルダは、テキストボックスと良く似ていますが、${{TODO}{まだ記述されていません。}}
@@ -211,7 +233,7 @@ Figure. テキストボックスのサンプル
 (diagram (:w 200 :h 100)
   (grid)
   (folder '(100 50) "folder.~%multi line."
-                    :stroke :black :fill :white))
+                    :stroke :darkkhaki :fill :cornsilk))
 -->
 
 ```diagram

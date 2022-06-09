@@ -60,6 +60,10 @@
 				                                                "stroke-info"
 				                                                "writer"))
 				(:file "dictionary"                :depends-on ("cl-diagram"))
+				(:file "document"                  :depends-on ("cl-diagram"
+																"path"
+																"filter"
+																"text-shape"))
 				(:file "ellipse"                   :depends-on ("cl-diagram"
 																"constants"
 																"canvas"

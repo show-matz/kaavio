@@ -91,6 +91,8 @@
 				:defs
 				;dictionary.lisp
 				:dictionary
+				;document.lisp
+				:document
 				;ellipse.lisp
 				:ellipse-connect-point
 				:ellipse
