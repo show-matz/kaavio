@@ -372,6 +372,68 @@ Figure. ブロック矢印のパラメータ
 * `length` が省略された場合、デフォルト値としてブロック矢印の長さの 1/6 が指定される。
 * `size` が省略された場合、デフォルト値としてブロック矢印の長さの 1/5 が指定される。
 
+### 波括弧
+
+　${{TODO}{まだ記述されていません。}}
+
+<!-- snippet: BRACE-SAMPLE
+(diagram (:w 400 :h 300)
+   (grid)
+   (with-stroke (:color :navy :width 2)
+     (with-font (:fill :navy :size 16)
+       (brace '(200  40) :upper  240  60 :r 20 :point 150 :text "upper brace" )
+       (brace '(200 260) :bottom 240  60 :r 20 :point  60 :text "bottom brace")
+       (brace '(360 150) :right   60 200 :r 20 :point 150 :text "right brace" )
+       (brace '( 40 150) :left    60 200 :r 20 :point  60 :text "left brace"  ))))
+-->
+
+```diagram
+<!-- expand: BRACE-SAMPLE -->
+```
+Figure. 波括弧のサンプル
+
+```lisp
+<!-- expand: BRACE-SAMPLE -->
+```
+
+　${{TODO}{まだ記述されていません。}}
+
+```lisp
+(defmacro brace (center direction width height
+                        &key r point text font stroke layer filter id) ...)
+```
+
+```diagram
+(diagram (:w 400 :h 150)
+   (grid)
+   (with-stroke (:color :navy :width 2)
+     (with-font (:fill :navy :size 16)
+       (brace '(200 70) :upper  240  60 :r 30 :point 150)))
+	(with-stroke (:color :gray :dasharray '(3 3))
+	  (line '(( 80  10) ( 80 130)))
+	  (line '((320  40) (320  10)))
+	  (line '((320  40) (350  40)))
+	  (line '((230 100) (350 100)))
+	  (line '((110  70) (110 100)))
+	  (line '((230 100) (230 130))))
+	(with-stroke (:color :brown)
+	  (let ((em (make-endmark :type :arrow :size :small)))
+		(line '(( 80  20) (320  20)) :end1 em :end2 em)
+		(line '((340  40) (340 100)) :end1 em :end2 em)
+		(line '(( 80  90) (110  90)) :end1 em :end2 em)
+		(line '(( 80 120) (230 120)) :end1 em :end2 em)))
+	(with-font (:fill :brown)
+		(text '(200  35) "width"  :align :center)
+		(text '(345  75) "height" :align :left)
+		(text '( 95 105) "r"      :align :center)
+		(text '(155 135) "point"  :align :center)))
+```
+Figure. 波括弧のパラメータ
+
+* `r` が省略された場合、デフォルト値として `height` の 1/3 が指定される
+* `point` が省略された場合、デフォルト値として `width` の 1/2 が指定される
+* `point` が左右端に近過ぎる場合、 `r` が自動調整される
+
 
 ## 色の指定
 

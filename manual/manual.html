@@ -51,6 +51,7 @@
 <li class='tocx'><a href='#5ME1Xv0K4sM'>5.5 円柱</a></li>
 <li class='tocx'><a href='#hjZ26isLw42'>5.6 爆発</a></li>
 <li class='tocx'><a href='#49KKf97828b'>5.7 ブロック矢印</a></li>
+<li class='tocx'><a href='#lBS33hNe32a'>5.8 波括弧</a></li>
 </blockquote>
 </details>
 <li class='tocx'><a href='#1rpUB3fre67'>6 色の指定</a></li>
@@ -526,6 +527,108 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <li><code>length</code> が省略された場合、デフォルト値としてブロック矢印の長さの 1/6 が指定される。</li>
 <li><code>size</code> が省略された場合、デフォルト値としてブロック矢印の長さの 1/5 が指定される。</li>
 </ul>
+<h3><a name='lBS33hNe32a'></a>5.8 波括弧</h3>
+<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='400' height='300'>
+	
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- brace -->
+	<path fill='none' stroke='navy' stroke-width='2' d='M 80 10 A 20 30 0 0 0 100 40 L 210 40 A 20 30 1 0 1 230 70 A 20 30 1 0 1 250 40 L 300 40 A 20 30 0 0 0 320 10' />
+	<text x='230' y='91' text-anchor='middle' font-size='16pt' fill='navy' >upper brace</text>
+	<!-- brace -->
+	<path fill='none' stroke='navy' stroke-width='2' d='M 80 290 A 20 30 1 0 1 100 260 L 120 260 A 20 30 0 0 0 140 230 A 20 30 0 0 0 160 260 L 300 260 A 20 30 1 0 1 320 290' />
+	<text x='140' y='225' text-anchor='middle' font-size='16pt' fill='navy' >bottom brace</text>
+	<!-- brace -->
+	<path fill='none' stroke='navy' stroke-width='2' d='M 390 50 A 30 20 0 0 0 360 70 L 360 180 A 30 20 1 0 1 330 200 A 30 20 1 0 1 360 220 L 360 230 A 30 20 0 0 0 390 250' />
+	<text x='325' y='208' text-anchor='end' font-size='16pt' fill='navy' >right brace</text>
+	<!-- brace -->
+	<path fill='none' stroke='navy' stroke-width='2' d='M 10 50 A 30 20 1 0 1 40 70 L 40 90 A 30 20 0 0 0 70 110 A 30 20 0 0 0 40 130 L 40 230 A 30 20 1 0 1 10 250' />
+	<text x='75' y='118' text-anchor='start' font-size='16pt' fill='navy' >left brace</text>
+
+</svg>
+</div>
+
+<p class='fig_title'><a name='jKClDFWGMjM'></a>Figure.12 波括弧のサンプル</p>
+<pre class='code'>
+(diagram (<span class='keyword3'>:w</span> 400 <span class='keyword3'>:h</span> 300)
+   (grid)
+   (with-stroke (<span class='keyword3'>:color</span> <span class='keyword3'>:navy</span> <span class='keyword3'>:width</span> 2)
+     (with-font (<span class='keyword3'>:fill</span> <span class='keyword3'>:navy</span> <span class='keyword3'>:size</span> 16)
+       (brace '(200  40) <span class='keyword3'>:upper</span>  240  60 <span class='keyword3'>:r</span> 20 <span class='keyword3'>:point</span> 150 <span class='keyword3'>:text</span> <span class='literal'>"upper brace"</span> )
+       (brace '(200 260) <span class='keyword3'>:bottom</span> 240  60 <span class='keyword3'>:r</span> 20 <span class='keyword3'>:point</span>  60 <span class='keyword3'>:text</span> <span class='literal'>"bottom brace"</span>)
+       (brace '(360 150) <span class='keyword3'>:right</span>   60 200 <span class='keyword3'>:r</span> 20 <span class='keyword3'>:point</span> 150 <span class='keyword3'>:text</span> <span class='literal'>"right brace"</span> )
+       (brace '( 40 150) <span class='keyword3'>:left</span>    60 200 <span class='keyword3'>:r</span> 20 <span class='keyword3'>:point</span>  60 <span class='keyword3'>:text</span> <span class='literal'>"left brace"</span>  ))))
+</pre>
+<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<pre class='code'>
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>brace</span> (center direction width height
+                        <span class='keyword2'>&amp;key</span> r point text font stroke layer filter id) ...)
+</pre>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='400' height='150'>
+	
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- brace -->
+	<path fill='none' stroke='navy' stroke-width='2' d='M 80 40 A 30 30 0 0 0 110 70 L 200 70 A 30 30 1 0 1 230 100 A 30 30 1 0 1 260 70 L 290 70 A 30 30 0 0 0 320 40' />
+	<!-- line -->
+	<polyline fill='none' stroke='gray' stroke-width='1' stroke-dasharray='3 3 ' points=' 80.0,10.0 80.0,130.0' />
+	<!-- line -->
+	<polyline fill='none' stroke='gray' stroke-width='1' stroke-dasharray='3 3 ' points=' 320.0,40.0 320.0,10.0' />
+	<!-- line -->
+	<polyline fill='none' stroke='gray' stroke-width='1' stroke-dasharray='3 3 ' points=' 320.0,40.0 350.0,40.0' />
+	<!-- line -->
+	<polyline fill='none' stroke='gray' stroke-width='1' stroke-dasharray='3 3 ' points=' 230.0,100.0 350.0,100.0' />
+	<!-- line -->
+	<polyline fill='none' stroke='gray' stroke-width='1' stroke-dasharray='3 3 ' points=' 110.0,70.0 110.0,100.0' />
+	<!-- line -->
+	<polyline fill='none' stroke='gray' stroke-width='1' stroke-dasharray='3 3 ' points=' 230.0,100.0 230.0,130.0' />
+	<!-- line -->
+	<polyline fill='none' stroke='brown' stroke-width='1' points=' 80.0,20.0 320.0,20.0' />
+	<polyline fill='none' stroke='brown' stroke-width='1' points='88.660255,15.0 80,20 88.660255,25.0' />
+	<polyline fill='none' stroke='brown' stroke-width='1' points='311.33975,25.0 320,20 311.33975,15.0' />
+	<!-- line -->
+	<polyline fill='none' stroke='brown' stroke-width='1' points=' 340.0,40.0 340.0,100.0' />
+	<polyline fill='none' stroke='brown' stroke-width='1' points='345.0,48.660255 340,40 335.0,48.660255' />
+	<polyline fill='none' stroke='brown' stroke-width='1' points='335.0,91.339745 340,100 345.0,91.339745' />
+	<!-- line -->
+	<polyline fill='none' stroke='brown' stroke-width='1' points=' 80.0,90.0 110.0,90.0' />
+	<polyline fill='none' stroke='brown' stroke-width='1' points='88.660255,85.0 80,90 88.660255,95.0' />
+	<polyline fill='none' stroke='brown' stroke-width='1' points='101.339745,95.0 110,90 101.339745,85.0' />
+	<!-- line -->
+	<polyline fill='none' stroke='brown' stroke-width='1' points=' 80.0,120.0 230.0,120.0' />
+	<polyline fill='none' stroke='brown' stroke-width='1' points='88.660255,115.0 80,120 88.660255,125.0' />
+	<polyline fill='none' stroke='brown' stroke-width='1' points='221.33975,125.0 230,120 221.33975,115.0' />
+	<!-- text -->
+	<text x='200' y='35' text-anchor='middle' font-size='12pt' fill='brown' >width</text>
+	<!-- text -->
+	<text x='345' y='75' text-anchor='start' font-size='12pt' fill='brown' >height</text>
+	<!-- text -->
+	<text x='95' y='105' text-anchor='middle' font-size='12pt' fill='brown' >r</text>
+	<!-- text -->
+	<text x='155' y='135' text-anchor='middle' font-size='12pt' fill='brown' >point</text>
+
+</svg>
+</div>
+
+<p class='fig_title'><a name='eWywNaFqjwP'></a>Figure.13 波括弧のパラメータ</p>
+<ul>
+<li><code>r</code> が省略された場合、デフォルト値として <code>height</code> の 1/3 が指定される</li>
+<li><code>point</code> が省略された場合、デフォルト値として <code>width</code> の 1/2 が指定される</li>
+<li><code>point</code> が左右端に近過ぎる場合、 <code>r</code> が自動調整される</li>
+</ul>
 <h2><a name='1rpUB3fre67'></a>6 色の指定</h2>
 <p>　diagram は SVG 形式で図形を生成するため、色の指定は SVG の規格に準拠します。</p>
 <ul>
@@ -581,7 +684,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='h7K5JgIwvZY'></a>Figure.12 回転のサンプル</p>
+<p class='fig_title'><a name='h7K5JgIwvZY'></a>Figure.14 回転のサンプル</p>
 <h2><a name='gPGlqSbIfdL'></a>9 フィルタ</h2>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません</span></p>
 <pre class='code'>
@@ -633,7 +736,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='9Z8wQykrThD'></a>Figure.13 フィルタのサンプル</p>
+<p class='fig_title'><a name='9Z8wQykrThD'></a>Figure.15 フィルタのサンプル</p>
 <h2><a name='lkPJSquGS6Q'></a>10 defs と use</h2>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません</span></p>
 <pre class='code'>
@@ -687,7 +790,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='iZLxsV5YAK6'></a>Figure.14 defs と use のサンプル</p>
+<p class='fig_title'><a name='iZLxsV5YAK6'></a>Figure.16 defs と use のサンプル</p>
 <h2><a name='1ovJxG7Ie9O'></a>11 レイヤー</h2>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <p>　　</p>
@@ -726,7 +829,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='br3mf6bkjtv'></a>Figure.15 xxxのサンプル</p>
+<p class='fig_title'><a name='br3mf6bkjtv'></a>Figure.17 xxxのサンプル</p>
 <p>　　</p>
 <h2><a name='kgs1vf3AbTN'></a>13 サブキャンバス</h2>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
@@ -759,7 +862,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='kV8JVeAiwLR'></a>Figure.16 サブキャンバスのサンプル</p>
+<p class='fig_title'><a name='kV8JVeAiwLR'></a>Figure.18 サブキャンバスのサンプル</p>
 <p>　　</p>
 <h2><a name='7TyOD7TaDM2'></a>14 リファレンス</h2>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
@@ -805,9 +908,9 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='hOZzwQd2DMS'></a>Figure.17 fill における opacity のサンプル</p>
+<p class='fig_title'><a name='hOZzwQd2DMS'></a>Figure.19 fill における opacity のサンプル</p>
 <details>
-<summary><a href='#hOZzwQd2DMS'>Figure.17</a> のソースはこちら</summary>
+<summary><a href='#hOZzwQd2DMS'>Figure.19</a> のソースはこちら</summary>
 <pre class='code'>
 (diagram (<span class='keyword3'>:w</span> 400 <span class='keyword3'>:h</span> 100)
   (text '(200 55) <span class='literal'>"this is test text."</span> <span class='keyword3'>:align</span> <span class='keyword3'>:center</span>)
@@ -836,9 +939,9 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='9n3NgPBJGzS'></a>Figure.18 fill における rule のサンプル</p>
+<p class='fig_title'><a name='9n3NgPBJGzS'></a>Figure.20 fill における rule のサンプル</p>
 <details>
-<summary><a href='#9n3NgPBJGzS'>Figure.18</a> のソースはこちら</summary>
+<summary><a href='#9n3NgPBJGzS'>Figure.20</a> のソースはこちら</summary>
 <pre class='code'>
 (diagram (<span class='keyword3'>:w</span> 400 <span class='keyword3'>:h</span> 120)
   (with-subcanvas ('(75 0) 100 100)
@@ -899,7 +1002,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='4fQnwjWZpzi'></a>Figure.19 dashoffset, linecap, linejoin のサンプル</p>
+<p class='fig_title'><a name='4fQnwjWZpzi'></a>Figure.21 dashoffset, linecap, linejoin のサンプル</p>
 <h4><a name='if12ldF3hxG'></a>14.1.6 rgb関数</h4>
 <pre class='code'>
 (rgb r g b)
@@ -1507,9 +1610,9 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='2sDmAkevog1'></a>Figure.20 色の名前とサンプル</p>
+<p class='fig_title'><a name='2sDmAkevog1'></a>Figure.22 色の名前とサンプル</p>
 <details>
-<summary><a href='#2sDmAkevog1'>Figure.20</a> のソースはこちら</summary>
+<summary><a href='#2sDmAkevog1'>Figure.22</a> のソースはこちら</summary>
 <pre class='code'>
 (<span class='keyword1'>let</span> ((svg-width   750)
       (svg-height 1000))

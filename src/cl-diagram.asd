@@ -16,6 +16,8 @@
 				(:file "binutil"                   :depends-on ("cl-diagram"))
 				(:file "block-arrow"               :depends-on ("cl-diagram"
 																"polygon"))
+				(:file "brace"                     :depends-on ("cl-diagram"
+																"path"))
 				(:file "canvas"                    :depends-on ("cl-diagram"
 																"point"))
 				(:file "circle"                    :depends-on ("cl-diagram"

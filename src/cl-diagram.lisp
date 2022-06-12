@@ -22,6 +22,8 @@
 				:block-arrow
 				:block-arrow1
 				:block-arrow2
+				;brace.lisp
+				:brace
 				;canvas.lisp
 				:canvas
 				:make-canvas
