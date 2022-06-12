@@ -18,6 +18,10 @@
 				:*default-balloon-margin*
 				:balloon
 				;binutil.lisp
+				;block-arrow.lisp
+				:block-arrow
+				:block-arrow1
+				:block-arrow2
 				;canvas.lisp
 				:canvas
 				:make-canvas

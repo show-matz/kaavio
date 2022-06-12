@@ -217,7 +217,7 @@ Figure. テキストボックスのサンプル
 ```diagram
 <!-- expand: DOCUMENT-SAMPLE -->
 ```
-Figure. フォルダのサンプル
+Figure. ドキュメントのサンプル
 
 ```lisp
 <!-- expand: DOCUMENT-SAMPLE -->
@@ -313,6 +313,65 @@ Figure. 爆発のサンプル
 ```
 
 　${{TODO}{まだ記述されていません。}}
+
+### ブロック矢印
+
+　${{TODO}{まだ記述されていません。}}
+
+<!-- snippet: BLOCKARROW-SAMPLE
+(diagram (:w 300 :h 150)
+  (grid)
+  (with-stroke (:color :navy :width 2)
+    (with-fill (:color :skyblue)
+      (block-arrow1 '(50  40) '(250  40))
+      (block-arrow2 '(50 110) '(250 110)))))
+-->
+
+```diagram
+<!-- expand: BLOCKARROW-SAMPLE -->
+```
+Figure. ブロック矢印のサンプル
+
+```lisp
+<!-- expand: BLOCKARROW-SAMPLE -->
+```
+
+　${{TODO}{まだ記述されていません。}}
+
+```lisp
+(defmacro block-arrow1 (pt1 pt2 &key width length size
+                                     fill stroke link layer filter id) ...)
+(defmacro block-arrow2 (pt1 pt2 &key width length size
+                                     fill stroke link layer filter id) ...)
+```
+
+```diagram
+(diagram (:w 320 :h 150)
+	(grid)
+	(block-arrow1 '(80 50) '(250 50) :width 20 :length 70 :size 60 :fill :skyblue :stroke :navy)
+	(with-stroke (:color :gray :dasharray '(3 3))
+	  (line '((80 40) (50 40)))
+	  (line '((80 60) (50 60)))
+	  (line '((180 80) (180 130)))
+	  (line '((250 50) (250 130)))
+	  (line '((180 20) (280  20)))
+	  (line '((180 80) (280  80))))
+	(with-stroke (:color :brown)
+	  (let ((em (make-endmark :type :arrow :size :small)))
+		(line '(( 60  40) ( 60  60)) :end1 em :end2 em)
+		(line '((180 120) (250 120)) :end1 em :end2 em)
+		(line '((270  20) (270  80)) :end1 em :end2 em)))
+	(with-font (:fill :brown)
+		(text '( 30  55) "width"  :align :center)
+		(text '(215 115) "length" :align :center)
+		(text '(285  55) "size"   :align :center)))
+```
+Figure. ブロック矢印のパラメータ
+
+* `width` が省略された場合、デフォルト値としてブロック矢印の長さの 1/10 が指定される。
+* `length` が省略された場合、デフォルト値としてブロック矢印の長さの 1/6 が指定される。
+* `size` が省略された場合、デフォルト値としてブロック矢印の長さの 1/5 が指定される。
+
 
 ## 色の指定
 

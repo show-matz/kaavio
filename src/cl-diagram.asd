@@ -14,6 +14,8 @@
 																"filter"
 																"text-shape"))
 				(:file "binutil"                   :depends-on ("cl-diagram"))
+				(:file "block-arrow"               :depends-on ("cl-diagram"
+																"polygon"))
 				(:file "canvas"                    :depends-on ("cl-diagram"
 																"point"))
 				(:file "circle"                    :depends-on ("cl-diagram"
