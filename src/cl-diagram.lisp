@@ -58,6 +58,7 @@
 				:write-when
 				:it
 				:with-dictionary
+				:attr
 				:escape-characters
 				:to-property-strings
 				:to-style-strings
@@ -501,6 +502,7 @@
 
 #|
 #|EXPORT|#				:with-dictionary
+#|EXPORT|#				:attr
  |#
 (defmacro with-dictionary (dict &rest body)
   (type-assert dict symbol)
@@ -526,7 +528,10 @@
 				 (remove-if-not #'property-ref-symbolp
 								(diagram::onlisp/flatten body)))))
 	  `(symbol-macrolet ,(mapcar #'make-symbol-macrolet syms)
-		 ,@body))))
+		 (macrolet ((attr (id name)
+					  (let ((func-sym (diagram::onlisp/symb "SHAPE-" name)))
+						(list ,'func-sym (list 'diagram::dict-get-entity ',dict id)))))
+		   ,@body)))))
 
 #|
 #|EXPORT|#				:escape-characters
