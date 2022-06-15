@@ -27,12 +27,7 @@
 #|EXPORT|#				:width
 #|EXPORT|#				:height
  |#
-(defmacro create-svg ((&key width height desc) &rest body)
-"
-desc      := string
-width     := fixnum
-height    := fixnum
-"
+(defmacro create-svg ((&key width height fill desc) &rest body)
   (let ((g-layer-mgr (gensym "LAYER-MGR"))
 		(g-writer    (gensym "WRITER"))
 		(g-filter    (gensym "FILTER"))
@@ -95,6 +90,11 @@ height    := fixnum
 		   (dolist (,g-entity (remove-if-not #'defsp ,g-entities))
 			 (write-header ,g-entity ,g-writer)
 			 (draw-entity  ,g-entity ,g-writer))
+		   (when ,fill
+			 (writer-write ,g-writer "<rect x='0' y='0' "
+									 "width='"  (canvas-width  canvas)  "' "
+									 "height='" (canvas-height  canvas) "' "
+									 "fill='" ,fill "' stroke='none' />"))
 		   ;; defs 以外を layer の優先順で出力
 		   (dolist (,g-entity (remove-if #'defsp ,g-entities))
 			 (layer-change ,g-layer-mgr (slot-value ,g-entity 'layer) ,g-writer)
@@ -117,5 +117,5 @@ height    := fixnum
 #|
 #|EXPORT|#				:diagram
  |#
-(defmacro diagram ((&key w h) &rest body)
-  `(create-svg (:width ,w :height ,h) ,@body))
+(defmacro diagram ((&key w h fill) &rest body)
+  `(create-svg (:width ,w :height ,h :fill ,fill) ,@body))
