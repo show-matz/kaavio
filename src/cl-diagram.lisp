@@ -43,6 +43,7 @@
 				:circle-connect-point
 				:circle
 				;cl-diagram.lisp
+				:make-id
 				:fix-name
 				:exception
 				:caution
@@ -369,6 +370,16 @@
 
 
 
+
+#|
+#|EXPORT|#				:make-id
+ |#
+(defun make-id (prefix &rest args)
+  (let ((name (with-output-to-string (stream)
+				(dolist (itm (cons prefix args))
+				  (format stream "~A" (if (stringp itm)
+										  (string-upcase itm) itm))))))
+	(intern name 'keyword)))
 
 #|
 #|EXPORT|#				:fix-name
