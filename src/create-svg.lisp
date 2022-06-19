@@ -1,6 +1,7 @@
 #|
 #|ASD|#				(:file "create-svg"                :depends-on ("cl-diagram"
 #|ASD|#				                                                "constants"
+#|ASD|#																"colormap"
 #|ASD|#				                                                "entity"
 #|ASD|#				                                                "layer-manager"
 #|ASD|#				                                                "dictionary"
@@ -94,7 +95,7 @@
 			 (writer-write ,g-writer "<rect x='0' y='0' "
 									 "width='"  (canvas-width  canvas)  "' "
 									 "height='" (canvas-height  canvas) "' "
-									 "fill='" ,fill "' stroke='none' />"))
+									 "fill='" ,(colormap-fix fill) "' stroke='none' />"))
 		   ;; defs 以外を layer の優先順で出力
 		   (dolist (,g-entity (remove-if #'defsp ,g-entities))
 			 (layer-change ,g-layer-mgr (slot-value ,g-entity 'layer) ,g-writer)

@@ -1,5 +1,6 @@
 #|
 #|ASD|#				(:file "font-info"                 :depends-on ("cl-diagram"
+#|ASD|#																"colormap"
 #|ASD|#																"fill-info"
 #|ASD|#																"stroke-info"))
 #|EXPORT|#				;font-info.lisp
@@ -30,7 +31,7 @@
   ((family			:initform nil :initarg :family)			; string
    (size			:initform nil :initarg :size)			; number
    (fill			:initform nil :initarg :fill)			; (or nil fill-info)
-   (stroke			:initform nil :initarg :stroke)			; (or nil link-info)
+   (stroke			:initform nil :initarg :stroke)			; (or nil stroke-info)
    (style			:initform nil :initarg :style)			; (or nil keyword)
 															;    :normal :italic :oblique
    (decoration		:initform nil :initarg :decoration)		; (or nil keyword)

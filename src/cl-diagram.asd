@@ -31,6 +31,7 @@
 																"filter"
 																"writer"))
 				(:file "cl-diagram")
+				(:file "colormap"                  :depends-on ("cl-diagram"))
 				(:file "connector"                 :depends-on ("cl-diagram"
 																"constants"
 																"line"
@@ -93,7 +94,8 @@
 																"polygon"
 																"filter"
 																"text-shape"))
-				(:file "fill-info"                 :depends-on ("cl-diagram"))
+				(:file "fill-info"                 :depends-on ("cl-diagram"
+																"colormap"))
 				(:file "filter"                    :depends-on ("cl-diagram"
 																"writer"))
 				(:file "folder"                    :depends-on ("cl-diagram"
@@ -101,6 +103,7 @@
 																"filter"
 																"text-shape"))
 				(:file "font-info"                 :depends-on ("cl-diagram"
+																"colormap"
 																"fill-info"
 																"stroke-info"))
 				(:file "grid"                      :depends-on ("cl-diagram"
@@ -193,7 +196,8 @@
 																"link-info"))
 				(:file "stencil"                   :depends-on ("cl-diagram"
 																"pathutil"))
-				(:file "stroke-info"               :depends-on ("cl-diagram"))
+				(:file "stroke-info"               :depends-on ("cl-diagram"
+																"colormap"))
 				(:file "stylesheet"                :depends-on ("cl-diagram"
 																"entity"
 																"stroke-info"

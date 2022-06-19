@@ -65,6 +65,7 @@
 				:to-style-strings
 				:check
 				:rgb
+				;colormap.lisp
 				;connector.lisp
 				:resolve-connector-points
 				:connector

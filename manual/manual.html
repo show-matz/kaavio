@@ -24,6 +24,7 @@
 <!-- <!-- config:term-link-in-header -->
 <!-- config:write-comment -->			
 <!-- config:header-numbering 2 4 -->			
+<!-- PIM の eoPS3MRF1gI というデータで過去にマニュアル作ろうとした形跡があるぞ  -->
 <h1><a name='8DhcAacagke'></a>README - diagram</h1>
 <p>　この文書は、 <strong>diagram</strong> のためのマニュアル文書です。</p>
 <h2><a name='0qJQvVjc3Xy'></a>1 Table of contents</h2>
@@ -633,9 +634,9 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <p>　diagram は SVG 形式で図形を生成するため、色の指定は SVG の規格に準拠します。</p>
 <ul>
 <li>#rrggbb 表記による、6 桁の16進指定。rr、gg、bb は順に赤、緑、青の成分で、 00〜ff の範囲で指定します。</li>
-<li>#rgb 表記による、3 桁の16進指定。r、g、b は順に赤、緑、青の成分で、 0〜f の範囲で指定します。これは #rrggbb の簡略表記で、#136 は #113366 に相当します。</li>
+<li>#rgb 表記による、3 桁の16進指定。r、g、b は順に赤、緑、青の成分で、 0〜f の範囲で指定します。これは #rrggbb の簡略表記で、たとえば #136 は #113366 に相当します。</li>
 <li><a href='#if12ldF3hxG'>rgb関数</a>による指定。これは <code>(rgb r g b)</code> の要領で使用します。r、g、b は順に赤、緑、青の成分で、それぞれ 0〜255 の整数または 0.0〜1.0 の小数点数で指定します。0.0〜1.0 の指定の場合、それに 255 をかけた値が指定されます。</li>
-<li>色名での指定。使用できる色の名前とサンプルは <a href='#dR01Jh257Q6'>14.2  節</a> を参照してください。</li>
+<li>色名での指定。 <code>:black</code> など先頭にコロンをつけたキーワードの形式で指定します。使用できる色の名前とサンプルは <a href='#dR01Jh257Q6'>14.2  節</a> を参照してください。</li>
 </ul>
 <p>　　</p>
 <h2><a name='blviLzaq3nk'></a>7 線・塗りつぶし・文字</h2>
@@ -1012,12 +1013,12 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <h4><a name='9jN2FHSU54t'></a>14.1.9 with-strokeマクロ</h4>
 <h4><a name='lsGULoUqoK4'></a>14.1.10 with-subcanvasマクロ</h4>
 <h3><a name='dR01Jh257Q6'></a>14.2 色の名前</h3>
+<p> <a href='#1rpUB3fre67'>6  節</a>ではいくつかの色の指定方法を紹介しています。ここでは、そのうち色の名前について使用できるものを紹介します。まず、以下は SVG 規格に記載されている色名のサンプルです<sup><a name='footnote_ref2' href='#footnote2'>2</a></sup>。</p>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='750' height='1000'>
 	
-	<!-- rectangle -->
-	<rect x='0' y='0' width='750' height='1000' fill='white' stroke='white' stroke-width='1' />
+	<rect x='0' y='0' width='750' height='1000' fill='white' stroke='none' />
 	<!-- rectangle -->
 	<rect x='7.5' y='12.5' width='15' height='15' fill='black' stroke='black' stroke-width='1' />
 	<!-- text -->
@@ -1616,13 +1617,10 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <pre class='code'>
 (<span class='keyword1'>let</span> ((svg-width   750)
       (svg-height 1000))
-  (diagram (<span class='keyword3'>:w</span> svg-width <span class='keyword3'>:h</span> svg-height)
+  (diagram (<span class='keyword3'>:w</span> svg-width <span class='keyword3'>:h</span> svg-height <span class='keyword3'>:fill</span> <span class='keyword3'>:white</span>)
     (<span class='keyword1'>let</span> ((*default-fill*   (make-fill <span class='keyword3'>:color</span> <span class='keyword3'>:white</span>))
           (*default-font*   (make-font <span class='keyword3'>:family</span> <span class='literal'>"monospace"</span> <span class='keyword3'>:size</span> 10 <span class='keyword3'>:width-spice</span> 0.85))
           (*default-stroke* (make-stroke <span class='keyword3'>:color</span> <span class='keyword3'>:black</span> <span class='keyword3'>:width</span> 1)))
-      <span class='comment'>;; back ground</span>
-      (rect (make-point (/ svg-width 2) (/ svg-height 2))
-            svg-width svg-height <span class='keyword3'>:fill</span> <span class='keyword3'>:white</span> <span class='keyword3'>:stroke</span> <span class='keyword3'>:white</span>)
       (<span class='keyword1'>let</span> ((x 15)
             (y  0))
         (<span class='keyword1'>labels</span> ((imp (lst)
@@ -1782,9 +1780,1707 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
                           (255 255 255 <span class='literal'>"white"</span>               ))))))))
 </pre>
 </details>
+<p>　　</p>
+<p>　diagram では、上記に加えて以下の名前も使用することができます。これらは規格に含まれていないため、 <code>#RRGGBB</code> 形式に変換されて出力されます<sup><a name='footnote_ref3' href='#footnote3'>3</a></sup>。</p>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='760' height='2140'>
+	
+	<rect x='0' y='0' width='760' height='2140' fill='white' stroke='none' />
+	<!-- rectangle -->
+	<rect x='7.5' y='12.5' width='15' height='15' fill='#FFEFDB' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='24' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FFEFDB:antiquewhite1</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='32.5' width='15' height='15' fill='#EEDFCC' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='44' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#EEDFCC:antiquewhite2</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='52.5' width='15' height='15' fill='#CDC0B0' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='64' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#CDC0B0:antiquewhite3</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='72.5' width='15' height='15' fill='#8B8378' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='84' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#8B8378:antiquewhite4</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='92.5' width='15' height='15' fill='#7FFFD4' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='104' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#7FFFD4:aquamarine1</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='112.5' width='15' height='15' fill='#76EEC6' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='124' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#76EEC6:aquamarine2</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='132.5' width='15' height='15' fill='#66CDAA' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='144' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#66CDAA:aquamarine3</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='152.5' width='15' height='15' fill='#458B74' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='164' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#458B74:aquamarine4</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='172.5' width='15' height='15' fill='#F0FFFF' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='184' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#F0FFFF:azure1</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='192.5' width='15' height='15' fill='#E0EEEE' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='204' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#E0EEEE:azure2</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='212.5' width='15' height='15' fill='#C1CDCD' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='224' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#C1CDCD:azure3</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='232.5' width='15' height='15' fill='#838B8B' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='244' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#838B8B:azure4</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='252.5' width='15' height='15' fill='#FFE4C4' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='264' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FFE4C4:bisque1</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='272.5' width='15' height='15' fill='#EED5B7' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='284' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#EED5B7:bisque2</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='292.5' width='15' height='15' fill='#CDB79E' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='304' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#CDB79E:bisque3</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='312.5' width='15' height='15' fill='#8B7D6B' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='324' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#8B7D6B:bisque4</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='332.5' width='15' height='15' fill='#0000FF' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='344' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#0000FF:blue1</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='352.5' width='15' height='15' fill='#0000EE' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='364' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#0000EE:blue2</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='372.5' width='15' height='15' fill='#0000CD' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='384' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#0000CD:blue3</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='392.5' width='15' height='15' fill='#00008B' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='404' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#00008B:blue4</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='412.5' width='15' height='15' fill='#FF4040' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='424' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FF4040:brown1</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='432.5' width='15' height='15' fill='#EE3B3B' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='444' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#EE3B3B:brown2</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='452.5' width='15' height='15' fill='#CD3333' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='464' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#CD3333:brown3</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='472.5' width='15' height='15' fill='#8B2323' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='484' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#8B2323:brown4</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='492.5' width='15' height='15' fill='#FFD39B' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='504' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FFD39B:burlywood1</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='512.5' width='15' height='15' fill='#EEC591' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='524' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#EEC591:burlywood2</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='532.5' width='15' height='15' fill='#CDAA7D' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='544' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#CDAA7D:burlywood3</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='552.5' width='15' height='15' fill='#8B7355' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='564' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#8B7355:burlywood4</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='572.5' width='15' height='15' fill='#98F5FF' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='584' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#98F5FF:cadetblue1</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='592.5' width='15' height='15' fill='#8EE5EE' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='604' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#8EE5EE:cadetblue2</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='612.5' width='15' height='15' fill='#7AC5CD' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='624' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#7AC5CD:cadetblue3</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='632.5' width='15' height='15' fill='#53868B' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='644' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#53868B:cadetblue4</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='652.5' width='15' height='15' fill='#7FFF00' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='664' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#7FFF00:chartreuse1</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='672.5' width='15' height='15' fill='#76EE00' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='684' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#76EE00:chartreuse2</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='692.5' width='15' height='15' fill='#66CD00' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='704' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#66CD00:chartreuse3</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='712.5' width='15' height='15' fill='#458B00' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='724' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#458B00:chartreuse4</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='732.5' width='15' height='15' fill='#FF7F24' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='744' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FF7F24:chocolate1</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='752.5' width='15' height='15' fill='#EE7621' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='764' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#EE7621:chocolate2</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='772.5' width='15' height='15' fill='#CD661D' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='784' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#CD661D:chocolate3</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='792.5' width='15' height='15' fill='#8B4513' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='804' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#8B4513:chocolate4</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='812.5' width='15' height='15' fill='#FF7256' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='824' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FF7256:coral1</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='832.5' width='15' height='15' fill='#EE6A50' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='844' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#EE6A50:coral2</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='852.5' width='15' height='15' fill='#CD5B45' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='864' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#CD5B45:coral3</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='872.5' width='15' height='15' fill='#8B3E2F' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='884' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#8B3E2F:coral4</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='892.5' width='15' height='15' fill='#FFF8DC' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='904' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FFF8DC:cornsilk1</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='912.5' width='15' height='15' fill='#EEE8CD' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='924' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#EEE8CD:cornsilk2</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='932.5' width='15' height='15' fill='#CDC8B1' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='944' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#CDC8B1:cornsilk3</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='952.5' width='15' height='15' fill='#8B8878' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='964' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#8B8878:cornsilk4</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='972.5' width='15' height='15' fill='#00FFFF' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='984' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#00FFFF:cyan1</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='992.5' width='15' height='15' fill='#00EEEE' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='1004' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#00EEEE:cyan2</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='1012.5' width='15' height='15' fill='#00CDCD' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='1024' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#00CDCD:cyan3</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='1032.5' width='15' height='15' fill='#008B8B' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='1044' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#008B8B:cyan4</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='1052.5' width='15' height='15' fill='#FFB90F' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='1064' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FFB90F:darkgoldenrod1</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='1072.5' width='15' height='15' fill='#EEAD0E' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='1084' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#EEAD0E:darkgoldenrod2</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='1092.5' width='15' height='15' fill='#CD950C' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='1104' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#CD950C:darkgoldenrod3</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='1112.5' width='15' height='15' fill='#8B6508' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='1124' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#8B6508:darkgoldenrod4</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='1132.5' width='15' height='15' fill='#CAFF70' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='1144' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#CAFF70:darkolivegreen1</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='1152.5' width='15' height='15' fill='#BCEE68' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='1164' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#BCEE68:darkolivegreen2</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='1172.5' width='15' height='15' fill='#A2CD5A' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='1184' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#A2CD5A:darkolivegreen3</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='1192.5' width='15' height='15' fill='#6E8B3D' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='1204' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#6E8B3D:darkolivegreen4</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='1212.5' width='15' height='15' fill='#FF7F00' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='1224' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FF7F00:darkorange1</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='1232.5' width='15' height='15' fill='#EE7600' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='1244' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#EE7600:darkorange2</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='1252.5' width='15' height='15' fill='#CD6600' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='1264' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#CD6600:darkorange3</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='1272.5' width='15' height='15' fill='#8B4500' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='1284' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#8B4500:darkorange4</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='1292.5' width='15' height='15' fill='#BF3EFF' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='1304' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#BF3EFF:darkorchid1</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='1312.5' width='15' height='15' fill='#B23AEE' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='1324' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#B23AEE:darkorchid2</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='1332.5' width='15' height='15' fill='#9A32CD' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='1344' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#9A32CD:darkorchid3</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='1352.5' width='15' height='15' fill='#68228B' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='1364' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#68228B:darkorchid4</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='1372.5' width='15' height='15' fill='#C1FFC1' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='1384' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#C1FFC1:darkseagreen1</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='1392.5' width='15' height='15' fill='#B4EEB4' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='1404' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#B4EEB4:darkseagreen2</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='1412.5' width='15' height='15' fill='#9BCD9B' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='1424' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#9BCD9B:darkseagreen3</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='1432.5' width='15' height='15' fill='#698B69' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='1444' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#698B69:darkseagreen4</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='1452.5' width='15' height='15' fill='#97FFFF' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='1464' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#97FFFF:darkslategray1</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='1472.5' width='15' height='15' fill='#8DEEEE' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='1484' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#8DEEEE:darkslategray2</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='1492.5' width='15' height='15' fill='#79CDCD' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='1504' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#79CDCD:darkslategray3</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='1512.5' width='15' height='15' fill='#528B8B' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='1524' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#528B8B:darkslategray4</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='1532.5' width='15' height='15' fill='#FF1493' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='1544' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FF1493:deeppink1</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='1552.5' width='15' height='15' fill='#EE1289' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='1564' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#EE1289:deeppink2</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='1572.5' width='15' height='15' fill='#CD1076' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='1584' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#CD1076:deeppink3</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='1592.5' width='15' height='15' fill='#8B0A50' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='1604' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#8B0A50:deeppink4</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='1612.5' width='15' height='15' fill='#00BFFF' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='1624' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#00BFFF:deepskyblue1</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='1632.5' width='15' height='15' fill='#00B2EE' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='1644' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#00B2EE:deepskyblue2</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='1652.5' width='15' height='15' fill='#009ACD' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='1664' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#009ACD:deepskyblue3</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='1672.5' width='15' height='15' fill='#00688B' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='1684' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#00688B:deepskyblue4</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='1692.5' width='15' height='15' fill='#1E90FF' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='1704' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#1E90FF:dodgerblue1</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='1712.5' width='15' height='15' fill='#1C86EE' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='1724' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#1C86EE:dodgerblue2</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='1732.5' width='15' height='15' fill='#1874CD' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='1744' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#1874CD:dodgerblue3</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='1752.5' width='15' height='15' fill='#104E8B' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='1764' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#104E8B:dodgerblue4</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='1772.5' width='15' height='15' fill='#FF3030' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='1784' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FF3030:firebrick1</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='1792.5' width='15' height='15' fill='#EE2C2C' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='1804' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#EE2C2C:firebrick2</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='1812.5' width='15' height='15' fill='#CD2626' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='1824' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#CD2626:firebrick3</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='1832.5' width='15' height='15' fill='#8B1A1A' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='1844' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#8B1A1A:firebrick4</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='1852.5' width='15' height='15' fill='#FFD700' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='1864' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FFD700:gold1</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='1872.5' width='15' height='15' fill='#EEC900' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='1884' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#EEC900:gold2</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='1892.5' width='15' height='15' fill='#CDAD00' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='1904' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#CDAD00:gold3</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='1912.5' width='15' height='15' fill='#8B7500' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='1924' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#8B7500:gold4</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='1932.5' width='15' height='15' fill='#FFC125' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='1944' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FFC125:goldenrod1</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='1952.5' width='15' height='15' fill='#EEB422' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='1964' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#EEB422:goldenrod2</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='1972.5' width='15' height='15' fill='#CD9B1D' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='1984' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#CD9B1D:goldenrod3</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='1992.5' width='15' height='15' fill='#8B6914' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='2004' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#8B6914:goldenrod4</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='2012.5' width='15' height='15' fill='#00FF00' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='2024' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#00FF00:green</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='2032.5' width='15' height='15' fill='#00FF00' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='2044' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#00FF00:green1</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='2052.5' width='15' height='15' fill='#00EE00' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='2064' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#00EE00:green2</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='2072.5' width='15' height='15' fill='#00CD00' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='2084' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#00CD00:green3</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='2092.5' width='15' height='15' fill='#008B00' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='2104' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#008B00:green4</text>
+	<!-- rectangle -->
+	<rect x='7.5' y='2112.5' width='15' height='15' fill='#BEBEBE' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='25' y='2124' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#BEBEBE:grey</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='12.5' width='15' height='15' fill='#000000' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='24' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#000000:grey0</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='32.5' width='15' height='15' fill='#030303' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='44' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#030303:grey1</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='52.5' width='15' height='15' fill='#050505' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='64' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#050505:grey2</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='72.5' width='15' height='15' fill='#080808' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='84' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#080808:grey3</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='92.5' width='15' height='15' fill='#0A0A0A' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='104' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#0A0A0A:grey4</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='112.5' width='15' height='15' fill='#0D0D0D' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='124' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#0D0D0D:grey5</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='132.5' width='15' height='15' fill='#0F0F0F' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='144' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#0F0F0F:grey6</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='152.5' width='15' height='15' fill='#121212' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='164' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#121212:grey7</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='172.5' width='15' height='15' fill='#141414' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='184' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#141414:grey8</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='192.5' width='15' height='15' fill='#171717' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='204' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#171717:grey9</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='212.5' width='15' height='15' fill='#1A1A1A' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='224' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#1A1A1A:grey10</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='232.5' width='15' height='15' fill='#1C1C1C' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='244' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#1C1C1C:grey11</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='252.5' width='15' height='15' fill='#1F1F1F' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='264' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#1F1F1F:grey12</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='272.5' width='15' height='15' fill='#212121' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='284' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#212121:grey13</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='292.5' width='15' height='15' fill='#242424' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='304' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#242424:grey14</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='312.5' width='15' height='15' fill='#262626' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='324' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#262626:grey15</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='332.5' width='15' height='15' fill='#292929' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='344' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#292929:grey16</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='352.5' width='15' height='15' fill='#2B2B2B' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='364' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#2B2B2B:grey17</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='372.5' width='15' height='15' fill='#2E2E2E' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='384' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#2E2E2E:grey18</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='392.5' width='15' height='15' fill='#303030' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='404' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#303030:grey19</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='412.5' width='15' height='15' fill='#333333' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='424' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#333333:grey20</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='432.5' width='15' height='15' fill='#363636' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='444' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#363636:grey21</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='452.5' width='15' height='15' fill='#383838' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='464' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#383838:grey22</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='472.5' width='15' height='15' fill='#3B3B3B' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='484' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#3B3B3B:grey23</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='492.5' width='15' height='15' fill='#3D3D3D' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='504' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#3D3D3D:grey24</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='512.5' width='15' height='15' fill='#404040' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='524' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#404040:grey25</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='532.5' width='15' height='15' fill='#424242' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='544' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#424242:grey26</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='552.5' width='15' height='15' fill='#454545' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='564' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#454545:grey27</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='572.5' width='15' height='15' fill='#474747' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='584' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#474747:grey28</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='592.5' width='15' height='15' fill='#4A4A4A' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='604' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#4A4A4A:grey29</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='612.5' width='15' height='15' fill='#4D4D4D' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='624' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#4D4D4D:grey30</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='632.5' width='15' height='15' fill='#4F4F4F' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='644' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#4F4F4F:grey31</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='652.5' width='15' height='15' fill='#525252' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='664' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#525252:grey32</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='672.5' width='15' height='15' fill='#545454' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='684' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#545454:grey33</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='692.5' width='15' height='15' fill='#575757' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='704' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#575757:grey34</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='712.5' width='15' height='15' fill='#595959' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='724' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#595959:grey35</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='732.5' width='15' height='15' fill='#5C5C5C' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='744' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#5C5C5C:grey36</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='752.5' width='15' height='15' fill='#5E5E5E' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='764' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#5E5E5E:grey37</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='772.5' width='15' height='15' fill='#616161' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='784' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#616161:grey38</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='792.5' width='15' height='15' fill='#636363' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='804' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#636363:grey39</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='812.5' width='15' height='15' fill='#666666' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='824' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#666666:grey40</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='832.5' width='15' height='15' fill='#696969' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='844' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#696969:grey41</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='852.5' width='15' height='15' fill='#6B6B6B' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='864' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#6B6B6B:grey42</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='872.5' width='15' height='15' fill='#6E6E6E' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='884' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#6E6E6E:grey43</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='892.5' width='15' height='15' fill='#707070' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='904' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#707070:grey44</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='912.5' width='15' height='15' fill='#737373' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='924' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#737373:grey45</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='932.5' width='15' height='15' fill='#757575' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='944' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#757575:grey46</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='952.5' width='15' height='15' fill='#787878' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='964' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#787878:grey47</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='972.5' width='15' height='15' fill='#7A7A7A' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='984' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#7A7A7A:grey48</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='992.5' width='15' height='15' fill='#7D7D7D' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='1004' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#7D7D7D:grey49</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='1012.5' width='15' height='15' fill='#7F7F7F' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='1024' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#7F7F7F:grey50</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='1032.5' width='15' height='15' fill='#828282' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='1044' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#828282:grey51</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='1052.5' width='15' height='15' fill='#858585' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='1064' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#858585:grey52</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='1072.5' width='15' height='15' fill='#878787' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='1084' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#878787:grey53</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='1092.5' width='15' height='15' fill='#8A8A8A' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='1104' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#8A8A8A:grey54</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='1112.5' width='15' height='15' fill='#8C8C8C' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='1124' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#8C8C8C:grey55</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='1132.5' width='15' height='15' fill='#8F8F8F' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='1144' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#8F8F8F:grey56</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='1152.5' width='15' height='15' fill='#919191' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='1164' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#919191:grey57</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='1172.5' width='15' height='15' fill='#949494' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='1184' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#949494:grey58</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='1192.5' width='15' height='15' fill='#969696' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='1204' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#969696:grey59</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='1212.5' width='15' height='15' fill='#999999' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='1224' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#999999:grey60</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='1232.5' width='15' height='15' fill='#9C9C9C' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='1244' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#9C9C9C:grey61</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='1252.5' width='15' height='15' fill='#9E9E9E' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='1264' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#9E9E9E:grey62</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='1272.5' width='15' height='15' fill='#A1A1A1' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='1284' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#A1A1A1:grey63</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='1292.5' width='15' height='15' fill='#A3A3A3' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='1304' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#A3A3A3:grey64</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='1312.5' width='15' height='15' fill='#A6A6A6' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='1324' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#A6A6A6:grey65</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='1332.5' width='15' height='15' fill='#A8A8A8' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='1344' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#A8A8A8:grey66</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='1352.5' width='15' height='15' fill='#ABABAB' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='1364' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#ABABAB:grey67</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='1372.5' width='15' height='15' fill='#ADADAD' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='1384' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#ADADAD:grey68</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='1392.5' width='15' height='15' fill='#B0B0B0' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='1404' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#B0B0B0:grey69</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='1412.5' width='15' height='15' fill='#B3B3B3' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='1424' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#B3B3B3:grey70</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='1432.5' width='15' height='15' fill='#B5B5B5' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='1444' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#B5B5B5:grey71</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='1452.5' width='15' height='15' fill='#B8B8B8' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='1464' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#B8B8B8:grey72</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='1472.5' width='15' height='15' fill='#BABABA' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='1484' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#BABABA:grey73</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='1492.5' width='15' height='15' fill='#BDBDBD' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='1504' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#BDBDBD:grey74</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='1512.5' width='15' height='15' fill='#BFBFBF' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='1524' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#BFBFBF:grey75</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='1532.5' width='15' height='15' fill='#C2C2C2' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='1544' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#C2C2C2:grey76</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='1552.5' width='15' height='15' fill='#C4C4C4' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='1564' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#C4C4C4:grey77</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='1572.5' width='15' height='15' fill='#C7C7C7' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='1584' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#C7C7C7:grey78</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='1592.5' width='15' height='15' fill='#C9C9C9' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='1604' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#C9C9C9:grey79</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='1612.5' width='15' height='15' fill='#CCCCCC' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='1624' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#CCCCCC:grey80</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='1632.5' width='15' height='15' fill='#CFCFCF' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='1644' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#CFCFCF:grey81</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='1652.5' width='15' height='15' fill='#D1D1D1' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='1664' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#D1D1D1:grey82</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='1672.5' width='15' height='15' fill='#D4D4D4' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='1684' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#D4D4D4:grey83</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='1692.5' width='15' height='15' fill='#D6D6D6' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='1704' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#D6D6D6:grey84</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='1712.5' width='15' height='15' fill='#D9D9D9' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='1724' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#D9D9D9:grey85</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='1732.5' width='15' height='15' fill='#DBDBDB' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='1744' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#DBDBDB:grey86</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='1752.5' width='15' height='15' fill='#DEDEDE' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='1764' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#DEDEDE:grey87</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='1772.5' width='15' height='15' fill='#E0E0E0' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='1784' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#E0E0E0:grey88</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='1792.5' width='15' height='15' fill='#E3E3E3' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='1804' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#E3E3E3:grey89</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='1812.5' width='15' height='15' fill='#E5E5E5' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='1824' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#E5E5E5:grey90</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='1832.5' width='15' height='15' fill='#E8E8E8' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='1844' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#E8E8E8:grey91</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='1852.5' width='15' height='15' fill='#EBEBEB' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='1864' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#EBEBEB:grey92</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='1872.5' width='15' height='15' fill='#EDEDED' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='1884' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#EDEDED:grey93</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='1892.5' width='15' height='15' fill='#F0F0F0' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='1904' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#F0F0F0:grey94</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='1912.5' width='15' height='15' fill='#F2F2F2' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='1924' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#F2F2F2:grey95</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='1932.5' width='15' height='15' fill='#F5F5F5' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='1944' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#F5F5F5:grey96</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='1952.5' width='15' height='15' fill='#F7F7F7' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='1964' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#F7F7F7:grey97</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='1972.5' width='15' height='15' fill='#FAFAFA' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='1984' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FAFAFA:grey98</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='1992.5' width='15' height='15' fill='#FCFCFC' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='2004' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FCFCFC:grey99</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='2012.5' width='15' height='15' fill='#FFFFFF' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='2024' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FFFFFF:grey100</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='2032.5' width='15' height='15' fill='#F0FFF0' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='2044' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#F0FFF0:honeydew1</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='2052.5' width='15' height='15' fill='#E0EEE0' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='2064' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#E0EEE0:honeydew2</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='2072.5' width='15' height='15' fill='#C1CDC1' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='2084' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#C1CDC1:honeydew3</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='2092.5' width='15' height='15' fill='#838B83' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='2104' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#838B83:honeydew4</text>
+	<!-- rectangle -->
+	<rect x='197.5' y='2112.5' width='15' height='15' fill='#FF6EB4' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='215' y='2124' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FF6EB4:hotpink1</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='12.5' width='15' height='15' fill='#EE6AA7' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='24' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#EE6AA7:hotpink2</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='32.5' width='15' height='15' fill='#CD6090' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='44' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#CD6090:hotpink3</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='52.5' width='15' height='15' fill='#8B3A62' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='64' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#8B3A62:hotpink4</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='72.5' width='15' height='15' fill='#FF6A6A' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='84' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FF6A6A:indianred1</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='92.5' width='15' height='15' fill='#EE6363' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='104' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#EE6363:indianred2</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='112.5' width='15' height='15' fill='#CD5555' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='124' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#CD5555:indianred3</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='132.5' width='15' height='15' fill='#8B3A3A' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='144' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#8B3A3A:indianred4</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='152.5' width='15' height='15' fill='#FFFFF0' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='164' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FFFFF0:ivory1</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='172.5' width='15' height='15' fill='#EEEEE0' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='184' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#EEEEE0:ivory2</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='192.5' width='15' height='15' fill='#CDCDC1' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='204' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#CDCDC1:ivory3</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='212.5' width='15' height='15' fill='#8B8B83' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='224' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#8B8B83:ivory4</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='232.5' width='15' height='15' fill='#FFF68F' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='244' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FFF68F:khaki1</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='252.5' width='15' height='15' fill='#EEE685' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='264' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#EEE685:khaki2</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='272.5' width='15' height='15' fill='#CDC673' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='284' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#CDC673:khaki3</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='292.5' width='15' height='15' fill='#8B864E' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='304' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#8B864E:khaki4</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='312.5' width='15' height='15' fill='#FFF0F5' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='324' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FFF0F5:lavenderblush1</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='332.5' width='15' height='15' fill='#EEE0E5' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='344' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#EEE0E5:lavenderblush2</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='352.5' width='15' height='15' fill='#CDC1C5' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='364' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#CDC1C5:lavenderblush3</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='372.5' width='15' height='15' fill='#8B8386' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='384' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#8B8386:lavenderblush4</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='392.5' width='15' height='15' fill='#FFFACD' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='404' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FFFACD:lemonchiffon1</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='412.5' width='15' height='15' fill='#EEE9BF' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='424' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#EEE9BF:lemonchiffon2</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='432.5' width='15' height='15' fill='#CDC9A5' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='444' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#CDC9A5:lemonchiffon3</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='452.5' width='15' height='15' fill='#8B8970' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='464' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#8B8970:lemonchiffon4</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='472.5' width='15' height='15' fill='#BFEFFF' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='484' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#BFEFFF:lightblue1</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='492.5' width='15' height='15' fill='#B2DFEE' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='504' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#B2DFEE:lightblue2</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='512.5' width='15' height='15' fill='#9AC0CD' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='524' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#9AC0CD:lightblue3</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='532.5' width='15' height='15' fill='#68838B' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='544' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#68838B:lightblue4</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='552.5' width='15' height='15' fill='#E0FFFF' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='564' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#E0FFFF:lightcyan1</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='572.5' width='15' height='15' fill='#D1EEEE' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='584' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#D1EEEE:lightcyan2</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='592.5' width='15' height='15' fill='#B4CDCD' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='604' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#B4CDCD:lightcyan3</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='612.5' width='15' height='15' fill='#7A8B8B' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='624' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#7A8B8B:lightcyan4</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='632.5' width='15' height='15' fill='#EEDD82' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='644' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#EEDD82:lightgoldenrod</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='652.5' width='15' height='15' fill='#FFEC8B' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='664' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FFEC8B:lightgoldenrod1</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='672.5' width='15' height='15' fill='#EEDC82' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='684' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#EEDC82:lightgoldenrod2</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='692.5' width='15' height='15' fill='#CDBE70' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='704' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#CDBE70:lightgoldenrod3</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='712.5' width='15' height='15' fill='#8B814C' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='724' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#8B814C:lightgoldenrod4</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='732.5' width='15' height='15' fill='#FFAEB9' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='744' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FFAEB9:lightpink1</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='752.5' width='15' height='15' fill='#EEA2AD' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='764' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#EEA2AD:lightpink2</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='772.5' width='15' height='15' fill='#CD8C95' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='784' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#CD8C95:lightpink3</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='792.5' width='15' height='15' fill='#8B5F65' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='804' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#8B5F65:lightpink4</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='812.5' width='15' height='15' fill='#FFA07A' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='824' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FFA07A:lightsalmon1</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='832.5' width='15' height='15' fill='#EE9572' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='844' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#EE9572:lightsalmon2</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='852.5' width='15' height='15' fill='#CD8162' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='864' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#CD8162:lightsalmon3</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='872.5' width='15' height='15' fill='#8B5742' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='884' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#8B5742:lightsalmon4</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='892.5' width='15' height='15' fill='#B0E2FF' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='904' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#B0E2FF:lightskyblue1</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='912.5' width='15' height='15' fill='#A4D3EE' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='924' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#A4D3EE:lightskyblue2</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='932.5' width='15' height='15' fill='#8DB6CD' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='944' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#8DB6CD:lightskyblue3</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='952.5' width='15' height='15' fill='#607B8B' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='964' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#607B8B:lightskyblue4</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='972.5' width='15' height='15' fill='#8470FF' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='984' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#8470FF:lightslateblue</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='992.5' width='15' height='15' fill='#CAE1FF' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='1004' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#CAE1FF:lightsteelblue1</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='1012.5' width='15' height='15' fill='#BCD2EE' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='1024' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#BCD2EE:lightsteelblue2</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='1032.5' width='15' height='15' fill='#A2B5CD' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='1044' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#A2B5CD:lightsteelblue3</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='1052.5' width='15' height='15' fill='#6E7B8B' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='1064' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#6E7B8B:lightsteelblue4</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='1072.5' width='15' height='15' fill='#FFFFE0' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='1084' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FFFFE0:lightyellow1</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='1092.5' width='15' height='15' fill='#EEEED1' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='1104' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#EEEED1:lightyellow2</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='1112.5' width='15' height='15' fill='#CDCDB4' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='1124' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#CDCDB4:lightyellow3</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='1132.5' width='15' height='15' fill='#8B8B7A' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='1144' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#8B8B7A:lightyellow4</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='1152.5' width='15' height='15' fill='#FF00FF' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='1164' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FF00FF:magenta1</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='1172.5' width='15' height='15' fill='#EE00EE' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='1184' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#EE00EE:magenta2</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='1192.5' width='15' height='15' fill='#CD00CD' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='1204' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#CD00CD:magenta3</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='1212.5' width='15' height='15' fill='#8B008B' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='1224' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#8B008B:magenta4</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='1232.5' width='15' height='15' fill='#B03060' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='1244' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#B03060:maroon</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='1252.5' width='15' height='15' fill='#FF34B3' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='1264' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FF34B3:maroon1</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='1272.5' width='15' height='15' fill='#EE30A7' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='1284' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#EE30A7:maroon2</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='1292.5' width='15' height='15' fill='#CD2990' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='1304' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#CD2990:maroon3</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='1312.5' width='15' height='15' fill='#8B1C62' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='1324' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#8B1C62:maroon4</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='1332.5' width='15' height='15' fill='#E066FF' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='1344' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#E066FF:mediumorchid1</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='1352.5' width='15' height='15' fill='#D15FEE' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='1364' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#D15FEE:mediumorchid2</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='1372.5' width='15' height='15' fill='#B452CD' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='1384' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#B452CD:mediumorchid3</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='1392.5' width='15' height='15' fill='#7A378B' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='1404' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#7A378B:mediumorchid4</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='1412.5' width='15' height='15' fill='#AB82FF' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='1424' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#AB82FF:mediumpurple1</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='1432.5' width='15' height='15' fill='#9F79EE' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='1444' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#9F79EE:mediumpurple2</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='1452.5' width='15' height='15' fill='#8968CD' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='1464' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#8968CD:mediumpurple3</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='1472.5' width='15' height='15' fill='#5D478B' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='1484' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#5D478B:mediumpurple4</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='1492.5' width='15' height='15' fill='#FFE4E1' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='1504' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FFE4E1:mistyrose1</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='1512.5' width='15' height='15' fill='#EED5D2' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='1524' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#EED5D2:mistyrose2</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='1532.5' width='15' height='15' fill='#CDB7B5' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='1544' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#CDB7B5:mistyrose3</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='1552.5' width='15' height='15' fill='#8B7D7B' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='1564' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#8B7D7B:mistyrose4</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='1572.5' width='15' height='15' fill='#FFDEAD' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='1584' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FFDEAD:navajowhite1</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='1592.5' width='15' height='15' fill='#EECFA1' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='1604' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#EECFA1:navajowhite2</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='1612.5' width='15' height='15' fill='#CDB38B' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='1624' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#CDB38B:navajowhite3</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='1632.5' width='15' height='15' fill='#8B795E' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='1644' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#8B795E:navajowhite4</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='1652.5' width='15' height='15' fill='#000080' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='1664' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#000080:navyblue</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='1672.5' width='15' height='15' fill='#C0FF3E' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='1684' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#C0FF3E:olivedrab1</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='1692.5' width='15' height='15' fill='#B3EE3A' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='1704' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#B3EE3A:olivedrab2</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='1712.5' width='15' height='15' fill='#9ACD32' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='1724' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#9ACD32:olivedrab3</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='1732.5' width='15' height='15' fill='#698B22' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='1744' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#698B22:olivedrab4</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='1752.5' width='15' height='15' fill='#FFA500' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='1764' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FFA500:orange1</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='1772.5' width='15' height='15' fill='#EE9A00' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='1784' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#EE9A00:orange2</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='1792.5' width='15' height='15' fill='#CD8500' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='1804' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#CD8500:orange3</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='1812.5' width='15' height='15' fill='#8B5A00' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='1824' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#8B5A00:orange4</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='1832.5' width='15' height='15' fill='#FF4500' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='1844' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FF4500:orangered1</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='1852.5' width='15' height='15' fill='#EE4000' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='1864' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#EE4000:orangered2</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='1872.5' width='15' height='15' fill='#CD3700' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='1884' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#CD3700:orangered3</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='1892.5' width='15' height='15' fill='#8B2500' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='1904' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#8B2500:orangered4</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='1912.5' width='15' height='15' fill='#FF83FA' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='1924' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FF83FA:orchid1</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='1932.5' width='15' height='15' fill='#EE7AE9' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='1944' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#EE7AE9:orchid2</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='1952.5' width='15' height='15' fill='#CD69C9' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='1964' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#CD69C9:orchid3</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='1972.5' width='15' height='15' fill='#8B4789' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='1984' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#8B4789:orchid4</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='1992.5' width='15' height='15' fill='#9AFF9A' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='2004' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#9AFF9A:palegreen1</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='2012.5' width='15' height='15' fill='#90EE90' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='2024' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#90EE90:palegreen2</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='2032.5' width='15' height='15' fill='#7CCD7C' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='2044' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#7CCD7C:palegreen3</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='2052.5' width='15' height='15' fill='#548B54' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='2064' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#548B54:palegreen4</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='2072.5' width='15' height='15' fill='#BBFFFF' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='2084' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#BBFFFF:paleturquoise1</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='2092.5' width='15' height='15' fill='#AEEEEE' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='2104' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#AEEEEE:paleturquoise2</text>
+	<!-- rectangle -->
+	<rect x='387.5' y='2112.5' width='15' height='15' fill='#96CDCD' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='405' y='2124' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#96CDCD:paleturquoise3</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='12.5' width='15' height='15' fill='#668B8B' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='24' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#668B8B:paleturquoise4</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='32.5' width='15' height='15' fill='#FF82AB' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='44' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FF82AB:palevioletred1</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='52.5' width='15' height='15' fill='#EE799F' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='64' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#EE799F:palevioletred2</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='72.5' width='15' height='15' fill='#CD6889' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='84' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#CD6889:palevioletred3</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='92.5' width='15' height='15' fill='#8B475D' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='104' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#8B475D:palevioletred4</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='112.5' width='15' height='15' fill='#FFDAB9' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='124' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FFDAB9:peachpuff1</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='132.5' width='15' height='15' fill='#EECBAD' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='144' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#EECBAD:peachpuff2</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='152.5' width='15' height='15' fill='#CDAF95' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='164' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#CDAF95:peachpuff3</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='172.5' width='15' height='15' fill='#8B7765' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='184' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#8B7765:peachpuff4</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='192.5' width='15' height='15' fill='#FFB5C5' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='204' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FFB5C5:pink1</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='212.5' width='15' height='15' fill='#EEA9B8' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='224' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#EEA9B8:pink2</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='232.5' width='15' height='15' fill='#CD919E' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='244' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#CD919E:pink3</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='252.5' width='15' height='15' fill='#8B636C' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='264' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#8B636C:pink4</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='272.5' width='15' height='15' fill='#FFBBFF' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='284' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FFBBFF:plum1</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='292.5' width='15' height='15' fill='#EEAEEE' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='304' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#EEAEEE:plum2</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='312.5' width='15' height='15' fill='#CD96CD' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='324' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#CD96CD:plum3</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='332.5' width='15' height='15' fill='#8B668B' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='344' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#8B668B:plum4</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='352.5' width='15' height='15' fill='#A020F0' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='364' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#A020F0:purple</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='372.5' width='15' height='15' fill='#9B30FF' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='384' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#9B30FF:purple1</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='392.5' width='15' height='15' fill='#912CEE' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='404' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#912CEE:purple2</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='412.5' width='15' height='15' fill='#7D26CD' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='424' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#7D26CD:purple3</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='432.5' width='15' height='15' fill='#551A8B' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='444' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#551A8B:purple4</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='452.5' width='15' height='15' fill='#FF0000' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='464' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FF0000:red1</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='472.5' width='15' height='15' fill='#EE0000' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='484' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#EE0000:red2</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='492.5' width='15' height='15' fill='#CD0000' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='504' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#CD0000:red3</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='512.5' width='15' height='15' fill='#8B0000' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='524' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#8B0000:red4</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='532.5' width='15' height='15' fill='#FFC1C1' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='544' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FFC1C1:rosybrown1</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='552.5' width='15' height='15' fill='#EEB4B4' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='564' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#EEB4B4:rosybrown2</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='572.5' width='15' height='15' fill='#CD9B9B' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='584' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#CD9B9B:rosybrown3</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='592.5' width='15' height='15' fill='#8B6969' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='604' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#8B6969:rosybrown4</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='612.5' width='15' height='15' fill='#4876FF' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='624' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#4876FF:royalblue1</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='632.5' width='15' height='15' fill='#436EEE' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='644' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#436EEE:royalblue2</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='652.5' width='15' height='15' fill='#3A5FCD' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='664' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#3A5FCD:royalblue3</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='672.5' width='15' height='15' fill='#27408B' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='684' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#27408B:royalblue4</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='692.5' width='15' height='15' fill='#FF8C69' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='704' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FF8C69:salmon1</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='712.5' width='15' height='15' fill='#EE8262' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='724' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#EE8262:salmon2</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='732.5' width='15' height='15' fill='#CD7054' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='744' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#CD7054:salmon3</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='752.5' width='15' height='15' fill='#8B4C39' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='764' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#8B4C39:salmon4</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='772.5' width='15' height='15' fill='#54FF9F' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='784' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#54FF9F:seagreen1</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='792.5' width='15' height='15' fill='#4EEE94' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='804' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#4EEE94:seagreen2</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='812.5' width='15' height='15' fill='#43CD80' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='824' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#43CD80:seagreen3</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='832.5' width='15' height='15' fill='#2E8B57' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='844' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#2E8B57:seagreen4</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='852.5' width='15' height='15' fill='#FFF5EE' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='864' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FFF5EE:seashell1</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='872.5' width='15' height='15' fill='#EEE5DE' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='884' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#EEE5DE:seashell2</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='892.5' width='15' height='15' fill='#CDC5BF' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='904' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#CDC5BF:seashell3</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='912.5' width='15' height='15' fill='#8B8682' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='924' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#8B8682:seashell4</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='932.5' width='15' height='15' fill='#FF8247' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='944' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FF8247:sienna1</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='952.5' width='15' height='15' fill='#EE7942' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='964' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#EE7942:sienna2</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='972.5' width='15' height='15' fill='#CD6839' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='984' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#CD6839:sienna3</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='992.5' width='15' height='15' fill='#8B4726' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='1004' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#8B4726:sienna4</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='1012.5' width='15' height='15' fill='#87CEFF' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='1024' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#87CEFF:skyblue1</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='1032.5' width='15' height='15' fill='#7EC0EE' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='1044' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#7EC0EE:skyblue2</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='1052.5' width='15' height='15' fill='#6CA6CD' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='1064' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#6CA6CD:skyblue3</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='1072.5' width='15' height='15' fill='#4A708B' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='1084' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#4A708B:skyblue4</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='1092.5' width='15' height='15' fill='#836FFF' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='1104' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#836FFF:slateblue1</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='1112.5' width='15' height='15' fill='#7A67EE' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='1124' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#7A67EE:slateblue2</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='1132.5' width='15' height='15' fill='#6959CD' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='1144' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#6959CD:slateblue3</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='1152.5' width='15' height='15' fill='#473C8B' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='1164' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#473C8B:slateblue4</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='1172.5' width='15' height='15' fill='#C6E2FF' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='1184' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#C6E2FF:slategray1</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='1192.5' width='15' height='15' fill='#B9D3EE' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='1204' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#B9D3EE:slategray2</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='1212.5' width='15' height='15' fill='#9FB6CD' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='1224' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#9FB6CD:slategray3</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='1232.5' width='15' height='15' fill='#6C7B8B' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='1244' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#6C7B8B:slategray4</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='1252.5' width='15' height='15' fill='#FFFAFA' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='1264' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FFFAFA:snow1</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='1272.5' width='15' height='15' fill='#EEE9E9' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='1284' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#EEE9E9:snow2</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='1292.5' width='15' height='15' fill='#CDC9C9' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='1304' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#CDC9C9:snow3</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='1312.5' width='15' height='15' fill='#8B8989' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='1324' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#8B8989:snow4</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='1332.5' width='15' height='15' fill='#00FF7F' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='1344' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#00FF7F:springgreen1</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='1352.5' width='15' height='15' fill='#00EE76' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='1364' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#00EE76:springgreen2</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='1372.5' width='15' height='15' fill='#00CD66' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='1384' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#00CD66:springgreen3</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='1392.5' width='15' height='15' fill='#008B45' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='1404' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#008B45:springgreen4</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='1412.5' width='15' height='15' fill='#63B8FF' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='1424' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#63B8FF:steelblue1</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='1432.5' width='15' height='15' fill='#5CACEE' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='1444' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#5CACEE:steelblue2</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='1452.5' width='15' height='15' fill='#4F94CD' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='1464' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#4F94CD:steelblue3</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='1472.5' width='15' height='15' fill='#36648B' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='1484' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#36648B:steelblue4</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='1492.5' width='15' height='15' fill='#FFA54F' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='1504' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FFA54F:tan1</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='1512.5' width='15' height='15' fill='#EE9A49' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='1524' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#EE9A49:tan2</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='1532.5' width='15' height='15' fill='#CD853F' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='1544' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#CD853F:tan3</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='1552.5' width='15' height='15' fill='#8B5A2B' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='1564' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#8B5A2B:tan4</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='1572.5' width='15' height='15' fill='#FFE1FF' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='1584' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FFE1FF:thistle1</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='1592.5' width='15' height='15' fill='#EED2EE' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='1604' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#EED2EE:thistle2</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='1612.5' width='15' height='15' fill='#CDB5CD' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='1624' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#CDB5CD:thistle3</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='1632.5' width='15' height='15' fill='#8B7B8B' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='1644' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#8B7B8B:thistle4</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='1652.5' width='15' height='15' fill='#FF6347' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='1664' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FF6347:tomato1</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='1672.5' width='15' height='15' fill='#EE5C42' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='1684' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#EE5C42:tomato2</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='1692.5' width='15' height='15' fill='#CD4F39' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='1704' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#CD4F39:tomato3</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='1712.5' width='15' height='15' fill='#8B3626' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='1724' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#8B3626:tomato4</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='1732.5' width='15' height='15' fill='#00F5FF' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='1744' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#00F5FF:turquoise1</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='1752.5' width='15' height='15' fill='#00E5EE' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='1764' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#00E5EE:turquoise2</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='1772.5' width='15' height='15' fill='#00C5CD' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='1784' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#00C5CD:turquoise3</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='1792.5' width='15' height='15' fill='#00868B' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='1804' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#00868B:turquoise4</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='1812.5' width='15' height='15' fill='#D02090' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='1824' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#D02090:violetred</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='1832.5' width='15' height='15' fill='#FF3E96' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='1844' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FF3E96:violetred1</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='1852.5' width='15' height='15' fill='#EE3A8C' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='1864' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#EE3A8C:violetred2</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='1872.5' width='15' height='15' fill='#CD3278' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='1884' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#CD3278:violetred3</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='1892.5' width='15' height='15' fill='#8B2252' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='1904' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#8B2252:violetred4</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='1912.5' width='15' height='15' fill='#FFE7BA' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='1924' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FFE7BA:wheat1</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='1932.5' width='15' height='15' fill='#EED8AE' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='1944' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#EED8AE:wheat2</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='1952.5' width='15' height='15' fill='#CDBA96' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='1964' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#CDBA96:wheat3</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='1972.5' width='15' height='15' fill='#8B7E66' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='1984' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#8B7E66:wheat4</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='1992.5' width='15' height='15' fill='#FFFF00' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='2004' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#FFFF00:yellow1</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='2012.5' width='15' height='15' fill='#EEEE00' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='2024' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#EEEE00:yellow2</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='2032.5' width='15' height='15' fill='#CDCD00' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='2044' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#CDCD00:yellow3</text>
+	<!-- rectangle -->
+	<rect x='577.5' y='2052.5' width='15' height='15' fill='#8B8B00' stroke='black' stroke-width='1' />
+	<!-- text -->
+	<text x='595' y='2064' text-anchor='start' font-family='monospace' font-size='10pt' fill='black' >#8B8B00:yellow4</text>
+
+</svg>
+</div>
+
+<p class='fig_title'><a name='6tYSz371NWb'></a>Figure.23 色の名前とサンプル - 2</p>
 <h2><a name='dGdSPnvay5N'></a>15 更新履歴</h2>
 <p>　更新履歴です。</p>
 <hr>
 <p class='footnote'><a name='footnote1' href='#footnote_ref1'>1</a> : SVG は Scalable Vector Graphics の略です。</p>
+<p class='footnote'><a name='footnote2' href='#footnote_ref2'>2</a> : SVG 2 の規格において色名に関する節は削除され、CSS 規格を参照することになりました。</p>
+<p class='footnote'><a name='footnote3' href='#footnote_ref3'>3</a> : <a href='#6tYSz371NWb'>Figure.23</a> に記載されているのは、Emacs エディタで定義されている色名のうち、規格に含まれないものの一覧です。このうち、green(#00FF00), grey(#BEBEBE), maroon(#B03060), purple(#A020F0) については規格側にも同じ名前があるものの異なる値です。これらは「規格優先」としているため、たとえば <code>:green</code> を指定した場合は規格の #008000 が使用され、#00FF00 は使用されません。</p>
 </body>
 </html>

@@ -1,5 +1,6 @@
 #|
-#|ASD|#				(:file "fill-info"                 :depends-on ("cl-diagram"))
+#|ASD|#				(:file "fill-info"                 :depends-on ("cl-diagram"
+#|ASD|#																"colormap"))
 #|EXPORT|#				;fill-info.lisp
  |#
 
@@ -35,6 +36,8 @@
   (declare (ignore canvas dict))
   (with-slots (color opacity rule) fill
 	(check-member color   :nullable t :types (or string keyword))
+	(when color
+	  (setf color (colormap-fix color)))
 	(check-member opacity :nullable t :types number)
 	(check-member rule    :nullable t :types keyword)
 	(when rule

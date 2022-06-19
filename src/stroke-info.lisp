@@ -1,5 +1,6 @@
 #|
-#|ASD|#				(:file "stroke-info"               :depends-on ("cl-diagram"))
+#|ASD|#				(:file "stroke-info"               :depends-on ("cl-diagram"
+#|ASD|#																"colormap"))
 #|EXPORT|#				;stroke-info.lisp
  |#
 
@@ -40,6 +41,8 @@
   (with-slots (color width opacity linecap linejoin
 					 miterlimit dasharray dashoffset) ent
 	(check-member color      :nullable t :types (or string keyword))
+	(when color
+	  (setf color (colormap-fix color)))
 	(check-member width      :nullable t :types number)
 	(check-member opacity    :nullable t :types number)
 	(check-member linecap    :nullable t :types keyword)

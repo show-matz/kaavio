@@ -1,5 +1,6 @@
 #|
 #|ASD|#				(:file "grid"                      :depends-on ("cl-diagram"
+#|ASD|#																"colormap"
 #|ASD|#																"stroke-info"
 #|ASD|#																"entity"
 #|ASD|#																"writer"))
@@ -33,6 +34,7 @@
   (with-slots (size bgcolor stroke) grd
 	(check-member size    :nullable nil :types number)
 	(check-member bgcolor :nullable nil :types (or string keyword))
+	(setf bgcolor (colormap-fix bgcolor))
 	(check-object stroke  canvas dict :nullable  nil :class stroke-info))
   nil)
 
