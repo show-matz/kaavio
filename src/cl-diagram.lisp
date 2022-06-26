@@ -246,6 +246,9 @@
 				;stylesheet.lisp
 				:style
 				:stylesheet
+				;table.lisp
+				:table
+				:with-table-cell
 				;text-shape.lisp
 				:text-shape
 				:text-shape-calc-size
@@ -540,10 +543,12 @@
 				 (remove-if-not #'property-ref-symbolp
 								(diagram::onlisp/flatten body)))))
 	  `(symbol-macrolet ,(mapcar #'make-symbol-macrolet syms)
-		 (macrolet ((attr (id name)
-					  (let ((func-sym (diagram::onlisp/symb "SHAPE-" name)))
-						(list ,'func-sym (list 'diagram::dict-get-entity ',dict id)))))
-		   ,@body)))))
+		 (labels ((get-dictionary () ,dict))
+		   (declare (ignorable #'get-dictionary))
+		   (macrolet ((attr (id name)
+						(let ((func-sym (diagram::onlisp/symb "SHAPE-" name)))
+						  (list ,'func-sym (list 'diagram::dict-get-entity ',dict id)))))
+			 ,@body))))))
 
 #|
 #|EXPORT|#				:escape-characters

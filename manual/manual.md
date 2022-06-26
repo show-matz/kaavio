@@ -436,6 +436,171 @@ Figure. 波括弧のパラメータ
 * `point` が省略された場合、デフォルト値として `width` の 1/2 が指定される
 * `point` が左右端に近過ぎる場合、 `r` が自動調整される
 
+### テーブル
+
+　`table` を使うことで、表を描画することができます。以下の例では、３行４列の表を作成しています。
+
+<!-- snippet: TABLE-SAMPLE
+(diagram (:w 320 :h 120)
+   (table '(160 60) '(30 30 30) '(75 75 75 75)
+          :stroke :black :fills '(:rc :white :r0 :skyblue)
+          :texts '((:foo :bar :baz :quux)
+                   (5 6 42 -123)
+                   ("asdf" "qwer" "zxcv" "hjkl"))))
+-->
+
+```diagram
+<!-- expand: TABLE-SAMPLE -->
+```
+Figure. テーブルのサンプル
+
+
+　上記のサンプルは以下のコードで生成しています。
+
+```lisp
+<!-- expand: TABLE-SAMPLE -->
+```
+
+　`table` のパラメータ構成は以下のようになっています。
+
+
+```lisp
+(defmacro table (center rows cols &key stroke fills texts layer id) ...)
+```
+
+　それぞれのパラメータについて以下に説明します。
+
+<!-- stack:push tr style="font-size: 14;" -->
+
+Table. table のパラメータ
+| parameter | description                              |
+|:=========:|:-----------------------------------------|
+| center    | 作成するテーブルの中心座標を指定します。 |
+| rows      | 行数と各行の高さを数値のリストで指定します。リストの長さが行数、リスト要素の数値が行の高さです。 |
+| cols      | 列数と各列の幅を数値のリストで指定します。リストの長さが列数、リスト要素の数値が列の幅です。 |
+| stroke    | 罫線の描画方法をストローク情報で指定します。省略可能で、省略した場合はデフォルトのストローク情報が使用 \
+されます。 |
+| fills     | 表、行、列、またはセル個別の背景色を指定します。位置を示すキーワードとフィル情報の２つの値を繰り返す \
+リストで指定してください。位置は、表全体であれば `:rc` 、列や行全体を指定する場合は `:rN` や `:cM` を指定します。 \
+ここで、 `N,M` は行や列の番号を示す整数です（上または左から０で始まります）。単独のセルを指定する場合、同じ要領で  \
+`:rNcM` と指定してください。 `fills` パラメータ全体が省略された場合、表の背景は塗り潰されません。 |
+| texts     | 表内の各セルに設定するテキストをリストで指定します。正確には、行のリストを連ねたリストで指定します。 \
+テキスト情報はキーワードなどのシンボル、数値、文字列を指定できますが、アライメントやフォント情報を指定する場合は  \
+テキスト情報自体をリストにする必要があります。詳細は後述します。 |
+| layer     | テーブルが所属するレイヤーをキーワードで指定します。省略できます。  |
+| id        | テーブルの ID をキーワードで指定します。省略できます。  |
+
+<!-- stack:pop tr -->
+
+${BLANK_PARAGRAPH}
+
+　`texts` パラメータについて説明します。まず、 `texts` パラメータそのものを省略した場合、すべてのセルにおいて
+テキストは指定されなかったものとして扱われます。指定する場合、典型的には前述の例のように「リストのリスト」として
+指定することになります。
+
+```lisp
+  :texts '((:foo :bar :baz :quux)
+           (5 6 42 -123)
+           ("asdf" "qwer" "zxcv" "hjkl"))
+```
+
+　この例では 3 行 x 4 列全てのセルにテキストを指定していますが、空のままにしておきたいセルには `nil` を指定
+してください。見ての通り、 `:texts` といっても数値やシンボルも指定することができます。ただし、改行を含む
+複数行のテキストを表示させることはできません。それが必要な場合は、後述する [$$](#with-table-cell を使ったセル内描画)
+を利用してください。
+
+　表示させるテキストのフォント情報やアライメントを指定したい場合、個々のデータ自体をリストで指定する必要が
+あります。
+
+* データはリストの先頭要素として指定します。
+* 水平方向のアライメントは、 `:align` に続けて `:left, :center, :right` のいずれかを指定します。これを省略した場合、  \
+`data` が数値であれば右寄せ、文字列であれば左寄せ、キーワードなどのシンボルであれば中央揃えになります。
+* 垂直方向のアライメントは、 `:valign` に続けて `:top, :center, :bottom` のいずれかを指定します。デフォルトで  \
+`:center` 指定になります
+* フォントは、 `:font` に続けてフォント情報を指定します。これを省略した場合、その時点でのデフォルトフォントが使用 \
+されます。
+
+　`:align` および `:valign` のサンプルを以下に示します。
+
+<!-- snippet: TABLE-ALIGN-SAMPLE
+(diagram (:w 480 :h 240)
+  (with-font (:size 12)
+    (table '(240 120) '(40 60 60 60) '(100 120 120 120)
+           :stroke :navy :id :tbl
+           :fills '(:rc :white :r0 :skyblue :c0 :skyblue)
+           :texts `((nil        :|:left|   :|:center|   :|:right|)
+                    (:|:top|    ("top-left"      :align :left   :valign :top)
+                                ("top-center"    :align :center :valign :top)
+                                ("top-right"     :align :right  :valign :top))
+                    (:|:center| ("center-left"   :align :left   :valign :center)
+                                ("center-center" :align :center :valign :center)
+                                ("center-right"  :align :right  :valign :center))
+                    (:|:bottom| ("botom-left"    :align :left   :valign :bottom)
+                                ("bottom-center" :align :center :valign :bottom)
+                                ("bottom-right"  :align :right  :valign :bottom))))
+    (with-table-cell (:tbl 0 0)
+      (text (xy+ canvas.center -1 -2)  ":align" :align :left)
+      (text (xy+ canvas.left    3 15) ":valign" :align :left)
+      (let ((w canvas.width)
+           (h canvas.height))
+        (line `((0 0) (,w ,h)) :stroke :navy)))))
+-->
+
+```diagram
+<!-- expand: TABLE-ALIGN-SAMPLE -->
+```
+Figure. テーブルにおけるテキストの align と valign パラメータ
+
+<!-- collapse:begin -->
+　※上記サンプルのソースはこちら。
+
+```lisp
+<!-- expand: TABLE-ALIGN-SAMPLE -->
+```
+<!-- collapse:end -->
+
+　データを（リストでなく）直接指定した場合でも、数値ならば右寄せ、文字列ならば左寄せ、シンボルならば中央揃えという
+デフォルトの設定は行なわれるため、多くの場合で個別セルのテキストデータ指定をリストで行なう必要は無いでしょう。
+キーワードを使うと全て大文字で表示されてしまいますが、 `:|Foo|` のようにバーティカルバーで括ると文字の大小を維持
+したまま表示されます（[$@](F#テーブルにおけるテキストの align と valign パラメータ) のコードを参照）。
+
+#### with-table-cell を使ったセル内描画
+
+　`table` の id とセルの行・列番号を指定して `with-table-cell` を使用することで、該当するセルを
+サブキャンバスとした描画ができます。
+
+```lisp
+(defmacro with-table-cell ((id r c) &body body) ...)
+```
+
+　以下の例では、2 x 2 の空のテーブルを作成し、そのうちの２つのセル内部に図形を描画しています。
+
+<!-- snippet: WITH-TABLE-CELL-SAMPLE
+(diagram (:w 220 :h 220)
+    (table '(110 110) '(100 100) '(100 100)
+               :stroke :navy :fills '(:rc :white) :id :tbl)
+    (with-table-cell (:tbl 1 0)
+      (circle canvas.center 30 :fill :lightcyan :stroke :blue))
+    (with-table-cell (:tbl 0 1)
+      (rect canvas.center 50 50 :fill :lightpink :stroke :red :rotate 45)))
+-->
+
+```diagram
+<!-- expand: WITH-TABLE-CELL-SAMPLE -->
+```
+Figure. with-table-cell の使用例
+
+
+　上記のサンプルは以下のコードで生成されています。
+
+```lisp
+<!-- expand: WITH-TABLE-CELL-SAMPLE -->
+```
+
+　`with-table-cell` は事実上、指定したテーブルの指定セル領域を指定した `with-subcanvas` として
+機能します。そのため、 `canvas` を使ってその中心座標や幅、高さ情報にアクセスできます。
+
+${BLANK_PARAGRAPH}
 
 ## 色の指定
 

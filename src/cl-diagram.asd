@@ -42,6 +42,7 @@
 				(:file "constants"                 :depends-on ("cl-diagram"))
 				(:file "create-svg"                :depends-on ("cl-diagram"
 				                                                "constants"
+																"colormap"
 				                                                "entity"
 				                                                "layer-manager"
 				                                                "dictionary"
@@ -107,6 +108,7 @@
 																"fill-info"
 																"stroke-info"))
 				(:file "grid"                      :depends-on ("cl-diagram"
+																"colormap"
 																"stroke-info"
 																"entity"
 																"writer"))
@@ -203,6 +205,12 @@
 																"stroke-info"
 																"fill-info"
 																"font-info"
+																"writer"))
+				(:file "table"                     :depends-on ("cl-diagram"
+																"group"
+																"font-info"
+																"fill-info"
+																"stroke-info"
 																"writer"))
 				(:file "text-shape"                :depends-on ("cl-diagram"
 																"canvas"

@@ -53,6 +53,12 @@
 <li class='tocx'><a href='#hjZ26isLw42'>5.6 爆発</a></li>
 <li class='tocx'><a href='#49KKf97828b'>5.7 ブロック矢印</a></li>
 <li class='tocx'><a href='#lBS33hNe32a'>5.8 波括弧</a></li>
+<details class='tocx' open>
+<summary class='tocx'><a href='#g6xjP526KX7'>5.9 テーブル</a></summary>
+<blockquote class='tocx'>
+<li class='tocx'><a href='#3qNm5uHdKTZ'>5.9.1 with-table-cell を使ったセル内描画</a></li>
+</blockquote>
+</details>
 </blockquote>
 </details>
 <li class='tocx'><a href='#1rpUB3fre67'>6 色の指定</a></li>
@@ -630,6 +636,199 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <li><code>point</code> が省略された場合、デフォルト値として <code>width</code> の 1/2 が指定される</li>
 <li><code>point</code> が左右端に近過ぎる場合、 <code>r</code> が自動調整される</li>
 </ul>
+<h3><a name='g6xjP526KX7'></a>5.9 テーブル</h3>
+<p>　<code>table</code> を使うことで、表を描画することができます。以下の例では、３行４列の表を作成しています。</p>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='320' height='120'>
+	
+	<!-- table -->
+	<rect x='10' y='15' width='300' height='90' fill='white' stroke='none' stroke-width='1' />
+	<rect x='10' y='15' width='300' height='30' fill='skyblue' stroke='none' stroke-width='1' />
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 10.0,15.0 310.0,15.0' />
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 10.0,45.0 310.0,45.0' />
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 10.0,75.0 310.0,75.0' />
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 10.0,105.0 310.0,105.0' />
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 10.0,15.0 10.0,105.0' />
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 85.0,15.0 85.0,105.0' />
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 160.0,15.0 160.0,105.0' />
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 235.0,15.0 235.0,105.0' />
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 310.0,15.0 310.0,105.0' />
+	<text x='47.5' y='36' text-anchor='middle' font-size='12pt' fill='black' >FOO</text>
+	<text x='122.5' y='36' text-anchor='middle' font-size='12pt' fill='black' >BAR</text>
+	<text x='197.5' y='36' text-anchor='middle' font-size='12pt' fill='black' >BAZ</text>
+	<text x='272.5' y='36' text-anchor='middle' font-size='12pt' fill='black' >QUUX</text>
+	<text x='79' y='66' text-anchor='end' font-size='12pt' fill='black' >5</text>
+	<text x='154' y='66' text-anchor='end' font-size='12pt' fill='black' >6</text>
+	<text x='229' y='66' text-anchor='end' font-size='12pt' fill='black' >42</text>
+	<text x='304' y='66' text-anchor='end' font-size='12pt' fill='black' >-123</text>
+	<text x='16' y='96' text-anchor='start' font-size='12pt' fill='black' >asdf</text>
+	<text x='91' y='96' text-anchor='start' font-size='12pt' fill='black' >qwer</text>
+	<text x='166' y='96' text-anchor='start' font-size='12pt' fill='black' >zxcv</text>
+	<text x='241' y='96' text-anchor='start' font-size='12pt' fill='black' >hjkl</text>
+
+</svg>
+</div>
+
+<p class='fig_title'><a name='4p5NTDB8bf1'></a>Figure.14 テーブルのサンプル</p>
+<p>　上記のサンプルは以下のコードで生成しています。</p>
+<pre class='code'>
+(diagram (<span class='keyword3'>:w</span> 320 <span class='keyword3'>:h</span> 120)
+   (table '(160 60) '(30 30 30) '(75 75 75 75)
+          <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span> <span class='keyword3'>:fills</span> '(<span class='keyword3'>:rc</span> <span class='keyword3'>:white</span> <span class='keyword3'>:r0</span> <span class='keyword3'>:skyblue</span>)
+          <span class='keyword3'>:texts</span> '((<span class='keyword3'>:foo</span> <span class='keyword3'>:bar</span> <span class='keyword3'>:baz</span> <span class='keyword3'>:quux</span>)
+                   (5 6 42 -123)
+                   (<span class='literal'>"asdf"</span> <span class='literal'>"qwer"</span> <span class='literal'>"zxcv"</span> <span class='literal'>"hjkl"</span>))))
+</pre>
+<p>　<code>table</code> のパラメータ構成は以下のようになっています。</p>
+<pre class='code'>
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>table</span> (center rows cols <span class='keyword2'>&amp;key</span> stroke fills texts layer id) ...)
+</pre>
+<p>　それぞれのパラメータについて以下に説明します。</p>
+<p class='tbl_title'><a name='46vpyWYCtdw'></a>Table.1 table のパラメータ</p>
+<table align='center'>
+<tr style="font-size: 14;"><th>parameter</th><th>description</th></tr>
+<tr style="font-size: 14;"><td nowrap align='center'>center</td><td align='left'>作成するテーブルの中心座標を指定します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='center'>rows</td><td align='left'>行数と各行の高さを数値のリストで指定します。リストの長さが行数、リスト要素の数値が行の高さです。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='center'>cols</td><td align='left'>列数と各列の幅を数値のリストで指定します。リストの長さが列数、リスト要素の数値が列の幅です。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='center'>stroke</td><td align='left'>罫線の描画方法をストローク情報で指定します。省略可能で、省略した場合はデフォルトのストローク情報が使用されます。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='center'>fills</td><td align='left'>表、行、列、またはセル個別の背景色を指定します。位置を示すキーワードとフィル情報の２つの値を繰り返すリストで指定してください。位置は、表全体であれば <code>:rc</code> 、列や行全体を指定する場合は <code>:rN</code> や <code>:cM</code> を指定します。ここで、 <code>N,M</code> は行や列の番号を示す整数です（上または左から０で始まります）。単独のセルを指定する場合、同じ要領で <code>:rNcM</code> と指定してください。 <code>fills</code> パラメータ全体が省略された場合、表の背景は塗り潰されません。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='center'>texts</td><td align='left'>表内の各セルに設定するテキストをリストで指定します。正確には、行のリストを連ねたリストで指定します。テキスト情報はキーワードなどのシンボル、数値、文字列を指定できますが、アライメントやフォント情報を指定する場合は テキスト情報自体をリストにする必要があります。詳細は後述します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='center'>layer</td><td align='left'>テーブルが所属するレイヤーをキーワードで指定します。省略できます。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='center'>id</td><td align='left'>テーブルの ID をキーワードで指定します。省略できます。</td></tr>
+</table>
+<p>　　</p>
+<p>　<code>texts</code> パラメータについて説明します。まず、 <code>texts</code> パラメータそのものを省略した場合、すべてのセルにおいてテキストは指定されなかったものとして扱われます。指定する場合、典型的には前述の例のように「リストのリスト」として指定することになります。</p>
+<pre class='code'>
+  <span class='keyword3'>:texts</span> '((<span class='keyword3'>:foo</span> <span class='keyword3'>:bar</span> <span class='keyword3'>:baz</span> <span class='keyword3'>:quux</span>)
+           (5 6 42 -123)
+           (<span class='literal'>"asdf"</span> <span class='literal'>"qwer"</span> <span class='literal'>"zxcv"</span> <span class='literal'>"hjkl"</span>))
+</pre>
+<p>　この例では 3 行 x 4 列全てのセルにテキストを指定していますが、空のままにしておきたいセルには <code>nil</code> を指定してください。見ての通り、 <code>:texts</code> といっても数値やシンボルも指定することができます。ただし、改行を含む複数行のテキストを表示させることはできません。それが必要な場合は、後述する <a href='#3qNm5uHdKTZ'>with-table-cell を使ったセル内描画</a>を利用してください。</p>
+<p>　表示させるテキストのフォント情報やアライメントを指定したい場合、個々のデータ自体をリストで指定する必要があります。</p>
+<ul>
+<li>データはリストの先頭要素として指定します。</li>
+<li>水平方向のアライメントは、 <code>:align</code> に続けて <code>:left, :center, :right</code> のいずれかを指定します。これを省略した場合、 <code>data</code> が数値であれば右寄せ、文字列であれば左寄せ、キーワードなどのシンボルであれば中央揃えになります。</li>
+<li>垂直方向のアライメントは、 <code>:valign</code> に続けて <code>:top, :center, :bottom</code> のいずれかを指定します。デフォルトで <code>:center</code> 指定になります</li>
+<li>フォントは、 <code>:font</code> に続けてフォント情報を指定します。これを省略した場合、その時点でのデフォルトフォントが使用されます。</li>
+</ul>
+<p>　<code>:align</code> および <code>:valign</code> のサンプルを以下に示します。</p>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='480' height='240'>
+	
+	<!-- tbl : table -->
+	<g id='tbl'>
+		<rect x='10' y='10' width='460' height='220' fill='white' stroke='none' stroke-width='1' />
+		<rect x='10' y='10' width='460' height='40' fill='skyblue' stroke='none' stroke-width='1' />
+		<rect x='10' y='10' width='100' height='220' fill='skyblue' stroke='none' stroke-width='1' />
+		<polyline fill='none' stroke='navy' stroke-width='1' points=' 10.0,10.0 470.0,10.0' />
+		<polyline fill='none' stroke='navy' stroke-width='1' points=' 10.0,50.0 470.0,50.0' />
+		<polyline fill='none' stroke='navy' stroke-width='1' points=' 10.0,110.0 470.0,110.0' />
+		<polyline fill='none' stroke='navy' stroke-width='1' points=' 10.0,170.0 470.0,170.0' />
+		<polyline fill='none' stroke='navy' stroke-width='1' points=' 10.0,230.0 470.0,230.0' />
+		<polyline fill='none' stroke='navy' stroke-width='1' points=' 10.0,10.0 10.0,230.0' />
+		<polyline fill='none' stroke='navy' stroke-width='1' points=' 110.0,10.0 110.0,230.0' />
+		<polyline fill='none' stroke='navy' stroke-width='1' points=' 230.0,10.0 230.0,230.0' />
+		<polyline fill='none' stroke='navy' stroke-width='1' points=' 350.0,10.0 350.0,230.0' />
+		<polyline fill='none' stroke='navy' stroke-width='1' points=' 470.0,10.0 470.0,230.0' />
+		<text x='170' y='36' text-anchor='middle' font-size='12pt' fill='black' >:left</text>
+		<text x='290' y='36' text-anchor='middle' font-size='12pt' fill='black' >:center</text>
+		<text x='410' y='36' text-anchor='middle' font-size='12pt' fill='black' >:right</text>
+		<text x='60' y='86' text-anchor='middle' font-size='12pt' fill='black' >:top</text>
+		<text x='116' y='68' text-anchor='start' font-size='12pt' fill='black' >top-left</text>
+		<text x='290' y='68' text-anchor='middle' font-size='12pt' fill='black' >top-center</text>
+		<text x='464' y='68' text-anchor='end' font-size='12pt' fill='black' >top-right</text>
+		<text x='60' y='146' text-anchor='middle' font-size='12pt' fill='black' >:center</text>
+		<text x='116' y='146' text-anchor='start' font-size='12pt' fill='black' >center-left</text>
+		<text x='290' y='146' text-anchor='middle' font-size='12pt' fill='black' >center-center</text>
+		<text x='464' y='146' text-anchor='end' font-size='12pt' fill='black' >center-right</text>
+		<text x='60' y='206' text-anchor='middle' font-size='12pt' fill='black' >:bottom</text>
+		<text x='116' y='224' text-anchor='start' font-size='12pt' fill='black' >botom-left</text>
+		<text x='290' y='224' text-anchor='middle' font-size='12pt' fill='black' >bottom-center</text>
+		<text x='464' y='224' text-anchor='end' font-size='12pt' fill='black' >bottom-right</text>
+	</g>
+	<!-- text -->
+	<text x='59' y='28' text-anchor='start' font-size='12pt' fill='black' >:align</text>
+	<!-- text -->
+	<text x='13' y='45' text-anchor='start' font-size='12pt' fill='black' >:valign</text>
+	<!-- line -->
+	<polyline fill='none' stroke='navy' stroke-width='1' points=' 10.0,10.0 110.0,50.0' />
+
+</svg>
+</div>
+
+<p class='fig_title'><a name='0EEfXZqu18P'></a>Figure.15 テーブルにおけるテキストの align と valign パラメータ</p>
+<details>
+<summary>　※上記サンプルのソースはこちら。</summary>
+<pre class='code'>
+(diagram (<span class='keyword3'>:w</span> 480 <span class='keyword3'>:h</span> 240)
+  (with-font (<span class='keyword3'>:size</span> 12)
+    (table '(240 120) '(40 60 60 60) '(100 120 120 120)
+           <span class='keyword3'>:stroke</span> <span class='keyword3'>:navy</span> <span class='keyword3'>:id</span> <span class='keyword3'>:tbl</span>
+           <span class='keyword3'>:fills</span> '(<span class='keyword3'>:rc</span> <span class='keyword3'>:white</span> <span class='keyword3'>:r0</span> <span class='keyword3'>:skyblue</span> <span class='keyword3'>:c0</span> <span class='keyword3'>:skyblue</span>)
+           <span class='keyword3'>:texts</span> `((nil        :|:left|   :|:center|   :|:right|)
+                    (:|:top|    (<span class='literal'>"top-left"</span>      <span class='keyword3'>:align</span> <span class='keyword3'>:left</span>   <span class='keyword3'>:valign</span> <span class='keyword3'>:top</span>)
+                                (<span class='literal'>"top-center"</span>    <span class='keyword3'>:align</span> <span class='keyword3'>:center</span> <span class='keyword3'>:valign</span> <span class='keyword3'>:top</span>)
+                                (<span class='literal'>"top-right"</span>     <span class='keyword3'>:align</span> <span class='keyword3'>:right</span>  <span class='keyword3'>:valign</span> <span class='keyword3'>:top</span>))
+                    (:|:center| (<span class='literal'>"center-left"</span>   <span class='keyword3'>:align</span> <span class='keyword3'>:left</span>   <span class='keyword3'>:valign</span> <span class='keyword3'>:center</span>)
+                                (<span class='literal'>"center-center"</span> <span class='keyword3'>:align</span> <span class='keyword3'>:center</span> <span class='keyword3'>:valign</span> <span class='keyword3'>:center</span>)
+                                (<span class='literal'>"center-right"</span>  <span class='keyword3'>:align</span> <span class='keyword3'>:right</span>  <span class='keyword3'>:valign</span> <span class='keyword3'>:center</span>))
+                    (:|:bottom| (<span class='literal'>"botom-left"</span>    <span class='keyword3'>:align</span> <span class='keyword3'>:left</span>   <span class='keyword3'>:valign</span> <span class='keyword3'>:bottom</span>)
+                                (<span class='literal'>"bottom-center"</span> <span class='keyword3'>:align</span> <span class='keyword3'>:center</span> <span class='keyword3'>:valign</span> <span class='keyword3'>:bottom</span>)
+                                (<span class='literal'>"bottom-right"</span>  <span class='keyword3'>:align</span> <span class='keyword3'>:right</span>  <span class='keyword3'>:valign</span> <span class='keyword3'>:bottom</span>))))
+    (with-table-cell (<span class='keyword3'>:tbl</span> 0 0)
+      (text (xy+ canvas.center -1 -2)  <span class='literal'>":align"</span> <span class='keyword3'>:align</span> <span class='keyword3'>:left</span>)
+      (text (xy+ canvas.left    3 15) <span class='literal'>":valign"</span> <span class='keyword3'>:align</span> <span class='keyword3'>:left</span>)
+      (<span class='keyword1'>let</span> ((w canvas.width)
+           (h canvas.height))
+        (line `((0 0) (,w ,h)) <span class='keyword3'>:stroke</span> <span class='keyword3'>:navy</span>)))))
+</pre>
+</details>
+<p>　データを（リストでなく）直接指定した場合でも、数値ならば右寄せ、文字列ならば左寄せ、シンボルならば中央揃えというデフォルトの設定は行なわれるため、多くの場合で個別セルのテキストデータ指定をリストで行なう必要は無いでしょう。キーワードを使うと全て大文字で表示されてしまいますが、 <code>:|Foo|</code> のようにバーティカルバーで括ると文字の大小を維持したまま表示されます（<a href='#0EEfXZqu18P'>Figure.15</a> のコードを参照）。</p>
+<h4><a name='3qNm5uHdKTZ'></a>5.9.1 with-table-cell を使ったセル内描画</h4>
+<p>　<code>table</code> の id とセルの行・列番号を指定して <code>with-table-cell</code> を使用することで、該当するセルをサブキャンバスとした描画ができます。</p>
+<pre class='code'>
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>with-table-cell</span> ((id r c) &amp;body body) ...)
+</pre>
+<p>　以下の例では、2 x 2 の空のテーブルを作成し、そのうちの２つのセル内部に図形を描画しています。</p>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='220' height='220'>
+	
+	<!-- tbl : table -->
+	<g id='tbl'>
+		<rect x='10' y='10' width='200' height='200' fill='white' stroke='none' stroke-width='1' />
+		<polyline fill='none' stroke='navy' stroke-width='1' points=' 10.0,10.0 210.0,10.0' />
+		<polyline fill='none' stroke='navy' stroke-width='1' points=' 10.0,110.0 210.0,110.0' />
+		<polyline fill='none' stroke='navy' stroke-width='1' points=' 10.0,210.0 210.0,210.0' />
+		<polyline fill='none' stroke='navy' stroke-width='1' points=' 10.0,10.0 10.0,210.0' />
+		<polyline fill='none' stroke='navy' stroke-width='1' points=' 110.0,10.0 110.0,210.0' />
+		<polyline fill='none' stroke='navy' stroke-width='1' points=' 210.0,10.0 210.0,210.0' />
+	</g>
+	<!-- circle -->
+	<circle cx='60' cy='160' r='30' fill='lightcyan' stroke='blue' stroke-width='1' />
+	<!-- rectangle -->
+	<g transform='rotate(45,160,60)'>
+		<rect x='135' y='35' width='50' height='50' fill='lightpink' stroke='red' stroke-width='1' />
+	</g>
+
+</svg>
+</div>
+
+<p class='fig_title'><a name='knawwdhRtbI'></a>Figure.16 with-table-cell の使用例</p>
+<p>　上記のサンプルは以下のコードで生成されています。</p>
+<pre class='code'>
+(diagram (<span class='keyword3'>:w</span> 220 <span class='keyword3'>:h</span> 220)
+    (table '(110 110) '(100 100) '(100 100)
+               <span class='keyword3'>:stroke</span> <span class='keyword3'>:navy</span> <span class='keyword3'>:fills</span> '(<span class='keyword3'>:rc</span> <span class='keyword3'>:white</span>) <span class='keyword3'>:id</span> <span class='keyword3'>:tbl</span>)
+    (with-table-cell (<span class='keyword3'>:tbl</span> 1 0)
+      (circle canvas.center 30 <span class='keyword3'>:fill</span> <span class='keyword3'>:lightcyan</span> <span class='keyword3'>:stroke</span> <span class='keyword3'>:blue</span>))
+    (with-table-cell (<span class='keyword3'>:tbl</span> 0 1)
+      (rect canvas.center 50 50 <span class='keyword3'>:fill</span> <span class='keyword3'>:lightpink</span> <span class='keyword3'>:stroke</span> <span class='keyword3'>:red</span> <span class='keyword3'>:rotate</span> 45)))
+</pre>
+<p>　<code>with-table-cell</code> は事実上、指定したテーブルの指定セル領域を指定した <code>with-subcanvas</code> として機能します。そのため、 <code>canvas</code> を使ってその中心座標や幅、高さ情報にアクセスできます。</p>
+<p>　　</p>
 <h2><a name='1rpUB3fre67'></a>6 色の指定</h2>
 <p>　diagram は SVG 形式で図形を生成するため、色の指定は SVG の規格に準拠します。</p>
 <ul>
@@ -685,7 +884,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='h7K5JgIwvZY'></a>Figure.14 回転のサンプル</p>
+<p class='fig_title'><a name='h7K5JgIwvZY'></a>Figure.17 回転のサンプル</p>
 <h2><a name='gPGlqSbIfdL'></a>9 フィルタ</h2>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません</span></p>
 <pre class='code'>
@@ -737,7 +936,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='9Z8wQykrThD'></a>Figure.15 フィルタのサンプル</p>
+<p class='fig_title'><a name='9Z8wQykrThD'></a>Figure.18 フィルタのサンプル</p>
 <h2><a name='lkPJSquGS6Q'></a>10 defs と use</h2>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません</span></p>
 <pre class='code'>
@@ -791,7 +990,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='iZLxsV5YAK6'></a>Figure.16 defs と use のサンプル</p>
+<p class='fig_title'><a name='iZLxsV5YAK6'></a>Figure.19 defs と use のサンプル</p>
 <h2><a name='1ovJxG7Ie9O'></a>11 レイヤー</h2>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <p>　　</p>
@@ -830,7 +1029,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='br3mf6bkjtv'></a>Figure.17 xxxのサンプル</p>
+<p class='fig_title'><a name='br3mf6bkjtv'></a>Figure.20 xxxのサンプル</p>
 <p>　　</p>
 <h2><a name='kgs1vf3AbTN'></a>13 サブキャンバス</h2>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
@@ -863,7 +1062,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='kV8JVeAiwLR'></a>Figure.18 サブキャンバスのサンプル</p>
+<p class='fig_title'><a name='kV8JVeAiwLR'></a>Figure.21 サブキャンバスのサンプル</p>
 <p>　　</p>
 <h2><a name='7TyOD7TaDM2'></a>14 リファレンス</h2>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
@@ -879,7 +1078,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <pre class='code'>
 (<span class='keyword1'>defun</span> <span class='keyword5'>make-fill</span> <span class='keyword2'>&amp;key</span> <span class='keyword3'>:color</span> <span class='keyword3'>:opacity</span> <span class='keyword3'>:rule</span>)
 </pre>
-<p class='tbl_title'><a name='jaLWrUQI3jh'></a>Table.1 make-fill 関数のパラメータ</p>
+<p class='tbl_title'><a name='jaLWrUQI3jh'></a>Table.2 make-fill 関数のパラメータ</p>
 <table align='center'>
 <tr><th>parameter</th><th>default 値</th><th>description</th></tr>
 <tr><td nowrap align='left'>:color</td><td nowrap align='left'><code>:none</code></td><td align='left'>塗りつぶしの色を指定します。<a href='#1rpUB3fre67'>6  節</a>参照。</td></tr>
@@ -909,9 +1108,9 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='hOZzwQd2DMS'></a>Figure.19 fill における opacity のサンプル</p>
+<p class='fig_title'><a name='hOZzwQd2DMS'></a>Figure.22 fill における opacity のサンプル</p>
 <details>
-<summary><a href='#hOZzwQd2DMS'>Figure.19</a> のソースはこちら</summary>
+<summary><a href='#hOZzwQd2DMS'>Figure.22</a> のソースはこちら</summary>
 <pre class='code'>
 (diagram (<span class='keyword3'>:w</span> 400 <span class='keyword3'>:h</span> 100)
   (text '(200 55) <span class='literal'>"this is test text."</span> <span class='keyword3'>:align</span> <span class='keyword3'>:center</span>)
@@ -940,9 +1139,9 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='9n3NgPBJGzS'></a>Figure.20 fill における rule のサンプル</p>
+<p class='fig_title'><a name='9n3NgPBJGzS'></a>Figure.23 fill における rule のサンプル</p>
 <details>
-<summary><a href='#9n3NgPBJGzS'>Figure.20</a> のソースはこちら</summary>
+<summary><a href='#9n3NgPBJGzS'>Figure.23</a> のソースはこちら</summary>
 <pre class='code'>
 (diagram (<span class='keyword3'>:w</span> 400 <span class='keyword3'>:h</span> 120)
   (with-subcanvas ('(75 0) 100 100)
@@ -960,7 +1159,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 (<span class='keyword1'>defun</span> <span class='keyword5'>make-stroke</span> <span class='keyword2'>&amp;key</span> <span class='keyword3'>:color</span> <span class='keyword3'>:width</span> <span class='keyword3'>:opacity</span> <span class='keyword3'>:linecap</span>
                         <span class='keyword3'>:linejoin</span> <span class='keyword3'>:miterlimit</span> <span class='keyword3'>:dasharray</span> <span class='keyword3'>:dashoffset</span>)
 </pre>
-<p class='tbl_title'><a name='8gU4HDke41S'></a>Table.2 make-stroke 関数のパラメータ</p>
+<p class='tbl_title'><a name='8gU4HDke41S'></a>Table.3 make-stroke 関数のパラメータ</p>
 <table align='center'>
 <tr><th>parameter</th><th>default 値</th><th>description</th></tr>
 <tr><td nowrap align='left'>:color</td><td nowrap align='left'>:black</td><td align='left'>ストロークの色を指定します。<a href='#1rpUB3fre67'>6  節</a>参照。</td></tr>
@@ -1003,7 +1202,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='4fQnwjWZpzi'></a>Figure.21 dashoffset, linecap, linejoin のサンプル</p>
+<p class='fig_title'><a name='4fQnwjWZpzi'></a>Figure.24 dashoffset, linecap, linejoin のサンプル</p>
 <h4><a name='if12ldF3hxG'></a>14.1.6 rgb関数</h4>
 <pre class='code'>
 (rgb r g b)
@@ -1611,9 +1810,9 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='2sDmAkevog1'></a>Figure.22 色の名前とサンプル</p>
+<p class='fig_title'><a name='2sDmAkevog1'></a>Figure.25 色の名前とサンプル</p>
 <details>
-<summary><a href='#2sDmAkevog1'>Figure.22</a> のソースはこちら</summary>
+<summary><a href='#2sDmAkevog1'>Figure.25</a> のソースはこちら</summary>
 <pre class='code'>
 (<span class='keyword1'>let</span> ((svg-width   750)
       (svg-height 1000))
@@ -3475,12 +3674,12 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='6tYSz371NWb'></a>Figure.23 色の名前とサンプル - 2</p>
+<p class='fig_title'><a name='6tYSz371NWb'></a>Figure.26 色の名前とサンプル - 2</p>
 <h2><a name='dGdSPnvay5N'></a>15 更新履歴</h2>
 <p>　更新履歴です。</p>
 <hr>
 <p class='footnote'><a name='footnote1' href='#footnote_ref1'>1</a> : SVG は Scalable Vector Graphics の略です。</p>
 <p class='footnote'><a name='footnote2' href='#footnote_ref2'>2</a> : SVG 2 の規格において色名に関する節は削除され、CSS 規格を参照することになりました。</p>
-<p class='footnote'><a name='footnote3' href='#footnote_ref3'>3</a> : <a href='#6tYSz371NWb'>Figure.23</a> に記載されているのは、Emacs エディタで定義されている色名のうち、規格に含まれないものの一覧です。このうち、green(#00FF00), grey(#BEBEBE), maroon(#B03060), purple(#A020F0) については規格側にも同じ名前があるものの異なる値です。これらは「規格優先」としているため、たとえば <code>:green</code> を指定した場合は規格の #008000 が使用され、#00FF00 は使用されません。</p>
+<p class='footnote'><a name='footnote3' href='#footnote_ref3'>3</a> : <a href='#6tYSz371NWb'>Figure.26</a> に記載されているのは、Emacs エディタで定義されている色名のうち、規格に含まれないものの一覧です。このうち、green(#00FF00), grey(#BEBEBE), maroon(#B03060), purple(#A020F0) については規格側にも同じ名前があるものの異なる値です。これらは「規格優先」としているため、たとえば <code>:green</code> を指定した場合は規格の #008000 が使用され、#00FF00 は使用されません。</p>
 </body>
 </html>
