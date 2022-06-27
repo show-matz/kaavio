@@ -227,8 +227,9 @@
 	   (multiple-value-bind (,g-center ,g-width ,g-height)
 				(diagram::table-get-cell-area ,r ,c (slot-value ,g-tbl 'diagram::rows)
 													(slot-value ,g-tbl 'diagram::cols))
-		 (let ((,g-topleft (point+ (shape-topleft ,g-tbl)
-								   (xy+ ,g-center (- (/ ,g-width 2)) (- (/ ,g-height 2))))))
-		   (with-subcanvas (,g-topleft ,g-width ,g-height)
-			 ,@body))))))
+		 (let* ((,g-topleft (point+ (shape-topleft ,g-tbl)
+								   (xy+ ,g-center (- (/ ,g-width 2)) (- (/ ,g-height 2)))))
+				(canvas (make-canvas ,g-topleft ,g-width ,g-height)))
+		   (declare (special canvas))
+		   ,@body)))))
 
