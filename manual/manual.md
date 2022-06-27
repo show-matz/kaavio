@@ -272,6 +272,29 @@ Figure. 吹き出しのサンプル
 
 　${{TODO}{まだ記述されていません。}}
 
+### メモ
+
+　メモはテキストボックスと良く似ていますが、${{TODO}{まだ記述されていません。}}
+
+<!-- snippet: MEMO-SAMPLE
+(diagram (:w 200 :h 100)
+  (grid)
+  (memo '(100 50) "memo text.~%multi line."
+                  :width 150 :height 80 :dog-ear 30
+                  :align :left :valign :top :fill :lightpink :stroke :red))
+-->
+
+```diagram
+<!-- expand: MEMO-SAMPLE -->
+```
+Figure. メモのサンプル
+
+```lisp
+<!-- expand: MEMO-SAMPLE -->
+```
+
+　${{TODO}{まだ記述されていません。}}
+
 ### 円柱
 
 　円柱は${{TODO}{まだ記述されていません。}}

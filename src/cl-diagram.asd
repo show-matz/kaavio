@@ -149,6 +149,11 @@
 																"writer"))
 				(:file "mathutil"                  :depends-on ("cl-diagram"
 																"point"))
+				(:file "memo"                      :depends-on ("cl-diagram"
+																"arc"
+																"polygon"
+																"filter"
+																"text-shape"))
 				(:file "paragraph"                 :depends-on ("cl-diagram"
 																"constants"
 																"text"

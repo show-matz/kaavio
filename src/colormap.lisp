@@ -620,4 +620,19 @@
 		   (t nil)))))
 	(t nil)))
 	  
+(defun colormap-more-light (color)
+  (destructuring-bind (r g b) (colormap-destructure color)
+	(setf r (min 255 (truncate (+ r (max 15 (* r 0.15))))))
+	(setf g (min 255 (truncate (+ g (max 15 (* g 0.15))))))
+	(setf b (min 255 (truncate (+ b (max 15 (* b 0.15))))))
+	(format  nil "#~2,'0x~2,'0x~2,'0x" r g b)))
+
+	  
+(defun colormap-more-dark (color)
+  (destructuring-bind (r g b) (colormap-destructure color)
+	(setf r (max 0 (truncate (- r (max 15 (* r 0.15))))))
+	(setf g (max 0 (truncate (- g (max 15 (* g 0.15))))))
+	(setf b (max 0 (truncate (- b (max 15 (* b 0.15))))))
+	(format  nil "#~2,'0x~2,'0x~2,'0x" r g b)))
+
 

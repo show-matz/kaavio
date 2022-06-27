@@ -183,6 +183,12 @@
 				:math/cos3
 				:math/cos4
 				:math/cos5
+				;memo.lisp
+				:*default-memo-dog-ear*
+				:*default-memo-align*
+				:*default-memo-valign*
+				:*default-memo-margin*
+				:memo
 				;paragraph.lisp
 				:paragraph
 				;path.lisp
