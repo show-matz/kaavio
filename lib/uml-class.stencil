@@ -133,7 +133,7 @@
 			   (tmp   (uml-stereotype-keyword-p param)))
 		  (if tmp
 			  (make-instance 'uml-class-keyword
-							 :info (make-instance 'uml-keyword-info :name tmp))	;;ToDo : class/font はどうする？
+							 :info (make-instance 'uml-keyword-info :name tmp))	;;ToDo : font はどうする？
 			  (cond
 				((eq param :etc) (make-instance 'uml-class-omission))
 				((name-p param)  (make-uml-class-attribute :none param))
@@ -284,7 +284,7 @@
 			   (tmp   (uml-stereotype-keyword-p param)))
 		  (if tmp
 			  (make-instance 'uml-class-keyword
-							 :info (make-instance 'uml-keyword-info :name tmp))	;;ToDo : class/font はどうする？
+							 :info (make-instance 'uml-keyword-info :name tmp))	;;ToDo : font はどうする？
 			  (cond
 				((eq param :etc) (make-instance 'uml-class-omission))
 				((name-p param)  (make-uml-class-operation :none param))

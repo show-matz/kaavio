@@ -3,7 +3,6 @@
 (load-stencil :uml-keyword-info)
 
 (defparameter *uml-flow-spec-font*  nil)
-(defparameter *uml-flow-spec-class* nil)
 
 (defparameter *uml-flow-stroke* :black)
 
@@ -16,7 +15,6 @@
   ((guard	:initform nil :initarg :guard)	;: (or keyword string)
    (action	:initform nil :initarg :action)	;: (or keyword string)
    (offset	:initform nil :initarg :offset)	;: (or nil list)
-   (class	:initform nil :initarg :class)	;: (or keyword string)
    (font	:initform nil :initarg :font)))	;: (or nil font-info)
 
 
@@ -28,7 +26,7 @@
 	  (setf font (make-font font)))))
 
 (defmethod check ((spec uml-flow-spec) canvas dict)
-  (with-slots (guard action offset class font) spec
+  (with-slots (guard action offset font) spec
 	(check-member guard  :nullable   t :types (or keyword string))
 	(check-member action :nullable   t :types (or keyword string))
 	(check-member offset :nullable nil :types cons)
@@ -36,7 +34,6 @@
 	  (with-point (x y) offset
 		(check-member x   :nullable nil :types number)
 		(check-member y   :nullable nil :types number)))
-	(check-member class  :nullable   t :types (or keyword string))
 	(check-object font   canvas dict :nullable t :class font-info))
   nil)
 
@@ -53,10 +50,10 @@
 					  ((:left)   "start")
 					  ((:center) "middle")
 					  ((:right)  "end"))))
-	(with-slots (offset class font) obj
+	(with-slots (offset font) obj
 	  (write-text-tag (+ x (point-x offset))
 					  (+ y (point-y offset))
-					  txt-anchor txt writer :class class :font font))))
+					  txt-anchor txt writer :font font))))
 
 (defun make-uml-flow-spec (&rest params)
   (if (= 1 (length params))
@@ -66,13 +63,11 @@
 		  ((listp   param) (apply #'make-uml-flow-spec param))
 		  (t               (make-uml-flow-spec :guard param))))
 	  (destructuring-bind (&key guard action offset
-								(class nil class-p)
 								(font  nil  font-p)) params
 		(make-instance 'uml-flow-spec
 					   :guard    guard
 					   :action   action
 					   :offset   offset
-					   :class    (if class-p class *uml-flow-spec-class*)
 					   :font     (if font-p  font  (or *uml-flow-spec-font*
 															diagram:*default-font*))))))
 
@@ -164,7 +159,7 @@
 									   :keyword ,g-kwd :spec ,g-spec
 									   :label (and (or ,g-kwd ,g-spec)
 												   #'uml-flow-draw-spec)
-									   :class nil :style ,style
+									   :style ,style
 									   :stroke (or *uml-flow-stroke* *default-stroke*)
 									   :end1 nil :end2 :arrow :layer ,layer :id ,id)))))
 

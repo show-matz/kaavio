@@ -659,9 +659,9 @@
 #|
 #|EXPORT|#				:connector
  |#
-(defmacro connector (from to &key style spacing label class stroke end1 end2 layer filter id)
+(defmacro connector (from to &key style spacing label stroke end1 end2 layer filter id)
   `(register-entity (make-instance 'diagram:connector
-								   :from ,from :to ,to :class ,class
+								   :from ,from :to ,to
 								   :style ,style :spacing ,spacing
 								   :label ,label :end1 ,end1 :end2 ,end2
 								   :stroke ,stroke :filter ,filter :layer ,layer :id ,id)))
@@ -669,9 +669,9 @@
 #|
 #|EXPORT|#				:connect
  |#
-(defmacro connect (from to &key style spacing label class stroke end1 end2 layer filter id)
+(defmacro connect (from to &key style spacing label stroke end1 end2 layer filter id)
   `(register-entity (make-instance 'diagram:connector
-								   :from ,from :to ,to :class ,class
+								   :from ,from :to ,to
 								   :style ,style :spacing ,spacing
 								   :label ,label :end1 ,end1 :end2 ,end2
 								   :stroke ,stroke :filter ,filter :layer ,layer :id ,id)))

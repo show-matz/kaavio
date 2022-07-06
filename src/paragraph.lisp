@@ -98,7 +98,7 @@
 ;;(defmethod shape-get-subcanvas ((shp rectangle)) ...)
 
 (defmethod draw-entity ((shp paragraph) writer)
-  (with-slots (position class align font text filter) shp
+  (with-slots (position align font text filter) shp
 	(let ((x (point-x position))
 		  (y (point-y (shape-top shp)))
 		  (txt-anchor (ecase align
@@ -114,7 +114,7 @@
 		  (dolist (line text)
 			(incf y fsize)
 			(write-text-tag x y txt-anchor line writer
-							:id id :class class :font font-prop :filter filter)
+							:id id :font font-prop :filter filter)
 			(incf y line-spacing))
 		  (post-draw shp writer)))))
   nil)
@@ -130,10 +130,10 @@
 #|EXPORT|#				:paragraph
  |#
 (defmacro paragraph (position text
-					 &key align valign rotate class font link layer filter id)
+					 &key align valign rotate font link layer filter id)
   `(register-entity (make-instance 'diagram:paragraph
 								   :position ,position :text ,text
 								   :align ,align :valign ,valign :rotate ,rotate
-								   :font ,font :class ,class :link ,link
+								   :font ,font :link ,link
 								   :filter ,filter :layer ,layer :id ,id)))
 

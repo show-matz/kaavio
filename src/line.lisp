@@ -22,7 +22,6 @@
 ;;------------------------------------------------------------------------------
 (defclass line (entity)
   ((points	:initform nil :initarg :points)		; list of point
-   (class	:initform nil :initarg :class)		; keyword
    (end1	:initform nil :initarg :end1)		; keyword
    (end2	:initform nil :initarg :end2)		; keyword
    (label	:initform nil :initarg :label)  	; (or nil label-info function)
@@ -101,9 +100,8 @@
 (defmethod check ((ent line) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (with-slots (points class end1 end2 label stroke filter) ent
+  (with-slots (points end1 end2 label stroke filter) ent
 	(check-member points :nullable nil :types list)
-	(check-member class  :nullable   t :types (or keyword string))
 	(check-object end1   canvas dict :nullable   t :class endmark-info)
 	(check-object end2   canvas dict :nullable   t :class endmark-info)
 	(unless (functionp label)
@@ -131,7 +129,7 @@
 	  (slot-value ent 'label)))
 
 (defmethod draw-entity ((ent line) writer)
-  (with-slots (points class label end1 end2 stroke filter) ent
+  (with-slots (points label end1 end2 stroke filter) ent
 	(let ((id  (and (not (entity-composition-p ent))
 					(slot-value ent 'id))))
 	  (pre-draw ent writer)
@@ -146,10 +144,8 @@
 					  "<polyline "
 					  (write-when id "id='" it "' ")
 					  "fill='none' "
-					  (write-when class "class='" it "' ")
-					  (unless class
-						(when stroke
-						  (to-property-strings stroke)))
+					  (when stroke
+						(to-property-strings stroke))
 					  "points='" (with-output-to-string (st)
 								   (format-points points st)) "' "
 					  (write-when filter "filter='url(#" it ")' ")
@@ -160,9 +156,9 @@
 			  (funcall label           ent x y sin cos writer)
 			  (draw-label-with-point label x y sin cos writer))))
 	  (when end1
-		(draw-endmark end1 (line-get-endpoints ent :from) class stroke writer))
+		(draw-endmark end1 (line-get-endpoints ent :from) stroke writer))
 	  (when end2
-		(draw-endmark end2 (line-get-endpoints ent :dest) class stroke writer))
+		(draw-endmark end2 (line-get-endpoints ent :dest) stroke writer))
 	  (post-draw ent writer)))
   nil)
   
@@ -175,9 +171,9 @@
 #|
 #|EXPORT|#				:line
  |#
-(defmacro line (points &key class stroke label end1 end2 layer filter id)
+(defmacro line (points &key stroke label end1 end2 layer filter id)
   `(register-entity (make-instance 'diagram:line
-								   :points ,points :class ,class
+								   :points ,points
 								   :end1 ,end1 :end2 ,end2 :label ,label
 								   :stroke ,stroke :filter ,filter
 								   :layer ,layer :id ,id)))

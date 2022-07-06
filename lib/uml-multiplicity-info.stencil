@@ -2,7 +2,6 @@
 (in-package :cl-diagram-user)
 
 (defparameter *uml-multiplicity-font*     nil)
-(defparameter *uml-multiplicity-class*    nil)
 (defparameter *uml-multiplicity-degree*   120)
 (defparameter *uml-multiplicity-distance*  10)
 
@@ -14,7 +13,6 @@
 (defclass uml-multiplicity-info ()
   ((min			:initform nil :initarg :min)		; (or keyword integer)
    (max			:initform nil :initarg :max)		; (or keyword integer)
-   (class		:initform nil :initarg :class)		; (or keyword string)
    (font		:initform nil :initarg :font)		; (or nil font-info)
    (degree		:initform nil :initarg :degree)		; integer
    (distance	:initform nil :initarg :distance)))	; integer
@@ -26,10 +24,9 @@
 	  (setf font (make-font font)))))
 
 (defmethod check ((mul uml-multiplicity-info) canvas dict)
-  (with-slots (min max class font degree distance) mul
+  (with-slots (min max font degree distance) mul
 	(check-member min      :nullable nil :types (or keyword integer))
 	(check-member max      :nullable nil :types (or keyword integer))
-	(check-member class    :nullable   t :types (or keyword string))
 	(check-object font     canvas dict :nullable t :class font-info)
 	(check-member degree   :nullable nil :types integer)
 	(check-member distance :nullable nil :types integer)
@@ -51,8 +48,8 @@
 					  ((:left)   "start")
 					  ((:center) "middle")
 					  ((:right)  "end"))))
-	(with-slots (class font) mul
-	  (write-text-tag x y txt-anchor txt writer :class class :font font))))
+	(with-slots (font) mul
+	  (write-text-tag x y txt-anchor txt writer :font font))))
 
 ;; type := :from|:dest
 (defun uml-multiplicity-draw-beside-line (mul line type writer)
@@ -87,14 +84,12 @@
 			(t               (make-uml-multiplicity :min param :max param))))
 		(destructuring-bind (&key (min      nil      min-p)
 								  (max      nil      max-p)
-								  (class    nil    class-p)
 								  (font     nil     font-p)
 								  (degree   nil   degree-p)
 								  (distance nil distance-p)) params
 		  (make-instance 'uml-multiplicity-info
 						 :min      (if min-p      min      nil)
 						 :max      (if max-p      max      nil)
-						 :class    (if class-p    class    *uml-multiplicity-class*)
 						 :font     (if font-p     font     (or *uml-multiplicity-font*
 															   diagram:*default-font*))
 						 :degree   (if degree-p   degree   *uml-multiplicity-degree*)

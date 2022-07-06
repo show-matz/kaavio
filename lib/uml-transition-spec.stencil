@@ -1,7 +1,6 @@
 (in-package :cl-diagram-user)
 
 (defparameter *uml-transition-spec-font*  nil)
-(defparameter *uml-transition-spec-class* nil)
 
 ;;------------------------------------------------------------------------------
 ;;
@@ -12,7 +11,6 @@
   ((trigger	:initform nil :initarg :trigger)	; (or keyword string)
    (guard	:initform nil :initarg :guard)		; (or keyword string)
    (action	:initform nil :initarg :action)		; (or keyword string)
-   (class	:initform nil :initarg :class)		; (or keyword string)
    (offset	:initform nil :initarg :offset)		; (or nil list)
    (font	:initform nil :initarg :font)))		; (or nil font-info)
 
@@ -25,11 +23,10 @@
 	  (setf font (make-font font)))))
 
 (defmethod check ((mul uml-transition-spec) canvas dict)
-  (with-slots (trigger guard action class offset font) mul
+  (with-slots (trigger guard action offset font) mul
 	(check-member trigger :nullable t :types (or keyword string))
 	(check-member guard   :nullable t :types (or keyword string))
 	(check-member action  :nullable t :types (or keyword string))
-	(check-member class   :nullable t :types (or keyword string))
 	(check-member offset  :nullable t :types cons)
 	(when offset
 	  (with-point (x y) offset
@@ -52,8 +49,8 @@
 					  ((:left)   "start")
 					  ((:center) "middle")
 					  ((:right)  "end"))))
-	(with-slots (class font) obj
-	  (write-text-tag x y txt-anchor txt writer :class class :font font))))
+	(with-slots (font) obj
+	  (write-text-tag x y txt-anchor txt writer :font font))))
 
 
 ;;------------------------------------------------------------------------------
@@ -69,14 +66,12 @@
 		  ((listp   param) (apply #'make-uml-transition-spec param))
 		  (t               (make-uml-transition-spec :trigger param))))
 	  (destructuring-bind (&key trigger guard action offset
-								(class nil class-p)
 								(font  nil  font-p)) params
 		(make-instance 'uml-transition-spec
 					   :trigger   trigger
 					   :guard     guard
 					   :action    action
 					   :offset    offset
-					   :class    (if class-p class *uml-transition-spec-class*)
 					   :font     (if font-p  font  (or *uml-transition-spec-font*
 															diagram:*default-font*))))))
 

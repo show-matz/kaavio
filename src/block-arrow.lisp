@@ -65,7 +65,7 @@
   `(register-entity (make-instance 'diagram:block-arrow
 								   :points (diagram::make-block-arrow-points-1 ,pt1 ,pt2
 																			   ,width ,length ,size)
-								   :class nil :fill ,fill :stroke ,stroke
+								   :fill ,fill :stroke ,stroke
 								   :link ,link :layer ,layer :filter ,filter :id ,id)))
 
 #|
@@ -76,5 +76,5 @@
   `(register-entity (make-instance 'diagram:block-arrow
 								   :points (diagram::make-block-arrow-points-2 ,pt1 ,pt2
 																			   ,width ,length ,size)
-								   :class nil :fill ,fill :stroke ,stroke
+								   :fill ,fill :stroke ,stroke
 								   :link ,link :layer ,layer :filter ,filter :id ,id)))

@@ -1,7 +1,6 @@
 
 (in-package :cl-diagram-user)
 
-(defparameter *uml-role-class*    nil)
 (defparameter *uml-role-font*     nil)
 (defparameter *uml-role-degree*   240)
 (defparameter *uml-role-distance*  10)
@@ -13,7 +12,6 @@
 ;;------------------------------------------------------------------------------
 (defclass uml-role-info ()
   ((name		:initform nil :initarg :name)		; (or keyword string)
-   (class		:initform nil :initarg :class)		; (or keyword string)
    (font		:initform nil :initarg :font)		; (or nil font-info)
    (degree		:initform nil :initarg :degree)		; integer
    (distance	:initform nil :initarg :distance)))	; integer
@@ -25,9 +23,8 @@
 	  (setf font (make-font font)))))
 
 (defmethod check ((rol uml-role-info) canvas dict)
-  (with-slots (name class font degree distance) rol
+  (with-slots (name font degree distance) rol
 	(check-member name     :nullable nil :types (or keyword string))
-	(check-member class    :nullable   t :types (or keyword string))
 	(check-object font     canvas dict :nullable t :class font-info)
 	(check-member degree   :nullable nil :types integer)
 	(check-member distance :nullable nil :types integer))
@@ -42,8 +39,8 @@
 					  ((:left)   "start")
 					  ((:center) "middle")
 					  ((:right)  "end"))))
-	(with-slots (class font) rol
-	  (write-text-tag x y txt-anchor txt writer :class class :font font))))
+	(with-slots (font) rol
+	  (write-text-tag x y txt-anchor txt writer :font font))))
 
 ;; type := :from|:dest
 (defun uml-role-draw-beside-line (rol line type writer)
@@ -69,13 +66,11 @@
 		  ((listp param) (apply #'make-uml-role param))
 		  (t             (make-uml-role :name param))))
 	  (destructuring-bind (&key (name     nil     name-p)
-								(class    nil    class-p)
 								(font     nil     font-p)
 								(degree   nil   degree-p)
 								(distance nil distance-p)) params
 		(make-instance 'uml-role-info
 					   :name     (if name-p     name     nil)
-					   :class    (if class-p    class    *uml-role-class*)
 					   :font     (if font-p     font     (or *uml-role-font*
 															 diagram:*default-font*))
 					   :degree   (if degree-p   degree   *uml-role-degree*)

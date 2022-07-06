@@ -65,8 +65,7 @@
 #|EXPORT|#				:shape
  |#
 (defclass shape (entity)
-  ((class	:initform nil :initarg :class)	; keyword
-   (rotate	:initform nil :initarg :rotate)	; number
+  ((rotate	:initform nil :initarg :rotate)	; number
    (link	:initform nil :initarg :link)))	; (or nil link-info)
 
 (defmethod initialize-instance :after ((shp shape) &rest initargs)
@@ -213,8 +212,7 @@
 (defmethod check ((shp shape) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (with-slots (class rotate link) shp
-	(check-member class  :nullable t :types (or keyword string))
+  (with-slots (rotate link) shp
 	(check-member rotate :nullable t :types number)
 	(check-object link  canvas dict :nullable t :class link-info))
   nil)

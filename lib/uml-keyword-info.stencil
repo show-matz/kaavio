@@ -2,7 +2,6 @@
 (in-package :cl-diagram-user)
 
 (defparameter *uml-keyword-font*  nil)
-(defparameter *uml-keyword-class* nil)
 
 ;;------------------------------------------------------------------------------
 ;;
@@ -11,7 +10,6 @@
 ;;------------------------------------------------------------------------------
 (defclass uml-keyword-info ()
   ((name	:initform nil :initarg :name)	; (or keyword string)
-   (class	:initform nil :initarg :class)	; (or keyword string)
    (font	:initform nil :initarg :font)))	; (or nil font-info)
 
 
@@ -22,9 +20,8 @@
 	  (setf font (make-font font)))))
 
 (defmethod check ((kwd uml-keyword-info) canvas dict)
-  (with-slots (name class font) kwd
+  (with-slots (name font) kwd
 	(check-member name  :nullable nil :types (or keyword string))
-	(check-member class :nullable   t :types (or keyword string))
 	(check-object font  canvas dict :nullable t :class font-info))
   nil)
 
@@ -37,8 +34,8 @@
 							((:left)   "start")
 							((:center) "middle")
 							((:right)  "end"))))
-	(with-slots (class font) kwd
-	  (write-text-tag x y txt-anchor txt writer :class class :font font))))
+	(with-slots (font) kwd
+	  (write-text-tag x y txt-anchor txt writer :font font))))
 
 
 (defun uml-keyword-draw-beside-line (kwd line writer)
@@ -62,11 +59,9 @@
 		  ((listp param) (apply #'make-uml-keyword param))
 		  (t             (make-uml-keyword :name param))))
 	  (destructuring-bind (&key (name  nil  name-p)
-								(class nil class-p)
 								(font  nil  font-p)) params
 		(make-instance 'uml-keyword-info
 					   :name  (if name-p  name  nil)
-					   :class (if class-p class *uml-keyword-class*)
 					   :font  (if font-p  font  (or *uml-keyword-font*
 													diagram:*default-font*))))))
 

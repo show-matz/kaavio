@@ -26,17 +26,15 @@
 #|
 #|EXPORT|#				:write-text-tag
  |#
-(defun write-text-tag (x y anchor txt writer &key id class font filter)
+(defun write-text-tag (x y anchor txt writer &key id font filter)
   (writer-write writer
 				"<text x='" x "' y='" y "' "
 				(write-when id "id='" it "' ")
 				"text-anchor='" anchor "' "
-				(write-when class "class='" it "' ")
-				(unless class
-				  (if (stringp font)
-					  font
-					  (when font
-						(to-property-strings font))))
+				(if (stringp font)
+					font
+					(when font
+					  (to-property-strings font)))
 				(when (need-preserve-space-p txt)
 				  "xml:space='preserve' ")
 				(write-when filter "filter='url(#" it ")' ")
@@ -51,7 +49,6 @@
   ((position	:initform nil :initarg :position)	; number
    (text		:initform nil :initarg :text)		; string
    (align		:initform nil :initarg :align)		; keyword
-   (class		:initform nil :initarg :class)		; keyword
    (font		:initform nil :initarg :font)		; (or nil font-info)
    (link		:initform nil :initarg :link)		; (or nil link-info)
    (filter		:initform nil :initarg :filter)))	; (or nil keyword)
@@ -72,10 +69,9 @@
   (declare (ignorable dict))
   ;; this method must call super class' one.
   (call-next-method)
-  (with-slots (position text align class font link filter) txt
+  (with-slots (position text align font link filter) txt
 	(check-member   text  :nullable nil :types string)
 	(check-member   align :nullable nil :types keyword)
-	(check-member   class :nullable   t :types (or keyword string))
 	(check-object   font  canvas dict :nullable nil :class font-info)
 	(check-object   link  canvas dict :nullable   t :class link-info)
 	(check-keywords align :left :center :right)
@@ -101,7 +97,7 @@
   (call-next-method))
 
 (defmethod draw-entity ((txt text) writer)
-  (with-slots (position align class font text filter) txt
+  (with-slots (position align font text filter) txt
 	(let ((txt-anchor (ecase align
 						((:left)   "start")
 						((:center) "middle")
@@ -112,7 +108,7 @@
 	  (write-text-tag (point-x position)
 					  (point-y position)
 					  txt-anchor text writer
-					  :id id :class class :font font :filter filter)
+					  :id id :font font :filter filter)
 	  (post-draw txt writer))))
 
 
@@ -125,9 +121,9 @@
 #|
 #|EXPORT|#				:text
  |#
-(defmacro text (position text &key align class font link layer filter id)
+(defmacro text (position text &key align font link layer filter id)
   `(register-entity (make-instance 'diagram:text
 								   :position ,position :text ,text
-								   :align ,align :class ,class :font ,font 
+								   :align ,align :font ,font 
 								   :link ,link :filter ,filter :layer ,layer :id ,id)))
 

@@ -88,11 +88,3 @@
 							  (/ width 2)
 							  (/ height 2)) width height)))))
 
-;x y m-width m-height :fill :none)
-;			(let ((x (- m-x (class:member canvas :left)))
-;				  (y (- m-y (class:member canvas :top))))
-;			  (rectangle x y m-width m-height :fill :none)
-;			  (line `(,(- x 50) ,y ,(+ x 50) ,y))
-;			  (line `(,x ,(- y 50) ,x ,(+ y 50)))))))))
-
-

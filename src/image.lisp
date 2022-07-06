@@ -145,7 +145,7 @@
 	  (call-next-method)))
 
 (defmethod draw-entity ((img image) writer)
-  (with-slots (width height class filename preserve-ratio filter) img
+  (with-slots (width height filename preserve-ratio filter) img
 	(let ((id (and (not (entity-composition-p img))
 				   (slot-value img 'id)))
 		  (topleft (shape-topleft img)))
@@ -157,7 +157,6 @@
 					"y='" (point-y topleft) "' "
 					"width='"  width  "' "
 					"height='" height "' "
-					(write-when class "class='" it "' ")
 					"xlink:href='" filename "' "
 					(unless preserve-ratio
 					  "preserveAspectRatio='none' ")
@@ -179,12 +178,12 @@
 #|EXPORT|#				:image
  |#
 (defmacro image (center filename
-				 &key width height label class link rotate layer id filter contents)
+				 &key width height label link rotate layer id filter contents)
   (let ((code `(register-entity (make-instance 'diagram:image
 											   :center ,center
 											   :filename ,filename
 											   :width ,width :height ,height
-											   :label ,label :class ,class
+											   :label ,label
 											   :link ,link :rotate ,rotate
 											   :filter ,filter :layer ,layer :id ,id))))
 	(if (null contents)

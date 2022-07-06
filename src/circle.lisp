@@ -98,7 +98,7 @@
 ;;(defmethod entity-composition-p ((shp circle)) ...)
   
 (defmethod draw-entity ((shp circle) writer)
-  (with-slots (center class radius fill stroke filter) shp
+  (with-slots (center radius fill stroke filter) shp
 	(let ((id (and (not (entity-composition-p shp))
 				   (slot-value shp 'id))))
 	  (pre-draw shp writer)
@@ -108,13 +108,10 @@
 					"cx='" (point-x center) "' "
 					"cy='" (point-y center) "' "
 					"r='" radius "' "
-					(write-when class "class='" it "' ")
-					(unless class
-					  (when fill
-						(to-property-strings fill)))
-					(unless class
-					  (when stroke
-						(to-property-strings stroke)))
+					(when fill
+					  (to-property-strings fill))
+					(when stroke
+					  (to-property-strings stroke))
 					(write-when filter "filter='url(#" it ")' ")
 					"/>")
 	  (post-draw shp writer)))
@@ -130,10 +127,9 @@
 #|EXPORT|#				:circle
  |#
 (defmacro circle (center radius
-				  &key class fill stroke link layer id filter contents)
+				  &key fill stroke link layer id filter contents)
   (let ((code `(register-entity (make-instance 'diagram:circle
-											   :center ,center
-											   :radius ,radius :class ,class
+											   :center ,center :radius ,radius
 											   :fill ,fill :stroke ,stroke :link ,link
 											   :filter ,filter :layer ,layer :id ,id))))
 	(if (null contents)

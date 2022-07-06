@@ -154,7 +154,7 @@
 ;;(defmethod entity-composition-p ((shp ellipse)) ...)
   
 (defmethod draw-entity ((shp ellipse) writer)
-  (with-slots (center class radius-x radius-y fill stroke filter) shp
+  (with-slots (center radius-x radius-y fill stroke filter) shp
 	(let ((id (and (not (entity-composition-p shp))
 				   (slot-value shp 'id))))
 	  (pre-draw shp writer)
@@ -165,13 +165,10 @@
 					"cy='" (point-y center) "' "
 					"rx='" radius-x "' "
 					"ry='" radius-y "' "
-					(write-when class "class='" it "' ")
-					(unless class
-					  (when fill
-						(to-property-strings fill)))
-					(unless class
-					  (when stroke
-						(to-property-strings stroke)))
+					(when fill
+					  (to-property-strings fill))
+					(when stroke
+					  (to-property-strings stroke))
 					(write-when filter "filter='url(#" it ")' ")
 					"/>")
 	  (post-draw shp writer)))
@@ -187,10 +184,10 @@
 #|EXPORT|#				:ellipse
  |#
 (defmacro ellipse (center rx ry
-				   &key class fill stroke rotate link layer id filter contents)
+				   &key fill stroke rotate link layer id filter contents)
   (let ((code `(register-entity (make-instance 'diagram:ellipse
 											   :center ,center :rotate ,rotate
-											   :radius-x ,rx :radius-y ,ry :class ,class
+											   :radius-x ,rx :radius-y ,ry
 											   :fill ,fill :stroke ,stroke
 											   :filter ,filter :link ,link
 											   :layer ,layer :id ,id))))

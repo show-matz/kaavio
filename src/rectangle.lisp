@@ -78,7 +78,7 @@
 ;;(defmethod shape-get-subcanvas ((shp rectangle)) ...)
 
 (defmethod draw-entity ((rct rectangle) writer)
-  (with-slots (rx ry fill stroke class filter) rct
+  (with-slots (rx ry fill stroke filter) rct
 	(let ((id (and (not (entity-composition-p rct))
 				   (slot-value rct 'id)))
 		  (topleft (shape-topleft rct)))
@@ -92,13 +92,10 @@
 					"height='" (shape-height rct) "' "
 					(write-when rx "rx='" it "' ")
 					(write-when ry "ry='" it "' ")
-					(write-when class "class='" it "' ")
-					(unless class
-					  (when fill
-						(to-property-strings fill)))
-					(unless class
-					  (when stroke
-						(to-property-strings stroke)))
+					(when fill
+					  (to-property-strings fill))
+					(when stroke
+					  (to-property-strings stroke))
 					(write-when filter "filter='url(#" it ")' ")
 					"/>")
 	  (post-draw rct writer)))
@@ -114,11 +111,11 @@
 #|EXPORT|#				:rectangle
  |#
 (defmacro rectangle (center width height
-					 &key rx ry class fill stroke rotate link layer id filter contents)
+					 &key rx ry fill stroke rotate link layer id filter contents)
   (let ((code `(register-entity (make-instance 'diagram:rectangle
 											   :center ,center
 											   :width ,width :height ,height
-											   :rx ,rx :ry ,ry :class ,class
+											   :rx ,rx :ry ,ry
 											   :fill ,fill :stroke ,stroke
 											   :rotate ,rotate :link ,link
 											   :filter ,filter :layer ,layer :id ,id))))
@@ -134,11 +131,11 @@
 #|EXPORT|#				:rect
  |#
 (defmacro rect (center width height
-				&key rx ry class fill stroke rotate link layer id filter contents)
+				&key rx ry fill stroke rotate link layer id filter contents)
   (let ((code `(register-entity (make-instance 'diagram:rectangle
 											   :center ,center
 											   :width ,width :height ,height
-											   :rx ,rx :ry ,ry :class ,class
+											   :rx ,rx :ry ,ry
 											   :fill ,fill :stroke ,stroke
 											   :rotate ,rotate :link ,link
 											   :filter ,filter :layer ,layer :id ,id))))

@@ -200,7 +200,6 @@
 ;;------------------------------------------------------------------------------
 (defclass path (entity)
   ((data	:initform nil :initarg :data)		; list
-   (class	:initform nil :initarg :class)		; keyword
    (fill	:initform nil :initarg :fill)		; (or nil fill-info)
    (stroke	:initform nil :initarg :stroke)		; (or nil stroke-info)
    (filter	:initform nil :initarg :filter)))	; (or nil keyword)
@@ -219,9 +218,8 @@
 (defmethod check ((ent path) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (with-slots (data class fill stroke filter) ent
+  (with-slots (data fill stroke filter) ent
 	(check-member data    :nullable nil :types list)
-	(check-member class   :nullable   t :types (or keyword string))
 	(check-object fill    canvas dict :nullable nil :class fill-info)
 	(check-object stroke  canvas dict :nullable nil :class stroke-info)
 	(check-member filter  :nullable   t :types keyword)
@@ -240,20 +238,17 @@
 					 ((numberp  elm) (format stream "~F" elm))
 					 ((stringp  elm) (format stream "~A" elm)))
 				   (incf idx))))))
-	(with-slots (data class fill stroke filter) ent
+	(with-slots (data fill stroke filter) ent
 	  (let ((id  (and (not (entity-composition-p ent))
 					  (slot-value ent 'id))))
 		(pre-draw ent writer)
 		(writer-write writer
 					  "<path "
 					  (write-when id       "id='" it "' ")
-					  (write-when class "class='" it "' ")
-					  (unless class
-						(when fill
-						  (to-property-strings fill)))
-					  (unless class
-						(when stroke
-						  (to-property-strings stroke)))
+					  (when fill
+						(to-property-strings fill))
+					  (when stroke
+						(to-property-strings stroke))
 					  "d='" (format-path-data data) "' "
 					  (write-when filter "filter='url(#" it ")' ")
 					  "/>")
@@ -268,9 +263,8 @@
 #|
 #|EXPORT|#				:path
  |#
-(defmacro path (data &key class fill stroke layer filter id)
+(defmacro path (data &key fill stroke layer filter id)
   `(register-entity (make-instance 'diagram:path
-								   :data ,data :class ,class
-								   :fill ,fill :stroke ,stroke
+								   :data ,data :fill ,fill :stroke ,stroke
 								   :layer ,layer :filter ,filter :id ,id)))
 

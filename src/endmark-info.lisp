@@ -20,7 +20,7 @@
 ;; internal functions
 ;;
 ;;------------------------------------------------------------------------------
-(defun __draw-endmark-arrow (points size class stroke fill writer)
+(defun __draw-endmark-arrow (points size stroke fill writer)
   (declare (ignore fill))
   (symbol-macrolet ((ARROW_DEGREE1 210)
 					(ARROW_DEGREE2 150))
@@ -32,17 +32,15 @@
 		   (y2 (* size (math/sin3 pt1 pt2 ARROW_DEGREE2))))
 	  (writer-write writer
 					"<polyline "
-					(write-when class "class='" it "' ")
 					"fill='none' "
-					(unless class
-					  (when stroke
-						(to-property-strings stroke)))
+					(when stroke
+					  (to-property-strings stroke))
 					"points='"	(+ (point-x pt2) x2) "," (+ (point-y pt2) y2) " "
 								(point-x pt2)        "," (point-y pt2)        " "
 								(+ (point-x pt2) x1) "," (+ (point-y pt2) y1) "' "
 					"/>"))))
 
-(defun __draw-endmark-triangle (points size class stroke fill writer)
+(defun __draw-endmark-triangle (points size stroke fill writer)
   (symbol-macrolet ((ARROW_DEGREE1 205)
 					(ARROW_DEGREE2 155))
 	(let* ((pt1 (car points))
@@ -53,19 +51,16 @@
 		   (y2 (* size (math/sin3 pt1 pt2 ARROW_DEGREE2))))
 	  (writer-write writer
 					"<path "
-					(write-when class "class='" it "' ")
-					(unless class
-					  (when fill
-						(to-property-strings fill)))
-					(unless class
-					  (when stroke
-						(to-property-strings stroke)))
+					(when fill
+					  (to-property-strings fill))
+					(when stroke
+					  (to-property-strings stroke))
 					"d='M " (point-x pt2) " " (point-y pt2) " "
 					   "l " x1            " " y1            " "
 					   "l " (- x2 x1)     " " (- y2 y1)     " z' "
 					"/>"))))
 
-(defun __draw-endmark-diamond (points size class stroke fill writer)
+(defun __draw-endmark-diamond (points size stroke fill writer)
   (symbol-macrolet ((ARROW_DEGREE1 210)
 					(ARROW_DEGREE2 150))
 	(let* ((pt1 (car points))
@@ -80,34 +75,28 @@
 		   (y3 (+ y2 (- y4 y1))))
 	  (writer-write writer
 					"<path "
-					(write-when class "class='" it "' ")
-					(unless class
-					  (when fill
-						(to-property-strings fill)))
-					(unless class
-					  (when stroke
-						(to-property-strings stroke)))
+					(when fill
+					  (to-property-strings fill))
+					(when stroke
+					  (to-property-strings stroke))
 					"d='M " x1 " " y1 " L " x2 " " y2 " "
 					   "L " x3 " " y3 " L " x4 " " y4 " z' "
 					"/>"))))
 
-(defun __draw-endmark-circle (points size class stroke fill writer)
+(defun __draw-endmark-circle (points size stroke fill writer)
   (let ((pt (cdr points)))
 	(writer-write writer
 				  "<circle "
 				  "cx='" (point-x pt) "' "
 				  "cy='" (point-y pt) "' "
 				  "r='" (/ size 2) "' "
-				  (write-when class "class='" it "' ")
-				  (unless class
-					(when fill
-					  (to-property-strings fill)))
-				  (unless class
-					(when stroke
-					  (to-property-strings stroke)))
+				  (when fill
+					(to-property-strings fill))
+				  (when stroke
+					(to-property-strings stroke))
 				  "/>")))
 
-(defun __draw-endmark-rectangle (points size class stroke fill writer)
+(defun __draw-endmark-rectangle (points size stroke fill writer)
   (let* ((pt (cdr points)))
 	(writer-write writer
 				  "<rect "
@@ -115,13 +104,10 @@
 				  "y='" (- (point-y pt) (/ size 2)) "' "
 				  "width='" size "' "
 				  "height='" size "' "
-				  (write-when class "class='" it "' ")
-				  (unless class
-					(when fill
-					  (to-property-strings fill)))
-				  (unless class
-					(when stroke
-					  (to-property-strings stroke)))
+				  (when fill
+					(to-property-strings fill))
+				  (when stroke
+					(to-property-strings stroke))
 				  "/>")))
 
 
@@ -138,7 +124,6 @@
 												; :none|:arrow|:triangle|:diamond|:circle|:rect
    (size	:initform nil :initarg :size)		; (or keyword number)
 												; :small|:midium|:large|:xlarge
-   (class	:initform nil :initarg :class)		; (or nil keyword string)
    (fill	:initform nil :initarg :fill)		; (or nil fill-info)	; nil means same as stroke
    (stroke	:initform nil :initarg :stroke)))	; (or nil stroke-info)
 
@@ -154,10 +139,9 @@
 
 
 (defmethod check ((mark endmark-info) canvas dict)
-  (with-slots (type size class fill stroke) mark
+  (with-slots (type size fill stroke) mark
 	(check-member type   :nullable nil :types (or keyword function))
 	(check-member size   :nullable nil :types (or keyword number))
-	(check-member class  :nullable   t :types (or keyword string))
 	(check-object fill   canvas dict :nullable t :class   fill-info)
 	(check-object stroke canvas dict :nullable t :class stroke-info)
 	(when (keywordp type)
@@ -166,7 +150,7 @@
 	  (check-keywords size :small :midium :large :xlarge)))
   t)
 
-(defun draw-endmark (mark points class stroke writer)
+(defun draw-endmark (mark points stroke writer)
   (with-slots (type size fill) mark
 	(let* ((size (if (numberp size)
 					 size
@@ -184,7 +168,6 @@
 						 ((:circle)   #'__draw-endmark-circle)
 						 ((:rect)     #'__draw-endmark-rectangle)))))
 	  (funcall drawer points size
-			   (or (slot-value mark 'class)  class)
 			   (or (slot-value mark 'stroke) stroke)    ;ToDo : m-stroke is always not nil...
 			   fill writer))))
   
@@ -203,11 +186,10 @@
 		  (t                (make-endmark :type param))))
 	  (if (null params)
 		  nil
-		  (destructuring-bind (&key type size class fill stroke) params
+		  (destructuring-bind (&key type size fill stroke) params
 			(make-instance 'endmark-info
 						   :type   type
 						   :size   size
-						   :class  class
 						   :fill   fill
 						   :stroke stroke)))))
 

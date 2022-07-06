@@ -19,7 +19,6 @@
 ;;------------------------------------------------------------------------------
 (defclass polygon (entity)
   ((points	:initform nil :initarg :points)	; list
-   (class	:initform nil :initarg :class)	; keyword
    (fill	:initform nil :initarg :fill)	; (or nil fill-info)
    (stroke	:initform nil :initarg :stroke)	; (or nil stroke-info)
    (filter	:initform nil :initarg :filter)	; (or nil keyword)
@@ -41,9 +40,8 @@
 (defmethod check ((ent polygon) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (with-slots (points class fill stroke filter link) ent
+  (with-slots (points fill stroke filter link) ent
 	(check-member points :nullable nil :types list)
-	(check-member class  :nullable   t :types (or keyword string))
 	(check-object fill   canvas dict :nullable nil :class fill-info)
 	(check-object stroke canvas dict :nullable nil :class stroke-info)
 	(check-member filter :nullable   t :types keyword)
@@ -85,20 +83,17 @@
 						 (coerce (point-x (car pts)) 'single-float)
 						 (coerce (point-y (car pts)) 'single-float))
 				 (setf pts (cdr pts))))))
-	(with-slots (points class fill stroke filter) ent
+	(with-slots (points fill stroke filter) ent
 	  (let ((id  (and (not (entity-composition-p ent))
 					  (slot-value ent 'id))))
 		(pre-draw ent writer)
 		(writer-write writer
 					  "<polygon "
 					  (write-when id       "id='" it "' ")
-					  (write-when class "class='" it "' ")
-					  (unless class
-						(when fill
-						  (to-property-strings fill)))
-					  (unless class
-						(when stroke
-						  (to-property-strings stroke)))
+					  (when fill
+						(to-property-strings fill))
+					  (when stroke
+						(to-property-strings stroke))
 					  "points='" (format-points points) "' "
 					  (write-when filter "filter='url(#" it ")' ")
 					  "/>")
@@ -114,9 +109,8 @@
 #|
 #|EXPORT|#				:polygon
  |#
-(defmacro polygon (points &key class fill stroke link layer filter id)
+(defmacro polygon (points &key fill stroke link layer filter id)
   `(register-entity (make-instance 'diagram:polygon
-								   :points ,points :class ,class
-								   :fill ,fill :stroke ,stroke
+								   :points ,points :fill ,fill :stroke ,stroke
 								   :link ,link :layer ,layer :filter ,filter :id ,id)))
 

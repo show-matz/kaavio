@@ -63,10 +63,10 @@
 #|
 #|EXPORT|#				:arc
  |#
-(defmacro arc (center radius degree1 degree2 &key class stroke layer filter id)
+(defmacro arc (center radius degree1 degree2 &key stroke layer filter id)
   `(register-entity (make-instance 'diagram:arc
-								   :center ,center
-								   :radius ,radius :degree1 ,degree1 :degree2 ,degree2
-								   :class ,class :stroke ,stroke :fill :none
+								   :center ,center :radius ,radius
+								   :degree1 ,degree1 :degree2 ,degree2
+								   :stroke ,stroke :fill :none
 								   :layer ,layer :filter ,filter :id ,id)))
 
