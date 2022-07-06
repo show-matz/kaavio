@@ -82,6 +82,7 @@
    (center			:initform nil :initarg :center)	; point
    (from			:initform nil :initarg :from)	; keyword
    (style			:initform nil :initarg :style)	; keyword - :(CC|[BLRT][123]?[BLRT][123]?) ( keyword -> list )
+   (spacing			:initform nil :initarg :spacing) ; list
    (stroke			:initform nil :initarg :stroke)	; (or nil stroke-info)
    (points			:initform nil)					; list
    (canvas-cache	:initform nil)					; (or nil canvas)
@@ -100,12 +101,16 @@
 (defmethod check ((sock uml-interface-socket) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (with-slots (name center from style stroke
+  (with-slots (name center from style stroke spacing
 					points canvas-cache dummy-circle #|degree|#) sock
 	(check-object name   canvas dict :nullable nil :class label-info)
 	(check-member from   :nullable nil :types keyword)
 	(check-member style  :nullable nil :types keyword)
 	(check-object stroke canvas dict :nullable nil :class stroke-info)
+	(check-member spacing :nullable  t :types (or number list))
+	(setf spacing (if (numberp spacing) (list spacing) spacing))
+	(when (remove-if #'numberp spacing)
+	  (throw-exception "Invalid spacing : '~A'." spacing))
 	(setf center (canvas-fix-point canvas center))
 	(setf style (diagram::check-and-fix-connector-style style))
 	(setf canvas-cache (copy-canvas canvas))
@@ -117,7 +122,7 @@
 	  (setf dummy-circle (make-instance 'diagram:circle
 										:center center
 										:radius *uml-interface-radius*))
-	  (setf points (resolve-connector-points from-entity dummy-circle style))))
+	  (setf points (resolve-connector-points from-entity dummy-circle style spacing))))
   nil)
 
 
@@ -152,10 +157,10 @@
 ;; macro uml-interface-socket
 ;;
 ;;------------------------------------------------------------------------------
-(defmacro uml-interface-socket (center from name &key style stroke layer id)
+(defmacro uml-interface-socket (center from name &key style spacing stroke layer id)
   `(register-entity (make-instance 'uml-interface-socket
-								   :name ,name :center ,center
-								   :from ,from :style ,style
+								   :name ,name :center ,center :from ,from
+								   :style ,style :spacing ,spacing
 								   :stroke ,stroke :layer ,layer :id ,id)))
 
 

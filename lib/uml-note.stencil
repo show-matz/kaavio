@@ -102,7 +102,7 @@
 			  (*default-stroke* (make-stroke :dasharray '(3 3)
 											 :base diagram::stroke))) ;;ToDo : fixed ?
 		  (dolist (ent targets)
-			(line (resolve-connector-points note ent :CC)))))))
+			(line (resolve-connector-points note ent :CC nil)))))))
   nil)
 
 (defmethod draw-entity ((note uml-note) writer)
