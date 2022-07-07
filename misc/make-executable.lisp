@@ -3,7 +3,13 @@
 (require :sb-posix)
 (require :cl-diagram)
 
-;; @todo : lib 配下のファイルを検索して自動登録する
+;; lib 配下の *.stencil ファイルを検索して自動登録する
+(let ((diagram:*include-paths* (list "../lib/")))
+  (dolist (pathname (directory "../lib/*.stencil"))
+	(let ((kwd (intern (string-upcase (pathname-name pathname)) 'keyword)))
+	  (format t "loading ~A component...~%" kwd)
+	  (diagram:load-stencil kwd))))
+
 
 ;; application entry ------------------------------------------
 (defun application-entry ()
