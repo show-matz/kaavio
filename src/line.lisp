@@ -39,7 +39,7 @@
 	(setf stroke (make-stroke  (or stroke *default-stroke*)))
 	(setf filter (if (eq filter :none)
 					 nil
-					 (or filter *default-line-filter* *default-filter*))))
+					 (or filter *default-line-filter*))))
   ent)
 
 ;; type := :from|:dest

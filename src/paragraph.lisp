@@ -50,7 +50,7 @@
 	(setf font   (make-font (or font *default-font*)))
 	(setf filter (if (eq filter :none)
 					 nil
-					 (or filter *default-text-filter* *default-filter*))))
+					 (or filter *default-text-filter*))))
   shp)
 
 (defmethod check ((shp paragraph) canvas dict)

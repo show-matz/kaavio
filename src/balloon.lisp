@@ -105,7 +105,9 @@
 (defmethod initialize-instance :after ((bln balloon) &rest initargs)
   (declare (ignore initargs))
   (with-slots (filter) bln
-	(setf filter (or filter *default-shape-filter* *default-filter*)))
+	(setf filter (if (eq filter :none)
+					 nil
+					 (or filter *default-shape-filter*))))
   bln)
    
 (defmethod check ((bln balloon) canvas dict)

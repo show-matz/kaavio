@@ -212,7 +212,7 @@
 	(setf stroke (make-stroke (or stroke *default-stroke*)))
 	(setf filter (if (eq filter :none)
 					 nil
-					 (or filter *default-filter*))))
+					 (or filter *default-shape-filter*))))
   ent)
   
 (defmethod check ((ent path) canvas dict)

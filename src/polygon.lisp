@@ -33,7 +33,7 @@
 	(setf stroke (make-stroke (or stroke *default-stroke*)))
 	(setf filter (if (eq filter :none)
 					 nil
-					 (or filter *default-filter*)))
+					 (or filter *default-shape-filter*)))
 	(setf link   (make-link   link)))
   ent)
   

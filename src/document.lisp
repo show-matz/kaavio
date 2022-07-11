@@ -20,7 +20,7 @@
 (defmethod initialize-instance :after ((doc document) &rest initargs)
   (declare (ignore initargs))
   (with-slots (filter) doc
-	(setf filter (or filter *default-shape-filter* *default-filter*)))
+	(setf filter (or filter *default-shape-filter*)))
   doc)
    
 (defmethod check ((doc document) canvas dict)

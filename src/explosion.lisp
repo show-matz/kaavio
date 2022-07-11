@@ -79,7 +79,9 @@
 (defmethod initialize-instance :after ((exp explosion) &rest initargs)
   (declare (ignore initargs))
   (with-slots (filter) exp
-	(setf filter (or filter *default-shape-filter* *default-filter*)))
+	(setf filter (if (eq filter :none)
+					 nil
+					 (or filter *default-shape-filter*))))
   exp)
    
 (defmethod check ((exp explosion) canvas dict)

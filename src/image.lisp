@@ -88,7 +88,7 @@
 	  (setf label (make-label label)))
 	(setf filter (if (eq filter :none)
 					 nil
-					 (or filter *default-shape-filter* *default-filter*))))
+					 (or filter *default-shape-filter*))))
   img)
 
 

@@ -20,7 +20,9 @@
 (defmethod initialize-instance :after ((cyl cylinder) &rest initargs)
   (declare (ignore initargs))
   (with-slots (filter) cyl
-	(setf filter (or filter *default-shape-filter* *default-filter*)))
+	(setf filter (if (eq filter :none)
+					 nil
+					 (or filter *default-shape-filter*))))
   cyl)
    
 (defmethod check ((cyl cylinder) canvas dict)

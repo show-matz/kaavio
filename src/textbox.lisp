@@ -37,7 +37,9 @@
 (defmethod initialize-instance :after ((box textbox) &rest initargs)
   (declare (ignore initargs))
   (with-slots (filter) box
-	(setf filter (or filter *default-textbox-filter* *default-shape-filter* *default-filter*)))
+	(setf filter (if (eq filter :none)
+					 nil
+					 (or filter *default-textbox-filter* *default-shape-filter*))))
   box)
    
 ;; override of group::draw-group

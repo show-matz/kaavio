@@ -81,7 +81,9 @@
   (with-slots (font stroke filter) brc
 	(setf font   (make-font   (or font   *default-font*  )))
 	(setf stroke (make-stroke (or stroke *default-stroke*)))
-	(setf filter (or filter *default-filter*)))
+	(setf filter (if (eq filter :none)
+					 nil
+					 (or filter *default-line-filter*))))
   brc)
 
 (defmethod check ((brc brace) canvas dict)

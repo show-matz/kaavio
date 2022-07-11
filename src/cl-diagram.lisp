@@ -125,7 +125,6 @@
 				:make-fill
 				:with-fill
 				;filter.lisp
-				:*default-filter*
 				:*default-text-filter*
 				:*default-line-filter*
 				:*default-shape-filter*

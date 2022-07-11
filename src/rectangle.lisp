@@ -45,7 +45,7 @@
 					 (make-stroke stroke)))
 	(setf filter (if (eq filter :none)
 					 nil
-					 (or filter *default-shape-filter* *default-filter*))))
+					 (or filter *default-shape-filter*))))
   rct)
 
 (defmethod check ((rct rectangle) canvas dict)

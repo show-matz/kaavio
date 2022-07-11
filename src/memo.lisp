@@ -48,7 +48,9 @@
   (declare (ignore initargs))
   (with-slots (dog-ear filter) obj
 	(setf dog-ear (or dog-ear *default-memo-dog-ear*))
-	(setf filter  (or filter  *default-shape-filter* *default-filter*)))
+	(setf filter  (if (eq filter :none)
+					  nil
+					  (or filter *default-shape-filter*))))
   obj)
    
 (defmethod check ((obj memo) canvas dict)

@@ -38,7 +38,7 @@
   (with-slots (filter) fldr
 	(setf filter (if (eq filter :none)
 					 nil
-					 (or filter *default-folder-filter* *default-shape-filter* *default-filter*))))
+					 (or filter *default-folder-filter* *default-shape-filter*))))
   fldr)
   
 (defmethod check ((fldr folder) canvas dict)

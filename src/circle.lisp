@@ -63,7 +63,7 @@
 	(setf stroke (make-stroke (or stroke *default-stroke*)))
 	(setf filter (if (eq filter :none)
 					 nil
-					 (or filter *default-shape-filter* *default-filter*))))
+					 (or filter *default-shape-filter*))))
   ent)
 
 (defmethod check ((shp circle) canvas dict)
@@ -74,6 +74,7 @@
 	(check-object fill     canvas dict :nullable t :class   fill-info)
 	(check-object stroke   canvas dict :nullable t :class stroke-info)
 	(check-member filter   :nullable   t :types keyword)
+	(setf filter (if (eq filter :none) nil filter))
 	(setf center (canvas-fix-point canvas center)))
   nil)
 

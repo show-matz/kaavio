@@ -116,7 +116,7 @@
 					 (make-stroke stroke)))
 	(setf filter (if (eq filter :none)
 					 nil
-					 (or filter *default-shape-filter* *default-filter*))))
+					 (or filter *default-shape-filter*))))
   ent)
 
 (defmethod check ((shp ellipse) canvas dict)
