@@ -10,6 +10,7 @@
 (defparameter *uml-note-align*      :left)
 (defparameter *uml-note-valign*   :center)
 (defparameter *uml-note-crease-size*   20)
+(defparameter *uml-note-filter*       nil)
 
 ;;------------------------------------------------------------------------------
 ;;
@@ -20,12 +21,13 @@
   ((keyword	:initform nil :initarg :keyword)	; (or nil uml-keyword-info)
    (targets	:initform nil :initarg :targets)	; list of keyword symbol
    (margin2	:initform nil :initarg :margin)		; number ( margin for keyword )
-   (crease	:initform nil :initarg :margin)))	; number
+   (crease	:initform nil :initarg :margin)		; number
+   (filter	:initform nil :initarg :filter)))	; (or nil keyword)
 
 
 (defmethod initialize-instance :after ((note uml-note) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (keyword targets margin2 crease) note
+  (with-slots (keyword targets margin2 crease filter) note
 	(setf keyword (and keyword (make-uml-keyword keyword)))
 	(setf targets (if (listp targets) targets (list targets)))
 	(setf margin2 (if (null keyword)
@@ -33,7 +35,10 @@
 					  (or (and *uml-note-font* (slot-value *uml-note-font* 'diagram::size))
 						  (and *default-font*  (slot-value *default-font*  'diagram::size))
 						  12)))	;;ToDo : これはなんとかしないと。
-	(setf crease  (or crease *uml-note-crease-size*)))
+	(setf crease  (or crease *uml-note-crease-size*))
+	(setf filter  (if (eq filter :none)
+					  nil
+					  (or filter *uml-note-filter* *default-shape-filter*))))
   note)
 
 (defmethod check ((note uml-note) canvas dict)
@@ -62,7 +67,7 @@
 		  (height (canvas-height canvas)))
 	  (macrolet ((register-entity (entity)
 				   `(check-and-draw-local-entity ,entity canvas writer)))
-		(with-slots (keyword margin2 crease
+		(with-slots (keyword margin2 crease filter
 							 diagram::fill diagram::stroke diagram::margin) note
 		  ;; draw note body
 		  (polygon `((0 0)
@@ -70,7 +75,7 @@
 					 (,width ,height)
 					 (,width ,crease)
 					 (,(- width crease) 0))
-				   :fill diagram::fill :stroke diagram::stroke)
+				   :fill diagram::fill :stroke diagram::stroke :filter filter)
 		  ;; draw keyword
 		  (when keyword
 			(uml-keyword-draw keyword (+ left diagram::margin)
@@ -130,7 +135,7 @@
 ;;------------------------------------------------------------------------------
 (defmacro uml-note (center text &key keyword targets width height
 									 align valign margin
-									 font fill stroke link layer id contents)
+									 font fill stroke link layer filter id contents)
   (let ((code `(register-entity (make-instance 'uml-note
 											   :center ,center
 											   :width ,width :height ,height
@@ -142,7 +147,7 @@
 											   :font ,font
 											   :fill   (or ,fill   *uml-note-fill*)
 											   :stroke (or ,stroke *uml-note-stroke*)
-											   :link ,link :layer ,layer :id ,id))))
+											   :link ,link :layer ,layer :filter ,filter :id ,id))))
 	(if (null contents)
 		code
 		(let ((g-obj (gensym "OBJ")))

@@ -14,11 +14,13 @@
 #|EXPORT|#				:*default-balloon-align*
 #|EXPORT|#				:*default-balloon-valign*
 #|EXPORT|#				:*default-balloon-margin*
+#|EXPORT|#				:*default-balloon-filter*
  |#
 (defparameter *default-balloon-round*  10)
 (defparameter *default-balloon-align*  :center)
 (defparameter *default-balloon-valign* :center)
 (defparameter *default-balloon-margin* 10)
+(defparameter *default-balloon-filter* nil)
 
 
 
@@ -107,7 +109,7 @@
   (with-slots (filter) bln
 	(setf filter (if (eq filter :none)
 					 nil
-					 (or filter *default-shape-filter*))))
+					 (or filter *default-balloon-filter* *default-shape-filter*))))
   bln)
    
 (defmethod check ((bln balloon) canvas dict)

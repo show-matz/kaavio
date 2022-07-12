@@ -16,13 +16,16 @@
 				:*default-balloon-align*
 				:*default-balloon-valign*
 				:*default-balloon-margin*
+				:*default-balloon-filter*
 				:balloon
 				;binutil.lisp
 				;block-arrow.lisp
+				:*default-block-arrow-filter*
 				:block-arrow
 				:block-arrow1
 				:block-arrow2
 				;brace.lisp
+				:*default-brace-filter*
 				:brace
 				;canvas.lisp
 				:canvas
@@ -95,6 +98,7 @@
 				:height
 				:diagram
 				;cylinder.lisp
+				:*default-cylinder-filter*
 				:cylinder
 				;defs.lisp
 				:defs
@@ -117,6 +121,7 @@
 				:entity-composition-p
 				:check-and-draw-local-entity
 				;explosion.lisp
+				:*default-explosion-filter*
 				:explosion1
 				:explosion2
 				;fill-info.lisp

@@ -6,6 +6,11 @@
 
 (in-package :cl-diagram)
 
+#|
+#|EXPORT|#				:*default-brace-filter*
+ |#
+(defparameter *default-brace-filter*       nil)
+
 (defun brace-make-path-left (w h r point)
   (let ((r (or r (/ w 3)))
 		(point (or point (/ h 2))))
@@ -83,7 +88,7 @@
 	(setf stroke (make-stroke (or stroke *default-stroke*)))
 	(setf filter (if (eq filter :none)
 					 nil
-					 (or filter *default-line-filter*))))
+					 (or filter *default-brace-filter* *default-line-filter*))))
   brc)
 
 (defmethod check ((brc brace) canvas dict)

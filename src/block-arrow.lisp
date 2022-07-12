@@ -6,6 +6,11 @@
 
 (in-package :cl-diagram)
 
+#|
+#|EXPORT|#				:*default-block-arrow-filter*
+ |#
+(defparameter *default-block-arrow-filter*       nil)
+
 (defun make-block-arrow-points-1 (pt1 pt2 w l s)
   (let ((arrow-length (math/len2 pt1 pt2)))
 	(let* ((width  (or w (/ arrow-length 10)))
@@ -66,7 +71,10 @@
 								   :points (diagram::make-block-arrow-points-1 ,pt1 ,pt2
 																			   ,width ,length ,size)
 								   :fill ,fill :stroke ,stroke
-								   :link ,link :layer ,layer :filter ,filter :id ,id)))
+								   :link ,link :layer ,layer :id ,id
+								   :filter (or ,filter
+											   *default-block-arrow-filter*
+											   *default-shape-filter*))))
 
 #|
 #|EXPORT|#				:block-arrow2
@@ -77,4 +85,7 @@
 								   :points (diagram::make-block-arrow-points-2 ,pt1 ,pt2
 																			   ,width ,length ,size)
 								   :fill ,fill :stroke ,stroke
-								   :link ,link :layer ,layer :filter ,filter :id ,id)))
+								   :link ,link :layer ,layer :id ,id
+								   :filter (or ,filter
+											   *default-block-arrow-filter*
+											   *default-shape-filter*))))

@@ -8,6 +8,11 @@
 
 (in-package :cl-diagram)
 
+#|
+#|EXPORT|#				:*default-explosion-filter*
+ |#
+(defparameter *default-explosion-filter*       nil)
+
 
 (defun explosion-get-points (pattern w h)
   (cond
@@ -81,7 +86,7 @@
   (with-slots (filter) exp
 	(setf filter (if (eq filter :none)
 					 nil
-					 (or filter *default-shape-filter*))))
+					 (or filter *default-explosion-filter* *default-shape-filter*))))
   exp)
    
 (defmethod check ((exp explosion) canvas dict)

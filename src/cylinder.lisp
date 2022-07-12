@@ -8,6 +8,11 @@
 
 (in-package :cl-diagram)
 
+#|
+#|EXPORT|#				:*default-cylinder-filter*
+ |#
+(defparameter *default-cylinder-filter*       nil)
+
 ;;------------------------------------------------------------------------------
 ;;
 ;; class cylinder
@@ -22,7 +27,7 @@
   (with-slots (filter) cyl
 	(setf filter (if (eq filter :none)
 					 nil
-					 (or filter *default-shape-filter*))))
+					 (or filter *default-cylinder-filter* *default-shape-filter*))))
   cyl)
    
 (defmethod check ((cyl cylinder) canvas dict)
