@@ -195,6 +195,7 @@
 				:*default-memo-align*
 				:*default-memo-valign*
 				:*default-memo-margin*
+				:*default-memo-filter*
 				:memo
 				;paragraph.lisp
 				:paragraph

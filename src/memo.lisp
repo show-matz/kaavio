@@ -14,11 +14,13 @@
 #|EXPORT|#				:*default-memo-align*
 #|EXPORT|#				:*default-memo-valign*
 #|EXPORT|#				:*default-memo-margin*
+#|EXPORT|#				:*default-memo-filter*
  |#
 (defparameter *default-memo-dog-ear*  20)
 (defparameter *default-memo-align*    :center)
 (defparameter *default-memo-valign*   :center)
 (defparameter *default-memo-margin*   10)
+(defparameter *default-memo-filter*   nil)
 
 
 (defun memo-get-points1 (w h e)
@@ -50,7 +52,7 @@
 	(setf dog-ear (or dog-ear *default-memo-dog-ear*))
 	(setf filter  (if (eq filter :none)
 					  nil
-					  (or filter *default-shape-filter*))))
+					  (or filter *default-memo-filter* *default-shape-filter*))))
   obj)
    
 (defmethod check ((obj memo) canvas dict)
