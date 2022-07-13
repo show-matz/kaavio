@@ -8,6 +8,16 @@
 
 (in-package :cl-diagram)
 
+#|
+#|EXPORT|#				:*default-document-align*
+#|EXPORT|#				:*default-document-valign*
+#|EXPORT|#				:*default-document-filter*
+ |#
+(defparameter *default-document-align*  :center)
+(defparameter *default-document-valign* :center)
+(defparameter *default-document-filter* nil)
+
+
 ;;------------------------------------------------------------------------------
 ;;
 ;; class document
@@ -20,7 +30,9 @@
 (defmethod initialize-instance :after ((doc document) &rest initargs)
   (declare (ignore initargs))
   (with-slots (filter) doc
-	(setf filter (or filter *default-shape-filter*)))
+	(setf filter (if (eq filter :none)
+					 nil
+					 (or filter *default-document-filter* *default-shape-filter*))))
   doc)
    
 (defmethod check ((doc document) canvas dict)
@@ -71,7 +83,8 @@
 											   :center ,center :depth ,depth
 											   :width ,width :height ,height
 											   :text ,text :font ,font
-											   :align ,align :valign ,valign
+											   :align  (or ,align  *default-document-align*)
+											   :valign (or ,valign *default-document-valign*)
 											   :fill ,fill :stroke ,stroke :link ,link 
 											   :rotate ,rotate :layer ,layer
 											   :filter ,filter :id ,id))))

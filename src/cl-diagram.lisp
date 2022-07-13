@@ -106,6 +106,9 @@
 				:dictionary
 				;document.lisp
 				:document
+				:*default-document-align*
+				:*default-document-valign*
+				:*default-document-filter*
 				;ellipse.lisp
 				:ellipse-connect-point
 				:ellipse
