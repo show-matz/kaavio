@@ -161,7 +161,6 @@
 																"font-info"
 																"link-info"
 																"point"
-																"filter"
 																"writer"))
 				(:file "path"                      :depends-on ("cl-diagram"
 																"constants"
@@ -230,7 +229,6 @@
 																"entity"
 																"font-info"
 																"link-info"
-																"filter"
 																"writer"))
 				(:file "textbox"                   :depends-on ("cl-diagram"
 																"rectangle"

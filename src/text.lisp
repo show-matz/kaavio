@@ -4,7 +4,6 @@
 #|ASD|#																"entity"
 #|ASD|#																"font-info"
 #|ASD|#																"link-info"
-#|ASD|#																"filter"
 #|ASD|#																"writer"))
 #|EXPORT|#				;text.lisp
  |#
@@ -26,7 +25,7 @@
 #|
 #|EXPORT|#				:write-text-tag
  |#
-(defun write-text-tag (x y anchor txt writer &key id font filter)
+(defun write-text-tag (x y anchor txt writer &key id font)
   (writer-write writer
 				"<text x='" x "' y='" y "' "
 				(write-when id "id='" it "' ")
@@ -37,7 +36,6 @@
 					  (to-property-strings font)))
 				(when (need-preserve-space-p txt)
 				  "xml:space='preserve' ")
-				(write-when filter "filter='url(#" it ")' ")
 				">" (escape-characters txt) "</text>"))
 
 ;;------------------------------------------------------------------------------
@@ -50,32 +48,27 @@
    (text		:initform nil :initarg :text)		; string
    (align		:initform nil :initarg :align)		; keyword
    (font		:initform nil :initarg :font)		; (or nil font-info)
-   (link		:initform nil :initarg :link)		; (or nil link-info)
-   (filter		:initform nil :initarg :filter)))	; (or nil keyword)
+   (link		:initform nil :initarg :link)))		; (or nil link-info)
 
 
 (defmethod initialize-instance :after ((txt text) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (align font link filter) txt
+  (with-slots (align font link) txt
 	(setf align (or align *default-text-align*))
 	(setf font  (make-font (or font *default-font*)))
-	(setf link  (make-link link))
-	(setf filter (if (eq filter :none)
-					 nil
-					 (or filter *default-text-filter*))))
+	(setf link  (make-link link)))
   txt)
 
 (defmethod check ((txt text) canvas dict)
   (declare (ignorable dict))
   ;; this method must call super class' one.
   (call-next-method)
-  (with-slots (position text align font link filter) txt
+  (with-slots (position text align font link) txt
 	(check-member   text  :nullable nil :types string)
 	(check-member   align :nullable nil :types keyword)
 	(check-object   font  canvas dict :nullable nil :class font-info)
 	(check-object   link  canvas dict :nullable   t :class link-info)
 	(check-keywords align :left :center :right)
-	(check-member   filter :nullable  t :types keyword)
 	(setf position (canvas-fix-point canvas position)))
   nil)
 
@@ -97,7 +90,7 @@
   (call-next-method))
 
 (defmethod draw-entity ((txt text) writer)
-  (with-slots (position align font text filter) txt
+  (with-slots (position align font text) txt
 	(let ((txt-anchor (ecase align
 						((:left)   "start")
 						((:center) "middle")
@@ -107,8 +100,7 @@
 	  (pre-draw txt writer)
 	  (write-text-tag (point-x position)
 					  (point-y position)
-					  txt-anchor text writer
-					  :id id :font font :filter filter)
+					  txt-anchor text writer :id id :font font)
 	  (post-draw txt writer))))
 
 
@@ -121,9 +113,9 @@
 #|
 #|EXPORT|#				:text
  |#
-(defmacro text (position text &key align font link layer filter id)
+(defmacro text (position text &key align font link layer id)
   `(register-entity (make-instance 'diagram:text
 								   :position ,position :text ,text
 								   :align ,align :font ,font 
-								   :link ,link :filter ,filter :layer ,layer :id ,id)))
+								   :link ,link :layer ,layer :id ,id)))
 

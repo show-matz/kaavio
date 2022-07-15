@@ -14,10 +14,12 @@
 #|EXPORT|#				:*default-font*
 #|EXPORT|#				:*default-font-fill*
 #|EXPORT|#				:*default-font-stroke*
+#|EXPORT|#				:*default-font-filter*
  |#
 (defparameter *default-font*        nil)
 (defparameter *default-font-fill*   nil)
 (defparameter *default-font-stroke* nil)
+(defparameter *default-font-filter* nil)
 
 ;;------------------------------------------------------------------------------
 ;;
@@ -39,21 +41,25 @@
    (weight			:initform nil :initarg :weight)			; (or number keyword)
 															;  :normal :bold :bolder :lighter
 															;  100 200 300 400 500 600 700 800 900
+   (filter			:initform nil :initarg :filter)			; (or nil keyword)
    (line-spacing	:initform nil :initarg :line-spacing)	; number
    (width-spice		:initform nil :initarg :width-spice)))	; number
 
 
 (defmethod initialize-instance :after ((font font-info) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (fill stroke) font
+  (with-slots (fill stroke filter) font
 	(setf fill   (make-fill   (or fill   *default-font-fill*)))
 	(setf stroke (when (or stroke *default-font-stroke*)
-				   (make-stroke (or stroke *default-font-stroke*)))))
+				   (make-stroke (or stroke *default-font-stroke*))))
+	(setf filter (if (eq filter :none)
+					 nil
+					 (or filter *default-font-filter*))))
   font)
 
 (defmethod check ((ent font-info) canvas dict)
   (with-slots (family size fill stroke style
-					  decoration weight line-spacing width-spice) ent
+					  decoration weight filter line-spacing width-spice) ent
 	(check-member family       :nullable   t :types string)
 	(check-member size         :nullable   t :types number)
 	(check-object fill         canvas dict :nullable t :class   fill-info)
@@ -61,6 +67,7 @@
 	(check-member style        :nullable   t :types keyword)
 	(check-member decoration   :nullable   t :types keyword)
 	(check-member weight       :nullable   t :types (or fixnum keyword))
+	(check-member filter       :nullable   t :types keyword)
 	(check-member line-spacing :nullable nil :types number)
 	(check-member width-spice  :nullable nil :types number)
 	(when style
@@ -80,14 +87,15 @@
 					(setf buf (concatenate 'string buf (format-string ,@args)))))))
 	(let ((buf ""))
 	  (with-slots (family size fill stroke
-					  style decoration weight) fnt
+					  style decoration weight filter) fnt
 		(add-when family          "font-family='" it "' ")
 		(add-when size              "font-size='" it "pt' ")
 		(add-when fill       (to-property-strings it))
 		(add-when stroke     (to-property-strings it))
 		(add-when style            "font-style='" it "' ")
 		(add-when decoration  "text-decoration='" it "' ")
-		(add-when weight          "font-weight='" it "' "))
+		(add-when weight          "font-weight='" it "' ")
+		(add-when filter          "filter='url(#" it ")' "))
 	  buf)))
 
 (defmethod to-style-strings ((fnt font-info))
@@ -105,6 +113,7 @@
 		(add-when style           "font-style: " it "; ")
 		(add-when decoration "text-decoration: " it "; ")
 		(add-when weight         "font-weight: " it "; "))
+;;				(write-when filter "filter='url(#" it ")' ")	;;ToDo
 	  buf)))
 
 
@@ -128,6 +137,7 @@
 									(style        nil        style-p)
 									(decoration   nil   decoration-p)
 									(weight       nil       weight-p)
+									(filter       nil       filter-p)
 									(width-spice  nil  width-spice-p)
 									(line-spacing nil line-spacing-p) base) params
 			(let ((base (or base *default-font*)))
@@ -144,6 +154,7 @@
 							   :style        (fixval style-p        style        'style        nil)
 							   :decoration   (fixval decoration-p   decoration   'decoration   nil)
 							   :weight       (fixval weight-p       weight       'weight       nil)
+							   :filter       (fixval filter-p       filter       'filter       nil)
 							   :width-spice  (fixval width-spice-p  width-spice  'width-spice 0.65)
 							   :line-spacing (fixval line-spacing-p line-spacing 'line-spacing   2))))))))
 
@@ -177,6 +188,7 @@
 								:style         nil
 								:decoration    nil
 								:weight        nil
+								:filter        nil
 								:width-spice  0.65
 								:line-spacing    2))
 

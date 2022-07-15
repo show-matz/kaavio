@@ -8,11 +8,9 @@
 
 
 #|
-#|EXPORT|#				:*default-text-filter*
 #|EXPORT|#				:*default-line-filter*
 #|EXPORT|#				:*default-shape-filter*
  |#
-(defparameter *default-text-filter*  nil)
 (defparameter *default-line-filter*  nil)
 (defparameter *default-shape-filter* nil)
 

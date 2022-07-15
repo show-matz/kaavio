@@ -105,10 +105,10 @@
 				;dictionary.lisp
 				:dictionary
 				;document.lisp
-				:document
 				:*default-document-align*
 				:*default-document-valign*
 				:*default-document-filter*
+				:document
 				;ellipse.lisp
 				:ellipse-connect-point
 				:ellipse
@@ -133,7 +133,6 @@
 				:make-fill
 				:with-fill
 				;filter.lisp
-				:*default-text-filter*
 				:*default-line-filter*
 				:*default-shape-filter*
 				:filter
@@ -150,6 +149,7 @@
 				:*default-font*
 				:*default-font-fill*
 				:*default-font-stroke*
+				:*default-font-filter*
 				:font-info
 				:make-font
 				:with-font
