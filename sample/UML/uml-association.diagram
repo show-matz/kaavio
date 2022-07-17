@@ -2,13 +2,16 @@
 (load-stencil :uml-association)
 (load-stencil :uml-note)
 
-(create-svg (:width 400 :height 150 :desc "test of uml-association" :encoding :utf8)
+(diagram (:w 400 :h 150)
 	(grid) ; :size 10 :bgcolor "#F0F0FF" :stroke '(:color :blue :width 0.2))
-	(rectangle '( 30  30) 30 30 :fill :white :id :rect1)
-	(rectangle '(100 100) 30 30 :fill :white :id :rect2)
-	(rectangle '(350  50) 50 60 :fill :white :id :rect3)
-	(uml-association :rect1 :rect2 :keyword :use)
-	(uml-association :rect1 :rect2 :style :BL :arrows 1)
-	(uml-association :rect2 :rect3 :style :CC :arrows 2
-					 :role1 :host :role2 :client :mult1 1 :mult2 '(0 . :*) :id :ass)
-	(uml-note '(230 115) "test note" :targets '(:ass)))
+	(with-fill (:color :cornsilk)
+	  (rect '( 30  30) 30 30 :id :r1)
+	  (rect '(100 100) 30 30 :id :r2)
+	  (rect '(350  50) 50 60 :id :r3))
+	(uml-association :r1 :r2 :keyword :use)
+	(uml-association :r1 :r2 :style :BL :arrows 1)
+	(uml-association :r2 :r3 :style :CC :arrows 2
+					 :role1 :host
+					 :role2 '(:client :offset (-2 0))
+					 :mult1 1
+					 :mult2 '(:min 0 :max :* :offset (-2 3))))

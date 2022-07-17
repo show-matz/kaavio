@@ -2,8 +2,6 @@
 (in-package :cl-diagram-user)
 
 (defparameter *uml-multiplicity-font*     nil)
-(defparameter *uml-multiplicity-degree*   120)
-(defparameter *uml-multiplicity-distance*  10)
 
 ;;------------------------------------------------------------------------------
 ;;
@@ -13,23 +11,26 @@
 (defclass uml-multiplicity-info ()
   ((min			:initform nil :initarg :min)		; (or keyword integer)
    (max			:initform nil :initarg :max)		; (or keyword integer)
-   (font		:initform nil :initarg :font)		; (or nil font-info)
-   (degree		:initform nil :initarg :degree)		; integer
-   (distance	:initform nil :initarg :distance)))	; integer
+   (offset		:initform nil :initarg :offset)		; (or nil list)
+   (font		:initform nil :initarg :font)))		; (or nil font-info)
 
 (defmethod initialize-instance :after ((mul uml-multiplicity-info) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (font) mul
+  (with-slots (offset font) mul
+	(setf offset (or offset (make-point 0 0)))
 	(when font
 	  (setf font (make-font font)))))
 
 (defmethod check ((mul uml-multiplicity-info) canvas dict)
-  (with-slots (min max font degree distance) mul
+  (with-slots (min max offset font) mul
 	(check-member min      :nullable nil :types (or keyword integer))
 	(check-member max      :nullable nil :types (or keyword integer))
+	(check-member offset   :nullable   t :types cons)
+	(when offset
+	  (with-point (x y) offset
+		(check-member x    :nullable nil :types number)
+		(check-member y    :nullable nil :types number)))
 	(check-object font     canvas dict :nullable t :class font-info)
-	(check-member degree   :nullable nil :types integer)
-	(check-member distance :nullable nil :types integer)
 	(when (keywordp min)
 	  (check-keywords min :*))
 	(when (keywordp max)
@@ -55,12 +56,14 @@
 (defun uml-multiplicity-draw-beside-line (mul line type writer)
   (unless (typep line 'diagram:line)
 	(throw-exception "multiplicity-info : line parameter is not line object"))
-  (with-slots (font degree distance) mul
+  (with-slots (offset font) mul
 	(destructuring-bind (p1 . p2) (diagram::line-get-endpoints line type)
-	  (let* ((x1    (point-x p2))
+	  (let* ((degree  120)
+			 (distance 10)
+			 (x1    (point-x p2))
 			 (y1    (point-y p2))
-			 (x2    (+ x1 (* distance (diagram::math/cos3 p1 p2 degree))))
-			 (y2    (+ y1 (* distance (diagram::math/sin3 p1 p2 degree))))
+			 (x2    (+ x1 (* distance (diagram::math/cos3 p1 p2 degree)) (point-x offset)))
+			 (y2    (+ y1 (* distance (diagram::math/sin3 p1 p2 degree)) (point-y offset)))
 			 (align (if (< x1 x2) :left :right)))
 		(when (< y1 y2)
 		  (incf y2 (slot-value font 'diagram::size)))
@@ -82,16 +85,12 @@
 			((typep   param  'uml-multiplicity-info) param)
 			((listp   param) (apply #'make-uml-multiplicity param))
 			(t               (make-uml-multiplicity :min param :max param))))
-		(destructuring-bind (&key (min      nil      min-p)
-								  (max      nil      max-p)
-								  (font     nil     font-p)
-								  (degree   nil   degree-p)
-								  (distance nil distance-p)) params
+		(destructuring-bind (&key min max offset
+								  (font     nil     font-p)) params
 		  (make-instance 'uml-multiplicity-info
-						 :min      (if min-p      min      nil)
-						 :max      (if max-p      max      nil)
+						 :min      min
+						 :max      max
+						 :offset   offset
 						 :font     (if font-p     font     (or *uml-multiplicity-font*
-															   diagram:*default-font*))
-						 :degree   (if degree-p   degree   *uml-multiplicity-degree*)
-						 :distance (if distance-p distance *uml-multiplicity-distance*))))))
+															   diagram:*default-font*)))))))
 
