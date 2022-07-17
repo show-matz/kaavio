@@ -44,7 +44,6 @@
 								   :center ,center
 								   :radius (or ,radius *uml-activity-final-radius*)
 								   :ratio  (or ,ratio  *uml-activity-final-ratio*)
-								   :class nil
 								   :fill   (or ,fill   *uml-activity-final-fill*   *default-fill*)
 								   :stroke (or ,stroke *uml-activity-final-stroke* *default-stroke*)
 								   :link ,link :layer ,layer :id ,id)))

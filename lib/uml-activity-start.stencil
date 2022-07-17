@@ -20,5 +20,4 @@
 								   :center ,center
 								   :radius (or ,radius *uml-activity-start-radius*)
 								   :fill   (or ,fill   *uml-activity-start-fill* *default-fill*)
-								   :class nil :stroke :none
-								   :link ,link :layer ,layer :id ,id)))
+								   :stroke :none :link ,link :layer ,layer :id ,id)))

@@ -17,7 +17,7 @@
 								   :center ,center
 								   :width  (or ,length *uml-fork-join-length*)
 								   :height (or ,width  *uml-fork-join-width*)
-								   :rx nil :ry nil :class nil  :stroke :none
+								   :rx nil :ry nil :stroke :none
 								   :fill   (or ,fill *uml-fork-join-color* *default-fill*)
 								   :link ,link :layer ,layer :id ,id)))
 
@@ -26,7 +26,7 @@
 								   :center ,center
 								   :width  (or ,width  *uml-fork-join-width*)
 								   :height (or ,length *uml-fork-join-length*)
-								   :rx nil :ry nil :class nil  :stroke :none
+								   :rx nil :ry nil :stroke :none
 								   :fill   (or ,fill *uml-fork-join-color* *default-fill*)
 								   :link ,link :layer ,layer :id ,id)))
 
@@ -69,7 +69,7 @@
 								   :center ,center :spec ,spec
 								   :width  (or ,length *uml-fork-join-length*)
 								   :height (or ,width  *uml-fork-join-width*)
-								   :rx nil :ry nil :class nil  :stroke :none
+								   :rx nil :ry nil :stroke :none
 								   :fill   (or ,fill *uml-fork-join-color* *default-fill*)
 								   :link ,link :layer ,layer :id ,id)))
 
@@ -78,6 +78,6 @@
 								   :center ,center :spec ,spec
 								   :width  (or ,width  *uml-fork-join-width*)
 								   :height (or ,length *uml-fork-join-length*)
-								   :rx nil :ry nil :class nil  :stroke :none
+								   :rx nil :ry nil :stroke :none
 								   :fill   (or ,fill *uml-fork-join-color* *default-fill*)
 								   :link ,link :layer ,layer :id ,id)))

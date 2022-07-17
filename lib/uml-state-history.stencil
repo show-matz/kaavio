@@ -36,7 +36,6 @@
   `(register-entity (make-instance 'uml-state-history
 								   :center ,center
 								   :radius (or ,radius *uml-state-history-radius*)
-								   :class nil
 								   :fill   (or ,fill   *uml-state-history-fill*   *default-fill*)
 								   :stroke (or ,stroke *uml-state-history-stroke* *default-stroke*)
 								   :link ,link :layer ,layer :id ,id)))

@@ -63,7 +63,7 @@
   `(register-entity (make-instance 'uml-interface
 								   :center ,center
 								   :radius *uml-interface-radius*
-								   :name ,name :class nil 
+								   :name ,name
 								   :fill   (or ,fill   *uml-interface-fill*)
 								   :stroke (or ,stroke *uml-interface-stroke*)
 								   :link ,link :layer ,layer :id ,id)))

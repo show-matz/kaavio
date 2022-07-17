@@ -38,7 +38,6 @@
   `(register-entity (make-instance 'uml-flow-final
 								   :center ,center
 								   :radius (or ,radius *uml-flow-final-radius*)
-								   :class nil
 								   :fill   (or ,fill   *uml-flow-final-fill*   *default-fill*)
 								   :stroke (or ,stroke *uml-flow-final-stroke* *default-stroke*)
 								   :link nil :layer ,layer :id ,id)))

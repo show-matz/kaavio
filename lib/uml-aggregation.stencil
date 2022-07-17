@@ -23,7 +23,6 @@
 	   (register-entity (make-instance 'uml-aggregation
 									   :from ,from :to ,to
 									   :keyword ,g-kwd :style ,style
-									   :class nil
 									   :name ,g-name
 									   :label (and (or ,g-kwd ,g-name)
 												   #'uml-connection-draw-label)

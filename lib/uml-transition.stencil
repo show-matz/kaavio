@@ -56,7 +56,6 @@
 									   :from ,from :to ,to
 									   :spec ,g-spec :style ,style
 									   :label (and ,g-spec #'uml-transition-draw-spec)
-									   :class nil
 									   :stroke (or *uml-transition-stroke* *default-stroke*)
 									   :end1 nil :end2 :arrow :layer ,layer :id ,id)))))
 
