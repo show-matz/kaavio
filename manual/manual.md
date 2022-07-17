@@ -4,13 +4,14 @@
 
 <!-- title:${APPNAME} readme -->    
 <!-- style:./default.css -->			
+
+<!-- config:write-comment -->			
+<!-- config:header-numbering 2 4 -->			
+<!-- config:entity-numbering-depth 1 -->
 <!-- <!-- config:term-link-in-header -->
 
 <!-- filter:diagram  = bash ./diagram.sh  %in %out -->
 <!-- filter:plantuml = bash ./plantuml.sh %in %out -->
-
-<!-- config:write-comment -->			
-<!-- config:header-numbering 2 4 -->			
 
 <!-- PIM の eoPS3MRF1gI というデータで過去にマニュアル作ろうとした形跡があるぞ  -->
 
@@ -271,6 +272,20 @@ Figure. 吹き出しのサンプル
 ```
 
 　${{TODO}{まだ記述されていません。}}
+
+<!-- stack:push tr style="font-size: 14;" -->
+
+Table. 吹き出しに関するデフォルト設定変数
+| variable                   | value   | description                        |
+|:==========================:|:=======:|:-----------------------------------|
+| `*default-balloon-round*`  | 10      | ${{TODO}{まだ記述されていません。}} |
+| `*default-balloon-align*`  | :center | ${{TODO}{まだ記述されていません。}} |
+| `*default-balloon-valign*` | :center | ${{TODO}{まだ記述されていません。}} |
+| `*default-balloon-margin*` | 10      | ${{TODO}{まだ記述されていません。}} |
+| `*default-balloon-filter*` | nil     | `:filter` パラメータを省略した場合に適用されるデフォルト設定です。<br> \
+この設定も nil の場合、 `*default-shape-filter*` 設定が使用されます。 |
+
+<!-- stack:pop p -->
 
 ### メモ
 
@@ -821,6 +836,310 @@ Figure. サブキャンバスのサンプル
 
 
 ${BLANK_PARAGRAPH}
+
+## UML
+### アクティビティ図
+<!-- autolink: [$$](#アクティビティ図) -->
+
+* uml-action
+* uml-action-param
+* uml-activity-final
+* uml-activity-partitions
+* uml-activity-start
+* uml-connector
+* uml-decision-merge
+* uml-expansion-region
+* uml-flow
+* uml-flow-final
+* uml-fork-join
+* uml-pin
+* uml-signal-receipt
+* uml-signal-sending
+* uml-time-event
+* uml-diagram
+* uml-note
+
+### クラス図
+<!-- autolink: [$$](#クラス図) -->
+
+* uml-role-info
+* uml-multiplicity-info
+* uml-keyword-info
+* uml-association
+* uml-composition
+* uml-aggregation
+* uml-dependency
+* uml-diagram
+* uml-generalization
+* uml-realization
+* uml-note
+* uml-interface
+* uml-class
+* uml-package
+
+### パッケージ図
+<!-- autolink: [$$](#パッケージ図) -->
+
+* uml-keyword-info
+* uml-dependency
+* uml-package
+* uml-realization
+* uml-diagram
+* uml-note
+
+### ステートマシーン図
+<!-- autolink: [$$](#ステートマシーン図) -->
+
+* uml-state-begin
+* uml-state-end
+* uml-state-history
+* uml-transition-spec
+* uml-transition
+* uml-state
+* uml-diagram
+* uml-note
+
+### ユースケース図
+<!-- autolink: [$$](#ユースケース図) -->
+
+* uml-actor
+* uml-usecase
+* uml-association
+* uml-generalization
+* uml-diagram
+* uml-note
+
+### UML のダイアグラム要素
+#### uml-action-param
+<!-- autolink: [$$](#uml-action-param) -->
+
+<!-- snippet: UML-ACTION-PARAM-SAMPLE
+(diagram (:w 400 :h 200)
+  (grid)
+  (uml-action canvas.center "action" :id :act1 :width 300 :height 160
+    :contents ((uml-action-param "param" :act1 :L  :fill :cornsilk :id :prm1)
+               (uml-action-param "param" :act1 :R1 :fill :cornsilk :id :prm2)
+               (uml-action act1.center "process" :id :inner-act)))
+  (uml-flow :prm1 :inner-act)
+  (uml-flow :inner-act :prm2))
+-->
+
+```diagram
+<!-- expand: UML-ACTION-PARAM-SAMPLE -->
+```
+Figure. uml-action-param 要素
+
+<!-- collapse:close -->
+上記サンプルのコードはこちら。
+```lisp
+<!-- expand: UML-ACTION-PARAM-SAMPLE -->
+```
+<!-- collapse:end -->
+
+```lisp
+(defmacro uml-action-param (name target position
+                            &key keyword width height
+                                 margin font fill stroke link layer id) ...)
+```
+
+#### uml-action
+<!-- autolink: [$$](#uml-action) -->
+
+<!-- snippet: UML-ACTION-SAMPLE
+(diagram (:w 500 :h 100)
+  (grid)
+  (uml-activity-start '( 30 50) :id :start)
+  (let ((*uml-action-fill* :cornsilk))
+    (uml-action (x+ start.center 150) "action1"             :id :act1)
+    (uml-action (x+ act1.center  150) "action~%2nd" :rake t :id :act2))
+  (uml-activity-final '(470 50) :id :final)
+  (connector :start :act1 :end2 :arrow)
+  (connector :act1  :act2 :end2 :arrow)
+  (connector :act2 :final :end2 :arrow))
+-->
+
+```diagram
+<!-- expand: UML-ACTION-SAMPLE -->
+```
+Figure. uml-action 要素
+
+<!-- collapse:close -->
+上記サンプルのコードはこちら。
+```lisp
+<!-- expand: UML-ACTION-SAMPLE -->
+```
+<!-- collapse:end -->
+
+```lisp
+(defmacro uml-action (center text &key keyword width height
+                                       margin corner-r rake
+                                       font fill stroke link layer id contents) ...)
+```
+
+#### uml-activity-final
+<!-- autolink: [$$](#uml-activity-final) -->
+
+#### uml-activity-partitions
+<!-- autolink: [$$](#uml-activity-partitions) -->
+
+<!-- snippet: UML-ACTIVITY-PARTITIONS-SAMPLE
+(diagram (:w 520 :h 500)
+  (grid)
+  (let ((*uml-action-fill* :cornsilk))
+    (uml-activity-partitions
+      '(10 10) '(("Fullfillment" 130) ("Customer Service" 240) ("Finance" 130)) 460
+      :lines :min :fill :none :stroke :black
+      :contents
+      ((("Customer Service")
+        (uml-activity-start '(70 30) :id :start)
+        (uml-action (y+  $1.center  60) "Receive~%Order" :id :rcv-order)
+        (uml-fork-v (y+  $1.center  50) :length 60 :id :fork)
+        (uml-action (xy+ $1.center 100 40) "Send~%Invoice" :id :send-invoice)
+        (uml-join-v (y+  $2.center 180) :length 60 :id :join)
+        (uml-action (y+  $1.center 50) "Close~%Order" :id :close-order)
+        (uml-activity-final (y+ $1.center 70) :id :final))
+       (("Fullfillment")
+        (uml-action (x+ send-invoice.center -240) "Fill Order" :id :fill-order)
+        (uml-action (y+ $1.center 70) "Deliver~%Order" :id :deliver-order))
+       (("Finance")
+        (uml-action (x+ $1.center 380) "Receive~%Payment" :id :rcv-payment))))
+    (uml-flow :start         :rcv-order)
+    (uml-flow :rcv-order     :fork)
+    (uml-flow :fork          :fill-order   :style :B1R)
+    (uml-flow :fork          :send-invoice :style :B3L)
+    (uml-flow :send-invoice  :rcv-payment  :style :RT)
+    (uml-flow :fill-order    :deliver-order)
+    (uml-flow :deliver-order :join         :style :BT1)
+    (uml-flow :rcv-payment   :join         :style :BT3)
+    (uml-flow :join          :close-order)
+    (uml-flow :close-order   :final)))
+-->
+
+```diagram
+<!-- expand: UML-ACTIVITY-PARTITIONS-SAMPLE -->
+```
+Figure. uml-activity-partitions 要素
+
+<!-- collapse:close -->
+上記サンプルのコードはこちら。
+```lisp
+<!-- expand: UML-ACTIVITY-PARTITIONS-SAMPLE -->
+```
+<!-- collapse:end -->
+
+```lisp
+(defmacro uml-activity-partitions (topleft vertical horizontal
+                                   &key lines margin font
+                                        fill stroke layer contents) ...)
+```
+
+#### uml-activity-start
+<!-- autolink: [$$](#uml-activity-start) -->
+
+#### uml-actor
+<!-- autolink: [$$](#uml-actor) -->
+
+#### uml-aggregation
+<!-- autolink: [$$](#uml-aggregation) -->
+
+#### uml-association
+<!-- autolink: [$$](#uml-association) -->
+
+#### uml-class
+<!-- autolink: [$$](#uml-class) -->
+
+#### uml-component
+<!-- autolink: [$$](#uml-component) -->
+
+#### uml-composition
+<!-- autolink: [$$](#uml-composition) -->
+
+#### uml-connection-common
+<!-- autolink: [$$](#uml-connection-common) -->
+
+#### uml-connector
+<!-- autolink: [$$](#uml-connector) -->
+
+#### uml-decision-merge
+<!-- autolink: [$$](#uml-decision-merge) -->
+
+#### uml-dependency
+<!-- autolink: [$$](#uml-dependency) -->
+
+#### uml-diagram
+<!-- autolink: [$$](#uml-diagram) -->
+
+#### uml-expansion-region
+<!-- autolink: [$$](#uml-expansion-region) -->
+
+#### uml-flow-final
+<!-- autolink: [$$](#uml-flow-final) -->
+
+#### uml-flow
+<!-- autolink: [$$](#uml-flow) -->
+
+#### uml-fork-join
+<!-- autolink: [$$](#uml-fork-join) -->
+
+#### uml-generalization
+<!-- autolink: [$$](#uml-generalization) -->
+
+#### uml-interface
+<!-- autolink: [$$](#uml-interface) -->
+
+#### uml-keyword-info
+<!-- autolink: [$$](#uml-keyword-info) -->
+
+#### uml-multiplicity-info
+<!-- autolink: [$$](#uml-multiplicity-info) -->
+
+#### uml-node
+<!-- autolink: [$$](#uml-node) -->
+
+#### uml-note
+<!-- autolink: [$$](#uml-note) -->
+
+#### uml-package
+<!-- autolink: [$$](#uml-package) -->
+
+#### uml-pin
+<!-- autolink: [$$](#uml-pin) -->
+
+#### uml-realization
+<!-- autolink: [$$](#uml-realization) -->
+
+#### uml-role-info
+<!-- autolink: [$$](#uml-role-info) -->
+
+#### uml-signal-receipt
+<!-- autolink: [$$](#uml-signal-receipt) -->
+
+#### uml-signal-sending
+<!-- autolink: [$$](#uml-signal-sending) -->
+
+#### uml-state-begin
+<!-- autolink: [$$](#uml-state-begin) -->
+
+#### uml-state-end
+<!-- autolink: [$$](#uml-state-end) -->
+
+#### uml-state-history
+<!-- autolink: [$$](#uml-state-history) -->
+
+#### uml-state
+<!-- autolink: [$$](#uml-state) -->
+
+#### uml-time-event
+<!-- autolink: [$$](#uml-time-event) -->
+
+#### uml-transition-spec
+<!-- autolink: [$$](#uml-transition-spec) -->
+
+#### uml-transition
+<!-- autolink: [$$](#uml-transition) -->
+
+#### uml-usecase
+<!-- autolink: [$$](#uml-usecase) -->
 
 ## リファレンス
 
@@ -1620,6 +1939,17 @@ Figure. 色の名前とサンプル - 2
 
 　更新履歴です。
 
+## 図表一覧
+<!-- embed:figure-list -->
+
+　　
+
+<!-- embed:table-list -->
+
+　　
+
+## 索引
+<!-- embed:index -->
 
 --------------------------------------------------------------------------------
 
