@@ -9,8 +9,14 @@
 (in-package :cl-diagram)
 
 #|
+#|EXPORT|#				:*default-explosion-font*
+#|EXPORT|#				:*default-explosion-fill*
+#|EXPORT|#				:*default-explosion-stroke*
 #|EXPORT|#				:*default-explosion-filter*
  |#
+(defparameter *default-explosion-font*         nil)
+(defparameter *default-explosion-fill*         nil)
+(defparameter *default-explosion-stroke*       nil)
 (defparameter *default-explosion-filter*       nil)
 
 
@@ -132,10 +138,13 @@
   `(register-entity (make-instance 'explosion
 								   :pattern 1 :center ,center
 								   :width ,width :height ,height
-								   :text ,text :font ,font
+								   :text ,text
 								   :align  :center :valign :center
-								   :fill ,fill :stroke ,stroke :link ,link 
-								   :rotate ,rotate :layer ,layer :filter ,filter :id ,id)))
+								   :font   (or ,font   *default-explosion-font*)
+								   :fill   (or ,fill   *default-explosion-fill*)
+								   :stroke (or ,stroke *default-explosion-stroke*)
+								   :link ,link  :rotate ,rotate
+								   :filter ,filter :layer ,layer :id ,id)))
 
 #|
 #|EXPORT|#				:explosion2
@@ -145,8 +154,11 @@
   `(register-entity (make-instance 'explosion
 								   :pattern 2 :center ,center
 								   :width ,width :height ,height
-								   :text ,text :font ,font
+								   :text ,text
 								   :align  :center :valign :center
-								   :fill ,fill :stroke ,stroke :link ,link 
-								   :rotate ,rotate :layer ,layer :filter ,filter :id ,id)))
+								   :font   (or ,font   *default-explosion-font*)
+								   :fill   (or ,fill   *default-explosion-fill*)
+								   :stroke (or ,stroke *default-explosion-stroke*)
+								   :link ,link  :rotate ,rotate
+								   :filter ,filter :layer ,layer :id ,id)))
 

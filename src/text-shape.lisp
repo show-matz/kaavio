@@ -12,12 +12,6 @@
 
 (in-package :cl-diagram)
 
-(defparameter *text-shape-font*       nil)
-(defparameter *text-shape-fill*       nil)
-(defparameter *text-shape-stroke*     nil)
-(defparameter *text-shape-align*  :center)
-(defparameter *text-shape-valign* :center)
-(defparameter *text-shape-margin*      10)
 
 ;;------------------------------------------------------------------------------
 ;;
@@ -50,12 +44,12 @@
 (defmethod initialize-instance :after ((txtshp text-shape) &rest initargs)
   (declare (ignore initargs))
   (with-slots (align valign font fill stroke margin) txtshp
-	(setf align   (or align  *text-shape-align*))
-	(setf valign  (or valign *text-shape-valign*))
-	(setf font    (make-font   (or font   *text-shape-font*   *default-font*  )))
-	(setf fill    (make-fill   (or fill   *text-shape-fill*   *default-fill*  )))
-	(setf stroke  (make-stroke (or stroke *text-shape-stroke* *default-stroke*)))
-	(setf margin  (or margin *text-shape-margin*)))
+	(setf align   (or align  :center))
+	(setf valign  (or valign :center))
+	(setf font    (make-font   (or font   *default-font*  )))
+	(setf fill    (make-fill   (or fill   *default-fill*   :none)))
+	(setf stroke  (make-stroke (or stroke *default-stroke* :none)))
+	(setf margin  (or margin 10)))
   txtshp)
 
 (defmethod check ((txtshp text-shape) canvas dict)

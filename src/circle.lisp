@@ -59,8 +59,8 @@
 (defmethod initialize-instance :after ((ent circle) &rest initargs)
   (declare (ignore initargs))
   (with-slots (fill stroke filter) ent
-	(setf fill   (make-fill   (or fill   *default-fill*)))
-	(setf stroke (make-stroke (or stroke *default-stroke*)))
+	(setf fill   (make-fill   (or fill   *default-fill*   :none)))
+	(setf stroke (make-stroke (or stroke *default-stroke* :none)))
 	(setf filter (if (eq filter :none)
 					 nil
 					 (or filter *default-shape-filter*))))
@@ -71,8 +71,8 @@
   (call-next-method)
   (with-slots (center radius fill stroke filter) shp
 	(check-member radius   :nullable nil :types number)
-	(check-object fill     canvas dict :nullable t :class   fill-info)
-	(check-object stroke   canvas dict :nullable t :class stroke-info)
+	(check-object fill      canvas dict :nullable nil :class   fill-info)
+	(check-object stroke    canvas dict :nullable nil :class stroke-info)
 	(check-member filter   :nullable   t :types keyword)
 	(setf filter (if (eq filter :none) nil filter))
 	(setf center (canvas-fix-point canvas center)))
@@ -109,10 +109,8 @@
 					"cx='" (point-x center) "' "
 					"cy='" (point-y center) "' "
 					"r='" radius "' "
-					(when fill
-					  (to-property-strings fill))
-					(when stroke
-					  (to-property-strings stroke))
+					(to-property-strings fill)
+					(to-property-strings stroke)
 					(write-when filter "filter='url(#" it ")' ")
 					"/>")
 	  (post-draw shp writer)))

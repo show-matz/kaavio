@@ -9,8 +9,20 @@
 (in-package :cl-diagram)
 
 #|
+#|EXPORT|#				:*default-cylinder-align*
+#|EXPORT|#				:*default-cylinder-valign*
+#|EXPORT|#				:*default-cylinder-margin*
+#|EXPORT|#				:*default-cylinder-font*
+#|EXPORT|#				:*default-cylinder-fill*
+#|EXPORT|#				:*default-cylinder-stroke*
 #|EXPORT|#				:*default-cylinder-filter*
  |#
+(defparameter *default-cylinder-align*    :center)
+(defparameter *default-cylinder-valign*   :center)
+(defparameter *default-cylinder-margin*        10)
+(defparameter *default-cylinder-font*         nil)
+(defparameter *default-cylinder-fill*         nil)
+(defparameter *default-cylinder-stroke*       nil)
 (defparameter *default-cylinder-filter*       nil)
 
 ;;------------------------------------------------------------------------------
@@ -75,15 +87,20 @@
 #|EXPORT|#				:cylinder
  |#
 (defmacro cylinder (center width height text
-						 &key depth font align valign fill stroke link rotate layer id filter contents)
+						 &key depth font align valign margin
+							  fill stroke link rotate layer id filter contents)
   (let ((code `(register-entity (make-instance 'cylinder
 											   :center ,center :depth ,depth
 											   :width ,width :height ,height
-											   :text ,text :font ,font
-											   :align ,align :valign ,valign
-											   :fill ,fill :stroke ,stroke :link ,link 
-											   :rotate ,rotate :layer ,layer
-											   :filter ,filter :id ,id))))
+											   :text ,text
+ 											   :align  (or ,align  *default-cylinder-align*)
+ 											   :valign (or ,valign *default-cylinder-valign*)
+ 											   :margin (or ,margin *default-cylinder-margin*)
+											   :font   (or ,font   *default-cylinder-font*)
+											   :fill   (or ,fill   *default-cylinder-fill*)
+											   :stroke (or ,stroke *default-cylinder-stroke*)
+											   :link ,link  :rotate ,rotate
+											   :filter ,filter :layer ,layer :id ,id))))
 	(if (null contents)
 		code
 		(let ((g-obj (gensym "OBJ")))

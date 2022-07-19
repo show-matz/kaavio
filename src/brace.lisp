@@ -7,8 +7,10 @@
 (in-package :cl-diagram)
 
 #|
+#|EXPORT|#				:*default-brace-stroke*
 #|EXPORT|#				:*default-brace-filter*
  |#
+(defparameter *default-brace-stroke*       nil)
 (defparameter *default-brace-filter*       nil)
 
 (defun brace-make-path-left (w h r point)
@@ -85,7 +87,7 @@
   (declare (ignore initargs))
   (with-slots (font stroke filter) brc
 	(setf font   (make-font   (or font   *default-font*  )))
-	(setf stroke (make-stroke (or stroke *default-stroke*)))
+	(setf stroke (make-stroke (or stroke *default-brace-stroke* *default-stroke* :none)))
 	(setf filter (if (eq filter :none)
 					 nil
 					 (or filter *default-brace-filter* *default-line-filter*))))
@@ -97,8 +99,8 @@
 	(check-member   r       :nullable t :types number)
 	(check-member   point   :nullable t :types number)
 	(check-member   text    :nullable t :types (or keyword string))
-	(check-object   font    canvas dict :nullable t :class   font-info)
-	(check-object   stroke  canvas dict :nullable t :class stroke-info)
+	(check-object   font    canvas dict :nullable   t :class   font-info)
+	(check-object   stroke  canvas dict :nullable nil :class stroke-info)
 	(check-member filter    :nullable   t :types keyword)
 	(when text
 	  (setf text (fix-name text))))

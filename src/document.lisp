@@ -11,10 +11,18 @@
 #|
 #|EXPORT|#				:*default-document-align*
 #|EXPORT|#				:*default-document-valign*
+#|EXPORT|#				:*default-document-margin*
+#|EXPORT|#				:*default-document-font*
+#|EXPORT|#				:*default-document-fill*
+#|EXPORT|#				:*default-document-stroke*
 #|EXPORT|#				:*default-document-filter*
  |#
 (defparameter *default-document-align*  :center)
 (defparameter *default-document-valign* :center)
+(defparameter *default-document-margin* 10)
+(defparameter *default-document-font*   nil)
+(defparameter *default-document-fill*   nil)
+(defparameter *default-document-stroke* nil)
 (defparameter *default-document-filter* nil)
 
 
@@ -78,16 +86,20 @@
 #|EXPORT|#				:document
  |#
 (defmacro document (center width height text
-						 &key depth font align valign fill stroke link rotate layer id filter contents)
+						 &key depth font align valign margin
+							  font fill stroke link rotate layer id filter contents)
   (let ((code `(register-entity (make-instance 'document
 											   :center ,center :depth ,depth
 											   :width ,width :height ,height
-											   :text ,text :font ,font
+											   :text ,text
 											   :align  (or ,align  *default-document-align*)
 											   :valign (or ,valign *default-document-valign*)
-											   :fill ,fill :stroke ,stroke :link ,link 
-											   :rotate ,rotate :layer ,layer
-											   :filter ,filter :id ,id))))
+											   :margin (or ,margin *default-document-margin*)
+											   :font   (or ,font   *default-document-font*)
+											   :fill   (or ,fill   *default-document-fill*)
+											   :stroke (or ,stroke *default-document-stroke*)
+											   :link ,link  :rotate ,rotate
+											   :filter ,filter :layer ,layer :id ,id))))
 	(if (null contents)
 		code
 		(let ((g-obj (gensym "OBJ")))

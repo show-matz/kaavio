@@ -14,6 +14,9 @@
 #|EXPORT|#				:*default-folder-align*
 #|EXPORT|#				:*default-folder-valign*
 #|EXPORT|#				:*default-folder-margin*
+#|EXPORT|#				:*default-folder-font*
+#|EXPORT|#				:*default-folder-fill*
+#|EXPORT|#				:*default-folder-stroke*
 #|EXPORT|#				:*default-folder-filter*
  |#
 (defparameter *default-folder-tabwidth*     50)
@@ -21,6 +24,9 @@
 (defparameter *default-folder-align*        :center)
 (defparameter *default-folder-valign*       :center)
 (defparameter *default-folder-margin*       10)
+(defparameter *default-folder-font*         nil)
+(defparameter *default-folder-fill*         nil)
+(defparameter *default-folder-stroke*       nil)
 (defparameter *default-folder-filter*       nil)
 
 ;;------------------------------------------------------------------------------
@@ -98,13 +104,15 @@
   (let ((code `(register-entity (make-instance 'folder
 											   :center ,center
 											   :width ,width :height ,height
-											   :text ,text :font ,font
+											   :text ,text
 											   :tab-width  (or ,tab-width   *default-folder-tabwidth*)
 											   :tab-height (or ,tab-height  *default-folder-tabheight*)
 											   :align  (or ,align  *default-folder-align*)
 											   :valign (or ,valign *default-folder-valign*)
 											   :margin (or ,margin *default-folder-margin*)
-											   :fill ,fill :stroke ,stroke
+											   :font   (or ,font   *default-folder-font*)
+											   :fill   (or ,fill   *default-folder-fill*)
+											   :stroke (or ,stroke *default-folder-stroke*)
 											   :link ,link :rotate ,rotate
 											   :filter ,filter :layer ,layer :id ,id))))
 	(if (null contents)

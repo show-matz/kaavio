@@ -36,7 +36,7 @@
 	(setf end2   (make-endmark (or end2   *default-endmark-2*)))
 	(when (and label (not (functionp label)))
 	  (setf label (make-label label)))
-	(setf stroke (make-stroke  (or stroke *default-stroke*)))
+	(setf stroke (make-stroke (or stroke *default-stroke* :none)))
 	(setf filter (if (eq filter :none)
 					 nil
 					 (or filter *default-line-filter*))))
@@ -106,7 +106,7 @@
 	(check-object end2   canvas dict :nullable   t :class endmark-info)
 	(unless (functionp label)
 	  (check-object label canvas dict :nullable t :class label-info))
-	(check-object stroke canvas dict :nullable nil :class  stroke-info)
+	(check-object stroke canvas dict :nullable nil :class stroke-info)
 	(check-member filter :nullable   t :types keyword)
 	(when end1 (check end1 canvas dict))
 	(when end2 (check end2 canvas dict))
@@ -144,8 +144,7 @@
 					  "<polyline "
 					  (write-when id "id='" it "' ")
 					  "fill='none' "
-					  (when stroke
-						(to-property-strings stroke))
+					  (to-property-strings stroke)
 					  "points='" (with-output-to-string (st)
 								   (format-points points st)) "' "
 					  (write-when filter "filter='url(#" it ")' ")

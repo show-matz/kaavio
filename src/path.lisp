@@ -208,8 +208,8 @@
 (defmethod initialize-instance :after ((ent path) &rest initargs)
   (declare (ignore initargs))
   (with-slots (fill stroke filter) ent
-	(setf fill   (make-fill   (or fill   *default-fill*)))
-	(setf stroke (make-stroke (or stroke *default-stroke*)))
+	(setf fill   (make-fill   (or fill   *default-fill*   :none)))
+	(setf stroke (make-stroke (or stroke *default-stroke* :none)))
 	(setf filter (if (eq filter :none)
 					 nil
 					 (or filter *default-shape-filter*))))
@@ -245,10 +245,8 @@
 		(writer-write writer
 					  "<path "
 					  (write-when id       "id='" it "' ")
-					  (when fill
-						(to-property-strings fill))
-					  (when stroke
-						(to-property-strings stroke))
+					  (to-property-strings fill)
+					  (to-property-strings stroke)
 					  "d='" (format-path-data data) "' "
 					  (write-when filter "filter='url(#" it ")' ")
 					  "/>")

@@ -14,12 +14,18 @@
 #|EXPORT|#				:*default-balloon-align*
 #|EXPORT|#				:*default-balloon-valign*
 #|EXPORT|#				:*default-balloon-margin*
+#|EXPORT|#				:*default-balloon-font*
+#|EXPORT|#				:*default-balloon-fill*
+#|EXPORT|#				:*default-balloon-stroke*
 #|EXPORT|#				:*default-balloon-filter*
  |#
 (defparameter *default-balloon-round*  10)
 (defparameter *default-balloon-align*  :center)
 (defparameter *default-balloon-valign* :center)
 (defparameter *default-balloon-margin* 10)
+(defparameter *default-balloon-font*   nil)
+(defparameter *default-balloon-fill*   nil)
+(defparameter *default-balloon-stroke* nil)
 (defparameter *default-balloon-filter* nil)
 
 
@@ -163,11 +169,13 @@
 											   :round  (or ,round  *default-balloon-round*)
 											   :center ,center
 											   :width ,width :height ,height
-											   :text ,text :font ,font
+											   :text ,text
 											   :align  (or ,align  *default-balloon-align*)
 											   :valign (or ,valign *default-balloon-valign*)
 											   :margin (or ,margin *default-balloon-margin*)
-											   :fill ,fill :stroke ,stroke
+											   :font   (or ,font   *default-balloon-font*)
+											   :fill   (or ,fill   *default-balloon-fill*)
+											   :stroke (or ,stroke *default-balloon-stroke*)
 											   :link ,link :rotate ,rotate
 											   :filter ,filter :layer ,layer :id ,id))))
 	(if (null contents)

@@ -108,6 +108,14 @@
 		((:top)    (setf (point-y pivot) (+ (point-y pt) (- (/ h 2)) (*  3 fs/2)))))
 	  (values pivot txt align font))))
 
+
+#|
+#|EXPORT|#				:*default-table-stroke*
+#|EXPORT|#				:*default-table-fill*
+ |#
+(defparameter *default-table-stroke* nil)
+(defparameter *default-table-fill*   nil)
+
 ;;-------------------------------------------------------------------------------
 ;;
 ;; class table
@@ -131,7 +139,11 @@
 				   (push (make-fill (cadr lst)) acc)
 				   (fix-fills (cddr lst) acc)))))
 	(with-slots (stroke fills) tbl
-	  (setf stroke (make-stroke (or stroke *default-stroke*)))
+	  (setf stroke (make-stroke (or stroke *default-table-stroke* *default-stroke*)))
+	  (when (and (null fills) *default-table-fill*)
+		(setf fills (list :rc *default-table-fill*)))
+	  (when (and (null fills) *default-fill*)
+		(setf fills (list :rc *default-fill*)))
 	  (setf fills  (fix-fills fills nil))))
   tbl)
 

@@ -7,8 +7,12 @@
 (in-package :cl-diagram)
 
 #|
+#|EXPORT|#				:*default-block-arrow-stroke*
+#|EXPORT|#				:*default-block-arrow-fill*
 #|EXPORT|#				:*default-block-arrow-filter*
  |#
+(defparameter *default-block-arrow-stroke*       nil)
+(defparameter *default-block-arrow-fill*         nil)
 (defparameter *default-block-arrow-filter*       nil)
 
 (defun make-block-arrow-points-1 (pt1 pt2 w l s)
@@ -70,11 +74,12 @@
   `(register-entity (make-instance 'diagram:block-arrow
 								   :points (diagram::make-block-arrow-points-1 ,pt1 ,pt2
 																			   ,width ,length ,size)
-								   :fill ,fill :stroke ,stroke
-								   :link ,link :layer ,layer :id ,id
+								   :fill   (or ,fill   *default-block-arrow-fill*)
+								   :stroke (or ,stroke *default-block-arrow-stroke*)
 								   :filter (or ,filter
 											   *default-block-arrow-filter*
-											   *default-shape-filter*))))
+											   *default-shape-filter*)
+								   :link ,link :layer ,layer :id ,id)))
 
 #|
 #|EXPORT|#				:block-arrow2
@@ -84,8 +89,9 @@
   `(register-entity (make-instance 'diagram:block-arrow
 								   :points (diagram::make-block-arrow-points-2 ,pt1 ,pt2
 																			   ,width ,length ,size)
-								   :fill ,fill :stroke ,stroke
-								   :link ,link :layer ,layer :id ,id
+								   :fill   (or ,fill   *default-block-arrow-fill*)
+								   :stroke (or ,stroke *default-block-arrow-stroke*)
 								   :filter (or ,filter
 											   *default-block-arrow-filter*
-											   *default-shape-filter*))))
+											   *default-shape-filter*)
+								   :link ,link :layer ,layer :id ,id)))

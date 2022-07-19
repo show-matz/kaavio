@@ -16,15 +16,21 @@
 				:*default-balloon-align*
 				:*default-balloon-valign*
 				:*default-balloon-margin*
+				:*default-balloon-font*
+				:*default-balloon-fill*
+				:*default-balloon-stroke*
 				:*default-balloon-filter*
 				:balloon
 				;binutil.lisp
 				;block-arrow.lisp
+				:*default-block-arrow-stroke*
+				:*default-block-arrow-fill*
 				:*default-block-arrow-filter*
 				:block-arrow
 				:block-arrow1
 				:block-arrow2
 				;brace.lisp
+				:*default-brace-stroke*
 				:*default-brace-filter*
 				:brace
 				;canvas.lisp
@@ -98,6 +104,12 @@
 				:height
 				:diagram
 				;cylinder.lisp
+				:*default-cylinder-align*
+				:*default-cylinder-valign*
+				:*default-cylinder-margin*
+				:*default-cylinder-font*
+				:*default-cylinder-fill*
+				:*default-cylinder-stroke*
 				:*default-cylinder-filter*
 				:cylinder
 				;defs.lisp
@@ -107,6 +119,10 @@
 				;document.lisp
 				:*default-document-align*
 				:*default-document-valign*
+				:*default-document-margin*
+				:*default-document-font*
+				:*default-document-fill*
+				:*default-document-stroke*
 				:*default-document-filter*
 				:document
 				;ellipse.lisp
@@ -124,6 +140,9 @@
 				:entity-composition-p
 				:check-and-draw-local-entity
 				;explosion.lisp
+				:*default-explosion-font*
+				:*default-explosion-fill*
+				:*default-explosion-stroke*
 				:*default-explosion-filter*
 				:explosion1
 				:explosion2
@@ -143,6 +162,9 @@
 				:*default-folder-align*
 				:*default-folder-valign*
 				:*default-folder-margin*
+				:*default-folder-font*
+				:*default-folder-fill*
+				:*default-folder-stroke*
 				:*default-folder-filter*
 				:folder
 				;font-info.lisp
@@ -195,6 +217,9 @@
 				:*default-memo-align*
 				:*default-memo-valign*
 				:*default-memo-margin*
+				:*default-memo-font*
+				:*default-memo-fill*
+				:*default-memo-stroke*
 				:*default-memo-filter*
 				:memo
 				;paragraph.lisp
@@ -261,6 +286,8 @@
 				:style
 				:stylesheet
 				;table.lisp
+				:*default-table-stroke*
+				:*default-table-fill*
 				:table
 				:with-table-cell
 				;text-shape.lisp
@@ -276,6 +303,9 @@
 				:*default-textbox-align*
 				:*default-textbox-valign*
 				:*default-textbox-margin*
+				:*default-textbox-font*
+				:*default-textbox-fill*
+				:*default-textbox-stroke*
 				:*default-textbox-filter*
 				:textbox
 				;use.lisp

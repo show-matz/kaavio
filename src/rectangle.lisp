@@ -33,16 +33,10 @@
 (defmethod initialize-instance :after ((rct rectangle) &rest initargs)
   (declare (ignore initargs))
   (with-slots (rx ry fill stroke filter) rct
-	(unless rx
-	  (setf rx *default-rectangle-rx*))
-	(unless ry
-	  (setf ry *default-rectangle-ry*))
-	(setf fill (if (null fill)
-				   *default-fill*
-				   (make-fill fill)))
-	(setf stroke (if (null stroke)
-					 *default-stroke*
-					 (make-stroke stroke)))
+	(setf rx     (or rx *default-rectangle-rx*))
+	(setf ry     (or ry *default-rectangle-ry*))
+	(setf fill   (make-fill   (or fill   *default-fill*   :none)))
+	(setf stroke (make-stroke (or stroke *default-stroke* :none)))
 	(setf filter (if (eq filter :none)
 					 nil
 					 (or filter *default-shape-filter*))))
@@ -56,8 +50,8 @@
 	(check-member height    :nullable nil :types number)
 	(check-member rx        :nullable   t :types number)
 	(check-member ry        :nullable   t :types number)
-	(check-object fill      canvas dict :nullable t :class   fill-info)
-	(check-object stroke    canvas dict :nullable t :class stroke-info)
+	(check-object fill      canvas dict :nullable nil :class   fill-info)
+	(check-object stroke    canvas dict :nullable nil :class stroke-info)
 	(check-member filter    :nullable   t :types keyword)
 	(setf center (canvas-fix-point canvas center)))
   nil)
@@ -92,10 +86,8 @@
 					"height='" (shape-height rct) "' "
 					(write-when rx "rx='" it "' ")
 					(write-when ry "ry='" it "' ")
-					(when fill
-					  (to-property-strings fill))
-					(when stroke
-					  (to-property-strings stroke))
+					(to-property-strings fill)
+					(to-property-strings stroke)
 					(write-when filter "filter='url(#" it ")' ")
 					"/>")
 	  (post-draw rct writer)))

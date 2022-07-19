@@ -29,8 +29,8 @@
   (declare (ignore initargs))
   (with-slots (points fill stroke filter link) ent
 	(setf points (copy-list points))
-	(setf fill   (make-fill   (or fill   *default-fill*)))
-	(setf stroke (make-stroke (or stroke *default-stroke*)))
+	(setf fill   (make-fill   (or fill   *default-fill*   :none)))
+	(setf stroke (make-stroke (or stroke *default-stroke* :none)))
 	(setf filter (if (eq filter :none)
 					 nil
 					 (or filter *default-shape-filter*)))
@@ -90,10 +90,8 @@
 		(writer-write writer
 					  "<polygon "
 					  (write-when id       "id='" it "' ")
-					  (when fill
-						(to-property-strings fill))
-					  (when stroke
-						(to-property-strings stroke))
+					  (to-property-strings fill)
+					  (to-property-strings stroke)
 					  "points='" (format-points points) "' "
 					  (write-when filter "filter='url(#" it ")' ")
 					  "/>")

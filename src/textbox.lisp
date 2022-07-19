@@ -14,6 +14,9 @@
 #|EXPORT|#				:*default-textbox-align*
 #|EXPORT|#				:*default-textbox-valign*
 #|EXPORT|#				:*default-textbox-margin*
+#|EXPORT|#				:*default-textbox-font*
+#|EXPORT|#				:*default-textbox-fill*
+#|EXPORT|#				:*default-textbox-stroke*
 #|EXPORT|#				:*default-textbox-filter*
  |#
 (defparameter *default-textbox-rx*           nil)
@@ -21,6 +24,9 @@
 (defparameter *default-textbox-align*        :center)
 (defparameter *default-textbox-valign*       :center)
 (defparameter *default-textbox-margin*       10)
+(defparameter *default-textbox-font*         nil)
+(defparameter *default-textbox-fill*         nil)
+(defparameter *default-textbox-stroke*       nil)
 (defparameter *default-textbox-filter*       nil)
 
 ;;------------------------------------------------------------------------------
@@ -80,12 +86,15 @@
 								   :no-frame ,no-frame
 								   :center ,center
 								   :width ,width :height ,height
-								   :text ,text :font ,font
+								   :text ,text
 								   :rx     (or ,rx     *default-textbox-rx*)
 								   :ry     (or ,ry     *default-textbox-ry*)
 								   :align  (or ,align  *default-textbox-align*)
 								   :valign (or ,valign *default-textbox-valign*)
 								   :margin (or ,margin *default-textbox-margin*)
-								   :fill ,fill :stroke ,stroke :link ,link 
-								   :rotate ,rotate :layer ,layer :filter ,filter :id ,id)))
+								   :font   (or ,font   *default-textbox-font*)
+								   :fill   (or ,fill   *default-textbox-fill*)
+								   :stroke (or ,stroke *default-textbox-stroke*)
+								   :link ,link  :rotate ,rotate
+								   :filter ,filter :layer ,layer :id ,id)))
 
