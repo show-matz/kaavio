@@ -30,9 +30,9 @@
 				"<text x='" x "' y='" y "' "
 				(write-when id "id='" it "' ")
 				"text-anchor='" anchor "' "
-				(if (stringp font)
-					font
-					(when font
+				(when font
+				  (if (stringp font)
+					  font
 					  (to-property-strings font)))
 				(when (need-preserve-space-p txt)
 				  "xml:space='preserve' ")

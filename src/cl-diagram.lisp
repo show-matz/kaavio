@@ -30,6 +30,7 @@
 				:block-arrow1
 				:block-arrow2
 				;brace.lisp
+				:*default-brace-font*
 				:*default-brace-stroke*
 				:*default-brace-filter*
 				:brace
@@ -213,7 +214,7 @@
 				:math/cos4
 				:math/cos5
 				;memo.lisp
-				:*default-memo-dog-ear*
+				:*default-memo-crease*
 				:*default-memo-align*
 				:*default-memo-valign*
 				:*default-memo-margin*
@@ -286,6 +287,7 @@
 				:style
 				:stylesheet
 				;table.lisp
+				:*default-table-font*
 				:*default-table-stroke*
 				:*default-table-fill*
 				:table

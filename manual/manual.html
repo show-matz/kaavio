@@ -21,10 +21,10 @@
 <!-- define: APPNAME = diagram -->
 <!-- define: BLANK_PARAGRAPH = '　　' -->
 <!-- define: TODO = '@((background:red;color:white;)(ToDo : %1))' -->
-<!-- config:entity-numbering-depth 1 -->
-<!-- <!-- config:term-link-in-header -->
 <!-- config:write-comment -->			
 <!-- config:header-numbering 2 4 -->			
+<!-- config:entity-numbering-depth 1 -->
+<!-- <!-- config:term-link-in-header -->
 <!-- PIM の eoPS3MRF1gI というデータで過去にマニュアル作ろうとした形跡があるぞ  -->
 <h1><a name='8DhcAacagke'></a>README - diagram</h1>
 <p>　この文書は、 <strong>diagram</strong> のためのマニュアル文書です。</p>
@@ -780,7 +780,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </pre>
 <p>　<code>table</code> のパラメータ構成は以下のようになっています。</p>
 <pre class='code'>
-(<span class='keyword1'>defmacro</span> <span class='keyword5'>table</span> (center rows cols <span class='keyword2'>&amp;key</span> stroke fills texts layer id) ...)
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>table</span> (center rows cols <span class='keyword2'>&amp;key</span> stroke fills font texts layer id) ...)
 </pre>
 <p>　それぞれのパラメータについて以下に説明します。</p>
 <p class='tbl_title'><a name='46vpyWYCtdw'></a>Table.5-2 table のパラメータ</p>
@@ -791,6 +791,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <tr style="font-size: 14;"><td nowrap align='center'>cols</td><td align='left'>列数と各列の幅を数値のリストで指定します。リストの長さが列数、リスト要素の数値が列の幅です。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='center'>stroke</td><td align='left'>罫線の描画方法をストローク情報で指定します。省略可能で、省略した場合はデフォルトのストローク情報が使用されます。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='center'>fills</td><td align='left'>表、行、列、またはセル個別の背景色を指定します。位置を示すキーワードとフィル情報の２つの値を繰り返すリストで指定してください。位置は、表全体であれば <code>:rc</code> 、列や行全体を指定する場合は <code>:rN</code> や <code>:cM</code> を指定します。ここで、 <code>N,M</code> は行や列の番号を示す整数です（上または左から０で始まります）。単独のセルを指定する場合、同じ要領で <code>:rNcM</code> と指定してください。 <code>fills</code> パラメータ全体が省略された場合、表の背景は塗り潰されません。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='center'>font</td><td align='left'>表内でテキストを描画する際に使用するフォントを指定します。省略できます。省略した場合、 <code>*default-table-font*, *default-font*</code> の順でデフォルトフォントが使用されます。また、 <code>texts</code> パラメータ指定の中で個別にフォントを指定することもできます。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='center'>texts</td><td align='left'>表内の各セルに設定するテキストをリストで指定します。正確には、行のリストを連ねたリストで指定します。テキスト情報はキーワードなどのシンボル、数値、文字列を指定できますが、アライメントやフォント情報を指定する場合は テキスト情報自体をリストにする必要があります。詳細は後述します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='center'>layer</td><td align='left'>テーブルが所属するレイヤーをキーワードで指定します。省略できます。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='center'>id</td><td align='left'>テーブルの ID をキーワードで指定します。省略できます。</td></tr>

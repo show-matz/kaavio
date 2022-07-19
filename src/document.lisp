@@ -86,7 +86,7 @@
 #|EXPORT|#				:document
  |#
 (defmacro document (center width height text
-						 &key depth font align valign margin
+						 &key depth align valign margin
 							  font fill stroke link rotate layer id filter contents)
   (let ((code `(register-entity (make-instance 'document
 											   :center ,center :depth ,depth

@@ -7,9 +7,11 @@
 (in-package :cl-diagram)
 
 #|
+#|EXPORT|#				:*default-brace-font*
 #|EXPORT|#				:*default-brace-stroke*
 #|EXPORT|#				:*default-brace-filter*
  |#
+(defparameter *default-brace-font*         nil)
 (defparameter *default-brace-stroke*       nil)
 (defparameter *default-brace-filter*       nil)
 
@@ -86,7 +88,7 @@
 (defmethod initialize-instance :after ((brc brace) &rest initargs)
   (declare (ignore initargs))
   (with-slots (font stroke filter) brc
-	(setf font   (make-font   (or font   *default-font*  )))
+	(setf font   (make-font   (or font   *default-brace-font*   *default-font*)))
 	(setf stroke (make-stroke (or stroke *default-brace-stroke* *default-stroke* :none)))
 	(setf filter (if (eq filter :none)
 					 nil

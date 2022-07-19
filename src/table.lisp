@@ -66,7 +66,7 @@
 						  (values nil nil nil)
 						  (values (list x y) w h)))))))))))
 
-(defun table-normalize-texts (texts)
+(defun table-normalize-texts (texts default-font)
   (labels ((fix-data (data)
 			 (if (null data)
 				 nil	;; nil means 'no text cell'
@@ -82,7 +82,7 @@
 				   `(,(if (stringp d)
 						  d
 						  (format nil "~A" d))
-					  ,align ,(or valign :center) ,(or font *default-font*)))))
+					  ,align ,(or valign :center) ,(or font default-font)))))
 		   (row-impl (lst acc)
 			 (if (null lst)
 				 (nreverse acc)
@@ -110,9 +110,11 @@
 
 
 #|
+#|EXPORT|#				:*default-table-font*
 #|EXPORT|#				:*default-table-stroke*
 #|EXPORT|#				:*default-table-fill*
  |#
+(defparameter *default-table-font*   nil)
 (defparameter *default-table-stroke* nil)
 (defparameter *default-table-fill*   nil)
 
@@ -124,6 +126,7 @@
 (defclass table (group)
   ((rows		:initform nil :initarg :rows)		; list of integers
    (cols		:initform nil :initarg :cols)		; list of integers
+   (font		:initform nil :initarg :font)		; (or nil font-info)
    (stroke		:initform nil :initarg :stroke)		; (or nil stroke-info)
    (fills		:initform nil :initarg :fills)		; list
    (texts		:initform nil :initarg :texts)))	; list
@@ -138,7 +141,8 @@
 				   (push (car lst) acc)
 				   (push (make-fill (cadr lst)) acc)
 				   (fix-fills (cddr lst) acc)))))
-	(with-slots (stroke fills) tbl
+	(with-slots (font stroke fills) tbl
+	  (setf font   (make-font   (or font   *default-table-font*   *default-font*)))
 	  (setf stroke (make-stroke (or stroke *default-table-stroke* *default-stroke*)))
 	  (when (and (null fills) *default-table-fill*)
 		(setf fills (list :rc *default-table-fill*)))
@@ -150,14 +154,15 @@
 (defmethod check ((tbl table) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (with-slots (fills stroke texts) tbl
+  (with-slots (font fills stroke texts) tbl
 	(labels ((chk-fills (lst)
 			   (when lst
 				 (let ((fill (cadr fills)))
 				   (check-object fill canvas dict :nullable nil :class fill-info)))))
 	  (chk-fills fills))
+	(check-object font      canvas dict :nullable t :class font-info)
 	(check-object stroke    canvas dict :nullable t :class stroke-info)
-	(setf texts (table-normalize-texts texts)))
+	(setf texts (table-normalize-texts texts font)))
   nil)
 
 ;; override of group::draw-group
@@ -167,7 +172,7 @@
 		  (height (canvas-height canvas)))
 	  (macrolet ((register-entity (entity)
 				   `(check-and-draw-local-entity ,entity canvas writer)))
-		(with-slots (center rows cols stroke fills texts) tbl
+		(with-slots (center rows cols stroke fills font texts) tbl
 		  ;; filling ----------------------------------------------
 		  (labels ((fill-impl (lst)
 					 (when lst
@@ -197,8 +202,8 @@
 				(dolist (data row)
 				  (when data
 					(multiple-value-bind (pt w h) (table-get-cell-area r c rows cols)
-					  (multiple-value-bind (pt txt align font) (table-fix-text pt w h data)
-						(text pt txt :align align :font font))))
+					  (multiple-value-bind (pt txt align fnt) (table-fix-text pt w h data)
+						(text pt txt :align align :font (or fnt font)))))
 				  (incf c)))
 			  (incf r)))))))
   nil)
@@ -212,14 +217,14 @@
 #|
 #|EXPORT|#				:table
  |#
-(defmacro table (center rows cols &key stroke fills texts layer id)
+(defmacro table (center rows cols &key stroke fills font texts layer id)
   `(register-entity (make-instance 'diagram:table
 								   :center ,center
 								   :width  (apply #'+ ,cols)
 								   :height (apply #'+ ,rows)
 								   :rows ,rows :cols ,cols
 								   :stroke ,stroke :fills ,fills
-								   :texts ,texts :layer ,layer :id ,id)))
+								   :font ,font :texts ,texts :layer ,layer :id ,id)))
 
 ;;-------------------------------------------------------------------------------
 ;;

@@ -46,7 +46,7 @@
   (with-slots (align valign font fill stroke margin) txtshp
 	(setf align   (or align  :center))
 	(setf valign  (or valign :center))
-	(setf font    (make-font   (or font   *default-font*  )))
+	(setf font    (make-font   (or font   *default-font*)))
 	(setf fill    (make-fill   (or fill   *default-fill*   :none)))
 	(setf stroke  (make-stroke (or stroke *default-stroke* :none)))
 	(setf margin  (or margin 10)))
