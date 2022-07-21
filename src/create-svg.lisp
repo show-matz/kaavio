@@ -28,7 +28,7 @@
 #|EXPORT|#				:width
 #|EXPORT|#				:height
  |#
-(defmacro create-svg ((&key width height fill desc) &rest body)
+(defmacro create-svg ((width height &key fill desc) &rest body)
   (let ((g-layer-mgr (gensym "LAYER-MGR"))
 		(g-writer    (gensym "WRITER"))
 		(g-filter    (gensym "FILTER"))
@@ -118,5 +118,5 @@
 #|
 #|EXPORT|#				:diagram
  |#
-(defmacro diagram ((&key w h fill) &rest body)
-  `(create-svg (:width ,w :height ,h :fill ,fill) ,@body))
+(defmacro diagram ((w h &key fill) &rest body)
+  `(create-svg (,w ,h :fill ,fill) ,@body))
