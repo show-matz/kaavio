@@ -19,10 +19,14 @@
 
 　この文書は、 **${APPNAME}** のためのマニュアル文書です。
 
-## Table of contents
-
+<!-- anchor: toc-link-target -->
+```raw
+<h2>Table of contents</h2>
+```
 <!-- embed:toc-x 2 4 -->
-<!-- toc-link: top 'Table of contents' -->
+<!-- toc-link: top 'A#toc-link-target' -->
+
+--------------------------------------------------------------------------------
 
 ${BLANK_PARAGRAPH}
 
@@ -31,16 +35,19 @@ ${BLANK_PARAGRAPH}
 　${APPNAME} は、テキストベースの作図ツールです。テキスト形式で作成したデータファイルを入力として、
 SVG 形式{{fn:SVG は Scalable Vector Graphics の略です。}}の画像ファイルを生成します。
 
-　入力データの記述には Common LISP 言語を使用します。これは、${APPNAME} 自身が Common LISP で
-書かれているからですが、このツールを使ってみたいからといって知りもしない言語をマスターしたいとは思わない
-でしょう。${{TODO}{まだ記述されていません。}}
+　${APPNAME} の入力データの記述方法には違和感を感じるかもしれません。これは、${APPNAME} が 
+Common LISP 言語で実装されており、入力データも Common LISP 上に作成された DSL(domain specific 
+language) で記述するためです。しかし、このツールを使ってみたいからといって、知りもしない言語の
+お勉強から始めたいとは思わないでしょう。そのため、このマニュアルではサンプルをたくさん提示し、
+Common LISP の詳細には極力立ち入らないようにします{{fn:もともと LISPer だという方で DSL の詳細を知りたい方は、 \
+申し訳ありませんがコードを直接参照してください。}}。
 
 ## 簡単なサンプル
 
 　簡単なサンプルから始めましょう。以下のような入力を ${APPNAME} に与えると、
 
 <!-- snippet: FIRST-SAMPLE
-(diagram (:w 300 :h 150)
+(diagram (300 150)
   (grid)
   (rect   '( 50  50) 80 60 :fill :powderblue :id :x)
   (circle '(250 100) 40    :fill :moccasin   :id :y)
@@ -62,9 +69,9 @@ ${BLANK_PARAGRAPH}
 Figure. 簡単なサンプル
 
 
-　「入力を ${APPNAME} に与える」というのは、具体的には以下のように入力ファイルをパラメータとして 
-${APPNAME} を起動することを意味します。作成される SVG 画像は標準出力に書き出されるので、ファイル
-にリダイレクトしてください。
+　「入力を ${APPNAME} に与える」というのは、具体的には入力データを記述したファイルの名前を
+パラメータとして ${APPNAME} を起動することを意味します。作成される SVG 画像は標準出力に
+書き出されるので、ファイルにリダイレクトしてください。以下のように。
 
 ```sh
 diagram ./input.digram > ./output.svg
@@ -77,12 +84,12 @@ diagram ./input.digram > ./output.svg
 cat ./input.digram | diagram > ./output.svg
 ```
 
-　余談ですが、SVG 画像には gzip 圧縮した svgz という形式もあります。以下のようにすれば作成できます。
+　余談ですが、SVG 画像には gzip 圧縮した svgz という形式もあります。以下のように出力を gzip に
+通してやれば作成できます。
 
 ```sh
 cat ./input.digram | diagram | gzip > ./output.svgz
 ```
-
 
 　では、改めて、先ほどの入力データをもう一度みてみましょう。
 
@@ -90,42 +97,73 @@ cat ./input.digram | diagram | gzip > ./output.svgz
 <!-- expand: FIRST-SAMPLE -->
 ```
 
-　初めての diagram データなので、順番に内容をみていきましょう。
+　初めての ${APPNAME} データなので、順番に内容をみていきましょう。まずは雰囲気で理解してください。
 
-* `diagram` で、幅 300、高さ 150 の画像を作成
-* `grid` で、背景にグリッド線を描画
-* `rectangle` で、左上から (50, 50) の位置に幅 80、高さ 60 の矩形を作成
+* `diagram` で「幅 300、高さ 150」の画像を作成
+* `grid` で背景にグリッド線を描画
+* `rect` で四角形を作成 - 位置は左上から (50, 50)、大きさは幅 80、高さ 60
 	* `:fill` で塗り潰しの色を powderblue に指定
 	* これに x という ID を設定
-* `circle` で、左上から (250, 100) の位置に半径 40 の円を作成
+* `circle` で円を作成 - 位置は左上から (250, 100)、半径は 40
 	* `:fill` で塗り潰しの色を moccasin に指定
 	* これに y という ID を設定
-* `connector` で、x から y に向かって接続線を描画
+* `connect` で、x から y に向かって接続線を描画
 	* `:end2` で終端の形状を arrow に設定
 
+${BLANK_PARAGRAPH}
+
+　では、ここで四角形を描画した行に注目してみましょう。
+
+```lisp
+(rect  '(50 50) 80 60 :fill :powderblue :id :x)
+```
+
+　全体を括る括弧の中にいくつかのデータが書かれていて、最初は `rect` で始まっています。この
+最初の `rect` が「四角形を描画せよ」という指示で、残りは何処にどのような四角形を描くかの
+指示です。続く `'(50 50) 80 60` は位置（座標）、幅、高さの指定です。 `'(50 50)` という表記
+は、位置を即値（具体的な値）で記述する時のお約束だと（今は）理解しておいてください。座標の指定
+方法には色々ありますが、のちほど順番に説明します。
+
+　その後ろに続く `:fill :powderblue` や `:id :x` といったものは、全て「名前付きパラメータ
+{{fn:Lisper の方へ：要するにキーワードパラメータです。}}」です。${APPNAME} では多くの
+パラメータが省略可能で、それらの省略可能パラメータを指定する場合はパラメータ名も書いてあげる
+必要があります。なお、 `:fill` のようにコロンで始まる名前は「キーワード」と呼ばれるもので、
+省略可能パラメータの名前はキーワードで指定します。
+
+　では、この `rect` の省略可能なパラメータにはどんなものがあるのでしょうか。以下に `rect` 
+の全体を示します。
+
+```lisp
+(defmacro rect (center width height
+                &key rx ry fill stroke rotate link layer id filter contents) ...)
+```
+
+　先頭の `defmacro` はひとまず気にしないでください。 `rect` に続く括弧の中がパラメータの
+全体で、 `center width height` が必須パラメータ、 `&key` に続く全てが省略可能なパラメータ
+です。 `fill` と `id` はもう使いました。その他のパラメータについてはまた別のところで説明
+します。
 
 ${BLANK_PARAGRAPH}
 
 　次のサンプルはもう少し複雑です。
 
 <!-- snippet: SECOND-SAMPLE
-(diagram (:w 300 :h 200)
+(diagram (400 150)
   (grid)
-  (with-fill (:color :honeydew)
-    (rect   '( 50  50)          50 50 :id :a1)
-    (circle  (x+ a1.center 100) 25    :id :a2)
-    (rect    (y+ a2.center 100) 50 50 :id :a3)
-    (circle  (x+ a3.center 100) 25    :id :a4))
-  (connect :a1 :a2 :end2 :arrow)
-  (connect :a2 :a3 :end2 :arrow)
-  (connect :a3 :a4 :end2 :arrow)
-  (connect :a3 :a1 :end2 :arrow :style :LB))
+  (drop-shadow)
+  (let ((*default-shape-filter* :drop-shadow))
+    (textbox (y+ canvas.center 20) "diagram" :height 40 :fill :cornsilk :id :app)
+    (with-stroke (:color :navy :width 2)
+      (with-fill (:color :skyblue :opacity 0.4)
+        (document (x+ app.center -150) 80 60 "input~%file" :id :in)
+        (document (x+ app.center  150) 80 60 "svg~%image"  :id :out)))
+    (with-fill (:color :white)
+      (balloon (xy+ app.center 110 -60) "Made with LISP." app.topright)
+      (block-arrow1 (x+  in.right 10)
+                    (x+ app.left -10) :width 15 :length 25 :size 30)
+      (block-arrow1 (x+ app.right 10)
+                    (x+ out.left -10) :width 15 :length 25 :size 30))))
 -->
-
-
-```lisp
-<!-- expand: SECOND-SAMPLE -->
-```
 
 ```diagram
 <!-- expand: SECOND-SAMPLE -->
@@ -133,18 +171,86 @@ ${BLANK_PARAGRAPH}
 Figure. 簡単なサンプル-2
 
 
-* diagram と grid は先程と同じなので省略。
-* with-fill で、ここから先は「デフォルトの塗りつぶしを `honeydew` にしています
-* drectangle で、左上から (50, 50) の位置に一辺 50 の正方形を作成し、これに a1 という ID をつけます
-* a1 の中央（center）から x軸（水平）方向に 100 の位置に、circle で 半径 40 の円を作成し、これに a2 と \
-いう ID をつけます
-* connector で、x から y に向かって接続線を引き、終端の形状を矢印にしています
+　このサンプルは、以下のコードで生成されています。
+
+```lisp
+<!-- expand: SECOND-SAMPLE -->
+```
+
+　こちらも、ざっくりした説明をしておきます。
+
+* diagram と grid は先程と同じなので省略
+* drop-shadow という種類の「フィルタ」の使用を宣言
+* デフォルトのフィルタを drop-shadow に設定
+	* textbox でテキストボックスを作成 : 場所は画像の中心（canvas.center）から y 軸方向に 20、 \
+テキストは "diagram"、これに app という ID を設定
+	* with-stroke で、デフォルトの線を太さ 2 の `navy` に設定
+		* with-fill で、デフォルトの塗りつぶしを不透明度 0.4 の `skyblue` に設定
+			* document でドキュメントを作成 : 場所は app の中心（app.center）から x 軸方向に -150、 \
+幅と高さは 80 60、テキストは "input~%file"、これに in という ID を設定
+			* 上記と同じ要領で out という ID のドキュメントを作成
+	* with-fill で、デフォルトの塗りつぶしを `white` に設定
+		* balloon で app の右上付近に吹き出しを作成 : テキストは "Made with LISP."、接続点は app の \
+右上端（app.topright）
+		* block-arrow1 で in と app の間にブロック矢印を作成（ `width, length, size` は形状に関する指示）
+		* 上記と同じ要領で app と out の間にブロック矢印を作成
+
+
+${BLANK_PARAGRAPH}
+
+　この 2 つめのサンプルには、新しいポイントがいくつかあります。順番に見ていきましょう。
+
+${{TODO}{以下、まだ直してる最中。}}
+
+* `drop-shadow` で宣言し、 `*defualt-shape-filter*` でデフォルトを設定しているのを「フィルタ」といいます。 \
+四角形や円に表示されている影がそれです。
+* `with-stroke` や `with-fill` を使って、デフォルトの塗り潰しや線を指定しています。 `:stroke` や `:fill` を \
+毎回指定する必要がなくなります。
+	* `with-stroke` では線の色の他に `:width` で線の太さを指定しています。
+	* `with-fill` では塗り潰しの色の他に `:opacity` で不透明度を指定しています。四角形や円の塗り潰しが少し透けているのがわかると思います。
+* `a1.center` といった表記により、既出の ID の要素の「中心座標」を参照できます。これは `'(50 50)` といった座標 \
+表記の代わりになります。また、 `(x+ a1.center 100)` といった表記によってある座標から x 軸や y 軸に指定されただけ \
+移動した座標を計算することができます。
+* `connect` のパラメータ `:style` によって接続線の種類を指定することができます。 `:style :LB` の `LB` は  \
+left to bottom という意味で、省略した場合は `:CC` （center to center）になります。
 
 ## 基本的な図形
+
+<!-- define: HASH_RECT      = '[](#四角形)' -->
+<!-- define: HASH_CIRCLE    = '[](#円)' -->
+<!-- define: HASH_ELLIPSE   = '[](#楕円)' -->
+<!-- define: HASH_LINE      = '[](#線)' -->
+<!-- define: HASH_CONNECTOR = '[](#コネクタ)' -->
+<!-- define: HASH_TEXT      = '[](#テキスト)' -->
+
+```diagram
+(diagram (800 250)
+  (grid)
+  (let ((y 50))
+    (rect `(100 ,y) 50 50 :fill :skyblue :stroke :blue :link "${HASH_RECT}")
+    (text (y+ $1.bottom 20) "四角形" :align :center)
+    (circle `(180 ,y) 25 :fill :coral :stroke :darkred :link "${HASH_CIRCLE}")
+    (text (y+ $1.bottom 20) "円" :align :center)
+    (ellipse `(260 ,y) 35 25 :fill :beige :stroke :olive :link "${HASH_ELLIPSE}")
+    (text (y+ $1.bottom 20) "楕円" :align :center)
+	(defs (50 70 :line-grp)
+      (rect canvas.center canvas.width canvas.height :fill :white :stroke :none)
+      (line '((0 0) (50 0) (0 45) (50 45)) :stroke :black)
+	  (text '(25 65) "線" :align :center))
+    (use :line-grp `(340 ,(+ y 15)) :link "${HASH_LINE}")
+	(defs (50 70 :connect-grp)
+      (rect canvas.center canvas.width canvas.height :fill :white :stroke :none)
+      (rect   '( 5  5) 10 10 :fill :white :stroke :black :id :r1)
+      (circle '(45 45) 5     :fill :white :stroke :black :id :r2)
+      (connect :r1 :r2 :stroke :black)
+	  (text '(25 65) "コネクタ" :align :center))
+    (use :connect-grp `(420 ,(+ y 15)) :link "${HASH_CONNECTOR}")))
+```
+
 ### 四角形
 
 <!-- snippet: RECTANGLE-SAMPLE
-(diagram (:w 300 :h 100)
+(diagram (300 100)
   (grid)
   (rectangle '(150 50) 150 60 :rx 10 :ry 10 :fill :skyblue :stroke :blue))
 -->
@@ -189,7 +295,7 @@ Figure. rectangle のサンプル
 　テキストボックスは、[$$](#四角形) と [$$](#テキスト) を組み合わせたようなものです。
 
 <!-- snippet: TEXTBOX-SAMPLE
-(diagram (:w 200 :h 100)
+(diagram (200 100)
   (grid)
   (textbox '(100 50) "test text.~%multi line."
                      :rx 10 :ry 10 :stroke :black :fill :white))
@@ -211,7 +317,7 @@ Figure. テキストボックスのサンプル
 　ドキュメントは、テキストボックスと良く似ていますが、${{TODO}{まだ記述されていません。}}
 
 <!-- snippet: DOCUMENT-SAMPLE
-(diagram (:w 200 :h 100)
+(diagram (200 100)
   (grid)
   (document '(100 50) 100 70 "document~%name"
                     :stroke :navy :fill :skyblue))
@@ -233,7 +339,7 @@ Figure. ドキュメントのサンプル
 　フォルダは、テキストボックスと良く似ていますが、${{TODO}{まだ記述されていません。}}
 
 <!-- snippet: FOLDER-SAMPLE
-(diagram (:w 200 :h 100)
+(diagram (200 100)
   (grid)
   (folder '(100 50) "folder.~%multi line."
                     :stroke :darkkhaki :fill :cornsilk))
@@ -255,7 +361,7 @@ Figure. フォルダのサンプル
 　吹き出しはテキストボックスと良く似ていますが、${{TODO}{まだ記述されていません。}}
 
 <!-- snippet: BALLOON-SAMPLE
-(diagram (:w 200 :h 100)
+(diagram (200 100)
   (grid)
   (rect '(30 70) 30 30 :fill :gray :stroke :black :id :r)
   (balloon '(130 50) "balloon text.~%multi line." r.right
@@ -292,10 +398,10 @@ Table. 吹き出しに関するデフォルト設定変数
 　メモはテキストボックスと良く似ていますが、${{TODO}{まだ記述されていません。}}
 
 <!-- snippet: MEMO-SAMPLE
-(diagram (:w 200 :h 100)
+(diagram (200 100)
   (grid)
   (memo '(100 50) "memo text.~%multi line."
-                  :width 150 :height 80 :dog-ear 30
+                  :width 150 :height 80 :crease 30
                   :align :left :valign :top :fill :lightpink :stroke :red))
 -->
 
@@ -315,7 +421,7 @@ Figure. メモのサンプル
 　円柱は${{TODO}{まだ記述されていません。}}
 
 <!-- snippet: CYLINDER-SAMPLE
-(diagram (:w 200 :h 100)
+(diagram (200 100)
   (grid)
   (cylinder canvas.center 80 60 "cylinder~%text"
                                    :fill :honeydew :stroke :forestgreen))
@@ -337,7 +443,7 @@ Figure. 円柱のサンプル
 　${{TODO}{まだ記述されていません。}}
 
 <!-- snippet: EXPLOSION-SAMPLE
-(diagram (:w 350 :h 150)
+(diagram (350 150)
   (grid)
   (explosion1 '(100 75) 140 120 "explosion1" :fill :pink :stroke :red)
   (explosion2 '(250 75) 140 120 "explosion2" :fill :pink :stroke :red))
@@ -359,7 +465,7 @@ Figure. 爆発のサンプル
 　${{TODO}{まだ記述されていません。}}
 
 <!-- snippet: BLOCKARROW-SAMPLE
-(diagram (:w 300 :h 150)
+(diagram (300 150)
   (grid)
   (with-stroke (:color :navy :width 2)
     (with-fill (:color :skyblue)
@@ -386,7 +492,7 @@ Figure. ブロック矢印のサンプル
 ```
 
 ```diagram
-(diagram (:w 320 :h 150)
+(diagram (320 150)
 	(grid)
 	(block-arrow1 '(80 50) '(250 50) :width 20 :length 70 :size 60 :fill :skyblue :stroke :navy)
 	(with-stroke (:color :gray :dasharray '(3 3))
@@ -417,7 +523,7 @@ Figure. ブロック矢印のパラメータ
 　${{TODO}{まだ記述されていません。}}
 
 <!-- snippet: BRACE-SAMPLE
-(diagram (:w 400 :h 300)
+(diagram (400 300)
    (grid)
    (with-stroke (:color :navy :width 2)
      (with-font (:fill :navy :size 16)
@@ -444,7 +550,7 @@ Figure. 波括弧のサンプル
 ```
 
 ```diagram
-(diagram (:w 400 :h 150)
+(diagram (400 150)
    (grid)
    (with-stroke (:color :navy :width 2)
      (with-font (:fill :navy :size 16)
@@ -479,7 +585,7 @@ Figure. 波括弧のパラメータ
 　`table` を使うことで、表を描画することができます。以下の例では、３行４列の表を作成しています。
 
 <!-- snippet: TABLE-SAMPLE
-(diagram (:w 320 :h 120)
+(diagram (320 120)
    (table '(160 60) '(30 30 30) '(75 75 75 75)
           :stroke :black :fills '(:rc :white :r0 :skyblue)
           :texts '((:foo :bar :baz :quux)
@@ -564,7 +670,7 @@ ${BLANK_PARAGRAPH}
 　`:align` および `:valign` のサンプルを以下に示します。
 
 <!-- snippet: TABLE-ALIGN-SAMPLE
-(diagram (:w 480 :h 240)
+(diagram (480 240)
   (with-font (:size 12)
     (table '(240 120) '(40 60 60 60) '(100 120 120 120)
            :stroke :navy :id :tbl
@@ -617,7 +723,7 @@ Figure. テーブルにおけるテキストの align と valign パラメータ
 　以下の例では、2 x 2 の空のテーブルを作成し、そのうちの２つのセル内部に図形を描画しています。
 
 <!-- snippet: WITH-TABLE-CELL-SAMPLE
-(diagram (:w 220 :h 220)
+(diagram (220 220)
     (table '(110 110) '(100 100) '(100 100)
                :stroke :navy :fills '(:rc :white) :id :tbl)
     (with-table-cell (:tbl 1 0)
@@ -694,7 +800,7 @@ ${BLANK_PARAGRAPH}
 　${{TODO}{まだ記述されていません}}
 
 <!-- snippet: ROTATE-SAMPLE
-(diagram (:w 400 :h 200)
+(diagram (400 200)
   (grid)
   (rect '(200 100) 100 70 :fill :lightgray :stroke :black :rotate 30))
 -->
@@ -719,7 +825,7 @@ Figure. 回転のサンプル
 　${{TODO}{まだ記述されていません}}
 
 <!-- snippet: FILTER-SAMPLE
-(diagram (:w 400 :h 200)
+(diagram (400 200)
   (grid)
   (drop-shadow)
   (glow-shadow :color-matrix '(0 0 0 0   0
@@ -727,8 +833,8 @@ Figure. 回転のサンプル
                                0 0 0 0.3 0
                                0 0 0 0.5 0))
   (rect '(200 100) 100 70 :fill :lightgray :stroke :black :filter :drop-shadow)
-  (text '(200 180) "sample text" :align :center :filter :glow-shadow
-                                 :font (make-font :size 24 :fill :cadetblue)))
+  (text '(200 180) "sample text" :align :center
+                   :font (make-font :size 24 :fill :cadetblue :filter :glow-shadow)))
 -->
 
 ```lisp
@@ -750,7 +856,7 @@ Figure. フィルタのサンプル
 　${{TODO}{まだ記述されていません}}
 
 <!-- snippet: DEFS-USE-SAMPLE
-(diagram (:w 400 :h 200)
+(diagram (400 200)
   (grid)
   (defs (70 50 :frame)
     (rect canvas.center canvas.width canvas.height :fill :white :stroke :black)
@@ -790,7 +896,7 @@ ${BLANK_PARAGRAPH}
 　${{TODO}{まだ記述されていません。}}
 
 <!-- snippet: GEOMETRY-SAMPLE
-(diagram (:w 300 :h 200)
+(diagram (300 200)
   (grid)
   (text '(10 20) "(0, 0)")
   (circle (xy+ canvas.topleft 2 2) 2 :stroke :red :fill :red)
@@ -818,7 +924,7 @@ ${BLANK_PARAGRAPH}
 
 
 <!-- snippet: SUBCANVAS-SAMPLE
-(diagram (:w 300 :h 200)
+(diagram (300 200)
   (grid)
   (circle (xy+ canvas.topleft 50 50) 20 :stroke :brown :fill :wheat)
   (with-subcanvas ('(150 50) 100 100)
@@ -917,7 +1023,7 @@ ${BLANK_PARAGRAPH}
 <!-- autolink: [$$](#uml-action-param) -->
 
 <!-- snippet: UML-ACTION-PARAM-SAMPLE
-(diagram (:w 400 :h 200)
+(diagram (400 200)
   (grid)
   (uml-action canvas.center "action" :id :act1 :width 300 :height 160
     :contents ((uml-action-param "param" :act1 :L  :fill :cornsilk :id :prm1)
@@ -949,7 +1055,7 @@ Figure. uml-action-param 要素
 <!-- autolink: [$$](#uml-action) -->
 
 <!-- snippet: UML-ACTION-SAMPLE
-(diagram (:w 500 :h 100)
+(diagram (500 100)
   (grid)
   (uml-activity-start '( 30 50) :id :start)
   (let ((*uml-action-fill* :cornsilk))
@@ -986,7 +1092,7 @@ Figure. uml-action 要素
 <!-- autolink: [$$](#uml-activity-partitions) -->
 
 <!-- snippet: UML-ACTIVITY-PARTITIONS-SAMPLE
-(diagram (:w 520 :h 500)
+(diagram (520 500)
   (grid)
   (let ((*uml-action-fill* :cornsilk))
     (uml-activity-partitions
@@ -1180,7 +1286,7 @@ Table. make-fill 関数のパラメータ
 ${BLANK_PARAGRAPH}
 
 <!-- snippet: FILL-OPACITY-SAMPLE
-(diagram (:w 400 :h 100)
+(diagram (400 100)
   (text '(200 55) "this is test text." :align :center)
   (with-fill (:color :red)
     (rect '(150 50) 30 30 :fill (make-fill :opacity 0.2))
@@ -1211,7 +1317,7 @@ Figure. fill における opacity のサンプル
 
 
 <!-- snippet: FILL-RULE-SAMPLE
-(diagram (:w 400 :h 120)
+(diagram (400 120)
   (with-subcanvas ('(75 0) 100 100)
     (polygon '((50 10) (20 90) (90 40) (10 40) (80 90))
              :fill (make-fill :color :skyblue :rule :nonzero))
@@ -1260,7 +1366,7 @@ ${BLANK_PARAGRAPH}
 
 
 ```diagram
-(diagram (:w 400 :h 100)
+(diagram (400 100)
 	(with-subcanvas ('(0 0) 100 100)
 	  (with-stroke (:color :black :width 4 :dasharray '(8 4))
 		(line '((30 20) (70 20)))
@@ -1306,7 +1412,7 @@ Figure. dashoffset, linecap, linejoin のサンプル
 <!-- snippet: COLOR-NAME-SAMPLE
 (let ((svg-width   750)
       (svg-height 1000))
-  (diagram (:w svg-width :h svg-height :fill :white)
+  (diagram (svg-width svg-height :fill :white)
     (let ((*default-fill*   (make-fill :color :white))
           (*default-font*   (make-font :family "monospace" :size 10 :width-spice 0.85))
           (*default-stroke* (make-stroke :color :black :width 1)))
@@ -1494,7 +1600,7 @@ maroon(#B03060), purple(#A020F0) については規格側にも同じ名前が�
 <!-- snippet: EXTERNAL-COLOR-NAME-SAMPLE
 (let ((svg-width   760)
       (svg-height 2140))
-  (diagram (:w svg-width :h svg-height :fill :white)
+  (diagram (svg-width svg-height :fill :white)
     (let ((*default-fill*   (make-fill :color :white))
           (*default-font*   (make-font :family "monospace" :size 10 :width-spice 0.85))
           (*default-stroke* (make-stroke :color :black :width 1)))

@@ -30,7 +30,7 @@ ${BLANK_PARAGRAPH}
 下方向に y 軸です。角度は時計回りになります。
 
 ```diagram
-(diagram (:w 300 :h 100)
+(diagram (300 100)
   (grid)
   (circle '(  0  0) 3 :fill :red :stroke :none)
   (text   '(  5 15) "(0 0)")
@@ -1007,7 +1007,7 @@ end-id-group 関数をコールします。
 * writer.lisp
 
 ```diagram
-(diagram (:w 300 :h 100)
+(diagram (300 100)
   (grid)
   (rectangle '(100 50) 30 30 :fill :lightgray :stroke :black
              :link (make-link :url "http://www.google.co.jp/" :target :blank)))
@@ -1042,7 +1042,7 @@ point が手元にない場合は math/len4 関数を使用してください。
 　これは、以下の青い線の部分の長さを測っていることになります。
 
 <!-- snippet: SAMPLE_OF_LEN2_LEN4 -->
-(diagram (:w 150 :h 100)
+(diagram (150 100)
   (grid)
   (circle '(30 30) 3 :stroke :none :fill :red :id :pt1)
   (text '(35 25) "(30 30)" :align :left)
@@ -1106,7 +1106,7 @@ point が手元にない場合は math/len4 関数を使用してください。
 手元にない場合は math/sin4 関数を使用してください。
 
 <!-- snippet: SAMPLE_OF_SIN2_COS2 -->
-(diagram (:w 200 :h 100)
+(diagram (200 100)
   (grid)
   (let ((pt1 (make-point  50 30))
         (pt2 (make-point 150 70))
@@ -1156,7 +1156,7 @@ point が手元にない場合は math/len4 関数を使用してください。
 使用してください。
 
 <!-- snippet: SAMPLE_OF_SIN3_COS3 -->
-(diagram (:w 200 :h 100)
+(diagram (200 100)
   (grid)
   (let ((pt1 (make-point  50 30))
         (pt2 (make-point 150 70)))
@@ -1203,7 +1203,7 @@ point が手元にない場合は math/len4 関数を使用してください。
 以下における `b / len` を計算します。point が手元にある場合は math/sin2 関数を使用してください。
 
 <!-- snippet: SAMPLE_OF_SIN4_COS4 -->
-(diagram (:w 200 :h 100)
+(diagram (200 100)
   (grid)
   (let ((pt1 (make-point  50 30))
         (pt2 (make-point 150 70))
@@ -1251,7 +1251,7 @@ point が手元にない場合は math/len4 関数を使用してください。
 あります。point が手元にある場合は math/sin3 関数を使用してください。
 
 <!-- snippet: SAMPLE_OF_SIN5_COS5 -->
-(diagram (:w 200 :h 100)
+(diagram (200 100)
   (grid)
   (let ((pt1 (make-point  50 30))
         (pt2 (make-point 150 70)))

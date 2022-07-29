@@ -155,11 +155,11 @@ pre.code {
 span.comment  { color: darkorange; }
 span.keyword1 { color: cyan; }
 span.keyword2 { color: lime; }
-span.keyword3 { color: slateblue; }
+span.keyword3 { color: aquamarine; }
 span.keyword4 { color: yellow; }
 span.keyword5 { color: skyblue; }
 span.keyword6 { color: lightgray; }
-span.literal  { color: pink; }
+span.literal  { color: salmon; }
 
 
 /* for collapse */
@@ -204,6 +204,34 @@ details.tocx[open] {
     padding: .2em;
 }
 details.tocx[open] summary.tocx {
+    border-bottom: 1px solid white;
+    margin-bottom: .2em;
+}
+
+
+/* for index-x */
+blockquote.idx_x {
+	color:#666666;
+	margin:0;
+	padding-left: 1.5em;
+	border-left: 0.5em white solid;
+}
+li.idx_x {
+}
+details.idx_x {
+    border: 1px solid white;*/
+    border-radius: 0px;
+    padding: .2em .2em 0;
+    background: white;
+}
+summary.idx_x {
+    margin: -.2em -.2em 0;
+    padding: 0em;
+}
+details.idx_x[open] {
+    padding: .2em;
+}
+details.idx_x[open] summary.idx_x {
     border-bottom: 1px solid white;
     margin-bottom: .2em;
 }
