@@ -148,21 +148,19 @@ ${BLANK_PARAGRAPH}
 　次のサンプルはもう少し複雑です。
 
 <!-- snippet: SECOND-SAMPLE
-(diagram (400 150)
+(diagram (450 150)
   (grid)
   (drop-shadow)
   (let ((*default-shape-filter* :drop-shadow))
     (textbox (y+ canvas.center 20) "diagram" :height 40 :fill :cornsilk :id :app)
     (with-stroke (:color :navy :width 2)
       (with-fill (:color :skyblue :opacity 0.4)
-        (document (x+ app.center -150) 80 60 "input~%file" :id :in)
-        (document (x+ app.center  150) 80 60 "svg~%image"  :id :out)))
+        (document (x+ app.center -175) 80 60 "input~%file" :id :in)
+        (document (x+ app.center  175) 80 60 "svg~%image"  :id :out)))
     (with-fill (:color :white)
       (balloon (xy+ app.center 110 -60) "Made with LISP." app.topright)
-      (block-arrow1 (x+  in.right 10)
-                    (x+ app.left -10) :width 15 :length 25 :size 30)
-      (block-arrow1 (x+ app.right 10)
-                    (x+ out.left -10) :width 15 :length 25 :size 30))))
+      (block-arrow1  in.right app.left 15 :margin 10)
+      (block-arrow1 app.right out.left 15 :margin 10))))
 -->
 
 ```diagram
@@ -469,8 +467,8 @@ Figure. 爆発のサンプル
   (grid)
   (with-stroke (:color :navy :width 2)
     (with-fill (:color :skyblue)
-      (block-arrow1 '(50  40) '(250  40))
-      (block-arrow2 '(50 110) '(250 110)))))
+      (block-arrow1 '(50  40) '(250  40) 20)
+      (block-arrow2 '(50 110) '(250 110) 20))))
 -->
 
 ```diagram
@@ -485,38 +483,52 @@ Figure. ブロック矢印のサンプル
 　${{TODO}{まだ記述されていません。}}
 
 ```lisp
-(defmacro block-arrow1 (pt1 pt2 &key width length size
+(defmacro block-arrow1 (pt1 pt2 width &key size length margin
                                      fill stroke link layer filter id) ...)
-(defmacro block-arrow2 (pt1 pt2 &key width length size
+(defmacro block-arrow2 (pt1 pt2 width &key size length margin
                                      fill stroke link layer filter id) ...)
 ```
 
 ```diagram
-(diagram (320 150)
+(diagram (400 120)
 	(grid)
-	(block-arrow1 '(80 50) '(250 50) :width 20 :length 70 :size 60 :fill :skyblue :stroke :navy)
-	(with-stroke (:color :gray :dasharray '(3 3))
-	  (line '((80 40) (50 40)))
-	  (line '((80 60) (50 60)))
-	  (line '((180 80) (180 130)))
-	  (line '((250 50) (250 130)))
-	  (line '((180 20) (280  20)))
-	  (line '((180 80) (280  80))))
-	(with-stroke (:color :brown)
-	  (let ((em (make-endmark :type :arrow :size :small)))
-		(line '(( 60  40) ( 60  60)) :end1 em :end2 em)
-		(line '((180 120) (250 120)) :end1 em :end2 em)
-		(line '((270  20) (270  80)) :end1 em :end2 em)))
-	(with-font (:fill :brown)
-		(text '( 30  55) "width"  :align :center)
-		(text '(215 115) "length" :align :center)
-		(text '(285  55) "size"   :align :center)))
+	(let ((pt1 '( 50 50))
+		  (pt2 '(350 50)))
+	  (circle pt1 4 :stroke :none :fill :red)
+	  (circle pt2 4 :stroke :none :fill :red)
+	  (with-font (:fill :red :size 10)
+		(text (y+ $2.center 15) "pt1" :align :center)
+		(text (y+ $2.center 15) "pt2" :align :center))
+	  (line `(,pt1 ,pt2) :stroke '(:color :red :width 0.5 :dasharray (4 4)))
+	  (block-arrow1 pt1 pt2 30 :margin 30 :length 70 :size 60
+					:stroke :navy :fill '(:color :skyblue :opacity 0.3))
+	  (with-stroke (:color :gray :dasharray '(3 3))
+		(line `(,pt1 ,(y+ pt1 -30)))
+		(line `(,pt2 ,(y+ pt2 -30)))
+		(line `(,(x+ pt2 -30) ,(xy+ pt2 -30 -30)))
+		(line '((250 20) (220  20)))
+		(line '((250 80) (220  80)))
+		(line '((250 80) (250 100)))
+		(line '((320 50) (320 100))))
+	  (with-stroke (:color :brown)
+		(let ((em (make-endmark :type :arrow :size :small)))
+		  (line '((230  20) (230  80)) :end1 em :end2 em)
+		  (line '((150  35) (150  65)) :end1 em :end2 em)
+		  (line '((250  90) (320  90)) :end1 em :end2 em)
+		  (line `(,(y+  pt1     -15) ,(xy+ pt1 30 -15)) :end1 em :end2 em)
+		  (line `(,(xy+ pt2 -30 -20) ,(y+  pt2    -20)) :end1 em :end2 em)))
+	  (with-font (:fill :brown :size 10)
+		(text '(150  30) "width"  :align :center)
+		(text '(230  95) "size"   :align :right)
+		(text '(325 100) "length" :align :left)
+		(text '( 60  25) "margin" :align :left)
+		(text '(330  25) "margin" :align :left))))
 ```
 Figure. ブロック矢印のパラメータ
 
-* `width` が省略された場合、デフォルト値としてブロック矢印の長さの 1/10 が指定される。
-* `length` が省略された場合、デフォルト値としてブロック矢印の長さの 1/6 が指定される。
-* `size` が省略された場合、デフォルト値としてブロック矢印の長さの 1/5 が指定される。
+* `size` が省略された場合、デフォルト値として `width` の２倍が使用される。
+* `length` が省略された場合、デフォルト値として `size` と同じ値が使用される。
+* `margin` が省略された場合、デフォルト値として 0 が使用される。
 
 ### 波括弧
 

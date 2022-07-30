@@ -254,7 +254,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <p>　次のサンプルはもう少し複雑です。</p>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
-<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='400' height='150'>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='450' height='150'>
 	
 	<filter id='drop-shadow'>
 		<feColorMatrix type='matrix' values=' 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.4 0' />
@@ -273,8 +273,8 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
 	<!-- app : textbox -->
 	<g id='app'>
-		<rect x='162.7' y='75' width='74.6' height='40' fill='cornsilk' stroke='black' stroke-width='1' filter='url(#drop-shadow)' />
-		<text x='200.0' y='101' text-anchor='middle' font-size='12pt' fill='black' >diagram</text>
+		<rect x='187.7' y='75' width='74.6' height='40' fill='cornsilk' stroke='black' stroke-width='1' filter='url(#drop-shadow)' />
+		<text x='225.0' y='101' text-anchor='middle' font-size='12pt' fill='black' >diagram</text>
 	</g>
 	<!-- in : document -->
 	<g id='in'>
@@ -284,17 +284,17 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 	</g>
 	<!-- out : document -->
 	<g id='out'>
-		<path fill='skyblue' fill-opacity='0.4' stroke='navy' stroke-width='2' d='M 310 65 L 310 125 A 26.666666 20 0 0 0 350 125 A 26.666666 20 1 0 1 390 125 L 390 65 Z' filter='url(#drop-shadow)' />
-		<text x='350' y='94' text-anchor='middle' font-size='12pt' fill='black' >svg</text>
-		<text x='350' y='108' text-anchor='middle' font-size='12pt' fill='black' >image</text>
+		<path fill='skyblue' fill-opacity='0.4' stroke='navy' stroke-width='2' d='M 360 65 L 360 125 A 26.666666 20 0 0 0 400 125 A 26.666666 20 1 0 1 440 125 L 440 65 Z' filter='url(#drop-shadow)' />
+		<text x='400' y='94' text-anchor='middle' font-size='12pt' fill='black' >svg</text>
+		<text x='400' y='108' text-anchor='middle' font-size='12pt' fill='black' >image</text>
 	</g>
 	<!-- balloon -->
-	<path fill='white' stroke='black' stroke-width='1' d='M 251.5 19 L 368.5 19 A 10 10 1 0 1 378.5 29 L 378.5 41 A 10 10 1 0 1 368.5 51 L 287.16666 51 L 237.3 75 L 251.5 51 A 10 10 1 0 1 241.5 41 L 241.5 29 A 10 10 1 0 1 251.5 19 Z' filter='url(#drop-shadow)' />
-	<text x='310.0' y='41' text-anchor='middle' font-size='12pt' fill='black' >Made with LISP.</text>
+	<path fill='white' stroke='black' stroke-width='1' d='M 276.5 19 L 393.5 19 A 10 10 1 0 1 403.5 29 L 403.5 41 A 10 10 1 0 1 393.5 51 L 312.16666 51 L 262.3 75 L 276.5 51 A 10 10 1 0 1 266.5 41 L 266.5 29 A 10 10 1 0 1 276.5 19 Z' filter='url(#drop-shadow)' />
+	<text x='335.0' y='41' text-anchor='middle' font-size='12pt' fill='black' >Made with LISP.</text>
 	<!-- block-arrow -->
-	<polygon fill='white' stroke='black' stroke-width='1' points='100.0,102.5 100.0,87.5 127.7,87.5 127.7,80.0 152.7,95.0 127.7,110.0 127.7,102.5' filter='url(#drop-shadow)' />
+	<polygon fill='white' stroke='black' stroke-width='1' points='100.0,102.5 100.0,87.5 147.7,87.5 147.7,80.0 177.7,95.0 147.7,110.0 147.7,102.5' filter='url(#drop-shadow)' />
 	<!-- block-arrow -->
-	<polygon fill='white' stroke='black' stroke-width='1' points='247.3,102.5 247.3,87.5 275.0,87.5 275.0,80.0 300.0,95.0 275.0,110.0 275.0,102.5' filter='url(#drop-shadow)' />
+	<polygon fill='white' stroke='black' stroke-width='1' points='272.3,102.5 272.3,87.5 320.0,87.5 320.0,80.0 350.0,95.0 320.0,110.0 320.0,102.5' filter='url(#drop-shadow)' />
 
 </svg>
 </div>
@@ -302,21 +302,19 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <p class='fig_title'><a name='aw36ReN8sMQ'></a>Figure.2-2 簡単なサンプル-2</p>
 <p>　このサンプルは、以下のコードで生成されています。</p>
 <pre class='code'>
-(diagram (400 150)
+(diagram (450 150)
   (grid)
   (drop-shadow)
   (<span class='keyword1'>let</span> ((*default-shape-filter* <span class='keyword3'>:drop-shadow</span>))
     (textbox (y+ canvas.center 20) <span class='literal'>"diagram"</span> <span class='keyword3'>:height</span> 40 <span class='keyword3'>:fill</span> <span class='keyword3'>:cornsilk</span> <span class='keyword3'>:id</span> <span class='keyword3'>:app</span>)
     (with-stroke (<span class='keyword3'>:color</span> <span class='keyword3'>:navy</span> <span class='keyword3'>:width</span> 2)
       (with-fill (<span class='keyword3'>:color</span> <span class='keyword3'>:skyblue</span> <span class='keyword3'>:opacity</span> 0.4)
-        (document (x+ app.center -150) 80 60 <span class='literal'>"input~%file"</span> <span class='keyword3'>:id</span> <span class='keyword3'>:in</span>)
-        (document (x+ app.center  150) 80 60 <span class='literal'>"svg~%image"</span>  <span class='keyword3'>:id</span> <span class='keyword3'>:out</span>)))
+        (document (x+ app.center -175) 80 60 <span class='literal'>"input~%file"</span> <span class='keyword3'>:id</span> <span class='keyword3'>:in</span>)
+        (document (x+ app.center  175) 80 60 <span class='literal'>"svg~%image"</span>  <span class='keyword3'>:id</span> <span class='keyword3'>:out</span>)))
     (with-fill (<span class='keyword3'>:color</span> <span class='keyword3'>:white</span>)
       (balloon (xy+ app.center 110 -60) <span class='literal'>"Made with LISP."</span> app.topright)
-      (block-arrow1 (x+  in.right 10)
-                    (x+ app.left -10) <span class='keyword3'>:width</span> 15 <span class='keyword3'>:length</span> 25 <span class='keyword3'>:size</span> 30)
-      (block-arrow1 (x+ app.right 10)
-                    (x+ out.left -10) <span class='keyword3'>:width</span> 15 <span class='keyword3'>:length</span> 25 <span class='keyword3'>:size</span> 30))))
+      (block-arrow1  in.right app.left 15 <span class='keyword3'>:margin</span> 10)
+      (block-arrow1 app.right out.left 15 <span class='keyword3'>:margin</span> 10))))
 </pre>
 <p>　こちらも、ざっくりした説明をしておきます。</p>
 <ul>
@@ -697,9 +695,9 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 	</pattern>
 	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
 	<!-- block-arrow -->
-	<polygon fill='skyblue' stroke='navy' stroke-width='2' points='50.0,50.0 50.0,30.0 216.66667,30.0 216.66667,20.0 250.0,40.0 216.66667,60.0 216.66667,50.0' />
+	<polygon fill='skyblue' stroke='navy' stroke-width='2' points='50.0,50.0 50.0,30.0 210.0,30.0 210.0,20.0 250.0,40.0 210.0,60.0 210.0,50.0' />
 	<!-- block-arrow -->
-	<polygon fill='skyblue' stroke='navy' stroke-width='2' points='50.0,110.0 83.33333,90.0 83.33333,100.0 216.66667,100.0 216.66667,90.0 250.0,110.0 216.66667,130.0 216.66667,120.0 83.33333,120.0 83.33333,130.0' />
+	<polygon fill='skyblue' stroke='navy' stroke-width='2' points='50.0,110.0 90.0,90.0 90.0,100.0 210.0,100.0 210.0,90.0 250.0,110.0 210.0,130.0 210.0,120.0 90.0,120.0 90.0,130.0' />
 
 </svg>
 </div>
@@ -710,19 +708,19 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
   (grid)
   (with-stroke (<span class='keyword3'>:color</span> <span class='keyword3'>:navy</span> <span class='keyword3'>:width</span> 2)
     (with-fill (<span class='keyword3'>:color</span> <span class='keyword3'>:skyblue</span>)
-      (block-arrow1 '(50  40) '(250  40))
-      (block-arrow2 '(50 110) '(250 110)))))
+      (block-arrow1 '(50  40) '(250  40) 20)
+      (block-arrow2 '(50 110) '(250 110) 20))))
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <pre class='code'>
-(<span class='keyword1'>defmacro</span> <span class='keyword5'>block-arrow1</span> (pt1 pt2 <span class='keyword2'>&amp;key</span> width length size
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>block-arrow1</span> (pt1 pt2 width <span class='keyword2'>&amp;key</span> size length margin
                                      fill stroke link layer filter id) ...)
-(<span class='keyword1'>defmacro</span> <span class='keyword5'>block-arrow2</span> (pt1 pt2 <span class='keyword2'>&amp;key</span> width length size
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>block-arrow2</span> (pt1 pt2 width <span class='keyword2'>&amp;key</span> size length margin
                                      fill stroke link layer filter id) ...)
 </pre>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
-<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='320' height='150'>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='400' height='120'>
 	
 	<!-- grid -->
 	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
@@ -730,47 +728,71 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
 	</pattern>
 	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- circle -->
+	<circle cx='50' cy='50' r='4' fill='red' stroke='none' stroke-width='1' />
+	<!-- circle -->
+	<circle cx='350' cy='50' r='4' fill='red' stroke='none' stroke-width='1' />
+	<!-- text -->
+	<text x='50' y='65' text-anchor='middle' font-size='10pt' fill='red' >pt1</text>
+	<!-- text -->
+	<text x='350' y='65' text-anchor='middle' font-size='10pt' fill='red' >pt2</text>
+	<!-- line -->
+	<polyline fill='none' stroke='red' stroke-width='0.5' stroke-dasharray='4 4 ' points=' 50.0,50.0 350.0,50.0' />
 	<!-- block-arrow -->
-	<polygon fill='skyblue' stroke='navy' stroke-width='1' points='80.0,60.0 80.0,40.0 180.0,40.0 180.0,20.0 250.0,50.0 180.0,80.0 180.0,60.0' />
+	<polygon fill='skyblue' fill-opacity='0.3' stroke='navy' stroke-width='1' points='80.0,65.0 80.0,35.0 250.0,35.0 250.0,20.0 320.0,50.0 250.0,80.0 250.0,65.0' />
 	<!-- line -->
-	<polyline fill='none' stroke='gray' stroke-width='1' stroke-dasharray='3 3 ' points=' 80.0,40.0 50.0,40.0' />
+	<polyline fill='none' stroke='gray' stroke-width='1' stroke-dasharray='3 3 ' points=' 50.0,50.0 50.0,20.0' />
 	<!-- line -->
-	<polyline fill='none' stroke='gray' stroke-width='1' stroke-dasharray='3 3 ' points=' 80.0,60.0 50.0,60.0' />
+	<polyline fill='none' stroke='gray' stroke-width='1' stroke-dasharray='3 3 ' points=' 350.0,50.0 350.0,20.0' />
 	<!-- line -->
-	<polyline fill='none' stroke='gray' stroke-width='1' stroke-dasharray='3 3 ' points=' 180.0,80.0 180.0,130.0' />
+	<polyline fill='none' stroke='gray' stroke-width='1' stroke-dasharray='3 3 ' points=' 320.0,50.0 320.0,20.0' />
 	<!-- line -->
-	<polyline fill='none' stroke='gray' stroke-width='1' stroke-dasharray='3 3 ' points=' 250.0,50.0 250.0,130.0' />
+	<polyline fill='none' stroke='gray' stroke-width='1' stroke-dasharray='3 3 ' points=' 250.0,20.0 220.0,20.0' />
 	<!-- line -->
-	<polyline fill='none' stroke='gray' stroke-width='1' stroke-dasharray='3 3 ' points=' 180.0,20.0 280.0,20.0' />
+	<polyline fill='none' stroke='gray' stroke-width='1' stroke-dasharray='3 3 ' points=' 250.0,80.0 220.0,80.0' />
 	<!-- line -->
-	<polyline fill='none' stroke='gray' stroke-width='1' stroke-dasharray='3 3 ' points=' 180.0,80.0 280.0,80.0' />
+	<polyline fill='none' stroke='gray' stroke-width='1' stroke-dasharray='3 3 ' points=' 250.0,80.0 250.0,100.0' />
 	<!-- line -->
-	<polyline fill='none' stroke='brown' stroke-width='1' points=' 60.0,40.0 60.0,60.0' />
-	<polyline fill='none' stroke='brown' stroke-width='1' points='65.0,48.660255 60,40 55.0,48.660255' />
-	<polyline fill='none' stroke='brown' stroke-width='1' points='55.0,51.339745 60,60 65.0,51.339745' />
+	<polyline fill='none' stroke='gray' stroke-width='1' stroke-dasharray='3 3 ' points=' 320.0,50.0 320.0,100.0' />
 	<!-- line -->
-	<polyline fill='none' stroke='brown' stroke-width='1' points=' 180.0,120.0 250.0,120.0' />
-	<polyline fill='none' stroke='brown' stroke-width='1' points='188.66025,115.0 180,120 188.66025,125.0' />
-	<polyline fill='none' stroke='brown' stroke-width='1' points='241.33975,125.0 250,120 241.33975,115.0' />
+	<polyline fill='none' stroke='brown' stroke-width='1' points=' 230.0,20.0 230.0,80.0' />
+	<polyline fill='none' stroke='brown' stroke-width='1' points='235.0,28.660254 230,20 225.0,28.660254' />
+	<polyline fill='none' stroke='brown' stroke-width='1' points='225.0,71.339745 230,80 235.0,71.339745' />
 	<!-- line -->
-	<polyline fill='none' stroke='brown' stroke-width='1' points=' 270.0,20.0 270.0,80.0' />
-	<polyline fill='none' stroke='brown' stroke-width='1' points='275.0,28.660254 270,20 265.0,28.660254' />
-	<polyline fill='none' stroke='brown' stroke-width='1' points='265.0,71.339745 270,80 275.0,71.339745' />
+	<polyline fill='none' stroke='brown' stroke-width='1' points=' 150.0,35.0 150.0,65.0' />
+	<polyline fill='none' stroke='brown' stroke-width='1' points='155.0,43.660255 150,35 145.0,43.660255' />
+	<polyline fill='none' stroke='brown' stroke-width='1' points='145.0,56.339745 150,65 155.0,56.339745' />
+	<!-- line -->
+	<polyline fill='none' stroke='brown' stroke-width='1' points=' 250.0,90.0 320.0,90.0' />
+	<polyline fill='none' stroke='brown' stroke-width='1' points='258.66025,85.0 250,90 258.66025,95.0' />
+	<polyline fill='none' stroke='brown' stroke-width='1' points='311.33975,95.0 320,90 311.33975,85.0' />
+	<!-- line -->
+	<polyline fill='none' stroke='brown' stroke-width='1' points=' 50.0,35.0 80.0,35.0' />
+	<polyline fill='none' stroke='brown' stroke-width='1' points='58.660255,30.0 50,35 58.660255,40.0' />
+	<polyline fill='none' stroke='brown' stroke-width='1' points='71.339745,40.0 80,35 71.339745,30.0' />
+	<!-- line -->
+	<polyline fill='none' stroke='brown' stroke-width='1' points=' 320.0,30.0 350.0,30.0' />
+	<polyline fill='none' stroke='brown' stroke-width='1' points='328.66025,25.0 320,30 328.66025,35.0' />
+	<polyline fill='none' stroke='brown' stroke-width='1' points='341.33975,35.0 350,30 341.33975,25.0' />
 	<!-- text -->
-	<text x='30' y='55' text-anchor='middle' font-size='12pt' fill='brown' >width</text>
+	<text x='150' y='30' text-anchor='middle' font-size='10pt' fill='brown' >width</text>
 	<!-- text -->
-	<text x='215' y='115' text-anchor='middle' font-size='12pt' fill='brown' >length</text>
+	<text x='230' y='95' text-anchor='end' font-size='10pt' fill='brown' >size</text>
 	<!-- text -->
-	<text x='285' y='55' text-anchor='middle' font-size='12pt' fill='brown' >size</text>
+	<text x='325' y='100' text-anchor='start' font-size='10pt' fill='brown' >length</text>
+	<!-- text -->
+	<text x='60' y='25' text-anchor='start' font-size='10pt' fill='brown' >margin</text>
+	<!-- text -->
+	<text x='330' y='25' text-anchor='start' font-size='10pt' fill='brown' >margin</text>
 
 </svg>
 </div>
 
 <p class='fig_title'><a name='htsQptREwXf'></a>Figure.4-9 ブロック矢印のパラメータ</p>
 <ul>
-<li><code>width</code> が省略された場合、デフォルト値としてブロック矢印の長さの 1/10 が指定される。</li>
-<li><code>length</code> が省略された場合、デフォルト値としてブロック矢印の長さの 1/6 が指定される。</li>
-<li><code>size</code> が省略された場合、デフォルト値としてブロック矢印の長さの 1/5 が指定される。</li>
+<li><code>size</code> が省略された場合、デフォルト値として <code>width</code> の２倍が使用される。</li>
+<li><code>length</code> が省略された場合、デフォルト値として <code>size</code> と同じ値が使用される。</li>
+<li><code>margin</code> が省略された場合、デフォルト値として 0 が使用される。</li>
 </ul>
 <h3><a name='lBS33hNe32a'></a>4.9 波括弧</h3>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
