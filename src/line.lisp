@@ -31,7 +31,7 @@
 
 (defmethod initialize-instance :after ((ent line) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (end1 end2 label stroke filter) ent
+  (with-slots (end1 end2 label stroke filter layer) ent
 	(setf end1   (make-endmark (or end1   *default-endmark-1*)))
 	(setf end2   (make-endmark (or end2   *default-endmark-2*)))
 	(when (and label (not (functionp label)))
@@ -39,7 +39,10 @@
 	(setf stroke (make-stroke (or stroke *default-stroke* :none)))
 	(setf filter (if (eq filter :none)
 					 nil
-					 (or filter *default-line-filter*))))
+					 (or filter *default-line-filter*)))
+	(setf layer  (if (eq layer :none)
+					 nil
+					 (or layer *default-layer*))))
   ent)
 
 ;; type := :from|:dest

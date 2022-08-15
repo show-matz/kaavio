@@ -1,5 +1,6 @@
 #|
 #|ASD|#				(:file "block-arrow"               :depends-on ("cl-diagram"
+#|ASD|#																"constants"
 #|ASD|#																"polygon"))
 #|EXPORT|#				;block-arrow.lisp
  |#
@@ -10,10 +11,12 @@
 #|EXPORT|#				:*default-block-arrow-stroke*
 #|EXPORT|#				:*default-block-arrow-fill*
 #|EXPORT|#				:*default-block-arrow-filter*
+#|EXPORT|#				:*default-block-arrow-layer*
  |#
 (defparameter *default-block-arrow-stroke*       nil)
 (defparameter *default-block-arrow-fill*         nil)
 (defparameter *default-block-arrow-filter*       nil)
+(defparameter *default-block-arrow-layer*        nil)
 
 (defun make-block-arrow-points-1 (pt1 pt2 margin width l s)
   (let* ((pt1 (xy+ pt1 (* (diagram::math/cos2 pt1 pt2) margin)
@@ -83,7 +86,10 @@
 								   :filter (or ,filter
 											   *default-block-arrow-filter*
 											   *default-shape-filter*)
-								   :link ,link :layer ,layer :id ,id)))
+								   :layer  (or ,layer 
+											   *default-block-arrow-layer*
+											   *default-layer*)
+								   :link ,link :id ,id)))
 
 #|
 #|EXPORT|#				:block-arrow2
@@ -98,4 +104,32 @@
 								   :filter (or ,filter
 											   *default-block-arrow-filter*
 											   *default-shape-filter*)
-								   :link ,link :layer ,layer :id ,id)))
+								   :layer  (or ,layer 
+											   *default-block-arrow-layer*
+											   *default-layer*)
+								   :link ,link :id ,id)))
+
+;;------------------------------------------------------------------------------
+;;
+;; macro with-block-arrow-options
+;;
+;;------------------------------------------------------------------------------
+#|
+#|EXPORT|#				:with-block-arrow-options
+ |#
+(defmacro with-block-arrow-options ((&key fill stroke filter layer) &rest body)
+  (labels ((impl (params acc)
+			 (if (null params)
+				 acc
+				 (let ((value  (car  params))
+					   (symbol (cadr params)))
+				   (impl (cddr params)
+						 (if (null value)
+							 acc
+							 (push (list symbol value) acc)))))))
+	(let ((lst (impl (list fill   '*default-block-arrow-fill*
+						   stroke '*default-block-arrow-stroke*
+						   filter '*default-block-arrow-filter*
+						   layer  '*default-block-arrow-layer*) nil)))
+	  `(let ,lst
+		 ,@body))))

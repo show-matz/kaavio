@@ -1,5 +1,6 @@
 #|
 #|ASD|#				(:file "raw-svg"                   :depends-on ("cl-diagram"
+#|ASD|#																"constants"
 #|ASD|#																"entity"
 #|ASD|#																"writer"))
 #|EXPORT|#				;raw-svg.lisp
@@ -14,6 +15,14 @@
 ;;------------------------------------------------------------------------------
 (defclass raw-svg (entity)
   ((data :initform nil :initarg :svgdata)))	; string
+
+(defmethod initialize-instance :after ((obj raw-svg) &rest initargs)
+  (declare (ignore initargs))
+  (with-slots (layer) obj
+	(setf layer  (if (eq layer :none)
+					 nil
+					 (or layer *default-layer*))))
+  obj)
 
 (defmethod check ((ent raw-svg) canvas dict)
   (declare (ignorable canvas dict))

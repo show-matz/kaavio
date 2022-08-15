@@ -51,7 +51,7 @@
 (defmethod check ((shp paragraph) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (with-slots (position text align valign font width height) shp
+  (with-slots (position text align valign font width height layer) shp
 	(check-member   text   :nullable nil :types string)
 	(check-member   align  :nullable nil :types keyword)
 	(check-member   valign :nullable nil :types keyword)
@@ -62,7 +62,10 @@
 	(setf position (canvas-fix-point canvas position))
 	(multiple-value-bind (w h) (caluculate-paragraph-shapesize font text)
 	  (setf width  w)
-	  (setf height h)))
+	  (setf height h))
+	(setf layer  (if (eq layer :none)
+					 nil
+					 (or layer *default-layer*))))
   nil)
 
 (defmethod shape-width ((shp paragraph))

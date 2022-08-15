@@ -1,5 +1,6 @@
 #|
 #|ASD|#				(:file "folder"                    :depends-on ("cl-diagram"
+#|ASD|#																"constants"
 #|ASD|#																"polygon"
 #|ASD|#																"filter"
 #|ASD|#																"text-shape"))
@@ -18,6 +19,7 @@
 #|EXPORT|#				:*default-folder-fill*
 #|EXPORT|#				:*default-folder-stroke*
 #|EXPORT|#				:*default-folder-filter*
+#|EXPORT|#				:*default-folder-layer*
  |#
 (defparameter *default-folder-tabwidth*     50)
 (defparameter *default-folder-tabheight*    20)
@@ -28,6 +30,7 @@
 (defparameter *default-folder-fill*         nil)
 (defparameter *default-folder-stroke*       nil)
 (defparameter *default-folder-filter*       nil)
+(defparameter *default-folder-layer*        nil)
 
 ;;------------------------------------------------------------------------------
 ;;
@@ -41,10 +44,13 @@
 
 (defmethod initialize-instance :after ((fldr folder) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (filter) fldr
+  (with-slots (filter layer) fldr
 	(setf filter (if (eq filter :none)
 					 nil
-					 (or filter *default-folder-filter* *default-shape-filter*))))
+					 (or filter *default-folder-filter* *default-shape-filter*)))
+	(setf layer  (if (eq layer :none)
+					 nil
+					 (or layer *default-folder-layer* *default-layer*))))
   fldr)
   
 (defmethod check ((fldr folder) canvas dict)
@@ -123,3 +129,35 @@
 			 (declare (special canvas))
 			 ,@contents)))))
 
+
+;;------------------------------------------------------------------------------
+;;
+;; macro with-folder-options
+;;
+;;------------------------------------------------------------------------------
+#|
+#|EXPORT|#				:with-folder-options
+ |#
+(defmacro with-folder-options ((&key tab-width tab-height align valign
+									 margin font fill stroke filter layer) &rest body)
+  (labels ((impl (params acc)
+			 (if (null params)
+				 acc
+				 (let ((value  (car  params))
+					   (symbol (cadr params)))
+				   (impl (cddr params)
+						 (if (null value)
+							 acc
+							 (push (list symbol value) acc)))))))
+	(let ((lst (impl (list tab-width  '*default-folder-tabwidth*
+						   tab-height '*default-folder-tabheight*
+						   align      '*default-folder-align*
+						   valign     '*default-folder-valign*
+						   margin     '*default-folder-margin*
+						   font       '*default-folder-font*
+						   fill       '*default-folder-fill*
+						   stroke     '*default-folder-stroke*
+						   filter     '*default-folder-filter*
+						   layer      '*default-folder-layer*) nil)))
+	  `(let ,lst
+		 ,@body))))

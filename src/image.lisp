@@ -83,12 +83,15 @@
 
 (defmethod initialize-instance :after ((img image) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (label filter) img
+  (with-slots (label filter layer) img
 	(when label
 	  (setf label (make-label label)))
 	(setf filter (if (eq filter :none)
 					 nil
-					 (or filter *default-shape-filter*))))
+					 (or filter *default-shape-filter*)))
+	(setf layer  (if (eq layer :none)
+					 nil
+					 (or layer *default-layer*))))
   img)
 
 

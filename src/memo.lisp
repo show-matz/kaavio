@@ -1,5 +1,6 @@
 #|
 #|ASD|#				(:file "memo"                      :depends-on ("cl-diagram"
+#|ASD|#																"constants"
 #|ASD|#																"arc"
 #|ASD|#																"polygon"
 #|ASD|#																"filter"
@@ -18,6 +19,7 @@
 #|EXPORT|#				:*default-memo-fill*
 #|EXPORT|#				:*default-memo-stroke*
 #|EXPORT|#				:*default-memo-filter*
+#|EXPORT|#				:*default-memo-layer*
  |#
 (defparameter *default-memo-crease*   20)
 (defparameter *default-memo-align*    :center)
@@ -27,6 +29,7 @@
 (defparameter *default-memo-fill*     nil)
 (defparameter *default-memo-stroke*   nil)
 (defparameter *default-memo-filter*   nil)
+(defparameter *default-memo-layer*    nil)
 
 
 (defun memo-get-points1 (w h c)
@@ -54,11 +57,14 @@
   
 (defmethod initialize-instance :after ((obj memo) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (crease filter) obj
+  (with-slots (crease filter layer) obj
 	(setf crease (or crease *default-memo-crease*))
 	(setf filter  (if (eq filter :none)
 					  nil
-					  (or filter *default-memo-filter* *default-shape-filter*))))
+					  (or filter *default-memo-filter* *default-shape-filter*)))
+	(setf layer  (if (eq layer :none)
+					 nil
+					 (or layer *default-memo-layer* *default-layer*))))
   obj)
    
 (defmethod check ((obj memo) canvas dict)
@@ -103,8 +109,8 @@
 #|
 #|EXPORT|#				:memo
  |#
-(defmacro memo (center text &key crease width height align valign
-								 font fill stroke margin link rotate layer id filter contents)
+(defmacro memo (center text &key width height crease align valign margin
+								 font fill stroke link rotate layer id filter contents)
   (let ((code `(register-entity (make-instance 'memo
 											   :crease ,crease
 											   :center ,center
@@ -126,3 +132,34 @@
 			 (declare (special canvas))
 			 ,@contents)))))
 
+
+;;------------------------------------------------------------------------------
+;;
+;; macro with-memo-options
+;;
+;;------------------------------------------------------------------------------
+#|
+#|EXPORT|#				:with-memo-options
+ |#
+(defmacro with-memo-options ((&key crease align valign margin
+								   font fill stroke filter layer) &rest body)
+  (labels ((impl (params acc)
+			 (if (null params)
+				 acc
+				 (let ((value  (car  params))
+					   (symbol (cadr params)))
+				   (impl (cddr params)
+						 (if (null value)
+							 acc
+							 (push (list symbol value) acc)))))))
+	(let ((lst (impl (list crease '*default-memo-crease*
+						   align  '*default-memo-align*
+						   valign '*default-memo-valign*
+						   margin '*default-memo-margin*
+						   font   '*default-memo-font*
+						   fill   '*default-memo-fill*
+						   stroke '*default-memo-stroke*
+						   filter '*default-memo-filter*
+						   layer  '*default-memo-layer*) nil)))
+	  `(let ,lst
+		 ,@body))))

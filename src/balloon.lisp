@@ -1,5 +1,6 @@
 #|
 #|ASD|#				(:file "balloon"                   :depends-on ("cl-diagram"
+#|ASD|#																"constants"
 #|ASD|#																"arc"
 #|ASD|#																"polygon"
 #|ASD|#																"filter"
@@ -18,6 +19,7 @@
 #|EXPORT|#				:*default-balloon-fill*
 #|EXPORT|#				:*default-balloon-stroke*
 #|EXPORT|#				:*default-balloon-filter*
+#|EXPORT|#				:*default-balloon-layer*
  |#
 (defparameter *default-balloon-round*  10)
 (defparameter *default-balloon-align*  :center)
@@ -27,6 +29,7 @@
 (defparameter *default-balloon-fill*   nil)
 (defparameter *default-balloon-stroke* nil)
 (defparameter *default-balloon-filter* nil)
+(defparameter *default-balloon-layer*  nil)
 
 
 
@@ -112,7 +115,10 @@
   
 (defmethod initialize-instance :after ((bln balloon) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (filter) bln
+  (with-slots (layer filter) bln
+	(setf layer  (if (eq layer :none)
+					 nil
+					 (or layer *default-balloon-layer* *default-layer*)))
 	(setf filter (if (eq filter :none)
 					 nil
 					 (or filter *default-balloon-filter* *default-shape-filter*))))
@@ -162,8 +168,8 @@
 #|
 #|EXPORT|#				:balloon
  |#
-(defmacro balloon (center text anchor &key round width height align valign
-										   font fill stroke margin link rotate layer id filter contents)
+(defmacro balloon (center text anchor &key width height round align valign margin
+										   font fill stroke link rotate layer id filter contents)
   (let ((code `(register-entity (make-instance 'balloon
 											   :anchor ,anchor
 											   :round  (or ,round  *default-balloon-round*)
@@ -186,3 +192,34 @@
 			 (declare (special canvas))
 			 ,@contents)))))
 
+
+;;------------------------------------------------------------------------------
+;;
+;; macro with-balloon-options
+;;
+;;------------------------------------------------------------------------------
+#|
+#|EXPORT|#				:with-balloon-options
+ |#
+(defmacro with-balloon-options ((&key round align valign margin
+									  font fill stroke filter layer) &rest body)
+  (labels ((impl (params acc)
+			 (if (null params)
+				 acc
+				 (let ((value  (car  params))
+					   (symbol (cadr params)))
+				   (impl (cddr params)
+						 (if (null value)
+							 acc
+							 (push (list symbol value) acc)))))))
+	(let ((lst (impl (list round  '*default-balloon-round*
+						   align  '*default-balloon-align*
+						   valign '*default-balloon-valign*
+						   margin '*default-balloon-margin*
+						   font   '*default-balloon-font*
+						   fill   '*default-balloon-fill*
+						   stroke '*default-balloon-stroke*
+						   filter '*default-balloon-filter*
+						   layer  '*default-balloon-layer*) nil)))
+	  `(let ,lst
+		 ,@body))))

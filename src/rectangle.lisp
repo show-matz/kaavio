@@ -32,14 +32,17 @@
 
 (defmethod initialize-instance :after ((rct rectangle) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (rx ry fill stroke filter) rct
+  (with-slots (rx ry fill stroke filter layer) rct
 	(setf rx     (or rx *default-rectangle-rx*))
 	(setf ry     (or ry *default-rectangle-ry*))
 	(setf fill   (make-fill   (or fill   *default-fill*   :none)))
 	(setf stroke (make-stroke (or stroke *default-stroke* :none)))
 	(setf filter (if (eq filter :none)
 					 nil
-					 (or filter *default-shape-filter*))))
+					 (or filter *default-shape-filter*)))
+	(setf layer  (if (eq layer :none)
+					 nil
+					 (or layer *default-layer*))))
   rct)
 
 (defmethod check ((rct rectangle) canvas dict)

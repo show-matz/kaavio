@@ -160,13 +160,6 @@
 
 
 #|
-#|EXPORT|#				:with-font
- |#
-(defmacro with-font ((&rest param) &rest body)
-  `(let ((*default-font* (make-font ,@param)))
-	 ,@body))
-
-#|
 #|EXPORT|#				:font-calc-textarea
  |#
 (defun font-calc-textarea (font text)

@@ -1,5 +1,6 @@
 #|
 #|ASD|#				(:file "brace"                     :depends-on ("cl-diagram"
+#|ASD|#																"constants"
 #|ASD|#																"path"))
 #|EXPORT|#				;brace.lisp
  |#
@@ -10,10 +11,12 @@
 #|EXPORT|#				:*default-brace-font*
 #|EXPORT|#				:*default-brace-stroke*
 #|EXPORT|#				:*default-brace-filter*
+#|EXPORT|#				:*default-brace-layer*
  |#
 (defparameter *default-brace-font*         nil)
 (defparameter *default-brace-stroke*       nil)
 (defparameter *default-brace-filter*       nil)
+(defparameter *default-brace-layer*        nil)
 
 (defun brace-make-path-left (w h r point)
   (let ((r (or r (/ w 3)))
@@ -87,12 +90,15 @@
   
 (defmethod initialize-instance :after ((brc brace) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (font stroke filter) brc
+  (with-slots (font stroke filter layer) brc
 	(setf font   (make-font   (or font   *default-brace-font*   *default-font*)))
 	(setf stroke (make-stroke (or stroke *default-brace-stroke* *default-stroke* :none)))
 	(setf filter (if (eq filter :none)
 					 nil
-					 (or filter *default-brace-filter* *default-line-filter*))))
+					 (or filter *default-brace-filter* *default-line-filter*)))
+	(setf layer  (if (eq layer :none)
+					 nil
+					 (or layer *default-brace-layer* *default-layer*))))
   brc)
 
 (defmethod check ((brc brace) canvas dict)
@@ -156,3 +162,28 @@
 								   :text ,text :font ,font :stroke ,stroke
 								   :link nil :layer ,layer :filter ,filter :id ,id)))
 
+
+;;------------------------------------------------------------------------------
+;;
+;; macro with-brace-options
+;;
+;;------------------------------------------------------------------------------
+#|
+#|EXPORT|#				:with-brace-options
+ |#
+(defmacro with-brace-options ((&key font stroke filter layer) &rest body)
+  (labels ((impl (params acc)
+			 (if (null params)
+				 acc
+				 (let ((value  (car  params))
+					   (symbol (cadr params)))
+				   (impl (cddr params)
+						 (if (null value)
+							 acc
+							 (push (list symbol value) acc)))))))
+	(let ((lst (impl (list font   '*default-brace-font*
+						   stroke '*default-brace-stroke*
+						   filter '*default-brace-filter*
+						   layer  '*default-brace-layer*) nil)))
+	  `(let ,lst
+		 ,@body))))

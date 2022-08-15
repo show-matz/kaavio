@@ -133,12 +133,6 @@
 							   :dashoffset (fixval dashoffset-p dashoffset 'dashoffset nil))))))))
 
 
-#|
-#|EXPORT|#				:with-stroke
- |#
-(defmacro with-stroke ((&rest param) &rest body)
-  `(let ((*default-stroke* (make-stroke ,@param)))
-	 ,@body))
 
 (setf *default-stroke* (make-stroke :color   :black
 									:width        1

@@ -107,12 +107,15 @@
 
 (defmethod initialize-instance :after ((ent ellipse) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (fill stroke filter) ent
+  (with-slots (fill stroke filter layer) ent
 	(setf fill   (make-fill   (or fill   *default-fill*   :none)))
 	(setf stroke (make-stroke (or stroke *default-stroke* :none)))
 	(setf filter (if (eq filter :none)
 					 nil
-					 (or filter *default-shape-filter*))))
+					 (or filter *default-shape-filter*)))
+	(setf layer  (if (eq layer :none)
+					 nil
+					 (or layer *default-layer*))))
   ent)
 
 (defmethod check ((shp ellipse) canvas dict)

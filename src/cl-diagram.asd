@@ -9,14 +9,17 @@
 																"mathutil"
 																"path"))
 				(:file "balloon"                   :depends-on ("cl-diagram"
+																"constants"
 																"arc"
 																"polygon"
 																"filter"
 																"text-shape"))
 				(:file "binutil"                   :depends-on ("cl-diagram"))
 				(:file "block-arrow"               :depends-on ("cl-diagram"
+																"constants"
 																"polygon"))
 				(:file "brace"                     :depends-on ("cl-diagram"
+																"constants"
 																"path"))
 				(:file "canvas"                    :depends-on ("cl-diagram"
 																"point"))
@@ -52,6 +55,7 @@
 				                                                "stroke-info"
 				                                                "writer"))
 				(:file "cylinder"                  :depends-on ("cl-diagram"
+																"constants"
 																"path"
 																"filter"
 																"text-shape"))
@@ -67,6 +71,7 @@
 				                                                "writer"))
 				(:file "dictionary"                :depends-on ("cl-diagram"))
 				(:file "document"                  :depends-on ("cl-diagram"
+																"constants"
 																"path"
 																"filter"
 																"text-shape"))
@@ -92,6 +97,7 @@
 																"canvas"
 																"writer"))
 				(:file "explosion"                 :depends-on ("cl-diagram"
+																"constants"
 																"polygon"
 																"filter"
 																"text-shape"))
@@ -100,6 +106,7 @@
 				(:file "filter"                    :depends-on ("cl-diagram"
 																"writer"))
 				(:file "folder"                    :depends-on ("cl-diagram"
+																"constants"
 																"polygon"
 																"filter"
 																"text-shape"))
@@ -150,6 +157,7 @@
 				(:file "mathutil"                  :depends-on ("cl-diagram"
 																"point"))
 				(:file "memo"                      :depends-on ("cl-diagram"
+																"constants"
 																"arc"
 																"polygon"
 																"filter"
@@ -180,6 +188,7 @@
 																"filter"
 																"writer"))
 				(:file "raw-svg"                   :depends-on ("cl-diagram"
+																"constants"
 																"entity"
 																"writer"))
 				(:file "rectangle"                 :depends-on ("cl-diagram"
@@ -211,6 +220,7 @@
 																"font-info"
 																"writer"))
 				(:file "table"                     :depends-on ("cl-diagram"
+																"constants"
 																"group"
 																"font-info"
 																"fill-info"
@@ -231,6 +241,7 @@
 																"link-info"
 																"writer"))
 				(:file "textbox"                   :depends-on ("cl-diagram"
+																"constants"
 																"rectangle"
 																"filter"
 																"text-shape"))

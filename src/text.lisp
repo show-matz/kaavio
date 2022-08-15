@@ -53,10 +53,13 @@
 
 (defmethod initialize-instance :after ((txt text) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (align font link) txt
+  (with-slots (align font link layer) txt
 	(setf align (or align *default-text-align*))
 	(setf font  (make-font (or font *default-font*)))
-	(setf link  (make-link link)))
+	(setf link  (make-link link))
+	(setf layer  (if (eq layer :none)
+					 nil
+					 (or layer *default-layer*))))
   txt)
 
 (defmethod check ((txt text) canvas dict)

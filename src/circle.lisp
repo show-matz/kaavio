@@ -69,13 +69,16 @@
 (defmethod check ((shp circle) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (with-slots (center radius fill stroke filter) shp
+  (with-slots (center radius fill stroke filter layer) shp
 	(check-member radius   :nullable nil :types number)
 	(check-object fill      canvas dict :nullable nil :class   fill-info)
 	(check-object stroke    canvas dict :nullable nil :class stroke-info)
 	(check-member filter   :nullable   t :types keyword)
 	(setf filter (if (eq filter :none) nil filter))
-	(setf center (canvas-fix-point canvas center)))
+	(setf center (canvas-fix-point canvas center))
+	(setf layer  (if (eq layer :none)
+					 nil
+					 (or layer *default-layer*))))
   nil)
 
 (defmethod shape-width ((shp circle))

@@ -27,14 +27,17 @@
 
 (defmethod initialize-instance :after ((ent polygon) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (points fill stroke filter link) ent
+  (with-slots (points fill stroke link filter layer) ent
 	(setf points (copy-list points))
 	(setf fill   (make-fill   (or fill   *default-fill*   :none)))
 	(setf stroke (make-stroke (or stroke *default-stroke* :none)))
+	(setf link   (make-link   link))
 	(setf filter (if (eq filter :none)
 					 nil
 					 (or filter *default-shape-filter*)))
-	(setf link   (make-link   link)))
+	(setf layer  (if (eq layer :none)
+					 nil
+					 (or layer *default-layer*))))
   ent)
   
 (defmethod check ((ent polygon) canvas dict)

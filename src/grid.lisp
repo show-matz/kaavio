@@ -22,10 +22,13 @@
 
 (defmethod initialize-instance :after ((grd grid) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (size bgcolor stroke) grd
+  (with-slots (size bgcolor stroke layer) grd
 	(setf size    (or size 10))
 	(setf bgcolor (or bgcolor :white))
-	(setf stroke  (make-stroke (or stroke '(:color :gray :width 0.2)))))
+	(setf stroke  (make-stroke (or stroke '(:color :gray :width 0.2))))
+	(setf layer  (if (eq layer :none)
+					 nil
+					 (or layer *default-layer*))))
   grd)
 
 (defmethod check ((grd grid) canvas dict)

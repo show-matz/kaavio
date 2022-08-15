@@ -1,5 +1,6 @@
 #|
 #|ASD|#				(:file "textbox"                   :depends-on ("cl-diagram"
+#|ASD|#																"constants"
 #|ASD|#																"rectangle"
 #|ASD|#																"filter"
 #|ASD|#																"text-shape"))
@@ -18,6 +19,7 @@
 #|EXPORT|#				:*default-textbox-fill*
 #|EXPORT|#				:*default-textbox-stroke*
 #|EXPORT|#				:*default-textbox-filter*
+#|EXPORT|#				:*default-textbox-layer*
  |#
 (defparameter *default-textbox-rx*           nil)
 (defparameter *default-textbox-ry*           nil)
@@ -28,6 +30,7 @@
 (defparameter *default-textbox-fill*         nil)
 (defparameter *default-textbox-stroke*       nil)
 (defparameter *default-textbox-filter*       nil)
+(defparameter *default-textbox-layer*        nil)
 
 ;;------------------------------------------------------------------------------
 ;;
@@ -42,10 +45,13 @@
   
 (defmethod initialize-instance :after ((box textbox) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (filter) box
+  (with-slots (filter layer) box
 	(setf filter (if (eq filter :none)
 					 nil
-					 (or filter *default-textbox-filter* *default-shape-filter*))))
+					 (or filter *default-textbox-filter* *default-shape-filter*)))
+	(setf layer  (if (eq layer :none)
+					 nil
+					 (or layer *default-textbox-layer* *default-layer*))))
   box)
    
 ;; override of group::draw-group
@@ -80,8 +86,9 @@
 #|
 #|EXPORT|#				:textbox
  |#
-(defmacro textbox (center text &key no-frame rx ry width height align
-								 valign font fill stroke margin link rotate layer id filter)
+(defmacro textbox (center text &key width height no-frame
+									rx ry align valign margin
+									font fill stroke link rotate layer id filter)
   `(register-entity (make-instance 'textbox
 								   :no-frame ,no-frame
 								   :center ,center
@@ -98,3 +105,35 @@
 								   :link ,link  :rotate ,rotate
 								   :filter ,filter :layer ,layer :id ,id)))
 
+
+;;------------------------------------------------------------------------------
+;;
+;; macro with-textbox-options
+;;
+;;------------------------------------------------------------------------------
+#|
+#|EXPORT|#				:with-textbox-options
+ |#
+(defmacro with-textbox-options ((&key rx ry align valign margin
+									  font fill stroke filter layer) &rest body)
+  (labels ((impl (params acc)
+			 (if (null params)
+				 acc
+				 (let ((value  (car  params))
+					   (symbol (cadr params)))
+				   (impl (cddr params)
+						 (if (null value)
+							 acc
+							 (push (list symbol value) acc)))))))
+	(let ((lst (impl (list rx     '*default-textbox-round*
+						   ry     '*default-textbox-round*
+						   align  '*default-textbox-align*
+						   valign '*default-textbox-valign*
+						   margin '*default-textbox-margin*
+						   font   '*default-textbox-font*
+						   fill   '*default-textbox-fill*
+						   stroke '*default-textbox-stroke*
+						   filter '*default-textbox-filter*
+						   layer  '*default-textbox-layer*) nil)))
+	  `(let ,lst
+		 ,@body))))

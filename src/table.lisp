@@ -1,5 +1,6 @@
 #|
 #|ASD|#				(:file "table"                     :depends-on ("cl-diagram"
+#|ASD|#																"constants"
 #|ASD|#																"group"
 #|ASD|#																"font-info"
 #|ASD|#																"fill-info"
@@ -113,10 +114,12 @@
 #|EXPORT|#				:*default-table-font*
 #|EXPORT|#				:*default-table-stroke*
 #|EXPORT|#				:*default-table-fill*
+#|EXPORT|#				:*default-table-layer*
  |#
 (defparameter *default-table-font*   nil)
 (defparameter *default-table-stroke* nil)
 (defparameter *default-table-fill*   nil)
+(defparameter *default-table-layer*  nil)
 
 ;;-------------------------------------------------------------------------------
 ;;
@@ -141,14 +144,17 @@
 				   (push (car lst) acc)
 				   (push (make-fill (cadr lst)) acc)
 				   (fix-fills (cddr lst) acc)))))
-	(with-slots (font stroke fills) tbl
+	(with-slots (font stroke fills layer) tbl
 	  (setf font   (make-font   (or font   *default-table-font*   *default-font*)))
 	  (setf stroke (make-stroke (or stroke *default-table-stroke* *default-stroke*)))
 	  (when (and (null fills) *default-table-fill*)
 		(setf fills (list :rc *default-table-fill*)))
 	  (when (and (null fills) *default-fill*)
 		(setf fills (list :rc *default-fill*)))
-	  (setf fills  (fix-fills fills nil))))
+	  (setf fills  (fix-fills fills nil))
+	  (setf layer  (if (eq layer :none)
+					   nil
+					   (or layer *default-table-layer* *default-layer*)))))
   tbl)
 
 (defmethod check ((tbl table) canvas dict)
@@ -217,7 +223,7 @@
 #|
 #|EXPORT|#				:table
  |#
-(defmacro table (center rows cols &key stroke fills font texts layer id)
+(defmacro table (center rows cols &key font fills stroke texts layer id)
   `(register-entity (make-instance 'diagram:table
 								   :center ,center
 								   :width  (apply #'+ ,cols)
@@ -225,6 +231,33 @@
 								   :rows ,rows :cols ,cols
 								   :stroke ,stroke :fills ,fills
 								   :font ,font :texts ,texts :layer ,layer :id ,id)))
+
+
+
+;;------------------------------------------------------------------------------
+;;
+;; macro with-table-options
+;;
+;;------------------------------------------------------------------------------
+#|
+#|EXPORT|#				:with-table-options
+ |#
+(defmacro with-table-options ((&key font fill stroke layer) &rest body)
+  (labels ((impl (params acc)
+			 (if (null params)
+				 acc
+				 (let ((value  (car  params))
+					   (symbol (cadr params)))
+				   (impl (cddr params)
+						 (if (null value)
+							 acc
+							 (push (list symbol value) acc)))))))
+	(let ((lst (impl (list font   '*default-table-font*
+						   fill   '*default-table-fill*
+						   stroke '*default-table-stroke*
+						   layer  '*default-table-layer*) nil)))
+	  `(let ,lst
+		 ,@body))))
 
 ;;-------------------------------------------------------------------------------
 ;;

@@ -1,5 +1,6 @@
 #|
 #|ASD|#				(:file "cylinder"                  :depends-on ("cl-diagram"
+#|ASD|#																"constants"
 #|ASD|#																"path"
 #|ASD|#																"filter"
 #|ASD|#																"text-shape"))
@@ -9,6 +10,7 @@
 (in-package :cl-diagram)
 
 #|
+#|EXPORT|#				:*default-cylinder-depth*
 #|EXPORT|#				:*default-cylinder-align*
 #|EXPORT|#				:*default-cylinder-valign*
 #|EXPORT|#				:*default-cylinder-margin*
@@ -16,7 +18,9 @@
 #|EXPORT|#				:*default-cylinder-fill*
 #|EXPORT|#				:*default-cylinder-stroke*
 #|EXPORT|#				:*default-cylinder-filter*
+#|EXPORT|#				:*default-cylinder-layer*
  |#
+(defparameter *default-cylinder-depth*        nil)
 (defparameter *default-cylinder-align*    :center)
 (defparameter *default-cylinder-valign*   :center)
 (defparameter *default-cylinder-margin*        10)
@@ -24,6 +28,7 @@
 (defparameter *default-cylinder-fill*         nil)
 (defparameter *default-cylinder-stroke*       nil)
 (defparameter *default-cylinder-filter*       nil)
+(defparameter *default-cylinder-layer*        nil)
 
 ;;------------------------------------------------------------------------------
 ;;
@@ -36,10 +41,13 @@
   
 (defmethod initialize-instance :after ((cyl cylinder) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (filter) cyl
+  (with-slots (filter layer) cyl
 	(setf filter (if (eq filter :none)
 					 nil
-					 (or filter *default-cylinder-filter* *default-shape-filter*))))
+					 (or filter *default-cylinder-filter* *default-shape-filter*)))
+	(setf layer  (if (eq layer :none)
+					 nil
+					 (or layer *default-cylinder-layer* *default-layer*))))
   cyl)
    
 (defmethod check ((cyl cylinder) canvas dict)
@@ -87,12 +95,12 @@
 #|EXPORT|#				:cylinder
  |#
 (defmacro cylinder (center width height text
-						 &key depth font align valign margin
-							  fill stroke link rotate layer id filter contents)
+						 &key depth align valign margin
+							  font fill stroke link rotate layer id filter contents)
   (let ((code `(register-entity (make-instance 'cylinder
-											   :center ,center :depth ,depth
+											   :center ,center :text ,text
 											   :width ,width :height ,height
-											   :text ,text
+ 											   :depth  (or ,depth  *default-cylinder-depth*)
  											   :align  (or ,align  *default-cylinder-align*)
  											   :valign (or ,valign *default-cylinder-valign*)
  											   :margin (or ,margin *default-cylinder-margin*)
@@ -108,3 +116,35 @@
 				  (canvas (diagram:shape-get-subcanvas ,g-obj)))
 			 (declare (special canvas))
 			 ,@contents)))))
+
+
+;;------------------------------------------------------------------------------
+;;
+;; macro with-cylinder-options
+;;
+;;------------------------------------------------------------------------------
+#|
+#|EXPORT|#				:with-cylinder-options
+ |#
+(defmacro with-cylinder-options ((&key depth align valign margin
+									   font fill stroke filter layer) &rest body)
+  (labels ((impl (params acc)
+			 (if (null params)
+				 acc
+				 (let ((value  (car  params))
+					   (symbol (cadr params)))
+				   (impl (cddr params)
+						 (if (null value)
+							 acc
+							 (push (list symbol value) acc)))))))
+	(let ((lst (impl (list depth  '*default-cylinder-depth*
+						   align  '*default-cylinder-align*
+						   valign '*default-cylinder-valign*
+						   margin '*default-cylinder-margin*
+						   font   '*default-cylinder-font*
+						   fill   '*default-cylinder-fill*
+						   stroke '*default-cylinder-stroke*
+						   filter '*default-cylinder-filter*
+						   layer  '*default-cylinder-layer*) nil)))
+	  `(let ,lst
+		 ,@body))))

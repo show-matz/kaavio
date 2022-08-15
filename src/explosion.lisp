@@ -1,5 +1,6 @@
 #|
 #|ASD|#				(:file "explosion"                 :depends-on ("cl-diagram"
+#|ASD|#																"constants"
 #|ASD|#																"polygon"
 #|ASD|#																"filter"
 #|ASD|#																"text-shape"))
@@ -13,11 +14,13 @@
 #|EXPORT|#				:*default-explosion-fill*
 #|EXPORT|#				:*default-explosion-stroke*
 #|EXPORT|#				:*default-explosion-filter*
+#|EXPORT|#				:*default-explosion-layer*
  |#
 (defparameter *default-explosion-font*         nil)
 (defparameter *default-explosion-fill*         nil)
 (defparameter *default-explosion-stroke*       nil)
 (defparameter *default-explosion-filter*       nil)
+(defparameter *default-explosion-layer*        nil)
 
 
 (defun explosion-get-points (pattern w h)
@@ -89,7 +92,10 @@
   
 (defmethod initialize-instance :after ((exp explosion) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (filter) exp
+  (with-slots (layer filter) exp
+	(setf layer  (if (eq layer :none)
+					 nil
+					 (or layer *default-explosion-layer* *default-layer*)))
 	(setf filter (if (eq filter :none)
 					 nil
 					 (or filter *default-explosion-filter* *default-shape-filter*))))
@@ -162,3 +168,28 @@
 								   :link ,link  :rotate ,rotate
 								   :filter ,filter :layer ,layer :id ,id)))
 
+;;------------------------------------------------------------------------------
+;;
+;; macro with-explosion-options
+;;
+;;------------------------------------------------------------------------------
+#|
+#|EXPORT|#				:with-explosion-options
+ |#
+(defmacro with-explosion-options ((&key font fill stroke filter layer) &rest body)
+  (labels ((impl (params acc)
+			 (if (null params)
+				 acc
+				 (let ((value  (car  params))
+					   (symbol (cadr params)))
+				   (impl (cddr params)
+						 (if (null value)
+							 acc
+							 (push (list symbol value) acc)))))))
+	(let ((lst (impl (list font   '*default-explosion-font*
+						   fill   '*default-explosion-fill*
+						   stroke '*default-explosion-stroke*
+						   filter '*default-explosion-filter*
+						   layer  '*default-explosion-layer*) nil)))
+	  `(let ,lst
+		 ,@body))))

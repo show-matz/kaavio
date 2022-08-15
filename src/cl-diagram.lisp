@@ -20,20 +20,26 @@
 				:*default-balloon-fill*
 				:*default-balloon-stroke*
 				:*default-balloon-filter*
+				:*default-balloon-layer*
 				:balloon
+				:with-balloon-options
 				;binutil.lisp
 				;block-arrow.lisp
 				:*default-block-arrow-stroke*
 				:*default-block-arrow-fill*
 				:*default-block-arrow-filter*
+				:*default-block-arrow-layer*
 				:block-arrow
 				:block-arrow1
 				:block-arrow2
+				:with-block-arrow-options
 				;brace.lisp
 				:*default-brace-font*
 				:*default-brace-stroke*
 				:*default-brace-filter*
+				:*default-brace-layer*
 				:brace
+				:with-brace-options
 				;canvas.lisp
 				:canvas
 				:make-canvas
@@ -75,6 +81,7 @@
 				:to-style-strings
 				:check
 				:rgb
+				:with-options
 				;colormap.lisp
 				;connector.lisp
 				:resolve-connector-points
@@ -97,6 +104,7 @@
 				:*default-paragraph-align*
 				:*default-paragraph-valign*
 				:*default-history-count*
+				:*default-layer*
 				;create-svg.lisp
 				:create-svg
 				:register-entity
@@ -105,6 +113,7 @@
 				:height
 				:diagram
 				;cylinder.lisp
+				:*default-cylinder-depth*
 				:*default-cylinder-align*
 				:*default-cylinder-valign*
 				:*default-cylinder-margin*
@@ -112,7 +121,9 @@
 				:*default-cylinder-fill*
 				:*default-cylinder-stroke*
 				:*default-cylinder-filter*
+				:*default-cylinder-layer*
 				:cylinder
+				:with-cylinder-options
 				;defs.lisp
 				:defs
 				;dictionary.lisp
@@ -125,7 +136,9 @@
 				:*default-document-fill*
 				:*default-document-stroke*
 				:*default-document-filter*
+				:*default-document-layer*
 				:document
+				:with-document-options
 				;ellipse.lisp
 				:ellipse-connect-point
 				:ellipse
@@ -145,18 +158,21 @@
 				:*default-explosion-fill*
 				:*default-explosion-stroke*
 				:*default-explosion-filter*
+				:*default-explosion-layer*
 				:explosion1
 				:explosion2
+				:with-explosion-options
 				;fill-info.lisp
 				:*default-fill*
 				:fill-info
 				:make-fill
-				:with-fill
 				;filter.lisp
 				:*default-line-filter*
 				:*default-shape-filter*
 				:filter
 				:write-filter
+				:with-line-filter
+				:with-shape-filter
 				;folder.lisp
 				:*default-folder-tabwidth*
 				:*default-folder-tabheight*
@@ -167,7 +183,9 @@
 				:*default-folder-fill*
 				:*default-folder-stroke*
 				:*default-folder-filter*
+				:*default-folder-layer*
 				:folder
+				:with-folder-options
 				;font-info.lisp
 				:*default-font*
 				:*default-font-fill*
@@ -175,7 +193,6 @@
 				:*default-font-filter*
 				:font-info
 				:make-font
-				:with-font
 				:font-calc-textarea
 				;grid.lisp
 				:grid
@@ -222,7 +239,9 @@
 				:*default-memo-fill*
 				:*default-memo-stroke*
 				:*default-memo-filter*
+				:*default-memo-layer*
 				:memo
+				:with-memo-options
 				;paragraph.lisp
 				:paragraph
 				;path.lisp
@@ -282,7 +301,6 @@
 				:*default-stroke*
 				:stroke-info
 				:make-stroke
-				:with-stroke
 				;stylesheet.lisp
 				:style
 				:stylesheet
@@ -290,7 +308,9 @@
 				:*default-table-font*
 				:*default-table-stroke*
 				:*default-table-fill*
+				:*default-table-layer*
 				:table
+				:with-table-options
 				:with-table-cell
 				;text-shape.lisp
 				:text-shape
@@ -309,7 +329,9 @@
 				:*default-textbox-fill*
 				:*default-textbox-stroke*
 				:*default-textbox-filter*
+				:*default-textbox-layer*
 				:textbox
+				:with-textbox-options
 				;use.lisp
 				:use
 				;writer.lisp
@@ -641,3 +663,18 @@
 				   0
 				   (if (< 255 n) 255 n)))))
 	(format nil "#~2,'0x~2,'0x~2,'0x" (fix r) (fix g) (fix b))))
+
+
+#|
+#|EXPORT|#				:with-options
+ |#
+(defmacro with-options ((&key fill stroke font layer) &rest body)
+  (let ((lst nil))
+	(when font   (setf lst (push `(*default-font*   (make-font   ,font))   lst)))
+	(when fill   (setf lst (push `(*default-fill*   (make-fill   ,fill))   lst)))
+	(when stroke (setf lst (push `(*default-stroke* (make-stroke ,stroke)) lst)))
+	(when layer  (setf lst (push `(*default-layer*  ,layer) lst)))
+	`(let ,lst
+	   ,@body)))
+
+

@@ -1,5 +1,6 @@
 #|
 #|ASD|#				(:file "document"                  :depends-on ("cl-diagram"
+#|ASD|#																"constants"
 #|ASD|#																"path"
 #|ASD|#																"filter"
 #|ASD|#																"text-shape"))
@@ -16,6 +17,7 @@
 #|EXPORT|#				:*default-document-fill*
 #|EXPORT|#				:*default-document-stroke*
 #|EXPORT|#				:*default-document-filter*
+#|EXPORT|#				:*default-document-layer*
  |#
 (defparameter *default-document-align*  :center)
 (defparameter *default-document-valign* :center)
@@ -24,6 +26,7 @@
 (defparameter *default-document-fill*   nil)
 (defparameter *default-document-stroke* nil)
 (defparameter *default-document-filter* nil)
+(defparameter *default-document-layer*  nil)
 
 
 ;;------------------------------------------------------------------------------
@@ -37,7 +40,10 @@
   
 (defmethod initialize-instance :after ((doc document) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (filter) doc
+  (with-slots (filter layer) doc
+	(setf layer  (if (eq layer :none)
+					 nil
+					 (or layer *default-document-layer* *default-layer*)))
 	(setf filter (if (eq filter :none)
 					 nil
 					 (or filter *default-document-filter* *default-shape-filter*))))
@@ -107,3 +113,34 @@
 				  (canvas (diagram:shape-get-subcanvas ,g-obj)))
 			 (declare (special canvas))
 			 ,@contents)))))
+
+;;------------------------------------------------------------------------------
+;;
+;; macro with-document-options
+;;
+;;------------------------------------------------------------------------------
+#|
+#|EXPORT|#				:with-document-options
+ |#
+(defmacro with-document-options ((&key align valign margin
+									   font fill stroke filter layer) &rest body)
+  (labels ((impl (params acc)
+			 (if (null params)
+				 acc
+				 (let ((value  (car  params))
+					   (symbol (cadr params)))
+				   (impl (cddr params)
+						 (if (null value)
+							 acc
+							 (push (list symbol value) acc)))))))
+	(let ((lst (impl (list align  '*default-document-align*
+						   valign '*default-document-valign*
+						   margin '*default-document-margin*
+						   font   '*default-document-font*
+						   fill   '*default-document-fill*
+						   stroke '*default-document-stroke*
+						   filter '*default-document-filter*
+						   layer  '*default-document-layer*) nil)))
+	  `(let ,lst
+		 ,@body))))
+

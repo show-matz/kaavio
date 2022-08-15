@@ -75,3 +75,8 @@
  |#
 (defparameter *default-history-count*          9)
 
+#|
+#|EXPORT|#				:*default-layer*
+ |#
+(defparameter *default-layer*  nil)
+

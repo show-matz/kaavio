@@ -28,12 +28,15 @@
 (defmethod check ((ent use) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (with-slots (ref center) ent
+  (with-slots (ref center layer) ent
 	(let ((obj (dict-get-entity dict ref)))
 	  (if (and obj (typep obj 'diagram:defs))
 		  (setf ref obj)
 		  (throw-exception "ID '~A' is not found in dictionary or not defs object." ref)))
-	(setf center (canvas-fix-point canvas center)))
+	(setf center (canvas-fix-point canvas center))
+	(setf layer  (if (eq layer :none)
+					 nil
+					 (or layer *default-layer*))))
   nil)
 
 (defmethod shape-width ((obj use))
