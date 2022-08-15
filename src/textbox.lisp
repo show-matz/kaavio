@@ -125,8 +125,8 @@
 						 (if (null value)
 							 acc
 							 (push (list symbol value) acc)))))))
-	(let ((lst (impl (list rx     '*default-textbox-round*
-						   ry     '*default-textbox-round*
+	(let ((lst (impl (list rx     '*default-textbox-rx*
+						   ry     '*default-textbox-ry*
 						   align  '*default-textbox-align*
 						   valign '*default-textbox-valign*
 						   margin '*default-textbox-margin*
