@@ -35,6 +35,10 @@
   (with-slots (rx ry fill stroke filter layer) rct
 	(setf rx     (or rx *default-rectangle-rx*))
 	(setf ry     (or ry *default-rectangle-ry*))
+	(when (and (null rx) ry)
+		(setf rx ry))
+	(when (and rx (null ry))
+		(setf ry rx))
 	(setf fill   (make-fill   (or fill   *default-fill*   :none)))
 	(setf stroke (make-stroke (or stroke *default-stroke* :none)))
 	(setf filter (if (eq filter :none)
