@@ -1536,7 +1536,8 @@ Figure. with-table-cell の使用例
 
 ${BLANK_PARAGRAPH}
 
-## 色の指定
+## パラメータの詳細
+### 色の指定
 
 　${APPNAME} は SVG 形式で図形を生成するため、色の指定は SVG の規格に準拠します。
 
@@ -1551,10 +1552,6 @@ ${BLANK_PARAGRAPH}
 サンプルは [$@ 節](#色の名前) を参照してください。
 
 ${BLANK_PARAGRAPH}
-
-## 線・塗りつぶし・文字
-
-　ここでは、図形の線や塗りつぶし、およびフォントの指定方法を紹介します。
 
 ### ストローク
 
@@ -1582,7 +1579,13 @@ ${BLANK_PARAGRAPH}
 
 ${BLANK_PARAGRAPH}
 
-## 回転
+### IDと参照
+
+　${{TODO}{まだ記述されていません。}}
+
+${BLANK_PARAGRAPH}
+
+### 回転
 
 　${{TODO}{まだ記述されていません}}
 
@@ -1607,7 +1610,7 @@ ${BLANK_PARAGRAPH}
 Figure. 回転のサンプル
 
 
-## フィルタ
+### フィルタ
 
 　${{TODO}{まだ記述されていません}}
 
@@ -1637,6 +1640,58 @@ ${BLANK_PARAGRAPH}
 <!-- expand: FILTER-SAMPLE -->
 ```
 Figure. フィルタのサンプル
+
+### レイヤー
+
+　${{TODO}{まだ記述されていません。}}
+
+
+${BLANK_PARAGRAPH}
+
+### リンク
+
+　${{TODO}{まだ記述されていません。}}
+
+${BLANK_PARAGRAPH}
+
+### 終端マーク
+
+　${{TODO}{まだ記述されていません。}}
+
+${BLANK_PARAGRAPH}
+
+### ラベル
+
+　${{TODO}{まだ記述されていません。}}
+
+${BLANK_PARAGRAPH}
+
+## 座標と位置
+
+　${{TODO}{まだ記述されていません。}}
+
+<!-- snippet: GEOMETRY-SAMPLE
+(diagram (300 200)
+  (grid)
+  (text '(10 20) "(0, 0)")
+  (circle (xy+ canvas.topleft 2 2) 2 :stroke :red :fill :red)
+  (circle canvas.topright          2 :stroke :red :fill :red)
+  (circle canvas.bottomleft        2 :stroke :red :fill :red)
+  (circle canvas.bottomright       2 :stroke :red :fill :red))
+-->
+
+```lisp
+<!-- expand: GEOMETRY-SAMPLE -->
+```
+
+
+```diagram
+<!-- expand: GEOMETRY-SAMPLE -->
+```
+Figure. xxxのサンプル
+
+
+${BLANK_PARAGRAPH}
 
 ## defs と use
 
@@ -1670,64 +1725,6 @@ ${BLANK_PARAGRAPH}
 <!-- expand: DEFS-USE-SAMPLE -->
 ```
 Figure. defs と use のサンプル
-
-## レイヤー
-
-　${{TODO}{まだ記述されていません。}}
-
-
-${BLANK_PARAGRAPH}
-
-## IDと参照
-
-　${{TODO}{まだ記述されていません。}}
-
-${BLANK_PARAGRAPH}
-
-## 座標と位置
-
-　${{TODO}{まだ記述されていません。}}
-
-<!-- snippet: GEOMETRY-SAMPLE
-(diagram (300 200)
-  (grid)
-  (text '(10 20) "(0, 0)")
-  (circle (xy+ canvas.topleft 2 2) 2 :stroke :red :fill :red)
-  (circle canvas.topright          2 :stroke :red :fill :red)
-  (circle canvas.bottomleft        2 :stroke :red :fill :red)
-  (circle canvas.bottomright       2 :stroke :red :fill :red))
--->
-
-```lisp
-<!-- expand: GEOMETRY-SAMPLE -->
-```
-
-
-```diagram
-<!-- expand: GEOMETRY-SAMPLE -->
-```
-Figure. xxxのサンプル
-
-
-${BLANK_PARAGRAPH}
-
-## リンク
-
-　${{TODO}{まだ記述されていません。}}
-
-${BLANK_PARAGRAPH}
-
-## ラベル
-
-　${{TODO}{まだ記述されていません。}}
-
-${BLANK_PARAGRAPH}
-
-## 終端マーク
-
-　${{TODO}{まだ記述されていません。}}
-
-${BLANK_PARAGRAPH}
 
 ## サブキャンバス
 
