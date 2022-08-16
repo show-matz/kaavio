@@ -144,7 +144,8 @@
 			  (calculate-degrees (slot-value dummy-circle 'diagram::center) points degree)
 			(when (<= 360 deg1) (decf deg1 360))
 			(when (<= 360 deg2) (decf deg2 360))
-			(arc center (slot-value dummy-circle 'diagram::radius) deg1 deg2))
+			(let ((radius  (slot-value dummy-circle 'diagram::radius)))
+			  (arc center radius radius 0 deg1 deg2)))
 		  (when name
 			(draw-label name dummy-circle writer))))))    ;;ToDo : font OK...?
   (post-draw sock writer)
@@ -267,7 +268,7 @@
 									 (copy-list (slot-value req 'diagram::points)) degree-cache)
 				(when (<= 360 deg1) (decf deg1 360))
 				(when (<= 360 deg2) (decf deg2 360))
-				(arc pt-cache radius-cache deg1 deg2))))))
+				(arc pt-cache radius-cache radius-cache 0 deg1 deg2))))))
   (call-next-method))
 
 

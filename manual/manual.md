@@ -101,10 +101,10 @@ cat ./input.digram | diagram | gzip > ./output.svgz
 
 * `diagram` で「幅 300、高さ 150」の画像を作成
 * `grid` で背景にグリッド線を描画
-* `rect` で四角形を作成 - 位置は左上から (50, 50)、大きさは幅 80、高さ 60
+* `rect` で四角形を作成 - 中心位置は左上から (50, 50)、大きさは幅 80、高さ 60
 	* `:fill` で塗り潰しの色を powderblue に指定
 	* これに x という ID を設定
-* `circle` で円を作成 - 位置は左上から (250, 100)、半径は 40
+* `circle` で円を作成 - 中心位置は左上から (250, 100)、半径は 40
 	* `:fill` で塗り潰しの色を moccasin に指定
 	* これに y という ID を設定
 * `connect` で、x から y に向かって接続線を描画
@@ -151,13 +151,13 @@ ${BLANK_PARAGRAPH}
 (diagram (450 150)
   (grid)
   (drop-shadow)
-  (let ((*default-shape-filter* :drop-shadow))
+  (with-shape-filter (:drop-shadow)
     (textbox (y+ canvas.center 20) "diagram" :height 40 :fill :cornsilk :id :app)
-    (with-stroke (:color :navy :width 2)
-      (with-fill (:color :skyblue :opacity 0.4)
-        (document (x+ app.center -175) 80 60 "input~%file" :id :in)
-        (document (x+ app.center  175) 80 60 "svg~%image"  :id :out)))
-    (with-fill (:color :white)
+    (with-options (:stroke '(:color :navy :width 2)
+                   :fill   '(:color :skyblue :opacity 0.3))
+      (document (x+ app.center -175) 80 60 "input~%file" :id :in)
+      (document (x+ app.center  175) 80 60 "svg~%image"  :id :out))
+    (with-options (:fill :white)
       (balloon (xy+ app.center 110 -60) "Made with LISP." app.topright)
       (block-arrow1  in.right app.left 15 :margin 10)
       (block-arrow1 app.right out.left 15 :margin 10))))
@@ -179,103 +179,880 @@ Figure. 簡単なサンプル-2
 
 * diagram と grid は先程と同じなので省略
 * drop-shadow という種類の「フィルタ」の使用を宣言
-* デフォルトのフィルタを drop-shadow に設定
+* with-shape-filter でデフォルトのフィルタを drop-shadow に設定
 	* textbox でテキストボックスを作成 : 場所は画像の中心（canvas.center）から y 軸方向に 20、 \
 テキストは "diagram"、これに app という ID を設定
-	* with-stroke で、デフォルトの線を太さ 2 の `navy` に設定
-		* with-fill で、デフォルトの塗りつぶしを不透明度 0.4 の `skyblue` に設定
-			* document でドキュメントを作成 : 場所は app の中心（app.center）から x 軸方向に -150、 \
+	* with-options で、デフォルトの線を太さ 2 の `navy` に、デフォルトの塗りつぶしを不透明度 0.3 の `skyblue` にそれぞれ設定
+		* document でドキュメントを作成 : 場所は app の中心（app.center）から x 軸方向に -175、 \
 幅と高さは 80 60、テキストは "input~%file"、これに in という ID を設定
-			* 上記と同じ要領で out という ID のドキュメントを作成
-	* with-fill で、デフォルトの塗りつぶしを `white` に設定
+		* 上記と同じ要領で out という ID のドキュメントを作成
+	* with-options で、デフォルトの塗りつぶしを `white` に設定
 		* balloon で app の右上付近に吹き出しを作成 : テキストは "Made with LISP."、接続点は app の \
 右上端（app.topright）
-		* block-arrow1 で in と app の間にブロック矢印を作成（ `width, length, size` は形状に関する指示）
+		* block-arrow1 で in と app の間にブロック矢印を作成
 		* 上記と同じ要領で app と out の間にブロック矢印を作成
 
 
 ${BLANK_PARAGRAPH}
 
-　この 2 つめのサンプルには、新しいポイントがいくつかあります。順番に見ていきましょう。
+　この 2 つめのサンプルには、新しいポイントがいくつかあります。もう少し詳しく説明します。
 
-${{TODO}{以下、まだ直してる最中。}}
-
-* `drop-shadow` で宣言し、 `*defualt-shape-filter*` でデフォルトを設定しているのを「フィルタ」といいます。 \
-四角形や円に表示されている影がそれです。
-* `with-stroke` や `with-fill` を使って、デフォルトの塗り潰しや線を指定しています。 `:stroke` や `:fill` を \
+* `drop-shadow` で宣言し、 `with-shape-filter` でデフォルトを設定しているのを「フィルタ」といいます。 \
+四角形や円に表示されている影が drop shadow です。
+* `with-options` を使って、デフォルトの塗り潰しや線を指定しています。 `:stroke` や `:fill` を \
 毎回指定する必要がなくなります。
-	* `with-stroke` では線の色の他に `:width` で線の太さを指定しています。
-	* `with-fill` では塗り潰しの色の他に `:opacity` で不透明度を指定しています。四角形や円の塗り潰しが少し透けているのがわかると思います。
-* `a1.center` といった表記により、既出の ID の要素の「中心座標」を参照できます。これは `'(50 50)` といった座標 \
-表記の代わりになります。また、 `(x+ a1.center 100)` といった表記によってある座標から x 軸や y 軸に指定されただけ \
-移動した座標を計算することができます。
-* `connect` のパラメータ `:style` によって接続線の種類を指定することができます。 `:style :LB` の `LB` は  \
-left to bottom という意味で、省略した場合は `:CC` （center to center）になります。
+	* `:stroke` では線の色 `navy` の他に `:width` で線の太さを指定しています。
+	* `:fill` では塗り潰しの色 `skyblue` の他に `:opacity` で不透明度を指定しています。これは、0（完全に透明）から 1  \
+（完全に不透明）までを指定します。ドキュメントの塗り潰しが少し透けているのがわかると思います。
+* `:id` を使って付与した ID を使って `app.center` などと書くことで既出の要素の「中心座標」を指定できます。 \
+これは `'(50 50)` といった座標表記の代わりになります。
+	* `canvas` は特別な ID で、現在描画中の「キャンバス」を意味します。今の時点では、生成する画像の四角形全体だと \
+理解しておいてください。
+	* `(y+ canvas.center 20)` といった表記によってある位置から x 軸や y 軸に指定されただけ移動した座標を計算する \
+ことができます。
+* 複数行のテキスト扱うことができる要素では、 `"input~%file"` のように ~% を使って改行を表します。
+
+${BLANK_PARAGRAPH}
+
+　サンプルは以上です。雰囲気は掴めたと思うので、あとは続いて各種の図形要素について説明します。
 
 ## 基本的な図形
 
-<!-- define: HASH_RECT      = '[](#四角形)' -->
-<!-- define: HASH_CIRCLE    = '[](#円)' -->
-<!-- define: HASH_ELLIPSE   = '[](#楕円)' -->
-<!-- define: HASH_LINE      = '[](#線)' -->
-<!-- define: HASH_CONNECTOR = '[](#コネクタ)' -->
-<!-- define: HASH_TEXT      = '[](#テキスト)' -->
+　SVG 規格における基本図形（一部例外あり）から紹介します。以下のサンプルはサブセクションへのリンクに
+なっています。
+
+<!-- define: HASH_RECT    = '[](#四角形)' -->
+<!-- define: HASH_CIRCLE  = '[](#円)' -->
+<!-- define: HASH_ELLIPSE = '[](#楕円)' -->
+<!-- define: HASH_POLYGON = '[](#多角形)' -->
+<!-- define: HASH_LINE    = '[](#線)' -->
+<!-- define: HASH_ARC     = '[](#円弧)' -->
+<!-- define: HASH_TEXT    = '[](#テキスト)' -->
 
 ```diagram
-(diagram (800 250)
-  (grid)
-  (let ((y 50))
-    (rect `(100 ,y) 50 50 :fill :skyblue :stroke :blue :link "${HASH_RECT}")
-    (text (y+ $1.bottom 20) "四角形" :align :center)
-    (circle `(180 ,y) 25 :fill :coral :stroke :darkred :link "${HASH_CIRCLE}")
-    (text (y+ $1.bottom 20) "円" :align :center)
-    (ellipse `(260 ,y) 35 25 :fill :beige :stroke :olive :link "${HASH_ELLIPSE}")
-    (text (y+ $1.bottom 20) "楕円" :align :center)
-	(defs (50 70 :line-grp)
-      (rect canvas.center canvas.width canvas.height :fill :white :stroke :none)
-      (line '((0 0) (50 0) (0 45) (50 45)) :stroke :black)
-	  (text '(25 65) "線" :align :center))
-    (use :line-grp `(340 ,(+ y 15)) :link "${HASH_LINE}")
-	(defs (50 70 :connect-grp)
-      (rect canvas.center canvas.width canvas.height :fill :white :stroke :none)
-      (rect   '( 5  5) 10 10 :fill :white :stroke :black :id :r1)
-      (circle '(45 45) 5     :fill :white :stroke :black :id :r2)
-      (connect :r1 :r2 :stroke :black)
-	  (text '(25 65) "コネクタ" :align :center))
-    (use :connect-grp `(420 ,(+ y 15)) :link "${HASH_CONNECTOR}")))
+(diagram (800 120)
+  (glow-shadow :id :foo-filter)
+  ;(grid)
+  (let ((w  80)
+        (h 100)
+        (bgclr :white)) ;;(make-fill :color :lightgray :opacity 0.4 )));;
+    (defs (w h :rect-grp)
+      (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
+      (rect `(,(/ w 2) ,(/ w 2)) 50 50 :fill :skyblue :stroke :blue)
+	  (text `(,(/ w 2) ,(- h 5)) "四角形" :align :center))
+    (defs (w h :circle-grp)
+      (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
+      (circle `(,(/ w 2) ,(/ w 2)) 25 :fill :bisque :stroke :brown)
+	  (text `(,(/ w 2) ,(- h 5)) "円" :align :center))
+    (defs (w h :ellipse-grp)
+      (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
+      (ellipse `(,(/ w 2) ,(/ w 2)) 30 20 :fill :beige :stroke :olive)
+	  (text `(,(/ w 2) ,(- h 5)) "楕円" :align :center))
+    (defs (w h :polygon-grp)
+      (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
+      (polygon '((40.00 10.00) (32.75 31.50) (10.25 31.50)
+                 (28.25 45.00) (21.75 66.50) (40.00 53.75)
+                 (58.25 66.50) (51.75 45.00) (69.75 31.50)
+                 (47.25 31.50)) :stroke :red :fill :lightpink)
+	  (text `(,(/ w 2) ,(- h 5)) "多角形" :align :center))
+	(defs (w h :line-grp)
+      (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
+      (line '((20 20) (60 20) (20 65) (60 65)) :stroke :black)
+	  (text `(,(/ w 2) ,(- h 5)) "線" :align :center))
+    (defs (w h :arc-grp)
+      (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
+      (arc `(,(/ w 2) ,(+ 5 (/ w 2))) 25 25 0 120 60 :stroke '(:color :navy :width 8))
+	  (text `(,(/ w 2) ,(- h 5)) "円弧" :align :center))
+    (defs (w h :text-grp)
+      (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
+      (text `(,(/ w 2) 55) "Text" :align :center
+            :font '(:family "Times New Roman" :size 30 :style :italic :filter :foo-filter))
+	  (text `(,(/ w 2) ,(- h 5)) "テキスト" :align :center))
+    (use :rect-grp    '(100 60) :link "${HASH_RECT}")
+    (use :circle-grp  '(200 60) :link "${HASH_CIRCLE}")
+    (use :ellipse-grp '(300 60) :link "${HASH_ELLIPSE}")
+    (use :polygon-grp '(400 60) :link "${HASH_POLYGON}")
+    (use :line-grp    '(500 60) :link "${HASH_LINE}")
+    (use :arc-grp     '(600 60) :link "${HASH_ARC}")
+    (use :text-grp    '(700 60) :link "${HASH_TEXT}")))
 ```
 
 ### 四角形
+<!-- autolink: [rect](#四角形) -->
 
 <!-- snippet: RECTANGLE-SAMPLE
 (diagram (300 100)
   (grid)
-  (rectangle '(150 50) 150 60 :rx 10 :ry 10 :fill :skyblue :stroke :blue))
+  (rect '(150 50) 150 60 :rx 10 :stroke :navy :fill :skyblue))
 -->
+
+　`rect` によって四角形を描画できます。
 
 ```diagram
 <!-- expand: RECTANGLE-SAMPLE -->
 ```
-Figure. rectangle のサンプル
+Figure. rect のサンプル
 
+
+<!-- collapse:begin -->
+　※上記サンプルのソースはこちら。
 
 ```lisp
 <!-- expand: RECTANGLE-SAMPLE -->
 ```
+<!-- collapse:end -->
 
-　${{TODO}{rect でもいいよ。}}
+　rect のパラメータ構成は以下の通りです。
+
+```lisp
+(defmacro rect (center width height
+                &key rx ry fill stroke rotate link layer id filter contents) ... )
+```
+
+<!-- stack:push tr style="font-size: 14;" -->
+
+Table. rect のパラメータ
+| パラメータ | 説明                                                                           |
+|:==========|:--------------------------------------------------------------------------------------|
+| center    | rect の中心点を指定します。詳細は「[](#座標と位置)」を参照してください。                 |
+| width     | rect の幅を数値で指定します。                                                        |
+| height    | rect の高さを数値で指定します。                                                      |
+| rx, ry    | rect 角を丸くしたい場合に、角の x 半径（rx）と y 半径（ry）を数値で指定します。<br> \
+rx と ry のどちらかだけを指定すると、もう一方も同じであると見なされます。 |
+| fill      | rect 内部の塗り潰しを指定します。詳細は「[](#フィル)」を参照してください。           |
+| stroke    | rect を描画する線を指定します。詳細は「[](#ストローク)」を参照してください。         |
+| rotate    | rect を回転させる場合、その角度を指定します。詳細は「[](#回転)」を参照してください。 |
+| link      | rect をリンクにする場合、リンク先を指定します。詳細は「[](#リンク)」を参照してください。 |
+| layer     | rect をレイヤーに所属される場合、その名前をキーワードで指定します。<br> \
+詳細は「[](#レイヤー)」を参照してください。           |
+| id        | rect に ID を付与したい場合、その名前をキーワードで指定します。<br> \
+詳細は「[](#IDと参照)」を参照してください。            |
+| filter    | rect の描画にフィルタ効果を適用したい場合、その名前を指定します。<br> \
+詳細は「[](#フィルタ)」を参照してください。 |
+| contents  | rect の内部をサブキャンバスとした描画をしたい場合、その内容を指定します。<br> \
+詳細は「[](#サブキャンバス)」を参照してください。 |
+
+<!-- stack:pop tr -->
 
 ### 円
+<!-- autolink: [circle](#円) -->
 
-　${{TODO}{まだ記述されていません。}}
+<!-- snippet: CIRCLE-SAMPLE
+(diagram (300 100)
+  (grid)
+  (circle '(150 50) 30 :stroke :brown :fill :bisque))
+-->
+
+　`circle` によって円を描画できます。
+
+```diagram
+<!-- expand: CIRCLE-SAMPLE -->
+```
+Figure. circle のサンプル
+
+
+<!-- collapse:begin -->
+　※上記サンプルのソースはこちら。
+
+```lisp
+<!-- expand: CIRCLE-SAMPLE -->
+```
+<!-- collapse:end -->
+
+　circle のパラメータ構成は以下の通りです。
+
+```lisp
+(defmacro circle (center radius
+                  &key fill stroke link layer id filter contents) ... )
+```
+
+<!-- stack:push tr style="font-size: 14;" -->
+
+Table. circle のパラメータ
+| パラメータ | 説明                                                                           |
+|:==========|:--------------------------------------------------------------------------------------|
+| center    | circle の中心点を指定します。詳細は「[](#座標と位置)」を参照してください。                 |
+| radius    | circle の半径を数値で指定します。                                                        |
+| fill      | circle 内部の塗り潰しを指定します。詳細は「[](#フィル)」を参照してください。           |
+| stroke    | circle を描画する線を指定します。詳細は「[](#ストローク)」を参照してください。         |
+| link      | circle をリンクにする場合、リンク先を指定します。詳細は「[](#リンク)」を参照してください。 |
+| layer     | circle をレイヤーに所属される場合、その名前をキーワードで指定します。<br> \
+詳細は「[](#レイヤー)」を参照してください。           |
+| id        | circle に ID を付与したい場合、その名前をキーワードで指定します。<br> \
+詳細は「[](#IDと参照)」を参照してください。            |
+| filter    | circle の描画にフィルタ効果を適用したい場合、その名前を指定します。<br> \
+詳細は「[](#フィルタ)」を参照してください。 |
+| contents  | circle の内部をサブキャンバスとした描画をしたい場合、その内容を指定します。<br> \
+詳細は「[](#サブキャンバス)」を参照してください。 |
+
+<!-- stack:pop tr -->
 
 ### 楕円
+<!-- autolink: [ellipse](#楕円) -->
 
-　${{TODO}{まだ記述されていません。}}
+<!-- snippet: ELLIPSE-SAMPLE
+(diagram (300 100)
+  (grid)
+  (ellipse '(150 50) 60 30 :stroke :olive :fill :beige))
+-->
+
+　`ellipse` によって楕円を描画できます。
+
+```diagram
+<!-- expand: ELLIPSE-SAMPLE -->
+```
+Figure. ellipse のサンプル
+
+
+<!-- collapse:begin -->
+　※上記サンプルのソースはこちら。
+
+```lisp
+<!-- expand: ELLIPSE-SAMPLE -->
+```
+<!-- collapse:end -->
+
+　ellipse のパラメータ構成は以下の通りです。
+
+```lisp
+(defmacro ellipse (center rx ry
+                   &key fill stroke link layer id filter contents) ... )
+```
+
+<!-- stack:push tr style="font-size: 14;" -->
+
+Table. ellipse のパラメータ
+| パラメータ | 説明                                                                           |
+|:==========|:--------------------------------------------------------------------------------------|
+| center    | ellipse の中心点を指定します。詳細は「[](#座標と位置)」を参照してください。                 |
+| rx        | ellipse の x 軸方向の半径を数値で指定します。                                             |
+| ry        | ellipse の y 軸方向の半径を数値で指定します。                                             |
+| fill      | ellipse 内部の塗り潰しを指定します。詳細は「[](#フィル)」を参照してください。           |
+| stroke    | ellipse を描画する線を指定します。詳細は「[](#ストローク)」を参照してください。         |
+| rotate    | ellipse を回転させる場合、その角度を指定します。詳細は「[](#回転)」を参照してください。 |
+| link      | ellipse をリンクにする場合、リンク先を指定します。詳細は「[](#リンク)」を参照してください。 |
+| layer     | ellipse をレイヤーに所属される場合、その名前をキーワードで指定します。<br> \
+詳細は「[](#レイヤー)」を参照してください。           |
+| id        | ellipse に ID を付与したい場合、その名前をキーワードで指定します。<br> \
+詳細は「[](#IDと参照)」を参照してください。            |
+| filter    | ellipse の描画にフィルタ効果を適用したい場合、その名前を指定します。<br> \
+詳細は「[](#フィルタ)」を参照してください。 |
+| contents  | ellipse の内部をサブキャンバスとした描画をしたい場合、その内容を指定します。<br> \
+詳細は「[](#サブキャンバス)」を参照してください。 |
+
+<!-- stack:pop tr -->
+
+### 多角形
+<!-- autolink: [polygon](#多角形) -->
+
+<!-- snippet: POLYGON-SAMPLE
+(diagram (300 100)
+  (grid)
+  (polygon '((150.00 10.00) (139.85 40.10) (108.35 40.10)
+             (133.55 59.00) (124.45 89.10) (150.00 71.25)
+             (175.55 89.10) (166.45 59.00) (191.65 40.10)
+             (160.15 40.10)) :stroke :red :fill :lightpink))
+-->
+
+　`polygon` によって多角形、すなわち複数の直線からなる形状を描画できます。
+
+```diagram
+<!-- expand: POLYGON-SAMPLE -->
+```
+Figure. polygon のサンプル
+
+
+<!-- collapse:begin -->
+　※上記サンプルのソースはこちら。
+
+```lisp
+<!-- expand: POLYGON-SAMPLE -->
+```
+<!-- collapse:end -->
+
+　polygon のパラメータ構成は以下の通りです。
+
+```lisp
+(defmacro polygon (points &key fill stroke link layer id filter contents) ... )
+```
+
+<!-- stack:push tr style="font-size: 14;" -->
+
+Table. polygon のパラメータ
+| パラメータ | 説明                                                                           |
+|:==========|:--------------------------------------------------------------------------------------|
+| points    | polygon を構成する点のリストを指定します。詳細は「[](#座標と位置)」を参照してください。   |
+| fill      | polygon 内部の塗り潰しを指定します。詳細は「[](#フィル)」を参照してください。           |
+| stroke    | polygon を描画する線を指定します。詳細は「[](#ストローク)」を参照してください。         |
+| link      | polygon をリンクにする場合、リンク先を指定します。詳細は「[](#リンク)」を参照してください。 |
+| layer     | polygon をレイヤーに所属される場合、その名前をキーワードで指定します。<br> \
+詳細は「[](#レイヤー)」を参照してください。           |
+| id        | polygon に ID を付与したい場合、その名前をキーワードで指定します。<br> \
+詳細は「[](#IDと参照)」を参照してください。            |
+| filter    | polygon の描画にフィルタ効果を適用したい場合、その名前を指定します。<br> \
+詳細は「[](#フィルタ)」を参照してください。 |
+| contents  | polygon の内部をサブキャンバスとした描画をしたい場合、その内容を指定します。<br> \
+詳細は「[](#サブキャンバス)」を参照してください。 |
+
+<!-- stack:pop tr -->
 
 ### 線
+<!-- autolink: [line](#線) -->
 
-　${{TODO}{まだ記述されていません。}}
+<!-- snippet: LINE-SAMPLE
+(diagram (300 100)
+  (grid)
+  (line '((100 50) (125 50)
+          (130 30) (140 70)
+          (150 30) (160 70)
+          (170 30) (180 70)
+          (185 50) (210 50)) :stroke :red))
+-->
+
+　`line` によって直線（または複数の線分からなる折線）を描画できます。
+
+```diagram
+<!-- expand: LINE-SAMPLE -->
+```
+Figure. line のサンプル
+
+
+<!-- collapse:begin -->
+　※上記サンプルのソースはこちら。
+
+```lisp
+<!-- expand: LINE-SAMPLE -->
+```
+<!-- collapse:end -->
+
+　line のパラメータ構成は以下の通りです。
+
+```lisp
+(defmacro line (points &key stroke label end1 end2 layer filter id) ... )
+```
+
+<!-- stack:push tr style="font-size: 14;" -->
+
+Table. line のパラメータ
+| パラメータ | 説明                                                                           |
+|:==========|:--------------------------------------------------------------------------------------|
+| points    | line を構成する点のリストを指定します。詳細は「[](#座標と位置)」を参照してください。    |
+| stroke    | line を描画する線を指定します。詳細は「[](#ストローク)」を参照してください。            |
+| label     | line にラベルをつける場合に指定します。詳細は「[](#ラベル)」を参照してください。        |
+| end1,end2 | line の終端に装飾を付ける場合は指定します。詳細は「[](#終端マーク)」を参照してください。 |
+| layer     | line をレイヤーに所属される場合、その名前をキーワードで指定します。<br> \
+詳細は「[](#レイヤー)」を参照してください。           |
+| id        | line に ID を付与したい場合、その名前をキーワードで指定します。<br> \
+詳細は「[](#IDと参照)」を参照してください。            |
+| filter    | line の描画にフィルタ効果を適用したい場合、その名前を指定します。<br> \
+詳細は「[](#フィルタ)」を参照してください。 |
+
+<!-- stack:pop tr -->
+
+### 円弧
+<!-- autolink: [arc](#円弧) -->
+
+<!-- snippet: ARC-SAMPLE
+(diagram (300 100)
+  (grid)
+  (arc '(150 55) 25 25 0 30 300 :stroke '(:color :navy :width 8)))
+-->
+
+　`arc` によって円弧を描画できます。
+
+```diagram
+<!-- expand: ARC-SAMPLE -->
+```
+Figure. arc のサンプル
+
+
+<!-- collapse:begin -->
+　※上記サンプルのソースはこちら。
+
+```lisp
+<!-- expand: ARC-SAMPLE -->
+```
+<!-- collapse:end -->
+
+　arc のパラメータ構成は以下の通りです。
+
+```lisp
+(defmacro arc (center rx ry x-axis-rotation degree1 degree2
+                                            &key stroke layer filter id) ... )
+```
+
+　各パラメータの説明を以下の表に示します。簡単に説明すると、 `center` を中心とし
+た x 半径が `rx` 、y 半径が `ry` の楕円を `x-axis-rotation` だけ回転させたもののうち、
+角度 `degree1` から（時計回りに） `degree2` までの部分弧を描きます。
+
+<!-- stack:push tr style="font-size: 14;" -->
+
+Table. arc のパラメータ
+| パラメータ       | 説明                                                                                 |
+|:================|:--------------------------------------------------------------------------------------|
+| center          | ベースとなる楕円の中心点を指定します。詳細は「[](#座標と位置)」を参照してください。   |
+| rx, ry          | ベースとなる楕円の x 軸方向の半径、および y 軸方向の半径を数値で指定します。              |
+| x-axis-rotation | ベースとなる楕円の回転角（x 軸に対してどれだけ回転させるか）を指定します。                |
+| degree1         | arc で描く円弧を「時計回りに描く」場合の開始角度を数値で指定します。                      |
+| degree2         | arc で描く円弧を「時計回りに描く」場合の終了角度を数値で指定します。                      |
+| stroke          | arc を描画する線を指定します。詳細は「[](#ストローク)」を参照してください。            |
+| layer           | arc をレイヤーに所属される場合、その名前をキーワードで指定します。<br> \
+詳細は「[](#レイヤー)」を参照してください。           |
+| filter          | arc の描画にフィルタ効果を適用したい場合、その名前を指定します。<br> \
+詳細は「[](#フィルタ)」を参照してください。 |
+| id              | arc に ID を付与したい場合、その名前をキーワードで指定します。<br> \
+詳細は「[](#IDと参照)」を参照してください。            |
+
+<!-- stack:pop tr -->
+
+${BLANK_PARAGRAPH}
+
+　以下に例を示します。 `(100 50)` を中心とした `rx=40, ry=30` の楕円を 45 度回転させたものが
+ベースで、これはライトグレーの太い楕円で描画されています。このうち、0 度から 90 度までの部分を
+円弧として描画しています。つまり、これは `(arc '(100 50) 40 30 45 0 90)` による描画となります。
+
+```diagram
+(diagram (200 100)
+   (grid)
+   (let ((rx 40)
+         (ry 30)
+         (rotate 45)
+         (st1 (make-stroke :color :lightgray :width 8 :opacity 0.4))
+         (st2 (make-stroke :color :red :width 2)))
+     (line    '(( 50 0) (150 100)) :stroke :lightgray)
+     (line    '((150 0) ( 50 100)) :stroke :lightgray)
+     (circle  '(100 50) 2 :fill :red :stroke :none)
+     (ellipse '(100 50) rx ry :stroke st1 :fill :none :rotate rotate)
+     (arc     '(100 50) rx ry rotate 0 90 :stroke st2)))
+```
+Figure. arc のサンプル - 2
+
+
+　正円をベースとした円弧を描画したい場合、 `rx` と `ry` を同じ値に指定します。この場合、回転
+させることに意味はないので、 `x-axis-rotation` は 0 にしてください。
+
+　arc を使用した円弧の描画は、「中心と角度」が明らかな場合に使用します。そうではなく、円弧の
+開始点と終了点が明らかな場合は、「[](#パス)」を使用した方が良いでしょう。
+
+### テキスト
+<!-- autolink: [text](#テキスト) -->
+
+<!-- snippet: TEXT-SAMPLE
+(diagram (300 100)
+  (grid)
+  (glow-shadow :color-matrix '(0 0 0 0   0
+                               0 0 0 0.4 0
+                               0 0 0 0   0
+                               0 0 0 1   0))
+  (text '(150 70) "Text" :align :center
+        :font '(:family "Times New Roman" :size 48
+                :fill :green :style :italic :filter :glow-shadow)))
+-->
+
+　`text` によってテキストを描画できます。
+
+```diagram
+<!-- expand: TEXT-SAMPLE -->
+```
+Figure. text のサンプル
+
+
+<!-- collapse:begin -->
+　※上記サンプルのソースはこちら。
+
+```lisp
+<!-- expand: TEXT-SAMPLE -->
+```
+<!-- collapse:end -->
+
+　text のパラメータ構成は以下の通りです。なお、text では __複数行に渡るテキストは描画できません__ 。
+複数行のテキストを描画したい場合は、paragraph を使用してください。
+
+```lisp
+(defmacro text (position text &key align font link layer id) ... )
+```
+
+${BLANK_PARAGRAPH}
+
+<!-- stack:push tr style="font-size: 14;" -->
+
+Table. text のパラメータ
+| パラメータ | 説明                                                                           |
+|:==========|:--------------------------------------------------------------------------------------|
+| position  | text で描くテキストの基準点を指定します。詳細は「[](#座標と位置)」を参照してください。     |
+| text      | text で描くテキストを文字列で指定します。                                                |
+| align     | text で描くテキストのアライメントを `:left :center :right` のいずれかで指定します。  |
+| font      | text で描くテキストを「時計回りに描く」場合の終了角度を数値で指定します。                      |
+| link      | text をリンクにする場合、リンク先を指定します。詳細は「[](#リンク)」を参照してください。 |
+| layer     | text をレイヤーに所属される場合、その名前をキーワードで指定します。<br> \
+詳細は「[](#レイヤー)」を参照してください。           |
+| id        | text に ID を付与したい場合、その名前をキーワードで指定します。<br> \
+詳細は「[](#IDと参照)」を参照してください。            |
+
+<!-- stack:pop tr -->
+
+${BLANK_PARAGRAPH}
+
+　position と align の関係を以下に示します。以下において、赤い点が position で、
+align 指定はテキストで示されています。
+
+```diagram
+(diagram (300 100)
+  (grid)
+  (labels ((impl (y text align)
+             (circle `(150 ,y) 3 :stroke :none :fill :red)
+             (text   `(150 ,y) text :align align)))
+    (impl 30 "align :left"   :left)
+    (impl 60 "align :center" :center)
+    (impl 90 "align :right " :right)))
+```
+Figure. text の align サンプル
+
+## パス
+<!-- autolink: [path](#パス) -->
+
+<!-- snippet: PATH-SAMPLE
+(diagram (300 100)
+  (grid)
+  (path '((:move-to (120 50))
+          (:arc-to 30 30 0 1 1 (150 80))
+          (:line-to (150 50)) :close-path) :stroke :black :fill :rosybrown))
+-->
+
+　`path` によって直線や曲線からなる複雑な図形を描画できます。
+
+```diagram
+<!-- expand: PATH-SAMPLE -->
+```
+Figure. path のサンプル
+
+
+<!-- collapse:begin -->
+　※上記サンプルのソースはこちら。
+
+```lisp
+<!-- expand: PATH-SAMPLE -->
+```
+<!-- collapse:end -->
+
+　path のパラメータ構成は以下の通りです。
+
+```lisp
+(defmacro path (data &key fill stroke layer filter id) ... )
+```
+
+<!-- stack:push tr style="font-size: 14;" -->
+
+Table. path のパラメータ
+| パラメータ | 説明                                                                           |
+|:==========|:--------------------------------------------------------------------------------------|
+| data      | path を構成するデータを指定します。詳細は後述します。                                |
+| fill      | path 内部の塗り潰しを指定します。詳細は「[](#フィル)」を参照してください。           |
+| stroke    | path を描画する線を指定します。詳細は「[](#ストローク)」を参照してください。         |
+| layer     | path をレイヤーに所属される場合、その名前をキーワードで指定します。<br> \
+詳細は「[](#レイヤー)」を参照してください。           |
+| id        | path に ID を付与したい場合、その名前をキーワードで指定します。<br> \
+詳細は「[](#IDと参照)」を参照してください。            |
+| filter    | path の描画にフィルタ効果を適用したい場合、その名前を指定します。<br> \
+詳細は「[](#フィルタ)」を参照してください。 |
+
+<!-- stack:pop tr -->
+
+${BLANK_PARAGRAPH}
+
+　data パラメータについて説明します。data パラメータは以下のような **ディレクティブ** キーワードを
+要素とするリストで指定します。点や値の指定を伴うディレクティブは、それ自体をリストにする必要があります。
+
+<!-- stack:push tr style="font-size: 14;" -->
+
+Table. path の data で使用できるディレクティブ
+| ディレクティブ  | 説明                                                                  |
+|:===============|:----------------------------------------------------------------------|
+| `:move-to`     | 指定した点に（線を描くことなく）移動します。                             |
+| `:line-to`     | 現在の点から指定した点に向かって（線を描きながら）移動します。            |
+| `:h-line-to`   | 現在の点から指定した x 座標に向かって水平線を描きながら移動します。       |
+| `:v-line-to`   | 現在の点から指定した y 座標に向かって垂直線を描きながら移動します。       |
+| `:arc-to`      |      |
+| `:2d-curve-to` |      |
+| `:3d-curve-to` |      |
+| `:absolute`    | 後続のディレクティブを、現在のキャンバスに対する絶対座標として処理します。 |
+| `:relative`    | 後続のディレクティブを、現在の点に対する相対座標として処理します。         |
+| `:close-path`  | パスを閉じます。すなわち、現在の点から先頭の点までを結ぶ直線を引きます。   |
+
+<!-- stack:pop tr -->
+
+${BLANK_PARAGRAPH}
+
+　多くの場合、開始点に移動してから直線や曲線を描いて、最後には開始点に戻ることで図形を描くことに
+なります。たとえば、正方形を描く場合の data パラメータは以下のようなリストになるでしょう。
+
+```lisp
+  '((:move-to ( 50  50))
+    (:line-to (100  50))
+    (:line-to (100 100))
+    (:line-to ( 50 100)) :close-path)
+```
+
+　以下に、各ディレクティブの詳細について説明します。
+
+### :move-to ディレクティブ
+<!-- autolink: [:move-to](#:move-to ディレクティブ) -->
+
+　`(:move-to pt)` という記述により、線を描くことなく指定した点 pt に移動します。また、 
+`(:move-to pt1 pt2 pt3 ...)` のように複数の点を記述することができ、これは `(:move-to pt1)  \
+(:line-to pt2 pt3 ...)` と等価になります。以下に例を示します。
+
+```diagram
+(diagram (400 100)
+  (grid)
+  (path '((:move-to (200 10) (230 50) (170 50) (200 10)))
+          :stroke :black :fill :rosybrown)
+  (text '(200 80) "(:move-to (200 10) (230 50) (170 50) (200 10))" :align :center ))
+```
+Figure. :move-to ディレクティブのサンプル
+
+　なお、:move-to で指定する点は :absolute および :relative の影響を受けます。
+
+### :line-to ディレクティブ
+<!-- autolink: [:line-to](#:line-to ディレクティブ) -->
+
+　`(:line-to pt)` という記述により、現在の点から直線を描きながら指定した点 pt に移動します。
+`(:line-to pt1 pt2 pt3 ...)` のように複数の点を記述することができます。これは現在の点から
+順番に直線を描きながら移動します。
+
+```diagram
+(diagram (400 100)
+  (grid)
+  (path '((:move-to (200 10))
+          (:line-to (230 50) (170 50) (200 10)))
+          :stroke :black :fill :rosybrown)
+  (text '(70 75) "(:move-to (200 10))" :align :left )
+  (text '(70 95) "(:line-to (230 50) (170 50) (200 10))" :align :left))
+```
+Figure. :line-to ディレクティブのサンプル
+
+　なお、:line-to で指定する点は :absolute および :relative の影響を受けます。
+
+### :h-line-to ディレクティブ
+<!-- autolink: [:h-line-to](#:h-line-to ディレクティブ) -->
+
+${{TODO}{まだ記述されていません。}}
+
+### :v-line-to ディレクティブ
+<!-- autolink: [:v-line-to](#:v-line-to ディレクティブ) -->
+
+${{TODO}{まだ記述されていません。}}
+
+### :arc-to ディレクティブ
+<!-- autolink: [:arc-to](#:arc-to ディレクティブ) -->
+
+${{TODO}{まだ記述されていません。}}
+
+```
+'(arc-to rx ry x-axis-rotation large-arc-flag sweep-flag pt)
+```
+
+```diagram
+(diagram (400 100)
+  (grid)
+  (path '((:move-to (150 50))
+          (:arc-to 30 30 0 0 1 (250 80)) :close-path)
+          :stroke :black :fill :rosybrown)
+;  (text '(70 75) "(:move-to (200 10))" :align :left )
+;  (text '(70 95) "(:line-to (230 50) (170 50) (200 10))" :align :left)
+)
+```
+Figure. :arc-to ディレクティブのサンプル
+
+```diagram
+(diagram (400 140)
+  (grid)
+  (with-options (:fill :none :stroke '(:color :lightgray :width 2))
+    (ellipse '(250 50) 100 40)
+    (ellipse '(150 90) 100 40))
+  (with-options (:fill :red :stroke :none)
+    (circle '(150 50) 3)
+    (circle '(250 90) 3))
+  (with-options (:font '(:fill :red))
+    (text '(145  45) "pt1" :align :right)
+    (text '(255 105) "pt2" :align :left)))
+```
+
+　上記を見ればわかる通り、指定した２つの点を通過する半径 rx, ry の楕円には４種類あります。
+
+```diagram
+(diagram (510 220)
+  (grid)
+  (defs (240 100 :back)
+    ;(rect canvas.center canvas.width canvas.height :fill :none :stroke :lightgray)
+    (with-options (:fill :none :stroke '(:color :lightgray :width 2))
+      (ellipse '(110 30) 50 20)
+      (ellipse '( 60 50) 50 20))
+    (with-options (:fill :red :stroke :none)
+      (circle '( 60 30) 3)
+      (circle '(110 50) 3)))
+  (with-options (:fill :none
+                 :font '(:size 10)
+                 :stroke '(:color :red :width 3 :opacity 0.4))
+    (use :back '(130 60)
+         :contents
+         ((path '((:move-to (60 30)) (:arc-to 50 20 0 0 1 (110 50))))
+          (text '(115 65) "large-arc-flag : 0" :align :left)
+          (text '(115 80) "sweep-flag : 1"     :align :left)))
+    (use :back '(380 60)
+         :contents
+         ((path '((:move-to (60 30)) (:arc-to 50 20 0 0 0 (110 50))))
+          (text '(115 65) "large-arc-flag : 0" :align :left)
+          (text '(115 80) "sweep-flag : 0"     :align :left)))
+    (use :back '(130 160)
+         :contents
+         ((path '((:move-to (60 30)) (:arc-to 50 20 0 1 1 (110 50))))
+          (text '(115 65) "large-arc-flag : 1" :align :left)
+          (text '(115 80) "sweep-flag : 1"     :align :left)))
+    (use :back '(380 160)
+         :contents
+         ((path '((:move-to (60 30)) (:arc-to 50 20 0 1 0 (110 50))))
+          (text '(115 65) "large-arc-flag : 1" :align :left)
+          (text '(115 80) "sweep-flag : 0"     :align :left)))))
+```
+
+```diagram
+(diagram (200 200)
+  (grid)
+  ;(centered-to-svg 100 100 40 20 30 90 0)
+  (ellipse '(100 100) 40 20 :stroke '(:color :lightgray :width 3))
+  (with-options (:fill :none :stroke :red)
+    (path '((:move-to (134.64101615137756 110.0))
+            (:arc-to 40 20 0 0 1 (80.0 117.32050807568878))))))
+```
+
+```diagram
+(diagram (200 200)
+  (grid)
+  ;(centered-to-svg 100 100 40 20 30 90 45)
+  (ellipse '(100 100) 40 20 :rotate 45 :stroke '(:color :lightgray :width 3))
+  (with-options (:fill :none :stroke :red)
+    (path '((:move-to (117.42382961596631 131.56596523969725))
+            (:arc-to 40 20 45 0 1 (73.61041566235316 98.10531309018495))))))
+```
+### :2d-curve-to ディレクティブ
+<!-- autolink: [:2d-curve-to](#:2d-curve-to ディレクティブ) -->
+
+${{TODO}{まだ記述されていません。}}
+
+### :3d-curve-to ディレクティブ
+<!-- autolink: [:3d-curve-to](#:3d-curve-to ディレクティブ) -->
+
+${{TODO}{まだ記述されていません。}}
+
+### :absolute ディレクティブ
+<!-- autolink: [:absolute](#:absolute ディレクティブ) -->
+
+${{TODO}{まだ記述されていません。}}
+
+### :relative ディレクティブ
+<!-- autolink: [:relative](#:relative ディレクティブ) -->
+
+${{TODO}{まだ記述されていません。}}
+
+### :close-path ディレクティブ
+<!-- autolink: [:close-path](#:close-path ディレクティブ) -->
+
+${{TODO}{まだ記述されていません。}}
+
+## その他の図形
+
+　基本的な図形を組み合わせて作成される、複合的な図形を紹介します。以下のサンプルはサブセクションへの
+リンクになっています。
+
+<!-- define: HASH_CONNECTOR  = '[](#コネクタ)' -->
+<!-- define: HASH_PARAGRAPH  = '[](#パラグラフ)' -->
+<!-- define: HASH_TEXTBOX    = '[](#テキストボックス)' -->
+<!-- define: HASH_DOCUMENT   = '[](#ドキュメント)' -->
+<!-- define: HASH_FOLDER     = '[](#フォルダ)' -->
+<!-- define: HASH_BALLOON    = '[](#吹き出し)' -->
+<!-- define: HASH_MEMO       = '[](#メモ)' -->
+<!-- define: HASH_CYLINDER   = '[](#円柱)' -->
+<!-- define: HASH_EXPLOSION  = '[](#爆発)' -->
+<!-- define: HASH_BLOCKARROW = '[](#ブロック矢印)' -->
+<!-- define: HASH_BRACE      = '[](#波括弧)' -->
+<!-- define: HASH_TABLE      = '[](#テーブル)' -->
+
+```diagram
+(diagram (800 240)
+  ;(grid)
+  (let ((w 100)
+        (h 100)
+        (bgclr :white)) ;; (make-fill :color :lightgray :opacity 0.4 )));;
+	(defs (w h :connect-grp)
+      (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
+      (rect   '(20 20) 20 20 :fill :white :stroke :black :id :r1)
+      (circle '(80 60) 10    :fill :white :stroke :black :id :r2)
+      (connect :r1 :r2 :stroke :black)
+	  (text `(,(/ w 2) ,(- h 5)) "コネクタ" :align :center))
+	(defs (w h :paragraph-grp)
+      (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
+	  (paragraph (y+ canvas.center -35) "this is~%multi line~%text." :align :center :font 16)
+	  (text `(,(/ w 2) ,(- h 5)) "パラグラフ" :align :center))
+	(defs (w h :textbox-grp)
+      (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
+	  (textbox (y+ canvas.center -10) "this is~%textbox." :rx 5 :ry 5 :align :center :fill :white)
+	  (text `(,(/ w 2) ,(- h 5)) "テキストボックス" :align :center))
+	(defs (w h :document-grp)
+      (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
+	  (document (y+ canvas.center -10) 80 60 "this is~%document."
+                                       :align :center :stroke :navy :fill :skyblue)
+	  (text `(,(/ w 2) ,(- h 5)) "ドキュメント" :align :center))
+	(defs (w h :folder-grp)
+      (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
+	  (folder (y+ canvas.center -5) "this is~%folder."
+                                   :align :center :height 50 :stroke :darkkhaki :fill :cornsilk)
+	  (text `(,(/ w 2) ,(- h 5)) "フォルダ" :align :center))
+	(defs (w h :balloon-grp)
+      (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
+	  (balloon (y+ canvas.center -15) "this is~%balloon." '(10 75)
+                                                    :fill :honeydew :stroke :forestgreen)
+	  (text `(,(/ w 2) ,(- h 5)) "吹き出し" :align :center))
+	(defs (w h :memo-grp)
+      (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
+	  (memo (y+ canvas.center -15) "this is~%memo." :width 80 :height 60
+                       :valign :top :align :left :stroke :red :fill :lightpink)
+	  (text `(,(/ w 2) ,(- h 5)) "メモ" :align :center))
+	(defs (w h :cylinder-grp)
+      (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
+	  (cylinder (y+ canvas.center -10) 65 60 "this is~%cylinder." 
+                                       :stroke :darkgray :fill :lightgray)
+	  (text `(,(/ w 2) ,(- h 5)) "円柱" :align :center))
+	(defs (w h :explosion-grp)
+      (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
+	  (explosion1 (y+ canvas.center -10) 90 80 "bomb!!" 
+                                       :stroke :red :fill :lightpink)
+	  (text `(,(/ w 2) ,(- h 5)) "爆発" :align :center))
+	(defs (w h :blockarrow-grp)
+      (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
+	  (block-arrow1 '(0 40) '(100 40) 20 :margin 5 :stroke :brown :fill :burlywood)
+	  (text `(,(/ w 2) ,(- h 5)) "ブロック矢印" :align :center))
+	(defs (w h :brace-grp)
+      (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
+	  (brace (y+ canvas.center -20) :upper 80 30 :r 10 :text "this is brace." :stroke :navy)
+	  (text `(,(/ w 2) ,(- h 5)) "波括弧" :align :center))
+	(defs (w h :table-grp)
+      (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
+	  (table (y+ canvas.center -10) '(10 10 10 10) '(20 20 20 20) :fills '(:rc :white :r0 :skyblue) :stroke :navy)
+	  (text `(,(/ w 2) ,(- h 5)) "テーブル" :align :center))
+    (use :connect-grp    '( 70  60) :link "${HASH_CONNECTOR}")
+    (use :paragraph-grp  '(200  60) :link "${HASH_PARAGRAPH}")
+    (use :textbox-grp    '(330  60) :link "${HASH_TEXTBOX}")
+    (use :document-grp   '(460  60) :link "${HASH_DOCUMENT}")
+    (use :folder-grp     '(590  60) :link "${HASH_FOLDER}")
+    (use :balloon-grp    '(720  60) :link "${HASH_BALLOON}")
+    (use :memo-grp       '( 70 180) :link "${HASH_MEMO}")
+    (use :cylinder-grp   '(200 180) :link "${HASH_CYLINDER}")
+    (use :explosion-grp  '(330 180) :link "${HASH_EXPLOSION}")
+    (use :blockarrow-grp '(460 180) :link "${HASH_BLOCKARROW}")
+    (use :brace-grp      '(590 180) :link "${HASH_BRACE}")
+    (use :table-grp      '(720 180) :link "${HASH_TABLE}")))
+```
 
 ### コネクタ
 
@@ -283,11 +1060,9 @@ Figure. rectangle のサンプル
 
 　${{TODO}{connect でもいいよ。}}
 
-### テキスト
+### パラグラフ
+<!-- autolink: [paragraph](#パラグラフ) -->
 
-　${{TODO}{まだ記述されていません。}}
-
-## その他の図形
 ### テキストボックス
 
 　テキストボックスは、[$$](#四角形) と [$$](#テキスト) を組み合わせたようなものです。
@@ -389,7 +1164,7 @@ Table. 吹き出しに関するデフォルト設定変数
 | `*default-balloon-filter*` | nil     | `:filter` パラメータを省略した場合に適用されるデフォルト設定です。<br> \
 この設定も nil の場合、 `*default-shape-filter*` 設定が使用されます。 |
 
-<!-- stack:pop p -->
+<!-- stack:pop tr -->
 
 ### メモ
 
@@ -465,10 +1240,10 @@ Figure. 爆発のサンプル
 <!-- snippet: BLOCKARROW-SAMPLE
 (diagram (300 150)
   (grid)
-  (with-stroke (:color :navy :width 2)
-    (with-fill (:color :skyblue)
-      (block-arrow1 '(50  40) '(250  40) 20)
-      (block-arrow2 '(50 110) '(250 110) 20))))
+  (with-options (:fill :skyblue
+                 :stroke '(:color :navy :width 2))
+    (block-arrow1 '(50  40) '(250  40) 20)
+    (block-arrow2 '(50 110) '(250 110) 20)))
 -->
 
 ```diagram
@@ -496,13 +1271,13 @@ Figure. ブロック矢印のサンプル
 		  (pt2 '(350 50)))
 	  (circle pt1 4 :stroke :none :fill :red)
 	  (circle pt2 4 :stroke :none :fill :red)
-	  (with-font (:fill :red :size 10)
+	  (with-options (:font '(:fill :red :size 10))
 		(text (y+ $2.center 15) "pt1" :align :center)
 		(text (y+ $2.center 15) "pt2" :align :center))
 	  (line `(,pt1 ,pt2) :stroke '(:color :red :width 0.5 :dasharray (4 4)))
 	  (block-arrow1 pt1 pt2 30 :margin 30 :length 70 :size 60
 					:stroke :navy :fill '(:color :skyblue :opacity 0.3))
-	  (with-stroke (:color :gray :dasharray '(3 3))
+	  (with-options (:stroke '(:color :gray :dasharray '(3 3)))
 		(line `(,pt1 ,(y+ pt1 -30)))
 		(line `(,pt2 ,(y+ pt2 -30)))
 		(line `(,(x+ pt2 -30) ,(xy+ pt2 -30 -30)))
@@ -510,14 +1285,14 @@ Figure. ブロック矢印のサンプル
 		(line '((250 80) (220  80)))
 		(line '((250 80) (250 100)))
 		(line '((320 50) (320 100))))
-	  (with-stroke (:color :brown)
+	  (with-options (:stroke :brown)
 		(let ((em (make-endmark :type :arrow :size :small)))
 		  (line '((230  20) (230  80)) :end1 em :end2 em)
 		  (line '((150  35) (150  65)) :end1 em :end2 em)
 		  (line '((250  90) (320  90)) :end1 em :end2 em)
 		  (line `(,(y+  pt1     -15) ,(xy+ pt1 30 -15)) :end1 em :end2 em)
 		  (line `(,(xy+ pt2 -30 -20) ,(y+  pt2    -20)) :end1 em :end2 em)))
-	  (with-font (:fill :brown :size 10)
+	  (with-options (:font '(:fill :brown :size 10))
 		(text '(150  30) "width"  :align :center)
 		(text '(230  95) "size"   :align :right)
 		(text '(325 100) "length" :align :left)
@@ -537,12 +1312,12 @@ Figure. ブロック矢印のパラメータ
 <!-- snippet: BRACE-SAMPLE
 (diagram (400 300)
    (grid)
-   (with-stroke (:color :navy :width 2)
-     (with-font (:fill :navy :size 16)
+   (with-options (:font   '(:fill :navy :size 16)
+                  :stroke '(:color :navy :width 2))
        (brace '(200  40) :upper  240  60 :r 20 :point 150 :text "upper brace" )
        (brace '(200 260) :bottom 240  60 :r 20 :point  60 :text "bottom brace")
        (brace '(360 150) :right   60 200 :r 20 :point 150 :text "right brace" )
-       (brace '( 40 150) :left    60 200 :r 20 :point  60 :text "left brace"  ))))
+       (brace '( 40 150) :left    60 200 :r 20 :point  60 :text "left brace"  )))
 -->
 
 ```diagram
@@ -563,28 +1338,28 @@ Figure. 波括弧のサンプル
 
 ```diagram
 (diagram (400 150)
-   (grid)
-   (with-stroke (:color :navy :width 2)
-     (with-font (:fill :navy :size 16)
-       (brace '(200 70) :upper  240  60 :r 30 :point 150)))
-	(with-stroke (:color :gray :dasharray '(3 3))
-	  (line '(( 80  10) ( 80 130)))
-	  (line '((320  40) (320  10)))
-	  (line '((320  40) (350  40)))
-	  (line '((230 100) (350 100)))
-	  (line '((110  70) (110 100)))
-	  (line '((230 100) (230 130))))
-	(with-stroke (:color :brown)
-	  (let ((em (make-endmark :type :arrow :size :small)))
-		(line '(( 80  20) (320  20)) :end1 em :end2 em)
-		(line '((340  40) (340 100)) :end1 em :end2 em)
-		(line '(( 80  90) (110  90)) :end1 em :end2 em)
-		(line '(( 80 120) (230 120)) :end1 em :end2 em)))
-	(with-font (:fill :brown)
-		(text '(200  35) "width"  :align :center)
-		(text '(345  75) "height" :align :left)
-		(text '( 95 105) "r"      :align :center)
-		(text '(155 135) "point"  :align :center)))
+  (grid)
+  (with-options (:font   '(:fill :navy :size 16)
+                 :stroke '(:color :navy :width 2))
+    (brace '(200 70) :upper  240  60 :r 30 :point 150))
+  (with-options (:stroke '(:color :gray :dasharray '(3 3)))
+    (line '(( 80  10) ( 80 130)))
+    (line '((320  40) (320  10)))
+    (line '((320  40) (350  40)))
+    (line '((230 100) (350 100)))
+    (line '((110  70) (110 100)))
+    (line '((230 100) (230 130))))
+  (with-options (:stroke :brown)
+    (let ((em (make-endmark :type :arrow :size :small)))
+      (line '(( 80  20) (320  20)) :end1 em :end2 em)
+      (line '((340  40) (340 100)) :end1 em :end2 em)
+      (line '(( 80  90) (110  90)) :end1 em :end2 em)
+      (line '(( 80 120) (230 120)) :end1 em :end2 em)))
+  (with-options (:font '(:fill :brown))
+    (text '(200  35) "width"  :align :center)
+    (text '(345  75) "height" :align :left)
+    (text '( 95 105) "r"      :align :center)
+    (text '(155 135) "point"  :align :center)))
 ```
 Figure. 波括弧のパラメータ
 
@@ -683,7 +1458,7 @@ ${BLANK_PARAGRAPH}
 
 <!-- snippet: TABLE-ALIGN-SAMPLE
 (diagram (480 240)
-  (with-font (:size 12)
+  (with-options (:font '(:size 12))
     (table '(240 120) '(40 60 60 60) '(100 120 120 120)
            :stroke :navy :id :tbl
            :fills '(:rc :white :r0 :skyblue :c0 :skyblue)
@@ -903,6 +1678,12 @@ Figure. defs と use のサンプル
 
 ${BLANK_PARAGRAPH}
 
+## IDと参照
+
+　${{TODO}{まだ記述されていません。}}
+
+${BLANK_PARAGRAPH}
+
 ## 座標と位置
 
 　${{TODO}{まだ記述されていません。}}
@@ -927,6 +1708,24 @@ ${BLANK_PARAGRAPH}
 ```
 Figure. xxxのサンプル
 
+
+${BLANK_PARAGRAPH}
+
+## リンク
+
+　${{TODO}{まだ記述されていません。}}
+
+${BLANK_PARAGRAPH}
+
+## ラベル
+
+　${{TODO}{まだ記述されていません。}}
+
+${BLANK_PARAGRAPH}
+
+## 終端マーク
+
+　${{TODO}{まだ記述されていません。}}
 
 ${BLANK_PARAGRAPH}
 
@@ -1300,7 +2099,7 @@ ${BLANK_PARAGRAPH}
 <!-- snippet: FILL-OPACITY-SAMPLE
 (diagram (400 100)
   (text '(200 55) "this is test text." :align :center)
-  (with-fill (:color :red)
+  (with-options (:fill :red)
     (rect '(150 50) 30 30 :fill (make-fill :opacity 0.2))
     (text '(150 80) "0.2" :align :center)
     (rect '(200 50) 30 30 :fill (make-fill :opacity 0.5))
@@ -1380,19 +2179,19 @@ ${BLANK_PARAGRAPH}
 ```diagram
 (diagram (400 100)
 	(with-subcanvas ('(0 0) 100 100)
-	  (with-stroke (:color :black :width 4 :dasharray '(8 4))
+	  (with-options (:stroke '(:color :black :width 4 :dasharray '(8 4)))
 		(line '((30 20) (70 20)))
 		(line '((30 40) (70 40)) :stroke '(:dashoffset 2))
 		(line '((30 60) (70 60)) :stroke '(:dashoffset 4))
 		(line '((30 80) (70 80)) :stroke '(:dashoffset 6))))
 	(with-subcanvas ('(100 0) 100 100)
-	  (with-stroke (:color :black :width 8)
+	  (with-options (:stroke '(:color :black :width 8))
 		(line '((30 20) (70 20)))
 		(line '((30 40) (70 40)) :stroke '(:linecap   :butt))
 		(line '((30 60) (70 60)) :stroke '(:linecap  :round))
 		(line '((30 80) (70 80)) :stroke '(:linecap :square))))
 	(with-subcanvas ('(200 0) 100 100)
-	  (with-stroke (:color :black :width 12)
+	  (with-options (:stroke '(:color :black :width 12))
 		(line '(( 30 60) ( 45 45) ( 60 60)) :stroke '(:linejoin :miter))
 		(line '(( 90 60) (105 45) (120 60)) :stroke '(:linejoin :round))
 		(line '((150 60) (165 45) (180 60)) :stroke '(:linejoin :bevel)))))
