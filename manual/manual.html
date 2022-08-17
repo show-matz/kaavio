@@ -28,7 +28,7 @@
 <!-- PIM の eoPS3MRF1gI というデータで過去にマニュアル作ろうとした形跡があるぞ  -->
 <h1><a name='8DhcAacagke'></a>README - diagram</h1>
 <p>　この文書は、 <strong>diagram</strong> のためのマニュアル文書です。</p>
-<a name='3DDQkfdwVQl' />
+<a name='3DDQkfdwVQl'></a>
 <h2>Table of contents</h2>
 <li class='tocx'><a href='#0Ofny2DArqY'>1 diagram とは</a></li>
 <li class='tocx'><a href='#9LLncE6hWlx'>2 簡単なサンプル</a></li>
@@ -344,7 +344,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <li>drop-shadow という種類の「フィルタ」の使用を宣言</li>
 <li>with-shape-filter でデフォルトのフィルタを drop-shadow に設定
 <ul>
-<li><a class='autolink' href='#cTdCvBeU6ZJ'>text</a>box でテキストボックスを作成 : 場所は画像の中心（canvas.center）から y 軸方向に 20、テキストは "diagram"、これに app という ID を設定</li>
+<li><a class='autolink' href='#e7hkC2YUaKe'>textbox</a> でテキストボックスを作成 : 場所は画像の中心（canvas.center）から y 軸方向に 20、テキストは "diagram"、これに app という ID を設定</li>
 <li>with-options で、デフォルトの線を太さ 2 の <code>navy</code> に、デフォルトの塗りつぶしを不透明度 0.3 の <code>skyblue</code> にそれぞれ設定
 <ul>
 <li>document でドキュメントを作成 : 場所は app の中心（app.center）から x 軸方向に -175、幅と高さは 80 60、テキストは "input~%file"、これに in という ID を設定</li>
@@ -878,11 +878,11 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <tr style="font-size: 14;"><th>パラメータ</th><th>説明</th></tr>
 <tr style="font-size: 14;"><td nowrap align='left'>position</td><td align='left'><a class='autolink' href='#cTdCvBeU6ZJ'>text</a> で描くテキストの基準点を指定します。詳細は「<a href='#h1RNMQY1C0b'>7  座標と位置</a>」を参照してください。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><a class='autolink' href='#cTdCvBeU6ZJ'>text</a></td><td align='left'><a class='autolink' href='#cTdCvBeU6ZJ'>text</a> で描くテキストを文字列で指定します。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>align</td><td align='left'><a class='autolink' href='#cTdCvBeU6ZJ'>text</a> で描くテキストのアライメントを <code>:left :center :right</code> のいずれかで指定します。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>font</td><td align='left'><a class='autolink' href='#cTdCvBeU6ZJ'>text</a> で描くテキストを「時計回りに描く」場合の終了角度を数値で指定します。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>link</td><td align='left'><a class='autolink' href='#cTdCvBeU6ZJ'>text</a> をリンクにする場合、リンク先を指定します。詳細は「<a href='#fbLcMRTVXac'>6.9  リンク</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>layer</td><td align='left'><a class='autolink' href='#cTdCvBeU6ZJ'>text</a> をレイヤーに所属させる場合、その名前をキーワードで指定します。<br>詳細は「<a href='#1ovJxG7Ie9O'>6.8  レイヤー</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>id</td><td align='left'><a class='autolink' href='#cTdCvBeU6ZJ'>text</a> に ID を付与したい場合、その名前をキーワードで指定します。<br>詳細は「<a href='#iu9Ovm00KHn'>6.5  IDと参照</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>align</td><td align='left'>テキストのアライメントを <code>:left :center :right</code> のいずれかで指定します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>font</td><td align='left'>テキストのフォントを指定します。詳細は「<a href='#3kZ9FkounyK'>6.4  フォント</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>link</td><td align='left'>テキストをリンクにする場合、リンク先を指定します。詳細は「<a href='#fbLcMRTVXac'>6.9  リンク</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>layer</td><td align='left'>テキストをレイヤーに所属させる場合、その名前をキーワードで指定します。<br>詳細は「<a href='#1ovJxG7Ie9O'>6.8  レイヤー</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>id</td><td align='left'>テキストに ID を付与したい場合、その名前をキーワードで指定します。<br>詳細は「<a href='#iu9Ovm00KHn'>6.5  IDと参照</a>」を参照してください。</td></tr>
 </table>
 <p>　　</p>
 <p>　position と align の関係を以下に示します。以下において、赤い点が position で、align 指定はテキストで示されています。</p>
@@ -912,7 +912,8 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='dwmEirKL0V5'></a>Figure.3-9 text の align サンプル</p>
+<p class='fig_title'><a name='5BXk9aTPHsl'></a>Figure.3-9 テキストの position とアライメント指定の関係</p>
+<p>　　</p>
 <h2><a name='4qgt62QVDZl'></a>4 パス</h2>
 <p>　<code>path</code> によって直線や曲線からなる複雑な図形を描画できます。</p>
 <div align='center'>
@@ -1475,7 +1476,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='1qWWQrNmbwm'></a>Figure.5-1 connect のサンプル</p>
+<p class='fig_title'><a name='4gGy4q3tl7a'></a>Figure.5-1 コネクタのサンプル</p>
 <details>
 <summary>　※上記サンプルのソースはこちら。</summary>
 <pre class='code'>
@@ -1512,8 +1513,8 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <tr style="font-size: 14;"><td nowrap align='left'>id</td><td align='left'>コネクタに ID を付与したい場合、その名前をキーワードで指定します。<br>詳細は「<a href='#iu9Ovm00KHn'>6.5  IDと参照</a>」を参照してください。</td></tr>
 </table>
 <p>　　</p>
-<p>　では、style および spacing について説明します。まず、style のデフォルト値でもある :CC は「Center to Center」という意味で、対象図形の中心どうしを結ぶような一本の直線で接続をします。これは <a href='#1qWWQrNmbwm'>Figure.5-1</a> における R2 と R3 の接続のイメージです。</p>
-<p>　:CC 以外の接続方法は、T, B, L, R のいずれかを2つ使って接続位置を指定する方法になります。これはそれぞれ Top, Bottom, Left, Right の頭文字で、たとえば :BL であれば「Bottom to Left」という意味になり、これは from 側の下端と to 側の左端を接続する、ということを意味します。これは <a href='#1qWWQrNmbwm'>Figure.5-1</a> における R1 と R2 の接続のイメージです。</p>
+<p>　では、style および spacing について説明します。まず、style のデフォルト値でもある :CC は「Center to Center」という意味で、対象図形の中心どうしを結ぶような一本の直線で接続をします。これは <a href='#4gGy4q3tl7a'>Figure.5-1</a> における R2 と R3 の接続のイメージです。</p>
+<p>　:CC 以外の接続方法は、T, B, L, R のいずれかを2つ使って接続位置を指定する方法になります。これはそれぞれ Top, Bottom, Left, Right の頭文字で、たとえば :BL であれば「Bottom to Left」という意味になり、これは from 側の下端と to 側の左端を接続する、ということを意味します。これは <a href='#4gGy4q3tl7a'>Figure.5-1</a> における R1 と R2 の接続のイメージです。</p>
 <p>　さらに細かく接続位置を制御したい場合、それぞれの T,B,L,R の後ろに 1 ～ 3 のインデックスを指定することができます。先程の :BL という指定は、実は :B2L2 の省略記法です。インデックスと実際の接続位置の関係を以下に示します。</p>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
@@ -1676,9 +1677,117 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <p class='fig_title'><a name='23eQZDKkLDn'></a>Figure.5-6 spacing パラメータによるコネクタ接続経路の調整</p>
 <p>　spacing パラメータは、１番目の自由な線分を指定するだけの場合にはリストでなくてもかまいません。その場合は、 <code>:spacing 30</code> のように数値で指定できます。なお、spacing パラメータは「コネクタによる自動的な経路の決定結果を調整する」ものなので、たとえば接続対象の位置関係が大きく変化した場合などには、都度再調整が必要になることに注意してください。</p>
 <h3><a name='4WyMTv59pvw'></a>5.2 パラグラフ</h3>
-<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<p>　パラグラフは、複数行に渡るテキストです。</p>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='200' height='100'>
+	
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- paragraph -->
+	<text x='100' y='49' text-anchor='middle' font-size='12pt' fill='black' >This is paragraph.</text>
+	<text x='100' y='63' text-anchor='middle' font-size='12pt' fill='black' >Multi line OK.</text>
+
+</svg>
+</div>
+
+<p class='fig_title'><a name='8WHetxNhOq8'></a>Figure.5-7 パラグラフのサンプル</p>
+<details>
+<summary>　※上記サンプルのソースはこちら。</summary>
+<pre class='code'>
+(diagram (200 100)
+  (grid)
+  (paragraph canvas.center <span class='literal'>"This is paragraph.~%Multi line OK."</span>
+             <span class='keyword3'>:align</span> <span class='keyword3'>:center</span> <span class='keyword3'>:valign</span> <span class='keyword3'>:center</span>))
+</pre>
+</details>
+<p>　<a class='autolink' href='#4WyMTv59pvw'>paragraph</a> のパラメータ構成は以下の通りです。</p>
+<pre class='code'>
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>paragraph</span> (position text <span class='keyword2'>&amp;key</span> align valign
+                                        rotate font link layer id) ... )
+</pre>
+<p>　　</p>
+<p class='tbl_title'><a name='0mFeKi0I0Lr'></a>Table.5-2 paragraph のパラメータ</p>
+<table align='center'>
+<tr style="font-size: 14;"><th>パラメータ</th><th>説明</th></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>position</td><td align='left'><a class='autolink' href='#4WyMTv59pvw'>paragraph</a> で描くテキストの基準点を指定します。詳細は「<a href='#h1RNMQY1C0b'>7  座標と位置</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><a class='autolink' href='#cTdCvBeU6ZJ'>text</a></td><td align='left'><a class='autolink' href='#4WyMTv59pvw'>paragraph</a> で描くテキストを文字列で指定します。改行は "~%" で表現します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>align</td><td align='left'>テキストの水平方向のアライメントを <code>:left :center :right</code> のいずれかで指定します。詳細は後述します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>vlign</td><td align='left'>テキストの垂直方向のアライメントを <code>:top :center :bottom</code> のいずれかで指定します。詳細は後述します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>font</td><td align='left'>テキストのフォントを指定します。詳細は「<a href='#3kZ9FkounyK'>6.4  フォント</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>link</td><td align='left'><a class='autolink' href='#cTdCvBeU6ZJ'>text</a> をリンクにする場合、リンク先を指定します。詳細は「<a href='#fbLcMRTVXac'>6.9  リンク</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>layer</td><td align='left'><a class='autolink' href='#cTdCvBeU6ZJ'>text</a> をレイヤーに所属させる場合、その名前をキーワードで指定します。<br>詳細は「<a href='#1ovJxG7Ie9O'>6.8  レイヤー</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>id</td><td align='left'><a class='autolink' href='#cTdCvBeU6ZJ'>text</a> に ID を付与したい場合、その名前をキーワードで指定します。<br>詳細は「<a href='#iu9Ovm00KHn'>6.5  IDと参照</a>」を参照してください。</td></tr>
+</table>
+<p>　　</p>
+<p>　position と align, valign の関係を以下に示します。以下において、赤い点が position で、アライメント指定はテキストで示されています。</p>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='500' height='180'>
+	
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- paragraph -->
+	<text x='250' y='36' text-anchor='middle' font-size='12pt' fill='black' >align = :CENTER</text>
+	<text x='250' y='50' text-anchor='middle' font-size='12pt' fill='black' >valign = :BOTTOM</text>
+	<!-- circle -->
+	<circle cx='250' cy='50' r='3' fill='red' stroke='none' stroke-width='1' />
+	<!-- paragraph -->
+	<text x='160' y='36' text-anchor='end' font-size='12pt' fill='black' >align = :RIGHT</text>
+	<text x='160' y='50' text-anchor='end' font-size='12pt' fill='black' >valign = :BOTTOM</text>
+	<!-- circle -->
+	<circle cx='160' cy='50' r='3' fill='red' stroke='none' stroke-width='1' />
+	<!-- paragraph -->
+	<text x='340' y='36' text-anchor='start' font-size='12pt' fill='black' >align = :LEFT</text>
+	<text x='340' y='50' text-anchor='start' font-size='12pt' fill='black' >valign = :BOTTOM</text>
+	<!-- circle -->
+	<circle cx='340' cy='50' r='3' fill='red' stroke='none' stroke-width='1' />
+	<!-- paragraph -->
+	<text x='250' y='89' text-anchor='middle' font-size='12pt' fill='black' >align = :CENTER</text>
+	<text x='250' y='103' text-anchor='middle' font-size='12pt' fill='black' >valign = :CENTER</text>
+	<!-- circle -->
+	<circle cx='250' cy='90' r='3' fill='red' stroke='none' stroke-width='1' />
+	<!-- paragraph -->
+	<text x='160' y='89' text-anchor='end' font-size='12pt' fill='black' >align = :RIGHT</text>
+	<text x='160' y='103' text-anchor='end' font-size='12pt' fill='black' >valign = :CENTER</text>
+	<!-- circle -->
+	<circle cx='160' cy='90' r='3' fill='red' stroke='none' stroke-width='1' />
+	<!-- paragraph -->
+	<text x='340' y='89' text-anchor='start' font-size='12pt' fill='black' >align = :LEFT</text>
+	<text x='340' y='103' text-anchor='start' font-size='12pt' fill='black' >valign = :CENTER</text>
+	<!-- circle -->
+	<circle cx='340' cy='90' r='3' fill='red' stroke='none' stroke-width='1' />
+	<!-- paragraph -->
+	<text x='250' y='142' text-anchor='middle' font-size='12pt' fill='black' >align = :CENTER</text>
+	<text x='250' y='156' text-anchor='middle' font-size='12pt' fill='black' >valign = :TOP</text>
+	<!-- circle -->
+	<circle cx='250' cy='130' r='3' fill='red' stroke='none' stroke-width='1' />
+	<!-- paragraph -->
+	<text x='160' y='142' text-anchor='end' font-size='12pt' fill='black' >align = :RIGHT</text>
+	<text x='160' y='156' text-anchor='end' font-size='12pt' fill='black' >valign = :TOP</text>
+	<!-- circle -->
+	<circle cx='160' cy='130' r='3' fill='red' stroke='none' stroke-width='1' />
+	<!-- paragraph -->
+	<text x='340' y='142' text-anchor='start' font-size='12pt' fill='black' >align = :LEFT</text>
+	<text x='340' y='156' text-anchor='start' font-size='12pt' fill='black' >valign = :TOP</text>
+	<!-- circle -->
+	<circle cx='340' cy='130' r='3' fill='red' stroke='none' stroke-width='1' />
+
+</svg>
+</div>
+
+<p class='fig_title'><a name='4qhyBjYZYlG'></a>Figure.5-8 パラグラフの position とアライメント指定の関係</p>
+<p>　　</p>
 <h3><a name='e7hkC2YUaKe'></a>5.3 テキストボックス</h3>
-<p>　テキストボックスは、<a href='#kJonRG8GtHF'>四角形</a> と <a href='#cTdCvBeU6ZJ'>テキスト</a> を組み合わせたようなものです。</p>
+<p>　テキストボックスは、<a href='#kJonRG8GtHF'>四角形</a> と <a href='#4WyMTv59pvw'>パラグラフ</a> を組み合わせたようなものです。テキストからサイズを自動決定しますが、明示的にボックスのサイズを指定することも可能です。</p>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='200' height='100'>
@@ -1697,14 +1806,135 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='4NTtjXsX7EZ'></a>Figure.5-7 テキストボックスのサンプル</p>
+<p class='fig_title'><a name='4NTtjXsX7EZ'></a>Figure.5-9 テキストボックスのサンプル</p>
+<details>
+<summary>　※上記サンプルのソースはこちら。</summary>
 <pre class='code'>
 (diagram (200 100)
   (grid)
   (textbox '(100 50) <span class='literal'>"test text.~%multi line."</span>
                      <span class='keyword3'>:rx</span> 10 <span class='keyword3'>:ry</span> 10 <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span> <span class='keyword3'>:fill</span> <span class='keyword3'>:white</span>))
 </pre>
-<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+</details>
+<p>　<a class='autolink' href='#e7hkC2YUaKe'>textbox</a> のパラメータ構成は以下の通りです。</p>
+<pre class='code'>
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>textbox</span> (center text <span class='keyword2'>&amp;key</span> width height no-frame
+                                    rx ry align valign margin
+                                    font fill stroke link rotate layer id filter)
+</pre>
+<p>　　</p>
+<p class='tbl_title'><a name='hOloecoUbQv'></a>Table.5-3 textbox のパラメータ</p>
+<table align='center'>
+<tr style="font-size: 14;"><th>パラメータ</th><th>説明</th></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>center</td><td align='left'>描画するテキストボックスの中心点を指定します。詳細は「<a href='#h1RNMQY1C0b'>7  座標と位置</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><a class='autolink' href='#cTdCvBeU6ZJ'>text</a></td><td align='left'>テキストボックス内部に描画するテキストを文字列で指定します。改行は "~%" で表現します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>width</td><td align='left'>テキストボックスの幅を自動決定せず、明示的に指定したい場合に数値で指定します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>height</td><td align='left'>テキストボックスの高さを自動決定せず、明示的に指定したい場合に数値で指定します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>no-frame</td><td align='left'>ボックスを描画せず、テキストのみにしたい場合には <code>:no-frame t</code> と指定してください。<br>stroke や fill パラメータを無視してテキストのみを描画します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>rx, ry</td><td align='left'>ボックスの角を丸くしたい場合に、角の x 半径（rx）と y 半径（ry）を数値で指定します。<br>rx と ry のどちらかだけを指定すると、もう一方も同じであると見なされます。<br>省略した場合のデフォルト値は 0（つまり角を丸くしない）です。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>align</td><td align='left'>テキストの水平方向のアライメントを <code>:left :center :right</code> のいずれかで指定します。<br>省略した場合のデフォルト値は <code>:center</code> です。詳細は後述します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>vlign</td><td align='left'>テキストの垂直方向のアライメントを <code>:top :center :bottom</code> のいずれかで指定します。<br>省略した場合のデフォルト値は <code>:center</code> です。詳細は後述します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>margin</td><td align='left'>ボックスの幅と高さを自動計算する際に使用される「余白」のサイズです。<br>省略した場合のデフォルト値は 10 です。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>font</td><td align='left'>テキストのフォントを指定します。詳細は「<a href='#3kZ9FkounyK'>6.4  フォント</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>fill</td><td align='left'>ボックス内部の塗り潰しを指定します。詳細は「<a href='#dBUd7L4C3dx'>6.3  フィル</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>stroke</td><td align='left'>ボックスの外枠を描画する線を指定します。詳細は「<a href='#4HFjqmTuIU6'>6.2  ストローク</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>link</td><td align='left'><a class='autolink' href='#cTdCvBeU6ZJ'>text</a> をリンクにする場合、リンク先を指定します。詳細は「<a href='#fbLcMRTVXac'>6.9  リンク</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>rotate</td><td align='left'>テキストボックス全体を回転させたい場合に、その角度を指定します。<br>詳細は「<a href='#heEi5Lc5BX9'>6.6  回転</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>layer</td><td align='left'><a class='autolink' href='#cTdCvBeU6ZJ'>text</a> をレイヤーに所属させる場合、その名前をキーワードで指定します。<br>詳細は「<a href='#1ovJxG7Ie9O'>6.8  レイヤー</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>id</td><td align='left'><a class='autolink' href='#cTdCvBeU6ZJ'>text</a> に ID を付与したい場合、その名前をキーワードで指定します。<br>詳細は「<a href='#iu9Ovm00KHn'>6.5  IDと参照</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>filter</td><td align='left'>ボックスの描画にフィルタ効果を適用したい場合、その名前を指定します。<br>詳細は「<a href='#gPGlqSbIfdL'>6.7  フィルタ</a>」を参照してください。</td></tr>
+</table>
+<p>　　</p>
+<p>　align, valign の関係を以下に示します。以下のように、テキストボックスの内部で水平方向、および垂直方向にそれぞれどう寄せるかが変化します。</p>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='550' height='220'>
+	
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- textbox -->
+	<rect x='190' y='10' width='170' height='60' fill='white' stroke='black' stroke-width='1' />
+	<text x='275' y='46' text-anchor='middle' font-size='12pt' fill='black' >align = :CENTER</text>
+	<text x='275' y='60' text-anchor='middle' font-size='12pt' fill='black' >valign = :BOTTOM</text>
+	<!-- textbox -->
+	<rect x='10' y='10' width='170' height='60' fill='white' stroke='black' stroke-width='1' />
+	<text x='170' y='46' text-anchor='end' font-size='12pt' fill='black' >align = :RIGHT</text>
+	<text x='170' y='60' text-anchor='end' font-size='12pt' fill='black' >valign = :BOTTOM</text>
+	<!-- textbox -->
+	<rect x='370' y='10' width='170' height='60' fill='white' stroke='black' stroke-width='1' />
+	<text x='380' y='46' text-anchor='start' font-size='12pt' fill='black' >align = :LEFT</text>
+	<text x='380' y='60' text-anchor='start' font-size='12pt' fill='black' >valign = :BOTTOM</text>
+	<!-- textbox -->
+	<rect x='190' y='80' width='170' height='60' fill='white' stroke='black' stroke-width='1' />
+	<text x='275' y='109' text-anchor='middle' font-size='12pt' fill='black' >align = :CENTER</text>
+	<text x='275' y='123' text-anchor='middle' font-size='12pt' fill='black' >valign = :CENTER</text>
+	<!-- textbox -->
+	<rect x='10' y='80' width='170' height='60' fill='white' stroke='black' stroke-width='1' />
+	<text x='170' y='109' text-anchor='end' font-size='12pt' fill='black' >align = :RIGHT</text>
+	<text x='170' y='123' text-anchor='end' font-size='12pt' fill='black' >valign = :CENTER</text>
+	<!-- textbox -->
+	<rect x='370' y='80' width='170' height='60' fill='white' stroke='black' stroke-width='1' />
+	<text x='380' y='109' text-anchor='start' font-size='12pt' fill='black' >align = :LEFT</text>
+	<text x='380' y='123' text-anchor='start' font-size='12pt' fill='black' >valign = :CENTER</text>
+	<!-- textbox -->
+	<rect x='190' y='150' width='170' height='60' fill='white' stroke='black' stroke-width='1' />
+	<text x='275' y='172' text-anchor='middle' font-size='12pt' fill='black' >align = :CENTER</text>
+	<text x='275' y='186' text-anchor='middle' font-size='12pt' fill='black' >valign = :TOP</text>
+	<!-- textbox -->
+	<rect x='10' y='150' width='170' height='60' fill='white' stroke='black' stroke-width='1' />
+	<text x='170' y='172' text-anchor='end' font-size='12pt' fill='black' >align = :RIGHT</text>
+	<text x='170' y='186' text-anchor='end' font-size='12pt' fill='black' >valign = :TOP</text>
+	<!-- textbox -->
+	<rect x='370' y='150' width='170' height='60' fill='white' stroke='black' stroke-width='1' />
+	<text x='380' y='172' text-anchor='start' font-size='12pt' fill='black' >align = :LEFT</text>
+	<text x='380' y='186' text-anchor='start' font-size='12pt' fill='black' >valign = :TOP</text>
+
+</svg>
+</div>
+
+<p class='fig_title'><a name='96V371pW4hW'></a>Figure.5-10 テキストボックスにおける align と valign</p>
+<p>　　</p>
+<a name='e1zZspOxkpi'></a>
+<p>　図の中でテキストボックスのスタイルを統一する作業を簡単にするために、<a class='autolink' href='#e1zZspOxkpi'>with-textbox-options</a> が用意されています。</p>
+<pre class='code'>
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>with-textbox-options</span> ((<span class='keyword2'>&amp;key</span> rx ry align valign margin
+                                      font fill stroke filter layer) <span class='keyword2'>&amp;rest</span> body)
+</pre>
+<p>　これを以下のように使用することで、複数のテキストボックスのスタイルを一箇所で指定することができます。</p>
+<pre class='code'>
+(diagram (200 100)
+  (grid)
+  (with-textbox-options (<span class='keyword3'>:rx</span> 5 <span class='keyword3'>:ry</span> 5 <span class='keyword3'>:stroke</span> <span class='keyword3'>:navy</span> <span class='keyword3'>:fill</span> <span class='keyword3'>:azure</span>)
+    (textbox '( 50 50) <span class='literal'>"first~%textbox"</span>)
+    (textbox '(150 50) <span class='literal'>"second~%textbox"</span>)))
+</pre>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='200' height='100'>
+	
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- textbox -->
+	<rect x='12.700001' y='27' width='74.6' height='46' rx='5' ry='5' fill='azure' stroke='navy' stroke-width='1' />
+	<text x='50.0' y='49' text-anchor='middle' font-size='12pt' fill='black' >first</text>
+	<text x='50.0' y='63' text-anchor='middle' font-size='12pt' fill='black' >textbox</text>
+	<!-- textbox -->
+	<rect x='112.7' y='27' width='74.6' height='46' rx='5' ry='5' fill='azure' stroke='navy' stroke-width='1' />
+	<text x='150.0' y='49' text-anchor='middle' font-size='12pt' fill='black' >second</text>
+	<text x='150.0' y='63' text-anchor='middle' font-size='12pt' fill='black' >textbox</text>
+
+</svg>
+</div>
+
+<p class='fig_title'><a name='fIT9kBEu2gr'></a>Figure.5-11 with-textbox-options のサンプル</p>
 <h3><a name='jRjILbbJATV'></a>5.4 ドキュメント</h3>
 <p>　ドキュメントは、テキストボックスと良く似ていますが、<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <div align='center'>
@@ -1725,7 +1955,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='dvJBi2mFjs2'></a>Figure.5-8 ドキュメントのサンプル</p>
+<p class='fig_title'><a name='dvJBi2mFjs2'></a>Figure.5-12 ドキュメントのサンプル</p>
 <pre class='code'>
 (diagram (200 100)
   (grid)
@@ -1754,7 +1984,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='bB2F9DVM9ic'></a>Figure.5-9 フォルダのサンプル</p>
+<p class='fig_title'><a name='bB2F9DVM9ic'></a>Figure.5-13 フォルダのサンプル</p>
 <pre class='code'>
 (diagram (200 100)
   (grid)
@@ -1784,7 +2014,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='bnZSVtbTzuH'></a>Figure.5-10 吹き出しのサンプル</p>
+<p class='fig_title'><a name='bnZSVtbTzuH'></a>Figure.5-14 吹き出しのサンプル</p>
 <pre class='code'>
 (diagram (200 100)
   (grid)
@@ -1793,7 +2023,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
                                    <span class='keyword3'>:fill</span> <span class='keyword3'>:skyblue</span> <span class='keyword3'>:stroke</span> <span class='keyword3'>:navy</span>))
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<p class='tbl_title'><a name='2mkKZMcTbV9'></a>Table.5-2 吹き出しに関するデフォルト設定変数</p>
+<p class='tbl_title'><a name='2mkKZMcTbV9'></a>Table.5-4 吹き出しに関するデフォルト設定変数</p>
 <table align='center'>
 <tr style="font-size: 14;"><th>variable</th><th>value</th><th>description</th></tr>
 <tr style="font-size: 14;"><td nowrap align='center'><code>*default-balloon-round*</code></td><td nowrap align='center'>10</td><td align='left'><span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></td></tr>
@@ -1823,7 +2053,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='2VCrzOuGHtM'></a>Figure.5-11 メモのサンプル</p>
+<p class='fig_title'><a name='2VCrzOuGHtM'></a>Figure.5-15 メモのサンプル</p>
 <pre class='code'>
 (diagram (200 100)
   (grid)
@@ -1853,7 +2083,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='c33W6fj0jlH'></a>Figure.5-12 円柱のサンプル</p>
+<p class='fig_title'><a name='c33W6fj0jlH'></a>Figure.5-16 円柱のサンプル</p>
 <pre class='code'>
 (diagram (200 100)
   (grid)
@@ -1883,7 +2113,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='alxN8u8h3HH'></a>Figure.5-13 爆発のサンプル</p>
+<p class='fig_title'><a name='alxN8u8h3HH'></a>Figure.5-17 爆発のサンプル</p>
 <pre class='code'>
 (diagram (350 150)
   (grid)
@@ -1911,7 +2141,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='eIwQ5AwuV7t'></a>Figure.5-14 ブロック矢印のサンプル</p>
+<p class='fig_title'><a name='eIwQ5AwuV7t'></a>Figure.5-18 ブロック矢印のサンプル</p>
 <pre class='code'>
 (diagram (300 150)
   (grid)
@@ -1997,7 +2227,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='htsQptREwXf'></a>Figure.5-15 ブロック矢印のパラメータ</p>
+<p class='fig_title'><a name='htsQptREwXf'></a>Figure.5-19 ブロック矢印のパラメータ</p>
 <ul>
 <li><code>size</code> が省略された場合、デフォルト値として <code>width</code> の２倍が使用される。</li>
 <li><code>length</code> が省略された場合、デフォルト値として <code>size</code> と同じ値が使用される。</li>
@@ -2031,7 +2261,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='jKClDFWGMjM'></a>Figure.5-16 波括弧のサンプル</p>
+<p class='fig_title'><a name='jKClDFWGMjM'></a>Figure.5-20 波括弧のサンプル</p>
 <pre class='code'>
 (diagram (400 300)
    (grid)
@@ -2099,7 +2329,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='eWywNaFqjwP'></a>Figure.5-17 波括弧のパラメータ</p>
+<p class='fig_title'><a name='eWywNaFqjwP'></a>Figure.5-21 波括弧のパラメータ</p>
 <ul>
 <li><code>r</code> が省略された場合、デフォルト値として <code>height</code> の 1/3 が指定される</li>
 <li><code>point</code> が省略された場合、デフォルト値として <code>width</code> の 1/2 が指定される</li>
@@ -2139,7 +2369,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='4p5NTDB8bf1'></a>Figure.5-18 テーブルのサンプル</p>
+<p class='fig_title'><a name='4p5NTDB8bf1'></a>Figure.5-22 テーブルのサンプル</p>
 <p>　上記のサンプルは以下のコードで生成しています。</p>
 <pre class='code'>
 (diagram (320 120)
@@ -2154,7 +2384,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>table</span> (center rows cols <span class='keyword2'>&amp;key</span> stroke fills font texts layer id) ...)
 </pre>
 <p>　それぞれのパラメータについて以下に説明します。</p>
-<p class='tbl_title'><a name='46vpyWYCtdw'></a>Table.5-3 table のパラメータ</p>
+<p class='tbl_title'><a name='46vpyWYCtdw'></a>Table.5-5 table のパラメータ</p>
 <table align='center'>
 <tr style="font-size: 14;"><th>parameter</th><th>description</th></tr>
 <tr style="font-size: 14;"><td nowrap align='center'>center</td><td align='left'>作成するテーブルの中心座標を指定します。</td></tr>
@@ -2228,7 +2458,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='0EEfXZqu18P'></a>Figure.5-19 テーブルにおけるテキストの align と valign パラメータ</p>
+<p class='fig_title'><a name='0EEfXZqu18P'></a>Figure.5-23 テーブルにおけるテキストの align と valign パラメータ</p>
 <details>
 <summary>　※上記サンプルのソースはこちら。</summary>
 <pre class='code'>
@@ -2255,7 +2485,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
         (line `((0 0) (,w ,h)) <span class='keyword3'>:stroke</span> <span class='keyword3'>:navy</span>)))))
 </pre>
 </details>
-<p>　データを（リストでなく）直接指定した場合でも、数値ならば右寄せ、文字列ならば左寄せ、シンボルならば中央揃えというデフォルトの設定は行なわれるため、多くの場合で個別セルのテキストデータ指定をリストで行なう必要は無いでしょう。キーワードを使うと全て大文字で表示されてしまいますが、 <code>:|Foo|</code> のようにバーティカルバーで括ると文字の大小を維持したまま表示されます（<a href='#0EEfXZqu18P'>Figure.5-19</a> のコードを参照）。</p>
+<p>　データを（リストでなく）直接指定した場合でも、数値ならば右寄せ、文字列ならば左寄せ、シンボルならば中央揃えというデフォルトの設定は行なわれるため、多くの場合で個別セルのテキストデータ指定をリストで行なう必要は無いでしょう。キーワードを使うと全て大文字で表示されてしまいますが、 <code>:|Foo|</code> のようにバーティカルバーで括ると文字の大小を維持したまま表示されます（<a href='#0EEfXZqu18P'>Figure.5-23</a> のコードを参照）。</p>
 <h4><a name='3qNm5uHdKTZ'></a>5.12.1 with-table-cell を使ったセル内描画</h4>
 <p>　<code>table</code> の id とセルの行・列番号を指定して <code>with-table-cell</code> を使用することで、該当するセルをサブキャンバスとした描画ができます。</p>
 <pre class='code'>
@@ -2286,7 +2516,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='knawwdhRtbI'></a>Figure.5-20 with-table-cell の使用例</p>
+<p class='fig_title'><a name='knawwdhRtbI'></a>Figure.5-24 with-table-cell の使用例</p>
 <p>　上記のサンプルは以下のコードで生成されています。</p>
 <pre class='code'>
 (diagram (220 220)
@@ -5534,31 +5764,35 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <li><a href='#lt4PUsUrfps'>Figure.3-6 arc のサンプル</a></li>
 <li><a href='#bSd48Y8N0w0'>Figure.3-7 arc のサンプル - 2</a></li>
 <li><a href='#7uvPIQqWhZy'>Figure.3-8 text のサンプル</a></li>
-<li><a href='#dwmEirKL0V5'>Figure.3-9 text の align サンプル</a></li>
+<li><a href='#5BXk9aTPHsl'>Figure.3-9 テキストの position とアライメント指定の関係</a></li>
 <li><a href='#4Iv4ytJmORX'>Figure.4-1 path のサンプル</a></li>
 <li><a href='#b5nHW1IvOL5'>Figure.4-2 :move-to ディレクティブのサンプル</a></li>
 <li><a href='#i7V67Cjuavz'>Figure.4-3 :line-to ディレクティブのサンプル</a></li>
 <li><a href='#0iNBCVKyFlO'>Figure.4-4 :arc-to ディレクティブのサンプル</a></li>
-<li><a href='#1qWWQrNmbwm'>Figure.5-1 connect のサンプル</a></li>
+<li><a href='#4gGy4q3tl7a'>Figure.5-1 コネクタのサンプル</a></li>
 <li><a href='#iS4fHSfl5nF'>Figure.5-2 コネクタにおける接続点の指定</a></li>
 <li><a href='#5cNBVVOciY7'>Figure.5-3 コネクタによる接続経路決定</a></li>
 <li><a href='#kui5wtIKl5y'>Figure.5-4 コネクタによる接続経路決定は他の要素を迂回しない</a></li>
 <li><a href='#hHTLHAEc9Gs'>Figure.5-5 コネクタの接続経路における「自由な線分」</a></li>
 <li><a href='#23eQZDKkLDn'>Figure.5-6 spacing パラメータによるコネクタ接続経路の調整</a></li>
-<li><a href='#4NTtjXsX7EZ'>Figure.5-7 テキストボックスのサンプル</a></li>
-<li><a href='#dvJBi2mFjs2'>Figure.5-8 ドキュメントのサンプル</a></li>
-<li><a href='#bB2F9DVM9ic'>Figure.5-9 フォルダのサンプル</a></li>
-<li><a href='#bnZSVtbTzuH'>Figure.5-10 吹き出しのサンプル</a></li>
-<li><a href='#2VCrzOuGHtM'>Figure.5-11 メモのサンプル</a></li>
-<li><a href='#c33W6fj0jlH'>Figure.5-12 円柱のサンプル</a></li>
-<li><a href='#alxN8u8h3HH'>Figure.5-13 爆発のサンプル</a></li>
-<li><a href='#eIwQ5AwuV7t'>Figure.5-14 ブロック矢印のサンプル</a></li>
-<li><a href='#htsQptREwXf'>Figure.5-15 ブロック矢印のパラメータ</a></li>
-<li><a href='#jKClDFWGMjM'>Figure.5-16 波括弧のサンプル</a></li>
-<li><a href='#eWywNaFqjwP'>Figure.5-17 波括弧のパラメータ</a></li>
-<li><a href='#4p5NTDB8bf1'>Figure.5-18 テーブルのサンプル</a></li>
-<li><a href='#0EEfXZqu18P'>Figure.5-19 テーブルにおけるテキストの align と valign パラメータ</a></li>
-<li><a href='#knawwdhRtbI'>Figure.5-20 with-table-cell の使用例</a></li>
+<li><a href='#8WHetxNhOq8'>Figure.5-7 パラグラフのサンプル</a></li>
+<li><a href='#4qhyBjYZYlG'>Figure.5-8 パラグラフの position とアライメント指定の関係</a></li>
+<li><a href='#4NTtjXsX7EZ'>Figure.5-9 テキストボックスのサンプル</a></li>
+<li><a href='#96V371pW4hW'>Figure.5-10 テキストボックスにおける align と valign</a></li>
+<li><a href='#fIT9kBEu2gr'>Figure.5-11 with-textbox-options のサンプル</a></li>
+<li><a href='#dvJBi2mFjs2'>Figure.5-12 ドキュメントのサンプル</a></li>
+<li><a href='#bB2F9DVM9ic'>Figure.5-13 フォルダのサンプル</a></li>
+<li><a href='#bnZSVtbTzuH'>Figure.5-14 吹き出しのサンプル</a></li>
+<li><a href='#2VCrzOuGHtM'>Figure.5-15 メモのサンプル</a></li>
+<li><a href='#c33W6fj0jlH'>Figure.5-16 円柱のサンプル</a></li>
+<li><a href='#alxN8u8h3HH'>Figure.5-17 爆発のサンプル</a></li>
+<li><a href='#eIwQ5AwuV7t'>Figure.5-18 ブロック矢印のサンプル</a></li>
+<li><a href='#htsQptREwXf'>Figure.5-19 ブロック矢印のパラメータ</a></li>
+<li><a href='#jKClDFWGMjM'>Figure.5-20 波括弧のサンプル</a></li>
+<li><a href='#eWywNaFqjwP'>Figure.5-21 波括弧のパラメータ</a></li>
+<li><a href='#4p5NTDB8bf1'>Figure.5-22 テーブルのサンプル</a></li>
+<li><a href='#0EEfXZqu18P'>Figure.5-23 テーブルにおけるテキストの align と valign パラメータ</a></li>
+<li><a href='#knawwdhRtbI'>Figure.5-24 with-table-cell の使用例</a></li>
 <li><a href='#h7K5JgIwvZY'>Figure.6-1 回転のサンプル</a></li>
 <li><a href='#9Z8wQykrThD'>Figure.6-2 フィルタのサンプル</a></li>
 <li><a href='#br3mf6bkjtv'>Figure.7-1 xxxのサンプル</a></li>
@@ -5585,120 +5819,137 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <li><a href='#1YwjqbZ6y0N'>Table.4-1 path のパラメータ</a></li>
 <li><a href='#f7wEYjGUqWE'>Table.4-2 path の data で使用できるディレクティブ</a></li>
 <li><a href='#79EVRrlxEbF'>Table.5-1 connect のパラメータ</a></li>
-<li><a href='#2mkKZMcTbV9'>Table.5-2 吹き出しに関するデフォルト設定変数</a></li>
-<li><a href='#46vpyWYCtdw'>Table.5-3 table のパラメータ</a></li>
+<li><a href='#0mFeKi0I0Lr'>Table.5-2 paragraph のパラメータ</a></li>
+<li><a href='#hOloecoUbQv'>Table.5-3 textbox のパラメータ</a></li>
+<li><a href='#2mkKZMcTbV9'>Table.5-4 吹き出しに関するデフォルト設定変数</a></li>
+<li><a href='#46vpyWYCtdw'>Table.5-5 table のパラメータ</a></li>
 <li><a href='#jaLWrUQI3jh'>Table.11-1 make-fill 関数のパラメータ</a></li>
 <li><a href='#8gU4HDke41S'>Table.11-2 make-stroke 関数のパラメータ</a></li>
 </ul>
 <p>　　</p>
 <h2><a name='1ewHzjI62xn'></a>14 索引</h2>
-<ul>
-<li>Symbols
-<ul>
-<li><a class='autolink' href='#00Vj4Quxjg3'>:2d-curve-to</a></li>
-<li><a class='autolink' href='#ewUXtISm3SD'>:3d-curve-to</a></li>
-<li><a class='autolink' href='#dakC66hrAaS'>:absolute</a></li>
-<li><a class='autolink' href='#7RszlFbOHcp'>:arc-to</a></li>
-<li><a class='autolink' href='#eYtPrg88Qb0'>:close-path</a></li>
-<li><a class='autolink' href='#4Dfw1F7JwVj'>:h-line-to</a></li>
-<li><a class='autolink' href='#cUdEKyCDebd'>:line-to</a></li>
-<li><a class='autolink' href='#g0Dr3NCI4V0'>:move-to</a></li>
-<li><a class='autolink' href='#9DKrZhbLEFX'>:relative</a></li>
-<li><a class='autolink' href='#1B0JCoNzfxs'>:v-line-to</a></li>
-</ul>
-</li>
-<li>A
-<ul>
-<li><a class='autolink' href='#cp2F91gKG7W'>arc</a></li>
-</ul>
-</li>
-<li>C
-<ul>
-<li><a class='autolink' href='#aU9abq0lSrR'>circle</a></li>
-<li><a class='autolink' href='#eFhVs4WwYUG'>connect</a></li>
-</ul>
-</li>
-<li>E
-<ul>
-<li><a class='autolink' href='#7YzIcjhyGKN'>ellipse</a></li>
-</ul>
-</li>
-<li>L
-<ul>
-<li><a class='autolink' href='#9PcPWa05BEU'>line</a></li>
-</ul>
-</li>
-<li>P
-<ul>
-<li><a class='autolink' href='#4WyMTv59pvw'>paragraph</a></li>
-<li><a class='autolink' href='#4qgt62QVDZl'>path</a></li>
-<li><a class='autolink' href='#5vGRm9AMypB'>polygon</a></li>
-</ul>
-</li>
-<li>R
-<ul>
-<li><a class='autolink' href='#kJonRG8GtHF'>rect</a></li>
-</ul>
-</li>
-<li>T
-<ul>
-<li><a class='autolink' href='#cTdCvBeU6ZJ'>text</a></li>
-</ul>
-</li>
-<li>U
-<ul>
-<li><a class='autolink' href='#5kkSlhsbaIn'>uml-action</a></li>
-<li><a class='autolink' href='#ch2b9q3H6uz'>uml-action-param</a></li>
-<li><a class='autolink' href='#gfsl4uecBoY'>uml-activity-final</a></li>
-<li><a class='autolink' href='#iuoYD532c7Z'>uml-activity-partitions</a></li>
-<li><a class='autolink' href='#gr8RKSxFalf'>uml-activity-start</a></li>
-<li><a class='autolink' href='#4rUQqcq4sKb'>uml-actor</a></li>
-<li><a class='autolink' href='#881rvOpGoim'>uml-aggregation</a></li>
-<li><a class='autolink' href='#0A70k6t8D8T'>uml-association</a></li>
-<li><a class='autolink' href='#fkYROSV9994'>uml-class</a></li>
-<li><a class='autolink' href='#hlJEas6GjYs'>uml-component</a></li>
-<li><a class='autolink' href='#jswiRdMw2Be'>uml-composition</a></li>
-<li><a class='autolink' href='#9l3g1QmxdD9'>uml-connection-common</a></li>
-<li><a class='autolink' href='#lgLGZTmFJ4a'>uml-connector</a></li>
-<li><a class='autolink' href='#fV1edL1VxBr'>uml-decision-merge</a></li>
-<li><a class='autolink' href='#f40Gf0pqB5B'>uml-dependency</a></li>
-<li><a class='autolink' href='#lVoIE1VmPao'>uml-diagram</a></li>
-<li><a class='autolink' href='#gbfzFbCEQb7'>uml-expansion-region</a></li>
-<li><a class='autolink' href='#602QxE3z6rZ'>uml-flow</a></li>
-<li><a class='autolink' href='#8l54mEIg2yA'>uml-flow-final</a></li>
-<li><a class='autolink' href='#ggUX5UsfE1r'>uml-fork-join</a></li>
-<li><a class='autolink' href='#i8NSsns8du9'>uml-generalization</a></li>
-<li><a class='autolink' href='#7DqwJ3CtaoY'>uml-interface</a></li>
-<li><a class='autolink' href='#2b9onvk4b6x'>uml-keyword-info</a></li>
-<li><a class='autolink' href='#g6kEHGpHjhy'>uml-multiplicity-info</a></li>
-<li><a class='autolink' href='#jOvc70hxXQE'>uml-node</a></li>
-<li><a class='autolink' href='#jFViCKeUWqC'>uml-note</a></li>
-<li><a class='autolink' href='#algAxSoZB1Z'>uml-package</a></li>
-<li><a class='autolink' href='#axhW9kmgXg3'>uml-pin</a></li>
-<li><a class='autolink' href='#bn5BLn6Qb3Y'>uml-realization</a></li>
-<li><a class='autolink' href='#9ugZNtgVL4J'>uml-role-info</a></li>
-<li><a class='autolink' href='#dMpkz12xO2i'>uml-signal-receipt</a></li>
-<li><a class='autolink' href='#8OP0nFewEYe'>uml-signal-sending</a></li>
-<li><a class='autolink' href='#a7K2CBytplo'>uml-state</a></li>
-<li><a class='autolink' href='#4Fe1V46854v'>uml-state-begin</a></li>
-<li><a class='autolink' href='#6dfRecys5K7'>uml-state-end</a></li>
-<li><a class='autolink' href='#dZcuFEPgREn'>uml-state-history</a></li>
-<li><a class='autolink' href='#dkYATTKFF3X'>uml-time-event</a></li>
-<li><a class='autolink' href='#8h222SLEnVx'>uml-transition</a></li>
-<li><a class='autolink' href='#aiNf7xsL8zY'>uml-transition-spec</a></li>
-<li><a class='autolink' href='#44mEhv2hQcS'>uml-usecase</a></li>
-</ul>
-</li>
-<li>Others
-<ul>
-<li><a class='autolink' href='#8ya1jqc5cZQ'>アクティビティ図</a></li>
-<li><a class='autolink' href='#khgkJB6xK95'>クラス図</a></li>
-<li><a class='autolink' href='#5ZAfKbqcubo'>ステートマシーン図</a></li>
-<li><a class='autolink' href='#la7Xa1OTF3W'>パッケージ図</a></li>
-<li><a class='autolink' href='#e57rLpXY8ah'>ユースケース図</a></li>
-</ul>
-</li>
-</ul>
+<details class='idx_x' open>
+<summary class='idx_x'>Symbols</summary>
+<blockquote class='idx_x'>
+<li class='idx_x'><a class='autolink' href='#00Vj4Quxjg3'>:2d-curve-to</a></li>
+<li class='idx_x'><a class='autolink' href='#ewUXtISm3SD'>:3d-curve-to</a></li>
+<li class='idx_x'><a class='autolink' href='#dakC66hrAaS'>:absolute</a></li>
+<li class='idx_x'><a class='autolink' href='#7RszlFbOHcp'>:arc-to</a></li>
+<li class='idx_x'><a class='autolink' href='#eYtPrg88Qb0'>:close-path</a></li>
+<li class='idx_x'><a class='autolink' href='#4Dfw1F7JwVj'>:h-line-to</a></li>
+<li class='idx_x'><a class='autolink' href='#cUdEKyCDebd'>:line-to</a></li>
+<li class='idx_x'><a class='autolink' href='#g0Dr3NCI4V0'>:move-to</a></li>
+<li class='idx_x'><a class='autolink' href='#9DKrZhbLEFX'>:relative</a></li>
+<li class='idx_x'><a class='autolink' href='#1B0JCoNzfxs'>:v-line-to</a></li>
+</blockquote>
+</details>
+<details class='idx_x' open>
+<summary class='idx_x'>A</summary>
+<blockquote class='idx_x'>
+<li class='idx_x'><a class='autolink' href='#cp2F91gKG7W'>arc</a></li>
+</blockquote>
+</details>
+<details class='idx_x' open>
+<summary class='idx_x'>C</summary>
+<blockquote class='idx_x'>
+<li class='idx_x'><a class='autolink' href='#aU9abq0lSrR'>circle</a></li>
+<li class='idx_x'><a class='autolink' href='#eFhVs4WwYUG'>connect</a></li>
+</blockquote>
+</details>
+<details class='idx_x' open>
+<summary class='idx_x'>E</summary>
+<blockquote class='idx_x'>
+<li class='idx_x'><a class='autolink' href='#7YzIcjhyGKN'>ellipse</a></li>
+</blockquote>
+</details>
+<details class='idx_x' open>
+<summary class='idx_x'>L</summary>
+<blockquote class='idx_x'>
+<li class='idx_x'><a class='autolink' href='#9PcPWa05BEU'>line</a></li>
+</blockquote>
+</details>
+<details class='idx_x' open>
+<summary class='idx_x'>P</summary>
+<blockquote class='idx_x'>
+<li class='idx_x'><a class='autolink' href='#4WyMTv59pvw'>paragraph</a></li>
+<li class='idx_x'><a class='autolink' href='#4qgt62QVDZl'>path</a></li>
+<li class='idx_x'><a class='autolink' href='#5vGRm9AMypB'>polygon</a></li>
+</blockquote>
+</details>
+<details class='idx_x' open>
+<summary class='idx_x'>R</summary>
+<blockquote class='idx_x'>
+<li class='idx_x'><a class='autolink' href='#kJonRG8GtHF'>rect</a></li>
+</blockquote>
+</details>
+<details class='idx_x' open>
+<summary class='idx_x'>T</summary>
+<blockquote class='idx_x'>
+<li class='idx_x'><a class='autolink' href='#cTdCvBeU6ZJ'>text</a></li>
+<li class='idx_x'><a class='autolink' href='#e7hkC2YUaKe'>textbox</a></li>
+</blockquote>
+</details>
+<details class='idx_x' open>
+<summary class='idx_x'>U</summary>
+<blockquote class='idx_x'>
+<li class='idx_x'><a class='autolink' href='#5kkSlhsbaIn'>uml-action</a></li>
+<li class='idx_x'><a class='autolink' href='#ch2b9q3H6uz'>uml-action-param</a></li>
+<li class='idx_x'><a class='autolink' href='#gfsl4uecBoY'>uml-activity-final</a></li>
+<li class='idx_x'><a class='autolink' href='#iuoYD532c7Z'>uml-activity-partitions</a></li>
+<li class='idx_x'><a class='autolink' href='#gr8RKSxFalf'>uml-activity-start</a></li>
+<li class='idx_x'><a class='autolink' href='#4rUQqcq4sKb'>uml-actor</a></li>
+<li class='idx_x'><a class='autolink' href='#881rvOpGoim'>uml-aggregation</a></li>
+<li class='idx_x'><a class='autolink' href='#0A70k6t8D8T'>uml-association</a></li>
+<li class='idx_x'><a class='autolink' href='#fkYROSV9994'>uml-class</a></li>
+<li class='idx_x'><a class='autolink' href='#hlJEas6GjYs'>uml-component</a></li>
+<li class='idx_x'><a class='autolink' href='#jswiRdMw2Be'>uml-composition</a></li>
+<li class='idx_x'><a class='autolink' href='#9l3g1QmxdD9'>uml-connection-common</a></li>
+<li class='idx_x'><a class='autolink' href='#lgLGZTmFJ4a'>uml-connector</a></li>
+<li class='idx_x'><a class='autolink' href='#fV1edL1VxBr'>uml-decision-merge</a></li>
+<li class='idx_x'><a class='autolink' href='#f40Gf0pqB5B'>uml-dependency</a></li>
+<li class='idx_x'><a class='autolink' href='#lVoIE1VmPao'>uml-diagram</a></li>
+<li class='idx_x'><a class='autolink' href='#gbfzFbCEQb7'>uml-expansion-region</a></li>
+<li class='idx_x'><a class='autolink' href='#602QxE3z6rZ'>uml-flow</a></li>
+<li class='idx_x'><a class='autolink' href='#8l54mEIg2yA'>uml-flow-final</a></li>
+<li class='idx_x'><a class='autolink' href='#ggUX5UsfE1r'>uml-fork-join</a></li>
+<li class='idx_x'><a class='autolink' href='#i8NSsns8du9'>uml-generalization</a></li>
+<li class='idx_x'><a class='autolink' href='#7DqwJ3CtaoY'>uml-interface</a></li>
+<li class='idx_x'><a class='autolink' href='#2b9onvk4b6x'>uml-keyword-info</a></li>
+<li class='idx_x'><a class='autolink' href='#g6kEHGpHjhy'>uml-multiplicity-info</a></li>
+<li class='idx_x'><a class='autolink' href='#jOvc70hxXQE'>uml-node</a></li>
+<li class='idx_x'><a class='autolink' href='#jFViCKeUWqC'>uml-note</a></li>
+<li class='idx_x'><a class='autolink' href='#algAxSoZB1Z'>uml-package</a></li>
+<li class='idx_x'><a class='autolink' href='#axhW9kmgXg3'>uml-pin</a></li>
+<li class='idx_x'><a class='autolink' href='#bn5BLn6Qb3Y'>uml-realization</a></li>
+<li class='idx_x'><a class='autolink' href='#9ugZNtgVL4J'>uml-role-info</a></li>
+<li class='idx_x'><a class='autolink' href='#dMpkz12xO2i'>uml-signal-receipt</a></li>
+<li class='idx_x'><a class='autolink' href='#8OP0nFewEYe'>uml-signal-sending</a></li>
+<li class='idx_x'><a class='autolink' href='#a7K2CBytplo'>uml-state</a></li>
+<li class='idx_x'><a class='autolink' href='#4Fe1V46854v'>uml-state-begin</a></li>
+<li class='idx_x'><a class='autolink' href='#6dfRecys5K7'>uml-state-end</a></li>
+<li class='idx_x'><a class='autolink' href='#dZcuFEPgREn'>uml-state-history</a></li>
+<li class='idx_x'><a class='autolink' href='#dkYATTKFF3X'>uml-time-event</a></li>
+<li class='idx_x'><a class='autolink' href='#8h222SLEnVx'>uml-transition</a></li>
+<li class='idx_x'><a class='autolink' href='#aiNf7xsL8zY'>uml-transition-spec</a></li>
+<li class='idx_x'><a class='autolink' href='#44mEhv2hQcS'>uml-usecase</a></li>
+</blockquote>
+</details>
+<details class='idx_x' open>
+<summary class='idx_x'>W</summary>
+<blockquote class='idx_x'>
+<li class='idx_x'><a class='autolink' href='#e1zZspOxkpi'>with-textbox-options</a></li>
+</blockquote>
+</details>
+<details class='idx_x' open>
+<summary class='idx_x'>Others</summary>
+<blockquote class='idx_x'>
+<li class='idx_x'><a class='autolink' href='#8ya1jqc5cZQ'>アクティビティ図</a></li>
+<li class='idx_x'><a class='autolink' href='#khgkJB6xK95'>クラス図</a></li>
+<li class='idx_x'><a class='autolink' href='#5ZAfKbqcubo'>ステートマシーン図</a></li>
+<li class='idx_x'><a class='autolink' href='#la7Xa1OTF3W'>パッケージ図</a></li>
+<li class='idx_x'><a class='autolink' href='#e57rLpXY8ah'>ユースケース図</a></li>
+</blockquote>
+</details>
 <hr>
 <p class='footnote'><a name='footnote1' href='#footnote_ref1'>1</a> : SVG は Scalable Vector Graphics の略です。</p>
 <p class='footnote'><a name='footnote2' href='#footnote_ref2'>2</a> : もともと LISPer だという方で DSL の詳細を知りたい方は、申し訳ありませんがコードを直接参照してください。</p>

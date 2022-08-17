@@ -682,12 +682,12 @@ Table. text のパラメータ
 |:==========|:--------------------------------------------------------------------------------------|
 | position  | text で描くテキストの基準点を指定します。詳細は「[](#座標と位置)」を参照してください。     |
 | text      | text で描くテキストを文字列で指定します。                                                |
-| align     | text で描くテキストのアライメントを `:left :center :right` のいずれかで指定します。  |
-| font      | text で描くテキストを「時計回りに描く」場合の終了角度を数値で指定します。                      |
-| link      | text をリンクにする場合、リンク先を指定します。詳細は「[](#リンク)」を参照してください。 |
-| layer     | text をレイヤーに所属させる場合、その名前をキーワードで指定します。<br> \
+| align     | テキストのアライメントを `:left :center :right` のいずれかで指定します。  |
+| font      | テキストのフォントを指定します。詳細は「[](#フォント)」を参照してください。         |
+| link      | テキストをリンクにする場合、リンク先を指定します。詳細は「[](#リンク)」を参照してください。 |
+| layer     | テキストをレイヤーに所属させる場合、その名前をキーワードで指定します。<br> \
 詳細は「[](#レイヤー)」を参照してください。           |
-| id        | text に ID を付与したい場合、その名前をキーワードで指定します。<br> \
+| id        | テキストに ID を付与したい場合、その名前をキーワードで指定します。<br> \
 詳細は「[](#IDと参照)」を参照してください。            |
 
 <!-- stack:pop tr -->
@@ -707,7 +707,9 @@ align 指定はテキストで示されています。
     (impl 60 "align :center" :center)
     (impl 90 "align :right " :right)))
 ```
-Figure. text の align サンプル
+Figure. テキストの position とアライメント指定の関係
+
+${BLANK_PARAGRAPH}
 
 ## パス
 <!-- autolink: [path](#パス) -->
@@ -961,6 +963,7 @@ ${{TODO}{まだ記述されていません。}}
 
 ${{TODO}{まだ記述されていません。}}
 
+
 ## その他の図形
 
 　基本的な図形を組み合わせて作成される、複合的な図形を紹介します。以下のサンプルはサブセクションへの
@@ -1077,7 +1080,7 @@ ${{TODO}{まだ記述されていません。}}
 ```diagram
 <!-- expand: CONNECTOR-SAMPLE -->
 ```
-Figure. connect のサンプル
+Figure. コネクタのサンプル
 
 <!-- collapse:begin -->
 　※上記サンプルのソースはこちら。
@@ -1127,12 +1130,12 @@ ${BLANK_PARAGRAPH}
 
 　では、style および spacing について説明します。まず、style のデフォルト値でもある :CC は
 「Center to Center」という意味で、対象図形の中心どうしを結ぶような一本の直線で接続をします。
-これは [$@](F#connect のサンプル) における R2 と R3 の接続のイメージです。
+これは [$@](F#コネクタのサンプル) における R2 と R3 の接続のイメージです。
 
 　:CC 以外の接続方法は、T, B, L, R のいずれかを2つ使って接続位置を指定する方法になります。これは
 それぞれ Top, Bottom, Left, Right の頭文字で、たとえば :BL であれば「Bottom to Left」という
 意味になり、これは from 側の下端と to 側の左端を接続する、ということを意味します。これは 
-[$@](F#connect のサンプル) における R1 と R2 の接続のイメージです。
+[$@](F#コネクタのサンプル) における R1 と R2 の接続のイメージです。
 
 　さらに細かく接続位置を制御したい場合、それぞれの T,B,L,R の後ろに 1 ～ 3 のインデックスを指定
 することができます。先程の :BL という指定は、実は :B2L2 の省略記法です。インデックスと実際の
@@ -1230,11 +1233,86 @@ Figure. spacing パラメータによるコネクタ接続経路の調整
 ### パラグラフ
 <!-- autolink: [paragraph](#パラグラフ) -->
 
-　${{TODO}{まだ記述されていません。}}
+　パラグラフは、複数行に渡るテキストです。
+
+<!-- snippet: PARAGRAPH-SAMPLE
+(diagram (200 100)
+  (grid)
+  (paragraph canvas.center "This is paragraph.~%Multi line OK."
+             :align :center :valign :center))
+-->
+
+```diagram
+<!-- expand: PARAGRAPH-SAMPLE -->
+```
+Figure. パラグラフのサンプル
+
+<!-- collapse:begin -->
+　※上記サンプルのソースはこちら。
+
+```lisp
+<!-- expand: PARAGRAPH-SAMPLE -->
+```
+<!-- collapse:end -->
+
+　paragraph のパラメータ構成は以下の通りです。
+
+```lisp
+(defmacro paragraph (position text &key align valign
+                                        rotate font link layer id) ... )
+```
+
+${BLANK_PARAGRAPH}
+
+<!-- stack:push tr style="font-size: 14;" -->
+
+Table. paragraph のパラメータ
+| パラメータ | 説明                                                                           |
+|:==========|:--------------------------------------------------------------------------------------|
+| position  | paragraph で描くテキストの基準点を指定します。詳細は「[](#座標と位置)」を参照してください。     |
+| text      | paragraph で描くテキストを文字列で指定します。改行は "~%" で表現します。                        |
+| align     | テキストの水平方向のアライメントを `:left :center :right` のいずれかで指定します。詳細は後述します。 |
+| vlign     | テキストの垂直方向のアライメントを `:top :center :bottom` のいずれかで指定します。詳細は後述します。 |
+| font      | テキストのフォントを指定します。詳細は「[](#フォント)」を参照してください。         |
+| link      | text をリンクにする場合、リンク先を指定します。詳細は「[](#リンク)」を参照してください。 |
+| layer     | text をレイヤーに所属させる場合、その名前をキーワードで指定します。<br> \
+詳細は「[](#レイヤー)」を参照してください。           |
+| id        | text に ID を付与したい場合、その名前をキーワードで指定します。<br> \
+詳細は「[](#IDと参照)」を参照してください。            |
+
+<!-- stack:pop tr -->
+
+${BLANK_PARAGRAPH}
+
+　position と align, valign の関係を以下に示します。以下において、赤い点が position で、
+アライメント指定はテキストで示されています。
+
+```diagram
+(diagram (500 180)
+  (grid)
+  (labels ((impl (pos align valign)
+             (let ((txt (format nil "align = :~A~~%valign = :~A" align valign)))
+              (paragraph pos txt :align align :valign valign)
+              (circle pos 3 :fill :red :stroke :none))))
+     (impl (xy+ canvas.center   0 -40) :center :bottom)
+     (impl (xy+ canvas.center -90 -40) :right  :bottom)
+     (impl (xy+ canvas.center  90 -40) :left   :bottom)
+     (impl (xy+ canvas.center   0   0) :center :center)
+     (impl (xy+ canvas.center -90   0) :right  :center)
+     (impl (xy+ canvas.center  90   0) :left   :center)
+     (impl (xy+ canvas.center   0  40) :center :top)
+     (impl (xy+ canvas.center -90  40) :right  :top)
+     (impl (xy+ canvas.center  90  40) :left   :top)))
+```
+Figure. パラグラフの position とアライメント指定の関係
+
+${BLANK_PARAGRAPH}
 
 ### テキストボックス
+<!-- autolink: [textbox](#テキストボックス) -->
 
-　テキストボックスは、[$$](#四角形) と [$$](#テキスト) を組み合わせたようなものです。
+　テキストボックスは、[$$](#四角形) と [$$](#パラグラフ) を組み合わせたようなものです。テキスト
+からサイズを自動決定しますが、明示的にボックスのサイズを指定することも可能です。
 
 <!-- snippet: TEXTBOX-SAMPLE
 (diagram (200 100)
@@ -1248,11 +1326,115 @@ Figure. spacing パラメータによるコネクタ接続経路の調整
 ```
 Figure. テキストボックスのサンプル
 
+<!-- collapse:begin -->
+　※上記サンプルのソースはこちら。
+
 ```lisp
 <!-- expand: TEXTBOX-SAMPLE -->
 ```
+<!-- collapse:end -->
 
-　${{TODO}{まだ記述されていません。}}
+　textbox のパラメータ構成は以下の通りです。
+
+```lisp
+(defmacro textbox (center text &key width height no-frame
+                                    rx ry align valign margin
+                                    font fill stroke link rotate layer id filter)
+```
+
+${BLANK_PARAGRAPH}
+
+<!-- stack:push tr style="font-size: 14;" -->
+
+Table. textbox のパラメータ
+| パラメータ | 説明                                                                           |
+|:==========|:--------------------------------------------------------------------------------------|
+| center    | 描画するテキストボックスの中心点を指定します。詳細は「[](#座標と位置)」を参照してください。 |
+| text      | テキストボックス内部に描画するテキストを文字列で指定します。改行は "~%" で表現します。      |
+| width     | テキストボックスの幅を自動決定せず、明示的に指定したい場合に数値で指定します。 |
+| height    | テキストボックスの高さを自動決定せず、明示的に指定したい場合に数値で指定します。 |
+| no-frame  | ボックスを描画せず、テキストのみにしたい場合には `:no-frame t` と指定してください。<br> \
+stroke や fill パラメータを無視してテキストのみを描画します。 |
+| rx, ry    | ボックスの角を丸くしたい場合に、角の x 半径（rx）と y 半径（ry）を数値で指定します。<br> \
+rx と ry のどちらかだけを指定すると、もう一方も同じであると見なされます。<br> \
+省略した場合のデフォルト値は 0（つまり角を丸くしない）です。  |
+| align     | テキストの水平方向のアライメントを `:left :center :right` のいずれかで指定します。<br> \
+省略した場合のデフォルト値は `:center` です。詳細は後述します。 |
+| vlign     | テキストの垂直方向のアライメントを `:top :center :bottom` のいずれかで指定します。<br> \
+省略した場合のデフォルト値は `:center` です。詳細は後述します。 |
+| margin    | ボックスの幅と高さを自動計算する際に使用される「余白」のサイズです。<br> \
+省略した場合のデフォルト値は 10 です。 |
+| font      | テキストのフォントを指定します。詳細は「[](#フォント)」を参照してください。         |
+| fill      | ボックス内部の塗り潰しを指定します。詳細は「[](#フィル)」を参照してください。 |
+| stroke    | ボックスの外枠を描画する線を指定します。詳細は「[](#ストローク)」を参照してください。 |
+| link      | text をリンクにする場合、リンク先を指定します。詳細は「[](#リンク)」を参照してください。 |
+| rotate    | テキストボックス全体を回転させたい場合に、その角度を指定します。<br> \
+詳細は「[](#回転)」を参照してください。           |
+| layer     | text をレイヤーに所属させる場合、その名前をキーワードで指定します。<br> \
+詳細は「[](#レイヤー)」を参照してください。           |
+| id        | text に ID を付与したい場合、その名前をキーワードで指定します。<br> \
+詳細は「[](#IDと参照)」を参照してください。            |
+| filter    | ボックスの描画にフィルタ効果を適用したい場合、その名前を指定します。<br> \
+詳細は「[](#フィルタ)」を参照してください。 |
+
+<!-- stack:pop tr -->
+
+${BLANK_PARAGRAPH}
+
+　align, valign の関係を以下に示します。以下のように、テキストボックスの内部で水平方向、および
+垂直方向にそれぞれどう寄せるかが変化します。
+
+```diagram
+(diagram (550 220)
+  (grid)
+  (labels ((impl (pos align valign)
+             (let ((txt (format nil "align = :~A~~%valign = :~A" align valign)))
+              (textbox pos txt :align align :valign valign
+                       :width 170 :height 60 :fill :white :stroke :black))))
+     (impl (xy+ canvas.center    0 -70) :center :bottom)
+     (impl (xy+ canvas.center -180 -70) :right  :bottom)
+     (impl (xy+ canvas.center  180 -70) :left   :bottom)
+     (impl (xy+ canvas.center    0   0) :center :center)
+     (impl (xy+ canvas.center -180   0) :right  :center)
+     (impl (xy+ canvas.center  180   0) :left   :center)
+     (impl (xy+ canvas.center    0  70) :center :top)
+     (impl (xy+ canvas.center -180  70) :right  :top)
+     (impl (xy+ canvas.center  180  70) :left   :top)))
+```
+Figure. テキストボックスにおける align と valign
+
+${BLANK_PARAGRAPH}
+
+<!-- anchor: with-textbox-options -->
+<!-- autolink: [$$](A#with-textbox-options) -->
+
+　図の中でテキストボックスのスタイルを統一する作業を簡単にするために、with-textbox-options が
+用意されています。
+
+```lisp
+(defmacro with-textbox-options ((&key rx ry align valign margin
+                                      font fill stroke filter layer) &rest body)
+```
+
+<!-- snippet: WITH-TEXTBOX-OPTIONS-SAMPLE
+(diagram (200 100)
+  (grid)
+  (with-textbox-options (:rx 5 :ry 5 :stroke :navy :fill :azure)
+    (textbox '( 50 50) "first~%textbox")
+    (textbox '(150 50) "second~%textbox")))
+-->
+
+　これを以下のように使用することで、複数のテキストボックスのスタイルを一箇所で指定することができます。
+
+```lisp
+<!-- expand: WITH-TEXTBOX-OPTIONS-SAMPLE -->
+```
+
+```diagram
+<!-- expand: WITH-TEXTBOX-OPTIONS-SAMPLE -->
+```
+Figure. with-textbox-options のサンプル
+
 
 ### ドキュメント
 
@@ -3035,7 +3217,7 @@ Figure. 色の名前とサンプル - 2
 　　
 
 ## 索引
-<!-- embed:index -->
+<!-- embed:index-x -->
 
 --------------------------------------------------------------------------------
 
