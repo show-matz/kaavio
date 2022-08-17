@@ -344,11 +344,11 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <li>drop-shadow という種類の「フィルタ」の使用を宣言</li>
 <li>with-shape-filter でデフォルトのフィルタを drop-shadow に設定
 <ul>
-<li><a class='autolink' href='#e7hkC2YUaKe'>textbox</a> でテキストボックスを作成 : 場所は画像の中心（canvas.center）から y 軸方向に 20、テキストは "diagram"、これに app という ID を設定</li>
+<li><a class='autolink' href='#e7hkC2YUaKe'>textbox</a> で<a class='autolink' href='#e7hkC2YUaKe'>テキストボックス</a>を作成 : 場所は画像の中心（canvas.center）から y 軸方向に 20、テキストは "diagram"、これに app という ID を設定</li>
 <li>with-options で、デフォルトの線を太さ 2 の <code>navy</code> に、デフォルトの塗りつぶしを不透明度 0.3 の <code>skyblue</code> にそれぞれ設定
 <ul>
-<li>document でドキュメントを作成 : 場所は app の中心（app.center）から x 軸方向に -175、幅と高さは 80 60、テキストは "input~%file"、これに in という ID を設定</li>
-<li>上記と同じ要領で out という ID のドキュメントを作成</li>
+<li><a class='autolink' href='#jRjILbbJATV'>document</a> で<a class='autolink' href='#jRjILbbJATV'>ドキュメント</a>を作成 : 場所は app の中心（app.center）から x 軸方向に -175、幅と高さは 80 60、テキストは "input~%file"、これに in という ID を設定</li>
+<li>上記と同じ要領で out という ID の<a class='autolink' href='#jRjILbbJATV'>ドキュメント</a>を作成</li>
 </ul>
 </li>
 <li>with-options で、デフォルトの塗りつぶしを <code>white</code> に設定
@@ -368,7 +368,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <li><code>with-options</code> を使って、デフォルトの塗り潰しや線を指定しています。 <code>:stroke</code> や <code>:fill</code> を毎回指定する必要がなくなります。
 <ul>
 <li><code>:stroke</code> では線の色 <code>navy</code> の他に <code>:width</code> で線の太さを指定しています。</li>
-<li><code>:fill</code> では塗り潰しの色 <code>skyblue</code> の他に <code>:opacity</code> で不透明度を指定しています。これは、0（完全に透明）から 1 （完全に不透明）までを指定します。ドキュメントの塗り潰しが少し透けているのがわかると思います。</li>
+<li><code>:fill</code> では塗り潰しの色 <code>skyblue</code> の他に <code>:opacity</code> で不透明度を指定しています。これは、0（完全に透明）から 1 （完全に不透明）までを指定します。<a class='autolink' href='#jRjILbbJATV'>ドキュメント</a>の塗り潰しが少し透けているのがわかると思います。</li>
 </ul>
 </li>
 <li><code>:id</code> を使って付与した ID を使って <code>app.center</code> などと書くことで既出の要素の「中心座標」を指定できます。これは <code>'(50 50)</code> といった座標表記の代わりになります。
@@ -1787,7 +1787,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <p class='fig_title'><a name='4qhyBjYZYlG'></a>Figure.5-8 パラグラフの position とアライメント指定の関係</p>
 <p>　　</p>
 <h3><a name='e7hkC2YUaKe'></a>5.3 テキストボックス</h3>
-<p>　テキストボックスは、<a href='#kJonRG8GtHF'>四角形</a> と <a href='#4WyMTv59pvw'>パラグラフ</a> を組み合わせたようなものです。テキストからサイズを自動決定しますが、明示的にボックスのサイズを指定することも可能です。</p>
+<p>　<a class='autolink' href='#e7hkC2YUaKe'>テキストボックス</a>は、<a href='#kJonRG8GtHF'>四角形</a> と <a href='#4WyMTv59pvw'>パラグラフ</a> を組み合わせたようなものです。テキストからサイズを自動決定しますが、明示的にボックスのサイズを指定することも可能です。</p>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='200' height='100'>
@@ -1820,32 +1820,32 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>textbox</span> (center text <span class='keyword2'>&amp;key</span> width height no-frame
                                     rx ry align valign margin
-                                    font fill stroke link rotate layer id filter)
+                                    font fill stroke link rotate layer id filter) ...)
 </pre>
 <p>　　</p>
 <p class='tbl_title'><a name='hOloecoUbQv'></a>Table.5-3 textbox のパラメータ</p>
 <table align='center'>
 <tr style="font-size: 14;"><th>パラメータ</th><th>説明</th></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>center</td><td align='left'>描画するテキストボックスの中心点を指定します。詳細は「<a href='#h1RNMQY1C0b'>7  座標と位置</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'><a class='autolink' href='#cTdCvBeU6ZJ'>text</a></td><td align='left'>テキストボックス内部に描画するテキストを文字列で指定します。改行は "~%" で表現します。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>width</td><td align='left'>テキストボックスの幅を自動決定せず、明示的に指定したい場合に数値で指定します。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>height</td><td align='left'>テキストボックスの高さを自動決定せず、明示的に指定したい場合に数値で指定します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>center</td><td align='left'>描画する<a class='autolink' href='#e7hkC2YUaKe'>テキストボックス</a>の中心点を指定します。詳細は「<a href='#h1RNMQY1C0b'>7  座標と位置</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><a class='autolink' href='#cTdCvBeU6ZJ'>text</a></td><td align='left'><a class='autolink' href='#e7hkC2YUaKe'>テキストボックス</a>内部に描画するテキストを文字列で指定します。改行は "~%" で表現します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>width</td><td align='left'><a class='autolink' href='#e7hkC2YUaKe'>テキストボックス</a>の幅を自動決定せず、明示的に指定したい場合に数値で指定します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>height</td><td align='left'><a class='autolink' href='#e7hkC2YUaKe'>テキストボックス</a>の高さを自動決定せず、明示的に指定したい場合に数値で指定します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'>no-frame</td><td align='left'>ボックスを描画せず、テキストのみにしたい場合には <code>:no-frame t</code> と指定してください。<br>stroke や fill パラメータを無視してテキストのみを描画します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'>rx, ry</td><td align='left'>ボックスの角を丸くしたい場合に、角の x 半径（rx）と y 半径（ry）を数値で指定します。<br>rx と ry のどちらかだけを指定すると、もう一方も同じであると見なされます。<br>省略した場合のデフォルト値は 0（つまり角を丸くしない）です。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'>align</td><td align='left'>テキストの水平方向のアライメントを <code>:left :center :right</code> のいずれかで指定します。<br>省略した場合のデフォルト値は <code>:center</code> です。詳細は後述します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'>vlign</td><td align='left'>テキストの垂直方向のアライメントを <code>:top :center :bottom</code> のいずれかで指定します。<br>省略した場合のデフォルト値は <code>:center</code> です。詳細は後述します。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>margin</td><td align='left'>ボックスの幅と高さを自動計算する際に使用される「余白」のサイズです。<br>省略した場合のデフォルト値は 10 です。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>margin</td><td align='left'>テキスト描画における「余白」のサイズです。ボックスの幅と高さを自動計算する際にも<br>使用されます。省略した場合のデフォルト値は 10 です。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'>font</td><td align='left'>テキストのフォントを指定します。詳細は「<a href='#3kZ9FkounyK'>6.4  フォント</a>」を参照してください。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'>fill</td><td align='left'>ボックス内部の塗り潰しを指定します。詳細は「<a href='#dBUd7L4C3dx'>6.3  フィル</a>」を参照してください。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'>stroke</td><td align='left'>ボックスの外枠を描画する線を指定します。詳細は「<a href='#4HFjqmTuIU6'>6.2  ストローク</a>」を参照してください。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'>link</td><td align='left'><a class='autolink' href='#cTdCvBeU6ZJ'>text</a> をリンクにする場合、リンク先を指定します。詳細は「<a href='#fbLcMRTVXac'>6.9  リンク</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>rotate</td><td align='left'>テキストボックス全体を回転させたい場合に、その角度を指定します。<br>詳細は「<a href='#heEi5Lc5BX9'>6.6  回転</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>rotate</td><td align='left'><a class='autolink' href='#e7hkC2YUaKe'>テキストボックス</a>全体を回転させたい場合に、その角度を指定します。<br>詳細は「<a href='#heEi5Lc5BX9'>6.6  回転</a>」を参照してください。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'>layer</td><td align='left'><a class='autolink' href='#cTdCvBeU6ZJ'>text</a> をレイヤーに所属させる場合、その名前をキーワードで指定します。<br>詳細は「<a href='#1ovJxG7Ie9O'>6.8  レイヤー</a>」を参照してください。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'>id</td><td align='left'><a class='autolink' href='#cTdCvBeU6ZJ'>text</a> に ID を付与したい場合、その名前をキーワードで指定します。<br>詳細は「<a href='#iu9Ovm00KHn'>6.5  IDと参照</a>」を参照してください。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'>filter</td><td align='left'>ボックスの描画にフィルタ効果を適用したい場合、その名前を指定します。<br>詳細は「<a href='#gPGlqSbIfdL'>6.7  フィルタ</a>」を参照してください。</td></tr>
 </table>
 <p>　　</p>
-<p>　align, valign の関係を以下に示します。以下のように、テキストボックスの内部で水平方向、および垂直方向にそれぞれどう寄せるかが変化します。</p>
+<p>　align, valign の関係を以下に示します。以下のように、<a class='autolink' href='#e7hkC2YUaKe'>テキストボックス</a>の内部で水平方向、および垂直方向にそれぞれどう寄せるかが変化します。</p>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='550' height='220'>
@@ -1899,12 +1899,12 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <p class='fig_title'><a name='96V371pW4hW'></a>Figure.5-10 テキストボックスにおける align と valign</p>
 <p>　　</p>
 <a name='e1zZspOxkpi'></a>
-<p>　図の中でテキストボックスのスタイルを統一する作業を簡単にするために、<a class='autolink' href='#e1zZspOxkpi'>with-textbox-options</a> が用意されています。</p>
+<p>　図の中で<a class='autolink' href='#e7hkC2YUaKe'>テキストボックス</a>のスタイルを統一する作業を簡単にするために、<a class='autolink' href='#e1zZspOxkpi'>with-textbox-options</a> が用意されています。</p>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-textbox-options</span> ((<span class='keyword2'>&amp;key</span> rx ry align valign margin
                                       font fill stroke filter layer) <span class='keyword2'>&amp;rest</span> body)
 </pre>
-<p>　これを以下のように使用することで、複数のテキストボックスのスタイルを一箇所で指定することができます。</p>
+<p>　これを以下のように使用することで、複数の<a class='autolink' href='#e7hkC2YUaKe'>テキストボックス</a>のスタイルを一箇所で指定することができます。</p>
 <pre class='code'>
 (diagram (200 100)
   (grid)
@@ -1936,7 +1936,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 
 <p class='fig_title'><a name='fIT9kBEu2gr'></a>Figure.5-11 with-textbox-options のサンプル</p>
 <h3><a name='jRjILbbJATV'></a>5.4 ドキュメント</h3>
-<p>　ドキュメントは、テキストボックスと良く似ていますが、<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<p>　<a class='autolink' href='#jRjILbbJATV'>ドキュメント</a>は、<a class='autolink' href='#e7hkC2YUaKe'>テキストボックス</a>と良く似ていますが、ボックスのかわりに<a class='autolink' href='#jRjILbbJATV'>ドキュメント</a>の形が描画されます。<a class='autolink' href='#e7hkC2YUaKe'>テキストボックス</a>とは異なり、サイズは自動計算されないため、幅と高さを指定する必要があります。</p>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='200' height='100'>
@@ -1956,15 +1956,93 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </div>
 
 <p class='fig_title'><a name='dvJBi2mFjs2'></a>Figure.5-12 ドキュメントのサンプル</p>
+<details>
+<summary>　※上記サンプルのソースはこちら。</summary>
 <pre class='code'>
 (diagram (200 100)
   (grid)
   (document '(100 50) 100 70 <span class='literal'>"document~%name"</span>
                     <span class='keyword3'>:stroke</span> <span class='keyword3'>:navy</span> <span class='keyword3'>:fill</span> <span class='keyword3'>:skyblue</span>))
 </pre>
-<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+</details>
+<p>　<a class='autolink' href='#jRjILbbJATV'>document</a> のパラメータ構成は以下の通りです。</p>
+<pre class='code'>
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>document</span> (center width height text
+                    <span class='keyword2'>&amp;key</span> depth align valign margin
+                         font fill stroke link rotate layer id filter contents) ...)
+</pre>
+<p>　　</p>
+<p class='tbl_title'><a name='ig97hVZRe7F'></a>Table.5-4 document のパラメータ</p>
+<table align='center'>
+<tr style="font-size: 14;"><th>パラメータ</th><th>説明</th></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>center</td><td align='left'>中心点を指定します。詳細は「<a href='#h1RNMQY1C0b'>7  座標と位置</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>width</td><td align='left'>描画するボックスの幅を数値で指定します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>height</td><td align='left'>描画するボックスの高さを数値で指定します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><a class='autolink' href='#cTdCvBeU6ZJ'>text</a></td><td align='left'>ボックス内部に描画するテキストを文字列で指定します。改行は "~%" で表現します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>depth</td><td align='left'>ボックス下部の曲線の深さを指定します。省略した場合のデフォルト値は height の 1/3 です。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>align</td><td align='left'>テキストの水平方向のアライメントを <code>:left :center :right</code> のいずれかで指定します。<br>省略した場合のデフォルト値は <code>:center</code> です。詳細は後述します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>vlign</td><td align='left'>テキストの垂直方向のアライメントを <code>:top :center :bottom</code> のいずれかで指定します。<br>省略した場合のデフォルト値は <code>:center</code> です。詳細は後述します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>margin</td><td align='left'>テキスト描画における「余白」のサイズです。省略した場合のデフォルト値は 10 です。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>font</td><td align='left'>テキストのフォントを指定します。詳細は「<a href='#3kZ9FkounyK'>6.4  フォント</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>fill</td><td align='left'><a class='autolink' href='#jRjILbbJATV'>ドキュメント</a>内部の塗り潰しを指定します。詳細は「<a href='#dBUd7L4C3dx'>6.3  フィル</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>stroke</td><td align='left'><a class='autolink' href='#jRjILbbJATV'>ドキュメント</a>の外枠を描画する線を指定します。詳細は「<a href='#4HFjqmTuIU6'>6.2  ストローク</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>link</td><td align='left'><a class='autolink' href='#jRjILbbJATV'>ドキュメント</a>をリンクにする場合、リンク先を指定します。詳細は「<a href='#fbLcMRTVXac'>6.9  リンク</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>rotate</td><td align='left'><a class='autolink' href='#jRjILbbJATV'>ドキュメント</a>全体を回転させたい場合に、その角度を指定します。<br>詳細は「<a href='#heEi5Lc5BX9'>6.6  回転</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>layer</td><td align='left'><a class='autolink' href='#jRjILbbJATV'>ドキュメント</a>をレイヤーに所属させる場合、その名前をキーワードで指定します。<br>詳細は「<a href='#1ovJxG7Ie9O'>6.8  レイヤー</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>id</td><td align='left'><a class='autolink' href='#jRjILbbJATV'>ドキュメント</a>に ID を付与したい場合、その名前をキーワードで指定します。<br>詳細は「<a href='#iu9Ovm00KHn'>6.5  IDと参照</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>filter</td><td align='left'><a class='autolink' href='#jRjILbbJATV'>ドキュメント</a>の描画にフィルタ効果を適用したい場合、その名前を指定します。<br>詳細は「<a href='#gPGlqSbIfdL'>6.7  フィルタ</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>contents</td><td align='left'><a class='autolink' href='#jRjILbbJATV'>ドキュメント</a>の内部をサブキャンバスとした描画をしたい場合、その内容を指定します。<br>詳細は「<a href='#kgs1vf3AbTN'>9  サブキャンバス</a>」を参照してください。</td></tr>
+</table>
+<p>　　</p>
+<a name='1e9FbNaLUoA'></a>
+<p>　図の中で<a class='autolink' href='#jRjILbbJATV'>ドキュメント</a>のスタイルを統一する作業を簡単にするために、<a class='autolink' href='#1e9FbNaLUoA'>with-document-options</a> が用意されています。</p>
+<pre class='code'>
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>with-document-options</span> ((<span class='keyword2'>&amp;key</span> align valign margin
+                                       font fill stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
+</pre>
+<p>　これを以下のように使用することで、複数の<a class='autolink' href='#e7hkC2YUaKe'>テキストボックス</a>のスタイルを一箇所で指定することができます。</p>
+<pre class='code'>
+(diagram (240 100)
+  (grid)
+  (drop-shadow)
+  (with-document-options (<span class='keyword3'>:stroke</span> <span class='keyword3'>:darkgreen</span> <span class='keyword3'>:fill</span> <span class='keyword3'>:mintcream</span> <span class='keyword3'>:filter</span> <span class='keyword3'>:drop-shadow</span>)
+    (document '( 60 50) 100 70 <span class='literal'>"first~%document"</span>)
+    (document '(180 50) 100 70 <span class='literal'>"second~%document"</span>)))
+</pre>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='240' height='100'>
+	
+	<filter id='drop-shadow'>
+		<feColorMatrix type='matrix' values=' 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.4 0' />
+		<feGaussianBlur stdDeviation='2' result='blur' />
+		<feOffset in='blur' dx='4' dy='4' result='offsetBlur' />
+		<feMerge>
+			<feMergeNode in='offsetBlur' />
+			<feMergeNode in='SourceGraphic'/>
+		</feMerge>
+	</filter>
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- document -->
+	<path fill='mintcream' stroke='darkgreen' stroke-width='1' d='M 10 15 L 10 85 A 33.333332 23.333334 0 0 0 60 85 A 33.333332 23.333334 1 0 1 110 85 L 110 15 Z' filter='url(#drop-shadow)' />
+	<text x='60' y='49' text-anchor='middle' font-size='12pt' fill='black' >first</text>
+	<text x='60' y='63' text-anchor='middle' font-size='12pt' fill='black' >document</text>
+	<!-- document -->
+	<path fill='mintcream' stroke='darkgreen' stroke-width='1' d='M 130 15 L 130 85 A 33.333332 23.333334 0 0 0 180 85 A 33.333332 23.333334 1 0 1 230 85 L 230 15 Z' filter='url(#drop-shadow)' />
+	<text x='180' y='49' text-anchor='middle' font-size='12pt' fill='black' >second</text>
+	<text x='180' y='63' text-anchor='middle' font-size='12pt' fill='black' >document</text>
+
+</svg>
+</div>
+
+<p class='fig_title'><a name='47EMqNZNXWt'></a>Figure.5-13 with-document-options のサンプル</p>
 <h3><a name='5ZT843xJDiq'></a>5.5 フォルダ</h3>
-<p>　フォルダは、テキストボックスと良く似ていますが、<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<p>　フォルダは、<a class='autolink' href='#e7hkC2YUaKe'>テキストボックス</a>と良く似ていますが、<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='200' height='100'>
@@ -1984,7 +2062,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='bB2F9DVM9ic'></a>Figure.5-13 フォルダのサンプル</p>
+<p class='fig_title'><a name='bB2F9DVM9ic'></a>Figure.5-14 フォルダのサンプル</p>
 <pre class='code'>
 (diagram (200 100)
   (grid)
@@ -1993,7 +2071,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <h3><a name='5IHcv4bxjLU'></a>5.6 吹き出し</h3>
-<p>　吹き出しはテキストボックスと良く似ていますが、<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<p>　吹き出しは<a class='autolink' href='#e7hkC2YUaKe'>テキストボックス</a>と良く似ていますが、<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='200' height='100'>
@@ -2014,7 +2092,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='bnZSVtbTzuH'></a>Figure.5-14 吹き出しのサンプル</p>
+<p class='fig_title'><a name='bnZSVtbTzuH'></a>Figure.5-15 吹き出しのサンプル</p>
 <pre class='code'>
 (diagram (200 100)
   (grid)
@@ -2023,7 +2101,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
                                    <span class='keyword3'>:fill</span> <span class='keyword3'>:skyblue</span> <span class='keyword3'>:stroke</span> <span class='keyword3'>:navy</span>))
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<p class='tbl_title'><a name='2mkKZMcTbV9'></a>Table.5-4 吹き出しに関するデフォルト設定変数</p>
+<p class='tbl_title'><a name='2mkKZMcTbV9'></a>Table.5-5 吹き出しに関するデフォルト設定変数</p>
 <table align='center'>
 <tr style="font-size: 14;"><th>variable</th><th>value</th><th>description</th></tr>
 <tr style="font-size: 14;"><td nowrap align='center'><code>*default-balloon-round*</code></td><td nowrap align='center'>10</td><td align='left'><span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></td></tr>
@@ -2033,7 +2111,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <tr style="font-size: 14;"><td nowrap align='center'><code>*default-balloon-filter*</code></td><td nowrap align='center'>nil</td><td align='left'><code>:filter</code> パラメータを省略した場合に適用されるデフォルト設定です。<br>この設定も nil の場合、 <code>*default-shape-filter*</code> 設定が使用されます。</td></tr>
 </table>
 <h3><a name='0AVJhEKnK1M'></a>5.7 メモ</h3>
-<p>　メモはテキストボックスと良く似ていますが、<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<p>　メモは<a class='autolink' href='#e7hkC2YUaKe'>テキストボックス</a>と良く似ていますが、<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='200' height='100'>
@@ -2053,7 +2131,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='2VCrzOuGHtM'></a>Figure.5-15 メモのサンプル</p>
+<p class='fig_title'><a name='2VCrzOuGHtM'></a>Figure.5-16 メモのサンプル</p>
 <pre class='code'>
 (diagram (200 100)
   (grid)
@@ -2083,7 +2161,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='c33W6fj0jlH'></a>Figure.5-16 円柱のサンプル</p>
+<p class='fig_title'><a name='c33W6fj0jlH'></a>Figure.5-17 円柱のサンプル</p>
 <pre class='code'>
 (diagram (200 100)
   (grid)
@@ -2113,7 +2191,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='alxN8u8h3HH'></a>Figure.5-17 爆発のサンプル</p>
+<p class='fig_title'><a name='alxN8u8h3HH'></a>Figure.5-18 爆発のサンプル</p>
 <pre class='code'>
 (diagram (350 150)
   (grid)
@@ -2141,7 +2219,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='eIwQ5AwuV7t'></a>Figure.5-18 ブロック矢印のサンプル</p>
+<p class='fig_title'><a name='eIwQ5AwuV7t'></a>Figure.5-19 ブロック矢印のサンプル</p>
 <pre class='code'>
 (diagram (300 150)
   (grid)
@@ -2227,7 +2305,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='htsQptREwXf'></a>Figure.5-19 ブロック矢印のパラメータ</p>
+<p class='fig_title'><a name='htsQptREwXf'></a>Figure.5-20 ブロック矢印のパラメータ</p>
 <ul>
 <li><code>size</code> が省略された場合、デフォルト値として <code>width</code> の２倍が使用される。</li>
 <li><code>length</code> が省略された場合、デフォルト値として <code>size</code> と同じ値が使用される。</li>
@@ -2261,7 +2339,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='jKClDFWGMjM'></a>Figure.5-20 波括弧のサンプル</p>
+<p class='fig_title'><a name='jKClDFWGMjM'></a>Figure.5-21 波括弧のサンプル</p>
 <pre class='code'>
 (diagram (400 300)
    (grid)
@@ -2329,7 +2407,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='eWywNaFqjwP'></a>Figure.5-21 波括弧のパラメータ</p>
+<p class='fig_title'><a name='eWywNaFqjwP'></a>Figure.5-22 波括弧のパラメータ</p>
 <ul>
 <li><code>r</code> が省略された場合、デフォルト値として <code>height</code> の 1/3 が指定される</li>
 <li><code>point</code> が省略された場合、デフォルト値として <code>width</code> の 1/2 が指定される</li>
@@ -2369,7 +2447,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='4p5NTDB8bf1'></a>Figure.5-22 テーブルのサンプル</p>
+<p class='fig_title'><a name='4p5NTDB8bf1'></a>Figure.5-23 テーブルのサンプル</p>
 <p>　上記のサンプルは以下のコードで生成しています。</p>
 <pre class='code'>
 (diagram (320 120)
@@ -2384,7 +2462,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>table</span> (center rows cols <span class='keyword2'>&amp;key</span> stroke fills font texts layer id) ...)
 </pre>
 <p>　それぞれのパラメータについて以下に説明します。</p>
-<p class='tbl_title'><a name='46vpyWYCtdw'></a>Table.5-5 table のパラメータ</p>
+<p class='tbl_title'><a name='46vpyWYCtdw'></a>Table.5-6 table のパラメータ</p>
 <table align='center'>
 <tr style="font-size: 14;"><th>parameter</th><th>description</th></tr>
 <tr style="font-size: 14;"><td nowrap align='center'>center</td><td align='left'>作成するテーブルの中心座標を指定します。</td></tr>
@@ -2458,7 +2536,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='0EEfXZqu18P'></a>Figure.5-23 テーブルにおけるテキストの align と valign パラメータ</p>
+<p class='fig_title'><a name='0EEfXZqu18P'></a>Figure.5-24 テーブルにおけるテキストの align と valign パラメータ</p>
 <details>
 <summary>　※上記サンプルのソースはこちら。</summary>
 <pre class='code'>
@@ -2485,7 +2563,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
         (line `((0 0) (,w ,h)) <span class='keyword3'>:stroke</span> <span class='keyword3'>:navy</span>)))))
 </pre>
 </details>
-<p>　データを（リストでなく）直接指定した場合でも、数値ならば右寄せ、文字列ならば左寄せ、シンボルならば中央揃えというデフォルトの設定は行なわれるため、多くの場合で個別セルのテキストデータ指定をリストで行なう必要は無いでしょう。キーワードを使うと全て大文字で表示されてしまいますが、 <code>:|Foo|</code> のようにバーティカルバーで括ると文字の大小を維持したまま表示されます（<a href='#0EEfXZqu18P'>Figure.5-23</a> のコードを参照）。</p>
+<p>　データを（リストでなく）直接指定した場合でも、数値ならば右寄せ、文字列ならば左寄せ、シンボルならば中央揃えというデフォルトの設定は行なわれるため、多くの場合で個別セルのテキストデータ指定をリストで行なう必要は無いでしょう。キーワードを使うと全て大文字で表示されてしまいますが、 <code>:|Foo|</code> のようにバーティカルバーで括ると文字の大小を維持したまま表示されます（<a href='#0EEfXZqu18P'>Figure.5-24</a> のコードを参照）。</p>
 <h4><a name='3qNm5uHdKTZ'></a>5.12.1 with-table-cell を使ったセル内描画</h4>
 <p>　<code>table</code> の id とセルの行・列番号を指定して <code>with-table-cell</code> を使用することで、該当するセルをサブキャンバスとした描画ができます。</p>
 <pre class='code'>
@@ -2516,7 +2594,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='knawwdhRtbI'></a>Figure.5-24 with-table-cell の使用例</p>
+<p class='fig_title'><a name='knawwdhRtbI'></a>Figure.5-25 with-table-cell の使用例</p>
 <p>　上記のサンプルは以下のコードで生成されています。</p>
 <pre class='code'>
 (diagram (220 220)
@@ -5781,18 +5859,19 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <li><a href='#96V371pW4hW'>Figure.5-10 テキストボックスにおける align と valign</a></li>
 <li><a href='#fIT9kBEu2gr'>Figure.5-11 with-textbox-options のサンプル</a></li>
 <li><a href='#dvJBi2mFjs2'>Figure.5-12 ドキュメントのサンプル</a></li>
-<li><a href='#bB2F9DVM9ic'>Figure.5-13 フォルダのサンプル</a></li>
-<li><a href='#bnZSVtbTzuH'>Figure.5-14 吹き出しのサンプル</a></li>
-<li><a href='#2VCrzOuGHtM'>Figure.5-15 メモのサンプル</a></li>
-<li><a href='#c33W6fj0jlH'>Figure.5-16 円柱のサンプル</a></li>
-<li><a href='#alxN8u8h3HH'>Figure.5-17 爆発のサンプル</a></li>
-<li><a href='#eIwQ5AwuV7t'>Figure.5-18 ブロック矢印のサンプル</a></li>
-<li><a href='#htsQptREwXf'>Figure.5-19 ブロック矢印のパラメータ</a></li>
-<li><a href='#jKClDFWGMjM'>Figure.5-20 波括弧のサンプル</a></li>
-<li><a href='#eWywNaFqjwP'>Figure.5-21 波括弧のパラメータ</a></li>
-<li><a href='#4p5NTDB8bf1'>Figure.5-22 テーブルのサンプル</a></li>
-<li><a href='#0EEfXZqu18P'>Figure.5-23 テーブルにおけるテキストの align と valign パラメータ</a></li>
-<li><a href='#knawwdhRtbI'>Figure.5-24 with-table-cell の使用例</a></li>
+<li><a href='#47EMqNZNXWt'>Figure.5-13 with-document-options のサンプル</a></li>
+<li><a href='#bB2F9DVM9ic'>Figure.5-14 フォルダのサンプル</a></li>
+<li><a href='#bnZSVtbTzuH'>Figure.5-15 吹き出しのサンプル</a></li>
+<li><a href='#2VCrzOuGHtM'>Figure.5-16 メモのサンプル</a></li>
+<li><a href='#c33W6fj0jlH'>Figure.5-17 円柱のサンプル</a></li>
+<li><a href='#alxN8u8h3HH'>Figure.5-18 爆発のサンプル</a></li>
+<li><a href='#eIwQ5AwuV7t'>Figure.5-19 ブロック矢印のサンプル</a></li>
+<li><a href='#htsQptREwXf'>Figure.5-20 ブロック矢印のパラメータ</a></li>
+<li><a href='#jKClDFWGMjM'>Figure.5-21 波括弧のサンプル</a></li>
+<li><a href='#eWywNaFqjwP'>Figure.5-22 波括弧のパラメータ</a></li>
+<li><a href='#4p5NTDB8bf1'>Figure.5-23 テーブルのサンプル</a></li>
+<li><a href='#0EEfXZqu18P'>Figure.5-24 テーブルにおけるテキストの align と valign パラメータ</a></li>
+<li><a href='#knawwdhRtbI'>Figure.5-25 with-table-cell の使用例</a></li>
 <li><a href='#h7K5JgIwvZY'>Figure.6-1 回転のサンプル</a></li>
 <li><a href='#9Z8wQykrThD'>Figure.6-2 フィルタのサンプル</a></li>
 <li><a href='#br3mf6bkjtv'>Figure.7-1 xxxのサンプル</a></li>
@@ -5821,8 +5900,9 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <li><a href='#79EVRrlxEbF'>Table.5-1 connect のパラメータ</a></li>
 <li><a href='#0mFeKi0I0Lr'>Table.5-2 paragraph のパラメータ</a></li>
 <li><a href='#hOloecoUbQv'>Table.5-3 textbox のパラメータ</a></li>
-<li><a href='#2mkKZMcTbV9'>Table.5-4 吹き出しに関するデフォルト設定変数</a></li>
-<li><a href='#46vpyWYCtdw'>Table.5-5 table のパラメータ</a></li>
+<li><a href='#ig97hVZRe7F'>Table.5-4 document のパラメータ</a></li>
+<li><a href='#2mkKZMcTbV9'>Table.5-5 吹き出しに関するデフォルト設定変数</a></li>
+<li><a href='#46vpyWYCtdw'>Table.5-6 table のパラメータ</a></li>
 <li><a href='#jaLWrUQI3jh'>Table.11-1 make-fill 関数のパラメータ</a></li>
 <li><a href='#8gU4HDke41S'>Table.11-2 make-stroke 関数のパラメータ</a></li>
 </ul>
@@ -5854,6 +5934,12 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <blockquote class='idx_x'>
 <li class='idx_x'><a class='autolink' href='#aU9abq0lSrR'>circle</a></li>
 <li class='idx_x'><a class='autolink' href='#eFhVs4WwYUG'>connect</a></li>
+</blockquote>
+</details>
+<details class='idx_x' open>
+<summary class='idx_x'>D</summary>
+<blockquote class='idx_x'>
+<li class='idx_x'><a class='autolink' href='#jRjILbbJATV'>document</a></li>
 </blockquote>
 </details>
 <details class='idx_x' open>
@@ -5937,6 +6023,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <details class='idx_x' open>
 <summary class='idx_x'>W</summary>
 <blockquote class='idx_x'>
+<li class='idx_x'><a class='autolink' href='#1e9FbNaLUoA'>with-document-options</a></li>
 <li class='idx_x'><a class='autolink' href='#e1zZspOxkpi'>with-textbox-options</a></li>
 </blockquote>
 </details>
@@ -5946,6 +6033,8 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <li class='idx_x'><a class='autolink' href='#8ya1jqc5cZQ'>アクティビティ図</a></li>
 <li class='idx_x'><a class='autolink' href='#khgkJB6xK95'>クラス図</a></li>
 <li class='idx_x'><a class='autolink' href='#5ZAfKbqcubo'>ステートマシーン図</a></li>
+<li class='idx_x'><a class='autolink' href='#e7hkC2YUaKe'>テキストボックス</a></li>
+<li class='idx_x'><a class='autolink' href='#jRjILbbJATV'>ドキュメント</a></li>
 <li class='idx_x'><a class='autolink' href='#la7Xa1OTF3W'>パッケージ図</a></li>
 <li class='idx_x'><a class='autolink' href='#e57rLpXY8ah'>ユースケース図</a></li>
 </blockquote>

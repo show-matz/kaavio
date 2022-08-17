@@ -1310,6 +1310,7 @@ ${BLANK_PARAGRAPH}
 
 ### テキストボックス
 <!-- autolink: [textbox](#テキストボックス) -->
+<!-- autolink: [$$](#テキストボックス) -->
 
 　テキストボックスは、[$$](#四角形) と [$$](#パラグラフ) を組み合わせたようなものです。テキスト
 からサイズを自動決定しますが、明示的にボックスのサイズを指定することも可能です。
@@ -1339,7 +1340,7 @@ Figure. テキストボックスのサンプル
 ```lisp
 (defmacro textbox (center text &key width height no-frame
                                     rx ry align valign margin
-                                    font fill stroke link rotate layer id filter)
+                                    font fill stroke link rotate layer id filter) ...)
 ```
 
 ${BLANK_PARAGRAPH}
@@ -1362,8 +1363,8 @@ rx と ry のどちらかだけを指定すると、もう一方も同じであ�
 省略した場合のデフォルト値は `:center` です。詳細は後述します。 |
 | vlign     | テキストの垂直方向のアライメントを `:top :center :bottom` のいずれかで指定します。<br> \
 省略した場合のデフォルト値は `:center` です。詳細は後述します。 |
-| margin    | ボックスの幅と高さを自動計算する際に使用される「余白」のサイズです。<br> \
-省略した場合のデフォルト値は 10 です。 |
+| margin    | テキスト描画における「余白」のサイズです。ボックスの幅と高さを自動計算する際にも<br> \
+使用されます。省略した場合のデフォルト値は 10 です。 |
 | font      | テキストのフォントを指定します。詳細は「[](#フォント)」を参照してください。         |
 | fill      | ボックス内部の塗り潰しを指定します。詳細は「[](#フィル)」を参照してください。 |
 | stroke    | ボックスの外枠を描画する線を指定します。詳細は「[](#ストローク)」を参照してください。 |
@@ -1437,8 +1438,11 @@ Figure. with-textbox-options のサンプル
 
 
 ### ドキュメント
+<!-- autolink: [document](#ドキュメント) -->
+<!-- autolink: [$$](#ドキュメント) -->
 
-　ドキュメントは、テキストボックスと良く似ていますが、${{TODO}{まだ記述されていません。}}
+　ドキュメントは、テキストボックスと良く似ていますが、ボックスのかわりにドキュメントの形が描画
+されます。テキストボックスとは異なり、サイズは自動計算されないため、幅と高さを指定する必要があります。
 
 <!-- snippet: DOCUMENT-SAMPLE
 (diagram (200 100)
@@ -1452,11 +1456,88 @@ Figure. with-textbox-options のサンプル
 ```
 Figure. ドキュメントのサンプル
 
+<!-- collapse:begin -->
+　※上記サンプルのソースはこちら。
+
 ```lisp
 <!-- expand: DOCUMENT-SAMPLE -->
 ```
+<!-- collapse:end -->
 
-　${{TODO}{まだ記述されていません。}}
+　document のパラメータ構成は以下の通りです。
+
+```lisp
+(defmacro document (center width height text
+                    &key depth align valign margin
+                         font fill stroke link rotate layer id filter contents) ...)
+```
+
+${BLANK_PARAGRAPH}
+
+<!-- stack:push tr style="font-size: 14;" -->
+
+Table. document のパラメータ
+| パラメータ | 説明                                                                           |
+|:==========|:--------------------------------------------------------------------------------------|
+| center    | 中心点を指定します。詳細は「[](#座標と位置)」を参照してください。 |
+| width     | 描画するボックスの幅を数値で指定します。 |
+| height    | 描画するボックスの高さを数値で指定します。 |
+| text      | ボックス内部に描画するテキストを文字列で指定します。改行は "~%" で表現します。      |
+| depth     | ボックス下部の曲線の深さを指定します。省略した場合のデフォルト値は height の 1/3 です。 |
+| align     | テキストの水平方向のアライメントを `:left :center :right` のいずれかで指定します。<br> \
+省略した場合のデフォルト値は `:center` です。詳細は後述します。 |
+| vlign     | テキストの垂直方向のアライメントを `:top :center :bottom` のいずれかで指定します。<br> \
+省略した場合のデフォルト値は `:center` です。詳細は後述します。 |
+| margin    | テキスト描画における「余白」のサイズです。省略した場合のデフォルト値は 10 です。 |
+| font      | テキストのフォントを指定します。詳細は「[](#フォント)」を参照してください。         |
+| fill      | ドキュメント内部の塗り潰しを指定します。詳細は「[](#フィル)」を参照してください。 |
+| stroke    | ドキュメントの外枠を描画する線を指定します。詳細は「[](#ストローク)」を参照してください。 |
+| link      | ドキュメントをリンクにする場合、リンク先を指定します。詳細は「[](#リンク)」を参照してください。 |
+| rotate    | ドキュメント全体を回転させたい場合に、その角度を指定します。<br> \
+詳細は「[](#回転)」を参照してください。           |
+| layer     | ドキュメントをレイヤーに所属させる場合、その名前をキーワードで指定します。<br> \
+詳細は「[](#レイヤー)」を参照してください。           |
+| id        | ドキュメントに ID を付与したい場合、その名前をキーワードで指定します。<br> \
+詳細は「[](#IDと参照)」を参照してください。            |
+| filter    | ドキュメントの描画にフィルタ効果を適用したい場合、その名前を指定します。<br> \
+詳細は「[](#フィルタ)」を参照してください。 |
+| contents  | ドキュメントの内部をサブキャンバスとした描画をしたい場合、その内容を指定します。<br> \
+詳細は「[](#サブキャンバス)」を参照してください。|
+
+<!-- stack:pop tr -->
+
+${BLANK_PARAGRAPH}
+
+<!-- anchor: with-document-options -->
+<!-- autolink: [$$](A#with-document-options) -->
+
+　図の中でドキュメントのスタイルを統一する作業を簡単にするために、with-document-options が
+用意されています。
+
+```lisp
+(defmacro with-document-options ((&key align valign margin
+                                       font fill stroke filter layer) &rest body) ...)
+```
+
+<!-- snippet: WITH-DOCUMENT-OPTIONS-SAMPLE
+(diagram (240 100)
+  (grid)
+  (drop-shadow)
+  (with-document-options (:stroke :darkgreen :fill :mintcream :filter :drop-shadow)
+    (document '( 60 50) 100 70 "first~%document")
+    (document '(180 50) 100 70 "second~%document")))
+-->
+
+　これを以下のように使用することで、複数のテキストボックスのスタイルを一箇所で指定することができます。
+
+```lisp
+<!-- expand: WITH-DOCUMENT-OPTIONS-SAMPLE -->
+```
+
+```diagram
+<!-- expand: WITH-DOCUMENT-OPTIONS-SAMPLE -->
+```
+Figure. with-document-options のサンプル
 
 ### フォルダ
 
