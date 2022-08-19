@@ -1528,7 +1528,7 @@ ${BLANK_PARAGRAPH}
     (document '(180 50) 100 70 "second~%document")))
 -->
 
-　これを以下のように使用することで、複数のテキストボックスのスタイルを一箇所で指定することができます。
+　これを以下のように使用することで、複数のドキュメントのスタイルを一箇所で指定することができます。
 
 ```lisp
 <!-- expand: WITH-DOCUMENT-OPTIONS-SAMPLE -->
@@ -1540,13 +1540,17 @@ ${BLANK_PARAGRAPH}
 Figure. with-document-options のサンプル
 
 ### フォルダ
+<!-- autolink: [folder](#フォルダ) -->
+<!-- autolink: [$$](#フォルダ) -->
 
-　フォルダは、テキストボックスと良く似ていますが、${{TODO}{まだ記述されていません。}}
+　フォルダは、テキストボックスと良く似ていますが、ボックスのかわりにフォルダの形が描画
+されます。
 
 <!-- snippet: FOLDER-SAMPLE
 (diagram (200 100)
   (grid)
   (folder '(100 50) "folder.~%multi line."
+                    :width 100 :height 60
                     :stroke :darkkhaki :fill :cornsilk))
 -->
 
@@ -1555,15 +1559,96 @@ Figure. with-document-options のサンプル
 ```
 Figure. フォルダのサンプル
 
+<!-- collapse:begin -->
+　※上記サンプルのソースはこちら。
+
 ```lisp
 <!-- expand: FOLDER-SAMPLE -->
 ```
+<!-- collapse:end -->
 
-　${{TODO}{まだ記述されていません。}}
+　folder のパラメータ構成は以下の通りです。
+
+```lisp
+(defmacro folder (center text &key width height tab-width tab-height
+                                   align valign font fill stroke
+                                   margin link rotate layer filter id contents) ...)
+```
+
+${BLANK_PARAGRAPH}
+
+<!-- stack:push tr style="font-size: 14;" -->
+
+Table. folder のパラメータ
+| パラメータ  | 説明                                                                           |
+|:===========|:--------------------------------------------------------------------------------------|
+| center     | 中心点を指定します。詳細は「[](#座標と位置)」を参照してください。 |
+| text       | ボックス内部に描画するテキストを文字列で指定します。改行は "~%" で表現します。      |
+| width      | ボックスの幅を自動決定せず、明示的に指定したい場合に数値で指定します。 |
+| height     | ボックスの高さを自動決定せず、明示的に指定したい場合に数値で指定します。 |
+| tab-width  | 左上に描画されるタブ部分の幅を指定します。省略した場合のデフォルト値は 50 です。 |
+| tab-height | 左上に描画されるタブ部分の高さを指定します。省略した場合のデフォルト値は 20 です。 |
+| align      | テキストの水平方向のアライメントを `:left :center :right` のいずれかで指定します。<br> \
+省略した場合のデフォルト値は `:center` です。詳細は後述します。 |
+| vlign      | テキストの垂直方向のアライメントを `:top :center :bottom` のいずれかで指定します。<br> \
+省略した場合のデフォルト値は `:center` です。詳細は後述します。 |
+| font       | テキストのフォントを指定します。詳細は「[](#フォント)」を参照してください。         |
+| fill       | フォルダ内部の塗り潰しを指定します。詳細は「[](#フィル)」を参照してください。 |
+| stroke     | フォルダの外枠を描画する線を指定します。詳細は「[](#ストローク)」を参照してください。 |
+| margin     | テキスト描画における「余白」のサイズです。省略した場合のデフォルト値は 10 です。 |
+| link       | フォルダをリンクにする場合、リンク先を指定します。詳細は「[](#リンク)」を参照してください。 |
+| rotate     | フォルダ全体を回転させたい場合に、その角度を指定します。<br> \
+詳細は「[](#回転)」を参照してください。           |
+| layer      | フォルダをレイヤーに所属させる場合、その名前をキーワードで指定します。<br> \
+詳細は「[](#レイヤー)」を参照してください。           |
+| id         | フォルダに ID を付与したい場合、その名前をキーワードで指定します。<br> \
+詳細は「[](#IDと参照)」を参照してください。            |
+| filter     | フォルダの描画にフィルタ効果を適用したい場合、その名前を指定します。<br> \
+詳細は「[](#フィルタ)」を参照してください。 |
+| contents   | フォルダの内部をサブキャンバスとした描画をしたい場合、その内容を指定します。<br> \
+詳細は「[](#サブキャンバス)」を参照してください。|
+
+<!-- stack:pop tr -->
+
+${BLANK_PARAGRAPH}
+
+<!-- anchor: with-folder-options -->
+<!-- autolink: [$$](A#with-folder-options) -->
+
+　図の中でフォルダのスタイルを統一する作業を簡単にするために、with-folder-options が
+用意されています。
+
+```lisp
+(defmacro with-folder-options ((&key tab-width tab-height
+                                     align valign margin
+                                     font fill stroke filter layer) &rest body) ...)
+```
+
+<!-- snippet: WITH-FOLDER-OPTIONS-SAMPLE
+(diagram (240 100)
+  (grid)
+  (drop-shadow)
+  (with-folder-options (:stroke :maroon :fill :linen :filter :drop-shadow)
+    (folder '( 60 50) "first~%folder"  :width 100 :height 70)
+    (folder '(180 50) "second~%folder" :width 100 :height 70)))
+-->
+
+　これを以下のように使用することで、複数のフォルダのスタイルを一箇所で指定することができます。
+
+```lisp
+<!-- expand: WITH-FOLDER-OPTIONS-SAMPLE -->
+```
+
+```diagram
+<!-- expand: WITH-FOLDER-OPTIONS-SAMPLE -->
+```
+Figure. with-folder-options のサンプル
 
 ### 吹き出し
+<!-- autolink: [balloon](#吹き出し) -->
+<!-- autolink: [$$](#吹き出し) -->
 
-　吹き出しはテキストボックスと良く似ていますが、${{TODO}{まだ記述されていません。}}
+　吹き出しテキストボックスと良く似ていますが、指定した位置への引き出し線が描画されます。
 
 <!-- snippet: BALLOON-SAMPLE
 (diagram (200 100)
@@ -1578,29 +1663,99 @@ Figure. フォルダのサンプル
 ```
 Figure. 吹き出しのサンプル
 
+<!-- collapse:begin -->
+　※上記サンプルのソースはこちら。
+
 ```lisp
 <!-- expand: BALLOON-SAMPLE -->
 ```
+<!-- collapse:end -->
 
-　${{TODO}{まだ記述されていません。}}
+　balloon のパラメータ構成は以下の通りです。
+
+```lisp
+(defmacro balloon (center text anchor &key width height round
+                                           align valign margin
+                                           font fill stroke link
+                                           rotate layer id filter contents) ...)
+```
+
+${BLANK_PARAGRAPH}
 
 <!-- stack:push tr style="font-size: 14;" -->
 
-Table. 吹き出しに関するデフォルト設定変数
-| variable                   | value   | description                        |
-|:==========================:|:=======:|:-----------------------------------|
-| `*default-balloon-round*`  | 10      | ${{TODO}{まだ記述されていません。}} |
-| `*default-balloon-align*`  | :center | ${{TODO}{まだ記述されていません。}} |
-| `*default-balloon-valign*` | :center | ${{TODO}{まだ記述されていません。}} |
-| `*default-balloon-margin*` | 10      | ${{TODO}{まだ記述されていません。}} |
-| `*default-balloon-filter*` | nil     | `:filter` パラメータを省略した場合に適用されるデフォルト設定です。<br> \
-この設定も nil の場合、 `*default-shape-filter*` 設定が使用されます。 |
+Table. balloon のパラメータ
+| パラメータ  | 説明                                                                           |
+|:===========|:--------------------------------------------------------------------------------------|
+| center     | 中心点を指定します。詳細は「[](#座標と位置)」を参照してください。 |
+| text       | ボックス内部に描画するテキストを文字列で指定します。改行は "~%" で表現します。      |
+| anchor     | 引き出し線の位置を指定します。詳細は「[](#座標と位置)」を参照してください。 |
+| width      | ボックスの幅を自動決定せず、明示的に指定したい場合に数値で指定します。 |
+| height     | ボックスの高さを自動決定せず、明示的に指定したい場合に数値で指定します。 |
+| round      | ボックスの角を丸くしたい場合に、角の半径を数値で指定します。<br> \
+省略した場合のデフォルト値は 0（つまり角を丸くしない）です。  |
+| align      | テキストの水平方向のアライメントを `:left :center :right` のいずれかで指定します。<br> \
+省略した場合のデフォルト値は `:center` です。詳細は後述します。 |
+| vlign      | テキストの垂直方向のアライメントを `:top :center :bottom` のいずれかで指定します。<br> \
+省略した場合のデフォルト値は `:center` です。詳細は後述します。 |
+| margin     | テキスト描画における「余白」のサイズです。省略した場合のデフォルト値は 10 です。 |
+| font       | テキストのフォントを指定します。詳細は「[](#フォント)」を参照してください。         |
+| fill       | 吹き出し内部の塗り潰しを指定します。詳細は「[](#フィル)」を参照してください。 |
+| stroke     | 吹き出しの外枠を描画する線を指定します。詳細は「[](#ストローク)」を参照してください。 |
+| link       | 吹き出しをリンクにする場合、リンク先を指定します。詳細は「[](#リンク)」を参照してください。 |
+| rotate     | 吹き出し全体を回転させたい場合に、その角度を指定します。<br> \
+詳細は「[](#回転)」を参照してください。           |
+| layer      | 吹き出しをレイヤーに所属させる場合、その名前をキーワードで指定します。<br> \
+詳細は「[](#レイヤー)」を参照してください。           |
+| id         | 吹き出しに ID を付与したい場合、その名前をキーワードで指定します。<br> \
+詳細は「[](#IDと参照)」を参照してください。            |
+| filter     | 吹き出しの描画にフィルタ効果を適用したい場合、その名前を指定します。<br> \
+詳細は「[](#フィルタ)」を参照してください。 |
+| contents   | 吹き出しの内部をサブキャンバスとした描画をしたい場合、その内容を指定します。<br> \
+詳細は「[](#サブキャンバス)」を参照してください。|
 
 <!-- stack:pop tr -->
 
-### メモ
+${BLANK_PARAGRAPH}
 
-　メモはテキストボックスと良く似ていますが、${{TODO}{まだ記述されていません。}}
+<!-- anchor: with-balloon-options -->
+<!-- autolink: [$$](A#with-balloon-options) -->
+
+　図の中で吹き出しのスタイルを統一する作業を簡単にするために、with-balloon-options が
+用意されています。
+
+```lisp
+(defmacro with-balloon-options ((&key tab-width tab-height
+                                     align valign margin
+                                     font fill stroke filter layer) &rest body) ...)
+```
+
+<!-- snippet: WITH-BALLOON-OPTIONS-SAMPLE
+(diagram (300 100)
+  (grid)
+  (drop-shadow)
+  (with-balloon-options (:stroke :olive :fill :lemonchiffon :filter :drop-shadow)
+    (rect canvas.center 20 20 :stroke :black :fill :white)
+    (balloon '( 60 60) "first~%balloon"  $1.left  :width 90)
+    (balloon '(240 40) "second~%balloon" $2.right :width 90)))
+-->
+
+　これを以下のように使用することで、複数の吹き出しのスタイルを一箇所で指定することができます。
+
+```lisp
+<!-- expand: WITH-BALLOON-OPTIONS-SAMPLE -->
+```
+
+```diagram
+<!-- expand: WITH-BALLOON-OPTIONS-SAMPLE -->
+```
+Figure. with-balloon-options のサンプル
+
+### メモ
+<!-- autolink: [memo](#メモ) -->
+<!-- autolink: [$$](#メモ) -->
+
+　メモはテキストボックスと良く似ていますが、右下に折り目が描画されます。
 
 <!-- snippet: MEMO-SAMPLE
 (diagram (200 100)
@@ -1615,15 +1770,97 @@ Table. 吹き出しに関するデフォルト設定変数
 ```
 Figure. メモのサンプル
 
+<!-- collapse:begin -->
+　※上記サンプルのソースはこちら。
+
 ```lisp
 <!-- expand: MEMO-SAMPLE -->
 ```
+<!-- collapse:end -->
 
-　${{TODO}{まだ記述されていません。}}
+　memo のパラメータ構成は以下の通りです。
+
+```lisp
+(defmacro memo (center text &key width height crease
+                                 align valign margin
+                                 font fill stroke link
+                                 rotate layer id filter contents) ...)
+```
+
+${BLANK_PARAGRAPH}
+
+<!-- stack:push tr style="font-size: 14;" -->
+
+Table. memo のパラメータ
+| パラメータ  | 説明                                                                           |
+|:===========|:--------------------------------------------------------------------------------------|
+| center     | 中心点を指定します。詳細は「[](#座標と位置)」を参照してください。 |
+| text       | ボックス内部に描画するテキストを文字列で指定します。改行は "~%" で表現します。      |
+| width      | ボックスの幅を自動決定せず、明示的に指定したい場合に数値で指定します。 |
+| height     | ボックスの高さを自動決定せず、明示的に指定したい場合に数値で指定します。 |
+| crease     | 右下の折り目のサイズを数値で指定します。省略した場合のデフォルト値は 20 です。  |
+| align      | テキストの水平方向のアライメントを `:left :center :right` のいずれかで指定します。<br> \
+省略した場合のデフォルト値は `:center` です。詳細は後述します。 |
+| vlign      | テキストの垂直方向のアライメントを `:top :center :bottom` のいずれかで指定します。<br> \
+省略した場合のデフォルト値は `:center` です。詳細は後述します。 |
+| margin     | テキスト描画における「余白」のサイズです。省略した場合のデフォルト値は 10 です。 |
+| font       | テキストのフォントを指定します。詳細は「[](#フォント)」を参照してください。         |
+| fill       | メモ内部の塗り潰しを指定します。詳細は「[](#フィル)」を参照してください。<br> \
+折り目部分の色は fill の指定から自動的に「少し暗い色」が選択されます。 |
+| stroke     | メモの外枠を描画する線を指定します。詳細は「[](#ストローク)」を参照してください。 |
+| link       | メモをリンクにする場合、リンク先を指定します。詳細は「[](#リンク)」を参照してください。 |
+| rotate     | メモ全体を回転させたい場合に、その角度を指定します。<br> \
+詳細は「[](#回転)」を参照してください。           |
+| layer      | メモをレイヤーに所属させる場合、その名前をキーワードで指定します。<br> \
+詳細は「[](#レイヤー)」を参照してください。           |
+| id         | メモに ID を付与したい場合、その名前をキーワードで指定します。<br> \
+詳細は「[](#IDと参照)」を参照してください。            |
+| filter     | メモの描画にフィルタ効果を適用したい場合、その名前を指定します。<br> \
+詳細は「[](#フィルタ)」を参照してください。 |
+| contents   | メモの内部をサブキャンバスとした描画をしたい場合、その内容を指定します。<br> \
+詳細は「[](#サブキャンバス)」を参照してください。|
+
+<!-- stack:pop tr -->
+
+${BLANK_PARAGRAPH}
+
+<!-- anchor: with-memo-options -->
+<!-- autolink: [$$](A#with-memo-options) -->
+
+　図の中でメモのスタイルを統一する作業を簡単にするために、with-memo-options が
+用意されています。
+
+```lisp
+(defmacro with-memo-options ((&key crease align valign margin
+                                   font fill stroke filter layer) &rest body) ...)
+```
+
+<!-- snippet: WITH-MEMO-OPTIONS-SAMPLE
+(diagram (240 100)
+  (grid)
+  (drop-shadow)
+  (with-memo-options (:stroke :crimson :fill :mistyrose :filter :drop-shadow)
+    (memo '( 60 50) "first~%memo"  :width 80 :height 60)
+    (memo '(180 50) "second~%memo" :width 80 :height 60)))
+-->
+
+　これを以下のように使用することで、複数のメモのスタイルを一箇所で指定することができます。
+
+```lisp
+<!-- expand: WITH-MEMO-OPTIONS-SAMPLE -->
+```
+
+```diagram
+<!-- expand: WITH-MEMO-OPTIONS-SAMPLE -->
+```
+Figure. with-memo-options のサンプル
 
 ### 円柱
+<!-- autolink: [cylinder](#円柱) -->
+<!-- autolink: [$$](#円柱) -->
 
-　円柱は${{TODO}{まだ記述されていません。}}
+　円柱はテキストボックスと良く似た機能を持ちますが、ボックスのかわりに円柱が描画されます。
+テキストボックスとは異なり、サイズは自動計算されないため、幅と高さを指定する必要があります。
 
 <!-- snippet: CYLINDER-SAMPLE
 (diagram (200 100)
@@ -1637,11 +1874,91 @@ Figure. メモのサンプル
 ```
 Figure. 円柱のサンプル
 
+<!-- collapse:begin -->
+　※上記サンプルのソースはこちら。
+
 ```lisp
 <!-- expand: CYLINDER-SAMPLE -->
 ```
+<!-- collapse:end -->
 
-　${{TODO}{まだ記述されていません。}}
+　cylinder のパラメータ構成は以下の通りです。
+
+```lisp
+(defmacro cylinder (center width height text
+                           &key depth align valign margin
+                                font fill stroke link
+                                rotate layer id filter contents) ...)
+```
+
+${BLANK_PARAGRAPH}
+
+<!-- stack:push tr style="font-size: 14;" -->
+
+Table. cylinder のパラメータ
+| パラメータ  | 説明                                                                           |
+|:===========|:--------------------------------------------------------------------------------------|
+| center     | 中心点を指定します。詳細は「[](#座標と位置)」を参照してください。 |
+| width      | 円柱の幅を数値で指定します。 |
+| height     | 円柱の高さを数値で指定します。 |
+| text       | 内部に描画するテキストを文字列で指定します。改行は "~%" で表現します。      |
+| depth      | ボックス下部の曲線の深さを指定します。省略した場合のデフォルト値は height の 1/5 です。  |
+| align      | テキストの水平方向のアライメントを `:left :center :right` のいずれかで指定します。<br> \
+省略した場合のデフォルト値は `:center` です。詳細は後述します。 |
+| vlign      | テキストの垂直方向のアライメントを `:top :center :bottom` のいずれかで指定します。<br> \
+省略した場合のデフォルト値は `:center` です。詳細は後述します。 |
+| margin     | テキスト描画における「余白」のサイズです。省略した場合のデフォルト値は 10 です。 |
+| font       | テキストのフォントを指定します。詳細は「[](#フォント)」を参照してください。         |
+| fill       | 円柱内部の塗り潰しを指定します。詳細は「[](#フィル)」を参照してください。<br> \
+折り目部分の色は fill の指定から自動的に「少し暗い色」が選択されます。 |
+| stroke     | 円柱の外枠を描画する線を指定します。詳細は「[](#ストローク)」を参照してください。 |
+| link       | 円柱をリンクにする場合、リンク先を指定します。詳細は「[](#リンク)」を参照してください。 |
+| rotate     | 円柱全体を回転させたい場合に、その角度を指定します。<br> \
+詳細は「[](#回転)」を参照してください。           |
+| layer      | 円柱をレイヤーに所属させる場合、その名前をキーワードで指定します。<br> \
+詳細は「[](#レイヤー)」を参照してください。           |
+| id         | 円柱に ID を付与したい場合、その名前をキーワードで指定します。<br> \
+詳細は「[](#IDと参照)」を参照してください。            |
+| filter     | 円柱の描画にフィルタ効果を適用したい場合、その名前を指定します。<br> \
+詳細は「[](#フィルタ)」を参照してください。 |
+| contents   | 円柱の内部をサブキャンバスとした描画をしたい場合、その内容を指定します。<br> \
+詳細は「[](#サブキャンバス)」を参照してください。|
+
+<!-- stack:pop tr -->
+
+${BLANK_PARAGRAPH}
+
+<!-- anchor: with-cylinder-options -->
+<!-- autolink: [$$](A#with-cylinder-options) -->
+
+　図の中で円柱のスタイルを統一する作業を簡単にするために、with-cylinder-options が
+用意されています。
+
+```lisp
+(defmacro with-cylinder-options ((&key depth align valign margin
+                                  font fill stroke filter layer) &rest body) ...)
+```
+
+<!-- snippet: WITH-CYLINDER-OPTIONS-SAMPLE
+(diagram (240 100)
+  (grid)
+  (drop-shadow)
+  (with-cylinder-options (:stroke :slateblue4
+                          :fill   :lightsteelblue1 :filter :drop-shadow)
+    (cylinder '( 60 50) 80 60 "first~%cylinder" )
+    (cylinder '(180 50) 80 60 "second~%cylinder")))
+-->
+
+　これを以下のように使用することで、複数の円柱のスタイルを一箇所で指定することができます。
+
+```lisp
+<!-- expand: WITH-CYLINDER-OPTIONS-SAMPLE -->
+```
+
+```diagram
+<!-- expand: WITH-CYLINDER-OPTIONS-SAMPLE -->
+```
+Figure. with-cylinder-options のサンプル
 
 ### 爆発
 
