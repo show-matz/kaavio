@@ -2203,18 +2203,20 @@ Figure. with-block-arrow-options のサンプル
 
 
 ### 波括弧
+<!-- autolink: [brace](#波括弧) -->
+<!-- autolink: [$$](#波括弧) -->
 
-　${{TODO}{まだ記述されていません。}}
+　brace により、大きな波括弧を描画することができます。
 
 <!-- snippet: BRACE-SAMPLE
-(diagram (400 300)
+(diagram (400 220)
    (grid)
    (with-options (:font   '(:fill :navy :size 16)
                   :stroke '(:color :navy :width 2))
-       (brace '(200  40) :upper  240  60 :r 20 :point 150 :text "upper brace" )
-       (brace '(200 260) :bottom 240  60 :r 20 :point  60 :text "bottom brace")
-       (brace '(360 150) :right   60 200 :r 20 :point 150 :text "right brace" )
-       (brace '( 40 150) :left    60 200 :r 20 :point  60 :text "left brace"  )))
+       (brace '(200  30) :upper  240  40 :r 10 :point 150 :text "upper brace" )
+       (brace '(200 190) :bottom 240  40 :r 10 :point  60 :text "bottom brace")
+       (brace '( 30 110) :left    40 120 :r 10 :point  40 :text "left brace"  )
+       (brace '(370 110) :right   40 120 :r 10 :point  80 :text "right brace" )))
 -->
 
 ```diagram
@@ -2222,16 +2224,50 @@ Figure. with-block-arrow-options のサンプル
 ```
 Figure. 波括弧のサンプル
 
+<!-- collapse:begin -->
+　※上記サンプルのソースはこちら。
+
 ```lisp
 <!-- expand: BRACE-SAMPLE -->
 ```
+<!-- collapse:end -->
 
-　${{TODO}{まだ記述されていません。}}
+　brace のパラメータ構成は以下の通りです。
 
 ```lisp
 (defmacro brace (center direction width height
                         &key r point text font stroke layer filter id) ...)
 ```
+
+${BLANK_PARAGRAPH}
+
+<!-- stack:push tr style="font-size: 14;" -->
+
+Table. brace のパラメータ
+| パラメータ  | 説明                                                                           |
+|:===========|:--------------------------------------------------------------------------------------|
+| center     | 中心点を指定します。詳細は「[](#座標と位置)」を参照してください。 |
+| direction  | 波括弧の向きを `:upper,:bottom,:left,:right` のいずれかで指定します。 |
+| width      | 波括弧の幅を数値で指定します（後述）。 |
+| height     | 波括弧の高さを数値で指定します（後述）。 |
+| r          | 曲線部分の半径を数値で指定します（後述）。|
+| point      | テキストに使う曲線部分の端からの距離を数値で指定します。<br> \
+これは水平の波括弧の場合は左から、垂直の波括弧の場合は上からの距離です。（後述）。|
+| text       | 描画するテキストを文字列で指定します。改行は "~%" で表現します。      |
+| font       | テキストのフォントを指定します。詳細は「[](#フォント)」を参照してください。         |
+| stroke     | 波括弧の外枠を描画する線を指定します。詳細は「[](#ストローク)」を参照してください。 |
+| layer      | 波括弧をレイヤーに所属させる場合、その名前をキーワードで指定します。<br> \
+詳細は「[](#レイヤー)」を参照してください。           |
+| filter     | 波括弧の描画にフィルタ効果を適用したい場合、その名前を指定します。<br> \
+詳細は「[](#フィルタ)」を参照してください。 |
+| id         | 波括弧に ID を付与したい場合、その名前をキーワードで指定します。<br> \
+詳細は「[](#IDと参照)」を参照してください。            |
+
+<!-- stack:pop tr -->
+
+${BLANK_PARAGRAPH}
+
+　上記だけではわかりにくいので、以下を参考にしてください。
 
 ```diagram
 (diagram (400 150)
@@ -2260,9 +2296,43 @@ Figure. 波括弧のサンプル
 ```
 Figure. 波括弧のパラメータ
 
-* `r` が省略された場合、デフォルト値として `height` の 1/3 が指定される
-* `point` が省略された場合、デフォルト値として `width` の 1/2 が指定される
-* `point` が左右端に近過ぎる場合、 `r` が自動調整される
+* `r` が省略された場合、デフォルト値として `height` （縦向きの場合は `width` ）の 1/3 が指定されます
+* `point` が省略された場合、デフォルト値として `width` （縦向きの場合は `height` ）の 1/2 が指定されます
+* `point` が左右端に近過ぎる場合、 `r` が自動調整されます
+
+${BLANK_PARAGRAPH}
+
+<!-- anchor: with-brace-options -->
+<!-- autolink: [$$](A#with-brace-options) -->
+
+　図の中で波括弧のスタイルを統一する作業を簡単にするために、with-brace-options が
+用意されています。
+
+```lisp
+(defmacro with-brace-options ((&key font stroke filter layer) &rest body) ...)
+```
+
+<!-- snippet: WITH-BRACE-OPTIONS-SAMPLE
+(diagram (400 220)
+   (grid)
+   (with-brace-options (:font   '(:fill  :brown :size 16)
+                        :stroke '(:color :brown :width 2))
+       (brace '(200  30) :upper  240  40 :r 10 :point 150 :text "upper brace" )
+       (brace '(200 190) :bottom 240  40 :r 10 :point  60 :text "bottom brace")
+       (brace '( 30 110) :left    40 120 :r 10 :point  40 :text "left brace"  )
+       (brace '(370 110) :right   40 120 :r 10 :point  80 :text "right brace" )))
+-->
+
+　これを以下のように使用することで、複数の波括弧のスタイルを一箇所で指定することができます。
+
+```lisp
+<!-- expand: WITH-BRACE-OPTIONS-SAMPLE -->
+```
+
+```diagram
+<!-- expand: WITH-BRACE-OPTIONS-SAMPLE -->
+```
+Figure. with-brace-options のサンプル
 
 ### テーブル
 
