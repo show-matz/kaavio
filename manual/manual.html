@@ -354,8 +354,8 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <li>with-options で、デフォルトの塗りつぶしを <code>white</code> に設定
 <ul>
 <li><a class='autolink' href='#5IHcv4bxjLU'>balloon</a> で app の右上付近に<a class='autolink' href='#5IHcv4bxjLU'>吹き出し</a>を作成 : テキストは "Made with LISP."、接続点は app の右上端（app.topright）</li>
-<li>block-arrow1 で in と app の間にブロック矢印を作成</li>
-<li>上記と同じ要領で app と out の間にブロック矢印を作成</li>
+<li><a class='autolink' href='#49KKf97828b'>block-arrow1</a> で in と app の間に<a class='autolink' href='#49KKf97828b'>ブロック矢印</a>を作成</li>
+<li>上記と同じ要領で app と out の間に<a class='autolink' href='#49KKf97828b'>ブロック矢印</a>を作成</li>
 </ul>
 </li>
 </ul>
@@ -2524,7 +2524,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
   (explosion2 '(250 75) 140 120 <span class='literal'>"explosion~%type2"</span> <span class='keyword3'>:fill</span> <span class='keyword3'>:pink</span> <span class='keyword3'>:stroke</span> <span class='keyword3'>:red</span>))
 </pre>
 </details>
-<p>　<a class='autolink' href='#hjZ26isLw42'>explosion</a> のパラメータ構成は以下の通りです。</p>
+<p>　<a class='autolink' href='#hjZ26isLw42'>explosion1</a>, <a class='autolink' href='#hjZ26isLw42'>explosion2</a> のパラメータ構成は以下の通りです。</p>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>explosion1</span> (center width height text
                          <span class='keyword2'>&amp;key</span> font fill stroke
@@ -2600,7 +2600,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 
 <p class='fig_title'><a name='6vhSWl4Z51P'></a>Figure.5-23 with-explosion-options のサンプル</p>
 <h3><a name='49KKf97828b'></a>5.10 ブロック矢印</h3>
-<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<p>　<a class='autolink' href='#49KKf97828b'>block-arrow1</a> を使うと、指定した２点を結ぶ大きな矢印を描画できます。<a class='autolink' href='#49KKf97828b'>block-arrow1</a> は終端側だけに矢印が描画されますが、<a class='autolink' href='#49KKf97828b'>block-arrow2</a> を使えば双方向の矢印になります。</p>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='150'>
@@ -2620,6 +2620,8 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </div>
 
 <p class='fig_title'><a name='eIwQ5AwuV7t'></a>Figure.5-24 ブロック矢印のサンプル</p>
+<details>
+<summary>　※上記サンプルのソースはこちら。</summary>
 <pre class='code'>
 (diagram (300 150)
   (grid)
@@ -2628,13 +2630,32 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
     (block-arrow1 '(50  40) '(250  40) 20)
     (block-arrow2 '(50 110) '(250 110) 20)))
 </pre>
-<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+</details>
+<p>　<a class='autolink' href='#49KKf97828b'>block-arrow1</a>, <a class='autolink' href='#49KKf97828b'>block-arrow2</a> のパラメータ構成は以下の通りです。</p>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>block-arrow1</span> (pt1 pt2 width <span class='keyword2'>&amp;key</span> size length margin
                                      fill stroke link layer filter id) ...)
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>block-arrow2</span> (pt1 pt2 width <span class='keyword2'>&amp;key</span> size length margin
                                      fill stroke link layer filter id) ...)
 </pre>
+<p>　　</p>
+<p class='tbl_title'><a name='eVCkMFMqQkq'></a>Table.5-10 block-arrow1, block-arrow2 のパラメータ</p>
+<table align='center'>
+<tr style="font-size: 14;"><th>パラメータ</th><th>説明</th></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>pt1, pt2</td><td align='left'>始点と終点を指定します。詳細は「<a href='#h1RNMQY1C0b'>7  座標と位置</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>width</td><td align='left'><a class='autolink' href='#49KKf97828b'>ブロック矢印</a>の幅を数値で指定します（後述）。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>size</td><td align='left'>矢印部分の大きさを数値で指定します（後述）。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>length</td><td align='left'>矢印部分の長さを数値で指定します（後述）。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>margin</td><td align='left'>始点・終点と<a class='autolink' href='#49KKf97828b'>ブロック矢印</a>の間にあける隙間を数値で指定します（後述）。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>fill</td><td align='left'><a class='autolink' href='#49KKf97828b'>ブロック矢印</a>内部の塗り潰しを指定します。詳細は「<a href='#dBUd7L4C3dx'>6.3  フィル</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>stroke</td><td align='left'><a class='autolink' href='#49KKf97828b'>ブロック矢印</a>の外枠を描画する線を指定します。詳細は「<a href='#4HFjqmTuIU6'>6.2  ストローク</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>link</td><td align='left'><a class='autolink' href='#49KKf97828b'>ブロック矢印</a>をリンクにする場合、リンク先を指定します。詳細は「<a href='#fbLcMRTVXac'>6.9  リンク</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>layer</td><td align='left'><a class='autolink' href='#49KKf97828b'>ブロック矢印</a>をレイヤーに所属させる場合、その名前をキーワードで指定します。<br>詳細は「<a href='#1ovJxG7Ie9O'>6.8  レイヤー</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>filter</td><td align='left'><a class='autolink' href='#49KKf97828b'>ブロック矢印</a>の描画にフィルタ効果を適用したい場合、その名前を指定します。<br>詳細は「<a href='#gPGlqSbIfdL'>6.7  フィルタ</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>id</td><td align='left'><a class='autolink' href='#49KKf97828b'>ブロック矢印</a>に ID を付与したい場合、その名前をキーワードで指定します。<br>詳細は「<a href='#iu9Ovm00KHn'>6.5  IDと参照</a>」を参照してください。</td></tr>
+</table>
+<p>　　</p>
+<p>　上記だけではわかりにくいので、以下を参考にしてください。</p>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='400' height='120'>
@@ -2707,10 +2728,55 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 
 <p class='fig_title'><a name='htsQptREwXf'></a>Figure.5-25 ブロック矢印のパラメータ</p>
 <ul>
-<li><code>size</code> が省略された場合、デフォルト値として <code>width</code> の２倍が使用される。</li>
-<li><code>length</code> が省略された場合、デフォルト値として <code>size</code> と同じ値が使用される。</li>
-<li><code>margin</code> が省略された場合、デフォルト値として 0 が使用される。</li>
+<li><code>size</code> が省略された場合、デフォルト値として <code>width</code> の２倍が使用されます</li>
+<li><code>length</code> が省略された場合、デフォルト値として <code>size</code> と同じ値が使用されます</li>
+<li><code>margin</code> が省略された場合、デフォルト値として 0 が使用されます</li>
 </ul>
+<p>　　</p>
+<a name='eYjxAunsQAT'></a>
+<p>　図の中で<a class='autolink' href='#49KKf97828b'>ブロック矢印</a>のスタイルを統一する作業を簡単にするために、<a class='autolink' href='#eYjxAunsQAT'>with-block-arrow-options</a> が用意されています。</p>
+<pre class='code'>
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>with-block-arrow-options</span> ((<span class='keyword2'>&amp;key</span> fill stroke
+                                          filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
+</pre>
+<p>　これを以下のように使用することで、複数の<a class='autolink' href='#49KKf97828b'>ブロック矢印</a>のスタイルを一箇所で指定することができます。</p>
+<pre class='code'>
+(diagram (200 100)
+  (grid)
+  (drop-shadow)
+  (with-block-arrow-options (<span class='keyword3'>:fill</span>   <span class='keyword3'>:honeydew</span>
+                             <span class='keyword3'>:stroke</span> <span class='keyword3'>:darkgreen</span> <span class='keyword3'>:filter</span> <span class='keyword3'>:drop-shadow</span>)
+    (block-arrow1 '(30 25) '(170 25) 20)
+    (block-arrow2 '(30 75) '(170 75) 20)))
+</pre>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='200' height='100'>
+	
+	<filter id='drop-shadow'>
+		<feColorMatrix type='matrix' values=' 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.4 0' />
+		<feGaussianBlur stdDeviation='2' result='blur' />
+		<feOffset in='blur' dx='4' dy='4' result='offsetBlur' />
+		<feMerge>
+			<feMergeNode in='offsetBlur' />
+			<feMergeNode in='SourceGraphic'/>
+		</feMerge>
+	</filter>
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- block-arrow -->
+	<polygon fill='honeydew' stroke='darkgreen' stroke-width='1' points='30.0,35.0 30.0,15.0 130.0,15.0 130.0,5.0 170.0,25.0 130.0,45.0 130.0,35.0' filter='url(#drop-shadow)' />
+	<!-- block-arrow -->
+	<polygon fill='honeydew' stroke='darkgreen' stroke-width='1' points='30.0,75.0 70.0,55.0 70.0,65.0 130.0,65.0 130.0,55.0 170.0,75.0 130.0,95.0 130.0,85.0 70.0,85.0 70.0,95.0' filter='url(#drop-shadow)' />
+
+</svg>
+</div>
+
+<p class='fig_title'><a name='joIBAKcJmZU'></a>Figure.5-26 with-block-arrow-options のサンプル</p>
 <h3><a name='lBS33hNe32a'></a>5.11 波括弧</h3>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <div align='center'>
@@ -2739,7 +2805,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='jKClDFWGMjM'></a>Figure.5-26 波括弧のサンプル</p>
+<p class='fig_title'><a name='jKClDFWGMjM'></a>Figure.5-27 波括弧のサンプル</p>
 <pre class='code'>
 (diagram (400 300)
    (grid)
@@ -2807,7 +2873,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='eWywNaFqjwP'></a>Figure.5-27 波括弧のパラメータ</p>
+<p class='fig_title'><a name='eWywNaFqjwP'></a>Figure.5-28 波括弧のパラメータ</p>
 <ul>
 <li><code>r</code> が省略された場合、デフォルト値として <code>height</code> の 1/3 が指定される</li>
 <li><code>point</code> が省略された場合、デフォルト値として <code>width</code> の 1/2 が指定される</li>
@@ -2847,7 +2913,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='4p5NTDB8bf1'></a>Figure.5-28 テーブルのサンプル</p>
+<p class='fig_title'><a name='4p5NTDB8bf1'></a>Figure.5-29 テーブルのサンプル</p>
 <p>　上記のサンプルは以下のコードで生成しています。</p>
 <pre class='code'>
 (diagram (320 120)
@@ -2862,7 +2928,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>table</span> (center rows cols <span class='keyword2'>&amp;key</span> stroke fills font texts layer id) ...)
 </pre>
 <p>　それぞれのパラメータについて以下に説明します。</p>
-<p class='tbl_title'><a name='46vpyWYCtdw'></a>Table.5-10 table のパラメータ</p>
+<p class='tbl_title'><a name='46vpyWYCtdw'></a>Table.5-11 table のパラメータ</p>
 <table align='center'>
 <tr style="font-size: 14;"><th>parameter</th><th>description</th></tr>
 <tr style="font-size: 14;"><td nowrap align='center'>center</td><td align='left'>作成するテーブルの中心座標を指定します。</td></tr>
@@ -2936,7 +3002,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='0EEfXZqu18P'></a>Figure.5-29 テーブルにおけるテキストの align と valign パラメータ</p>
+<p class='fig_title'><a name='0EEfXZqu18P'></a>Figure.5-30 テーブルにおけるテキストの align と valign パラメータ</p>
 <details>
 <summary>　※上記サンプルのソースはこちら。</summary>
 <pre class='code'>
@@ -2963,7 +3029,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
         (line `((0 0) (,w ,h)) <span class='keyword3'>:stroke</span> <span class='keyword3'>:navy</span>)))))
 </pre>
 </details>
-<p>　データを（リストでなく）直接指定した場合でも、数値ならば右寄せ、文字列ならば左寄せ、シンボルならば中央揃えというデフォルトの設定は行なわれるため、多くの場合で個別セルのテキストデータ指定をリストで行なう必要は無いでしょう。キーワードを使うと全て大文字で表示されてしまいますが、 <code>:|Foo|</code> のようにバーティカルバーで括ると文字の大小を維持したまま表示されます（<a href='#0EEfXZqu18P'>Figure.5-29</a> のコードを参照）。</p>
+<p>　データを（リストでなく）直接指定した場合でも、数値ならば右寄せ、文字列ならば左寄せ、シンボルならば中央揃えというデフォルトの設定は行なわれるため、多くの場合で個別セルのテキストデータ指定をリストで行なう必要は無いでしょう。キーワードを使うと全て大文字で表示されてしまいますが、 <code>:|Foo|</code> のようにバーティカルバーで括ると文字の大小を維持したまま表示されます（<a href='#0EEfXZqu18P'>Figure.5-30</a> のコードを参照）。</p>
 <h4><a name='3qNm5uHdKTZ'></a>5.12.1 with-table-cell を使ったセル内描画</h4>
 <p>　<code>table</code> の id とセルの行・列番号を指定して <code>with-table-cell</code> を使用することで、該当するセルをサブキャンバスとした描画ができます。</p>
 <pre class='code'>
@@ -2994,7 +3060,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='knawwdhRtbI'></a>Figure.5-30 with-table-cell の使用例</p>
+<p class='fig_title'><a name='knawwdhRtbI'></a>Figure.5-31 with-table-cell の使用例</p>
 <p>　上記のサンプルは以下のコードで生成されています。</p>
 <pre class='code'>
 (diagram (220 220)
@@ -6272,11 +6338,12 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <li><a href='#6vhSWl4Z51P'>Figure.5-23 with-explosion-options のサンプル</a></li>
 <li><a href='#eIwQ5AwuV7t'>Figure.5-24 ブロック矢印のサンプル</a></li>
 <li><a href='#htsQptREwXf'>Figure.5-25 ブロック矢印のパラメータ</a></li>
-<li><a href='#jKClDFWGMjM'>Figure.5-26 波括弧のサンプル</a></li>
-<li><a href='#eWywNaFqjwP'>Figure.5-27 波括弧のパラメータ</a></li>
-<li><a href='#4p5NTDB8bf1'>Figure.5-28 テーブルのサンプル</a></li>
-<li><a href='#0EEfXZqu18P'>Figure.5-29 テーブルにおけるテキストの align と valign パラメータ</a></li>
-<li><a href='#knawwdhRtbI'>Figure.5-30 with-table-cell の使用例</a></li>
+<li><a href='#joIBAKcJmZU'>Figure.5-26 with-block-arrow-options のサンプル</a></li>
+<li><a href='#jKClDFWGMjM'>Figure.5-27 波括弧のサンプル</a></li>
+<li><a href='#eWywNaFqjwP'>Figure.5-28 波括弧のパラメータ</a></li>
+<li><a href='#4p5NTDB8bf1'>Figure.5-29 テーブルのサンプル</a></li>
+<li><a href='#0EEfXZqu18P'>Figure.5-30 テーブルにおけるテキストの align と valign パラメータ</a></li>
+<li><a href='#knawwdhRtbI'>Figure.5-31 with-table-cell の使用例</a></li>
 <li><a href='#h7K5JgIwvZY'>Figure.6-1 回転のサンプル</a></li>
 <li><a href='#9Z8wQykrThD'>Figure.6-2 フィルタのサンプル</a></li>
 <li><a href='#br3mf6bkjtv'>Figure.7-1 xxxのサンプル</a></li>
@@ -6311,7 +6378,8 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <li><a href='#3XY7LS565dW'>Table.5-7 memo のパラメータ</a></li>
 <li><a href='#lR2lSmJgEMn'>Table.5-8 cylinder のパラメータ</a></li>
 <li><a href='#gP4bMhLxslv'>Table.5-9 explosion1, explosion2 のパラメータ</a></li>
-<li><a href='#46vpyWYCtdw'>Table.5-10 table のパラメータ</a></li>
+<li><a href='#eVCkMFMqQkq'>Table.5-10 block-arrow1, block-arrow2 のパラメータ</a></li>
+<li><a href='#46vpyWYCtdw'>Table.5-11 table のパラメータ</a></li>
 <li><a href='#jaLWrUQI3jh'>Table.11-1 make-fill 関数のパラメータ</a></li>
 <li><a href='#8gU4HDke41S'>Table.11-2 make-stroke 関数のパラメータ</a></li>
 </ul>
@@ -6342,6 +6410,8 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <summary class='idx_x'>B</summary>
 <blockquote class='idx_x'>
 <li class='idx_x'><a class='autolink' href='#5IHcv4bxjLU'>balloon</a></li>
+<li class='idx_x'><a class='autolink' href='#49KKf97828b'>block-arrow1</a></li>
+<li class='idx_x'><a class='autolink' href='#49KKf97828b'>block-arrow2</a></li>
 </blockquote>
 </details>
 <details class='idx_x' open>
@@ -6362,7 +6432,8 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <summary class='idx_x'>E</summary>
 <blockquote class='idx_x'>
 <li class='idx_x'><a class='autolink' href='#7YzIcjhyGKN'>ellipse</a></li>
-<li class='idx_x'><a class='autolink' href='#hjZ26isLw42'>explosion</a></li>
+<li class='idx_x'><a class='autolink' href='#hjZ26isLw42'>explosion1</a></li>
+<li class='idx_x'><a class='autolink' href='#hjZ26isLw42'>explosion2</a></li>
 </blockquote>
 </details>
 <details class='idx_x' open>
@@ -6453,6 +6524,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <summary class='idx_x'>W</summary>
 <blockquote class='idx_x'>
 <li class='idx_x'><a class='autolink' href='#j3wC5wII9dD'>with-balloon-options</a></li>
+<li class='idx_x'><a class='autolink' href='#eYjxAunsQAT'>with-block-arrow-options</a></li>
 <li class='idx_x'><a class='autolink' href='#7nl79AiDenC'>with-cylinder-options</a></li>
 <li class='idx_x'><a class='autolink' href='#1e9FbNaLUoA'>with-document-options</a></li>
 <li class='idx_x'><a class='autolink' href='#2H6JKIXGXRq'>with-explosion-options</a></li>
@@ -6471,6 +6543,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <li class='idx_x'><a class='autolink' href='#jRjILbbJATV'>ドキュメント</a></li>
 <li class='idx_x'><a class='autolink' href='#la7Xa1OTF3W'>パッケージ図</a></li>
 <li class='idx_x'><a class='autolink' href='#5ZT843xJDiq'>フォルダ</a></li>
+<li class='idx_x'><a class='autolink' href='#49KKf97828b'>ブロック矢印</a></li>
 <li class='idx_x'><a class='autolink' href='#0AVJhEKnK1M'>メモ</a></li>
 <li class='idx_x'><a class='autolink' href='#e57rLpXY8ah'>ユースケース図</a></li>
 <li class='idx_x'><a class='autolink' href='#5ME1Xv0K4sM'>円柱</a></li>

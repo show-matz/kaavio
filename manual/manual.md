@@ -1960,7 +1960,8 @@ ${BLANK_PARAGRAPH}
 Figure. with-cylinder-options のサンプル
 
 ### 爆発
-<!-- autolink: [explosion](#爆発) -->
+<!-- autolink: [explosion1](#爆発) -->
+<!-- autolink: [explosion2](#爆発) -->
 <!-- autolink: [$$](#爆発) -->
 
 　円柱はテキストボックスと良く似た機能を持ちますが、ボックスのかわりに爆発を模した多角形が
@@ -1987,7 +1988,7 @@ Figure. 爆発のサンプル
 ```
 <!-- collapse:end -->
 
-　explosion のパラメータ構成は以下の通りです。
+　explosion1, explosion2 のパラメータ構成は以下の通りです。
 
 ```lisp
 (defmacro explosion1 (center width height text
@@ -2059,8 +2060,12 @@ ${BLANK_PARAGRAPH}
 Figure. with-explosion-options のサンプル
 
 ### ブロック矢印
+<!-- autolink: [block-arrow1](#ブロック矢印) -->
+<!-- autolink: [block-arrow2](#ブロック矢印) -->
+<!-- autolink: [$$](#ブロック矢印) -->
 
-　${{TODO}{まだ記述されていません。}}
+　block-arrow1 を使うと、指定した２点を結ぶ大きな矢印を描画できます。block-arrow1 は
+終端側だけに矢印が描画されますが、block-arrow2 を使えば双方向の矢印になります。
 
 <!-- snippet: BLOCKARROW-SAMPLE
 (diagram (300 150)
@@ -2076,11 +2081,15 @@ Figure. with-explosion-options のサンプル
 ```
 Figure. ブロック矢印のサンプル
 
+<!-- collapse:begin -->
+　※上記サンプルのソースはこちら。
+
 ```lisp
 <!-- expand: BLOCKARROW-SAMPLE -->
 ```
+<!-- collapse:end -->
 
-　${{TODO}{まだ記述されていません。}}
+　block-arrow1, block-arrow2 のパラメータ構成は以下の通りです。
 
 ```lisp
 (defmacro block-arrow1 (pt1 pt2 width &key size length margin
@@ -2088,6 +2097,34 @@ Figure. ブロック矢印のサンプル
 (defmacro block-arrow2 (pt1 pt2 width &key size length margin
                                      fill stroke link layer filter id) ...)
 ```
+
+${BLANK_PARAGRAPH}
+
+<!-- stack:push tr style="font-size: 14;" -->
+
+Table. block-arrow1, block-arrow2 のパラメータ
+| パラメータ  | 説明                                                                           |
+|:===========|:--------------------------------------------------------------------------------------|
+| pt1, pt2   | 始点と終点を指定します。詳細は「[](#座標と位置)」を参照してください。 |
+| width      | ブロック矢印の幅を数値で指定します（後述）。 |
+| size       | 矢印部分の大きさを数値で指定します（後述）。 |
+| length     | 矢印部分の長さを数値で指定します（後述）。 |
+| margin     | 始点・終点とブロック矢印の間にあける隙間を数値で指定します（後述）。 |
+| fill       | ブロック矢印内部の塗り潰しを指定します。詳細は「[](#フィル)」を参照してください。 |
+| stroke     | ブロック矢印の外枠を描画する線を指定します。詳細は「[](#ストローク)」を参照してください。 |
+| link       | ブロック矢印をリンクにする場合、リンク先を指定します。詳細は「[](#リンク)」を参照してください。 |
+| layer      | ブロック矢印をレイヤーに所属させる場合、その名前をキーワードで指定します。<br> \
+詳細は「[](#レイヤー)」を参照してください。           |
+| filter     | ブロック矢印の描画にフィルタ効果を適用したい場合、その名前を指定します。<br> \
+詳細は「[](#フィルタ)」を参照してください。 |
+| id         | ブロック矢印に ID を付与したい場合、その名前をキーワードで指定します。<br> \
+詳細は「[](#IDと参照)」を参照してください。            |
+
+<!-- stack:pop tr -->
+
+${BLANK_PARAGRAPH}
+
+　上記だけではわかりにくいので、以下を参考にしてください。
 
 ```diagram
 (diagram (400 120)
@@ -2126,9 +2163,44 @@ Figure. ブロック矢印のサンプル
 ```
 Figure. ブロック矢印のパラメータ
 
-* `size` が省略された場合、デフォルト値として `width` の２倍が使用される。
-* `length` が省略された場合、デフォルト値として `size` と同じ値が使用される。
-* `margin` が省略された場合、デフォルト値として 0 が使用される。
+* `size` が省略された場合、デフォルト値として `width` の２倍が使用されます
+* `length` が省略された場合、デフォルト値として `size` と同じ値が使用されます
+* `margin` が省略された場合、デフォルト値として 0 が使用されます
+
+${BLANK_PARAGRAPH}
+
+<!-- anchor: with-block-arrow-options -->
+<!-- autolink: [$$](A#with-block-arrow-options) -->
+
+　図の中でブロック矢印のスタイルを統一する作業を簡単にするために、with-block-arrow-options が
+用意されています。
+
+```lisp
+(defmacro with-block-arrow-options ((&key fill stroke
+                                          filter layer) &rest body) ...)
+```
+
+<!-- snippet: WITH-BLOCK-ARROW-OPTIONS-SAMPLE
+(diagram (200 100)
+  (grid)
+  (drop-shadow)
+  (with-block-arrow-options (:fill   :honeydew
+                             :stroke :darkgreen :filter :drop-shadow)
+    (block-arrow1 '(30 25) '(170 25) 20)
+    (block-arrow2 '(30 75) '(170 75) 20)))
+-->
+
+　これを以下のように使用することで、複数のブロック矢印のスタイルを一箇所で指定することができます。
+
+```lisp
+<!-- expand: WITH-BLOCK-ARROW-OPTIONS-SAMPLE -->
+```
+
+```diagram
+<!-- expand: WITH-BLOCK-ARROW-OPTIONS-SAMPLE -->
+```
+Figure. with-block-arrow-options のサンプル
+
 
 ### 波括弧
 
