@@ -1909,8 +1909,7 @@ Table. cylinder のパラメータ
 省略した場合のデフォルト値は `:center` です。詳細は後述します。 |
 | margin     | テキスト描画における「余白」のサイズです。省略した場合のデフォルト値は 10 です。 |
 | font       | テキストのフォントを指定します。詳細は「[](#フォント)」を参照してください。         |
-| fill       | 円柱内部の塗り潰しを指定します。詳細は「[](#フィル)」を参照してください。<br> \
-折り目部分の色は fill の指定から自動的に「少し暗い色」が選択されます。 |
+| fill       | 円柱内部の塗り潰しを指定します。詳細は「[](#フィル)」を参照してください。 |
 | stroke     | 円柱の外枠を描画する線を指定します。詳細は「[](#ストローク)」を参照してください。 |
 | link       | 円柱をリンクにする場合、リンク先を指定します。詳細は「[](#リンク)」を参照してください。 |
 | rotate     | 円柱全体を回転させたい場合に、その角度を指定します。<br> \
@@ -1961,14 +1960,18 @@ ${BLANK_PARAGRAPH}
 Figure. with-cylinder-options のサンプル
 
 ### 爆発
+<!-- autolink: [explosion](#爆発) -->
+<!-- autolink: [$$](#爆発) -->
 
-　${{TODO}{まだ記述されていません。}}
+　円柱はテキストボックスと良く似た機能を持ちますが、ボックスのかわりに爆発を模した多角形が
+描画されます。テキストボックスとは異なり、サイズは自動計算されないため、幅と高さを指定する
+必要があります。また、爆発には２種類の形状があります。
 
 <!-- snippet: EXPLOSION-SAMPLE
 (diagram (350 150)
   (grid)
-  (explosion1 '(100 75) 140 120 "explosion1" :fill :pink :stroke :red)
-  (explosion2 '(250 75) 140 120 "explosion2" :fill :pink :stroke :red))
+  (explosion1 '(100 75) 140 120 "explosion~%type1" :fill :pink :stroke :red)
+  (explosion2 '(250 75) 140 120 "explosion~%type2" :fill :pink :stroke :red))
 -->
 
 ```diagram
@@ -1976,11 +1979,84 @@ Figure. with-cylinder-options のサンプル
 ```
 Figure. 爆発のサンプル
 
+<!-- collapse:begin -->
+　※上記サンプルのソースはこちら。
+
 ```lisp
 <!-- expand: EXPLOSION-SAMPLE -->
 ```
+<!-- collapse:end -->
 
-　${{TODO}{まだ記述されていません。}}
+　explosion のパラメータ構成は以下の通りです。
+
+```lisp
+(defmacro explosion1 (center width height text
+                         &key font fill stroke
+                              link rotate layer id filter) ...)
+(defmacro explosion2 (center width height text
+                         &key font fill stroke
+                              link rotate layer id filter) ...)
+```
+
+${BLANK_PARAGRAPH}
+
+<!-- stack:push tr style="font-size: 14;" -->
+
+Table. explosion1, explosion2 のパラメータ
+| パラメータ  | 説明                                                                           |
+|:===========|:--------------------------------------------------------------------------------------|
+| center     | 中心点を指定します。詳細は「[](#座標と位置)」を参照してください。 |
+| width      | 爆発の幅を数値で指定します。 |
+| height     | 爆発の高さを数値で指定します。 |
+| text       | 内部に描画するテキストを文字列で指定します。改行は "~%" で表現します。      |
+| font       | テキストのフォントを指定します。詳細は「[](#フォント)」を参照してください。         |
+| fill       | 爆発内部の塗り潰しを指定します。詳細は「[](#フィル)」を参照してください。 |
+| stroke     | 爆発の外枠を描画する線を指定します。詳細は「[](#ストローク)」を参照してください。 |
+| link       | 爆発をリンクにする場合、リンク先を指定します。詳細は「[](#リンク)」を参照してください。 |
+| rotate     | 爆発全体を回転させたい場合に、その角度を指定します。<br> \
+詳細は「[](#回転)」を参照してください。           |
+| layer      | 爆発をレイヤーに所属させる場合、その名前をキーワードで指定します。<br> \
+詳細は「[](#レイヤー)」を参照してください。           |
+| id         | 爆発に ID を付与したい場合、その名前をキーワードで指定します。<br> \
+詳細は「[](#IDと参照)」を参照してください。            |
+| filter     | 爆発の描画にフィルタ効果を適用したい場合、その名前を指定します。<br> \
+詳細は「[](#フィルタ)」を参照してください。 |
+
+<!-- stack:pop tr -->
+
+${BLANK_PARAGRAPH}
+
+<!-- anchor: with-explosion-options -->
+<!-- autolink: [$$](A#with-explosion-options) -->
+
+　図の中で爆発のスタイルを統一する作業を簡単にするために、with-explosion-options が
+用意されています。
+
+```lisp
+(defmacro with-explosion-options ((&key font fill
+                                        stroke filter layer) &rest body) ...)
+```
+
+<!-- snippet: WITH-EXPLOSION-OPTIONS-SAMPLE
+(diagram (300 100)
+  (grid)
+  (drop-shadow)
+  (with-explosion-options (:stroke :orangered3
+                           :fill   :thistle1   :filter :drop-shadow)
+    (explosion1 '( 80 50) 140 100 "first~%explosion" )
+    (explosion2 '(220 50) 140 100 "second~%explosion")))
+-->
+
+　これを以下のように使用することで、複数の爆発のスタイルを一箇所で指定することができます。
+
+```lisp
+<!-- expand: WITH-EXPLOSION-OPTIONS-SAMPLE -->
+```
+
+```diagram
+<!-- expand: WITH-EXPLOSION-OPTIONS-SAMPLE -->
+```
+Figure. with-explosion-options のサンプル
 
 ### ブロック矢印
 
