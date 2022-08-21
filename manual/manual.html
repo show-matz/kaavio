@@ -1189,6 +1189,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <p><span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <h3><a name='eYtPrg88Qb0'></a>4.10 :close-path ディレクティブ</h3>
 <p><span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<p>　　</p>
 <h2><a name='6ZrdX9S7TVt'></a>5 その他の図形</h2>
 <p>　基本的な図形を組み合わせて作成される、複合的な図形を紹介します。以下のサンプルはサブセクションへのリンクになっています。</p>
 <!-- define: HASH_CONNECTOR  = '[](#コネクタ)' -->
@@ -1581,7 +1582,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </div>
 
 <p class='fig_title'><a name='iS4fHSfl5nF'></a>Figure.5-2 コネクタにおける接続点の指定</p>
-<p>　style パラメータを使って接続点を指定すると、コネクタは接続対象の図形要素の位置関係を調べて適切な折線を描画します（:CC 以外の場合）。たとえば、以下は <code>:style :LR</code> でコネクタによる接続を行なっています。</p>
+<p>　style パラメータを使って :CC 以外の接続を指定すると、コネクタは接続対象の図形要素の位置関係を調べて適切な折線を描画します。たとえば、以下は <code>:style :LR</code> でコネクタによる接続を行なっています。</p>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='120'>
@@ -1627,7 +1628,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </div>
 
 <p class='fig_title'><a name='kui5wtIKl5y'></a>Figure.5-4 コネクタによる接続経路決定は他の要素を迂回しない</p>
-<p>　上記のような場合に役に立つ（かもしれない）のが spacing パラメータです。これは、2 回以上折れ曲がる接続線において、「自由な線分の調整を行う」ものです。<a href='#kui5wtIKl5y'>Figure.5-4</a> の接続線を見てください。4 回折れ曲がっていて、5 本の線分でできています。このうち、接続対象に直接触れている線分は動かせませんが、残り 3 つの線分はそれぞれ x 軸方向または y 軸方向に移動させられそうなことがわかるでしょう。つまり、以下で赤くした部分です。</p>
+<p>　上記のような場合に役に立つ（かもしれない）のが spacing パラメータです。これは、2 回以上折れ曲がる接続線において、「自由な線分の調整を行う」ものです。<a href='#kui5wtIKl5y'>Figure.5-4</a> の接続線を見てください。4 回折れ曲がっていて、5 本の線分でできています。このうち、接続対象に直接触れている線分は（ <code>:style :LR</code> 指定によって）動かせませんが、残り 3 つの線分はそれぞれ x 軸方向または y 軸方向に移動させられそうなことがわかるでしょう。つまり、以下で赤くした部分です。</p>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='120'>
@@ -1646,6 +1647,12 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 	<polyline fill='none' stroke='gray' stroke-width='1' points=' 80.0,30.0 50.0,30.0 50.0,60.0 250.0,60.0 250.0,90.0 220.0,90.0' />
 	<!-- path -->
 	<path fill='none' stroke='red' stroke-width='3' d='M 50 30 L 50 60 L 250 60 L 250 90' />
+	<!-- block-arrow -->
+	<polygon fill='brown' fill-opacity='0.6' stroke='none' stroke-width='1' points='30.0,45.0 40.0,40.0 40.0,42.5 60.0,42.5 60.0,40.0 70.0,45.0 60.0,50.0 60.0,47.5 40.0,47.5 40.0,50.0' />
+	<!-- block-arrow -->
+	<polygon fill='brown' fill-opacity='0.6' stroke='none' stroke-width='1' points='150.0,40.0 156.0,50.0 152.5,50.0 152.5,70.0 156.0,70.0 150.0,80.0 144.0,70.0 147.5,70.0 147.5,50.0 144.0,50.0' />
+	<!-- block-arrow -->
+	<polygon fill='brown' fill-opacity='0.6' stroke='none' stroke-width='1' points='230.0,75.0 240.0,70.0 240.0,72.5 260.0,72.5 260.0,70.0 270.0,75.0 260.0,80.0 260.0,77.5 240.0,77.5 240.0,80.0' />
 
 </svg>
 </div>
