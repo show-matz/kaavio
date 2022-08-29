@@ -1985,7 +1985,7 @@ Figure. with-cylinder-options のサンプル
 　円柱はテキストボックスと良く似た機能を持ちますが、ボックスのかわりに爆発を模した多角形が
 描画されます。テキストボックスとは異なり、サイズは自動計算されないため、幅と高さを指定する
 必要があります。また、爆発には２種類の形状があります
-{{fn:Microsoft Word の図形要素をトレースして作っています。}}。
+{{fn:不格好に見えるかもしれませんが、Microsoft Word の図形要素をトレースして作っています。そこそこの再現度のはず。}}。
 
 <!-- snippet: EXPLOSION-SAMPLE
 (diagram (350 150)
@@ -2529,6 +2529,97 @@ Figure. with-table-cell の使用例
 
 ${BLANK_PARAGRAPH}
 
+## 座標と位置
+
+　${APPNAME} では、座標系は左上を原点としており、水平右方向に x 軸、垂直下方向に y 軸となって
+います。また、角度は時計回りになります。
+
+<!-- snippet: GEOMETRY-SAMPLE-1
+(diagram (300 150)
+  (grid)
+  (circle canvas.topleft 4 :fill :black)
+  (let ((em (make-endmark :type :triangle :fill :black :size :small)))
+    (text '(5 15) "(0, 0)")
+    (line '((250  10) (275  10)) :end2 em) (text '(280  15) "x" :align :left)
+    (line '(( 10 100) ( 10 130)) :end2 em) (text '( 10 145) "y" :align :center)
+    (line '((100  60) (180  60)))          (text '(185  65) "0°" :align :left)
+    (line '((100  60) (140 130)))
+    (arc   '(100  60) 30 30 0 0 50)
+    (line '((123  80) (115  85)) :end2 em) (text '(130  85) "θ" :align :left)))
+-->
+
+```diagram
+<!-- expand: GEOMETRY-SAMPLE-1 -->
+```
+Figure. diagram における座標系
+
+<!-- collapse:begin -->
+　※上記画像のソースはこちら。
+
+```lisp
+<!-- expand: GEOMETRY-SAMPLE-1 -->
+```
+<!-- collapse:end -->
+
+${BLANK_PARAGRAPH}
+
+　${APPNAME} データの中で座標を指定する方法にはいくつかあります。以下に説明します。
+
+　具体的な固定値で座標を指定する場合、 `'(x y)` の要領で指定します。つまり、 `'(50 100)` といった
+指定です。これは即値で座標を指定する場合の書き方ですが、Common LISP の変数に格納した数値から
+座標を作成したい場合は make-point 関数が使えます。これは `(make-point x y)` の要領で使用してください
+{{fn:Lisper の方へ：ご想像通り、 `(list x y)` でも問題無いですし、バッククォートを使ってもかまいません。}}。
+
+　具体的な座標値を指定するのでなく、「すでに登場した要素の位置を利用して座標を指定する」ことも
+できます。「[](#簡単なサンプル)」の 2 つめでは、 `app.center` や `in.right` という表記が
+登場しました。これは、図形要素を記述する際に指定した ID を使ってその中心座標などを参照するもの
+です。これには９種類あり、その名前と具体的な場所は以下の通りです{{fn:この他に `width, height` があって、 \
+その図形要素の幅と高さを取得することもできますが、あまり使用しません。}}。
+
+```diagram
+(diagram (300 150)
+  (grid)
+  (rect canvas.center 100 100 :stroke :gray :fill :white :id :rct)
+  (with-options (:stroke :none :fill :red :font '(:fill :red))
+    (circle rct.topleft     3) (text (y+ $1.topleft   -3)    "topleft"     :align :right)
+    (circle rct.top         3) (text (y+ $1.top       -3)    "top"         :align :center)
+    (circle rct.topright    3) (text (y+ $1.topright  -3)    "topright"    :align :left)
+    (circle rct.left        3) (text (xy+ $1.left  -5  5)    "left"        :align :right)
+    (circle rct.center      3) (text (y+  $1.top      -3)    "center"      :align :center)
+    (circle rct.right       3) (text (xy+ $1.right  5  5)    "right"       :align :left)
+    (circle rct.bottomleft  3) (text (y+  $1.bottomleft  13) "bottomleft"  :align :right)
+    (circle rct.bottom      3) (text (y+  $1.bottom      13) "bottom"      :align :center)
+    (circle rct.bottomright 3) (text (y+  $1.bottomright 13) "bottomright" :align :left)))
+```
+Figure. 図形要素の座標参照
+
+${BLANK_PARAGRAPH}
+
+　上記の `app.center` という記法は、座標を指定すべきところではたいてい使用できますが、これを 
+`(attr :app :center)` という記法で代替することもできます{{fn:Lisper の方へ： `app.center` という記法は動的に \
+生成する symbol-macrolet によって、また `(attr :app :center)` については macrolet によって実現しています。 \
+attr は局所関数を使って同じパターンの繰り返しを共通化する場合などに便利でしょう。}}。
+
+　`app.center` の記法において要素名のところに `canvas` を指定することで、キャンバス全体を
+ひとつの図形要素のように扱うことができます。つまり、 `canvas.center` とすれば SVG 画像の
+中心点を指定できますし、 `canvas.width` と言えば SVG 画像の幅を取得することができます。
+実際には、この `canvas` が意味するのは「現在のキャンバス」なのですが、これについては
+「[](#サブキャンバス)」で説明します。
+
+　`app.center` といった記述は単独で使用することはなく、「そこから 100pt くらい右」などの
+指定をしたい場合がほとんどでしょう。そのような場合、 `(x+ app.center 100)` といった記述で
+目的を達することができます。以下の 3 つの関数が利用できます。
+
+```lisp
+(defun x+ (pt x) ...)
+(defun y+ (pt y) ...)
+(defun xy+ (pt x y) ...)
+```
+
+　なお、 `(x- app.center 100)` とは書けません。 `(x+ app.center -100)` としてください。
+
+${BLANK_PARAGRAPH}
+
 ## パラメータの詳細
 ### 色の指定
 
@@ -2659,29 +2750,30 @@ ${BLANK_PARAGRAPH}
 
 ${BLANK_PARAGRAPH}
 
-## 座標と位置
+## サブキャンバス
 
 　${{TODO}{まだ記述されていません。}}
 
-<!-- snippet: GEOMETRY-SAMPLE
+
+<!-- snippet: SUBCANVAS-SAMPLE
 (diagram (300 200)
   (grid)
-  (text '(10 20) "(0, 0)")
-  (circle (xy+ canvas.topleft 2 2) 2 :stroke :red :fill :red)
-  (circle canvas.topright          2 :stroke :red :fill :red)
-  (circle canvas.bottomleft        2 :stroke :red :fill :red)
-  (circle canvas.bottomright       2 :stroke :red :fill :red))
+  (circle (xy+ canvas.topleft 50 50) 20 :stroke :brown :fill :wheat)
+  (with-subcanvas ('(150 50) 100 100)
+    (rect canvas.center
+          canvas.width canvas.height :stroke :gray :fill :lightgray)
+    (circle (xy+ canvas.topleft 50 50) 20 :stroke :brown :fill :wheat)))
 -->
 
 ```lisp
-<!-- expand: GEOMETRY-SAMPLE -->
+<!-- expand: SUBCANVAS-SAMPLE -->
 ```
 
 
 ```diagram
-<!-- expand: GEOMETRY-SAMPLE -->
+<!-- expand: SUBCANVAS-SAMPLE -->
 ```
-Figure. xxxのサンプル
+Figure. サブキャンバスのサンプル
 
 
 ${BLANK_PARAGRAPH}
@@ -2718,34 +2810,6 @@ ${BLANK_PARAGRAPH}
 <!-- expand: DEFS-USE-SAMPLE -->
 ```
 Figure. defs と use のサンプル
-
-## サブキャンバス
-
-　${{TODO}{まだ記述されていません。}}
-
-
-<!-- snippet: SUBCANVAS-SAMPLE
-(diagram (300 200)
-  (grid)
-  (circle (xy+ canvas.topleft 50 50) 20 :stroke :brown :fill :wheat)
-  (with-subcanvas ('(150 50) 100 100)
-    (rect canvas.center
-          canvas.width canvas.height :stroke :gray :fill :lightgray)
-    (circle (xy+ canvas.topleft 50 50) 20 :stroke :brown :fill :wheat)))
--->
-
-```lisp
-<!-- expand: SUBCANVAS-SAMPLE -->
-```
-
-
-```diagram
-<!-- expand: SUBCANVAS-SAMPLE -->
-```
-Figure. サブキャンバスのサンプル
-
-
-${BLANK_PARAGRAPH}
 
 ## UML
 ### アクティビティ図
