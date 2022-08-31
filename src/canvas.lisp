@@ -81,6 +81,16 @@
 	 ,@body))
 
 
+#|
+#|EXPORT|#				:with-subcanvas-of
+ |#
+(defmacro with-subcanvas-of ((id) &body body)
+  (let ((g-obj (gensym "TBL")))
+	`(let* ((,g-obj (diagram::dict-get-entity (diagram::get-dictionary) ,id))
+			(canvas (diagram:shape-get-subcanvas ,g-obj)))
+	   (declare (special canvas))
+	   ,@body)))
+
 
 
 

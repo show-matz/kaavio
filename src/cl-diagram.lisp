@@ -55,6 +55,7 @@
 				:canvas-fix-point
 				:with-canvas
 				:with-subcanvas
+				:with-subcanvas-of
 				;circle.lisp
 				:circle-connect-point
 				:circle
