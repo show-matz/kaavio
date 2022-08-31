@@ -82,24 +82,24 @@
 </blockquote>
 </details>
 <li class='tocx'><a href='#h1RNMQY1C0b'>6 座標と位置</a></li>
+<li class='tocx'><a href='#kgs1vf3AbTN'>7 サブキャンバス</a></li>
+<li class='tocx'><a href='#lkPJSquGS6Q'>8 defs と use</a></li>
 <details class='tocx' open>
-<summary class='tocx'><a href='#2QhgoP1QBEQ'>7 パラメータの詳細</a></summary>
+<summary class='tocx'><a href='#2QhgoP1QBEQ'>9 パラメータの詳細</a></summary>
 <blockquote class='tocx'>
-<li class='tocx'><a href='#1rpUB3fre67'>7.1 色の指定</a></li>
-<li class='tocx'><a href='#4HFjqmTuIU6'>7.2 ストローク</a></li>
-<li class='tocx'><a href='#dBUd7L4C3dx'>7.3 フィル</a></li>
-<li class='tocx'><a href='#3kZ9FkounyK'>7.4 フォント</a></li>
-<li class='tocx'><a href='#iu9Ovm00KHn'>7.5 IDと参照</a></li>
-<li class='tocx'><a href='#heEi5Lc5BX9'>7.6 回転</a></li>
-<li class='tocx'><a href='#gPGlqSbIfdL'>7.7 フィルタ</a></li>
-<li class='tocx'><a href='#1ovJxG7Ie9O'>7.8 レイヤー</a></li>
-<li class='tocx'><a href='#fbLcMRTVXac'>7.9 リンク</a></li>
-<li class='tocx'><a href='#9MB3lirlqL9'>7.10 終端マーク</a></li>
-<li class='tocx'><a href='#lpCVEZ9kMoP'>7.11 ラベル</a></li>
+<li class='tocx'><a href='#1rpUB3fre67'>9.1 色の指定</a></li>
+<li class='tocx'><a href='#4HFjqmTuIU6'>9.2 ストローク</a></li>
+<li class='tocx'><a href='#dBUd7L4C3dx'>9.3 フィル</a></li>
+<li class='tocx'><a href='#3kZ9FkounyK'>9.4 フォント</a></li>
+<li class='tocx'><a href='#iu9Ovm00KHn'>9.5 IDと参照</a></li>
+<li class='tocx'><a href='#heEi5Lc5BX9'>9.6 回転</a></li>
+<li class='tocx'><a href='#gPGlqSbIfdL'>9.7 フィルタ</a></li>
+<li class='tocx'><a href='#1ovJxG7Ie9O'>9.8 レイヤー</a></li>
+<li class='tocx'><a href='#fbLcMRTVXac'>9.9 リンク</a></li>
+<li class='tocx'><a href='#9MB3lirlqL9'>9.10 終端マーク</a></li>
+<li class='tocx'><a href='#lpCVEZ9kMoP'>9.11 ラベル</a></li>
 </blockquote>
 </details>
-<li class='tocx'><a href='#kgs1vf3AbTN'>8 サブキャンバス</a></li>
-<li class='tocx'><a href='#lkPJSquGS6Q'>9 defs と use</a></li>
 <details class='tocx' open>
 <summary class='tocx'><a href='#2CSYEsoWlWE'>10 UML</a></summary>
 <blockquote class='tocx'>
@@ -167,10 +167,9 @@
 <li class='tocx'><a href='#8IkB7VinE7h'>11.1.4 make-fill 関数</a></li>
 <li class='tocx'><a href='#ezUVhtPwl3J'>11.1.5 make-stroke 関数</a></li>
 <li class='tocx'><a href='#if12ldF3hxG'>11.1.6 rgb関数</a></li>
-<li class='tocx'><a href='#dhtdq1yi3tM'>11.1.7 with-fillマクロ</a></li>
-<li class='tocx'><a href='#fp4ncG4oCnL'>11.1.8 with-fontマクロ</a></li>
-<li class='tocx'><a href='#9jN2FHSU54t'>11.1.9 with-strokeマクロ</a></li>
-<li class='tocx'><a href='#lsGULoUqoK4'>11.1.10 with-subcanvasマクロ</a></li>
+<li class='tocx'><a href='#5afU9yg86c0'>11.1.7 with-optionsマクロ</a></li>
+<li class='tocx'><a href='#lsGULoUqoK4'>11.1.8 with-subcanvasマクロ</a></li>
+<li class='tocx'><a href='#2c8duiejnaO'>11.1.9 with-subcanvas-ofマクロ</a></li>
 </blockquote>
 </details>
 <li class='tocx'><a href='#dR01Jh257Q6'>11.2 色の名前</a></li>
@@ -345,13 +344,13 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <li>with-shape-filter でデフォルトのフィルタを drop-shadow に設定
 <ul>
 <li><a class='autolink' href='#e7hkC2YUaKe'>textbox</a> で<a class='autolink' href='#e7hkC2YUaKe'>テキストボックス</a>を描画 : 場所は画像の中心（canvas.center）から y 軸方向に 20、テキストは "diagram"、これに app という ID を設定</li>
-<li>with-options で、デフォルトの線を太さ 2 の <code>navy</code> に、デフォルトの塗りつぶしを不透明度 0.3 の <code>skyblue</code> にそれぞれ設定
+<li><a class='autolink' href='#5afU9yg86c0'>with-options</a> で、デフォルトの線を太さ 2 の <code>navy</code> に、デフォルトの塗りつぶしを不透明度 0.3 の <code>skyblue</code> にそれぞれ設定
 <ul>
 <li><a class='autolink' href='#jRjILbbJATV'>document</a> で<a class='autolink' href='#jRjILbbJATV'>ドキュメント</a>を描画 : 場所は app の中心（app.center）から x 軸方向に -175、幅と高さは 80 60、テキストは "input~%file"、これに in という ID を設定</li>
 <li>上記と同じ要領で out という ID の<a class='autolink' href='#jRjILbbJATV'>ドキュメント</a>を描画</li>
 </ul>
 </li>
-<li>with-options で、デフォルトの塗りつぶしを <code>white</code> に設定
+<li><a class='autolink' href='#5afU9yg86c0'>with-options</a> で、デフォルトの塗りつぶしを <code>white</code> に設定
 <ul>
 <li><a class='autolink' href='#49KKf97828b'>block-arrow1</a> で in と app の間に<a class='autolink' href='#49KKf97828b'>ブロック矢印</a>を描画</li>
 <li>上記と同じ要領で app と out の間に<a class='autolink' href='#49KKf97828b'>ブロック矢印</a>を描画</li>
@@ -373,7 +372,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </li>
 <li><code>:id</code> を使って付与した ID を使って <code>app.center</code> などと書くことで既出の要素の「中心座標」を指定できます。これは <code>'(50 50)</code> といった即値表記の代わりになります。
 <ul>
-<li><code>canvas</code> は特別な ID で、現在描画中の「キャンバス」を意味します。今の時点では、生成する画像の<a class='autolink' href='#kJonRG8GtHF'>四角形</a>全体だと理解しておいてください。</li>
+<li><code>canvas</code> は特別な ID で、現在描画中の「<a class='autolink' href='#kgs1vf3AbTN'>キャンバス</a>」を意味します。今の時点では、生成する画像の<a class='autolink' href='#kJonRG8GtHF'>四角形</a>全体だと理解しておいてください。</li>
 <li><code>(y+ canvas.center 20)</code> といった表記によってある位置から x 軸や y 軸に指定されただけ移動した座標を計算することができます。</li>
 </ul>
 </li>
@@ -557,14 +556,14 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <tr style="font-size: 14;"><td nowrap align='left'>width</td><td align='left'>幅を数値で指定します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'>height</td><td align='left'>高さを数値で指定します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'>rx, ry</td><td align='left'>角を丸くしたい場合に、角の x 半径（rx）と y 半径（ry）を数値で指定します。<br>rx と ry のどちらかだけを指定すると、もう一方も同じであると見なされます。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>fill</td><td align='left'>内部の塗り潰しを指定します。詳細は「<a href='#dBUd7L4C3dx'>7.3  フィル</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>stroke</td><td align='left'>外枠を描画する線を指定します。詳細は「<a href='#4HFjqmTuIU6'>7.2  ストローク</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>rotate</td><td align='left'>回転させる場合、その角度を指定します。詳細は「<a href='#heEi5Lc5BX9'>7.6  回転</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>link</td><td align='left'>リンクにする場合、リンク先を指定します。詳細は「<a href='#fbLcMRTVXac'>7.9  リンク</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>layer</td><td align='left'>レイヤーに所属させる場合、その名前をキーワードで指定します。<br>詳細は「<a href='#1ovJxG7Ie9O'>7.8  レイヤー</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>id</td><td align='left'>ID を付与したい場合、その名前をキーワードで指定します。<br>詳細は「<a href='#iu9Ovm00KHn'>7.5  IDと参照</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>filter</td><td align='left'>フィルタ効果を適用したい場合、その名前を指定します。<br>詳細は「<a href='#gPGlqSbIfdL'>7.7  フィルタ</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>contents</td><td align='left'>内部をサブキャンバスとした描画をしたい場合、その内容を指定します。<br>詳細は「<a href='#kgs1vf3AbTN'>8  サブキャンバス</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>fill</td><td align='left'>内部の塗り潰しを指定します。詳細は「<a href='#dBUd7L4C3dx'>9.3  フィル</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>stroke</td><td align='left'>外枠を描画する線を指定します。詳細は「<a href='#4HFjqmTuIU6'>9.2  ストローク</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>rotate</td><td align='left'>回転させる場合、その角度を指定します。詳細は「<a href='#heEi5Lc5BX9'>9.6  回転</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>link</td><td align='left'>リンクにする場合、リンク先を指定します。詳細は「<a href='#fbLcMRTVXac'>9.9  リンク</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>layer</td><td align='left'>レイヤーに所属させる場合、その名前をキーワードで指定します。<br>詳細は「<a href='#1ovJxG7Ie9O'>9.8  レイヤー</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>id</td><td align='left'>ID を付与したい場合、その名前をキーワードで指定します。<br>詳細は「<a href='#iu9Ovm00KHn'>9.5  IDと参照</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>filter</td><td align='left'>フィルタ効果を適用したい場合、その名前を指定します。<br>詳細は「<a href='#gPGlqSbIfdL'>9.7  フィルタ</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>contents</td><td align='left'>内部を<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>とした描画をしたい場合、その内容を指定します。<br>詳細は「<a href='#kgs1vf3AbTN'>7  サブキャンバス</a>」を参照してください。</td></tr>
 </table>
 <h3><a name='8UQowBxrcaE'></a>3.2 正円</h3>
 <p>　<code>circle</code> によって<a class='autolink' href='#8UQowBxrcaE'>正円</a>を描画できます。<a class='autolink' href='#7YzIcjhyGKN'>楕円</a>を描画したい場合は <a class='autolink' href='#7YzIcjhyGKN'>ellipse</a> を使用してください。</p>
@@ -603,13 +602,13 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <tr style="font-size: 14;"><th>パラメータ</th><th>説明</th></tr>
 <tr style="font-size: 14;"><td nowrap align='left'>center</td><td align='left'>中心点を指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'>radius</td><td align='left'>半径を数値で指定します。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>fill</td><td align='left'>内部の塗り潰しを指定します。詳細は「<a href='#dBUd7L4C3dx'>7.3  フィル</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>stroke</td><td align='left'>線を指定します。詳細は「<a href='#4HFjqmTuIU6'>7.2  ストローク</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>link</td><td align='left'>リンクにする場合、リンク先を指定します。詳細は「<a href='#fbLcMRTVXac'>7.9  リンク</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>layer</td><td align='left'>レイヤーに所属させる場合、その名前をキーワードで指定します。<br>詳細は「<a href='#1ovJxG7Ie9O'>7.8  レイヤー</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>id</td><td align='left'>ID を付与したい場合、その名前をキーワードで指定します。<br>詳細は「<a href='#iu9Ovm00KHn'>7.5  IDと参照</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>filter</td><td align='left'>フィルタ効果を適用したい場合、その名前を指定します。<br>詳細は「<a href='#gPGlqSbIfdL'>7.7  フィルタ</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>contents</td><td align='left'>内部をサブキャンバスとした描画をしたい場合、その内容を指定します。<br>詳細は「<a href='#kgs1vf3AbTN'>8  サブキャンバス</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>fill</td><td align='left'>内部の塗り潰しを指定します。詳細は「<a href='#dBUd7L4C3dx'>9.3  フィル</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>stroke</td><td align='left'>線を指定します。詳細は「<a href='#4HFjqmTuIU6'>9.2  ストローク</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>link</td><td align='left'>リンクにする場合、リンク先を指定します。詳細は「<a href='#fbLcMRTVXac'>9.9  リンク</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>layer</td><td align='left'>レイヤーに所属させる場合、その名前をキーワードで指定します。<br>詳細は「<a href='#1ovJxG7Ie9O'>9.8  レイヤー</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>id</td><td align='left'>ID を付与したい場合、その名前をキーワードで指定します。<br>詳細は「<a href='#iu9Ovm00KHn'>9.5  IDと参照</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>filter</td><td align='left'>フィルタ効果を適用したい場合、その名前を指定します。<br>詳細は「<a href='#gPGlqSbIfdL'>9.7  フィルタ</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>contents</td><td align='left'>内部を<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>とした描画をしたい場合、その内容を指定します。<br>詳細は「<a href='#kgs1vf3AbTN'>7  サブキャンバス</a>」を参照してください。</td></tr>
 </table>
 <h3><a name='7YzIcjhyGKN'></a>3.3 楕円</h3>
 <p>　<code>ellipse</code> によって<a class='autolink' href='#7YzIcjhyGKN'>楕円</a>を描画できます。</p>
@@ -649,14 +648,14 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <tr style="font-size: 14;"><td nowrap align='left'>center</td><td align='left'>中心点を指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'>rx</td><td align='left'>x 軸方向の半径を数値で指定します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'>ry</td><td align='left'>y 軸方向の半径を数値で指定します。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>fill</td><td align='left'>内部の塗り潰しを指定します。詳細は「<a href='#dBUd7L4C3dx'>7.3  フィル</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>stroke</td><td align='left'>線を指定します。詳細は「<a href='#4HFjqmTuIU6'>7.2  ストローク</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>rotate</td><td align='left'>回転させる場合、その角度を指定します。詳細は「<a href='#heEi5Lc5BX9'>7.6  回転</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>link</td><td align='left'>リンクにする場合、リンク先を指定します。詳細は「<a href='#fbLcMRTVXac'>7.9  リンク</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>layer</td><td align='left'>レイヤーに所属させる場合、その名前をキーワードで指定します。<br>詳細は「<a href='#1ovJxG7Ie9O'>7.8  レイヤー</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>id</td><td align='left'>ID を付与したい場合、その名前をキーワードで指定します。<br>詳細は「<a href='#iu9Ovm00KHn'>7.5  IDと参照</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>filter</td><td align='left'>フィルタ効果を適用したい場合、その名前を指定します。<br>詳細は「<a href='#gPGlqSbIfdL'>7.7  フィルタ</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>contents</td><td align='left'>内部をサブキャンバスとした描画をしたい場合、その内容を指定します。<br>詳細は「<a href='#kgs1vf3AbTN'>8  サブキャンバス</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>fill</td><td align='left'>内部の塗り潰しを指定します。詳細は「<a href='#dBUd7L4C3dx'>9.3  フィル</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>stroke</td><td align='left'>線を指定します。詳細は「<a href='#4HFjqmTuIU6'>9.2  ストローク</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>rotate</td><td align='left'>回転させる場合、その角度を指定します。詳細は「<a href='#heEi5Lc5BX9'>9.6  回転</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>link</td><td align='left'>リンクにする場合、リンク先を指定します。詳細は「<a href='#fbLcMRTVXac'>9.9  リンク</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>layer</td><td align='left'>レイヤーに所属させる場合、その名前をキーワードで指定します。<br>詳細は「<a href='#1ovJxG7Ie9O'>9.8  レイヤー</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>id</td><td align='left'>ID を付与したい場合、その名前をキーワードで指定します。<br>詳細は「<a href='#iu9Ovm00KHn'>9.5  IDと参照</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>filter</td><td align='left'>フィルタ効果を適用したい場合、その名前を指定します。<br>詳細は「<a href='#gPGlqSbIfdL'>9.7  フィルタ</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>contents</td><td align='left'>内部を<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>とした描画をしたい場合、その内容を指定します。<br>詳細は「<a href='#kgs1vf3AbTN'>7  サブキャンバス</a>」を参照してください。</td></tr>
 </table>
 <h3><a name='5vGRm9AMypB'></a>3.4 多角形</h3>
 <p>　<code>polygon</code> によって<a class='autolink' href='#5vGRm9AMypB'>多角形</a>、すなわち複数の<a class='autolink' href='#fv4OUML78x4'>直線</a>からなる形状を描画できます。</p>
@@ -690,19 +689,18 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </details>
 <p>　<a class='autolink' href='#5vGRm9AMypB'>polygon</a> のパラメータ構成は以下の通りです。</p>
 <pre class='code'>
-(<span class='keyword1'>defmacro</span> <span class='keyword5'>polygon</span> (points <span class='keyword2'>&amp;key</span> fill stroke link layer id filter contents) ... )
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>polygon</span> (points <span class='keyword2'>&amp;key</span> fill stroke link layer filter id) ... )
 </pre>
 <p class='tbl_title'><a name='kDNMw7SY29A'></a>Table.3-4 polygon のパラメータ</p>
 <table align='center'>
 <tr style="font-size: 14;"><th>パラメータ</th><th>説明</th></tr>
 <tr style="font-size: 14;"><td nowrap align='left'>points</td><td align='left'><a class='autolink' href='#5vGRm9AMypB'>多角形</a>を構成する点のリストを指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>fill</td><td align='left'>内部の塗り潰しを指定します。詳細は「<a href='#dBUd7L4C3dx'>7.3  フィル</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>stroke</td><td align='left'>描画する線を指定します。詳細は「<a href='#4HFjqmTuIU6'>7.2  ストローク</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>link</td><td align='left'>リンクにする場合、リンク先を指定します。詳細は「<a href='#fbLcMRTVXac'>7.9  リンク</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>layer</td><td align='left'>レイヤーに所属させる場合、その名前をキーワードで指定します。<br>詳細は「<a href='#1ovJxG7Ie9O'>7.8  レイヤー</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>id</td><td align='left'>ID を付与したい場合、その名前をキーワードで指定します。<br>詳細は「<a href='#iu9Ovm00KHn'>7.5  IDと参照</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>filter</td><td align='left'>フィルタ効果を適用したい場合、その名前を指定します。<br>詳細は「<a href='#gPGlqSbIfdL'>7.7  フィルタ</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>contents</td><td align='left'>内部をサブキャンバスとした描画をしたい場合、その内容を指定します。<br>詳細は「<a href='#kgs1vf3AbTN'>8  サブキャンバス</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>fill</td><td align='left'>内部の塗り潰しを指定します。詳細は「<a href='#dBUd7L4C3dx'>9.3  フィル</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>stroke</td><td align='left'>描画する線を指定します。詳細は「<a href='#4HFjqmTuIU6'>9.2  ストローク</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>link</td><td align='left'>リンクにする場合、リンク先を指定します。詳細は「<a href='#fbLcMRTVXac'>9.9  リンク</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>layer</td><td align='left'>レイヤーに所属させる場合、その名前をキーワードで指定します。<br>詳細は「<a href='#1ovJxG7Ie9O'>9.8  レイヤー</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>id</td><td align='left'>ID を付与したい場合、その名前をキーワードで指定します。<br>詳細は「<a href='#iu9Ovm00KHn'>9.5  IDと参照</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>filter</td><td align='left'>フィルタ効果を適用したい場合、その名前を指定します。<br>詳細は「<a href='#gPGlqSbIfdL'>9.7  フィルタ</a>」を参照してください。</td></tr>
 </table>
 <h3><a name='fv4OUML78x4'></a>3.5 直線</h3>
 <p>　<code>line</code> によって<a class='autolink' href='#fv4OUML78x4'>直線</a>（または複数の<a class='autolink' href='#fv4OUML78x4'>直線</a>からなる折線）を描画できます。図形要素どうしを接続したい場合は<a class='autolink' href='#eFhVs4WwYUG'>コネクタ</a>を使用した方が良いでしょう。</p>
@@ -743,12 +741,12 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <table align='center'>
 <tr style="font-size: 14;"><th>パラメータ</th><th>説明</th></tr>
 <tr style="font-size: 14;"><td nowrap align='left'>points</td><td align='left'><a class='autolink' href='#fv4OUML78x4'>line</a> を構成する点のリストを指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>stroke</td><td align='left'>描画する線を指定します。詳細は「<a href='#4HFjqmTuIU6'>7.2  ストローク</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>label</td><td align='left'>ラベルをつける場合に指定します。詳細は「<a href='#lpCVEZ9kMoP'>7.11  ラベル</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>end1,end2</td><td align='left'>始端・終端に矢印などの装飾を付ける場合は指定します。<br>詳細は「<a href='#9MB3lirlqL9'>7.10  終端マーク</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>layer</td><td align='left'>レイヤーに所属させる場合、その名前をキーワードで指定します。<br>詳細は「<a href='#1ovJxG7Ie9O'>7.8  レイヤー</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>id</td><td align='left'>ID を付与したい場合、その名前をキーワードで指定します。<br>詳細は「<a href='#iu9Ovm00KHn'>7.5  IDと参照</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>filter</td><td align='left'>フィルタ効果を適用したい場合、その名前を指定します。<br>詳細は「<a href='#gPGlqSbIfdL'>7.7  フィルタ</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>stroke</td><td align='left'>描画する線を指定します。詳細は「<a href='#4HFjqmTuIU6'>9.2  ストローク</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>label</td><td align='left'>ラベルをつける場合に指定します。詳細は「<a href='#lpCVEZ9kMoP'>9.11  ラベル</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>end1,end2</td><td align='left'>始端・終端に矢印などの装飾を付ける場合は指定します。<br>詳細は「<a href='#9MB3lirlqL9'>9.10  終端マーク</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>layer</td><td align='left'>レイヤーに所属させる場合、その名前をキーワードで指定します。<br>詳細は「<a href='#1ovJxG7Ie9O'>9.8  レイヤー</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>id</td><td align='left'>ID を付与したい場合、その名前をキーワードで指定します。<br>詳細は「<a href='#iu9Ovm00KHn'>9.5  IDと参照</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>filter</td><td align='left'>フィルタ効果を適用したい場合、その名前を指定します。<br>詳細は「<a href='#gPGlqSbIfdL'>9.7  フィルタ</a>」を参照してください。</td></tr>
 </table>
 <h3><a name='cp2F91gKG7W'></a>3.6 円弧</h3>
 <p>　<code>arc</code> によって<a class='autolink' href='#cp2F91gKG7W'>円弧</a>を描画できます。<a class='autolink' href='#cp2F91gKG7W'>円弧</a>のベースとなる<a class='autolink' href='#7YzIcjhyGKN'>楕円</a>の中心点や始点・終点の角度が明らかな場合の使用を想定しています。始点・終点の座標がわかっている場合は <a class='autolink' href='#4qgt62QVDZl'>path</a> の使用を検討してください。</p>
@@ -791,10 +789,10 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <tr style="font-size: 14;"><td nowrap align='left'>x-axis-rotation</td><td align='left'>ベースとなる<a class='autolink' href='#7YzIcjhyGKN'>楕円</a>の回転角（x 軸に対してどれだけ回転させるか）を数値で指定します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'>degree1</td><td align='left'><a class='autolink' href='#cp2F91gKG7W'>円弧</a>を「時計回りに描く」場合の開始角度を数値で指定します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'>degree2</td><td align='left'><a class='autolink' href='#cp2F91gKG7W'>円弧</a>を「時計回りに描く」場合の終了角度を数値で指定します。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>stroke</td><td align='left'>描画する線を指定します。詳細は「<a href='#4HFjqmTuIU6'>7.2  ストローク</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>layer</td><td align='left'>レイヤーに所属させる場合、その名前をキーワードで指定します。<br>詳細は「<a href='#1ovJxG7Ie9O'>7.8  レイヤー</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>filter</td><td align='left'>フィルタ効果を適用したい場合、その名前を指定します。<br>詳細は「<a href='#gPGlqSbIfdL'>7.7  フィルタ</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>id</td><td align='left'>ID を付与したい場合、その名前をキーワードで指定します。<br>詳細は「<a href='#iu9Ovm00KHn'>7.5  IDと参照</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>stroke</td><td align='left'>描画する線を指定します。詳細は「<a href='#4HFjqmTuIU6'>9.2  ストローク</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>layer</td><td align='left'>レイヤーに所属させる場合、その名前をキーワードで指定します。<br>詳細は「<a href='#1ovJxG7Ie9O'>9.8  レイヤー</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>filter</td><td align='left'>フィルタ効果を適用したい場合、その名前を指定します。<br>詳細は「<a href='#gPGlqSbIfdL'>9.7  フィルタ</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>id</td><td align='left'>ID を付与したい場合、その名前をキーワードで指定します。<br>詳細は「<a href='#iu9Ovm00KHn'>9.5  IDと参照</a>」を参照してください。</td></tr>
 </table>
 <p>　　</p>
 <p>　以下に例を示します。 <code>(100 50)</code> を中心とした <code>rx=40, ry=30</code> の<a class='autolink' href='#7YzIcjhyGKN'>楕円</a>を 45 度回転させたものをベースとします。これはライトグレーの太い<a class='autolink' href='#7YzIcjhyGKN'>楕円</a>で描画されています。このうち、0 度から 90 度までの部分を<a class='autolink' href='#cp2F91gKG7W'>円弧</a>として（赤い線で）描画しています。つまり、これは <code>(arc '(100 50) 40 30 45 0 90)</code> による描画となります。</p>
@@ -879,10 +877,10 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <tr style="font-size: 14;"><td nowrap align='left'>position</td><td align='left'><a class='autolink' href='#cTdCvBeU6ZJ'>text</a> で描くテキストの基準点を指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><a class='autolink' href='#cTdCvBeU6ZJ'>text</a></td><td align='left'>描くテキストを文字列で指定します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'>align</td><td align='left'>テキストのアライメントを <code>:left :center :right</code> のいずれかで指定します。<br>省略した場合のデフォルト値は <code>:left</code> です。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>font</td><td align='left'>フォントを指定します。詳細は「<a href='#3kZ9FkounyK'>7.4  フォント</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>link</td><td align='left'>リンクにする場合、リンク先を指定します。詳細は「<a href='#fbLcMRTVXac'>7.9  リンク</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>layer</td><td align='left'>レイヤーに所属させる場合、その名前をキーワードで指定します。<br>詳細は「<a href='#1ovJxG7Ie9O'>7.8  レイヤー</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>id</td><td align='left'>ID を付与したい場合、その名前をキーワードで指定します。<br>詳細は「<a href='#iu9Ovm00KHn'>7.5  IDと参照</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>font</td><td align='left'>フォントを指定します。詳細は「<a href='#3kZ9FkounyK'>9.4  フォント</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>link</td><td align='left'>リンクにする場合、リンク先を指定します。詳細は「<a href='#fbLcMRTVXac'>9.9  リンク</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>layer</td><td align='left'>レイヤーに所属させる場合、その名前をキーワードで指定します。<br>詳細は「<a href='#1ovJxG7Ie9O'>9.8  レイヤー</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>id</td><td align='left'>ID を付与したい場合、その名前をキーワードで指定します。<br>詳細は「<a href='#iu9Ovm00KHn'>9.5  IDと参照</a>」を参照してください。</td></tr>
 </table>
 <p>　　</p>
 <p>　position と align の関係を以下に示します。以下において、赤い点が position で、align 指定はテキストで示されています。</p>
@@ -951,11 +949,11 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <table align='center'>
 <tr style="font-size: 14;"><th>パラメータ</th><th>説明</th></tr>
 <tr style="font-size: 14;"><td nowrap align='left'>data</td><td align='left'><a class='autolink' href='#4qgt62QVDZl'>パス</a>を構成するデータを指定します。詳細は後述します。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>fill</td><td align='left'>内部の塗り潰しを指定します。詳細は「<a href='#dBUd7L4C3dx'>7.3  フィル</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>stroke</td><td align='left'>線を指定します。詳細は「<a href='#4HFjqmTuIU6'>7.2  ストローク</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>layer</td><td align='left'>レイヤーに所属させる場合、その名前をキーワードで指定します。<br>詳細は「<a href='#1ovJxG7Ie9O'>7.8  レイヤー</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>id</td><td align='left'>ID を付与したい場合、その名前をキーワードで指定します。<br>詳細は「<a href='#iu9Ovm00KHn'>7.5  IDと参照</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>filter</td><td align='left'>フィルタ効果を適用したい場合、その名前を指定します。<br>詳細は「<a href='#gPGlqSbIfdL'>7.7  フィルタ</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>fill</td><td align='left'>内部の塗り潰しを指定します。詳細は「<a href='#dBUd7L4C3dx'>9.3  フィル</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>stroke</td><td align='left'>線を指定します。詳細は「<a href='#4HFjqmTuIU6'>9.2  ストローク</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>layer</td><td align='left'>レイヤーに所属させる場合、その名前をキーワードで指定します。<br>詳細は「<a href='#1ovJxG7Ie9O'>9.8  レイヤー</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>id</td><td align='left'>ID を付与したい場合、その名前をキーワードで指定します。<br>詳細は「<a href='#iu9Ovm00KHn'>9.5  IDと参照</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>filter</td><td align='left'>フィルタ効果を適用したい場合、その名前を指定します。<br>詳細は「<a href='#gPGlqSbIfdL'>9.7  フィルタ</a>」を参照してください。</td></tr>
 </table>
 <p>　　</p>
 <p>　data パラメータについて説明します。data パラメータは以下のような <strong>ディレクティブ</strong> キーワードを要素とするリストで指定します。点や値の指定を伴うディレクティブは、それ自体をリストにする必要があります。</p>
@@ -969,7 +967,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <tr style="font-size: 14;"><td nowrap align='left'><code>:arc-to</code></td><td align='left'><span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>:2d-curve-to</code></td><td align='left'><span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>:3d-curve-to</code></td><td align='left'><span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'><code>:absolute</code></td><td align='left'>後続のディレクティブを、現在のキャンバスに対する絶対座標として処理します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>:absolute</code></td><td align='left'>後続のディレクティブを、現在の<a class='autolink' href='#kgs1vf3AbTN'>キャンバス</a>に対する絶対座標として処理します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>:relative</code></td><td align='left'>後続のディレクティブを、現在の点に対する相対座標として処理します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>:close-path</code></td><td align='left'><a class='autolink' href='#4qgt62QVDZl'>パス</a>を閉じます。すなわち、現在の点から先頭の点までを結ぶ<a class='autolink' href='#fv4OUML78x4'>直線</a>を引きます。</td></tr>
 </table>
@@ -1506,12 +1504,12 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <tr style="font-size: 14;"><td nowrap align='left'>to</td><td align='left'>接続先となる要素の ID をキーワードで指定します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'>style</td><td align='left'>接続線の引き方を指定します。省略した場合のデフォルト値は :CC です。<br>これは「中心から中心を<a class='autolink' href='#fv4OUML78x4'>直線</a>で結ぶ」引き方になります。それ以外の<br>指定方法については後述します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'>spacing</td><td align='left'>2 回以上折れ曲がる接続線について、「自由な線分」の位置を調整するための<br>パラメータです。詳細は後述します。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>label</td><td align='left'>ラベルをつける場合に指定します。詳細は「<a href='#lpCVEZ9kMoP'>7.11  ラベル</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>stroke</td><td align='left'>描画する線を指定します。詳細は「<a href='#4HFjqmTuIU6'>7.2  ストローク</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>end1,end2</td><td align='left'>始端・終端に矢印などの装飾を付ける場合は指定します。<br>詳細は「<a href='#9MB3lirlqL9'>7.10  終端マーク</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>layer</td><td align='left'>レイヤーに所属させる場合、その名前をキーワードで指定します。<br>詳細は「<a href='#1ovJxG7Ie9O'>7.8  レイヤー</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>filter</td><td align='left'>フィルタ効果を適用したい場合、その名前を指定します。<br>詳細は「<a href='#gPGlqSbIfdL'>7.7  フィルタ</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>id</td><td align='left'>ID を付与したい場合、その名前をキーワードで指定します。<br>詳細は「<a href='#iu9Ovm00KHn'>7.5  IDと参照</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>label</td><td align='left'>ラベルをつける場合に指定します。詳細は「<a href='#lpCVEZ9kMoP'>9.11  ラベル</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>stroke</td><td align='left'>描画する線を指定します。詳細は「<a href='#4HFjqmTuIU6'>9.2  ストローク</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>end1,end2</td><td align='left'>始端・終端に矢印などの装飾を付ける場合は指定します。<br>詳細は「<a href='#9MB3lirlqL9'>9.10  終端マーク</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>layer</td><td align='left'>レイヤーに所属させる場合、その名前をキーワードで指定します。<br>詳細は「<a href='#1ovJxG7Ie9O'>9.8  レイヤー</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>filter</td><td align='left'>フィルタ効果を適用したい場合、その名前を指定します。<br>詳細は「<a href='#gPGlqSbIfdL'>9.7  フィルタ</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>id</td><td align='left'>ID を付与したい場合、その名前をキーワードで指定します。<br>詳細は「<a href='#iu9Ovm00KHn'>9.5  IDと参照</a>」を参照してください。</td></tr>
 </table>
 <p>　　</p>
 <p>　では、style および spacing について説明します。まず、style のデフォルト値でもある :CC は「Center to Center」という意味で、対象図形の中心どうしを結ぶような一本の<a class='autolink' href='#fv4OUML78x4'>直線</a>で接続をします。これは <a href='#4gGy4q3tl7a'>Figure.5-1</a> における R2 と R3 の接続のイメージです。</p>
@@ -1725,10 +1723,10 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <tr style="font-size: 14;"><td nowrap align='left'><a class='autolink' href='#cTdCvBeU6ZJ'>text</a></td><td align='left'>描画するテキストを文字列で指定します。改行は "~%" で表現します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'>align</td><td align='left'>テキストの水平方向のアライメントを <code>:left :center :right</code> のいずれかで指定します。<br>詳細は後述します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'>vlign</td><td align='left'>テキストの垂直方向のアライメントを <code>:top :center :bottom</code> のいずれかで指定します。<br>詳細は後述します。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>font</td><td align='left'>フォントを指定します。詳細は「<a href='#3kZ9FkounyK'>7.4  フォント</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>link</td><td align='left'>リンクにする場合、リンク先を指定します。詳細は「<a href='#fbLcMRTVXac'>7.9  リンク</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>layer</td><td align='left'>レイヤーに所属させる場合、その名前をキーワードで指定します。<br>詳細は「<a href='#1ovJxG7Ie9O'>7.8  レイヤー</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>id</td><td align='left'>ID を付与したい場合、その名前をキーワードで指定します。<br>詳細は「<a href='#iu9Ovm00KHn'>7.5  IDと参照</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>font</td><td align='left'>フォントを指定します。詳細は「<a href='#3kZ9FkounyK'>9.4  フォント</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>link</td><td align='left'>リンクにする場合、リンク先を指定します。詳細は「<a href='#fbLcMRTVXac'>9.9  リンク</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>layer</td><td align='left'>レイヤーに所属させる場合、その名前をキーワードで指定します。<br>詳細は「<a href='#1ovJxG7Ie9O'>9.8  レイヤー</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>id</td><td align='left'>ID を付与したい場合、その名前をキーワードで指定します。<br>詳細は「<a href='#iu9Ovm00KHn'>9.5  IDと参照</a>」を参照してください。</td></tr>
 </table>
 <p>　　</p>
 <p>　position と align, valign の関係を以下に示します。以下において、赤い点が position で、アライメント指定はテキストで示されています。</p>
@@ -1842,14 +1840,14 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <tr style="font-size: 14;"><td nowrap align='left'>align</td><td align='left'>テキストの水平方向のアライメントを <code>:left :center :right</code> のいずれかで指定します。<br>省略した場合のデフォルト値は <code>:center</code> です。詳細は後述します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'>vlign</td><td align='left'>テキストの垂直方向のアライメントを <code>:top :center :bottom</code> のいずれかで指定します。<br>省略した場合のデフォルト値は <code>:center</code> です。詳細は後述します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'>margin</td><td align='left'>テキスト描画における「余白」のサイズです。ボックスの幅と高さを自動計算する際にも<br>使用されます。省略した場合のデフォルト値は 10 です。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>font</td><td align='left'>フォントを指定します。詳細は「<a href='#3kZ9FkounyK'>7.4  フォント</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>fill</td><td align='left'>内部の塗り潰しを指定します。詳細は「<a href='#dBUd7L4C3dx'>7.3  フィル</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>stroke</td><td align='left'>外枠を描画する線を指定します。詳細は「<a href='#4HFjqmTuIU6'>7.2  ストローク</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>link</td><td align='left'>リンクにする場合、リンク先を指定します。詳細は「<a href='#fbLcMRTVXac'>7.9  リンク</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>rotate</td><td align='left'>回転させたい場合に、その角度を指定します。<br>詳細は「<a href='#heEi5Lc5BX9'>7.6  回転</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>layer</td><td align='left'>レイヤーに所属させる場合、その名前をキーワードで指定します。<br>詳細は「<a href='#1ovJxG7Ie9O'>7.8  レイヤー</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>id</td><td align='left'>ID を付与したい場合、その名前をキーワードで指定します。<br>詳細は「<a href='#iu9Ovm00KHn'>7.5  IDと参照</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>filter</td><td align='left'>ボックスの描画にフィルタ効果を適用したい場合、その名前を指定します。<br>詳細は「<a href='#gPGlqSbIfdL'>7.7  フィルタ</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>font</td><td align='left'>フォントを指定します。詳細は「<a href='#3kZ9FkounyK'>9.4  フォント</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>fill</td><td align='left'>内部の塗り潰しを指定します。詳細は「<a href='#dBUd7L4C3dx'>9.3  フィル</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>stroke</td><td align='left'>外枠を描画する線を指定します。詳細は「<a href='#4HFjqmTuIU6'>9.2  ストローク</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>link</td><td align='left'>リンクにする場合、リンク先を指定します。詳細は「<a href='#fbLcMRTVXac'>9.9  リンク</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>rotate</td><td align='left'>回転させたい場合に、その角度を指定します。<br>詳細は「<a href='#heEi5Lc5BX9'>9.6  回転</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>layer</td><td align='left'>レイヤーに所属させる場合、その名前をキーワードで指定します。<br>詳細は「<a href='#1ovJxG7Ie9O'>9.8  レイヤー</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>id</td><td align='left'>ID を付与したい場合、その名前をキーワードで指定します。<br>詳細は「<a href='#iu9Ovm00KHn'>9.5  IDと参照</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>filter</td><td align='left'>ボックスの描画にフィルタ効果を適用したい場合、その名前を指定します。<br>詳細は「<a href='#gPGlqSbIfdL'>9.7  フィルタ</a>」を参照してください。</td></tr>
 </table>
 <p>　　</p>
 <p>　align, valign の関係を以下に示します。以下のように、<a class='autolink' href='#e7hkC2YUaKe'>テキストボックス</a>の内部で水平方向、および垂直方向にそれぞれどう寄せるかが変化します。</p>
@@ -1990,15 +1988,15 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <tr style="font-size: 14;"><td nowrap align='left'>align</td><td align='left'>テキストの水平方向のアライメントを <code>:left :center :right</code> のいずれかで指定します。<br>省略した場合のデフォルト値は <code>:center</code> です。詳細は後述します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'>vlign</td><td align='left'>テキストの垂直方向のアライメントを <code>:top :center :bottom</code> のいずれかで指定します。<br>省略した場合のデフォルト値は <code>:center</code> です。詳細は後述します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'>margin</td><td align='left'>テキスト描画における「余白」のサイズです。省略した場合のデフォルト値は 10 です。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>font</td><td align='left'>フォントを指定します。詳細は「<a href='#3kZ9FkounyK'>7.4  フォント</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>fill</td><td align='left'>内部の塗り潰しを指定します。詳細は「<a href='#dBUd7L4C3dx'>7.3  フィル</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>stroke</td><td align='left'>外枠を描画する線を指定します。詳細は「<a href='#4HFjqmTuIU6'>7.2  ストローク</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>link</td><td align='left'>リンクにする場合、リンク先を指定します。詳細は「<a href='#fbLcMRTVXac'>7.9  リンク</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>rotate</td><td align='left'>回転させたい場合に、その角度を指定します。<br>詳細は「<a href='#heEi5Lc5BX9'>7.6  回転</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>layer</td><td align='left'>レイヤーに所属させる場合、その名前をキーワードで指定します。<br>詳細は「<a href='#1ovJxG7Ie9O'>7.8  レイヤー</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>id</td><td align='left'>ID を付与したい場合、その名前をキーワードで指定します。<br>詳細は「<a href='#iu9Ovm00KHn'>7.5  IDと参照</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>filter</td><td align='left'>フィルタ効果を適用したい場合、その名前を指定します。<br>詳細は「<a href='#gPGlqSbIfdL'>7.7  フィルタ</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>contents</td><td align='left'>内部をサブキャンバスとした描画をしたい場合、その内容を指定します。<br>詳細は「<a href='#kgs1vf3AbTN'>8  サブキャンバス</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>font</td><td align='left'>フォントを指定します。詳細は「<a href='#3kZ9FkounyK'>9.4  フォント</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>fill</td><td align='left'>内部の塗り潰しを指定します。詳細は「<a href='#dBUd7L4C3dx'>9.3  フィル</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>stroke</td><td align='left'>外枠を描画する線を指定します。詳細は「<a href='#4HFjqmTuIU6'>9.2  ストローク</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>link</td><td align='left'>リンクにする場合、リンク先を指定します。詳細は「<a href='#fbLcMRTVXac'>9.9  リンク</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>rotate</td><td align='left'>回転させたい場合に、その角度を指定します。<br>詳細は「<a href='#heEi5Lc5BX9'>9.6  回転</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>layer</td><td align='left'>レイヤーに所属させる場合、その名前をキーワードで指定します。<br>詳細は「<a href='#1ovJxG7Ie9O'>9.8  レイヤー</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>id</td><td align='left'>ID を付与したい場合、その名前をキーワードで指定します。<br>詳細は「<a href='#iu9Ovm00KHn'>9.5  IDと参照</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>filter</td><td align='left'>フィルタ効果を適用したい場合、その名前を指定します。<br>詳細は「<a href='#gPGlqSbIfdL'>9.7  フィルタ</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>contents</td><td align='left'>内部を<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>とした描画をしたい場合、その内容を指定します。<br>詳細は「<a href='#kgs1vf3AbTN'>7  サブキャンバス</a>」を参照してください。</td></tr>
 </table>
 <p>　　</p>
 <a name='1e9FbNaLUoA'></a>
@@ -2098,16 +2096,16 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <tr style="font-size: 14;"><td nowrap align='left'>tab-height</td><td align='left'>左上に描画されるタブ部分の高さを指定します。省略した場合のデフォルト値は 20 です。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'>align</td><td align='left'>テキストの水平方向のアライメントを <code>:left :center :right</code> のいずれかで指定します。<br>省略した場合のデフォルト値は <code>:center</code> です。詳細は後述します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'>vlign</td><td align='left'>テキストの垂直方向のアライメントを <code>:top :center :bottom</code> のいずれかで指定します。<br>省略した場合のデフォルト値は <code>:center</code> です。詳細は後述します。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>font</td><td align='left'>フォントを指定します。詳細は「<a href='#3kZ9FkounyK'>7.4  フォント</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>fill</td><td align='left'>内部の塗り潰しを指定します。詳細は「<a href='#dBUd7L4C3dx'>7.3  フィル</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>stroke</td><td align='left'>外枠を描画する線を指定します。詳細は「<a href='#4HFjqmTuIU6'>7.2  ストローク</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>font</td><td align='left'>フォントを指定します。詳細は「<a href='#3kZ9FkounyK'>9.4  フォント</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>fill</td><td align='left'>内部の塗り潰しを指定します。詳細は「<a href='#dBUd7L4C3dx'>9.3  フィル</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>stroke</td><td align='left'>外枠を描画する線を指定します。詳細は「<a href='#4HFjqmTuIU6'>9.2  ストローク</a>」を参照してください。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'>margin</td><td align='left'>テキスト描画における「余白」のサイズです。省略した場合のデフォルト値は 10 です。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>link</td><td align='left'>リンクにする場合、リンク先を指定します。詳細は「<a href='#fbLcMRTVXac'>7.9  リンク</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>rotate</td><td align='left'>回転させたい場合に、その角度を指定します。<br>詳細は「<a href='#heEi5Lc5BX9'>7.6  回転</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>layer</td><td align='left'>レイヤーに所属させる場合、その名前をキーワードで指定します。<br>詳細は「<a href='#1ovJxG7Ie9O'>7.8  レイヤー</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>id</td><td align='left'>ID を付与したい場合、その名前をキーワードで指定します。<br>詳細は「<a href='#iu9Ovm00KHn'>7.5  IDと参照</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>filter</td><td align='left'>フィルタ効果を適用したい場合、その名前を指定します。<br>詳細は「<a href='#gPGlqSbIfdL'>7.7  フィルタ</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>contents</td><td align='left'>内部をサブキャンバスとした描画をしたい場合、その内容を指定します。<br>詳細は「<a href='#kgs1vf3AbTN'>8  サブキャンバス</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>link</td><td align='left'>リンクにする場合、リンク先を指定します。詳細は「<a href='#fbLcMRTVXac'>9.9  リンク</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>rotate</td><td align='left'>回転させたい場合に、その角度を指定します。<br>詳細は「<a href='#heEi5Lc5BX9'>9.6  回転</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>layer</td><td align='left'>レイヤーに所属させる場合、その名前をキーワードで指定します。<br>詳細は「<a href='#1ovJxG7Ie9O'>9.8  レイヤー</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>id</td><td align='left'>ID を付与したい場合、その名前をキーワードで指定します。<br>詳細は「<a href='#iu9Ovm00KHn'>9.5  IDと参照</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>filter</td><td align='left'>フィルタ効果を適用したい場合、その名前を指定します。<br>詳細は「<a href='#gPGlqSbIfdL'>9.7  フィルタ</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>contents</td><td align='left'>内部を<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>とした描画をしたい場合、その内容を指定します。<br>詳細は「<a href='#kgs1vf3AbTN'>7  サブキャンバス</a>」を参照してください。</td></tr>
 </table>
 <p>　　</p>
 <a name='jDniHtjcJXy'></a>
@@ -2213,15 +2211,15 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <tr style="font-size: 14;"><td nowrap align='left'>align</td><td align='left'>テキストの水平方向のアライメントを <code>:left :center :right</code> のいずれかで指定します。<br>省略した場合のデフォルト値は <code>:center</code> です。詳細は後述します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'>vlign</td><td align='left'>テキストの垂直方向のアライメントを <code>:top :center :bottom</code> のいずれかで指定します。<br>省略した場合のデフォルト値は <code>:center</code> です。詳細は後述します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'>margin</td><td align='left'>テキスト描画における「余白」のサイズです。省略した場合のデフォルト値は 10 です。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>font</td><td align='left'>フォントを指定します。詳細は「<a href='#3kZ9FkounyK'>7.4  フォント</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>fill</td><td align='left'>内部の塗り潰しを指定します。詳細は「<a href='#dBUd7L4C3dx'>7.3  フィル</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>stroke</td><td align='left'>外枠を描画する線を指定します。詳細は「<a href='#4HFjqmTuIU6'>7.2  ストローク</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>link</td><td align='left'>リンクにする場合、リンク先を指定します。詳細は「<a href='#fbLcMRTVXac'>7.9  リンク</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>rotate</td><td align='left'>全体を回転させたい場合に、その角度を指定します。<br>詳細は「<a href='#heEi5Lc5BX9'>7.6  回転</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>layer</td><td align='left'>レイヤーに所属させる場合、その名前をキーワードで指定します。<br>詳細は「<a href='#1ovJxG7Ie9O'>7.8  レイヤー</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>id</td><td align='left'>ID を付与したい場合、その名前をキーワードで指定します。<br>詳細は「<a href='#iu9Ovm00KHn'>7.5  IDと参照</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>filter</td><td align='left'>フィルタ効果を適用したい場合、その名前を指定します。<br>詳細は「<a href='#gPGlqSbIfdL'>7.7  フィルタ</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>contents</td><td align='left'>内部をサブキャンバスとした描画をしたい場合、その内容を指定します。<br>詳細は「<a href='#kgs1vf3AbTN'>8  サブキャンバス</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>font</td><td align='left'>フォントを指定します。詳細は「<a href='#3kZ9FkounyK'>9.4  フォント</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>fill</td><td align='left'>内部の塗り潰しを指定します。詳細は「<a href='#dBUd7L4C3dx'>9.3  フィル</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>stroke</td><td align='left'>外枠を描画する線を指定します。詳細は「<a href='#4HFjqmTuIU6'>9.2  ストローク</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>link</td><td align='left'>リンクにする場合、リンク先を指定します。詳細は「<a href='#fbLcMRTVXac'>9.9  リンク</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>rotate</td><td align='left'>全体を回転させたい場合に、その角度を指定します。<br>詳細は「<a href='#heEi5Lc5BX9'>9.6  回転</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>layer</td><td align='left'>レイヤーに所属させる場合、その名前をキーワードで指定します。<br>詳細は「<a href='#1ovJxG7Ie9O'>9.8  レイヤー</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>id</td><td align='left'>ID を付与したい場合、その名前をキーワードで指定します。<br>詳細は「<a href='#iu9Ovm00KHn'>9.5  IDと参照</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>filter</td><td align='left'>フィルタ効果を適用したい場合、その名前を指定します。<br>詳細は「<a href='#gPGlqSbIfdL'>9.7  フィルタ</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>contents</td><td align='left'>内部を<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>とした描画をしたい場合、その内容を指定します。<br>詳細は「<a href='#kgs1vf3AbTN'>7  サブキャンバス</a>」を参照してください。</td></tr>
 </table>
 <p>　　</p>
 <a name='j3wC5wII9dD'></a>
@@ -2326,15 +2324,15 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <tr style="font-size: 14;"><td nowrap align='left'>align</td><td align='left'>テキストの水平方向のアライメントを <code>:left :center :right</code> のいずれかで指定します。<br>省略した場合のデフォルト値は <code>:center</code> です。詳細は後述します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'>vlign</td><td align='left'>テキストの垂直方向のアライメントを <code>:top :center :bottom</code> のいずれかで指定します。<br>省略した場合のデフォルト値は <code>:center</code> です。詳細は後述します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'>margin</td><td align='left'>テキスト描画における「余白」のサイズです。省略した場合のデフォルト値は 10 です。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>font</td><td align='left'>フォントを指定します。詳細は「<a href='#3kZ9FkounyK'>7.4  フォント</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>fill</td><td align='left'>内部の塗り潰しを指定します。詳細は「<a href='#dBUd7L4C3dx'>7.3  フィル</a>」を参照してください。<br>折り目部分の色は fill の指定から自動的に「少し暗い色」が選択されます。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>stroke</td><td align='left'>外枠を描画する線を指定します。詳細は「<a href='#4HFjqmTuIU6'>7.2  ストローク</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>link</td><td align='left'>リンクにする場合、リンク先を指定します。詳細は「<a href='#fbLcMRTVXac'>7.9  リンク</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>rotate</td><td align='left'>回転させたい場合に、その角度を指定します。<br>詳細は「<a href='#heEi5Lc5BX9'>7.6  回転</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>layer</td><td align='left'>レイヤーに所属させる場合、その名前をキーワードで指定します。<br>詳細は「<a href='#1ovJxG7Ie9O'>7.8  レイヤー</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>id</td><td align='left'>ID を付与したい場合、その名前をキーワードで指定します。<br>詳細は「<a href='#iu9Ovm00KHn'>7.5  IDと参照</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>filter</td><td align='left'>フィルタ効果を適用したい場合、その名前を指定します。<br>詳細は「<a href='#gPGlqSbIfdL'>7.7  フィルタ</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>contents</td><td align='left'>サブキャンバスとした描画をしたい場合、その内容を指定します。<br>詳細は「<a href='#kgs1vf3AbTN'>8  サブキャンバス</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>font</td><td align='left'>フォントを指定します。詳細は「<a href='#3kZ9FkounyK'>9.4  フォント</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>fill</td><td align='left'>内部の塗り潰しを指定します。詳細は「<a href='#dBUd7L4C3dx'>9.3  フィル</a>」を参照してください。<br>折り目部分の色は fill の指定から自動的に「少し暗い色」が選択されます。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>stroke</td><td align='left'>外枠を描画する線を指定します。詳細は「<a href='#4HFjqmTuIU6'>9.2  ストローク</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>link</td><td align='left'>リンクにする場合、リンク先を指定します。詳細は「<a href='#fbLcMRTVXac'>9.9  リンク</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>rotate</td><td align='left'>回転させたい場合に、その角度を指定します。<br>詳細は「<a href='#heEi5Lc5BX9'>9.6  回転</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>layer</td><td align='left'>レイヤーに所属させる場合、その名前をキーワードで指定します。<br>詳細は「<a href='#1ovJxG7Ie9O'>9.8  レイヤー</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>id</td><td align='left'>ID を付与したい場合、その名前をキーワードで指定します。<br>詳細は「<a href='#iu9Ovm00KHn'>9.5  IDと参照</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>filter</td><td align='left'>フィルタ効果を適用したい場合、その名前を指定します。<br>詳細は「<a href='#gPGlqSbIfdL'>9.7  フィルタ</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>contents</td><td align='left'><a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>とした描画をしたい場合、その内容を指定します。<br>詳細は「<a href='#kgs1vf3AbTN'>7  サブキャンバス</a>」を参照してください。</td></tr>
 </table>
 <p>　　</p>
 <a name='jef8fBHlV8x'></a>
@@ -2436,15 +2434,15 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <tr style="font-size: 14;"><td nowrap align='left'>align</td><td align='left'>テキストの水平方向のアライメントを <code>:left :center :right</code> のいずれかで指定します。<br>省略した場合のデフォルト値は <code>:center</code> です。詳細は後述します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'>vlign</td><td align='left'>テキストの垂直方向のアライメントを <code>:top :center :bottom</code> のいずれかで指定します。<br>省略した場合のデフォルト値は <code>:center</code> です。詳細は後述します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'>margin</td><td align='left'>テキスト描画における「余白」のサイズです。省略した場合のデフォルト値は 10 です。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>font</td><td align='left'>フォントを指定します。詳細は「<a href='#3kZ9FkounyK'>7.4  フォント</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>fill</td><td align='left'>内部の塗り潰しを指定します。詳細は「<a href='#dBUd7L4C3dx'>7.3  フィル</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>stroke</td><td align='left'>外枠を描画する線を指定します。詳細は「<a href='#4HFjqmTuIU6'>7.2  ストローク</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>link</td><td align='left'>リンクにする場合、リンク先を指定します。詳細は「<a href='#fbLcMRTVXac'>7.9  リンク</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>rotate</td><td align='left'>回転させたい場合に、その角度を指定します。<br>詳細は「<a href='#heEi5Lc5BX9'>7.6  回転</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>layer</td><td align='left'>レイヤーに所属させる場合、その名前をキーワードで指定します。<br>詳細は「<a href='#1ovJxG7Ie9O'>7.8  レイヤー</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>id</td><td align='left'>ID を付与したい場合、その名前をキーワードで指定します。<br>詳細は「<a href='#iu9Ovm00KHn'>7.5  IDと参照</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>filter</td><td align='left'>フィルタ効果を適用したい場合、その名前を指定します。<br>詳細は「<a href='#gPGlqSbIfdL'>7.7  フィルタ</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>contents</td><td align='left'>内部をサブキャンバスとした描画をしたい場合、その内容を指定します。<br>詳細は「<a href='#kgs1vf3AbTN'>8  サブキャンバス</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>font</td><td align='left'>フォントを指定します。詳細は「<a href='#3kZ9FkounyK'>9.4  フォント</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>fill</td><td align='left'>内部の塗り潰しを指定します。詳細は「<a href='#dBUd7L4C3dx'>9.3  フィル</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>stroke</td><td align='left'>外枠を描画する線を指定します。詳細は「<a href='#4HFjqmTuIU6'>9.2  ストローク</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>link</td><td align='left'>リンクにする場合、リンク先を指定します。詳細は「<a href='#fbLcMRTVXac'>9.9  リンク</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>rotate</td><td align='left'>回転させたい場合に、その角度を指定します。<br>詳細は「<a href='#heEi5Lc5BX9'>9.6  回転</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>layer</td><td align='left'>レイヤーに所属させる場合、その名前をキーワードで指定します。<br>詳細は「<a href='#1ovJxG7Ie9O'>9.8  レイヤー</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>id</td><td align='left'>ID を付与したい場合、その名前をキーワードで指定します。<br>詳細は「<a href='#iu9Ovm00KHn'>9.5  IDと参照</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>filter</td><td align='left'>フィルタ効果を適用したい場合、その名前を指定します。<br>詳細は「<a href='#gPGlqSbIfdL'>9.7  フィルタ</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>contents</td><td align='left'>内部を<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>とした描画をしたい場合、その内容を指定します。<br>詳細は「<a href='#kgs1vf3AbTN'>7  サブキャンバス</a>」を参照してください。</td></tr>
 </table>
 <p>　　</p>
 <a name='7nl79AiDenC'></a>
@@ -2548,14 +2546,14 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <tr style="font-size: 14;"><td nowrap align='left'>width</td><td align='left'>幅を数値で指定します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'>height</td><td align='left'>高さを数値で指定します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><a class='autolink' href='#cTdCvBeU6ZJ'>text</a></td><td align='left'>内部に描画するテキストを文字列で指定します。改行は "~%" で表現します。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>font</td><td align='left'>フォントを指定します。詳細は「<a href='#3kZ9FkounyK'>7.4  フォント</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>fill</td><td align='left'>内部の塗り潰しを指定します。詳細は「<a href='#dBUd7L4C3dx'>7.3  フィル</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>stroke</td><td align='left'>外枠を描画する線を指定します。詳細は「<a href='#4HFjqmTuIU6'>7.2  ストローク</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>link</td><td align='left'>リンクにする場合、リンク先を指定します。詳細は「<a href='#fbLcMRTVXac'>7.9  リンク</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>rotate</td><td align='left'>回転させたい場合に、その角度を指定します。<br>詳細は「<a href='#heEi5Lc5BX9'>7.6  回転</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>layer</td><td align='left'>レイヤーに所属させる場合、その名前をキーワードで指定します。<br>詳細は「<a href='#1ovJxG7Ie9O'>7.8  レイヤー</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>id</td><td align='left'>ID を付与したい場合、その名前をキーワードで指定します。<br>詳細は「<a href='#iu9Ovm00KHn'>7.5  IDと参照</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>filter</td><td align='left'>フィルタ効果を適用したい場合、その名前を指定します。<br>詳細は「<a href='#gPGlqSbIfdL'>7.7  フィルタ</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>font</td><td align='left'>フォントを指定します。詳細は「<a href='#3kZ9FkounyK'>9.4  フォント</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>fill</td><td align='left'>内部の塗り潰しを指定します。詳細は「<a href='#dBUd7L4C3dx'>9.3  フィル</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>stroke</td><td align='left'>外枠を描画する線を指定します。詳細は「<a href='#4HFjqmTuIU6'>9.2  ストローク</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>link</td><td align='left'>リンクにする場合、リンク先を指定します。詳細は「<a href='#fbLcMRTVXac'>9.9  リンク</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>rotate</td><td align='left'>回転させたい場合に、その角度を指定します。<br>詳細は「<a href='#heEi5Lc5BX9'>9.6  回転</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>layer</td><td align='left'>レイヤーに所属させる場合、その名前をキーワードで指定します。<br>詳細は「<a href='#1ovJxG7Ie9O'>9.8  レイヤー</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>id</td><td align='left'>ID を付与したい場合、その名前をキーワードで指定します。<br>詳細は「<a href='#iu9Ovm00KHn'>9.5  IDと参照</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>filter</td><td align='left'>フィルタ効果を適用したい場合、その名前を指定します。<br>詳細は「<a href='#gPGlqSbIfdL'>9.7  フィルタ</a>」を参照してください。</td></tr>
 </table>
 <p>　　</p>
 <a name='2H6JKIXGXRq'></a>
@@ -2654,12 +2652,12 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <tr style="font-size: 14;"><td nowrap align='left'>size</td><td align='left'>矢印部分の大きさを数値で指定します（後述）。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'>length</td><td align='left'>矢印部分の長さを数値で指定します（後述）。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'>margin</td><td align='left'>始点・終点と<a class='autolink' href='#49KKf97828b'>ブロック矢印</a>の間にあける隙間を数値で指定します（後述）。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>fill</td><td align='left'>内部の塗り潰しを指定します。詳細は「<a href='#dBUd7L4C3dx'>7.3  フィル</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>stroke</td><td align='left'>外枠を描画する線を指定します。詳細は「<a href='#4HFjqmTuIU6'>7.2  ストローク</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>link</td><td align='left'>リンクにする場合、リンク先を指定します。詳細は「<a href='#fbLcMRTVXac'>7.9  リンク</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>layer</td><td align='left'>レイヤーに所属させる場合、その名前をキーワードで指定します。<br>詳細は「<a href='#1ovJxG7Ie9O'>7.8  レイヤー</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>filter</td><td align='left'>フィルタ効果を適用したい場合、その名前を指定します。<br>詳細は「<a href='#gPGlqSbIfdL'>7.7  フィルタ</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>id</td><td align='left'>ID を付与したい場合、その名前をキーワードで指定します。<br>詳細は「<a href='#iu9Ovm00KHn'>7.5  IDと参照</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>fill</td><td align='left'>内部の塗り潰しを指定します。詳細は「<a href='#dBUd7L4C3dx'>9.3  フィル</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>stroke</td><td align='left'>外枠を描画する線を指定します。詳細は「<a href='#4HFjqmTuIU6'>9.2  ストローク</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>link</td><td align='left'>リンクにする場合、リンク先を指定します。詳細は「<a href='#fbLcMRTVXac'>9.9  リンク</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>layer</td><td align='left'>レイヤーに所属させる場合、その名前をキーワードで指定します。<br>詳細は「<a href='#1ovJxG7Ie9O'>9.8  レイヤー</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>filter</td><td align='left'>フィルタ効果を適用したい場合、その名前を指定します。<br>詳細は「<a href='#gPGlqSbIfdL'>9.7  フィルタ</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>id</td><td align='left'>ID を付与したい場合、その名前をキーワードで指定します。<br>詳細は「<a href='#iu9Ovm00KHn'>9.5  IDと参照</a>」を参照してください。</td></tr>
 </table>
 <p>　　</p>
 <p>　上記だけではわかりにくいので、以下を参考にしてください。</p>
@@ -2842,11 +2840,11 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <tr style="font-size: 14;"><td nowrap align='left'>r</td><td align='left'>曲線部分の半径を数値で指定します（後述）。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'>point</td><td align='left'>中央の「つまみ」の曲線部分の端からの距離を数値で指定します。<br>これは水平の<a class='autolink' href='#lBS33hNe32a'>波括弧</a>の場合は左から、垂直の<a class='autolink' href='#lBS33hNe32a'>波括弧</a>の場合は上からの距離です。（後述）。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><a class='autolink' href='#cTdCvBeU6ZJ'>text</a></td><td align='left'>描画するテキストを文字列で指定します。改行は "~%" で表現します。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>font</td><td align='left'>フォントを指定します。詳細は「<a href='#3kZ9FkounyK'>7.4  フォント</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>stroke</td><td align='left'><a class='autolink' href='#lBS33hNe32a'>波括弧</a>を描画する線を指定します。詳細は「<a href='#4HFjqmTuIU6'>7.2  ストローク</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>layer</td><td align='left'>レイヤーに所属させる場合、その名前をキーワードで指定します。<br>詳細は「<a href='#1ovJxG7Ie9O'>7.8  レイヤー</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>filter</td><td align='left'>フィルタ効果を適用したい場合、その名前を指定します。<br>詳細は「<a href='#gPGlqSbIfdL'>7.7  フィルタ</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>id</td><td align='left'>ID を付与したい場合、その名前をキーワードで指定します。<br>詳細は「<a href='#iu9Ovm00KHn'>7.5  IDと参照</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>font</td><td align='left'>フォントを指定します。詳細は「<a href='#3kZ9FkounyK'>9.4  フォント</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>stroke</td><td align='left'><a class='autolink' href='#lBS33hNe32a'>波括弧</a>を描画する線を指定します。詳細は「<a href='#4HFjqmTuIU6'>9.2  ストローク</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>layer</td><td align='left'>レイヤーに所属させる場合、その名前をキーワードで指定します。<br>詳細は「<a href='#1ovJxG7Ie9O'>9.8  レイヤー</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>filter</td><td align='left'>フィルタ効果を適用したい場合、その名前を指定します。<br>詳細は「<a href='#gPGlqSbIfdL'>9.7  フィルタ</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>id</td><td align='left'>ID を付与したい場合、その名前をキーワードで指定します。<br>詳細は「<a href='#iu9Ovm00KHn'>9.5  IDと参照</a>」を参照してください。</td></tr>
 </table>
 <p>　　</p>
 <p>　上記だけではわかりにくいので、以下を参考にしてください。</p>
@@ -3010,12 +3008,12 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <tr style="font-size: 14;"><td nowrap align='left'>center</td><td align='left'>中心点を指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'>rows</td><td align='left'>行数と各行の高さを数値のリストで指定します。リストの長さが行数、リスト要素の数値が行の高さです。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'>cols</td><td align='left'>列数と各列の幅を数値のリストで指定します。リストの長さが列数、リスト要素の数値が列の幅です。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>stroke</td><td align='left'>罫線を描画する線を指定します。詳細は「<a href='#4HFjqmTuIU6'>7.2  ストローク</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>fills</td><td align='left'>表、行、列、またはセル個別の塗り潰しを指定します。位置を示すキーワードとフィル情報の２つの値を繰り返すリストで指定してください。位置は、表全体であれば <code>:rc</code> 、列や行全体を指定する場合は <code>:rN</code> や <code>:cM</code> を指定します。ここで、 <code>N,M</code> は行や列の番号を示す整数です（上または左から０で始まります）。単独のセルを指定する場合、同じ要領で <code>:rNcM</code> と指定してください。 <code>fills</code> パラメータ全体が省略された場合、表の背景は塗り潰されません。フィル情報の詳細は「<a href='#dBUd7L4C3dx'>7.3  フィル</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>font</td><td align='left'>表内でテキストを描画する際に使用するフォントを指定します。省略した場合、 <code>*default-table-font*, *default-font*</code> の順でデフォルトフォントが使用されます。また、 <code>texts</code> パラメータ指定の中でセル毎に個別にフォントを指定することもできます。フォント情報の詳細は「<a href='#3kZ9FkounyK'>7.4  フォント</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>stroke</td><td align='left'>罫線を描画する線を指定します。詳細は「<a href='#4HFjqmTuIU6'>9.2  ストローク</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>fills</td><td align='left'>表、行、列、またはセル個別の塗り潰しを指定します。位置を示すキーワードとフィル情報の２つの値を繰り返すリストで指定してください。位置は、表全体であれば <code>:rc</code> 、列や行全体を指定する場合は <code>:rN</code> や <code>:cM</code> を指定します。ここで、 <code>N,M</code> は行や列の番号を示す整数です（上または左から０で始まります）。単独のセルを指定する場合、同じ要領で <code>:rNcM</code> と指定してください。 <code>fills</code> パラメータ全体が省略された場合、表の背景は塗り潰されません。フィル情報の詳細は「<a href='#dBUd7L4C3dx'>9.3  フィル</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>font</td><td align='left'>表内でテキストを描画する際に使用するフォントを指定します。省略した場合、 <code>*default-table-font*, *default-font*</code> の順でデフォルトフォントが使用されます。また、 <code>texts</code> パラメータ指定の中でセル毎に個別にフォントを指定することもできます。フォント情報の詳細は「<a href='#3kZ9FkounyK'>9.4  フォント</a>」を参照してください。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><a class='autolink' href='#cTdCvBeU6ZJ'>text</a>s</td><td align='left'>表内の各セルに設定するテキストをリストで指定します。正確には、行のリストを連ねたリストで指定します。テキスト情報はキーワードなどのシンボル、数値、文字列を指定できますが、アライメントやフォント情報を指定する場合は テキスト情報自体をリストにする必要があります。詳細は後述します。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>layer</td><td align='left'>レイヤーに所属させる場合、その名前をキーワードで指定します。<br>詳細は「<a href='#1ovJxG7Ie9O'>7.8  レイヤー</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>id</td><td align='left'>ID を付与したい場合、その名前をキーワードで指定します。<br>詳細は「<a href='#iu9Ovm00KHn'>7.5  IDと参照</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>layer</td><td align='left'>レイヤーに所属させる場合、その名前をキーワードで指定します。<br>詳細は「<a href='#1ovJxG7Ie9O'>9.8  レイヤー</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>id</td><td align='left'>ID を付与したい場合、その名前をキーワードで指定します。<br>詳細は「<a href='#iu9Ovm00KHn'>9.5  IDと参照</a>」を参照してください。</td></tr>
 </table>
 <p>　　</p>
 <p>　<code>texts</code> パラメータについて説明します。まず、 <code>texts</code> パラメータそのものを省略した場合、すべてのセルにおいてテキストは指定されなかったものとして扱われます。指定する場合、典型的には前述の例のように「リストのリスト」として指定することになります。</p>
@@ -3107,7 +3105,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </details>
 <p>　データを（リストでなく）直接指定した場合でも、数値ならば右寄せ、文字列ならば左寄せ、シンボルならば中央揃えというデフォルトの設定は行なわれるため、多くの場合で個別セルのテキストデータ指定をリストで行なう必要は無いでしょう。キーワードを使うと全て大文字で表示されてしまいますが、 <code>:|Foo|</code> のようにバーティカルバーで括ると文字の大小を維持したまま表示されます（<a href='#0EEfXZqu18P'>Figure.5-31</a> のコードを参照）。</p>
 <h4><a name='3qNm5uHdKTZ'></a>5.12.1 with-table-cell を使ったセル内描画</h4>
-<p>　<code>table</code> の id とセルの行・列番号を指定して <code>with-table-cell</code> を使用することで、該当するセルをサブキャンバスとした描画ができます。</p>
+<p>　<code>table</code> の id とセルの行・列番号を指定して <code>with-table-cell</code> を使用することで、該当するセルを<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>とした描画ができます。</p>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-table-cell</span> ((id r c) &amp;body body) ...)
 </pre>
@@ -3150,7 +3148,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <p>　<code>with-table-cell</code> は事実上、指定した<a class='autolink' href='#g6xjP526KX7'>テーブル</a>の指定セル領域を指定した <code>with-subcanvas</code> として機能します。そのため、 <code>canvas</code> を使ってその中心座標や幅、高さ情報にアクセスできます。</p>
 <p>　　</p>
 <h2><a name='h1RNMQY1C0b'></a>6 座標と位置</h2>
-<p>　diagram では、座標系は左上を原点としており、水平右方向に x 軸、垂直下方向に y 軸となっています。また、角度は時計回りになります。</p>
+<p>　diagram では、座標系は左上端を原点としており、水平右方向に x 軸、垂直下方向に y 軸となっています。また、角度は時計回りになります。</p>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='150'>
@@ -3211,8 +3209,8 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </details>
 <p>　　</p>
 <p>　diagram データの中で座標を指定する方法にはいくつかあります。以下に説明します。</p>
-<p>　具体的な固定値で座標を指定する場合、 <code>'(x y)</code> の要領で指定します。つまり、 <code>'(50 100)</code> といった指定です。これは即値で座標を指定する場合の書き方ですが、Common LISP の変数に格納した数値から座標を作成したい場合は make-point 関数が使えます。これは <code>(make-point x y)</code> の要領で使用してください<sup><a name='footnote_ref5' href='#footnote5'>5</a></sup>。</p>
-<p>　具体的な座標値を指定するのでなく、「すでに登場した要素の位置を利用して座標を指定する」こともできます。「<a href='#9LLncE6hWlx'>2  簡単なサンプル</a>」の 2 つめでは、 <code>app.center</code> や <code>in.right</code> という表記が登場しました。これは、図形要素を記述する際に指定した ID を使ってその中心座標などを参照するものです。これには９種類あり、その名前と具体的な場所は以下の通りです<sup><a name='footnote_ref6' href='#footnote6'>6</a></sup>。</p>
+<p>　具体的な数値で座標を指定する場合、 <code>'(x y)</code> の要領で指定します。つまり、 <code>'(50 100)</code> といった指定です。これは即値で座標を指定する場合の書き方ですが、Common LISP の変数に格納した数値から座標を作成したい場合は make-point 関数が使えます。これは <code>(make-point x y)</code> の要領で使用してください<sup><a name='footnote_ref5' href='#footnote5'>5</a></sup>。</p>
+<p>　具体的な数値を指定するのでなく、「すでに登場した要素の位置を利用して座標を指定する」こともできます。<a href='#9LLncE6hWlx'>2  章</a>の 2 つめのサンプルでは、 <code>app.center</code> や <code>in.right</code> という表記が登場しました。これは、図形要素を記述する際に指定した ID を使ってその中心座標などを参照するものです。これには９種類あり、その名前と具体的な場所は以下の通りです<sup><a name='footnote_ref6' href='#footnote6'>6</a></sup>。</p>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='150'>
@@ -3268,8 +3266,8 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <p class='fig_title'><a name='2oP7i8nCaCH'></a>Figure.6-2 図形要素の座標参照</p>
 <p>　　</p>
 <p>　上記の <code>app.center</code> という記法は、座標を指定すべきところではたいてい使用できますが、これを <code>(attr :app :center)</code> という記法で代替することもできます<sup><a name='footnote_ref7' href='#footnote7'>7</a></sup>。</p>
-<p>　<code>app.center</code> の記法において要素名のところに <code>canvas</code> を指定することで、キャンバス全体をひとつの図形要素のように扱うことができます。つまり、 <code>canvas.center</code> とすれば SVG 画像の中心点を指定できますし、 <code>canvas.width</code> と言えば SVG 画像の幅を取得することができます。実際には、この <code>canvas</code> が意味するのは「現在のキャンバス」なのですが、これについては「<a href='#kgs1vf3AbTN'>8  サブキャンバス</a>」で説明します。</p>
-<p>　<code>app.center</code> といった記述は単独で使用することはなく、「そこから 100pt くらい右」などの指定をしたい場合がほとんどでしょう。そのような場合、 <code>(x+ app.center 100)</code> といった記述で目的を達することができます。以下の 3 つの関数が利用できます。</p>
+<p>　<code>app.center</code> の記法において要素名のところに <code>canvas</code> を指定することで、<a class='autolink' href='#kgs1vf3AbTN'>キャンバス</a>全体をひとつの図形要素のように扱うことができます。つまり、 <code>canvas.center</code> とすれば SVG 画像の中心点を指定できますし、 <code>canvas.width</code> と言えば SVG 画像の幅を取得することができます。実際には、この <code>canvas</code> が意味するのは「現在の<a class='autolink' href='#kgs1vf3AbTN'>キャンバス</a>」なのですが、これについては「<a href='#kgs1vf3AbTN'>7  サブキャンバス</a>」で説明します。</p>
+<p>　<code>app.center</code> などの記述は単独で使用するよりも、「app の中心から 100pt くらい右」といった指定をしたい場合の方が多いでしょう。そのような場合、 <code>(x+ app.center 100)</code> といった記述で目的を達することができます。以下の 3 つの関数が利用できます。</p>
 <pre class='code'>
 (<span class='keyword1'>defun</span> <span class='keyword5'>x+</span> (pt x) ...)
 (<span class='keyword1'>defun</span> <span class='keyword5'>y+</span> (pt y) ...)
@@ -3277,48 +3275,21 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </pre>
 <p>　なお、 <code>(x- app.center 100)</code> とは書けません。 <code>(x+ app.center -100)</code> としてください。</p>
 <p>　　</p>
-<h2><a name='2QhgoP1QBEQ'></a>7 パラメータの詳細</h2>
-<h3><a name='1rpUB3fre67'></a>7.1 色の指定</h3>
-<p>　diagram は SVG 形式で図形を生成するため、色の指定は SVG の規格に準拠します。</p>
-<ul>
-<li>#rrggbb 表記による、6 桁の16進指定。rr、gg、bb は順に赤、緑、青の成分で、 00〜ff の範囲で指定します。</li>
-<li>#rgb 表記による、3 桁の16進指定。r、g、b は順に赤、緑、青の成分で、 0〜f の範囲で指定します。これは #rrggbb の簡略表記で、たとえば #136 は #113366 に相当します。</li>
-<li><a href='#if12ldF3hxG'>rgb関数</a>による指定。これは <code>(rgb r g b)</code> の要領で使用します。r、g、b は順に赤、緑、青の成分で、それぞれ 0〜255 の整数または 0.0〜1.0 の小数点数で指定します。0.0〜1.0 の指定の場合、それに 255 をかけた値が指定されます。</li>
-<li>色名での指定。 <code>:black</code> など先頭にコロンをつけたキーワードの形式で指定します。使用できる色の名前とサンプルは <a href='#dR01Jh257Q6'>11.2  節</a> を参照してください。</li>
-</ul>
-<p>　　</p>
-<h3><a name='4HFjqmTuIU6'></a>7.2 ストローク</h3>
-<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<h2><a name='kgs1vf3AbTN'></a>7 サブキャンバス</h2>
+<p>　<a href='#h1RNMQY1C0b'>前節</a>では、座標指定のための ID 名として <code>canvas</code> を指定すると作成中の図全体の領域を指定できると説明しました。diagram では、これを<a class='autolink' href='#kgs1vf3AbTN'>キャンバス</a>と読んでいますが、その一部を独立した<a class='autolink' href='#kgs1vf3AbTN'>キャンバス</a>として描画を行うことができます。これを<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>と呼びます。</p>
+<p>　<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>を使う方法のひとつは、<a class='autolink' href='#lsGULoUqoK4'>with-subcanvas</a> を使うことです。左上の座標と幅・高さを与えることで、その部分領域の左上を原点とする新しい座標系が作成されます。以下に簡単な例を示します。</p>
 <pre class='code'>
-(make-stroke <span class='keyword3'>:blue</span>)    <span class='comment'>;; equal to (make-stroke :color :blue)</span>
-
-(make-stroke 10)       <span class='comment'>;; equal to (make-stroke :width 10)</span>
-
-(make-stroke <span class='keyword3'>:color</span> <span class='keyword3'>:red</span> <span class='keyword3'>:width</span> 3)
-
-(make-stroke '(<span class='keyword3'>:color</span> <span class='keyword3'>:red</span> <span class='keyword3'>:width</span> 3))
-
-</pre>
-<h3><a name='dBUd7L4C3dx'></a>7.3 フィル</h3>
-<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h3><a name='3kZ9FkounyK'></a>7.4 フォント</h3>
-<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<p>　　</p>
-<h3><a name='iu9Ovm00KHn'></a>7.5 IDと参照</h3>
-<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<p>　　</p>
-<h3><a name='heEi5Lc5BX9'></a>7.6 回転</h3>
-<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません</span></p>
-<pre class='code'>
-(diagram (400 200)
+(diagram (300 150)
   (grid)
-  (rect '(200 100) 100 70 <span class='keyword3'>:fill</span> <span class='keyword3'>:lightgray</span> <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span> <span class='keyword3'>:rotate</span> 30))
+  (circle '(50 50) 20 <span class='keyword3'>:stroke</span> <span class='keyword3'>:brown</span> <span class='keyword3'>:fill</span> <span class='keyword3'>:thistle</span>)
+  (with-subcanvas ('(150 40) 100 100)
+    (rect canvas.center canvas.width canvas.height <span class='keyword3'>:stroke</span> <span class='keyword3'>:gray</span> <span class='keyword3'>:fill</span> <span class='keyword3'>:none</span>)
+    (circle '(50 50) 20 <span class='keyword3'>:stroke</span> <span class='keyword3'>:navy</span> <span class='keyword3'>:fill</span> <span class='keyword3'>:skyblue</span>)))
 </pre>
-<p>　　</p>
-<p>　以下のような画像が生成されます。</p>
+<p>　上記のコードを diagram にかけると以下が生成されます。2 回登場する <a class='autolink' href='#8UQowBxrcaE'>circle</a> は座標と半径が同じ <code>'(50 50) 20</code> で指定されていますが、実際に描画された場所は異なっています。これは、後者の（青い方の）<a class='autolink' href='#8UQowBxrcaE'>circle</a> が <a class='autolink' href='#lsGULoUqoK4'>with-subcanvas</a> の配下にあるためで、この<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>の実際の領域は <a class='autolink' href='#kJonRG8GtHF'>rect</a> で示されています。</p>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
-<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='400' height='200'>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='150'>
 	
 	<!-- grid -->
 	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
@@ -3326,90 +3297,52 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
 	</pattern>
 	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- circle -->
+	<circle cx='50' cy='50' r='20' fill='thistle' stroke='brown' stroke-width='1' />
 	<!-- rectangle -->
-	<g transform='rotate(30,200,100)'>
-		<rect x='150' y='65' width='100' height='70' fill='lightgray' stroke='black' stroke-width='1' />
-	</g>
+	<rect x='150' y='40' width='100' height='100' fill='none' stroke='gray' stroke-width='1' />
+	<!-- circle -->
+	<circle cx='200' cy='90' r='20' fill='skyblue' stroke='navy' stroke-width='1' />
 
 </svg>
 </div>
 
-<p class='fig_title'><a name='h7K5JgIwvZY'></a>Figure.7-1 回転のサンプル</p>
-<h3><a name='gPGlqSbIfdL'></a>7.7 フィルタ</h3>
-<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません</span></p>
+<p class='fig_title'><a name='kV8JVeAiwLR'></a>Figure.7-1 サブキャンバスのサンプル</p>
+<p>　<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>は入力データの一部分で独自の座標系を一時的に作成するもので、それ以外の効果はありません。たとえば、描画順序を制御するレイヤーとは無関係です<sup><a name='footnote_ref8' href='#footnote8'>8</a></sup>。</p>
+<p>　with-canvas で明示的に<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>を作成するのでなく、作成した図形要素の内部を<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>とすることもできます。これには、 contents パラメータを使用します。たとえば、先程の例と同じ作図をするには以下のように書きます。この場合、先程とは違って <a class='autolink' href='#kJonRG8GtHF'>rect</a> の中に <a class='autolink' href='#8UQowBxrcaE'>circle</a> が置かれることになります（<a class='autolink' href='#kJonRG8GtHF'>rect</a> が動けば <a class='autolink' href='#8UQowBxrcaE'>circle</a> も動く）。</p>
 <pre class='code'>
-(diagram (400 200)
+(diagram (300 150)
   (grid)
-  (drop-shadow)
-  (glow-shadow <span class='keyword3'>:color-matrix</span> '(0 0 0 0   0
-                               0 0 0 0.6 0
-                               0 0 0 0.3 0
-                               0 0 0 0.5 0))
-  (rect '(200 100) 100 70 <span class='keyword3'>:fill</span> <span class='keyword3'>:lightgray</span> <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span> <span class='keyword3'>:filter</span> <span class='keyword3'>:drop-shadow</span>)
-  (text '(200 180) <span class='literal'>"sample text"</span> <span class='keyword3'>:align</span> <span class='keyword3'>:center</span>
-                   <span class='keyword3'>:font</span> (make-font <span class='keyword3'>:size</span> 24 <span class='keyword3'>:fill</span> <span class='keyword3'>:cadetblue</span> <span class='keyword3'>:filter</span> <span class='keyword3'>:glow-shadow</span>)))
+  (circle '(50 50) 20 <span class='keyword3'>:stroke</span> <span class='keyword3'>:brown</span> <span class='keyword3'>:fill</span> <span class='keyword3'>:thistle</span>)
+  (rect '(200 90) 100 100 <span class='keyword3'>:stroke</span> <span class='keyword3'>:gray</span> <span class='keyword3'>:fill</span> <span class='keyword3'>:none</span>
+     <span class='keyword3'>:contents</span>
+     ((circle '(50 50) 20 <span class='keyword3'>:stroke</span> <span class='keyword3'>:navy</span> <span class='keyword3'>:fill</span> <span class='keyword3'>:skyblue</span>))))
 </pre>
-<p>　　</p>
-<p>　以下のような画像が生成されます。</p>
+<p class='fig_title'><a name='5maEWPLcbWX'></a>Figure.7-2 contents パラメータを使ったサブキャンバス</p>
+<p>　contents パラメータによる<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>は、その図形要素の幅と高さからなる<a class='autolink' href='#kJonRG8GtHF'>四角形</a>になるのが原則です。つまり、円や<a class='autolink' href='#7YzIcjhyGKN'>楕円</a>の場合は以下のように<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>の方が大きくなりますので注意してください。</p>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
-<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='400' height='200'>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='120'>
 	
-	<filter id='glow-shadow'>
-		<feColorMatrix type='matrix' values=' 0 0 0 0 0 0 0 0 0.6 0 0 0 0 0.3 0 0 0 0 0.5 0' />
-		<feGaussianBlur stdDeviation='3' result='blur' />
-		<feMerge>
-			<feMergeNode in='blur' />
-			<feMergeNode in='SourceGraphic'/>
-		</feMerge>
-	</filter>
-	<filter id='drop-shadow'>
-		<feColorMatrix type='matrix' values=' 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.4 0' />
-		<feGaussianBlur stdDeviation='2' result='blur' />
-		<feOffset in='blur' dx='4' dy='4' result='offsetBlur' />
-		<feMerge>
-			<feMergeNode in='offsetBlur' />
-			<feMergeNode in='SourceGraphic'/>
-		</feMerge>
-	</filter>
 	<!-- grid -->
 	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
 		<rect x='0' y='0' width='10' height='10' fill='white' />
 		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
 	</pattern>
 	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- circle -->
+	<circle cx='70' cy='60' r='40' fill='lightgray' stroke='black' stroke-width='1' />
 	<!-- rectangle -->
-	<rect x='150' y='65' width='100' height='70' fill='lightgray' stroke='black' stroke-width='1' filter='url(#drop-shadow)' />
-	<!-- text -->
-	<text x='200' y='180' text-anchor='middle' font-size='24pt' fill='cadetblue' filter='url(#glow-shadow)' >sample text</text>
+	<rect x='30' y='20' width='80' height='80' fill='none' stroke='red' stroke-width='3' stroke-opacity='0.3' stroke-dasharray='10 5 ' />
+	<!-- ellipse -->
+	<ellipse cx='200' cy='60' rx='70' ry='40' fill='lightgray' stroke='black' stroke-width='1' />
+	<!-- rectangle -->
+	<rect x='130' y='20' width='140' height='80' fill='none' stroke='red' stroke-width='3' stroke-opacity='0.3' stroke-dasharray='10 5 ' />
 
 </svg>
 </div>
 
-<p class='fig_title'><a name='9Z8wQykrThD'></a>Figure.7-2 フィルタのサンプル</p>
-<h3><a name='1ovJxG7Ie9O'></a>7.8 レイヤー</h3>
-<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<p>　　</p>
-<h3><a name='fbLcMRTVXac'></a>7.9 リンク</h3>
-<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<p>　　</p>
-<h3><a name='9MB3lirlqL9'></a>7.10 終端マーク</h3>
-<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<p>　　</p>
-<h3><a name='lpCVEZ9kMoP'></a>7.11 ラベル</h3>
-<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<p>　　</p>
-<h2><a name='kgs1vf3AbTN'></a>8 サブキャンバス</h2>
-<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<pre class='code'>
-(diagram (300 200)
-  (grid)
-  (circle (xy+ canvas.topleft 50 50) 20 <span class='keyword3'>:stroke</span> <span class='keyword3'>:brown</span> <span class='keyword3'>:fill</span> <span class='keyword3'>:wheat</span>)
-  (with-subcanvas ('(150 50) 100 100)
-    (rect canvas.center
-          canvas.width canvas.height <span class='keyword3'>:stroke</span> <span class='keyword3'>:gray</span> <span class='keyword3'>:fill</span> <span class='keyword3'>:lightgray</span>)
-    (circle (xy+ canvas.topleft 50 50) 20 <span class='keyword3'>:stroke</span> <span class='keyword3'>:brown</span> <span class='keyword3'>:fill</span> <span class='keyword3'>:wheat</span>)))
-</pre>
+<p>　内部に描画することを目的としているような図形要素の場合、<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>の位置が調整されているものもあります。たとえば、<a class='autolink' href='#jOvc70hxXQE'>uml-node</a> では以下のようになります。青い点線の枠が <a class='autolink' href='#jOvc70hxXQE'>uml-node</a> の幅と高さからなる矩形で、赤い点線の枠が<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>です。</p>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='200'>
@@ -3420,19 +3353,33 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
 	</pattern>
 	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
-	<!-- circle -->
-	<circle cx='50' cy='50' r='20' fill='wheat' stroke='brown' stroke-width='1' />
+	<!-- node : uml-node -->
+	<g id='node'>
+		<polygon fill='lightgray' stroke='black' stroke-width='1' points='20.0,27.5 35.0,12.5 287.5,12.5 287.5,165.0 272.5,180.0' />
+		<polyline fill='none' stroke='black' stroke-width='1' points=' 287.5,12.5 272.5,27.5' />
+		<rect x='20' y='27.5' width='252.5' height='152.5' fill='white' stroke='black' stroke-width='1' />
+		<text x='146.25' y='47.5' text-anchor='middle' font-size='12pt' fill='black' >uml-node</text>
+	</g>
 	<!-- rectangle -->
-	<rect x='150' y='50' width='100' height='100' fill='lightgray' stroke='gray' stroke-width='1' />
-	<!-- circle -->
-	<circle cx='200' cy='100' r='20' fill='wheat' stroke='brown' stroke-width='1' />
+	<rect x='20' y='27.5' width='252.5' height='152.5' fill='none' stroke='red' stroke-width='3' stroke-opacity='0.5' stroke-dasharray='10 5 ' />
+	<!-- rectangle -->
+	<rect x='20' y='20' width='260' height='160' fill='none' stroke='blue' stroke-width='3' stroke-opacity='0.5' stroke-dasharray='10 5 ' />
 
 </svg>
 </div>
 
-<p class='fig_title'><a name='kV8JVeAiwLR'></a>Figure.8-1 サブキャンバスのサンプル</p>
+<p>　最後に、contents パラメータを使わずに図形要素の<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>を利用する方法として、<a class='autolink' href='#2c8duiejnaO'>with-subcanvas-of</a> が用意されています。これは既出の図形要素の ID を指定して<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>を確立するものです。<a href='#kV8JVeAiwLR'>Figure.7-1</a> と同じ（つまり <a href='#5maEWPLcbWX'>Figure.7-2</a> とも同じ）作図をするサンプルを以下に示します。</p>
+<pre class='code'>
+(diagram (300 150)
+  (grid)
+  (circle '(50 50) 20 <span class='keyword3'>:stroke</span> <span class='keyword3'>:brown</span> <span class='keyword3'>:fill</span> <span class='keyword3'>:thistle</span>)
+  (rect '(200 90) 100 100 <span class='keyword3'>:stroke</span> <span class='keyword3'>:gray</span> <span class='keyword3'>:fill</span> <span class='keyword3'>:none</span> <span class='keyword3'>:id</span> <span class='keyword3'>:rct</span>)
+  (with-subcanvas-of (<span class='keyword3'>:rct</span>)
+     (circle '(50 50) 20 <span class='keyword3'>:stroke</span> <span class='keyword3'>:navy</span> <span class='keyword3'>:fill</span> <span class='keyword3'>:skyblue</span>)))
+</pre>
+<p class='fig_title'><a name='04Bhkv1vkfw'></a>Figure.7-3 with-subcanvas-of を使ったサブキャンバス</p>
 <p>　　</p>
-<h2><a name='lkPJSquGS6Q'></a>9 defs と use</h2>
+<h2><a name='lkPJSquGS6Q'></a>8 defs と use</h2>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません</span></p>
 <pre class='code'>
 (diagram (400 200)
@@ -3485,7 +3432,129 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='iZLxsV5YAK6'></a>Figure.9-1 defs と use のサンプル</p>
+<p class='fig_title'><a name='iZLxsV5YAK6'></a>Figure.8-1 defs と use のサンプル</p>
+<h2><a name='2QhgoP1QBEQ'></a>9 パラメータの詳細</h2>
+<h3><a name='1rpUB3fre67'></a>9.1 色の指定</h3>
+<p>　diagram は SVG 形式で図形を生成するため、色の指定は SVG の規格に準拠します。</p>
+<ul>
+<li>#rrggbb 表記による、6 桁の16進指定。rr、gg、bb は順に赤、緑、青の成分で、 00〜ff の範囲で指定します。</li>
+<li>#rgb 表記による、3 桁の16進指定。r、g、b は順に赤、緑、青の成分で、 0〜f の範囲で指定します。これは #rrggbb の簡略表記で、たとえば #136 は #113366 に相当します。</li>
+<li><a href='#if12ldF3hxG'>rgb関数</a>による指定。これは <code>(rgb r g b)</code> の要領で使用します。r、g、b は順に赤、緑、青の成分で、それぞれ 0〜255 の整数または 0.0〜1.0 の小数点数で指定します。0.0〜1.0 の指定の場合、それに 255 をかけた値が指定されます。</li>
+<li>色名での指定。 <code>:black</code> など先頭にコロンをつけたキーワードの形式で指定します。使用できる色の名前とサンプルは <a href='#dR01Jh257Q6'>11.2  節</a> を参照してください。</li>
+</ul>
+<p>　　</p>
+<h3><a name='4HFjqmTuIU6'></a>9.2 ストローク</h3>
+<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<pre class='code'>
+(make-stroke <span class='keyword3'>:blue</span>)    <span class='comment'>;; equal to (make-stroke :color :blue)</span>
+
+(make-stroke 10)       <span class='comment'>;; equal to (make-stroke :width 10)</span>
+
+(make-stroke <span class='keyword3'>:color</span> <span class='keyword3'>:red</span> <span class='keyword3'>:width</span> 3)
+
+(make-stroke '(<span class='keyword3'>:color</span> <span class='keyword3'>:red</span> <span class='keyword3'>:width</span> 3))
+
+</pre>
+<h3><a name='dBUd7L4C3dx'></a>9.3 フィル</h3>
+<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<h3><a name='3kZ9FkounyK'></a>9.4 フォント</h3>
+<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<p>　　</p>
+<h3><a name='iu9Ovm00KHn'></a>9.5 IDと参照</h3>
+<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<p>　　</p>
+<h3><a name='heEi5Lc5BX9'></a>9.6 回転</h3>
+<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません</span></p>
+<pre class='code'>
+(diagram (400 200)
+  (grid)
+  (rect '(200 100) 100 70 <span class='keyword3'>:fill</span> <span class='keyword3'>:lightgray</span> <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span> <span class='keyword3'>:rotate</span> 30))
+</pre>
+<p>　　</p>
+<p>　以下のような画像が生成されます。</p>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='400' height='200'>
+	
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- rectangle -->
+	<g transform='rotate(30,200,100)'>
+		<rect x='150' y='65' width='100' height='70' fill='lightgray' stroke='black' stroke-width='1' />
+	</g>
+
+</svg>
+</div>
+
+<p class='fig_title'><a name='h7K5JgIwvZY'></a>Figure.9-1 回転のサンプル</p>
+<h3><a name='gPGlqSbIfdL'></a>9.7 フィルタ</h3>
+<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません</span></p>
+<pre class='code'>
+(diagram (400 200)
+  (grid)
+  (drop-shadow)
+  (glow-shadow <span class='keyword3'>:color-matrix</span> '(0 0 0 0   0
+                               0 0 0 0.6 0
+                               0 0 0 0.3 0
+                               0 0 0 0.5 0))
+  (rect '(200 100) 100 70 <span class='keyword3'>:fill</span> <span class='keyword3'>:lightgray</span> <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span> <span class='keyword3'>:filter</span> <span class='keyword3'>:drop-shadow</span>)
+  (text '(200 180) <span class='literal'>"sample text"</span> <span class='keyword3'>:align</span> <span class='keyword3'>:center</span>
+                   <span class='keyword3'>:font</span> (make-font <span class='keyword3'>:size</span> 24 <span class='keyword3'>:fill</span> <span class='keyword3'>:cadetblue</span> <span class='keyword3'>:filter</span> <span class='keyword3'>:glow-shadow</span>)))
+</pre>
+<p>　　</p>
+<p>　以下のような画像が生成されます。</p>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='400' height='200'>
+	
+	<filter id='glow-shadow'>
+		<feColorMatrix type='matrix' values=' 0 0 0 0 0 0 0 0 0.6 0 0 0 0 0.3 0 0 0 0 0.5 0' />
+		<feGaussianBlur stdDeviation='3' result='blur' />
+		<feMerge>
+			<feMergeNode in='blur' />
+			<feMergeNode in='SourceGraphic'/>
+		</feMerge>
+	</filter>
+	<filter id='drop-shadow'>
+		<feColorMatrix type='matrix' values=' 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.4 0' />
+		<feGaussianBlur stdDeviation='2' result='blur' />
+		<feOffset in='blur' dx='4' dy='4' result='offsetBlur' />
+		<feMerge>
+			<feMergeNode in='offsetBlur' />
+			<feMergeNode in='SourceGraphic'/>
+		</feMerge>
+	</filter>
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- rectangle -->
+	<rect x='150' y='65' width='100' height='70' fill='lightgray' stroke='black' stroke-width='1' filter='url(#drop-shadow)' />
+	<!-- text -->
+	<text x='200' y='180' text-anchor='middle' font-size='24pt' fill='cadetblue' filter='url(#glow-shadow)' >sample text</text>
+
+</svg>
+</div>
+
+<p class='fig_title'><a name='9Z8wQykrThD'></a>Figure.9-2 フィルタのサンプル</p>
+<h3><a name='1ovJxG7Ie9O'></a>9.8 レイヤー</h3>
+<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<p>　　</p>
+<h3><a name='fbLcMRTVXac'></a>9.9 リンク</h3>
+<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<p>　　</p>
+<h3><a name='9MB3lirlqL9'></a>9.10 終端マーク</h3>
+<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<p>　　</p>
+<h3><a name='lpCVEZ9kMoP'></a>9.11 ラベル</h3>
+<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<p>　　</p>
 <h2><a name='2CSYEsoWlWE'></a>10 UML</h2>
 <h3><a name='8ya1jqc5cZQ'></a>10.1 アクティビティ図</h3>
 <ul>
@@ -3867,7 +3936,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <p class='tbl_title'><a name='jaLWrUQI3jh'></a>Table.11-1 make-fill 関数のパラメータ</p>
 <table align='center'>
 <tr><th>parameter</th><th>default 値</th><th>description</th></tr>
-<tr><td nowrap align='left'>:color</td><td nowrap align='left'><code>:none</code></td><td align='left'>塗りつぶしの色を指定します。<a href='#1rpUB3fre67'>7.1  節</a>参照。</td></tr>
+<tr><td nowrap align='left'>:color</td><td nowrap align='left'><code>:none</code></td><td align='left'>塗りつぶしの色を指定します。<a href='#1rpUB3fre67'>9.1  節</a>参照。</td></tr>
 <tr><td nowrap align='left'>:opacity</td><td nowrap align='left'>1.0</td><td align='left'>0 から 1 までで透明度を指定します。</td></tr>
 <tr><td nowrap align='left'>:rule</td><td nowrap align='left'><code>:nonzero</code></td><td align='left'>塗りつぶしのルールを <code>:nonzero</code> または <code>:evenodd</code> で指定します。</td></tr>
 </table>
@@ -3948,7 +4017,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <p class='tbl_title'><a name='8gU4HDke41S'></a>Table.11-2 make-stroke 関数のパラメータ</p>
 <table align='center'>
 <tr><th>parameter</th><th>default 値</th><th>description</th></tr>
-<tr><td nowrap align='left'>:color</td><td nowrap align='left'>:black</td><td align='left'>ストロークの色を指定します。<a href='#1rpUB3fre67'>7.1  節</a>参照。</td></tr>
+<tr><td nowrap align='left'>:color</td><td nowrap align='left'>:black</td><td align='left'>ストロークの色を指定します。<a href='#1rpUB3fre67'>9.1  節</a>参照。</td></tr>
 <tr><td nowrap align='left'>:width</td><td nowrap align='left'>1</td><td align='left'></td></tr>
 <tr><td nowrap align='left'>:opacity</td><td nowrap align='left'>nil</td><td align='left'></td></tr>
 <tr><td nowrap align='left'>:<a class='autolink' href='#fv4OUML78x4'>line</a>cap</td><td nowrap align='left'>nil</td><td align='left'></td></tr>
@@ -3993,12 +4062,17 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <pre class='code'>
 (rgb r g b)
 </pre>
-<h4><a name='dhtdq1yi3tM'></a>11.1.7 with-fillマクロ</h4>
-<h4><a name='fp4ncG4oCnL'></a>11.1.8 with-fontマクロ</h4>
-<h4><a name='9jN2FHSU54t'></a>11.1.9 with-strokeマクロ</h4>
-<h4><a name='lsGULoUqoK4'></a>11.1.10 with-subcanvasマクロ</h4>
+<h4><a name='5afU9yg86c0'></a>11.1.7 with-optionsマクロ</h4>
+<h4><a name='lsGULoUqoK4'></a>11.1.8 with-subcanvasマクロ</h4>
+<pre class='code'>
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>with-subcanvas</span> ((top-left width height) <span class='keyword2'>&amp;rest</span> body) ...)
+</pre>
+<h4><a name='2c8duiejnaO'></a>11.1.9 with-subcanvas-ofマクロ</h4>
+<pre class='code'>
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>with-subcanvas-of</span> ((id) <span class='keyword2'>&amp;rest</span> body) ...)
+</pre>
 <h3><a name='dR01Jh257Q6'></a>11.2 色の名前</h3>
-<p> <a href='#1rpUB3fre67'>7.1  節</a>ではいくつかの色の指定方法を紹介しています。ここでは、そのうち色の名前について使用できるものを紹介します。まず、以下は SVG 規格に記載されている色名のサンプルです<sup><a name='footnote_ref8' href='#footnote8'>8</a></sup>。</p>
+<p> <a href='#1rpUB3fre67'>9.1  節</a>ではいくつかの色の指定方法を紹介しています。ここでは、そのうち色の名前について使用できるものを紹介します。まず、以下は SVG 規格に記載されている色名のサンプルです<sup><a name='footnote_ref9' href='#footnote9'>9</a></sup>。</p>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='750' height='1000'>
@@ -4766,7 +4840,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </pre>
 </details>
 <p>　　</p>
-<p>　diagram では、上記に加えて以下の名前も使用することができます。これらは規格に含まれていないため、 <code>#RRGGBB</code> 形式に変換されて出力されます<sup><a name='footnote_ref9' href='#footnote9'>9</a></sup>。</p>
+<p>　diagram では、上記に加えて以下の名前も使用することができます。これらは規格に含まれていないため、 <code>#RRGGBB</code> 形式に変換されて出力されます<sup><a name='footnote_ref10' href='#footnote10'>10</a></sup>。</p>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='760' height='2140'>
@@ -6464,6 +6538,12 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <h2><a name='dGdSPnvay5N'></a>12 更新履歴</h2>
 <p>　更新履歴です。</p>
 <ul>
+<li><strong>2022/08/31 - version 0.002</strong>
+<ul>
+<li>ENHANCE : <a class='autolink' href='#2c8duiejnaO'>with-subcanvas-of</a>マクロを追加</li>
+<li>DOCUMENT : 「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」、および「<a href='#kgs1vf3AbTN'>7  サブキャンバス</a>」を執筆</li>
+</ul>
+</li>
 <li><strong>2022/08/21 - version 0.001</strong>
 <ul>
 <li>とりあえず使えそうになったのでリリース</li>
@@ -6521,10 +6601,12 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <li><a href='#knawwdhRtbI'>Figure.5-32 with-table-cell の使用例</a></li>
 <li><a href='#bZdItb5GAhP'>Figure.6-1 diagram における座標系</a></li>
 <li><a href='#2oP7i8nCaCH'>Figure.6-2 図形要素の座標参照</a></li>
-<li><a href='#h7K5JgIwvZY'>Figure.7-1 回転のサンプル</a></li>
-<li><a href='#9Z8wQykrThD'>Figure.7-2 フィルタのサンプル</a></li>
-<li><a href='#kV8JVeAiwLR'>Figure.8-1 サブキャンバスのサンプル</a></li>
-<li><a href='#iZLxsV5YAK6'>Figure.9-1 defs と use のサンプル</a></li>
+<li><a href='#kV8JVeAiwLR'>Figure.7-1 サブキャンバスのサンプル</a></li>
+<li><a href='#5maEWPLcbWX'>Figure.7-2 contents パラメータを使ったサブキャンバス</a></li>
+<li><a href='#04Bhkv1vkfw'>Figure.7-3 with-subcanvas-of を使ったサブキャンバス</a></li>
+<li><a href='#iZLxsV5YAK6'>Figure.8-1 defs と use のサンプル</a></li>
+<li><a href='#h7K5JgIwvZY'>Figure.9-1 回転のサンプル</a></li>
+<li><a href='#9Z8wQykrThD'>Figure.9-2 フィルタのサンプル</a></li>
 <li><a href='#2Hj3wMypfUt'>Figure.10-1 uml-action-param 要素</a></li>
 <li><a href='#2p79zKV2A8T'>Figure.10-2 uml-action 要素</a></li>
 <li><a href='#bGeFbFhlXGE'>Figure.10-3 uml-activity-partitions 要素</a></li>
@@ -6710,6 +6792,9 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <li class='idx_x'><a class='autolink' href='#2H6JKIXGXRq'>with-explosion-options</a></li>
 <li class='idx_x'><a class='autolink' href='#jDniHtjcJXy'>with-folder-options</a></li>
 <li class='idx_x'><a class='autolink' href='#jef8fBHlV8x'>with-memo-options</a></li>
+<li class='idx_x'><a class='autolink' href='#5afU9yg86c0'>with-options</a></li>
+<li class='idx_x'><a class='autolink' href='#lsGULoUqoK4'>with-subcanvas</a></li>
+<li class='idx_x'><a class='autolink' href='#2c8duiejnaO'>with-subcanvas-of</a></li>
 <li class='idx_x'><a class='autolink' href='#e1zZspOxkpi'>with-textbox-options</a></li>
 </blockquote>
 </details>
@@ -6717,8 +6802,10 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <summary class='idx_x'>Others</summary>
 <blockquote class='idx_x'>
 <li class='idx_x'><a class='autolink' href='#8ya1jqc5cZQ'>アクティビティ図</a></li>
+<li class='idx_x'><a class='autolink' href='#kgs1vf3AbTN'>キャンバス</a></li>
 <li class='idx_x'><a class='autolink' href='#khgkJB6xK95'>クラス図</a></li>
 <li class='idx_x'><a class='autolink' href='#eFhVs4WwYUG'>コネクタ</a></li>
+<li class='idx_x'><a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a></li>
 <li class='idx_x'><a class='autolink' href='#5ZAfKbqcubo'>ステートマシーン図</a></li>
 <li class='idx_x'><a class='autolink' href='#e7hkC2YUaKe'>テキストボックス</a></li>
 <li class='idx_x'><a class='autolink' href='#g6xjP526KX7'>テーブル</a></li>
@@ -6746,11 +6833,12 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <p class='footnote'><a name='footnote1' href='#footnote_ref1'>1</a> : SVG は Scalable Vector Graphics の略です。</p>
 <p class='footnote'><a name='footnote2' href='#footnote_ref2'>2</a> : もともと LISPer だという方で DSL の詳細を知りたい方は、申し訳ありませんがコードを直接参照してください。</p>
 <p class='footnote'><a name='footnote3' href='#footnote_ref3'>3</a> : Lisper の方へ：要するにキーワードパラメータです。</p>
-<p class='footnote'><a name='footnote4' href='#footnote_ref4'>4</a> : 不格好に見えるかもしれませんが、Microsoft Word の図形要素をトレースして作っています。そこそこの再現度のはず</p>
+<p class='footnote'><a name='footnote4' href='#footnote_ref4'>4</a> : 不格好に見えるかもしれませんが、Microsoft Word の図形要素をトレースして作っています。そこそこの再現度のはず。</p>
 <p class='footnote'><a name='footnote5' href='#footnote_ref5'>5</a> : Lisper の方へ：ご想像通り、 <code>(list x y)</code> でも問題無いですし、バッククォートを使ってもかまいません。</p>
 <p class='footnote'><a name='footnote6' href='#footnote_ref6'>6</a> : この他に <code>width, height</code> があって、その図形要素の幅と高さを取得することもできますが、あまり使用しません。</p>
-<p class='footnote'><a name='footnote7' href='#footnote_ref7'>7</a> : Lisper の方へ： <code>app.center</code> という記法は動的に生成する symbol-macrolet によって、また <code>(attr :app :center)</code> については macrolet によって実現しています。attr 局所関数を使って同じパターンの繰り返しを共通化する場合などに便利でしょう。</p>
-<p class='footnote'><a name='footnote8' href='#footnote_ref8'>8</a> : SVG 2 の規格において色名に関する節は削除され、CSS 規格を参照することになりました。</p>
-<p class='footnote'><a name='footnote9' href='#footnote_ref9'>9</a> : <a href='#6tYSz371NWb'>Figure.11-5</a> に記載されているのは、Emacs エディタで定義されている色名のうち、規格に含まれないものの一覧です。このうち、green(#00FF00), grey(#BEBEBE), maroon(#B03060), purple(#A020F0) については規格側にも同じ名前があるものの異なる値です。これらは「規格優先」としているため、たとえば <code>:green</code> を指定した場合は規格の #008000 が使用され、#00FF00 は使用されません。</p>
+<p class='footnote'><a name='footnote7' href='#footnote_ref7'>7</a> : Lisper の方へ： <code>app.center</code> という記法は動的に生成する symbol-macrolet によって、また <code>(attr :app :center)</code> については macrolet によって実現しています。attr は局所関数を使って同じパターンの繰り返しを共通化する場合などに便利でしょう。</p>
+<p class='footnote'><a name='footnote8' href='#footnote_ref8'>8</a> : 現状では、<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>の描画では幅と高さによって作成される矩形で内部要素の描画をクリッピングしません。つまり、実質的には<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>は原点をズラす効果しかありません。ただし、このクリッピングしないという挙動は将来変更される可能性があります。</p>
+<p class='footnote'><a name='footnote9' href='#footnote_ref9'>9</a> : SVG 2 の規格において色名に関する節は削除され、CSS 規格を参照することになりました。</p>
+<p class='footnote'><a name='footnote10' href='#footnote_ref10'>10</a> : <a href='#6tYSz371NWb'>Figure.11-5</a> に記載されているのは、Emacs エディタで定義されている色名のうち、規格に含まれないものの一覧です。このうち、green(#00FF00), grey(#BEBEBE), maroon(#B03060), purple(#A020F0) については規格側にも同じ名前があるものの異なる値です。これらは「規格優先」としているため、たとえば <code>:green</code> を指定した場合は規格の #008000 が使用され、#00FF00 は使用されません。</p>
 </body>
 </html>

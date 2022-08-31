@@ -478,7 +478,7 @@ Figure. polygon のサンプル
 　polygon のパラメータ構成は以下の通りです。
 
 ```lisp
-(defmacro polygon (points &key fill stroke link layer id filter contents) ... )
+(defmacro polygon (points &key fill stroke link layer filter id) ... )
 ```
 
 <!-- stack:push tr style="font-size: 14;" -->
@@ -496,8 +496,6 @@ Table. polygon のパラメータ
 詳細は「[](#IDと参照)」を参照してください。            |
 | filter    | フィルタ効果を適用したい場合、その名前を指定します。<br> \
 詳細は「[](#フィルタ)」を参照してください。 |
-| contents  | 内部をサブキャンバスとした描画をしたい場合、その内容を指定します。<br> \
-詳細は「[](#サブキャンバス)」を参照してください。 |
 
 <!-- stack:pop tr -->
 
@@ -2531,7 +2529,7 @@ ${BLANK_PARAGRAPH}
 
 ## 座標と位置
 
-　${APPNAME} では、座標系は左上を原点としており、水平右方向に x 軸、垂直下方向に y 軸となって
+　${APPNAME} では、座標系は左上端を原点としており、水平右方向に x 軸、垂直下方向に y 軸となって
 います。また、角度は時計回りになります。
 
 <!-- snippet: GEOMETRY-SAMPLE-1
@@ -2565,15 +2563,15 @@ ${BLANK_PARAGRAPH}
 
 　${APPNAME} データの中で座標を指定する方法にはいくつかあります。以下に説明します。
 
-　具体的な固定値で座標を指定する場合、 `'(x y)` の要領で指定します。つまり、 `'(50 100)` といった
+　具体的な数値で座標を指定する場合、 `'(x y)` の要領で指定します。つまり、 `'(50 100)` といった
 指定です。これは即値で座標を指定する場合の書き方ですが、Common LISP の変数に格納した数値から
 座標を作成したい場合は make-point 関数が使えます。これは `(make-point x y)` の要領で使用してください
 {{fn:Lisper の方へ：ご想像通り、 `(list x y)` でも問題無いですし、バッククォートを使ってもかまいません。}}。
 
-　具体的な座標値を指定するのでなく、「すでに登場した要素の位置を利用して座標を指定する」ことも
-できます。「[](#簡単なサンプル)」の 2 つめでは、 `app.center` や `in.right` という表記が
-登場しました。これは、図形要素を記述する際に指定した ID を使ってその中心座標などを参照するもの
-です。これには９種類あり、その名前と具体的な場所は以下の通りです{{fn:この他に `width, height` があって、 \
+　具体的な数値を指定するのでなく、「すでに登場した要素の位置を利用して座標を指定する」ことも
+できます。[$@ 章](#簡単なサンプル)の 2 つめのサンプルでは、 `app.center` や `in.right` と
+いう表記が登場しました。これは、図形要素を記述する際に指定した ID を使ってその中心座標などを
+参照するものです。これには９種類あり、その名前と具体的な場所は以下の通りです{{fn:この他に `width, height` があって、 \
 その図形要素の幅と高さを取得することもできますが、あまり使用しません。}}。
 
 ```diagram
@@ -2606,8 +2604,8 @@ attr は局所関数を使って同じパターンの繰り返しを共通化す
 実際には、この `canvas` が意味するのは「現在のキャンバス」なのですが、これについては
 「[](#サブキャンバス)」で説明します。
 
-　`app.center` といった記述は単独で使用することはなく、「そこから 100pt くらい右」などの
-指定をしたい場合がほとんどでしょう。そのような場合、 `(x+ app.center 100)` といった記述で
+　`app.center` などの記述は単独で使用するよりも、「app の中心から 100pt くらい右」といった
+指定をしたい場合の方が多いでしょう。そのような場合、 `(x+ app.center 100)` といった記述で
 目的を達することができます。以下の 3 つの関数が利用できます。
 
 ```lisp
@@ -2619,6 +2617,144 @@ attr は局所関数を使って同じパターンの繰り返しを共通化す
 　なお、 `(x- app.center 100)` とは書けません。 `(x+ app.center -100)` としてください。
 
 ${BLANK_PARAGRAPH}
+
+## サブキャンバス
+<!-- autolink: [$$](#サブキャンバス) -->
+<!-- autolink: [キャンバス](#サブキャンバス) -->
+
+　[前節](#座標と位置)では、座標指定のための ID 名として `canvas` を指定すると作成中の図全体の
+領域を指定できると説明しました。${APPNAME} では、これをキャンバスと読んでいますが、その一部を
+独立したキャンバスとして描画を行うことができます。これをサブキャンバスと呼びます。
+
+　サブキャンバスを使う方法のひとつは、with-subcanvas を使うことです。左上の座標と幅・高さを
+与えることで、その部分領域の左上を原点とする新しい座標系が作成されます。以下に簡単な例を示します。
+
+<!-- snippet: SUBCANVAS-SAMPLE-1
+(diagram (300 150)
+  (grid)
+  (circle '(50 50) 20 :stroke :brown :fill :thistle)
+  (with-subcanvas ('(150 40) 100 100)
+    (rect canvas.center canvas.width canvas.height :stroke :gray :fill :none)
+    (circle '(50 50) 20 :stroke :navy :fill :skyblue)))
+-->
+
+```lisp
+<!-- expand: SUBCANVAS-SAMPLE-1 -->
+```
+
+　上記のコードを ${APPNAME} にかけると以下が生成されます。2 回登場する circle は座標と半径が
+同じ `'(50 50) 20` で指定されていますが、実際に描画された場所は異なっています。これは、後者の
+（青い方の）circle が with-subcanvas の配下にあるためで、このサブキャンバスの実際の領域は 
+rect で示されています。
+
+```diagram
+<!-- expand: SUBCANVAS-SAMPLE-1 -->
+```
+Figure. サブキャンバスのサンプル
+
+　サブキャンバスは入力データの一部分で独自の座標系を一時的に作成するもので、それ以外の効果はあり
+ません。たとえば、描画順序を制御するレイヤーとは無関係です{{fn:現状では、サブキャンバスの描画では幅と高さによって \
+作成される矩形で内部要素の描画をクリッピングしません。つまり、実質的にはサブキャンバスは原点をズラす効果しかあり \
+ません。ただし、このクリッピングしないという挙動は将来変更される可能性があります。}}。
+
+　with-canvas で明示的にサブキャンバスを作成するのでなく、作成した図形要素の内部をサブキャンバス
+とすることもできます。これには、 contents パラメータを使用します。たとえば、先程の例と同じ作図を
+するには以下のように書きます。この場合、先程とは違って rect の中に circle が置かれることになり
+ます（rect が動けば circle も動く）。
+
+```lisp
+(diagram (300 150)
+  (grid)
+  (circle '(50 50) 20 :stroke :brown :fill :thistle)
+  (rect '(200 90) 100 100 :stroke :gray :fill :none
+     :contents
+     ((circle '(50 50) 20 :stroke :navy :fill :skyblue))))
+```
+Figure. contents パラメータを使ったサブキャンバス
+
+
+　contents パラメータによるサブキャンバスは、その図形要素の幅と高さからなる四角形になるのが
+原則です。つまり、円や楕円の場合は以下のようにサブキャンバスの方が大きくなりますので注意して
+ください。
+
+```diagram
+(diagram (300 120)
+  (grid)
+  (let ((st (make-stroke :width 3 :color :red :opacity 0.3 :dasharray '(10 5))))
+    (circle  '(70 60) 40 :fill :lightgray :stroke :black
+      :contents
+      ((rect canvas.center canvas.width canvas.height :stroke st)))
+    (ellipse '(200 60) 70 40 :fill :lightgray :stroke :black
+      :contents
+      ((rect canvas.center canvas.width canvas.height :stroke st)))))
+```
+
+　内部に描画することを目的としているような図形要素の場合、サブキャンバスの位置が調整されている
+ものもあります。たとえば、uml-node では以下のようになります。青い点線の枠が uml-node の幅と
+高さからなる矩形で、赤い点線の枠がサブキャンバスです。
+
+```diagram
+(diagram (300 200)
+  (grid)
+  (let ((st (make-stroke :width 3 :color :red :opacity 0.5 :dasharray '(10 5))))
+    (uml-node canvas.center "uml-node" :id :node
+              :width (- canvas.width 40) :height (- canvas.height 40)
+      :contents
+      ((rect canvas.center canvas.width canvas.height :stroke st)))
+    (rect node.center node.width node.height
+                      :stroke (make-stroke :color :blue :base st))))
+```
+
+　最後に、contents パラメータを使わずに図形要素のサブキャンバスを利用する方法として、
+with-subcanvas-of が用意されています。これは既出の図形要素の ID を指定して
+サブキャンバスを確立するものです。[$@](F#サブキャンバスのサンプル) と同じ
+（つまり [$@](F#contents パラメータを使ったサブキャンバス) とも同じ）作図をする
+サンプルを以下に示します。
+
+```lisp
+(diagram (300 150)
+  (grid)
+  (circle '(50 50) 20 :stroke :brown :fill :thistle)
+  (rect '(200 90) 100 100 :stroke :gray :fill :none :id :rct)
+  (with-subcanvas-of (:rct)
+     (circle '(50 50) 20 :stroke :navy :fill :skyblue)))
+```
+Figure. with-subcanvas-of を使ったサブキャンバス
+
+${BLANK_PARAGRAPH}
+
+## defs と use
+
+　${{TODO}{まだ記述されていません}}
+
+<!-- snippet: DEFS-USE-SAMPLE
+(diagram (400 200)
+  (grid)
+  (defs (70 50 :frame)
+    (rect canvas.center canvas.width canvas.height :fill :white :stroke :black)
+    (line '((0 10) (70 10)) :stroke :black))
+  (use :frame '(100 70) :id :frame1
+       :contents
+       ((text (y+ canvas.center 10) "frame 1" :align :center)))
+  (use :frame '(300 130) :id :frame2
+       :contents
+       ((text (y+ canvas.center 10) "frame 2" :align :center)))
+  (connect :frame1 :frame2 :end2 :arrow))
+-->
+
+```lisp
+<!-- expand: DEFS-USE-SAMPLE -->
+```
+
+${BLANK_PARAGRAPH}
+
+
+　以下のような画像が生成されます。
+
+```diagram
+<!-- expand: DEFS-USE-SAMPLE -->
+```
+Figure. defs と use のサンプル
 
 ## パラメータの詳細
 ### 色の指定
@@ -2749,67 +2885,6 @@ ${BLANK_PARAGRAPH}
 　${{TODO}{まだ記述されていません。}}
 
 ${BLANK_PARAGRAPH}
-
-## サブキャンバス
-
-　${{TODO}{まだ記述されていません。}}
-
-
-<!-- snippet: SUBCANVAS-SAMPLE
-(diagram (300 200)
-  (grid)
-  (circle (xy+ canvas.topleft 50 50) 20 :stroke :brown :fill :wheat)
-  (with-subcanvas ('(150 50) 100 100)
-    (rect canvas.center
-          canvas.width canvas.height :stroke :gray :fill :lightgray)
-    (circle (xy+ canvas.topleft 50 50) 20 :stroke :brown :fill :wheat)))
--->
-
-```lisp
-<!-- expand: SUBCANVAS-SAMPLE -->
-```
-
-
-```diagram
-<!-- expand: SUBCANVAS-SAMPLE -->
-```
-Figure. サブキャンバスのサンプル
-
-
-${BLANK_PARAGRAPH}
-
-## defs と use
-
-　${{TODO}{まだ記述されていません}}
-
-<!-- snippet: DEFS-USE-SAMPLE
-(diagram (400 200)
-  (grid)
-  (defs (70 50 :frame)
-    (rect canvas.center canvas.width canvas.height :fill :white :stroke :black)
-    (line '((0 10) (70 10)) :stroke :black))
-  (use :frame '(100 70) :id :frame1
-       :contents
-       ((text (y+ canvas.center 10) "frame 1" :align :center)))
-  (use :frame '(300 130) :id :frame2
-       :contents
-       ((text (y+ canvas.center 10) "frame 2" :align :center)))
-  (connect :frame1 :frame2 :end2 :arrow))
--->
-
-```lisp
-<!-- expand: DEFS-USE-SAMPLE -->
-```
-
-${BLANK_PARAGRAPH}
-
-
-　以下のような画像が生成されます。
-
-```diagram
-<!-- expand: DEFS-USE-SAMPLE -->
-```
-Figure. defs と use のサンプル
 
 ## UML
 ### アクティビティ図
@@ -3260,13 +3335,21 @@ Figure. dashoffset, linecap, linejoin のサンプル
 (rgb r g b)
 ```
 
-#### with-fillマクロ
-
-#### with-fontマクロ
-
-#### with-strokeマクロ
+#### with-optionsマクロ
+<!-- autolink: [with-options](#with-optionsマクロ) -->
 
 #### with-subcanvasマクロ
+<!-- autolink: [with-subcanvas](#with-subcanvasマクロ) -->
+
+```lisp
+(defmacro with-subcanvas ((top-left width height) &rest body) ...)
+```
+#### with-subcanvas-ofマクロ
+<!-- autolink: [with-subcanvas-of](#with-subcanvas-ofマクロ) -->
+
+```lisp
+(defmacro with-subcanvas-of ((id) &rest body) ...)
+```
 
 ### 色の名前
 
@@ -3913,6 +3996,9 @@ Figure. 色の名前とサンプル - 2
 
 　更新履歴です。
 
+* __2022/08/31 - version 0.002__
+	* ENHANCE : with-subcanvas-ofマクロを追加
+	* DOCUMENT : 「[](#座標と位置)」、および「[](#サブキャンバス)」を執筆
 * __2022/08/21 - version 0.001__
 	* とりあえず使えそうになったのでリリース
 
