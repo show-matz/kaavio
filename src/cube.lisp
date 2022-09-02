@@ -65,12 +65,12 @@
 	(check-member filter :nullable   t :types keyword))
   nil)
 
-(defmethod shape-get-subcanvas ((node cube))
-  (with-slots (depth) node
+(defmethod shape-get-subcanvas ((cb cube))
+  (with-slots (depth) cb
 	(let ((half (/ depth 2)))
-	  (make-canvas (point/y+ (shape-topleft node) half)
-				   (- (shape-width  node) half)
-				   (- (shape-height node) half)))))
+	  (make-canvas (point/y+ (shape-topleft cb) half)
+				   (- (shape-width  cb) half)
+				   (- (shape-height cb) half)))))
 
 ;; override of group::draw-group
 (defmethod draw-group ((cb cube) writer)
@@ -101,9 +101,8 @@
 ;(defmethod text-shape-calc-size ((cb cube))
 ;  (call-next-method))
 
-;; no override.
-;(defmethod text-shape-paragraph-area ((cb cube))
-;  (call-next-method))
+(defmethod text-shape-paragraph-area ((cb cube))
+  (shape-get-subcanvas cb))
 
 ;;------------------------------------------------------------------------------
 ;;
