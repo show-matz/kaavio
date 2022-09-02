@@ -975,7 +975,7 @@ ${{TODO}{まだ記述されていません。}}
 
 ${BLANK_PARAGRAPH}
 
-## その他の図形
+## 一般的な図形
 
 　基本的な図形を組み合わせて作成される、複合的な図形を紹介します。以下のサンプルはそれぞれの
 説明項目へのリンクになっています。
@@ -2705,7 +2705,7 @@ Figure. contents パラメータを使ったサブキャンバス
                       :stroke (make-stroke :color :blue :base st))))
 ```
 
-　最後に、contents パラメータを使わずに図形要素のサブキャンバスを利用する方法として、
+　なお、contents パラメータを使わずに図形要素のサブキャンバスを利用する方法として、
 with-subcanvas-of が用意されています。これは既出の図形要素の ID を指定して
 サブキャンバスを確立するものです。[$@](F#サブキャンバスのサンプル) と同じ
 （つまり [$@](F#contents パラメータを使ったサブキャンバス) とも同じ）作図をする
@@ -2720,6 +2720,27 @@ with-subcanvas-of が用意されています。これは既出の図形要素�
      (circle '(50 50) 20 :stroke :navy :fill :skyblue)))
 ```
 Figure. with-subcanvas-of を使ったサブキャンバス
+
+${BLANK_PARAGRAPH}
+
+
+　最後に with-canvas を紹介しておきます。with-subcanvas と with-subcanvas-of は新しい
+サブキャンバスを確立するものでしたが、with-canvas は「現在のキャンバスへのアクセスを簡単にする」
+ものです。キャンバスを使っていると、 `canvas.center, canvas.width, canvs.height` を頻繁に
+使うことになりますが、これらに短い名前でアクセスできるようにします。たとえば、[本節冒頭の例](#サブキャンバス)
+は、以下のように書き換えることができます（１回ずつしか使ってないのでメリットがわかりにくいですが）。
+
+```lisp
+(diagram (300 150)
+  (grid)
+  (circle '(50 50) 20 :stroke :brown :fill :thistle)
+  (with-subcanvas ('(150 40) 100 100)
+    (with-canvas (cc w h) canvas
+      (rect cc w h :stroke :gray :fill :none)
+      (circle '(50 50) 20 :stroke :navy :fill :skyblue))))
+```
+Figure. with-canvas の使用
+
 
 ${BLANK_PARAGRAPH}
 
@@ -2795,10 +2816,11 @@ ${BLANK_PARAGRAPH}
 (diagram (200 100)
   (grid)
   (defs (40 40 :icon)
-    (rect canvas.center canvas.width canvas.height :fill :white :stroke :black
-          :contents
-          ((line '((0 10) (40 10)) :stroke :black)
-           (line '((10 0) (10 40)) :stroke :black))))
+    (with-canvas (cc w h) canvas
+      (rect cc w h :fill :white :stroke :black
+            :contents
+            ((line `((0 10) (,w 10)) :stroke :black)
+             (line `((10 0) (10 ,h)) :stroke :black)))))
   (use :icon '( 50 50))
   (use :icon '(100 50))
   (use :icon '(150 50)))
@@ -2840,8 +2862,9 @@ defs で定義した図形を実際に描画するには、use を使います�
 (diagram (300 150)
   (grid)
   (defs (70 50 :frame)
-    (rect canvas.center canvas.width canvas.height :fill :white :stroke :black)
-    (line '((0 10) (70 10)) :stroke :black))
+    (with-canvas (cc w h) canvas
+      (rect cc w h :fill :white :stroke :black)
+      (line `((0 10) (,w 10))   :stroke :black)))
   (use :frame '(75 50) :id :frame1
        :contents
        ((text (y+ canvas.center 10) "frame 1" :align :center)))
@@ -2876,7 +2899,7 @@ ID を指定して use することはできません。
 指定します。
 * #rgb 表記による、3 桁の16進指定。r、g、b は順に赤、緑、青の成分で、 0〜f の範囲で指定します。 \
 これは #rrggbb の簡略表記で、たとえば #136 は #113366 に相当します。
-* [$$](#rgb関数)による指定。これは `(rgb r g b)` の要領で使用します。r、g、b は順に赤、緑、青の \
+* [$$](#rgb 関数)による指定。これは `(rgb r g b)` の要領で使用します。r、g、b は順に赤、緑、青の \
 成分で、それぞれ 0〜255 の整数または 0.0〜1.0 の小数点数で指定します。0.0〜1.0 の指定の場合、 \
 それに 255 をかけた値が指定されます。
 * 色名での指定。 `:black` など先頭にコロンをつけたキーワードの形式で指定します。使用できる色の名前と \
@@ -3460,12 +3483,20 @@ Figure. dashoffset, linecap, linejoin のサンプル
 #### with-optionsマクロ
 <!-- autolink: [with-options](#with-optionsマクロ) -->
 
+#### with-canvasマクロ
+<!-- autolink: [with-canvas](#with-canvasマクロ) -->
+
+```lisp
+(defmacro with-canvas ((sym-cc sym-width sym-height) canvas &rest body) ...)
+```
+
 #### with-subcanvasマクロ
 <!-- autolink: [with-subcanvas](#with-subcanvasマクロ) -->
 
 ```lisp
 (defmacro with-subcanvas ((top-left width height) &rest body) ...)
 ```
+
 #### with-subcanvas-ofマクロ
 <!-- autolink: [with-subcanvas-of](#with-subcanvas-ofマクロ) -->
 
@@ -4118,6 +4149,9 @@ Figure. 色の名前とサンプル - 2
 
 　更新履歴です。
 
+* __2022/09/?? - version 0.003__
+	* __IMCOMPATIBLE : with-canvas マクロの第１パラメータを topleft から center に変更__
+	* DOCUMENT : 「[](#定義と再使用)」を執筆
 * __2022/08/31 - version 0.002__
 	* ENHANCE : with-subcanvas-ofマクロを追加
 	* DOCUMENT : 「[](#座標と位置)」、および「[](#サブキャンバス)」を執筆

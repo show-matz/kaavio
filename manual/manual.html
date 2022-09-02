@@ -60,7 +60,7 @@
 </blockquote>
 </details>
 <details class='tocx' open>
-<summary class='tocx'><a href='#6ZrdX9S7TVt'>5 その他の図形</a></summary>
+<summary class='tocx'><a href='#1s5LsvBYupX'>5 一般的な図形</a></summary>
 <blockquote class='tocx'>
 <li class='tocx'><a href='#eFhVs4WwYUG'>5.1 コネクタ</a></li>
 <li class='tocx'><a href='#4WyMTv59pvw'>5.2 パラグラフ</a></li>
@@ -170,8 +170,9 @@
 <li class='tocx'><a href='#7QraN5WNGea'>11.1.7 rgb 関数</a></li>
 <li class='tocx'><a href='#klH6tZ6gdaQ'>11.1.8 use マクロ</a></li>
 <li class='tocx'><a href='#5afU9yg86c0'>11.1.9 with-optionsマクロ</a></li>
-<li class='tocx'><a href='#lsGULoUqoK4'>11.1.10 with-subcanvasマクロ</a></li>
-<li class='tocx'><a href='#2c8duiejnaO'>11.1.11 with-subcanvas-ofマクロ</a></li>
+<li class='tocx'><a href='#jHhN85RvHYn'>11.1.10 with-canvasマクロ</a></li>
+<li class='tocx'><a href='#lsGULoUqoK4'>11.1.11 with-subcanvasマクロ</a></li>
+<li class='tocx'><a href='#2c8duiejnaO'>11.1.12 with-subcanvas-ofマクロ</a></li>
 </blockquote>
 </details>
 <li class='tocx'><a href='#dR01Jh257Q6'>11.2 色の名前</a></li>
@@ -1190,7 +1191,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <h3><a name='eYtPrg88Qb0'></a>4.10 :close-path ディレクティブ</h3>
 <p><span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <p>　　</p>
-<h2><a name='6ZrdX9S7TVt'></a>5 その他の図形</h2>
+<h2><a name='1s5LsvBYupX'></a>5 一般的な図形</h2>
 <p>　基本的な図形を組み合わせて作成される、複合的な図形を紹介します。以下のサンプルはそれぞれの説明項目へのリンクになっています。</p>
 <!-- define: HASH_CONNECTOR  = '[](#コネクタ)' -->
 <!-- define: HASH_PARAGRAPH  = '[](#パラグラフ)' -->
@@ -3311,7 +3312,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 
 <p class='fig_title'><a name='kV8JVeAiwLR'></a>Figure.7-1 サブキャンバスのサンプル</p>
 <p>　<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>は入力データの一部分で独自の座標系を一時的に作成するもので、それ以外の効果はありません。たとえば、描画順序を制御するレイヤーとは無関係です<sup><a name='footnote_ref8' href='#footnote8'>8</a></sup>。</p>
-<p>　with-canvas で明示的に<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>を作成するのでなく、作成した図形要素の内部を<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>とすることもできます。これには、 contents パラメータを使用します。たとえば、先程の例と同じ作図をするには以下のように書きます。この場合、先程とは違って <a class='autolink' href='#kJonRG8GtHF'>rect</a> の中に <a class='autolink' href='#8UQowBxrcaE'>circle</a> が置かれることになります（<a class='autolink' href='#kJonRG8GtHF'>rect</a> が動けば <a class='autolink' href='#8UQowBxrcaE'>circle</a> も動く）。</p>
+<p>　<a class='autolink' href='#jHhN85RvHYn'>with-canvas</a> で明示的に<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>を作成するのでなく、作成した図形要素の内部を<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>とすることもできます。これには、 contents パラメータを使用します。たとえば、先程の例と同じ作図をするには以下のように書きます。この場合、先程とは違って <a class='autolink' href='#kJonRG8GtHF'>rect</a> の中に <a class='autolink' href='#8UQowBxrcaE'>circle</a> が置かれることになります（<a class='autolink' href='#kJonRG8GtHF'>rect</a> が動けば <a class='autolink' href='#8UQowBxrcaE'>circle</a> も動く）。</p>
 <pre class='code'>
 (diagram (300 150)
   (grid)
@@ -3370,7 +3371,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p>　最後に、contents パラメータを使わずに図形要素の<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>を利用する方法として、<a class='autolink' href='#2c8duiejnaO'>with-subcanvas-of</a> が用意されています。これは既出の図形要素の ID を指定して<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>を確立するものです。<a href='#kV8JVeAiwLR'>Figure.7-1</a> と同じ（つまり <a href='#5maEWPLcbWX'>Figure.7-2</a> とも同じ）作図をするサンプルを以下に示します。</p>
+<p>　なお、contents パラメータを使わずに図形要素の<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>を利用する方法として、<a class='autolink' href='#2c8duiejnaO'>with-subcanvas-of</a> が用意されています。これは既出の図形要素の ID を指定して<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>を確立するものです。<a href='#kV8JVeAiwLR'>Figure.7-1</a> と同じ（つまり <a href='#5maEWPLcbWX'>Figure.7-2</a> とも同じ）作図をするサンプルを以下に示します。</p>
 <pre class='code'>
 (diagram (300 150)
   (grid)
@@ -3380,6 +3381,18 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
      (circle '(50 50) 20 <span class='keyword3'>:stroke</span> <span class='keyword3'>:navy</span> <span class='keyword3'>:fill</span> <span class='keyword3'>:skyblue</span>)))
 </pre>
 <p class='fig_title'><a name='04Bhkv1vkfw'></a>Figure.7-3 with-subcanvas-of を使ったサブキャンバス</p>
+<p>　　</p>
+<p>　最後に <a class='autolink' href='#jHhN85RvHYn'>with-canvas</a> を紹介しておきます。<a class='autolink' href='#lsGULoUqoK4'>with-subcanvas</a> と <a class='autolink' href='#2c8duiejnaO'>with-subcanvas-of</a> は新しい<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>を確立するものでしたが、<a class='autolink' href='#jHhN85RvHYn'>with-canvas</a> は「現在の<a class='autolink' href='#kgs1vf3AbTN'>キャンバス</a>へのアクセスを簡単にする」ものです。<a class='autolink' href='#kgs1vf3AbTN'>キャンバス</a>を使っていると、 <code>canvas.center, canvas.width, canvs.height</code> を頻繁に使うことになりますが、これらに短い名前でアクセスできるようにします。たとえば、<a href='#kgs1vf3AbTN'>本節冒頭の例</a>は、以下のように書き換えることができます（１回ずつしか使ってないのでメリットがわかりにくいですが）。</p>
+<pre class='code'>
+(diagram (300 150)
+  (grid)
+  (circle '(50 50) 20 <span class='keyword3'>:stroke</span> <span class='keyword3'>:brown</span> <span class='keyword3'>:fill</span> <span class='keyword3'>:thistle</span>)
+  (with-subcanvas ('(150 40) 100 100)
+    (with-canvas (cc w h) canvas
+      (rect cc w h <span class='keyword3'>:stroke</span> <span class='keyword3'>:gray</span> <span class='keyword3'>:fill</span> <span class='keyword3'>:none</span>)
+      (circle '(50 50) 20 <span class='keyword3'>:stroke</span> <span class='keyword3'>:navy</span> <span class='keyword3'>:fill</span> <span class='keyword3'>:skyblue</span>))))
+</pre>
+<p class='fig_title'><a name='hlkqXNIhtVu'></a>Figure.7-4 with-canvas の使用</p>
 <p>　　</p>
 <h2><a name='hwRhCz9Gn9t'></a>8 定義と再使用</h2>
 <p>　<a class='autolink' href='#jj72nsL3ZUW'>defs</a> と <a class='autolink' href='#klH6tZ6gdaQ'>use</a> を使うことによって、複数の図形要素をひとつにまとめ、図面の中で繰り返し使用することができます。要点を明確にするために、まずは同じ図形（ちょっと装飾のついた<a class='autolink' href='#kJonRG8GtHF'>四角形</a>）を３回描画することを考えてみてください。まずは単純に記述を３回繰り返します。座標以外は完全に同じ内容です。</p>
@@ -3463,10 +3476,11 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 (diagram (200 100)
   (grid)
   (defs (40 40 <span class='keyword3'>:icon</span>)
-    (rect canvas.center canvas.width canvas.height <span class='keyword3'>:fill</span> <span class='keyword3'>:white</span> <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span>
-          <span class='keyword3'>:contents</span>
-          ((line '((0 10) (40 10)) <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span>)
-           (line '((10 0) (10 40)) <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span>))))
+    (with-canvas (cc w h) canvas
+      (rect cc w h <span class='keyword3'>:fill</span> <span class='keyword3'>:white</span> <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span>
+            <span class='keyword3'>:contents</span>
+            ((line `((0 10) (,w 10)) <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span>)
+             (line `((10 0) (10 ,h)) <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span>)))))
   (use <span class='keyword3'>:icon</span> '( 50 50))
   (use <span class='keyword3'>:icon</span> '(100 50))
   (use <span class='keyword3'>:icon</span> '(150 50)))
@@ -3493,8 +3507,9 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 (diagram (300 150)
   (grid)
   (defs (70 50 <span class='keyword3'>:frame</span>)
-    (rect canvas.center canvas.width canvas.height <span class='keyword3'>:fill</span> <span class='keyword3'>:white</span> <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span>)
-    (line '((0 10) (70 10)) <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span>))
+    (with-canvas (cc w h) canvas
+      (rect cc w h <span class='keyword3'>:fill</span> <span class='keyword3'>:white</span> <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span>)
+      (line `((0 10) (,w 10))   <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span>)))
   (use <span class='keyword3'>:frame</span> '(75 50) <span class='keyword3'>:id</span> <span class='keyword3'>:frame1</span>
        <span class='keyword3'>:contents</span>
        ((text (y+ canvas.center 10) <span class='literal'>"frame 1"</span> <span class='keyword3'>:align</span> <span class='keyword3'>:center</span>)))
@@ -3547,8 +3562,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <ul>
 <li>#rrggbb 表記による、6 桁の16進指定。rr、gg、bb は順に赤、緑、青の成分で、 00〜ff の範囲で指定します。</li>
 <li>#<a class='autolink' href='#7QraN5WNGea'>rgb</a> 表記による、3 桁の16進指定。r、g、b は順に赤、緑、青の成分で、 0〜f の範囲で指定します。これは #rrggbb の簡略表記で、たとえば #136 は #113366 に相当します。</li>
-<li>ERROR : invalid link anchor 'rgb関数'.
-<font color='red'>!!!ERROR : invalid internal anchor 'rgb関数'.</font>による指定。これは <code>(rgb r g b)</code> の要領で使用します。r、g、b は順に赤、緑、青の成分で、それぞれ 0〜255 の整数または 0.0〜1.0 の小数点数で指定します。0.0〜1.0 の指定の場合、それに 255 をかけた値が指定されます。</li>
+<li><a href='#7QraN5WNGea'>rgb 関数</a>による指定。これは <code>(rgb r g b)</code> の要領で使用します。r、g、b は順に赤、緑、青の成分で、それぞれ 0〜255 の整数または 0.0〜1.0 の小数点数で指定します。0.0〜1.0 の指定の場合、それに 255 をかけた値が指定されます。</li>
 <li>色名での指定。 <code>:black</code> など先頭にコロンをつけたキーワードの形式で指定します。使用できる色の名前とサンプルは <a href='#dR01Jh257Q6'>11.2  節</a> を参照してください。</li>
 </ul>
 <p>　　</p>
@@ -4176,11 +4190,15 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <h4><a name='klH6tZ6gdaQ'></a>11.1.8 use マクロ</h4>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <h4><a name='5afU9yg86c0'></a>11.1.9 with-optionsマクロ</h4>
-<h4><a name='lsGULoUqoK4'></a>11.1.10 with-subcanvasマクロ</h4>
+<h4><a name='jHhN85RvHYn'></a>11.1.10 with-canvasマクロ</h4>
+<pre class='code'>
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>with-canvas</span> ((sym-cc sym-width sym-height) canvas <span class='keyword2'>&amp;rest</span> body) ...)
+</pre>
+<h4><a name='lsGULoUqoK4'></a>11.1.11 with-subcanvasマクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-subcanvas</span> ((top-left width height) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
-<h4><a name='2c8duiejnaO'></a>11.1.11 with-subcanvas-ofマクロ</h4>
+<h4><a name='2c8duiejnaO'></a>11.1.12 with-subcanvas-ofマクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-subcanvas-of</span> ((id) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
@@ -6651,6 +6669,12 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <h2><a name='dGdSPnvay5N'></a>12 更新履歴</h2>
 <p>　更新履歴です。</p>
 <ul>
+<li><strong>2022/09/?? - version 0.003</strong>
+<ul>
+<li><strong>IMCOMPATIBLE : <a class='autolink' href='#jHhN85RvHYn'>with-canvas</a> マクロの第１パラメータを topleft から center に変更</strong></li>
+<li>DOCUMENT : 「<a href='#hwRhCz9Gn9t'>8  定義と再使用</a>」を執筆</li>
+</ul>
+</li>
 <li><strong>2022/08/31 - version 0.002</strong>
 <ul>
 <li>ENHANCE : <a class='autolink' href='#2c8duiejnaO'>with-subcanvas-of</a>マクロを追加</li>
@@ -6717,6 +6741,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <li><a href='#kV8JVeAiwLR'>Figure.7-1 サブキャンバスのサンプル</a></li>
 <li><a href='#5maEWPLcbWX'>Figure.7-2 contents パラメータを使ったサブキャンバス</a></li>
 <li><a href='#04Bhkv1vkfw'>Figure.7-3 with-subcanvas-of を使ったサブキャンバス</a></li>
+<li><a href='#hlkqXNIhtVu'>Figure.7-4 with-canvas の使用</a></li>
 <li><a href='#iZLxsV5YAK6'>Figure.8-1 defs と use のサンプル</a></li>
 <li><a href='#h7K5JgIwvZY'>Figure.9-1 回転のサンプル</a></li>
 <li><a href='#9Z8wQykrThD'>Figure.9-2 フィルタのサンプル</a></li>
@@ -6903,6 +6928,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <li class='idx_x'><a class='autolink' href='#j3wC5wII9dD'>with-balloon-options</a></li>
 <li class='idx_x'><a class='autolink' href='#eYjxAunsQAT'>with-block-arrow-options</a></li>
 <li class='idx_x'><a class='autolink' href='#9hdjoI8AQqJ'>with-brace-options</a></li>
+<li class='idx_x'><a class='autolink' href='#jHhN85RvHYn'>with-canvas</a></li>
 <li class='idx_x'><a class='autolink' href='#7nl79AiDenC'>with-cylinder-options</a></li>
 <li class='idx_x'><a class='autolink' href='#1e9FbNaLUoA'>with-document-options</a></li>
 <li class='idx_x'><a class='autolink' href='#2H6JKIXGXRq'>with-explosion-options</a></li>
