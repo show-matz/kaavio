@@ -2723,20 +2723,129 @@ Figure. with-subcanvas-of を使ったサブキャンバス
 
 ${BLANK_PARAGRAPH}
 
-## defs と use
+## 定義と再使用
 
-　${{TODO}{まだ記述されていません}}
+　defs と use を使うことによって、複数の図形要素をひとつにまとめ、図面の中で繰り返し使用
+することができます。要点を明確にするために、まずは同じ図形（ちょっと装飾のついた四角形）を
+３回描画することを考えてみてください。まずは単純に記述を３回繰り返します。座標以外は完全に
+同じ内容です。
+
+<!-- snippet: DEFS-USE-SAMPLE-1
+(diagram (200 100)
+  (grid)
+  (rect '( 50 50) 40 40 :fill :white :stroke :black
+        :contents
+        ((line '((0 10) (40 10)) :stroke :black)
+         (line '((10 0) (10 40)) :stroke :black)))
+  (rect '(100 50) 40 40 :fill :white :stroke :black
+        :contents
+        ((line '((0 10) (40 10)) :stroke :black)
+         (line '((10 0) (10 40)) :stroke :black)))
+  (rect '(150 50) 40 40 :fill :white :stroke :black
+        :contents
+        ((line '((0 10) (40 10)) :stroke :black)
+         (line '((10 0) (10 40)) :stroke :black))))
+-->
+
+```lisp
+<!-- expand: DEFS-USE-SAMPLE-1 -->
+```
+
+```diagram
+<!-- expand: DEFS-USE-SAMPLE-1 -->
+```
+
+　この場合、出力される SVG ファイル内でも（当然ながら）座標以外は同じ出力が３回繰り返されます。
+
+```
+<svg xmlns="http://www.w3.org/2000/svg" ...>
+      :
+    <rect x="30" y="30" width="40" height="40" ...></rect>
+    <polyline ... points=" 30.0,40.0 70.0,40.0"></polyline>
+    <polyline ... points=" 40.0,30.0 40.0,70.0"></polyline>
+
+    <rect x="80" y="30" width="40" height="40" ...></rect>
+    <polyline ... points=" 80.0,40.0 120.0,40.0"></polyline>
+    <polyline ... points=" 90.0,30.0 90.0,70.0"></polyline>
+
+    <rect x="130" y="30" width="40" height="40" ...></rect>
+    <polyline ... points=" 130.0,40.0 170.0,40.0"></polyline>
+    <polyline ... points=" 140.0,30.0 140.0,70.0"></polyline>
+</svg>
+```
+
+　以下のように、Common LISP 言語の機能を使用してループで処理することはできますが、入力データ
+が短くなっても出力される SVG が短くなるわけではありません。
+
+```lisp
+(diagram (200 100)
+  (grid)
+  (dotimes (i 3)
+    (rect `(,(* (1+ i) 50) 50) 40 40 :fill :white :stroke :black
+          :contents
+          ((line '((0 10) (40 10)) :stroke :black)
+           (line '((10 0) (10 40)) :stroke :black)))))
+```
+
+
+　これに対して、defs と use を使うと SVG 上でも「一度だけ定義して複数回描画させる」ような出力を
+することができます。先程のサンプルと同じ出力をするコードは以下のようになります。
+
+```lisp
+(diagram (200 100)
+  (grid)
+  (defs (40 40 :icon)
+    (rect canvas.center canvas.width canvas.height :fill :white :stroke :black
+          :contents
+          ((line '((0 10) (40 10)) :stroke :black)
+           (line '((10 0) (10 40)) :stroke :black))))
+  (use :icon '( 50 50))
+  (use :icon '(100 50))
+  (use :icon '(150 50)))
+```
+
+　上記のコードでは、 `(defs (40 40 :icon) ...)` によって icon という名前の定義を作成しています。
+幅と高さはそれぞれ 40 です。これによって独立したキャンバスが確立され、その中で作図を行うことが
+できます。ここではそのキャンバスいっぱいに rect を描き、さらにその中で line を 2 本描いています。
+しかしこれは defs の中でのこと（つまり定義を作成しただけ）なので、これだけでは描画は行なわれません。
+defs で定義した図形を実際に描画するには、use を使います。上記の例では、 `(use :icon '( 50 50))` と
+いった記述を 3 回行なっています。パラメータは、定義名と描画する中心の座標です。
+
+　上記のコードによって生成される SVG 画像は以下のようになります。入力データとの対応がわかると
+思います。定義（defs）は一度だけで、それを参照（use）するタグが複数登場しています。
+
+```
+<svg xmlns='http://www.w3.org/2000/svg' ...>
+    <defs>
+        <g id='icon'>
+            <rect x='0' y='0' width='40' height='40' ... />
+            <polyline ... points=' 0.0,10.0 40.0,10.0' />
+            <polyline ... points=' 10.0,0.0 10.0,40.0' />
+        </g>
+    </defs>
+      :
+    <use xlink:href='#icon' x='30' y='30' />
+    <use xlink:href='#icon' x='80' y='30' />
+    <use xlink:href='#icon' x='130' y='30' />
+</svg>
+```
+
+　このように、defs と use を使えば繰り返し登場する図形要素の再利用が可能になりますが、スタンプの
+ようにまったく同じものを表示させることしかできないのでしょうか。また、use で描画した要素どうしを
+コネクタで接続したりできないでしょうか。最初の質問については、「基本的に定義した通りにしか描画でき
+ないけど、use で contents パラメータが使えます」が答えになります。そして２番目の質問の答えは、
+「use に ID を付ければコネクタが使える」です。以下の例ではその両方をやっています。
 
 <!-- snippet: DEFS-USE-SAMPLE
-(diagram (400 200)
+(diagram (300 150)
   (grid)
   (defs (70 50 :frame)
     (rect canvas.center canvas.width canvas.height :fill :white :stroke :black)
     (line '((0 10) (70 10)) :stroke :black))
-  (use :frame '(100 70) :id :frame1
+  (use :frame '(75 50) :id :frame1
        :contents
        ((text (y+ canvas.center 10) "frame 1" :align :center)))
-  (use :frame '(300 130) :id :frame2
+  (use :frame '(225 100) :id :frame2
        :contents
        ((text (y+ canvas.center 10) "frame 2" :align :center)))
   (connect :frame1 :frame2 :end2 :arrow))
@@ -2746,15 +2855,17 @@ ${BLANK_PARAGRAPH}
 <!-- expand: DEFS-USE-SAMPLE -->
 ```
 
-${BLANK_PARAGRAPH}
-
-
-　以下のような画像が生成されます。
-
 ```diagram
 <!-- expand: DEFS-USE-SAMPLE -->
 ```
 Figure. defs と use のサンプル
+
+${BLANK_PARAGRAPH}
+
+　注意してほしいのは、defs で作成する定義に指定する ID と、図形要素を描画する時に指定する ID は
+別モノだということです。上記の例で言えば、 `:frame` は定義の ID なので、use の最初のパラメータに
+は使えますがコネクタの接続対象としては指定できません。逆も同様で、たとえば rect を描いた後にその 
+ID を指定して use することはできません。
 
 ## パラメータの詳細
 ### 色の指定
@@ -3203,6 +3314,11 @@ Figure. uml-activity-partitions 要素
 
 　${{TODO}{まだ記述されていません。}}
 
+#### defs マクロ
+<!-- autolink: [defs](#defs マクロ) -->
+
+　${{TODO}{まだ記述されていません。}}
+
 #### diagram マクロ
 
 　${{TODO}{まだ記述されていません。}}
@@ -3329,11 +3445,17 @@ Figure. dashoffset, linecap, linejoin のサンプル
 
 
 
-#### rgb関数
+#### rgb 関数
+<!-- autolink: [rgb](#rgb 関数) -->
 
 ```lisp
 (rgb r g b)
 ```
+
+#### use マクロ
+<!-- autolink: [use](#use マクロ) -->
+
+　${{TODO}{まだ記述されていません。}}
 
 #### with-optionsマクロ
 <!-- autolink: [with-options](#with-optionsマクロ) -->

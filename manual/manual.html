@@ -83,7 +83,7 @@
 </details>
 <li class='tocx'><a href='#h1RNMQY1C0b'>6 座標と位置</a></li>
 <li class='tocx'><a href='#kgs1vf3AbTN'>7 サブキャンバス</a></li>
-<li class='tocx'><a href='#lkPJSquGS6Q'>8 defs と use</a></li>
+<li class='tocx'><a href='#hwRhCz9Gn9t'>8 定義と再使用</a></li>
 <details class='tocx' open>
 <summary class='tocx'><a href='#2QhgoP1QBEQ'>9 パラメータの詳細</a></summary>
 <blockquote class='tocx'>
@@ -163,13 +163,15 @@
 <blockquote class='tocx'>
 <li class='tocx'><a href='#g99vlb6tXRZ'>11.1.1 *default-fill*変数</a></li>
 <li class='tocx'><a href='#7pITpDTSaVn'>11.1.2 *default-stroke*変数</a></li>
-<li class='tocx'><a href='#2xCCaUuNLlH'>11.1.3 diagram マクロ</a></li>
-<li class='tocx'><a href='#8IkB7VinE7h'>11.1.4 make-fill 関数</a></li>
-<li class='tocx'><a href='#ezUVhtPwl3J'>11.1.5 make-stroke 関数</a></li>
-<li class='tocx'><a href='#if12ldF3hxG'>11.1.6 rgb関数</a></li>
-<li class='tocx'><a href='#5afU9yg86c0'>11.1.7 with-optionsマクロ</a></li>
-<li class='tocx'><a href='#lsGULoUqoK4'>11.1.8 with-subcanvasマクロ</a></li>
-<li class='tocx'><a href='#2c8duiejnaO'>11.1.9 with-subcanvas-ofマクロ</a></li>
+<li class='tocx'><a href='#jj72nsL3ZUW'>11.1.3 defs マクロ</a></li>
+<li class='tocx'><a href='#2xCCaUuNLlH'>11.1.4 diagram マクロ</a></li>
+<li class='tocx'><a href='#8IkB7VinE7h'>11.1.5 make-fill 関数</a></li>
+<li class='tocx'><a href='#ezUVhtPwl3J'>11.1.6 make-stroke 関数</a></li>
+<li class='tocx'><a href='#7QraN5WNGea'>11.1.7 rgb 関数</a></li>
+<li class='tocx'><a href='#klH6tZ6gdaQ'>11.1.8 use マクロ</a></li>
+<li class='tocx'><a href='#5afU9yg86c0'>11.1.9 with-optionsマクロ</a></li>
+<li class='tocx'><a href='#lsGULoUqoK4'>11.1.10 with-subcanvasマクロ</a></li>
+<li class='tocx'><a href='#2c8duiejnaO'>11.1.11 with-subcanvas-ofマクロ</a></li>
 </blockquote>
 </details>
 <li class='tocx'><a href='#dR01Jh257Q6'>11.2 色の名前</a></li>
@@ -3379,27 +3381,131 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </pre>
 <p class='fig_title'><a name='04Bhkv1vkfw'></a>Figure.7-3 with-subcanvas-of を使ったサブキャンバス</p>
 <p>　　</p>
-<h2><a name='lkPJSquGS6Q'></a>8 defs と use</h2>
-<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません</span></p>
+<h2><a name='hwRhCz9Gn9t'></a>8 定義と再使用</h2>
+<p>　<a class='autolink' href='#jj72nsL3ZUW'>defs</a> と <a class='autolink' href='#klH6tZ6gdaQ'>use</a> を使うことによって、複数の図形要素をひとつにまとめ、図面の中で繰り返し使用することができます。要点を明確にするために、まずは同じ図形（ちょっと装飾のついた<a class='autolink' href='#kJonRG8GtHF'>四角形</a>）を３回描画することを考えてみてください。まずは単純に記述を３回繰り返します。座標以外は完全に同じ内容です。</p>
 <pre class='code'>
-(diagram (400 200)
+(diagram (200 100)
+  (grid)
+  (rect '( 50 50) 40 40 <span class='keyword3'>:fill</span> <span class='keyword3'>:white</span> <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span>
+        <span class='keyword3'>:contents</span>
+        ((line '((0 10) (40 10)) <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span>)
+         (line '((10 0) (10 40)) <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span>)))
+  (rect '(100 50) 40 40 <span class='keyword3'>:fill</span> <span class='keyword3'>:white</span> <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span>
+        <span class='keyword3'>:contents</span>
+        ((line '((0 10) (40 10)) <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span>)
+         (line '((10 0) (10 40)) <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span>)))
+  (rect '(150 50) 40 40 <span class='keyword3'>:fill</span> <span class='keyword3'>:white</span> <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span>
+        <span class='keyword3'>:contents</span>
+        ((line '((0 10) (40 10)) <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span>)
+         (line '((10 0) (10 40)) <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span>))))
+</pre>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='200' height='100'>
+	
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- rectangle -->
+	<rect x='30' y='30' width='40' height='40' fill='white' stroke='black' stroke-width='1' />
+	<!-- line -->
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 30.0,40.0 70.0,40.0' />
+	<!-- line -->
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 40.0,30.0 40.0,70.0' />
+	<!-- rectangle -->
+	<rect x='80' y='30' width='40' height='40' fill='white' stroke='black' stroke-width='1' />
+	<!-- line -->
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 80.0,40.0 120.0,40.0' />
+	<!-- line -->
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 90.0,30.0 90.0,70.0' />
+	<!-- rectangle -->
+	<rect x='130' y='30' width='40' height='40' fill='white' stroke='black' stroke-width='1' />
+	<!-- line -->
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 130.0,40.0 170.0,40.0' />
+	<!-- line -->
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 140.0,30.0 140.0,70.0' />
+
+</svg>
+</div>
+
+<p>　この場合、出力される SVG ファイル内でも（当然ながら）座標以外は同じ出力が３回繰り返されます。</p>
+<pre>
+&lt;svg xmlns="http://www.w3.org/2000/svg" ...&gt;
+      :
+    &lt;rect x="30" y="30" width="40" height="40" ...&gt;&lt;/rect&gt;
+    &lt;polyline ... points=" 30.0,40.0 70.0,40.0"&gt;&lt;/polyline&gt;
+    &lt;polyline ... points=" 40.0,30.0 40.0,70.0"&gt;&lt;/polyline&gt;
+
+    &lt;rect x="80" y="30" width="40" height="40" ...&gt;&lt;/rect&gt;
+    &lt;polyline ... points=" 80.0,40.0 120.0,40.0"&gt;&lt;/polyline&gt;
+    &lt;polyline ... points=" 90.0,30.0 90.0,70.0"&gt;&lt;/polyline&gt;
+
+    &lt;rect x="130" y="30" width="40" height="40" ...&gt;&lt;/rect&gt;
+    &lt;polyline ... points=" 130.0,40.0 170.0,40.0"&gt;&lt;/polyline&gt;
+    &lt;polyline ... points=" 140.0,30.0 140.0,70.0"&gt;&lt;/polyline&gt;
+&lt;/svg&gt;
+</pre>
+<p>　以下のように、Common LISP 言語の機能を使用してループで処理することはできますが、入力データが短くなっても出力される SVG が短くなるわけではありません。</p>
+<pre class='code'>
+(diagram (200 100)
+  (grid)
+  (dotimes (i 3)
+    (rect `(,(* (1+ i) 50) 50) 40 40 <span class='keyword3'>:fill</span> <span class='keyword3'>:white</span> <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span>
+          <span class='keyword3'>:contents</span>
+          ((line '((0 10) (40 10)) <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span>)
+           (line '((10 0) (10 40)) <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span>)))))
+</pre>
+<p>　これに対して、<a class='autolink' href='#jj72nsL3ZUW'>defs</a> と <a class='autolink' href='#klH6tZ6gdaQ'>use</a> を使うと SVG 上でも「一度だけ定義して複数回描画させる」ような出力をすることができます。先程のサンプルと同じ出力をするコードは以下のようになります。</p>
+<pre class='code'>
+(diagram (200 100)
+  (grid)
+  (defs (40 40 <span class='keyword3'>:icon</span>)
+    (rect canvas.center canvas.width canvas.height <span class='keyword3'>:fill</span> <span class='keyword3'>:white</span> <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span>
+          <span class='keyword3'>:contents</span>
+          ((line '((0 10) (40 10)) <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span>)
+           (line '((10 0) (10 40)) <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span>))))
+  (use <span class='keyword3'>:icon</span> '( 50 50))
+  (use <span class='keyword3'>:icon</span> '(100 50))
+  (use <span class='keyword3'>:icon</span> '(150 50)))
+</pre>
+<p>　上記のコードでは、 <code>(defs (40 40 :icon) ...)</code> によって icon という名前の定義を作成しています。幅と高さはそれぞれ 40 です。これによって独立した<a class='autolink' href='#kgs1vf3AbTN'>キャンバス</a>が確立され、その中で作図を行うことができます。ここではその<a class='autolink' href='#kgs1vf3AbTN'>キャンバス</a>いっぱいに <a class='autolink' href='#kJonRG8GtHF'>rect</a> を描き、さらにその中で <a class='autolink' href='#fv4OUML78x4'>line</a> を 2 本描いています。しかしこれは <a class='autolink' href='#jj72nsL3ZUW'>defs</a> の中でのこと（つまり定義を作成しただけ）なので、これだけでは描画は行なわれません。<a class='autolink' href='#jj72nsL3ZUW'>defs</a> で定義した図形を実際に描画するには、<a class='autolink' href='#klH6tZ6gdaQ'>use</a> を使います。上記の例では、 <code>(use :icon '( 50 50))</code> といった記述を 3 回行なっています。パラメータは、定義名と描画する中心の座標です。</p>
+<p>　上記のコードによって生成される SVG 画像は以下のようになります。入力データとの対応がわかると思います。定義（<a class='autolink' href='#jj72nsL3ZUW'>defs</a>）は一度だけで、それを参照（<a class='autolink' href='#klH6tZ6gdaQ'>use</a>）するタグが複数登場しています。</p>
+<pre>
+&lt;svg xmlns='http://www.w3.org/2000/svg' ...&gt;
+    &lt;defs&gt;
+        &lt;g id='icon'&gt;
+            &lt;rect x='0' y='0' width='40' height='40' ... /&gt;
+            &lt;polyline ... points=' 0.0,10.0 40.0,10.0' /&gt;
+            &lt;polyline ... points=' 10.0,0.0 10.0,40.0' /&gt;
+        &lt;/g&gt;
+    &lt;/defs&gt;
+      :
+    &lt;use xlink:href='#icon' x='30' y='30' /&gt;
+    &lt;use xlink:href='#icon' x='80' y='30' /&gt;
+    &lt;use xlink:href='#icon' x='130' y='30' /&gt;
+&lt;/svg&gt;
+</pre>
+<p>　このように、<a class='autolink' href='#jj72nsL3ZUW'>defs</a> と <a class='autolink' href='#klH6tZ6gdaQ'>use</a> を使えば繰り返し登場する図形要素の再利用が可能になりますが、スタンプのようにまったく同じものを表示させることしかできないのでしょうか。また、<a class='autolink' href='#klH6tZ6gdaQ'>use</a> で描画した要素どうしを<a class='autolink' href='#eFhVs4WwYUG'>コネクタ</a>で接続したりできないでしょうか。最初の質問については、「基本的に定義した通りにしか描画できないけど、<a class='autolink' href='#klH6tZ6gdaQ'>use</a> で contents パラメータが使えます」が答えになります。そして２番目の質問の答えは、「<a class='autolink' href='#klH6tZ6gdaQ'>use</a> に ID を付ければ<a class='autolink' href='#eFhVs4WwYUG'>コネクタ</a>が使える」です。以下の例ではその両方をやっています。</p>
+<pre class='code'>
+(diagram (300 150)
   (grid)
   (defs (70 50 <span class='keyword3'>:frame</span>)
     (rect canvas.center canvas.width canvas.height <span class='keyword3'>:fill</span> <span class='keyword3'>:white</span> <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span>)
     (line '((0 10) (70 10)) <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span>))
-  (use <span class='keyword3'>:frame</span> '(100 70) <span class='keyword3'>:id</span> <span class='keyword3'>:frame1</span>
+  (use <span class='keyword3'>:frame</span> '(75 50) <span class='keyword3'>:id</span> <span class='keyword3'>:frame1</span>
        <span class='keyword3'>:contents</span>
        ((text (y+ canvas.center 10) <span class='literal'>"frame 1"</span> <span class='keyword3'>:align</span> <span class='keyword3'>:center</span>)))
-  (use <span class='keyword3'>:frame</span> '(300 130) <span class='keyword3'>:id</span> <span class='keyword3'>:frame2</span>
+  (use <span class='keyword3'>:frame</span> '(225 100) <span class='keyword3'>:id</span> <span class='keyword3'>:frame2</span>
        <span class='keyword3'>:contents</span>
        ((text (y+ canvas.center 10) <span class='literal'>"frame 2"</span> <span class='keyword3'>:align</span> <span class='keyword3'>:center</span>)))
   (connect <span class='keyword3'>:frame1</span> <span class='keyword3'>:frame2</span> <span class='keyword3'>:end2</span> <span class='keyword3'>:arrow</span>))
 </pre>
-<p>　　</p>
-<p>　以下のような画像が生成されます。</p>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
-<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='400' height='200'>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='150'>
 	
 	<!-- frame : defs -->
 	<defs>
@@ -3418,28 +3524,31 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 	</pattern>
 	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
 	<!-- frame1 : use -->
-	<use xlink:href='#frame' x='65' y='45' />
+	<use xlink:href='#frame' x='40' y='25' />
 	<!-- text -->
-	<text x='100' y='80' text-anchor='middle' font-size='12pt' fill='black' >frame 1</text>
+	<text x='75' y='60' text-anchor='middle' font-size='12pt' fill='black' >frame 1</text>
 	<!-- frame2 : use -->
-	<use xlink:href='#frame' x='265' y='105' />
+	<use xlink:href='#frame' x='190' y='75' />
 	<!-- text -->
-	<text x='300' y='140' text-anchor='middle' font-size='12pt' fill='black' >frame 2</text>
+	<text x='225' y='110' text-anchor='middle' font-size='12pt' fill='black' >frame 2</text>
 	<!-- connector from frame1 to frame2 -->
-	<polyline fill='none' stroke='black' stroke-width='1' points=' 135.0,80.5 265.0,119.5' />
-	<polyline fill='none' stroke='black' stroke-width='1' points='250.40236,122.950935 265,119.5 254.71259,108.58354' />
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 110.0,61.666668 190.0,88.333336' />
+	<polyline fill='none' stroke='black' stroke-width='1' points='175.30453,91.34054 190,88.333336 180.04796,77.11029' />
 
 </svg>
 </div>
 
 <p class='fig_title'><a name='iZLxsV5YAK6'></a>Figure.8-1 defs と use のサンプル</p>
+<p>　　</p>
+<p>　注意してほしいのは、<a class='autolink' href='#jj72nsL3ZUW'>defs</a> で作成する定義に指定する ID と、図形要素を描画する時に指定する ID は別モノだということです。上記の例で言えば、 <code>:frame</code> は定義の ID なので、<a class='autolink' href='#klH6tZ6gdaQ'>use</a> の最初のパラメータには使えますが<a class='autolink' href='#eFhVs4WwYUG'>コネクタ</a>の接続対象としては指定できません。逆も同様で、たとえば <a class='autolink' href='#kJonRG8GtHF'>rect</a> を描いた後にその ID を指定して <a class='autolink' href='#klH6tZ6gdaQ'>use</a> することはできません。</p>
 <h2><a name='2QhgoP1QBEQ'></a>9 パラメータの詳細</h2>
 <h3><a name='1rpUB3fre67'></a>9.1 色の指定</h3>
 <p>　diagram は SVG 形式で図形を生成するため、色の指定は SVG の規格に準拠します。</p>
 <ul>
 <li>#rrggbb 表記による、6 桁の16進指定。rr、gg、bb は順に赤、緑、青の成分で、 00〜ff の範囲で指定します。</li>
-<li>#rgb 表記による、3 桁の16進指定。r、g、b は順に赤、緑、青の成分で、 0〜f の範囲で指定します。これは #rrggbb の簡略表記で、たとえば #136 は #113366 に相当します。</li>
-<li><a href='#if12ldF3hxG'>rgb関数</a>による指定。これは <code>(rgb r g b)</code> の要領で使用します。r、g、b は順に赤、緑、青の成分で、それぞれ 0〜255 の整数または 0.0〜1.0 の小数点数で指定します。0.0〜1.0 の指定の場合、それに 255 をかけた値が指定されます。</li>
+<li>#<a class='autolink' href='#7QraN5WNGea'>rgb</a> 表記による、3 桁の16進指定。r、g、b は順に赤、緑、青の成分で、 0〜f の範囲で指定します。これは #rrggbb の簡略表記で、たとえば #136 は #113366 に相当します。</li>
+<li>ERROR : invalid link anchor 'rgb関数'.
+<font color='red'>!!!ERROR : invalid internal anchor 'rgb関数'.</font>による指定。これは <code>(rgb r g b)</code> の要領で使用します。r、g、b は順に赤、緑、青の成分で、それぞれ 0〜255 の整数または 0.0〜1.0 の小数点数で指定します。0.0〜1.0 の指定の場合、それに 255 をかけた値が指定されます。</li>
 <li>色名での指定。 <code>:black</code> など先頭にコロンをつけたキーワードの形式で指定します。使用できる色の名前とサンプルは <a href='#dR01Jh257Q6'>11.2  節</a> を参照してください。</li>
 </ul>
 <p>　　</p>
@@ -3926,9 +4035,11 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <h4><a name='7pITpDTSaVn'></a>11.1.2 *default-stroke*変数</h4>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='2xCCaUuNLlH'></a>11.1.3 diagram マクロ</h4>
+<h4><a name='jj72nsL3ZUW'></a>11.1.3 defs マクロ</h4>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='8IkB7VinE7h'></a>11.1.4 make-fill 関数</h4>
+<h4><a name='2xCCaUuNLlH'></a>11.1.4 diagram マクロ</h4>
+<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<h4><a name='8IkB7VinE7h'></a>11.1.5 make-fill 関数</h4>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <pre class='code'>
 (<span class='keyword1'>defun</span> <span class='keyword5'>make-fill</span> <span class='keyword2'>&amp;key</span> <span class='keyword3'>:color</span> <span class='keyword3'>:opacity</span> <span class='keyword3'>:rule</span>)
@@ -4009,7 +4120,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
     (text '(50 110) <span class='literal'>":evenodd"</span> <span class='keyword3'>:align</span> <span class='keyword3'>:center</span>)))
 </pre>
 </details>
-<h4><a name='ezUVhtPwl3J'></a>11.1.5 make-stroke 関数</h4>
+<h4><a name='ezUVhtPwl3J'></a>11.1.6 make-stroke 関数</h4>
 <pre class='code'>
 (<span class='keyword1'>defun</span> <span class='keyword5'>make-stroke</span> <span class='keyword2'>&amp;key</span> <span class='keyword3'>:color</span> <span class='keyword3'>:width</span> <span class='keyword3'>:opacity</span> <span class='keyword3'>:linecap</span>
                         <span class='keyword3'>:linejoin</span> <span class='keyword3'>:miterlimit</span> <span class='keyword3'>:dasharray</span> <span class='keyword3'>:dashoffset</span>)
@@ -4058,16 +4169,18 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </div>
 
 <p class='fig_title'><a name='4fQnwjWZpzi'></a>Figure.11-3 dashoffset, linecap, linejoin のサンプル</p>
-<h4><a name='if12ldF3hxG'></a>11.1.6 rgb関数</h4>
+<h4><a name='7QraN5WNGea'></a>11.1.7 rgb 関数</h4>
 <pre class='code'>
 (rgb r g b)
 </pre>
-<h4><a name='5afU9yg86c0'></a>11.1.7 with-optionsマクロ</h4>
-<h4><a name='lsGULoUqoK4'></a>11.1.8 with-subcanvasマクロ</h4>
+<h4><a name='klH6tZ6gdaQ'></a>11.1.8 use マクロ</h4>
+<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<h4><a name='5afU9yg86c0'></a>11.1.9 with-optionsマクロ</h4>
+<h4><a name='lsGULoUqoK4'></a>11.1.10 with-subcanvasマクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-subcanvas</span> ((top-left width height) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
-<h4><a name='2c8duiejnaO'></a>11.1.9 with-subcanvas-ofマクロ</h4>
+<h4><a name='2c8duiejnaO'></a>11.1.11 with-subcanvas-ofマクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-subcanvas-of</span> ((id) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
@@ -6685,6 +6798,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <details class='idx_x' open>
 <summary class='idx_x'>D</summary>
 <blockquote class='idx_x'>
+<li class='idx_x'><a class='autolink' href='#jj72nsL3ZUW'>defs</a></li>
 <li class='idx_x'><a class='autolink' href='#jRjILbbJATV'>document</a></li>
 </blockquote>
 </details>
@@ -6726,6 +6840,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <summary class='idx_x'>R</summary>
 <blockquote class='idx_x'>
 <li class='idx_x'><a class='autolink' href='#kJonRG8GtHF'>rect</a></li>
+<li class='idx_x'><a class='autolink' href='#7QraN5WNGea'>rgb</a></li>
 </blockquote>
 </details>
 <details class='idx_x' open>
@@ -6779,6 +6894,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <li class='idx_x'><a class='autolink' href='#8h222SLEnVx'>uml-transition</a></li>
 <li class='idx_x'><a class='autolink' href='#aiNf7xsL8zY'>uml-transition-spec</a></li>
 <li class='idx_x'><a class='autolink' href='#44mEhv2hQcS'>uml-usecase</a></li>
+<li class='idx_x'><a class='autolink' href='#klH6tZ6gdaQ'>use</a></li>
 </blockquote>
 </details>
 <details class='idx_x' open>
