@@ -62,9 +62,10 @@
 (defmethod shape-connect-point ((event uml-time-event) type1 type2 arg)
   (declare (ignore type1))
   (let* ((canvas (group-get-canvas event)))
-	(with-canvas (topleft width height) canvas
-		(let* ((qw  (/ width  4))
-			   (qh  (/ height 4)))
+	(with-canvas (cc width height) canvas
+		(let* ((qw      (/ width  4))
+			   (qh      (/ height 4))
+			   (topleft (xy+ cc (- (/ width 2)) (- (/ height 2)))))
 		  (ecase type2
 			((:center) (call-next-method))
 			((:top)    (point/xy+ topleft (* qw (+ arg 2))                0))

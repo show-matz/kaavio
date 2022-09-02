@@ -448,10 +448,11 @@
 				  active-p abstract-p template
 				  attributes operations responsibilities emptybox
 				  name-actual-height margin-cache heights-cache font fill stroke) cls
-	  (with-canvas (topleft width height) canvas
+	  (with-canvas (cc width height) canvas
 		(let ((font-size (slot-value font 'diagram::size))
 			  (spice     (slot-value font 'diagram::width-spice))
-			  (spacing   (slot-value font 'diagram::line-spacing)))
+			  (spacing   (slot-value font 'diagram::line-spacing))
+			  (topleft   (xy+ cc (- (/ width 2)) (- (/ height 2)))))
 		  (macrolet ((register-entity (entity)
 					   `(check-and-draw-local-entity ,entity canvas writer)))
 			(let ((left             0)

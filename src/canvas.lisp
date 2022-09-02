@@ -61,15 +61,30 @@
 	  pt
 	  (point+ (canvas-topleft canvas) pt)))
 
+
+;; for expansion in 'with-dictionary'
+(defun canvas-dict-width       (canvas) (cadr canvas))
+(defun canvas-dict-height      (canvas) (cddr canvas))
+(defun canvas-dict-topleft     (canvas) (car  canvas))
+(defun canvas-dict-top         (canvas) (point/x+  (car canvas) (/ (cadr canvas) 2)))
+(defun canvas-dict-topright    (canvas) (point/x+  (car canvas)    (cadr canvas)))
+(defun canvas-dict-left        (canvas) (point/y+  (car canvas) (/ (cddr canvas) 2)))
+(defun canvas-dict-center      (canvas) (point/xy+ (car canvas) (/ (cadr canvas) 2) (/ (cddr canvas) 2)))
+(defun canvas-dict-right       (canvas) (point/xy+ (car canvas)    (cadr canvas)    (/ (cddr canvas) 2)))
+(defun canvas-dict-bottomleft  (canvas) (point/y+  (car canvas)    (cddr canvas)))
+(defun canvas-dict-bottom      (canvas) (point/xy+ (car canvas) (/ (cadr canvas) 2)    (cddr canvas)))
+(defun canvas-dict-bottomright (canvas) (point/xy+ (car canvas)    (cadr canvas)       (cddr canvas)))
+
+
 #|
 #|EXPORT|#				:with-canvas
  |#
-(defmacro with-canvas ((sym-topleft sym-width sym-height) canvas &rest body)
+(defmacro with-canvas ((sym-center sym-width sym-height) canvas &rest body)
   (let ((g-canvas (gensym "CANVAS")))
 	`(let ((,g-canvas ,canvas))
-	   (symbol-macrolet ((,sym-topleft (car  ,g-canvas))
-						 (,sym-width   (cadr ,g-canvas))
-						 (,sym-height  (cddr ,g-canvas)))
+	   (symbol-macrolet ((,sym-center (canvas-dict-center ,g-canvas))
+						 (,sym-width  (cadr ,g-canvas))
+						 (,sym-height (cddr ,g-canvas)))
 		 ,@body))))
 
 #|
@@ -94,16 +109,3 @@
 
 
 
-
-;; for expansion in 'with-dictionary'
-(defun canvas-dict-width       (canvas) (cadr canvas))
-(defun canvas-dict-height      (canvas) (cddr canvas))
-(defun canvas-dict-topleft     (canvas) (car  canvas))
-(defun canvas-dict-top         (canvas) (point/x+  (car canvas) (/ (cadr canvas) 2)))
-(defun canvas-dict-topright    (canvas) (point/x+  (car canvas)    (cadr canvas)))
-(defun canvas-dict-left        (canvas) (point/y+  (car canvas) (/ (cddr canvas) 2)))
-(defun canvas-dict-center      (canvas) (point/xy+ (car canvas) (/ (cadr canvas) 2) (/ (cddr canvas) 2)))
-(defun canvas-dict-right       (canvas) (point/xy+ (car canvas)    (cadr canvas)    (/ (cddr canvas) 2)))
-(defun canvas-dict-bottomleft  (canvas) (point/y+  (car canvas)    (cddr canvas)))
-(defun canvas-dict-bottom      (canvas) (point/xy+ (car canvas) (/ (cadr canvas) 2)    (cddr canvas)))
-(defun canvas-dict-bottomright (canvas) (point/xy+ (car canvas)    (cadr canvas)       (cddr canvas)))

@@ -116,7 +116,7 @@
 (defmethod draw-group ((pin uml-pin) writer)
   (let ((canvas (group-get-canvas pin)))
 	(with-slots (name size offset multi font fill stroke) pin
-	  (with-canvas (topleft width height) canvas
+	  (with-canvas (cc width height) canvas
 		(let* ((x (/ width  2))
 			   (y (/ height 2))
 			   (font-size (slot-value font 'diagram::size)))

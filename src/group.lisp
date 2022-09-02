@@ -83,8 +83,6 @@
 		(*default-stroke* (make-stroke :color color :dasharray '(2 2))))
 	(macrolet ((register-entity (entity)
 				 `(check-and-draw-local-entity ,entity canvas writer)))
-	  (with-canvas (topleft width height) canvas
-		(rectangle (point/xy+ topleft
-							  (/ width 2)
-							  (/ height 2)) width height)))))
+	  (with-canvas (center width height) canvas
+		(rectangle center width height)))))
 
