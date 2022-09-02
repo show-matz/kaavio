@@ -69,14 +69,15 @@
 <li class='tocx'><a href='#5ZT843xJDiq'>5.5 フォルダ</a></li>
 <li class='tocx'><a href='#5IHcv4bxjLU'>5.6 吹き出し</a></li>
 <li class='tocx'><a href='#0AVJhEKnK1M'>5.7 メモ</a></li>
-<li class='tocx'><a href='#5ME1Xv0K4sM'>5.8 円柱</a></li>
-<li class='tocx'><a href='#hjZ26isLw42'>5.9 爆発</a></li>
-<li class='tocx'><a href='#49KKf97828b'>5.10 ブロック矢印</a></li>
-<li class='tocx'><a href='#lBS33hNe32a'>5.11 波括弧</a></li>
+<li class='tocx'><a href='#hja1QJC0Ivb'>5.8 キューブ</a></li>
+<li class='tocx'><a href='#5ME1Xv0K4sM'>5.9 円柱</a></li>
+<li class='tocx'><a href='#hjZ26isLw42'>5.10 爆発</a></li>
+<li class='tocx'><a href='#49KKf97828b'>5.11 ブロック矢印</a></li>
+<li class='tocx'><a href='#lBS33hNe32a'>5.12 波括弧</a></li>
 <details class='tocx' open>
-<summary class='tocx'><a href='#g6xjP526KX7'>5.12 テーブル</a></summary>
+<summary class='tocx'><a href='#g6xjP526KX7'>5.13 テーブル</a></summary>
 <blockquote class='tocx'>
-<li class='tocx'><a href='#3qNm5uHdKTZ'>5.12.1 with-table-cell を使ったセル内描画</a></li>
+<li class='tocx'><a href='#3qNm5uHdKTZ'>5.13.1 with-table-cell を使ったセル内描画</a></li>
 </blockquote>
 </details>
 </blockquote>
@@ -1200,6 +1201,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <!-- define: HASH_FOLDER     = '[](#フォルダ)' -->
 <!-- define: HASH_BALLOON    = '[](#吹き出し)' -->
 <!-- define: HASH_MEMO       = '[](#メモ)' -->
+<!-- define: HASH_CUBE       = '[](#キューブ)' -->
 <!-- define: HASH_CYLINDER   = '[](#円柱)' -->
 <!-- define: HASH_EXPLOSION  = '[](#爆発)' -->
 <!-- define: HASH_BLOCKARROW = '[](#ブロック矢印)' -->
@@ -1207,7 +1209,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <!-- define: HASH_TABLE      = '[](#テーブル)' -->
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
-<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='800' height='240'>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='800' height='360'>
 	
 	<!-- connect-grp : defs -->
 	<defs>
@@ -1308,6 +1310,22 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 			<text x='20' y='41' text-anchor='start' font-size='12pt' fill='black' >memo.</text>
 			<!-- text -->
 			<text x='50' y='95' text-anchor='middle' font-size='12pt' fill='black' >メモ</text>
+			
+		</g>
+	</defs>
+	<!-- cube-grp : defs -->
+	<defs>
+		<g id='cube-grp'>
+			<!-- rectangle -->
+			<rect x='0' y='0' width='100' height='100' fill='white' stroke='none' stroke-width='1' />
+			<!-- cube -->
+			<polygon fill='darkgray' stroke='black' stroke-width='1' points='17.5,16.0 29.5,4.0 88.5,4.0 88.5,58.0 76.5,70.0 17.5,70.0' />
+			<polyline fill='none' stroke='black' stroke-width='1' points=' 88.5,4.0 76.5,16.0' />
+			<rect x='17.5' y='16' width='59' height='54' fill='lightgray' stroke='black' stroke-width='1' />
+			<text x='50' y='39' text-anchor='middle' font-size='12pt' fill='black' >this is</text>
+			<text x='50' y='53' text-anchor='middle' font-size='12pt' fill='black' >cube.</text>
+			<!-- text -->
+			<text x='50' y='95' text-anchor='middle' font-size='12pt' fill='black' >キューブ</text>
 			
 		</g>
 	</defs>
@@ -1416,24 +1434,28 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 		<use xlink:href='#memo-grp' x='20' y='130' />
 	</a>
 	<!-- use -->
+	<a xlink:href='#hja1QJC0Ivb' target='_self'>
+		<use xlink:href='#cube-grp' x='150' y='130' />
+	</a>
+	<!-- use -->
 	<a xlink:href='#5ME1Xv0K4sM' target='_self'>
-		<use xlink:href='#cylinder-grp' x='150' y='130' />
+		<use xlink:href='#cylinder-grp' x='280' y='130' />
 	</a>
 	<!-- use -->
 	<a xlink:href='#hjZ26isLw42' target='_self'>
-		<use xlink:href='#explosion-grp' x='280' y='130' />
+		<use xlink:href='#explosion-grp' x='410' y='130' />
 	</a>
 	<!-- use -->
 	<a xlink:href='#49KKf97828b' target='_self'>
-		<use xlink:href='#blockarrow-grp' x='410' y='130' />
+		<use xlink:href='#blockarrow-grp' x='540' y='130' />
 	</a>
 	<!-- use -->
 	<a xlink:href='#lBS33hNe32a' target='_self'>
-		<use xlink:href='#brace-grp' x='540' y='130' />
+		<use xlink:href='#brace-grp' x='670' y='130' />
 	</a>
 	<!-- use -->
 	<a xlink:href='#g6xjP526KX7' target='_self'>
-		<use xlink:href='#table-grp' x='670' y='130' />
+		<use xlink:href='#table-grp' x='20' y='250' />
 	</a>
 
 </svg>
@@ -2387,7 +2409,123 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </div>
 
 <p class='fig_title'><a name='85PzRyM9ubb'></a>Figure.5-19 with-memo-options のサンプル</p>
-<h3><a name='5ME1Xv0K4sM'></a>5.8 円柱</h3>
+<h3><a name='hja1QJC0Ivb'></a>5.8 キューブ</h3>
+<p>　<a class='autolink' href='#hja1QJC0Ivb'>キューブ</a>は<a class='autolink' href='#e7hkC2YUaKe'>テキストボックス</a>と良く似た機能を持ちますが、ボックスのかわりに箱が描画されます。<a class='autolink' href='#e7hkC2YUaKe'>テキストボックス</a>とは異なり、サイズは自動計算されないため、幅と高さを指定する必要があります。</p>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='200' height='100'>
+	
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- cube -->
+	<polygon fill='darkgray' stroke='black' stroke-width='1' points='60.0,26.0 72.0,14.0 146.0,14.0 146.0,68.0 134.0,80.0 60.0,80.0' />
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 146.0,14.0 134.0,26.0' />
+	<rect x='60' y='26' width='74' height='54' fill='lightgray' stroke='black' stroke-width='1' />
+	<text x='100' y='49' text-anchor='middle' font-size='12pt' fill='black' >cube</text>
+	<text x='100' y='63' text-anchor='middle' font-size='12pt' fill='black' >text</text>
+
+</svg>
+</div>
+
+<p class='fig_title'><a name='j4GYjsfbdqP'></a>Figure.5-20 キューブのサンプル</p>
+<details>
+<summary>　※上記サンプルのソースはこちら。</summary>
+<pre class='code'>
+(diagram (200 100)
+  (grid)
+  (cube canvas.center 80 60 <span class='literal'>"cube~%text"</span>
+              <span class='keyword3'>:fill</span> <span class='keyword3'>:lightgray</span> <span class='keyword3'>:fill2</span> <span class='keyword3'>:darkgray</span> <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span>))
+</pre>
+</details>
+<p>　<a class='autolink' href='#hja1QJC0Ivb'>cube</a> のパラメータ構成は以下の通りです。</p>
+<pre class='code'>
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>cube</span> (center width height text
+                           <span class='keyword2'>&amp;key</span> depth align valign margin
+                                font fill fill2 stroke link
+                                rotate layer id filter contents) ...)
+</pre>
+<p>　　</p>
+<p class='tbl_title'><a name='9OD0uLVcOgy'></a>Table.5-8 cube のパラメータ</p>
+<table align='center'>
+<tr style="font-size: 14;"><th>パラメータ</th><th>説明</th></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>center</td><td align='left'>中心点を指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>width</td><td align='left'>幅を数値で指定します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>height</td><td align='left'>高さを数値で指定します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><a class='autolink' href='#cTdCvBeU6ZJ'>text</a></td><td align='left'>内部に描画するテキストを文字列で指定します。改行は "~%" で表現します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>depth</td><td align='left'>上面および側面の大きさを数値で指定します。省略した場合のデフォルト値は height の 1/5 です。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>align</td><td align='left'>テキストの水平方向のアライメントを <code>:left :center :right</code> のいずれかで指定します。<br>省略した場合のデフォルト値は <code>:center</code> です。詳細は後述します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>vlign</td><td align='left'>テキストの垂直方向のアライメントを <code>:top :center :bottom</code> のいずれかで指定します。<br>省略した場合のデフォルト値は <code>:center</code> です。詳細は後述します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>margin</td><td align='left'>テキスト描画における「余白」のサイズです。省略した場合のデフォルト値は 10 です。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>font</td><td align='left'>フォントを指定します。詳細は「<a href='#3kZ9FkounyK'>9.4  フォント</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>fill</td><td align='left'>内部の塗り潰しを指定します。詳細は「<a href='#dBUd7L4C3dx'>9.3  フィル</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>fill2</td><td align='left'>上面および側面の塗り潰しを指定します。詳細は「<a href='#dBUd7L4C3dx'>9.3  フィル</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>stroke</td><td align='left'>外枠を描画する線を指定します。詳細は「<a href='#4HFjqmTuIU6'>9.2  ストローク</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>link</td><td align='left'>リンクにする場合、リンク先を指定します。詳細は「<a href='#fbLcMRTVXac'>9.9  リンク</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>rotate</td><td align='left'>回転させたい場合に、その角度を指定します。<br>詳細は「<a href='#heEi5Lc5BX9'>9.6  回転</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>layer</td><td align='left'>レイヤーに所属させる場合、その名前をキーワードで指定します。<br>詳細は「<a href='#1ovJxG7Ie9O'>9.8  レイヤー</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>id</td><td align='left'>ID を付与したい場合、その名前をキーワードで指定します。<br>詳細は「<a href='#iu9Ovm00KHn'>9.5  IDと参照</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>filter</td><td align='left'>フィルタ効果を適用したい場合、その名前を指定します。<br>詳細は「<a href='#gPGlqSbIfdL'>9.7  フィルタ</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>contents</td><td align='left'>内部を<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>とした描画をしたい場合、その内容を指定します。<br>詳細は「<a href='#kgs1vf3AbTN'>7  サブキャンバス</a>」を参照してください。</td></tr>
+</table>
+<p>　　</p>
+<a name='6yGfEVYqr1K'></a>
+<p>　図の中で<a class='autolink' href='#hja1QJC0Ivb'>キューブ</a>のスタイルを統一する作業を簡単にするために、<a class='autolink' href='#6yGfEVYqr1K'>with-cube-options</a> が用意されています。</p>
+<pre class='code'>
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>with-cube-options</span> ((<span class='keyword2'>&amp;key</span> depth align valign margin
+                                   font fill fill2 stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
+</pre>
+<p>　これを以下のように使用することで、複数の<a class='autolink' href='#hja1QJC0Ivb'>キューブ</a>のスタイルを一箇所で指定することができます。</p>
+<pre class='code'>
+(diagram (240 100)
+  (grid)
+  (drop-shadow)
+  (with-cube-options (<span class='keyword3'>:stroke</span> <span class='keyword3'>:slateblue4</span>
+                      <span class='keyword3'>:fill</span>   <span class='keyword3'>:lightsteelblue1</span>
+                      <span class='keyword3'>:fill2</span>  <span class='keyword3'>:lightsteelblue2</span> <span class='keyword3'>:filter</span> <span class='keyword3'>:drop-shadow</span>)
+    (cube '( 60 50) 80 60 <span class='literal'>"first~%cube"</span> )
+    (cube '(180 50) 80 60 <span class='literal'>"second~%cube"</span>)))
+</pre>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='240' height='100'>
+	
+	<filter id='drop-shadow'>
+		<feColorMatrix type='matrix' values=' 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.4 0' />
+		<feGaussianBlur stdDeviation='2' result='blur' />
+		<feOffset in='blur' dx='4' dy='4' result='offsetBlur' />
+		<feMerge>
+			<feMergeNode in='offsetBlur' />
+			<feMergeNode in='SourceGraphic'/>
+		</feMerge>
+	</filter>
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- cube -->
+	<polygon fill='#BCD2EE' stroke='#473C8B' stroke-width='1' points='20.0,26.0 32.0,14.0 106.0,14.0 106.0,68.0 94.0,80.0 20.0,80.0' filter='url(#drop-shadow)' />
+	<polyline fill='none' stroke='#473C8B' stroke-width='1' points=' 106.0,14.0 94.0,26.0' />
+	<rect x='20' y='26' width='74' height='54' fill='#CAE1FF' stroke='#473C8B' stroke-width='1' />
+	<text x='60' y='49' text-anchor='middle' font-size='12pt' fill='black' >first</text>
+	<text x='60' y='63' text-anchor='middle' font-size='12pt' fill='black' >cube</text>
+	<!-- cube -->
+	<polygon fill='#BCD2EE' stroke='#473C8B' stroke-width='1' points='140.0,26.0 152.0,14.0 226.0,14.0 226.0,68.0 214.0,80.0 140.0,80.0' filter='url(#drop-shadow)' />
+	<polyline fill='none' stroke='#473C8B' stroke-width='1' points=' 226.0,14.0 214.0,26.0' />
+	<rect x='140' y='26' width='74' height='54' fill='#CAE1FF' stroke='#473C8B' stroke-width='1' />
+	<text x='180' y='49' text-anchor='middle' font-size='12pt' fill='black' >second</text>
+	<text x='180' y='63' text-anchor='middle' font-size='12pt' fill='black' >cube</text>
+
+</svg>
+</div>
+
+<p class='fig_title'><a name='3SJFdpOYlvc'></a>Figure.5-21 with-cube-options のサンプル</p>
+<h3><a name='5ME1Xv0K4sM'></a>5.9 円柱</h3>
 <p>　<a class='autolink' href='#5ME1Xv0K4sM'>円柱</a>は<a class='autolink' href='#e7hkC2YUaKe'>テキストボックス</a>と良く似た機能を持ちますが、ボックスのかわりに<a class='autolink' href='#5ME1Xv0K4sM'>円柱</a>が描画されます。<a class='autolink' href='#e7hkC2YUaKe'>テキストボックス</a>とは異なり、サイズは自動計算されないため、幅と高さを指定する必要があります。</p>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
@@ -2408,7 +2546,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='c33W6fj0jlH'></a>Figure.5-20 円柱のサンプル</p>
+<p class='fig_title'><a name='c33W6fj0jlH'></a>Figure.5-22 円柱のサンプル</p>
 <details>
 <summary>　※上記サンプルのソースはこちら。</summary>
 <pre class='code'>
@@ -2426,7 +2564,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
                                 rotate layer id filter contents) ...)
 </pre>
 <p>　　</p>
-<p class='tbl_title'><a name='lR2lSmJgEMn'></a>Table.5-8 cylinder のパラメータ</p>
+<p class='tbl_title'><a name='lR2lSmJgEMn'></a>Table.5-9 cylinder のパラメータ</p>
 <table align='center'>
 <tr style="font-size: 14;"><th>パラメータ</th><th>説明</th></tr>
 <tr style="font-size: 14;"><td nowrap align='left'>center</td><td align='left'>中心点を指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</td></tr>
@@ -2497,8 +2635,8 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='6qpOLVQEU9p'></a>Figure.5-21 with-cylinder-options のサンプル</p>
-<h3><a name='hjZ26isLw42'></a>5.9 爆発</h3>
+<p class='fig_title'><a name='6qpOLVQEU9p'></a>Figure.5-23 with-cylinder-options のサンプル</p>
+<h3><a name='hjZ26isLw42'></a>5.10 爆発</h3>
 <p>　<a class='autolink' href='#5ME1Xv0K4sM'>円柱</a>は<a class='autolink' href='#e7hkC2YUaKe'>テキストボックス</a>と良く似た機能を持ちますが、ボックスのかわりに<a class='autolink' href='#hjZ26isLw42'>爆発</a>を模した<a class='autolink' href='#5vGRm9AMypB'>多角形</a>が描画されます。<a class='autolink' href='#e7hkC2YUaKe'>テキストボックス</a>とは異なり、サイズは自動計算されないため、幅と高さを指定する必要があります。また、<a class='autolink' href='#hjZ26isLw42'>爆発</a>には２種類の形状があります<sup><a name='footnote_ref4' href='#footnote4'>4</a></sup>。</p>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
@@ -2522,7 +2660,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='alxN8u8h3HH'></a>Figure.5-22 爆発のサンプル</p>
+<p class='fig_title'><a name='alxN8u8h3HH'></a>Figure.5-24 爆発のサンプル</p>
 <details>
 <summary>　※上記サンプルのソースはこちら。</summary>
 <pre class='code'>
@@ -2542,7 +2680,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
                               link rotate layer id filter) ...)
 </pre>
 <p>　　</p>
-<p class='tbl_title'><a name='gP4bMhLxslv'></a>Table.5-9 explosion1, explosion2 のパラメータ</p>
+<p class='tbl_title'><a name='gP4bMhLxslv'></a>Table.5-10 explosion1, explosion2 のパラメータ</p>
 <table align='center'>
 <tr style="font-size: 14;"><th>パラメータ</th><th>説明</th></tr>
 <tr style="font-size: 14;"><td nowrap align='left'>center</td><td align='left'>中心点を指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</td></tr>
@@ -2606,8 +2744,8 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='6vhSWl4Z51P'></a>Figure.5-23 with-explosion-options のサンプル</p>
-<h3><a name='49KKf97828b'></a>5.10 ブロック矢印</h3>
+<p class='fig_title'><a name='6vhSWl4Z51P'></a>Figure.5-25 with-explosion-options のサンプル</p>
+<h3><a name='49KKf97828b'></a>5.11 ブロック矢印</h3>
 <p>　<a class='autolink' href='#49KKf97828b'>block-arrow1</a> を使うと、指定した２点を結ぶ大きな矢印を描画できます。<a class='autolink' href='#49KKf97828b'>block-arrow1</a> は終端側だけに矢印が描画されますが、<a class='autolink' href='#49KKf97828b'>block-arrow2</a> を使えば双方向の矢印になります。</p>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
@@ -2627,7 +2765,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='eIwQ5AwuV7t'></a>Figure.5-24 ブロック矢印のサンプル</p>
+<p class='fig_title'><a name='eIwQ5AwuV7t'></a>Figure.5-26 ブロック矢印のサンプル</p>
 <details>
 <summary>　※上記サンプルのソースはこちら。</summary>
 <pre class='code'>
@@ -2647,7 +2785,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
                                      fill stroke link layer filter id) ...)
 </pre>
 <p>　　</p>
-<p class='tbl_title'><a name='eVCkMFMqQkq'></a>Table.5-10 block-arrow1, block-arrow2 のパラメータ</p>
+<p class='tbl_title'><a name='eVCkMFMqQkq'></a>Table.5-11 block-arrow1, block-arrow2 のパラメータ</p>
 <table align='center'>
 <tr style="font-size: 14;"><th>パラメータ</th><th>説明</th></tr>
 <tr style="font-size: 14;"><td nowrap align='left'>pt1, pt2</td><td align='left'>始点と終点を指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</td></tr>
@@ -2734,7 +2872,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='htsQptREwXf'></a>Figure.5-25 ブロック矢印のパラメータ</p>
+<p class='fig_title'><a name='htsQptREwXf'></a>Figure.5-27 ブロック矢印のパラメータ</p>
 <ul>
 <li><code>size</code> が省略された場合、デフォルト値として <code>width</code> の２倍が使用されます</li>
 <li><code>length</code> が省略された場合、デフォルト値として <code>size</code> と同じ値が使用されます</li>
@@ -2784,8 +2922,8 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='joIBAKcJmZU'></a>Figure.5-26 with-block-arrow-options のサンプル</p>
-<h3><a name='lBS33hNe32a'></a>5.11 波括弧</h3>
+<p class='fig_title'><a name='joIBAKcJmZU'></a>Figure.5-28 with-block-arrow-options のサンプル</p>
+<h3><a name='lBS33hNe32a'></a>5.12 波括弧</h3>
 <p>　<a class='autolink' href='#lBS33hNe32a'>brace</a> により、大きな<a class='autolink' href='#lBS33hNe32a'>波括弧</a>を描画することができます。</p>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
@@ -2813,7 +2951,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='jKClDFWGMjM'></a>Figure.5-27 波括弧のサンプル</p>
+<p class='fig_title'><a name='jKClDFWGMjM'></a>Figure.5-29 波括弧のサンプル</p>
 <details>
 <summary>　※上記サンプルのソースはこちら。</summary>
 <pre class='code'>
@@ -2833,7 +2971,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
                         <span class='keyword2'>&amp;key</span> r point text font stroke layer filter id) ...)
 </pre>
 <p>　　</p>
-<p class='tbl_title'><a name='kt8n5zzXY1P'></a>Table.5-11 brace のパラメータ</p>
+<p class='tbl_title'><a name='kt8n5zzXY1P'></a>Table.5-12 brace のパラメータ</p>
 <table align='center'>
 <tr style="font-size: 14;"><th>パラメータ</th><th>説明</th></tr>
 <tr style="font-size: 14;"><td nowrap align='left'>center</td><td align='left'>中心点を指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</td></tr>
@@ -2903,7 +3041,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='eWywNaFqjwP'></a>Figure.5-28 波括弧のパラメータ</p>
+<p class='fig_title'><a name='eWywNaFqjwP'></a>Figure.5-30 波括弧のパラメータ</p>
 <ul>
 <li><code>r</code> が省略された場合、デフォルト値として <code>height</code> （縦向きの場合は <code>width</code> ）の 1/3 が指定されます</li>
 <li><code>point</code> が省略された場合、デフォルト値として <code>width</code> （縦向きの場合は <code>height</code> ）の 1/2 が指定されます</li>
@@ -2952,8 +3090,8 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='hnkBV0wrSv5'></a>Figure.5-29 with-brace-options のサンプル</p>
-<h3><a name='g6xjP526KX7'></a>5.12 テーブル</h3>
+<p class='fig_title'><a name='hnkBV0wrSv5'></a>Figure.5-31 with-brace-options のサンプル</p>
+<h3><a name='g6xjP526KX7'></a>5.13 テーブル</h3>
 <p>　<a class='autolink' href='#g6xjP526KX7'>table</a> を使うことで、表を描画することができます。以下の例では、３行４列の表を作成しています。</p>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
@@ -2987,7 +3125,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='4p5NTDB8bf1'></a>Figure.5-30 テーブルのサンプル</p>
+<p class='fig_title'><a name='4p5NTDB8bf1'></a>Figure.5-32 テーブルのサンプル</p>
 <details>
 <summary>　※上記サンプルのソースはこちら。</summary>
 <pre class='code'>
@@ -3005,7 +3143,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
                         <span class='keyword2'>&amp;key</span> stroke fills font texts layer id) ...)
 </pre>
 <p>　　</p>
-<p class='tbl_title'><a name='46vpyWYCtdw'></a>Table.5-12 table のパラメータ</p>
+<p class='tbl_title'><a name='46vpyWYCtdw'></a>Table.5-13 table のパラメータ</p>
 <table align='center'>
 <tr style="font-size: 14;"><th>パラメータ</th><th>説明</th></tr>
 <tr style="font-size: 14;"><td nowrap align='left'>center</td><td align='left'>中心点を指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</td></tr>
@@ -3079,7 +3217,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='0EEfXZqu18P'></a>Figure.5-31 テーブルにおけるテキストの align と valign パラメータ</p>
+<p class='fig_title'><a name='0EEfXZqu18P'></a>Figure.5-33 テーブルにおけるテキストの align と valign パラメータ</p>
 <details>
 <summary>　※上記サンプルのソースはこちら。</summary>
 <pre class='code'>
@@ -3106,8 +3244,8 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
         (line `((0 0) (,w ,h)) <span class='keyword3'>:stroke</span> <span class='keyword3'>:navy</span>)))))
 </pre>
 </details>
-<p>　データを（リストでなく）直接指定した場合でも、数値ならば右寄せ、文字列ならば左寄せ、シンボルならば中央揃えというデフォルトの設定は行なわれるため、多くの場合で個別セルのテキストデータ指定をリストで行なう必要は無いでしょう。キーワードを使うと全て大文字で表示されてしまいますが、 <code>:|Foo|</code> のようにバーティカルバーで括ると文字の大小を維持したまま表示されます（<a href='#0EEfXZqu18P'>Figure.5-31</a> のコードを参照）。</p>
-<h4><a name='3qNm5uHdKTZ'></a>5.12.1 with-table-cell を使ったセル内描画</h4>
+<p>　データを（リストでなく）直接指定した場合でも、数値ならば右寄せ、文字列ならば左寄せ、シンボルならば中央揃えというデフォルトの設定は行なわれるため、多くの場合で個別セルのテキストデータ指定をリストで行なう必要は無いでしょう。キーワードを使うと全て大文字で表示されてしまいますが、 <code>:|Foo|</code> のようにバーティカルバーで括ると文字の大小を維持したまま表示されます（<a href='#0EEfXZqu18P'>Figure.5-33</a> のコードを参照）。</p>
+<h4><a name='3qNm5uHdKTZ'></a>5.13.1 with-table-cell を使ったセル内描画</h4>
 <p>　<code>table</code> の id とセルの行・列番号を指定して <code>with-table-cell</code> を使用することで、該当するセルを<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>とした描画ができます。</p>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-table-cell</span> ((id r c) &amp;body body) ...)
@@ -3137,7 +3275,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='knawwdhRtbI'></a>Figure.5-32 with-table-cell の使用例</p>
+<p class='fig_title'><a name='knawwdhRtbI'></a>Figure.5-34 with-table-cell の使用例</p>
 <p>　上記のサンプルは以下のコードで生成されています。</p>
 <pre class='code'>
 (diagram (220 220)
@@ -3345,7 +3483,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p>　内部に描画することを目的としているような図形要素の場合、<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>の位置が調整されているものもあります。たとえば、<a class='autolink' href='#jOvc70hxXQE'>uml-node</a> では以下のようになります。青い点線の枠が <a class='autolink' href='#jOvc70hxXQE'>uml-node</a> の幅と高さからなる矩形で、赤い点線の枠が<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>です。</p>
+<p>　一部の図形要素では、<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>の位置が調整されている場合があります。たとえば、<a class='autolink' href='#hja1QJC0Ivb'>cube</a> では以下のようになります。青い点線の枠が <a class='autolink' href='#hja1QJC0Ivb'>cube</a> の幅と高さからなる矩形で、赤い点線の枠が<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>です。</p>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='200'>
@@ -3356,17 +3494,17 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
 	</pattern>
 	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
-	<!-- node : uml-node -->
+	<!-- node : cube -->
 	<g id='node'>
-		<polygon fill='lightgray' stroke='black' stroke-width='1' points='20.0,27.5 35.0,12.5 287.5,12.5 287.5,165.0 272.5,180.0' />
-		<polyline fill='none' stroke='black' stroke-width='1' points=' 287.5,12.5 272.5,27.5' />
-		<rect x='20' y='27.5' width='252.5' height='152.5' fill='white' stroke='black' stroke-width='1' />
-		<text x='146.25' y='47.5' text-anchor='middle' font-size='12pt' fill='black' >uml-node</text>
+		<polygon fill='lightgray' stroke='black' stroke-width='1' points='20.0,54.0 48.0,26.0 274.0,26.0 274.0,152.0 246.0,180.0 20.0,180.0' />
+		<polyline fill='none' stroke='black' stroke-width='1' points=' 274.0,26.0 246.0,54.0' />
+		<rect x='20' y='54' width='226' height='126' fill='white' stroke='black' stroke-width='1' />
+		<text x='140' y='116' text-anchor='middle' font-size='12pt' fill='black' ></text>
 	</g>
 	<!-- rectangle -->
-	<rect x='20' y='27.5' width='252.5' height='152.5' fill='none' stroke='red' stroke-width='3' stroke-opacity='0.5' stroke-dasharray='10 5 ' />
+	<rect x='20' y='54' width='226' height='126' fill='none' stroke='red' stroke-width='3' stroke-opacity='0.5' stroke-dasharray='10 5 ' />
 	<!-- rectangle -->
-	<rect x='20' y='20' width='260' height='160' fill='none' stroke='blue' stroke-width='3' stroke-opacity='0.5' stroke-dasharray='10 5 ' />
+	<rect x='20' y='40' width='240' height='140' fill='none' stroke='blue' stroke-width='3' stroke-opacity='0.5' stroke-dasharray='10 5 ' />
 
 </svg>
 </div>
@@ -6672,6 +6810,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <li><strong>2022/09/?? - version 0.003</strong>
 <ul>
 <li><strong>IMCOMPATIBLE : <a class='autolink' href='#jHhN85RvHYn'>with-canvas</a> マクロの第１パラメータを topleft から center に変更</strong></li>
+<li>ENHANCE : 「<a href='#hja1QJC0Ivb'>5.8  キューブ</a>」を追加</li>
 <li>DOCUMENT : 「<a href='#hwRhCz9Gn9t'>8  定義と再使用</a>」を執筆</li>
 </ul>
 </li>
@@ -6723,19 +6862,21 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <li><a href='#loJcJRs9CQ6'>Figure.5-17 with-balloon-options のサンプル</a></li>
 <li><a href='#2VCrzOuGHtM'>Figure.5-18 メモのサンプル</a></li>
 <li><a href='#85PzRyM9ubb'>Figure.5-19 with-memo-options のサンプル</a></li>
-<li><a href='#c33W6fj0jlH'>Figure.5-20 円柱のサンプル</a></li>
-<li><a href='#6qpOLVQEU9p'>Figure.5-21 with-cylinder-options のサンプル</a></li>
-<li><a href='#alxN8u8h3HH'>Figure.5-22 爆発のサンプル</a></li>
-<li><a href='#6vhSWl4Z51P'>Figure.5-23 with-explosion-options のサンプル</a></li>
-<li><a href='#eIwQ5AwuV7t'>Figure.5-24 ブロック矢印のサンプル</a></li>
-<li><a href='#htsQptREwXf'>Figure.5-25 ブロック矢印のパラメータ</a></li>
-<li><a href='#joIBAKcJmZU'>Figure.5-26 with-block-arrow-options のサンプル</a></li>
-<li><a href='#jKClDFWGMjM'>Figure.5-27 波括弧のサンプル</a></li>
-<li><a href='#eWywNaFqjwP'>Figure.5-28 波括弧のパラメータ</a></li>
-<li><a href='#hnkBV0wrSv5'>Figure.5-29 with-brace-options のサンプル</a></li>
-<li><a href='#4p5NTDB8bf1'>Figure.5-30 テーブルのサンプル</a></li>
-<li><a href='#0EEfXZqu18P'>Figure.5-31 テーブルにおけるテキストの align と valign パラメータ</a></li>
-<li><a href='#knawwdhRtbI'>Figure.5-32 with-table-cell の使用例</a></li>
+<li><a href='#j4GYjsfbdqP'>Figure.5-20 キューブのサンプル</a></li>
+<li><a href='#3SJFdpOYlvc'>Figure.5-21 with-cube-options のサンプル</a></li>
+<li><a href='#c33W6fj0jlH'>Figure.5-22 円柱のサンプル</a></li>
+<li><a href='#6qpOLVQEU9p'>Figure.5-23 with-cylinder-options のサンプル</a></li>
+<li><a href='#alxN8u8h3HH'>Figure.5-24 爆発のサンプル</a></li>
+<li><a href='#6vhSWl4Z51P'>Figure.5-25 with-explosion-options のサンプル</a></li>
+<li><a href='#eIwQ5AwuV7t'>Figure.5-26 ブロック矢印のサンプル</a></li>
+<li><a href='#htsQptREwXf'>Figure.5-27 ブロック矢印のパラメータ</a></li>
+<li><a href='#joIBAKcJmZU'>Figure.5-28 with-block-arrow-options のサンプル</a></li>
+<li><a href='#jKClDFWGMjM'>Figure.5-29 波括弧のサンプル</a></li>
+<li><a href='#eWywNaFqjwP'>Figure.5-30 波括弧のパラメータ</a></li>
+<li><a href='#hnkBV0wrSv5'>Figure.5-31 with-brace-options のサンプル</a></li>
+<li><a href='#4p5NTDB8bf1'>Figure.5-32 テーブルのサンプル</a></li>
+<li><a href='#0EEfXZqu18P'>Figure.5-33 テーブルにおけるテキストの align と valign パラメータ</a></li>
+<li><a href='#knawwdhRtbI'>Figure.5-34 with-table-cell の使用例</a></li>
 <li><a href='#bZdItb5GAhP'>Figure.6-1 diagram における座標系</a></li>
 <li><a href='#2oP7i8nCaCH'>Figure.6-2 図形要素の座標参照</a></li>
 <li><a href='#kV8JVeAiwLR'>Figure.7-1 サブキャンバスのサンプル</a></li>
@@ -6772,11 +6913,12 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <li><a href='#kkE7bE1pYOq'>Table.5-5 folder のパラメータ</a></li>
 <li><a href='#g0CYyIsKwua'>Table.5-6 balloon のパラメータ</a></li>
 <li><a href='#3XY7LS565dW'>Table.5-7 memo のパラメータ</a></li>
-<li><a href='#lR2lSmJgEMn'>Table.5-8 cylinder のパラメータ</a></li>
-<li><a href='#gP4bMhLxslv'>Table.5-9 explosion1, explosion2 のパラメータ</a></li>
-<li><a href='#eVCkMFMqQkq'>Table.5-10 block-arrow1, block-arrow2 のパラメータ</a></li>
-<li><a href='#kt8n5zzXY1P'>Table.5-11 brace のパラメータ</a></li>
-<li><a href='#46vpyWYCtdw'>Table.5-12 table のパラメータ</a></li>
+<li><a href='#9OD0uLVcOgy'>Table.5-8 cube のパラメータ</a></li>
+<li><a href='#lR2lSmJgEMn'>Table.5-9 cylinder のパラメータ</a></li>
+<li><a href='#gP4bMhLxslv'>Table.5-10 explosion1, explosion2 のパラメータ</a></li>
+<li><a href='#eVCkMFMqQkq'>Table.5-11 block-arrow1, block-arrow2 のパラメータ</a></li>
+<li><a href='#kt8n5zzXY1P'>Table.5-12 brace のパラメータ</a></li>
+<li><a href='#46vpyWYCtdw'>Table.5-13 table のパラメータ</a></li>
 <li><a href='#jaLWrUQI3jh'>Table.11-1 make-fill 関数のパラメータ</a></li>
 <li><a href='#8gU4HDke41S'>Table.11-2 make-stroke 関数のパラメータ</a></li>
 </ul>
@@ -6817,6 +6959,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <blockquote class='idx_x'>
 <li class='idx_x'><a class='autolink' href='#8UQowBxrcaE'>circle</a></li>
 <li class='idx_x'><a class='autolink' href='#eFhVs4WwYUG'>connect</a></li>
+<li class='idx_x'><a class='autolink' href='#hja1QJC0Ivb'>cube</a></li>
 <li class='idx_x'><a class='autolink' href='#5ME1Xv0K4sM'>cylinder</a></li>
 </blockquote>
 </details>
@@ -6929,6 +7072,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <li class='idx_x'><a class='autolink' href='#eYjxAunsQAT'>with-block-arrow-options</a></li>
 <li class='idx_x'><a class='autolink' href='#9hdjoI8AQqJ'>with-brace-options</a></li>
 <li class='idx_x'><a class='autolink' href='#jHhN85RvHYn'>with-canvas</a></li>
+<li class='idx_x'><a class='autolink' href='#6yGfEVYqr1K'>with-cube-options</a></li>
 <li class='idx_x'><a class='autolink' href='#7nl79AiDenC'>with-cylinder-options</a></li>
 <li class='idx_x'><a class='autolink' href='#1e9FbNaLUoA'>with-document-options</a></li>
 <li class='idx_x'><a class='autolink' href='#2H6JKIXGXRq'>with-explosion-options</a></li>
@@ -6945,6 +7089,7 @@ cat ./input.digram | diagram | gzip &gt; ./output.svgz
 <blockquote class='idx_x'>
 <li class='idx_x'><a class='autolink' href='#8ya1jqc5cZQ'>アクティビティ図</a></li>
 <li class='idx_x'><a class='autolink' href='#kgs1vf3AbTN'>キャンバス</a></li>
+<li class='idx_x'><a class='autolink' href='#hja1QJC0Ivb'>キューブ</a></li>
 <li class='idx_x'><a class='autolink' href='#khgkJB6xK95'>クラス図</a></li>
 <li class='idx_x'><a class='autolink' href='#eFhVs4WwYUG'>コネクタ</a></li>
 <li class='idx_x'><a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a></li>

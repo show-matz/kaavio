@@ -82,6 +82,7 @@
 (defmacro with-canvas ((sym-center sym-width sym-height) canvas &rest body)
   (let ((g-canvas (gensym "CANVAS")))
 	`(let ((,g-canvas ,canvas))
+	   (declare (ignorable ,g-canvas))
 	   (symbol-macrolet ((,sym-center (canvas-dict-center ,g-canvas))
 						 (,sym-width  (cadr ,g-canvas))
 						 (,sym-height (cddr ,g-canvas)))

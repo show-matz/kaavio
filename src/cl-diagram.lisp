@@ -113,6 +113,19 @@
 				:width
 				:height
 				:diagram
+				;cube.lisp
+				:*default-cube-depth*
+				:*default-cube-align*
+				:*default-cube-valign*
+				:*default-cube-margin*
+				:*default-cube-font*
+				:*default-cube-fill*
+				:*default-cube-fill2*
+				:*default-cube-stroke*
+				:*default-cube-filter*
+				:*default-cube-layer*
+				:cube
+				:with-cube-options
 				;cylinder.lisp
 				:*default-cylinder-depth*
 				:*default-cylinder-align*

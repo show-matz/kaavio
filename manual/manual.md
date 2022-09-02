@@ -987,6 +987,7 @@ ${BLANK_PARAGRAPH}
 <!-- define: HASH_FOLDER     = '[](#フォルダ)' -->
 <!-- define: HASH_BALLOON    = '[](#吹き出し)' -->
 <!-- define: HASH_MEMO       = '[](#メモ)' -->
+<!-- define: HASH_CUBE       = '[](#キューブ)' -->
 <!-- define: HASH_CYLINDER   = '[](#円柱)' -->
 <!-- define: HASH_EXPLOSION  = '[](#爆発)' -->
 <!-- define: HASH_BLOCKARROW = '[](#ブロック矢印)' -->
@@ -994,7 +995,7 @@ ${BLANK_PARAGRAPH}
 <!-- define: HASH_TABLE      = '[](#テーブル)' -->
 
 ```diagram
-(diagram (800 240)
+(diagram (800 360)
   ;(grid)
   (let ((w 100)
         (h 100)
@@ -1033,6 +1034,11 @@ ${BLANK_PARAGRAPH}
 	  (memo (y+ canvas.center -15) "this is~%memo." :width 80 :height 60
                        :valign :top :align :left :stroke :red :fill :lightpink)
 	  (text `(,(/ w 2) ,(- h 5)) "メモ" :align :center))
+	(defs (w h :cube-grp)
+      (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
+	  (cube (y+ canvas.center -10) 65 60 "this is~%cube." 
+                                       :stroke :black :fill :lightgray :fill2 :darkgray)
+	  (text `(,(/ w 2) ,(- h 5)) "キューブ" :align :center))
 	(defs (w h :cylinder-grp)
       (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
 	  (cylinder (y+ canvas.center -10) 65 60 "this is~%cylinder." 
@@ -1062,11 +1068,12 @@ ${BLANK_PARAGRAPH}
     (use :folder-grp     '(590  60) :link "${HASH_FOLDER}")
     (use :balloon-grp    '(720  60) :link "${HASH_BALLOON}")
     (use :memo-grp       '( 70 180) :link "${HASH_MEMO}")
-    (use :cylinder-grp   '(200 180) :link "${HASH_CYLINDER}")
-    (use :explosion-grp  '(330 180) :link "${HASH_EXPLOSION}")
-    (use :blockarrow-grp '(460 180) :link "${HASH_BLOCKARROW}")
-    (use :brace-grp      '(590 180) :link "${HASH_BRACE}")
-    (use :table-grp      '(720 180) :link "${HASH_TABLE}")))
+    (use :cube-grp       '(200 180) :link "${HASH_CUBE}")
+    (use :cylinder-grp   '(330 180) :link "${HASH_CYLINDER}")
+    (use :explosion-grp  '(460 180) :link "${HASH_EXPLOSION}")
+    (use :blockarrow-grp '(590 180) :link "${HASH_BLOCKARROW}")
+    (use :brace-grp      '(720 180) :link "${HASH_BRACE}")
+    (use :table-grp      '( 70 300) :link "${HASH_TABLE}")))
 ```
 
 ### コネクタ
@@ -1870,6 +1877,112 @@ ${BLANK_PARAGRAPH}
 <!-- expand: WITH-MEMO-OPTIONS-SAMPLE -->
 ```
 Figure. with-memo-options のサンプル
+
+### キューブ
+<!-- autolink: [cube](#キューブ) -->
+<!-- autolink: [$$](#キューブ) -->
+
+　キューブはテキストボックスと良く似た機能を持ちますが、ボックスのかわりに箱が描画されます。
+テキストボックスとは異なり、サイズは自動計算されないため、幅と高さを指定する必要があります。
+
+<!-- snippet: CUBE-SAMPLE
+(diagram (200 100)
+  (grid)
+  (cube canvas.center 80 60 "cube~%text"
+              :fill :lightgray :fill2 :darkgray :stroke :black))
+-->
+
+```diagram
+<!-- expand: CUBE-SAMPLE -->
+```
+Figure. キューブのサンプル
+
+<!-- collapse:begin -->
+　※上記サンプルのソースはこちら。
+
+```lisp
+<!-- expand: CUBE-SAMPLE -->
+```
+<!-- collapse:end -->
+
+　cube のパラメータ構成は以下の通りです。
+
+```lisp
+(defmacro cube (center width height text
+                           &key depth align valign margin
+                                font fill fill2 stroke link
+                                rotate layer id filter contents) ...)
+```
+
+${BLANK_PARAGRAPH}
+
+<!-- stack:push tr style="font-size: 14;" -->
+
+Table. cube のパラメータ
+| パラメータ  | 説明                                                                           |
+|:===========|:--------------------------------------------------------------------------------------|
+| center     | 中心点を指定します。詳細は「[](#座標と位置)」を参照してください。 |
+| width      | 幅を数値で指定します。 |
+| height     | 高さを数値で指定します。 |
+| text       | 内部に描画するテキストを文字列で指定します。改行は "~%" で表現します。      |
+| depth      | 上面および側面の大きさを数値で指定します。省略した場合のデフォルト値は height の 1/5 です。  |
+| align      | テキストの水平方向のアライメントを `:left :center :right` のいずれかで指定します。<br> \
+省略した場合のデフォルト値は `:center` です。詳細は後述します。 |
+| vlign      | テキストの垂直方向のアライメントを `:top :center :bottom` のいずれかで指定します。<br> \
+省略した場合のデフォルト値は `:center` です。詳細は後述します。 |
+| margin     | テキスト描画における「余白」のサイズです。省略した場合のデフォルト値は 10 です。 |
+| font       | フォントを指定します。詳細は「[](#フォント)」を参照してください。         |
+| fill       | 内部の塗り潰しを指定します。詳細は「[](#フィル)」を参照してください。 |
+| fill2      | 上面および側面の塗り潰しを指定します。詳細は「[](#フィル)」を参照してください。 |
+| stroke     | 外枠を描画する線を指定します。詳細は「[](#ストローク)」を参照してください。 |
+| link       | リンクにする場合、リンク先を指定します。詳細は「[](#リンク)」を参照してください。 |
+| rotate     | 回転させたい場合に、その角度を指定します。<br> \
+詳細は「[](#回転)」を参照してください。           |
+| layer      | レイヤーに所属させる場合、その名前をキーワードで指定します。<br> \
+詳細は「[](#レイヤー)」を参照してください。           |
+| id         | ID を付与したい場合、その名前をキーワードで指定します。<br> \
+詳細は「[](#IDと参照)」を参照してください。            |
+| filter     | フィルタ効果を適用したい場合、その名前を指定します。<br> \
+詳細は「[](#フィルタ)」を参照してください。 |
+| contents   | 内部をサブキャンバスとした描画をしたい場合、その内容を指定します。<br> \
+詳細は「[](#サブキャンバス)」を参照してください。|
+
+<!-- stack:pop tr -->
+
+${BLANK_PARAGRAPH}
+
+<!-- anchor: with-cube-options -->
+<!-- autolink: [$$](A#with-cube-options) -->
+
+　図の中でキューブのスタイルを統一する作業を簡単にするために、with-cube-options が
+用意されています。
+
+```lisp
+(defmacro with-cube-options ((&key depth align valign margin
+                                   font fill fill2 stroke filter layer) &rest body) ...)
+```
+
+<!-- snippet: WITH-CUBE-OPTIONS-SAMPLE
+(diagram (240 100)
+  (grid)
+  (drop-shadow)
+  (with-cube-options (:stroke :slateblue4
+                      :fill   :lightsteelblue1
+                      :fill2  :lightsteelblue2 :filter :drop-shadow)
+    (cube '( 60 50) 80 60 "first~%cube" )
+    (cube '(180 50) 80 60 "second~%cube")))
+-->
+
+　これを以下のように使用することで、複数のキューブのスタイルを一箇所で指定することができます。
+
+```lisp
+<!-- expand: WITH-CUBE-OPTIONS-SAMPLE -->
+```
+
+```diagram
+<!-- expand: WITH-CUBE-OPTIONS-SAMPLE -->
+```
+Figure. with-cube-options のサンプル
 
 ### 円柱
 <!-- autolink: [cylinder](#円柱) -->
@@ -2689,16 +2802,16 @@ Figure. contents パラメータを使ったサブキャンバス
       ((rect canvas.center canvas.width canvas.height :stroke st)))))
 ```
 
-　内部に描画することを目的としているような図形要素の場合、サブキャンバスの位置が調整されている
-ものもあります。たとえば、uml-node では以下のようになります。青い点線の枠が uml-node の幅と
-高さからなる矩形で、赤い点線の枠がサブキャンバスです。
+　一部の図形要素では、サブキャンバスの位置が調整されている場合があります。たとえば、cube では
+以下のようになります。青い点線の枠が cube の幅と高さからなる矩形で、赤い点線の枠がサブキャンバス
+です。
 
 ```diagram
 (diagram (300 200)
   (grid)
   (let ((st (make-stroke :width 3 :color :red :opacity 0.5 :dasharray '(10 5))))
-    (uml-node canvas.center "uml-node" :id :node
-              :width (- canvas.width 40) :height (- canvas.height 40)
+    (cube (xy+ canvas.center -10 10) (- canvas.width 60) (- canvas.height 60) ""
+      :fill :white :fill2 :lightgray :stroke :black :id :node
       :contents
       ((rect canvas.center canvas.width canvas.height :stroke st)))
     (rect node.center node.width node.height
@@ -4151,6 +4264,7 @@ Figure. 色の名前とサンプル - 2
 
 * __2022/09/?? - version 0.003__
 	* __IMCOMPATIBLE : with-canvas マクロの第１パラメータを topleft から center に変更__
+	* ENHANCE : 「[](#キューブ)」を追加
 	* DOCUMENT : 「[](#定義と再使用)」を執筆
 * __2022/08/31 - version 0.002__
 	* ENHANCE : with-subcanvas-ofマクロを追加
