@@ -54,6 +54,15 @@
 				                                                "font-info"
 				                                                "stroke-info"
 				                                                "writer"))
+				(:file "cross"                     :depends-on ("cl-diagram"
+																"constants"
+																"canvas"
+																"point"
+																"shape"
+																"stroke-info"
+																"link-info"
+																"filter"
+																"writer"))
 				(:file "cube"                      :depends-on ("cl-diagram"
 																"constants"
 																"path"

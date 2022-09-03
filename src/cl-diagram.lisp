@@ -113,6 +113,13 @@
 				:width
 				:height
 				:diagram
+				;cross.lisp
+				:*default-cross-fill*
+				:*default-cross-stroke*
+				:*default-cross-filter*
+				:*default-cross-layer*
+				:cross
+				:with-cross-options
 				;cube.lisp
 				:*default-cube-depth*
 				:*default-cube-align*

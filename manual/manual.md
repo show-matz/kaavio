@@ -990,6 +990,7 @@ ${BLANK_PARAGRAPH}
 <!-- define: HASH_CUBE       = '[](#キューブ)' -->
 <!-- define: HASH_CYLINDER   = '[](#円柱)' -->
 <!-- define: HASH_EXPLOSION  = '[](#爆発)' -->
+<!-- define: HASH_CROSS      = '[](#十字)' -->
 <!-- define: HASH_BLOCKARROW = '[](#ブロック矢印)' -->
 <!-- define: HASH_BRACE      = '[](#波括弧)' -->
 <!-- define: HASH_TABLE      = '[](#テーブル)' -->
@@ -1049,6 +1050,11 @@ ${BLANK_PARAGRAPH}
 	  (explosion1 (y+ canvas.center -10) 90 80 "bomb!!" 
                                        :stroke :red :fill :lightpink)
 	  (text `(,(/ w 2) ,(- h 5)) "爆発" :align :center))
+	(defs (w h :cross-grp)
+      (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
+	  (cross (y+ canvas.center -10) (- canvas.width 30) (- canvas.height 30) 20 
+                                       :stroke :purple :fill :plum)
+	  (text `(,(/ w 2) ,(- h 5)) "十字" :align :center))
 	(defs (w h :blockarrow-grp)
       (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
 	  (block-arrow1 '(0 40) '(100 40) 20 :margin 5 :stroke :brown :fill :burlywood)
@@ -1071,9 +1077,10 @@ ${BLANK_PARAGRAPH}
     (use :cube-grp       '(200 180) :link "${HASH_CUBE}")
     (use :cylinder-grp   '(330 180) :link "${HASH_CYLINDER}")
     (use :explosion-grp  '(460 180) :link "${HASH_EXPLOSION}")
-    (use :blockarrow-grp '(590 180) :link "${HASH_BLOCKARROW}")
-    (use :brace-grp      '(720 180) :link "${HASH_BRACE}")
-    (use :table-grp      '( 70 300) :link "${HASH_TABLE}")))
+    (use :cross-grp      '(590 180) :link "${HASH_CROSS}")
+    (use :blockarrow-grp '(720 180) :link "${HASH_BLOCKARROW}")
+    (use :brace-grp      '( 70 300) :link "${HASH_BRACE}")
+    (use :table-grp      '(200 300) :link "${HASH_TABLE}")))
 ```
 
 ### コネクタ
@@ -2093,7 +2100,7 @@ Figure. with-cylinder-options のサンプル
 <!-- autolink: [explosion2](#爆発) -->
 <!-- autolink: [$$](#爆発) -->
 
-　円柱はテキストボックスと良く似た機能を持ちますが、ボックスのかわりに爆発を模した多角形が
+　爆発はテキストボックスと良く似た機能を持ちますが、ボックスのかわりに爆発を模した多角形が
 描画されます。テキストボックスとは異なり、サイズは自動計算されないため、幅と高さを指定する
 必要があります。また、爆発には２種類の形状があります
 {{fn:不格好に見えるかもしれませんが、Microsoft Word の図形要素をトレースして作っています。そこそこの再現度のはず。}}。
@@ -2188,6 +2195,103 @@ ${BLANK_PARAGRAPH}
 <!-- expand: WITH-EXPLOSION-OPTIONS-SAMPLE -->
 ```
 Figure. with-explosion-options のサンプル
+
+### 十字
+<!-- autolink: [cross](#十字) -->
+<!-- autolink: [$$](#十字) -->
+
+　cross を使うと、十字の形を描画することができます。幅と高さ、太さを指定でき、回転させれば×印にも
+なります。また、縦横で太さを変えたり、交差する位置をズラすこともできます。
+
+<!-- snippet: CROSS-SAMPLE
+(diagram (400 100)
+  (grid)
+  (cross '( 80 50) 80 80 20 :fill :pink :stroke :red)
+  (cross '(200 50) 80 80 20 :fill :pink :stroke :red :rotate 45)
+  (cross '(320 50) 80 80 10 :fill :pink :stroke :red :pivot '(-10 -15) :size-v 15))
+-->
+
+```diagram
+<!-- expand: CROSS-SAMPLE -->
+```
+Figure. 十字のサンプル
+
+<!-- collapse:begin -->
+　※上記サンプルのソースはこちら。
+
+```lisp
+<!-- expand: CROSS-SAMPLE -->
+```
+<!-- collapse:end -->
+
+　cross のパラメータ構成は以下の通りです。
+
+```lisp
+(defmacro cross (center width height size
+                        &key size-v pivot fill stroke 
+                             rotate link layer id filter) ...)
+```
+
+${BLANK_PARAGRAPH}
+
+<!-- stack:push tr style="font-size: 14;" -->
+
+Table. cross のパラメータ
+| パラメータ  | 説明                                                                           |
+|:===========|:--------------------------------------------------------------------------------------|
+| center     | 中心点を指定します。詳細は「[](#座標と位置)」を参照してください。 |
+| width      | 幅を数値で指定します。 |
+| height     | 高さを数値で指定します。 |
+| size       | 太さを指定します。size-v を指定しない限り、縦横両方の太さになります。 |
+| size-v     | 縦棒の太さを指定します。省略した場合、size と同じになります。 |
+| pivot      | 縦横の棒が交差する点を center からどれだけズラすかを `'(x y)` の要領で指定します。<br> \
+省略すると `'(0 0)` として扱われます。 |
+| fill       | 内部の塗り潰しを指定します。詳細は「[](#フィル)」を参照してください。 |
+| stroke     | 外枠を描画する線を指定します。詳細は「[](#ストローク)」を参照してください。 |
+| link       | リンクにする場合、リンク先を指定します。詳細は「[](#リンク)」を参照してください。 |
+| rotate     | 回転させたい場合に、その角度を指定します。<br> \
+詳細は「[](#回転)」を参照してください。           |
+| layer      | レイヤーに所属させる場合、その名前をキーワードで指定します。<br> \
+詳細は「[](#レイヤー)」を参照してください。           |
+| id         | ID を付与したい場合、その名前をキーワードで指定します。<br> \
+詳細は「[](#IDと参照)」を参照してください。            |
+| filter     | フィルタ効果を適用したい場合、その名前を指定します。<br> \
+詳細は「[](#フィルタ)」を参照してください。 |
+
+<!-- stack:pop tr -->
+
+${BLANK_PARAGRAPH}
+
+<!-- anchor: with-cross-options -->
+<!-- autolink: [$$](A#with-cross-options) -->
+
+　図の中で十字のスタイルを統一する作業を簡単にするために、with-cross-options が
+用意されています。
+
+```lisp
+(defmacro with-cross-options ((&key fill stroke filter layer) &rest body) ...)
+```
+
+<!-- snippet: WITH-CROSS-OPTIONS-SAMPLE
+(diagram (300 100)
+  (grid)
+  (drop-shadow)
+  (with-cross-options (:stroke :purple
+                       :fill   :plum   :filter :drop-shadow)
+    (cross '( 80 50) 80 80 20)
+    (cross '(220 50) 80 80 20 :rotate 45)))
+-->
+
+　これを以下のように使用することで、複数の十字のスタイルを一箇所で指定することができます。
+
+```lisp
+<!-- expand: WITH-CROSS-OPTIONS-SAMPLE -->
+```
+
+```diagram
+<!-- expand: WITH-CROSS-OPTIONS-SAMPLE -->
+```
+Figure. with-cross-options のサンプル
 
 ### ブロック矢印
 <!-- autolink: [block-arrow1](#ブロック矢印) -->
