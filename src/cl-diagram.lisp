@@ -268,6 +268,13 @@
 				;path.lisp
 				:path
 				;pathutil.lisp
+				;person.lisp
+				:*default-person-fill*
+				:*default-person-stroke*
+				:*default-person-filter*
+				:*default-person-layer*
+				:person
+				:with-person-options
 				;point.lisp
 				:make-point
 				:copy-point

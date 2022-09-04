@@ -986,6 +986,7 @@ ${BLANK_PARAGRAPH}
 <!-- define: HASH_DOCUMENT   = '[](#ドキュメント)' -->
 <!-- define: HASH_FOLDER     = '[](#フォルダ)' -->
 <!-- define: HASH_BALLOON    = '[](#吹き出し)' -->
+<!-- define: HASH_PERSON     = '[](#人物)' -->
 <!-- define: HASH_MEMO       = '[](#メモ)' -->
 <!-- define: HASH_CUBE       = '[](#キューブ)' -->
 <!-- define: HASH_CYLINDER   = '[](#円柱)' -->
@@ -1000,7 +1001,7 @@ ${BLANK_PARAGRAPH}
   ;(grid)
   (let ((w 100)
         (h 100)
-        (bgclr :white)) ;; (make-fill :color :lightgray :opacity 0.4 )));;
+        (bgclr :white)) ;; (make-fill :color :lightgray :opacity 0.4 )));; 
 	(defs (w h :connect-grp)
       (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
       (rect   '(20 20) 20 20 :fill :white :stroke :black :id :r1)
@@ -1025,6 +1026,10 @@ ${BLANK_PARAGRAPH}
 	  (folder (y+ canvas.center -5) "this is~%folder."
                                    :align :center :height 50 :stroke :darkkhaki :fill :cornsilk)
 	  (text `(,(/ w 2) ,(- h 5)) "フォルダ" :align :center))
+	(defs (w h :person-grp)
+      (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
+	  (person (y+ canvas.center -10) 35 :fill :oldlace :stroke :brown)
+	  (text `(,(/ w 2) ,(- h 5)) "人物" :align :center))
 	(defs (w h :balloon-grp)
       (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
 	  (balloon (y+ canvas.center -15) "this is~%balloon." '(10 75)
@@ -1072,15 +1077,16 @@ ${BLANK_PARAGRAPH}
     (use :textbox-grp    '(330  60) :link "${HASH_TEXTBOX}")
     (use :document-grp   '(460  60) :link "${HASH_DOCUMENT}")
     (use :folder-grp     '(590  60) :link "${HASH_FOLDER}")
-    (use :balloon-grp    '(720  60) :link "${HASH_BALLOON}")
-    (use :memo-grp       '( 70 180) :link "${HASH_MEMO}")
-    (use :cube-grp       '(200 180) :link "${HASH_CUBE}")
-    (use :cylinder-grp   '(330 180) :link "${HASH_CYLINDER}")
-    (use :explosion-grp  '(460 180) :link "${HASH_EXPLOSION}")
-    (use :cross-grp      '(590 180) :link "${HASH_CROSS}")
-    (use :blockarrow-grp '(720 180) :link "${HASH_BLOCKARROW}")
-    (use :brace-grp      '( 70 300) :link "${HASH_BRACE}")
-    (use :table-grp      '(200 300) :link "${HASH_TABLE}")))
+    (use :person-grp     '(720  60) :link "${HASH_PERSON}")
+    (use :balloon-grp    '( 70 180) :link "${HASH_BALLOON}")
+    (use :memo-grp       '(200 180) :link "${HASH_MEMO}")
+    (use :cube-grp       '(330 180) :link "${HASH_CUBE}")
+    (use :cylinder-grp   '(460 180) :link "${HASH_CYLINDER}")
+    (use :explosion-grp  '(590 180) :link "${HASH_EXPLOSION}")
+    (use :cross-grp      '(720 180) :link "${HASH_CROSS}")
+    (use :blockarrow-grp '( 70 300) :link "${HASH_BLOCKARROW}")
+    (use :brace-grp      '(200 300) :link "${HASH_BRACE}")
+    (use :table-grp      '(330 300) :link "${HASH_TABLE}")))
 ```
 
 ### コネクタ
@@ -1673,6 +1679,98 @@ ${BLANK_PARAGRAPH}
 <!-- expand: WITH-FOLDER-OPTIONS-SAMPLE -->
 ```
 Figure. with-folder-options のサンプル
+
+### 人物
+<!-- autolink: [person](#人物) -->
+<!-- autolink: [$$](#人物) -->
+
+　person を使うと、人物の形を描画することができます。縦横比は一定のため座標とサイズを指定する必要
+があり、ラベルを添えることができます。
+
+<!-- snippet: PERSON-SAMPLE
+(diagram (200 120)
+  (grid)
+  (person '( 50 50) 40 :fill :oldlace :stroke :brown :label :sales)
+  (person '(150 50) 40 :fill :oldlace :stroke :brown :label :engineer))
+-->
+
+```diagram
+<!-- expand: PERSON-SAMPLE -->
+```
+Figure. 人物のサンプル
+
+<!-- collapse:begin -->
+　※上記サンプルのソースはこちら。
+
+```lisp
+<!-- expand: PERSON-SAMPLE -->
+```
+<!-- collapse:end -->
+
+　person のパラメータ構成は以下の通りです。
+
+```lisp
+(defmacro person (center size &key fill stroke label
+                                   link rotate layer filter id) ...)
+```
+
+${BLANK_PARAGRAPH}
+
+<!-- stack:push tr style="font-size: 14;" -->
+
+Table. person のパラメータ
+| パラメータ  | 説明                                                                           |
+|:===========|:--------------------------------------------------------------------------------------|
+| center     | 中心点を指定します。詳細は「[](#座標と位置)」を参照してください。 |
+| size       | 幅を数値で指定します。高さは自動的にこの 2 倍になります。 |
+| fill       | 内部の塗り潰しを指定します。詳細は「[](#フィル)」を参照してください。 |
+| stroke     | 外枠を描画する線を指定します。詳細は「[](#ストローク)」を参照してください。 |
+| label      | ラベルを付ける場合は指定します。詳細は「[](#ラベル)」を参照してください。 |
+| link       | リンクにする場合、リンク先を指定します。詳細は「[](#リンク)」を参照してください。 |
+| rotate     | 回転させたい場合に、その角度を指定します。<br> \
+詳細は「[](#回転)」を参照してください。           |
+| layer      | レイヤーに所属させる場合、その名前をキーワードで指定します。<br> \
+詳細は「[](#レイヤー)」を参照してください。           |
+| filter     | フィルタ効果を適用したい場合、その名前を指定します。<br> \
+詳細は「[](#フィルタ)」を参照してください。 |
+| id         | ID を付与したい場合、その名前をキーワードで指定します。<br> \
+詳細は「[](#IDと参照)」を参照してください。            |
+
+<!-- stack:pop tr -->
+
+${BLANK_PARAGRAPH}
+
+<!-- anchor: with-person-options -->
+<!-- autolink: [$$](A#with-person-options) -->
+
+　図の中で人物のスタイルを統一する作業を簡単にするために、with-person-options が
+用意されています。
+
+```lisp
+(defmacro with-person-options ((&key fill stroke layer filter) &rest body) ...)
+```
+
+<!-- snippet: WITH-PERSON-OPTIONS-SAMPLE
+(diagram (200 100)
+  (grid)
+  (drop-shadow)
+  (with-person-options (:filter :drop-shadow
+                        :stroke '(:color :brown :width 2)
+                        :fill   '(:color :wheat :opacity 0.5))
+    (person '( 50 50) 40)
+    (person '(150 50) 40)))
+-->
+
+　これを以下のように使用することで、複数の人物のスタイルを一箇所で指定することができます。
+
+```lisp
+<!-- expand: WITH-PERSON-OPTIONS-SAMPLE -->
+```
+
+```diagram
+<!-- expand: WITH-PERSON-OPTIONS-SAMPLE -->
+```
+Figure. with-person-options のサンプル
 
 ### 吹き出し
 <!-- autolink: [balloon](#吹き出し) -->
@@ -4366,10 +4464,12 @@ Figure. 色の名前とサンプル - 2
 
 　更新履歴です。
 
-* __2022/09/?? - version 0.003__
-	* __IMCOMPATIBLE : with-canvas マクロの第１パラメータを topleft から center に変更__
-	* ENHANCE : 「[](#キューブ)」を追加
+* __2022/09/04 - version 0.003__
+	* __IMCOMPATIBLE CHANGE : with-canvas マクロの第１パラメータを topleft から center に変更__
 	* DOCUMENT : 「[](#定義と再使用)」を執筆
+	* ENHANCE : 「[](#キューブ)」を追加
+	* ENHANCE : 「[](#十字)」を追加
+	* ENHANCE : 「[](#人物)」を追加
 * __2022/08/31 - version 0.002__
 	* ENHANCE : with-subcanvas-ofマクロを追加
 	* DOCUMENT : 「[](#座標と位置)」、および「[](#サブキャンバス)」を執筆

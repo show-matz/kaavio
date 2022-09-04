@@ -192,6 +192,9 @@
 																"filter"
 																"writer"))
 				(:file "pathutil"                  :depends-on ("cl-diagram"))
+				(:file "person"                    :depends-on ("cl-diagram"
+																"constants"
+																"path"))
 				(:file "point"                     :depends-on ("cl-diagram"))
 				(:file "polygon"                   :depends-on ("cl-diagram"
 																"constants"
