@@ -1442,16 +1442,10 @@ Figure. テキストボックスにおける align と valign
 
 ${BLANK_PARAGRAPH}
 
-<!-- anchor: with-textbox-options -->
-<!-- autolink: [$$](A#with-textbox-options) -->
-
 　図の中でテキストボックスのスタイルを統一する作業を簡単にするために、with-textbox-options が
-用意されています。
+用意されています。　これを以下のように使用することで、複数のテキストボックスのスタイルを一箇所で
+指定することができます。
 
-```lisp
-(defmacro with-textbox-options ((&key rx ry align valign margin
-                                      font fill stroke filter layer) &rest body)
-```
 
 <!-- snippet: WITH-TEXTBOX-OPTIONS-SAMPLE
 (diagram (200 100)
@@ -1460,8 +1454,6 @@ ${BLANK_PARAGRAPH}
     (textbox '( 50 50) "first~%textbox")
     (textbox '(150 50) "second~%textbox")))
 -->
-
-　これを以下のように使用することで、複数のテキストボックスのスタイルを一箇所で指定することができます。
 
 ```lisp
 <!-- expand: WITH-TEXTBOX-OPTIONS-SAMPLE -->
@@ -1544,16 +1536,9 @@ Table. document のパラメータ
 
 ${BLANK_PARAGRAPH}
 
-<!-- anchor: with-document-options -->
-<!-- autolink: [$$](A#with-document-options) -->
-
 　図の中でドキュメントのスタイルを統一する作業を簡単にするために、with-document-options が
-用意されています。
-
-```lisp
-(defmacro with-document-options ((&key align valign margin
-                                       font fill stroke filter layer) &rest body) ...)
-```
+用意されています。これを以下のように使用することで、複数のドキュメントのスタイルを一箇所で指定
+することができます。
 
 <!-- snippet: WITH-DOCUMENT-OPTIONS-SAMPLE
 (diagram (240 100)
@@ -1563,8 +1548,6 @@ ${BLANK_PARAGRAPH}
     (document '( 60 50) 100 70 "first~%document")
     (document '(180 50) 100 70 "second~%document")))
 -->
-
-　これを以下のように使用することで、複数のドキュメントのスタイルを一箇所で指定することができます。
 
 ```lisp
 <!-- expand: WITH-DOCUMENT-OPTIONS-SAMPLE -->
@@ -1648,17 +1631,9 @@ Table. folder のパラメータ
 
 ${BLANK_PARAGRAPH}
 
-<!-- anchor: with-folder-options -->
-<!-- autolink: [$$](A#with-folder-options) -->
-
 　図の中でフォルダのスタイルを統一する作業を簡単にするために、with-folder-options が
-用意されています。
-
-```lisp
-(defmacro with-folder-options ((&key tab-width tab-height
-                                     align valign margin
-                                     font fill stroke filter layer) &rest body) ...)
-```
+用意されています。これを以下のように使用することで、複数のフォルダのスタイルを一箇所で指定
+することができます。
 
 <!-- snippet: WITH-FOLDER-OPTIONS-SAMPLE
 (diagram (240 100)
@@ -1668,8 +1643,6 @@ ${BLANK_PARAGRAPH}
     (folder '( 60 50) "first~%folder"  :width 100 :height 70)
     (folder '(180 50) "second~%folder" :width 100 :height 70)))
 -->
-
-　これを以下のように使用することで、複数のフォルダのスタイルを一箇所で指定することができます。
 
 ```lisp
 <!-- expand: WITH-FOLDER-OPTIONS-SAMPLE -->
@@ -1740,15 +1713,9 @@ Table. person のパラメータ
 
 ${BLANK_PARAGRAPH}
 
-<!-- anchor: with-person-options -->
-<!-- autolink: [$$](A#with-person-options) -->
-
 　図の中で人物のスタイルを統一する作業を簡単にするために、with-person-options が
-用意されています。
-
-```lisp
-(defmacro with-person-options ((&key fill stroke layer filter) &rest body) ...)
-```
+用意されています。これを以下のように使用することで、複数の人物のスタイルを一箇所で指定
+することができます。
 
 <!-- snippet: WITH-PERSON-OPTIONS-SAMPLE
 (diagram (200 100)
@@ -1760,8 +1727,6 @@ ${BLANK_PARAGRAPH}
     (person '( 50 50) 40)
     (person '(150 50) 40)))
 -->
-
-　これを以下のように使用することで、複数の人物のスタイルを一箇所で指定することができます。
 
 ```lisp
 <!-- expand: WITH-PERSON-OPTIONS-SAMPLE -->
@@ -1846,17 +1811,9 @@ Table. balloon のパラメータ
 
 ${BLANK_PARAGRAPH}
 
-<!-- anchor: with-balloon-options -->
-<!-- autolink: [$$](A#with-balloon-options) -->
-
 　図の中で吹き出しのスタイルを統一する作業を簡単にするために、with-balloon-options が
-用意されています。
-
-```lisp
-(defmacro with-balloon-options ((&key tab-width tab-height
-                                     align valign margin
-                                     font fill stroke filter layer) &rest body) ...)
-```
+用意されています。これを以下のように使用することで、複数の吹き出しのスタイルを一箇所で指定
+することができます。
 
 <!-- snippet: WITH-BALLOON-OPTIONS-SAMPLE
 (diagram (300 100)
@@ -1867,8 +1824,6 @@ ${BLANK_PARAGRAPH}
     (balloon '( 60 60) "first~%balloon"  $1.left  :width 90)
     (balloon '(240 40) "second~%balloon" $2.right :width 90)))
 -->
-
-　これを以下のように使用することで、複数の吹き出しのスタイルを一箇所で指定することができます。
 
 ```lisp
 <!-- expand: WITH-BALLOON-OPTIONS-SAMPLE -->
@@ -1952,16 +1907,9 @@ Table. memo のパラメータ
 
 ${BLANK_PARAGRAPH}
 
-<!-- anchor: with-memo-options -->
-<!-- autolink: [$$](A#with-memo-options) -->
-
 　図の中でメモのスタイルを統一する作業を簡単にするために、with-memo-options が
-用意されています。
-
-```lisp
-(defmacro with-memo-options ((&key crease align valign margin
-                                   font fill stroke filter layer) &rest body) ...)
-```
+用意されています。これを以下のように使用することで、複数のメモのスタイルを一箇所で
+指定することができます。
 
 <!-- snippet: WITH-MEMO-OPTIONS-SAMPLE
 (diagram (240 100)
@@ -1971,8 +1919,6 @@ ${BLANK_PARAGRAPH}
     (memo '( 60 50) "first~%memo"  :width 80 :height 60)
     (memo '(180 50) "second~%memo" :width 80 :height 60)))
 -->
-
-　これを以下のように使用することで、複数のメモのスタイルを一箇所で指定することができます。
 
 ```lisp
 <!-- expand: WITH-MEMO-OPTIONS-SAMPLE -->
@@ -2056,16 +2002,9 @@ Table. cube のパラメータ
 
 ${BLANK_PARAGRAPH}
 
-<!-- anchor: with-cube-options -->
-<!-- autolink: [$$](A#with-cube-options) -->
-
 　図の中でキューブのスタイルを統一する作業を簡単にするために、with-cube-options が
-用意されています。
-
-```lisp
-(defmacro with-cube-options ((&key depth align valign margin
-                                   font fill fill2 stroke filter layer) &rest body) ...)
-```
+用意されています。これを以下のように使用することで、複数のキューブのスタイルを一箇所で
+指定することができます。
 
 <!-- snippet: WITH-CUBE-OPTIONS-SAMPLE
 (diagram (240 100)
@@ -2077,8 +2016,6 @@ ${BLANK_PARAGRAPH}
     (cube '( 60 50) 80 60 "first~%cube" )
     (cube '(180 50) 80 60 "second~%cube")))
 -->
-
-　これを以下のように使用することで、複数のキューブのスタイルを一箇所で指定することができます。
 
 ```lisp
 <!-- expand: WITH-CUBE-OPTIONS-SAMPLE -->
@@ -2161,16 +2098,9 @@ Table. cylinder のパラメータ
 
 ${BLANK_PARAGRAPH}
 
-<!-- anchor: with-cylinder-options -->
-<!-- autolink: [$$](A#with-cylinder-options) -->
-
 　図の中で円柱のスタイルを統一する作業を簡単にするために、with-cylinder-options が
-用意されています。
-
-```lisp
-(defmacro with-cylinder-options ((&key depth align valign margin
-                                  font fill stroke filter layer) &rest body) ...)
-```
+用意されています。これを以下のように使用することで、複数の円柱のスタイルを一箇所で指定
+することができます。
 
 <!-- snippet: WITH-CYLINDER-OPTIONS-SAMPLE
 (diagram (240 100)
@@ -2181,8 +2111,6 @@ ${BLANK_PARAGRAPH}
     (cylinder '( 60 50) 80 60 "first~%cylinder" )
     (cylinder '(180 50) 80 60 "second~%cylinder")))
 -->
-
-　これを以下のように使用することで、複数の円柱のスタイルを一箇所で指定することができます。
 
 ```lisp
 <!-- expand: WITH-CYLINDER-OPTIONS-SAMPLE -->
@@ -2262,16 +2190,9 @@ Table. explosion1, explosion2 のパラメータ
 
 ${BLANK_PARAGRAPH}
 
-<!-- anchor: with-explosion-options -->
-<!-- autolink: [$$](A#with-explosion-options) -->
-
 　図の中で爆発のスタイルを統一する作業を簡単にするために、with-explosion-options が
-用意されています。
-
-```lisp
-(defmacro with-explosion-options ((&key font fill
-                                        stroke filter layer) &rest body) ...)
-```
+用意されています。これを以下のように使用することで、複数の爆発のスタイルを一箇所で指定
+することができます。
 
 <!-- snippet: WITH-EXPLOSION-OPTIONS-SAMPLE
 (diagram (300 100)
@@ -2282,8 +2203,6 @@ ${BLANK_PARAGRAPH}
     (explosion1 '( 80 50) 140 100 "first~%explosion" )
     (explosion2 '(220 50) 140 100 "second~%explosion")))
 -->
-
-　これを以下のように使用することで、複数の爆発のスタイルを一箇所で指定することができます。
 
 ```lisp
 <!-- expand: WITH-EXPLOSION-OPTIONS-SAMPLE -->
@@ -2360,15 +2279,9 @@ Table. cross のパラメータ
 
 ${BLANK_PARAGRAPH}
 
-<!-- anchor: with-cross-options -->
-<!-- autolink: [$$](A#with-cross-options) -->
-
 　図の中で十字のスタイルを統一する作業を簡単にするために、with-cross-options が
-用意されています。
-
-```lisp
-(defmacro with-cross-options ((&key fill stroke filter layer) &rest body) ...)
-```
+用意されています。これを以下のように使用することで、複数の十字のスタイルを一箇所で
+指定することができます。
 
 <!-- snippet: WITH-CROSS-OPTIONS-SAMPLE
 (diagram (300 100)
@@ -2379,8 +2292,6 @@ ${BLANK_PARAGRAPH}
     (cross '( 80 50) 80 80 20)
     (cross '(220 50) 80 80 20 :rotate 45)))
 -->
-
-　これを以下のように使用することで、複数の十字のスタイルを一箇所で指定することができます。
 
 ```lisp
 <!-- expand: WITH-CROSS-OPTIONS-SAMPLE -->
@@ -2501,16 +2412,9 @@ Figure. ブロック矢印のパラメータ
 
 ${BLANK_PARAGRAPH}
 
-<!-- anchor: with-block-arrow-options -->
-<!-- autolink: [$$](A#with-block-arrow-options) -->
-
 　図の中でブロック矢印のスタイルを統一する作業を簡単にするために、with-block-arrow-options が
-用意されています。
-
-```lisp
-(defmacro with-block-arrow-options ((&key fill stroke
-                                          filter layer) &rest body) ...)
-```
+用意されています。これを以下のように使用することで、複数のブロック矢印のスタイルを一箇所で指定
+することができます。
 
 <!-- snippet: WITH-BLOCK-ARROW-OPTIONS-SAMPLE
 (diagram (200 100)
@@ -2521,8 +2425,6 @@ ${BLANK_PARAGRAPH}
     (block-arrow1 '(30 25) '(170 25) 20)
     (block-arrow2 '(30 75) '(170 75) 20)))
 -->
-
-　これを以下のように使用することで、複数のブロック矢印のスタイルを一箇所で指定することができます。
 
 ```lisp
 <!-- expand: WITH-BLOCK-ARROW-OPTIONS-SAMPLE -->
@@ -2634,15 +2536,9 @@ Figure. 波括弧のパラメータ
 
 ${BLANK_PARAGRAPH}
 
-<!-- anchor: with-brace-options -->
-<!-- autolink: [$$](A#with-brace-options) -->
-
 　図の中で波括弧のスタイルを統一する作業を簡単にするために、with-brace-options が
-用意されています。
-
-```lisp
-(defmacro with-brace-options ((&key font stroke filter layer) &rest body) ...)
-```
+用意されています。これを以下のように使用することで、複数の波括弧のスタイルを一箇所で
+指定することができます。
 
 <!-- snippet: WITH-BRACE-OPTIONS-SAMPLE
 (diagram (400 220)
@@ -2654,8 +2550,6 @@ ${BLANK_PARAGRAPH}
        (brace '( 30 110) :left    40 120 :r 10 :point  40 :text "left brace"  )
        (brace '(370 110) :right   40 120 :r 10 :point  80 :text "right brace" )))
 -->
-
-　これを以下のように使用することで、複数の波括弧のスタイルを一箇所で指定することができます。
 
 ```lisp
 <!-- expand: WITH-BRACE-OPTIONS-SAMPLE -->
@@ -3418,8 +3312,131 @@ Figure. dasharray, dashoffset のサンプル
 ${BLANK_PARAGRAPH}
 
 ### フィル
+<!-- autolink: [$$](#フィル) -->
 
-　${{TODO}{まだ記述されていません。}}
+　フィルとは、図形を描画する際の「塗り潰し方」を指定する情報です。
+
+　このマニュアルのほとんどの部分では、 `:fill :white` のように、 `:fill` に続けて色名だけを
+指定しています。もう少し複雑な場合、 `:fill '(:color :skyblue :opacity 0.3)` といった要領で
+色名と不透明度を指定している個所もあります。実はこれらは全て簡易的な指定方法で、フィルにはもっと
+多くの情報が含まれています。以下に説明します。
+
+* `color` は線の色を指定します。色の指定方法については [$@ 節](#色の指定)を参照してください。
+* `opacity` は線の不透明度です。0.0 ～ 1.0 の数値で指定します。0.0 は完全な透明、1.0 は完全な不透明です。
+* `rule` は複雑な図形における塗り潰しの規則を指定するものです。詳細は後述します。
+
+${BLANK_PARAGRAPH}
+
+　それぞれについて細かい説明を始める前に、 `:fill :white` といった記述がどのように扱われるのか
+を説明する必要があるでしょう。 `:fill` によるこれらの指定は、実は全て make-fill 関数に
+渡されます。make-fill 関数は、渡されたのが単一の値の場合には、キーワードや文字列なら色名と解釈
+します。そして `'(:color :red :width 3)` などの（複数要素からなる）リストの場合、名前付き
+パラメータの羅列として解釈します。
+
+　make-fill 関数はその結果として「フィル情報」オブジェクトを返しますが、そのフィル情報オブジェクト
+を make-fill 関数自身に渡した場合、そのまま返すようになっています。そのため、自分で明示的に 
+make-fill 関数を使ってフィル情報オブジェクトを作成し、Common LISP 変数に格納して複数の図形要素
+で使用する、ということも可能です。以下のように{{fn:これはあまり使わない方が良いテクニックかもしれません。 \
+図形要素別の「デフォルト設定」とは無関係に動作するので、慣れないと混乱するかもしれないからです。}}。
+この関数の詳細は「[](#make-fill 関数)」を参照してください。
+
+```lisp
+(let ((fl (make-fill :color :blue :opacity 0.3)))
+  (rect   ... :fill fl)
+  (circle ... :fill fl))
+```
+
+${BLANK_PARAGRAPH}
+
+#### フィルのデフォルト設定
+
+　ストロークの説明では「デフォルト設定がある」という話をしましたが、塗り潰しにおいてもデフォルト設定が
+あります。フィルはデフォルトで `:color :none` とされているため、図形を描画すると塗り潰し無し（つまり
+背景が透けて見える）になります。with-options を使えばこれを変更することができます。
+以下の例では４種類の四角形を描いていますが、B, C の四角形ではデフォルトストロークを変更しています。
+
+<!-- snippet: WITH-OPTIONS-FILL-SAMPLE
+(diagram (250 100)
+  (grid)
+  (rect '(50 50) 40 40 :fill :white)
+  (with-options (:fill '(:color :red :opacity 0.2))
+    (rect '(100 50) 40 40)
+    (rect '(150 50) 40 40 :fill :blue))
+  (rect '(200 50) 40 40 :fill :lightgray)
+  (text '( 50 90) "A" :align :center)
+  (text '(100 90) "B" :align :center)
+  (text '(150 90) "C" :align :center)
+  (text '(200 90) "D" :align :center))
+-->
+
+```lisp
+<!-- expand: WITH-OPTIONS-FILL-SAMPLE -->
+```
+
+```diagram
+<!-- expand: WITH-OPTIONS-FILL-SAMPLE -->
+```
+Figure. with-options によるデフォルトフィルの変更
+
+${BLANK_PARAGRAPH}
+
+　C の四角形では「色しか指定していない」のに半透明になっていることに注意してください。
+これは、「明示的に指定されていないものはデフォルトの設定が使用される」からです。with-options に
+よってデフォルト設定が変更されており、B の四角形では（ `:fill` を省略することによって）全てが
+デフォルト設定で描画されました。C の四角形では、 `:fill :blue` によってデフォルト設定をベース
+として色だけを変更している、というわけです。
+
+　with-options では全体のデフォルト設定を変更しますが、図形要素によっては個別にデフォルト設定
+を持っています。たとえば、テキストボックスであれば with-textbox-options でデフォルト設定を
+変更することができます。
+
+${BLANK_PARAGRAPH}
+
+#### fill における rule パラメータ
+
+　`rule` パラメータについて説明します。これは nonezero, evenodd から指定するもので、以下のように
+複雑な図形の塗り潰し方が変わります。
+
+<!-- snippet: FILL-RULE-SAMPLE
+(diagram (400 120)
+  (let ((points '((50 10) (20 90) (90 40) (10 40) (80 90))))
+    (with-subcanvas ('(75 0) 100 100)
+      (polygon points :fill '(:color :skyblue :rule :nonzero))
+      (text '(50 110) ":nonzero" :align :center))
+    (with-subcanvas ('(225 0) 100 100)
+      (polygon points :fill '(:color :skyblue :rule :evenodd))
+      (text '(50 110) ":evenodd" :align :center))))
+-->
+
+```diagram
+<!-- expand: FILL-RULE-SAMPLE -->
+```
+Figure. fill における rule のサンプル
+
+<!-- collapse:begin -->
+[$@](F#fill における rule のサンプル) のソースはこちら
+
+```lisp
+<!-- expand: FILL-RULE-SAMPLE -->
+```
+<!-- collapse:end -->
+
+${BLANK_PARAGRAPH}
+
+　これについては、ひとまずのところあまり使用頻度が高いとは思われないため、書籍「SVG エッセンシャルズ
+第２版」の説明を引用するに留めます。
+
+> __塗りつぶしのルールの説明__
+> 
+> 　完全を期すために、fill-rule がどのように機能するかを説明しますが、悩む必要はありません −− 詳細を
+> 知らなくてもルールを利用することはできます。nonzero ルールは、問題になっている点から無限遠まで線を
+> 引くことで、その点が多角形の内側か外側かを判断します。その線が多角形の線と何回交差するかを数え、多角形
+> の線が右から左に向かって描かれている場合は1を足し、左から右に向かって描かれている場合は1を引きます。
+> 合計がゼロであれば、その点は多角形の外側にあります。合計がゼロ以外（nonzero）であれば、その点は多角形
+> の内側にあります。
+> 
+> 　evenodd ルールも、問題になっている点から無限遠まで線を引きますが、その線が多角形の線と何回交差する
+> かを単純に数えます。交差した回数が奇数であれば、その点は内側にあります。偶数であれば、外側にあります。
 
 ### フォント
 
@@ -3842,79 +3859,44 @@ Figure. uml-activity-partitions 要素
 　${{TODO}{まだ記述されていません。}}
 
 #### make-fill 関数
+<!-- autolink: [make-fill](#make-fill 関数) -->
 
-　${{TODO}{まだ記述されていません。}}
+　make-fill 関数はフィル情報を生成します。フィル情報の詳細は「[](#フィル)」を参照してください。
+関数シグネチャは以下の通りです。
 
 ```lisp
-(defun make-fill &key :color :opacity :rule)
+(defun make-fill (&rest params) ...)
+```
+
+　上記は簡潔な記述で柔軟なフィル情報の生成を可能にするためのもので、 `params` として渡される
+パラメータ数に応じて以下のことをします。
+
+* パラメータ数が 0 の場合
+	* デフォルトのフィル情報を返します
+* パラメータ数が 1 の場合
+	* フィル情報が渡された場合、それをそのまま返します
+	* リスト lst が渡された場合、 `(apply #'make-fill lst)` を返します
+	* 上記のいずれでもない prm の場合、 `(make-fill :color prm)` を返します
+* パラメータ数が 2 以上の場合
+	* 後述します
+
+　パラメータ数が 2 以上の場合、make-fill 関数は実質的に以下の関数であるかのように振舞います。
+
+```lisp
+(defun make-fill &key color opacity rule base)
 ```
 
 Table. make-fill 関数のパラメータ
-| parameter   | default 値 | description          |
-|:============|:===========|:---------------------|
-| :color      | `:none`    | 塗りつぶしの色を指定します。[$@ 節](#色の指定)参照。 |
-| :opacity    | 1.0        | 0 から 1 までで透明度を指定します。 |
-| :rule       | `:nonzero` | 塗りつぶしのルールを `:nonzero` または `:evenodd` で指定します。|
+| parameter   | description          |
+|:============|:---------------------|
+| `color`     | 塗り潰しの色を指定します。色の指定方法については [$@ 節](#色の指定)を、色の名前については<br> \
+[$@ 節](#色の名前)を参照してください。  |
+| `opacity`   | 塗り潰しの不透明度を 0.0 ～ 1.0 の数値で指定します。  |
+| `rule`      | 塗りつぶしのルールを `:nonzero` または `:evenodd` で指定します。|
+| `base`      | ${{TODO}{まだ記述されていません}} |
 
 
 ${BLANK_PARAGRAPH}
-
-<!-- snippet: FILL-OPACITY-SAMPLE
-(diagram (400 100)
-  (text '(200 55) "this is test text." :align :center)
-  (with-options (:fill :red)
-    (rect '(150 50) 30 30 :fill (make-fill :opacity 0.2))
-    (text '(150 80) "0.2" :align :center)
-    (rect '(200 50) 30 30 :fill (make-fill :opacity 0.5))
-    (text '(200 80) "0.5" :align :center)
-    (rect '(250 50) 30 30 :fill (make-fill :opacity 0.8))
-    (text '(250 80) "0.8" :align :center)))
--->
-
-```diagram
-<!-- expand: FILL-OPACITY-SAMPLE -->
-```
-Figure. fill における opacity のサンプル
-
-
-
-
-<!-- collapse:begin -->
-[$@](F#fill における opacity のサンプル) のソースはこちら
-
-```lisp
-<!-- expand: FILL-OPACITY-SAMPLE -->
-```
-<!-- collapse:end -->
-
-
-
-
-<!-- snippet: FILL-RULE-SAMPLE
-(diagram (400 120)
-  (with-subcanvas ('(75 0) 100 100)
-    (polygon '((50 10) (20 90) (90 40) (10 40) (80 90))
-             :fill (make-fill :color :skyblue :rule :nonzero))
-    (text '(50 110) ":nonzero" :align :center))
-  (with-subcanvas ('(225 0) 100 100)
-    (polygon '((50 10) (20 90) (90 40) (10 40) (80 90))
-             :fill (make-fill :color :skyblue :rule :evenodd))
-    (text '(50 110) ":evenodd" :align :center)))
--->
-
-```diagram
-<!-- expand: FILL-RULE-SAMPLE -->
-```
-Figure. fill における rule のサンプル
-
-<!-- collapse:begin -->
-[$@](F#fill における rule のサンプル) のソースはこちら
-
-```lisp
-<!-- expand: FILL-RULE-SAMPLE -->
-```
-<!-- collapse:end -->
-
 
 #### make-stroke 関数
 <!-- autolink: [make-stroke](#make-stroke 関数) -->
@@ -3980,12 +3962,35 @@ ${BLANK_PARAGRAPH}
 
 　${{TODO}{まだ記述されていません。}}
 
-#### with-optionsマクロ
-<!-- autolink: [with-options](#with-optionsマクロ) -->
+#### with-balloon-options マクロ
+<!-- autolink: [with-balloon-options](#with-balloon-options マクロ) -->
 
 ```lisp
-(defmacro with-options ((&key fill stroke font layer) &rest body) ...)
+(defmacro with-balloon-options ((&key tab-width tab-height
+                                     align valign margin
+                                     font fill stroke filter layer) &rest body) ...)
 ```
+
+　${{TODO}{まだ記述されていません。}}
+
+#### with-block-arrow-options マクロ
+<!-- autolink: [with-block-arrow-options](#with-block-arrow-options マクロ) -->
+
+```lisp
+(defmacro with-block-arrow-options ((&key fill stroke
+                                          filter layer) &rest body) ...)
+```
+
+　${{TODO}{まだ記述されていません。}}
+
+#### with-brace-options マクロ
+<!-- autolink: [with-brace-options](#with-brace-options マクロ) -->
+
+```lisp
+(defmacro with-brace-options ((&key font stroke filter layer) &rest body) ...)
+```
+
+　${{TODO}{まだ記述されていません。}}
 
 #### with-canvasマクロ
 <!-- autolink: [with-canvas](#with-canvasマクロ) -->
@@ -3993,6 +3998,92 @@ ${BLANK_PARAGRAPH}
 ```lisp
 (defmacro with-canvas ((sym-cc sym-width sym-height) canvas &rest body) ...)
 ```
+
+#### with-cross-options マクロ
+<!-- autolink: [with-cross-options](#with-cross-options マクロ) -->
+
+```lisp
+(defmacro with-cross-options ((&key fill stroke filter layer) &rest body) ...)
+```
+
+　${{TODO}{まだ記述されていません。}}
+
+#### with-cube-options マクロ
+<!-- autolink: [with-cube-options](#with-cube-options マクロ) -->
+
+```lisp
+(defmacro with-cube-options ((&key depth align valign margin
+                                   font fill fill2 stroke filter layer) &rest body) ...)
+```
+
+　${{TODO}{まだ記述されていません。}}
+
+#### with-cylinder-options マクロ
+<!-- autolink: [with-cylinder-options](#with-cylinder-options マクロ) -->
+
+```lisp
+(defmacro with-cylinder-options ((&key depth align valign margin
+                                  font fill stroke filter layer) &rest body) ...)
+```
+
+　${{TODO}{まだ記述されていません。}}
+
+#### with-document-options マクロ
+<!-- autolink: [with-document-options](#with-document-options マクロ) -->
+
+```lisp
+(defmacro with-document-options ((&key align valign margin
+                                       font fill stroke filter layer) &rest body) ...)
+```
+
+　${{TODO}{まだ記述されていません。}}
+
+#### with-explosion-options マクロ
+<!-- autolink: [with-explosion-options](#with-explosion-options マクロ) -->
+
+```lisp
+(defmacro with-explosion-options ((&key font fill
+                                        stroke filter layer) &rest body) ...)
+```
+
+　${{TODO}{まだ記述されていません。}}
+
+#### with-folder-options マクロ
+<!-- autolink: [with-folder-options](#with-folder-options マクロ) -->
+
+```lisp
+(defmacro with-folder-options ((&key tab-width tab-height
+                                     align valign margin
+                                     font fill stroke filter layer) &rest body) ...)
+```
+
+　${{TODO}{まだ記述されていません。}}
+
+#### with-memo-options マクロ
+<!-- autolink: [with-memo-options](#with-memo-options マクロ) -->
+
+```lisp
+(defmacro with-memo-options ((&key crease align valign margin
+                                   font fill stroke filter layer) &rest body) ...)
+```
+
+　${{TODO}{まだ記述されていません。}}
+
+#### with-optionsマクロ
+<!-- autolink: [with-options](#with-optionsマクロ) -->
+
+```lisp
+(defmacro with-options ((&key fill stroke font layer) &rest body) ...)
+```
+
+#### with-person-options マクロ
+<!-- autolink: [with-person-options](#with-person-options マクロ) -->
+
+```lisp
+(defmacro with-person-options ((&key fill stroke layer filter) &rest body) ...)
+```
+
+　${{TODO}{まだ記述されていません。}}
 
 #### with-subcanvasマクロ
 <!-- autolink: [with-subcanvas](#with-subcanvasマクロ) -->
@@ -4007,6 +4098,16 @@ ${BLANK_PARAGRAPH}
 ```lisp
 (defmacro with-subcanvas-of ((id) &rest body) ...)
 ```
+
+#### with-textbox-options マクロ
+<!-- autolink: [with-textbox-options](#with-textbox-options マクロ) -->
+
+```lisp
+(defmacro with-textbox-options ((&key rx ry align valign margin
+                                      font fill stroke filter layer) &rest body) ...)
+```
+
+　${{TODO}{まだ記述されていません。}}
 
 ### 色の名前
 
@@ -4653,17 +4754,20 @@ Figure. 色の名前とサンプル - 2
 
 　更新履歴です。
 
+* __2022/08/21 - version 0.001__
+	* とりあえず使えそうになったのでリリース
+* __2022/08/31 - version 0.002__
+	* ENHANCE : with-subcanvas-ofマクロを追加
+	* DOCUMENT : 「[](#座標と位置)」、および「[](#サブキャンバス)」を執筆
 * __2022/09/04 - version 0.003__
 	* __IMCOMPATIBLE CHANGE : with-canvas マクロの第１パラメータを topleft から center に変更__
 	* DOCUMENT : 「[](#定義と再使用)」を執筆
 	* ENHANCE : 「[](#キューブ)」を追加
 	* ENHANCE : 「[](#十字)」を追加
 	* ENHANCE : 「[](#人物)」を追加
-* __2022/08/31 - version 0.002__
-	* ENHANCE : with-subcanvas-ofマクロを追加
-	* DOCUMENT : 「[](#座標と位置)」、および「[](#サブキャンバス)」を執筆
-* __2022/08/21 - version 0.001__
-	* とりあえず使えそうになったのでリリース
+* __2022/09/11__
+	* DOCUMENT : 「[](#ストローク)」を執筆
+	* DOCUMENT : 「[](#フィル)」を執筆
 
 ## 図表一覧
 <!-- embed:figure-list -->
