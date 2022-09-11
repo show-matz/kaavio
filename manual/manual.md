@@ -6,7 +6,7 @@
 <!-- style:./default.css -->			
 
 <!-- config:write-comment -->			
-<!-- config:header-numbering 2 4 -->			
+<!-- config:header-numbering 2 4 -->
 <!-- config:entity-numbering-depth 1 -->
 <!-- <!-- config:term-link-in-header -->
 
@@ -23,7 +23,7 @@
 ```raw
 <h2>Table of contents</h2>
 ```
-<!-- embed:toc-x 2 4 -->
+<!-- embed:toc-x 2 3 -->
 <!-- toc-link: top 'A#toc-link-target' -->
 
 --------------------------------------------------------------------------------
@@ -3210,10 +3210,10 @@ ID を指定して use することはできません。
 
 　${APPNAME} は SVG 形式で図形を生成するため、色の指定は SVG の規格に準拠します。
 
-* #rrggbb 表記による、6 桁の16進指定。rr、gg、bb は順に赤、緑、青の成分で、 00〜ff の範囲で \
+* `#rrggbb` 表記による、6 桁の16進指定。rr、gg、bb は順に赤、緑、青の成分で、 00〜ff の範囲で \
 指定します。
-* #rgb 表記による、3 桁の16進指定。r、g、b は順に赤、緑、青の成分で、 0〜f の範囲で指定します。 \
-これは #rrggbb の簡略表記で、たとえば #136 は #113366 に相当します。
+* `#rgb` 表記による、3 桁の16進指定。r、g、b は順に赤、緑、青の成分で、 0〜f の範囲で指定します。 \
+これは `#rrggbb` の簡略表記で、たとえば #136 は #113366 に相当します。
 * [$$](#rgb 関数)による指定。これは `(rgb r g b)` の要領で使用します。r、g、b は順に赤、緑、青の \
 成分で、それぞれ 0〜255 の整数または 0.0〜1.0 の小数点数で指定します。0.0〜1.0 の指定の場合、 \
 それに 255 をかけた値が指定されます。
@@ -3223,19 +3223,199 @@ ID を指定して use することはできません。
 ${BLANK_PARAGRAPH}
 
 ### ストローク
+<!-- autolink: [$$](#ストローク) -->
 
-　${{TODO}{まだ記述されていません。}}
+　ストロークとは、図形を描画する際の「線の引き方」を指定する情報です。
+
+　このマニュアルのほとんどの部分では、 `:stroke :red` のように、 `:stroke` に続けて色名だけを
+指定しています。もう少し複雑な場合、 `:stroke '(:color :red :width 3)` といった要領で色名と
+太さを指定している個所もあります。実はこれらは全て簡易的な指定方法で、ストロークにはもっと多くの
+情報が含まれています。以下に説明します。
+
+* `color` は線の色を指定します。色の指定方法については [$@ 節](#色の指定)を参照してください。
+* `width` は線の太さです。数値で指定します。
+* `opacity` は線の不透明度です。0.0 ～ 1.0 の数値で指定します。0.0 は完全な透明、1.0 は完全な不透明です。
+* `linecap` は線の両端の形状です。詳細は後述します。
+* `linejoin, miterlimit` は線が折れ曲ってできる角の形状に関する指定です。詳細は後述します。
+* `dasharray, dashoffset` は点線や破線を描画する場合の指定です。詳細は後述します。
+
+${BLANK_PARAGRAPH}
+
+　それぞれについて細かい説明を始める前に、 `:stroke :red` といった記述がどのように扱われるのか
+を説明する必要があるでしょう。 `:stroke` によるこれらの指定は、実は全て make-stroke 関数に
+渡されます。make-stroke 関数は、渡されたのが単一の値の場合には、数値なら太さ、キーワードや
+文字列なら色名などと解釈します。そして `'(:color :red :width 3)` などの（複数要素からなる）
+リストの場合、名前付きパラメータの羅列として解釈します。
+
+　make-stroke 関数はその結果として「ストローク情報」オブジェクトを返しますが、そのストローク情報
+オブジェクトを make-stroke 関数自身に渡した場合、そのまま返すようになっています。そのため、自分で
+明示的に make-stroke 関数を使ってストローク情報オブジェクトを作成し、Common LISP 変数に格納して
+複数の図形要素で使用する、ということも可能です。以下のように{{fn:これはあまり使わない方が良いテクニックかもしれません。 \
+図形要素別の「デフォルト設定」とは無関係に動作するので、慣れないと混乱するかもしれないからです。}}。
+この関数の詳細は「[](#make-stroke 関数)」を参照してください。
 
 ```lisp
-(make-stroke :blue)    ;; equal to (make-stroke :color :blue)
-
-(make-stroke 10)       ;; equal to (make-stroke :width 10)
-
-(make-stroke :color :red :width 3)
-
-(make-stroke '(:color :red :width 3))
-
+(let ((st (make-stroke :color :blue :width 4 :opacity 0.3)))
+  (rect   ... :stroke st)
+  (circle ... :stroke st))
 ```
+
+${BLANK_PARAGRAPH}
+
+#### ストロークのデフォルト設定
+
+　さて、実際のところ、作図をする上でそれぞれの要素の線がバラバラな色や太さで描かれることはないでしょう。
+わかりやすい図面というのは、同じ種類の図形要素は同じ種類の線で描画されているなど、統制が取れているものです。
+このことは、多くの作図においては「まったく同じストロークの指定を繰り返す場合が多い」ことを意味します。
+前述の方法でストローク情報オブジェクトを作成して使い回すことも可能ですが、もっとよい方法があります。
+それは「デフォルトストロークの変更」です。もともと、ストロークはデフォルトで `:color :black :width 1` と
+されていますが、with-options を使えばこれを変更することができます{{fn:Lisper の方へ。with-options マクロは  \
+`*default-stroke*` や `*default-fill*` といったスペシャル変数を束縛するものです。非 Lisper のユーザーへの説明を \
+わかりやすくする上でこの方法をとっています。}}。
+以下の例では４種類の四角形を描いていますが、B, C の四角形ではデフォルトストロークを変更しています。
+
+<!-- snippet: WITH-OPTIONS-STROKE-SAMPLE
+(diagram (250 100)
+  (grid)
+  (rect '(50 50) 40 40)
+  (with-options (:stroke '(:color :navy :width 8 :linejoin :round))
+    (rect '(100 50) 40 40)
+    (rect '(150 50) 40 40 :stroke :brown))
+  (rect '(200 50) 40 40 :stroke :brown)
+  (text '( 50 90) "A" :align :center)
+  (text '(100 90) "B" :align :center)
+  (text '(150 90) "C" :align :center)
+  (text '(200 90) "D" :align :center))
+-->
+
+```lisp
+<!-- expand: WITH-OPTIONS-STROKE-SAMPLE -->
+```
+
+```diagram
+<!-- expand: WITH-OPTIONS-STROKE-SAMPLE -->
+```
+Figure. with-options によるデフォルトストロークの変更
+
+${BLANK_PARAGRAPH}
+
+　C の四角形では「色しか指定していない」のに線の幅が 5 になっていることに注意してください。
+これは、「明示的に指定されていないものはデフォルトの設定が使用される」からです。with-options に
+よってデフォルト設定が変更されており、B の四角形では（ `:stroke` を省略することによって）全てが
+デフォルト設定で描画されました。C の四角形では、 `:stroke :brown` によってデフォルト設定をベース
+として色だけを変更している、というわけです。
+
+　with-options では全体のデフォルト設定を変更しますが、図形要素によっては個別にデフォルト設定
+を持っています。たとえば、テキストボックスであれば with-textbox-options でデフォルト設定を
+変更することができます。
+
+${BLANK_PARAGRAPH}
+
+#### linecap
+
+　`linecap` について説明します。これは butt, round, square から指定するもので、以下のように
+線の端の形状が変わります。butt は指定した開始点／終了点で線が切れますが、round / square では
+開始点／終了点を少しはみ出すことに注意してください。
+
+```diagram
+(diagram (200 100)
+  (grid)
+  (with-options (:font 10
+                 :stroke '(:color :lightgray :width 16))
+    (line '(( 50 25) (150  25)) :stroke '(:linecap   :butt))
+    (text '(100 30) ":butt" :align :center)
+    (line '(( 50 50) (150  50)) :stroke '(:linecap  :round))
+    (text '(100 55) ":round" :align :center)
+    (line '(( 50 75) (150  75)) :stroke '(:linecap :square))
+    (text '(100 80) ":square" :align :center))
+  (with-options (:stroke '(:color :red :width 1 :dasharray (3 3)))
+    (line '(( 50  0) ( 50 100)))
+    (line '((150  0) (150 100)))))
+```
+Figure. linecap のサンプル
+
+${BLANK_PARAGRAPH}
+
+#### linejoin と miterlimit
+
+　`linejoin` は、線が折れ曲る部分の形状を miter, round, bevel から指定するもので、以下のように
+角の形状が変わります。
+
+```diagram
+(diagram (300 100)
+  (grid)
+  (with-options (:stroke '(:color :gray :width 20))
+    (labels ((impl (x linejoin tag)
+                (with-subcanvas ((list x 0) 80 80)
+                   (line '(( 10 65) ( 40 35) ( 70 65))
+                         :stroke `(:linejoin ,linejoin))
+                   (text '(40 90) tag :align :center))))
+      (impl  10 :miter ":miter")
+      (impl 110 :round ":round")
+      (impl 210 :bevel ":bevel"))))
+```
+Figure. linejoin のサンプル
+
+${BLANK_PARAGRAPH}
+
+<!-- collapse:close -->
+__miterlimit についての説明は暫定です（作者自身 SVG 規格における miterlimit の意味が良くわかっていない）。__
+
+　`miterlimit` は、 `linejoin` が `:miter` の場合における、結合される線の太さに対する結合部の長さの
+比率を数値で指定します。デフォルト値は 4 です。
+
+```diagram
+(diagram (600 100)
+  (grid)
+  (with-options (:stroke '(:color :gray :width 16))
+    (labels ((impl (x limit)
+                (with-subcanvas ((list x 0) 80 80)
+                   (line '(( 25 65) ( 40 35) ( 55 65))
+                         :stroke `(:linejoin :miter :miterlimit ,limit))
+                   (text '(40 90) (format nil "~A" limit) :align :center))))
+      (impl  10 0)
+      (impl 110 2)
+      (impl 210 4)
+      (impl 310 6)
+      (impl 410 8)
+      (impl 510 10))))
+```
+Figure. miterlimit のサンプル
+
+<!-- collapse:end -->
+
+${BLANK_PARAGRAPH}
+
+#### dasharray と dashoffset
+
+　`dasharray` と `dashoffset` は点線や破線を描画する際に指定します。 `dasharray` は繰り返される線の幅と
+間隔の幅を数値でリストにしたものを渡します。通常は `dasharray` で指定された点線・破線を最初から描画します
+が、 `dashoffset` を指定すると開始するオフセットを指定できます。以下に例を示します。
+
+```diagram
+(diagram (400 120)
+  (grid)
+  (with-options (:font 10 :stroke '(:color :black :width 4))
+    (text '(100 20) "dasharray" :align :center)
+    (labels ((impl (y arr)
+                (text  `(65 ,(+ y 5)) (format nil "~A" arr) :align :right)
+                (line `((70 ,y) (160 ,y)) :stroke `(:dasharray ,arr))))
+      (impl  40 '(2 2))
+      (impl  60 '(5 5))
+      (impl  80 '(7 3))
+      (impl 100 '(10 5 3 5)))
+    (text '(300 20) "dashoffset" :align :center)
+    (labels ((impl (y offset)
+                (text  `(265 ,(+ y 5)) (format nil "~A" offset) :align :right)
+                (line `((270 ,y) (380 ,y)) :stroke `(:dasharray (20 10) :dashoffset ,offset))))
+      (impl  40  0)
+      (impl  60  5)
+      (impl  80 10)
+      (impl 100 15))))
+```
+Figure. dasharray, dashoffset のサンプル
+
+${BLANK_PARAGRAPH}
 
 ### フィル
 
@@ -3737,51 +3917,56 @@ Figure. fill における rule のサンプル
 
 
 #### make-stroke 関数
+<!-- autolink: [make-stroke](#make-stroke 関数) -->
+
+　make-stroke 関数はストローク情報を生成します。ストローク情報の詳細は「[](#ストローク)」を
+参照してください。関数シグネチャは以下の通りです。
 
 ```lisp
-(defun make-stroke &key :color :width :opacity :linecap
-                        :linejoin :miterlimit :dasharray :dashoffset)
+(defun make-stroke (&rest params) ...)
 ```
 
+　上記は簡潔な記述で柔軟なストローク情報の生成を可能にするためのもので、 `params` として渡される
+パラメータ数に応じて以下のことをします。
+
+* パラメータ数が 0 の場合
+	* デフォルトのストローク情報を返します
+* パラメータ数が 1 の場合
+	* ストローク情報が渡された場合、それをそのまま返します
+	* 数値 N が渡された場合、 `(make-stroke :width N)` を返します
+	* リスト lst が渡された場合、 `(apply #'make-stroke lst)` を返します
+	* 上記のいずれでもない prm の場合、 `(make-stroke :color prm)` を返します
+* パラメータ数が 2 以上の場合
+	* 後述します
+
+　パラメータ数が 2 以上の場合、make-stroke 関数は実質的に以下の関数であるかのように振舞います。
+
+```lisp
+(defun make-stroke &key color width opacity linecap linejoin
+                        miterlimit dasharray dashoffset base)
+```
+
+　各パラメータの意味は以下の通りです。詳細は「[](#ストローク)」を参照してください。
+
 Table. make-stroke 関数のパラメータ
-| parameter   | default 値 | description          |
-|:============|:===========|:---------------------|
-| :color      | :black     | ストロークの色を指定します。[$@ 節](#色の指定)参照。 |
-| :width      | 1          |                      |
-| :opacity    | nil        |                      |
-| :linecap    | nil        |                      |
-| :linejoin   | nil        |                      |
-| :miterlimit | nil        |                      |
-| :dasharray  | nil        |                      |
-| :dashoffset | nil        |                      |
+| parameter    | description          |
+|:=============|:---------------------|
+| `color`      | 線の色を指定します。色の指定方法については [$@ 節](#色の指定)を、色の名前については<br> \
+[$@ 節](#色の名前)を参照してください。  |
+| `width`      | 線の幅を数値で指定します。                     |
+| `opacity`    | 線の不透明度を 0.0 ～ 1.0 の数値で指定します。  |
+| `linecap`    | 線の両端の形状を `:butt, :round, :square` から指定します。  |
+| `linejoin`   | 線が折れ曲ってできる角の形状を `:miter, :round, :bevel` から指定します。  |
+| `miterlimit` | `linejoin` が `:miter` の場合の、結合される線の太さに対する結合部の長さの<br> \
+比率を数値で指定します。デフォルト値は 4 です。 |
+| `dasharray`  | 点線や破線を描画したい場合に、繰り返される線の長さと間隔の長さをリストで<br> \
+指定します。デフォルト値は nil で、直線になります。 |
+| `dashoffset` | `dasharray` を指定する場合に、線の開始を `dasharray` のどこから始めるかの<br> \
+オフセットを数値で指定します。  |
+| `base`       | ${{TODO}{まだ記述されていません}} |
 
 
 ${BLANK_PARAGRAPH}
-
-
-```diagram
-(diagram (400 100)
-	(with-subcanvas ('(0 0) 100 100)
-	  (with-options (:stroke '(:color :black :width 4 :dasharray '(8 4)))
-		(line '((30 20) (70 20)))
-		(line '((30 40) (70 40)) :stroke '(:dashoffset 2))
-		(line '((30 60) (70 60)) :stroke '(:dashoffset 4))
-		(line '((30 80) (70 80)) :stroke '(:dashoffset 6))))
-	(with-subcanvas ('(100 0) 100 100)
-	  (with-options (:stroke '(:color :black :width 8))
-		(line '((30 20) (70 20)))
-		(line '((30 40) (70 40)) :stroke '(:linecap   :butt))
-		(line '((30 60) (70 60)) :stroke '(:linecap  :round))
-		(line '((30 80) (70 80)) :stroke '(:linecap :square))))
-	(with-subcanvas ('(200 0) 100 100)
-	  (with-options (:stroke '(:color :black :width 12))
-		(line '(( 30 60) ( 45 45) ( 60 60)) :stroke '(:linejoin :miter))
-		(line '(( 90 60) (105 45) (120 60)) :stroke '(:linejoin :round))
-		(line '((150 60) (165 45) (180 60)) :stroke '(:linejoin :bevel)))))
-```
-Figure. dashoffset, linecap, linejoin のサンプル
-
-
 
 #### rgb 関数
 <!-- autolink: [rgb](#rgb 関数) -->
@@ -3797,6 +3982,10 @@ Figure. dashoffset, linecap, linejoin のサンプル
 
 #### with-optionsマクロ
 <!-- autolink: [with-options](#with-optionsマクロ) -->
+
+```lisp
+(defmacro with-options ((&key fill stroke font layer) &rest body) ...)
+```
 
 #### with-canvasマクロ
 <!-- autolink: [with-canvas](#with-canvasマクロ) -->
