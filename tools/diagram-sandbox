@@ -1,0 +1,118 @@
+#!/usr/bin/bash
+
+DIAGRAM="diagram"	# diagram のパス
+
+# default value of parameter
+DEFAULT_INFILE="./sandbox.lisp"
+DEFAULT_OUTPUT_PREFIX="./sandbox"
+DEFAULT_SCRIPT_SLEEP_SEC=1
+DEFAULT_HTML_RELOAD_SEC=2
+
+# データファイルのスケルトンを作成する関数
+function create_skelton_file {
+	FILE="$1"
+	echo "(diagram (400 300)"       > ${FILE}
+	echo "  (grid)"                >> ${FILE}
+	echo "  ;; write code here..." >> ${FILE}
+	echo ")"                       >> ${FILE}
+}
+
+# SVG ファイルを作成する関数
+function generate_svg {
+	IN="$1"
+	OUT="$2"
+	TMP="$$.tmp"
+	${DIAGRAM} ${IN}  >> ${TMP} 2>&1
+	mv -f ${TMP} ${OUT}
+}
+
+# HTML ファイルを作成する関数
+function generate_html {
+	IN="$1"
+	OUT="$2"
+	NOREFRESH="$3"
+	TMP="$$.tmp"
+	echo "<html>"   > ${TMP}
+	echo "<head>"  >> ${TMP}
+	echo "<meta charset='UTF-8'>" >> ${TMP}
+	if [ -z "${NOREFRESH}" ]; then
+		echo "<meta http-equiv='refresh' content='${HTML_RELOAD_SEC}; URL='>" >> ${TMP}
+	fi
+	echo "<title>diagram sandbox</title>" >> ${TMP}
+	echo "</head>" >> ${TMP}
+	echo "<body>"  >> ${TMP}
+	${DIAGRAM} ${IN}  >> ${TMP} 2>&1
+	echo "<pre style=\"font-family: 'Courier New', monospace, serif\">"   >> ${TMP}
+	cat ${IN}      >> ${TMP}
+	echo "</pre>"  >> ${TMP}
+	echo "</body>" >> ${TMP}
+	echo "</html>" >> ${TMP}
+	mv -f ${TMP} ${OUT}
+}
+
+# Ctrl+C で終了する際の trap
+function on_signal_interrupt( ){
+	GENCMD="$1"
+	INFILE="$2"
+	OUTFILE="$3"
+	${GENCMD} ${INFILE} ${OUTFILE} norefresh
+	echo "Interrupted."
+	exit
+}
+
+
+# コマンドラインパラメータの読み取り
+GEN_CMD="generate_svg"
+if [ "$1" == "--svg" ]; then
+	GEN_CMD="generate_svg"
+	shift
+elif [ "$1" == "--html" ]; then
+	GEN_CMD="generate_html"
+	shift
+fi
+INFILE="$1"
+OUTFILE="$2"
+SCRIPT_SLEEP_SEC="$3"
+HTML_RELOAD_SEC="$4"
+
+# パラメータが省略されていればデフォルト値を使用
+if [ -z "${INFILE}" ]; then
+	INFILE="${DEFAULT_INFILE}"
+fi
+if [ -z "${OUTFILE}" ]; then
+	OUTFILE="${DEFAULT_OUTPUT_PREFIX}.${GEN_CMD:9}"
+fi
+if [ -z "${SCRIPT_SLEEP_SEC}" ]; then
+	SCRIPT_SLEEP_SEC="${DEFAULT_SCRIPT_SLEEP_SEC}"
+fi
+if [ -z "${HTML_RELOAD_SEC}" ]; then
+	HTML_RELOAD_SEC="${DEFAULT_HTML_RELOAD_SEC}"
+fi
+
+# データファイルが存在しなければ作成する
+if [ ! -e ${INFILE} ]; then
+	create_skelton_file ${INFILE}
+else
+	touch ${INFILE}
+fi
+
+# Ctrl+C で終了する際の trap を登録
+trap "on_signal_interrupt ${GEN_CMD} ${INFILE} ${OUTFILE}" 2
+
+# コンソールに情報を出力
+echo "mode        : ${GEN_CMD:9}"
+echo "data file   : ${INFILE}"
+echo "output file : ${OUTFILE}"
+echo "type Ctrl-C to quit."
+
+# 一定時間おきにループしてデータファイルが更新されたら diagram 実行 ⇒ Ctrl+C で終了
+while :
+do
+	if [ ${INFILE} -nt ${OUTFILE} ]; then
+		#echo "generating..."
+		${GEN_CMD} ${INFILE} ${OUTFILE}
+	fi
+	#echo "sleep..."
+	sleep ${SCRIPT_SLEEP_SEC}
+done
+
