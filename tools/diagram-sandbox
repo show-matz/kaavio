@@ -17,13 +17,39 @@ function create_skelton_file {
 	echo ")"                       >> ${FILE}
 }
 
+function generate_errsvg {
+	IN="$1"
+	OUT="$2"
+	echo "<?xml version='1.0' encoding='utf-8' ?>"   > ${OUT}
+	echo "<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='1400' height='800'>"  >> ${OUT}
+	echo "<g text-anchor='start' font-family='monospace' font-size='10pt' fill='red'>" >> ${OUT}
+	YPOS=20
+	IFS_BKUP=$IFS
+	IFS=$'\n'
+	for LINE in `cat ${IN} | perl -pe 's/"/&quot;/g' | perl -pe 's/>/&gt;/g' | perl -pe 's/</&lt;/g' | perl -pe 's/&/&amp;/g'`
+	do
+		echo "<text x='10' y='${YPOS}'>${LINE}</text>" >> ${OUT}
+		YPOS=$((YPOS + 20))
+	done
+	IFS=${IFS_BKUP}
+	echo "</g>" >> ${OUT}
+	echo "</svg>" >> ${OUT}
+}
+
 # SVG ファイルを作成する関数
 function generate_svg {
 	IN="$1"
 	OUT="$2"
 	TMP="$$.tmp"
-	${DIAGRAM} ${IN}  >> ${TMP} 2>&1
-	mv -f ${TMP} ${OUT}
+	LOG="$$.log"
+	${DIAGRAM} ${IN}  >> ${TMP} 2> ${LOG}
+	if [ ! -s ${LOG} ]; then
+		mv -f ${TMP} ${OUT}
+	else
+		rm -f ${TMP}
+		generate_errsvg ${LOG} ${OUT}
+	fi
+	rm -f ${LOG}
 }
 
 # HTML ファイルを作成する関数
