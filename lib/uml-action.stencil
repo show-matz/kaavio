@@ -1,5 +1,5 @@
 
-(in-package :cl-diagram-user)
+(in-package :kaavio-user)
 
 (load-stencil :uml-keyword-info)
 
@@ -35,7 +35,7 @@
 ;; class uml-action
 ;;
 ;;------------------------------------------------------------------------------
-(defclass uml-action (diagram:text-shape)
+(defclass uml-action (kaavio:text-shape)
   ((keyword		:initform nil	:initarg  :keyword)		; (or nil uml-keyword-info)
    (contents-p	:initform nil	:initarg  :contents-p)	; boolean
    (rake		:initform nil	:initarg  :rake)		; boolean
@@ -50,8 +50,8 @@
 	(setf rake    (uml-action-fix-rake-info rake))
 	(setf kwd-height (if (null keyword)
 						 0
-						 (or (and *uml-action-font* (slot-value *uml-action-font* 'diagram::size))
-							 (and *default-font*    (slot-value *default-font*    'diagram::size))
+						 (or (and *uml-action-font* (slot-value *uml-action-font* 'kaavio::size))
+							 (and *default-font*    (slot-value *default-font*    'kaavio::size))
 							 12))))	;;ToDo : これはなんとかしないと。
   action)
 
@@ -91,15 +91,15 @@
 	  (macrolet ((register-entity (entity)
 				   `(check-and-draw-local-entity ,entity canvas writer)))
 		(with-slots (keyword kwd-height corner-r rake
-						 diagram::margin diagram::fill diagram::stroke) action
+						 kaavio::margin kaavio::fill kaavio::stroke) action
 		  ;; draw action body
 		  (rectangle (make-point (/ width 2) (/ height 2))
 					 width height :rx corner-r :ry corner-r
-					 :fill diagram::fill :stroke diagram::stroke)
+					 :fill kaavio::fill :stroke kaavio::stroke)
 		  ;; rake icon
 		  (when rake
 			(destructuring-bind (w h xm ym) rake
-			  (let ((*default-stroke* (make-stroke :width 2 :base diagram::stroke)))
+			  (let ((*default-stroke* (make-stroke :width 2 :base kaavio::stroke)))
 				(path `((:move-to (,(- width xm (/ w 2)) ,(- height ym h)))
 						:relative
 						(:line-to (0 ,h))
@@ -111,7 +111,7 @@
 		  (when keyword
 			(uml-keyword-draw keyword
 							  (+ left (/ width 2))
-							  (+ top  diagram::margin kwd-height) :center writer))
+							  (+ top  kaavio::margin kwd-height) :center writer))
 		  ;; draw text
 		  (call-next-method)))))
   nil)
@@ -130,7 +130,7 @@
   ;;(format t "text-shape-calc-size called.~%")
   (multiple-value-bind (width height) (call-next-method)
 	(with-slots (keyword contents-p
-						 (margin diagram::margin)) action
+						 (margin kaavio::margin)) action
 	  ;; ToDo : margin は上記 call-next-method の結果に含まれているはずだが、何故か必要。
 	  (incf height (* margin 2))
 	  ;; keyword (if exists).
@@ -147,20 +147,20 @@
   ;;(format t "text-shape-paragraph-area called.~%")
   (let ((canvas (call-next-method)))
 	(with-slots (text contents-p kwd-height
-					  diagram::font diagram::margin) action
+					  kaavio::font kaavio::margin) action
 	  (incf (canvas-top canvas) (/ kwd-height 2))
 	  (when contents-p
 		(multiple-value-bind (w h)
-				(font-calc-textarea diagram::font text)
+				(font-calc-textarea kaavio::font text)
 		  (declare (ignore w))
 		  (setf (canvas-height canvas)
-				(+ kwd-height (* 2 diagram::margin) h)))))
+				(+ kwd-height (* 2 kaavio::margin) h)))))
 	canvas))
 
 (defmethod shape-get-subcanvas ((action uml-action))
   ;;(format t "shape-get-subcanvas called.~%")
-  (with-slots (diagram::margin) action
-	(let ((partition (+ diagram::margin
+  (with-slots (kaavio::margin) action
+	(let ((partition (+ kaavio::margin
 						(canvas-height (text-shape-paragraph-area action)))))
 	  (make-canvas (point/y+ (shape-topleft action) partition)
 				   (shape-width action)

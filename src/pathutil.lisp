@@ -1,10 +1,10 @@
 #|
-#|ASD|#				(:file "pathutil"                  :depends-on ("cl-diagram"))
+#|ASD|#				(:file "pathutil"                  :depends-on ("kaavio"))
 #|EXPORT|#				;pathutil.lisp
  |#
 
 
-(in-package :cl-diagram)
+(in-package :kaavio)
 
 ;;;----------------------------------------------------------------
 ;;; internal functions

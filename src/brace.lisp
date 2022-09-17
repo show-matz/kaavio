@@ -1,11 +1,11 @@
 #|
-#|ASD|#				(:file "brace"                     :depends-on ("cl-diagram"
+#|ASD|#				(:file "brace"                     :depends-on ("kaavio"
 #|ASD|#																"constants"
 #|ASD|#																"path"))
 #|EXPORT|#				;brace.lisp
  |#
 
-(in-package :cl-diagram)
+(in-package :kaavio)
 
 #|
 #|EXPORT|#				:*default-brace-font*
@@ -155,7 +155,7 @@
  |#
 (defmacro brace (center direction width height
 						&key r point text font stroke layer filter id)
-  `(register-entity (make-instance 'diagram:brace
+  `(register-entity (make-instance 'kaavio:brace
 								   :center ,center :direction ,direction
 								   :width ,width :height ,height
 								   :r ,r :point ,point

@@ -1,5 +1,5 @@
 
-(in-package :cl-diagram-user)
+(in-package :kaavio-user)
 
 (load-stencil :uml-keyword-info)
 
@@ -17,7 +17,7 @@
 ;; class uml-note
 ;;
 ;;------------------------------------------------------------------------------
-(defclass uml-note (diagram:text-shape)
+(defclass uml-note (kaavio:text-shape)
   ((keyword	:initform nil :initarg :keyword)	; (or nil uml-keyword-info)
    (targets	:initform nil :initarg :targets)	; list of keyword symbol
    (margin2	:initform nil :initarg :margin)		; number ( margin for keyword )
@@ -32,8 +32,8 @@
 	(setf targets (if (listp targets) targets (list targets)))
 	(setf margin2 (if (null keyword)
 					  0
-					  (or (and *uml-note-font* (slot-value *uml-note-font* 'diagram::size))
-						  (and *default-font*  (slot-value *default-font*  'diagram::size))
+					  (or (and *uml-note-font* (slot-value *uml-note-font* 'kaavio::size))
+						  (and *default-font*  (slot-value *default-font*  'kaavio::size))
 						  12)))	;;ToDo : これはなんとかしないと。
 	(setf crease  (or crease *uml-note-crease-size*))
 	(setf filter  (if (eq filter :none)
@@ -50,7 +50,7 @@
 	(check-member margin2 :nullable nil :types number)
 	(check-member crease  :nullable nil :types number)
 	(setf targets (mapcar (lambda (id)
-							(let ((ent (diagram::dict-get-entity dict id)))
+							(let ((ent (kaavio::dict-get-entity dict id)))
 							  (unless ent
 								(throw-exception "ERROR : entity '~A' not found in dictionary." id))
 							  ent)) targets)))
@@ -68,25 +68,25 @@
 	  (macrolet ((register-entity (entity)
 				   `(check-and-draw-local-entity ,entity canvas writer)))
 		(with-slots (keyword margin2 crease filter
-							 diagram::fill diagram::stroke diagram::margin) note
+							 kaavio::fill kaavio::stroke kaavio::margin) note
 		  ;; draw note body
 		  (polygon `((0 0)
 					 (0 ,height)
 					 (,width ,height)
 					 (,width ,crease)
 					 (,(- width crease) 0))
-				   :fill diagram::fill :stroke diagram::stroke :filter filter)
+				   :fill kaavio::fill :stroke kaavio::stroke :filter filter)
 		  ;; draw keyword
 		  (when keyword
-			(uml-keyword-draw keyword (+ left diagram::margin)
-							  (+ top (/ diagram::margin 2) margin2) :left writer))
+			(uml-keyword-draw keyword (+ left kaavio::margin)
+							  (+ top (/ kaavio::margin 2) margin2) :left writer))
 		  ;; draw text
 		  (call-next-method)
 		  ;; draw crease
 		  (polygon `((,width ,crease)
 					 (,(- width crease) ,crease)
 					 (,(- width crease) 0))
-				   :fill diagram::fill :stroke diagram::stroke)))))
+				   :fill kaavio::fill :stroke kaavio::stroke)))))
   nil)
 
 ;for debug...
@@ -101,11 +101,11 @@
 		 (height (canvas-height canvas)))
 	(macrolet ((register-entity (entity)
 				 `(check-and-draw-local-entity ,entity canvas writer)))
-	  (with-slots (targets diagram::stroke) note
+	  (with-slots (targets kaavio::stroke) note
 		;; draw connections
 		(let ((canvas (make-canvas '(0 0) width height))
 			  (*default-stroke* (make-stroke :dasharray '(3 3)
-											 :base diagram::stroke))) ;;ToDo : fixed ?
+											 :base kaavio::stroke))) ;;ToDo : fixed ?
 		  (dolist (ent targets)
 			(line (resolve-connector-points note ent :CC nil)))))))
   nil)

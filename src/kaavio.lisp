@@ -1,13 +1,13 @@
 #|
-#|ASD|#				(:file "cl-diagram")
-#|EXPORT|#				;cl-diagram.lisp
+#|ASD|#				(:file "kaavio")
+#|EXPORT|#				;kaavio.lisp
  |#
 
-(provide :cl-diagram)
+(provide :kaavio)
 
-(defpackage		:cl-diagram
+(defpackage		:kaavio
   (:use			:common-lisp)
-  (:nicknames	:diagram)
+  (:nicknames	:kaavio)
   (:export  	;--------------- BEGIN EXPORT
 				;arc.lisp
 				:arc
@@ -59,30 +59,6 @@
 				;circle.lisp
 				:circle-connect-point
 				:circle
-				;cl-diagram.lisp
-				:make-id
-				:fix-name
-				:exception
-				:caution
-				:throw-exception
-				:throw-caution
-				:type-assert
-				:chk-type
-				:format-string
-				:check-member
-				:check-object
-				:check-keywords
-				:check-numbers
-				:write-when
-				:it
-				:with-dictionary
-				:attr
-				:escape-characters
-				:to-property-strings
-				:to-style-strings
-				:check
-				:rgb
-				:with-options
 				;colormap.lisp
 				;connector.lisp
 				:resolve-connector-points
@@ -224,6 +200,30 @@
 				:draw-canvas-frame
 				;image.lisp
 				:image
+				;kaavio.lisp
+				:make-id
+				:fix-name
+				:exception
+				:caution
+				:throw-exception
+				:throw-caution
+				:type-assert
+				:chk-type
+				:format-string
+				:check-member
+				:check-object
+				:check-keywords
+				:check-numbers
+				:write-when
+				:it
+				:with-dictionary
+				:attr
+				:escape-characters
+				:to-property-strings
+				:to-style-strings
+				:check
+				:rgb
+				:with-options
 				;label-info.lisp
 				:label-info
 				:draw-label-with-point
@@ -373,13 +373,13 @@
 ))
 
 
-(defpackage 	:cl-diagram-user
+(defpackage 	:kaavio-user
   (:use			:common-lisp
-				:cl-diagram)
-  (:nicknames	:diagram-user))
+				:kaavio)
+  (:nicknames	:kaavio-user))
 
 
-(in-package :cl-diagram)
+(in-package :kaavio)
 
 
 ;;------------------------------------------------------------------------------
@@ -457,7 +457,7 @@
 	  (princ a s))))
 
 (defun onlisp/symb (&rest args)
-  (values (intern (apply #'onlisp/mkstr args) 'cl-diagram)))
+  (values (intern (apply #'onlisp/mkstr args) 'kaavio)))
 
 (defun onlisp/keysymb (&rest args)
   (values (intern (apply #'onlisp/mkstr args) :keyword)))
@@ -637,13 +637,13 @@
 					 `(,sym (,method (dict-get-entity ,dict ,id-kwd))))))))
 	(let ((syms (remove-duplicates
 				 (remove-if-not #'property-ref-symbolp
-								(diagram::onlisp/flatten body)))))
+								(kaavio::onlisp/flatten body)))))
 	  `(symbol-macrolet ,(mapcar #'make-symbol-macrolet syms)
 		 (labels ((get-dictionary () ,dict))
 		   (declare (ignorable #'get-dictionary))
 		   (macrolet ((attr (id name)
-						(let ((func-sym (diagram::onlisp/symb "SHAPE-" name)))
-						  (list ,'func-sym (list 'diagram::dict-get-entity ',dict id)))))
+						(let ((func-sym (kaavio::onlisp/symb "SHAPE-" name)))
+						  (list ,'func-sym (list 'kaavio::dict-get-entity ',dict id)))))
 			 ,@body))))))
 
 #|

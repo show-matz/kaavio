@@ -1,4 +1,4 @@
-(in-package :cl-diagram-user)
+(in-package :kaavio-user)
 
 (load-stencil :uml-keyword-info)
 (load-stencil :uml-dependency)

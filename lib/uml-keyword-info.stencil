@@ -1,5 +1,5 @@
 
-(in-package :cl-diagram-user)
+(in-package :kaavio-user)
 
 (defparameter *uml-keyword-font*  nil)
 
@@ -39,9 +39,9 @@
 
 
 (defun uml-keyword-draw-beside-line (kwd line writer)
-  (multiple-value-bind (x y sin cos) (diagram::line-get-center line)	;;ToDo : export!?
+  (multiple-value-bind (x y sin cos) (kaavio::line-get-center line)	;;ToDo : export!?
 	(declare (ignorable x y sin cos))
-	(let* ((f-size (slot-value (slot-value kwd 'font) 'diagram::size))
+	(let* ((f-size (slot-value (slot-value kwd 'font) 'kaavio::size))
 		   (offset f-size)
 		   (align (cond ((zerop sin) :center)
 						((<  0  sin) :left)
@@ -63,5 +63,5 @@
 		(make-instance 'uml-keyword-info
 					   :name  (if name-p  name  nil)
 					   :font  (if font-p  font  (or *uml-keyword-font*
-													diagram:*default-font*))))))
+													kaavio:*default-font*))))))
 

@@ -1,5 +1,5 @@
 
-(in-package :cl-diagram-user)
+(in-package :kaavio-user)
 
 (load-stencil :uml-connection-common)
 (load-stencil :uml-keyword-info)
@@ -11,8 +11,8 @@
 ;; class uml-dependency
 ;;
 ;;------------------------------------------------------------------------------
-(defclass uml-dependency (diagram:connector)
-  ((name	:initform nil :initarg :name)		; (or nil diagram::label-info)
+(defclass uml-dependency (kaavio:connector)
+  ((name	:initform nil :initarg :name)		; (or nil kaavio::label-info)
    (keyword :initform nil :initarg :keyword)))	; (or nil uml-keyword-info)
 
 (defmethod initialize-instance :after ((dep uml-dependency) &rest initargs)

@@ -1,10 +1,10 @@
 #|
-#|ASD|#				(:file "canvas"                    :depends-on ("cl-diagram"
+#|ASD|#				(:file "canvas"                    :depends-on ("kaavio"
 #|ASD|#																"point"))
 #|EXPORT|#				;canvas.lisp
  |#
 
-(in-package :cl-diagram)
+(in-package :kaavio)
 
 ;;------------------------------------------------------------------------------
 ;;
@@ -102,8 +102,8 @@
  |#
 (defmacro with-subcanvas-of ((id) &body body)
   (let ((g-obj (gensym "TBL")))
-	`(let* ((,g-obj (diagram::dict-get-entity (diagram::get-dictionary) ,id))
-			(canvas (diagram:shape-get-subcanvas ,g-obj)))
+	`(let* ((,g-obj (kaavio::dict-get-entity (kaavio::get-dictionary) ,id))
+			(canvas (kaavio:shape-get-subcanvas ,g-obj)))
 	   (declare (special canvas))
 	   ,@body)))
 

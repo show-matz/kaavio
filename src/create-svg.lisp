@@ -1,5 +1,5 @@
 #|
-#|ASD|#				(:file "create-svg"                :depends-on ("cl-diagram"
+#|ASD|#				(:file "create-svg"                :depends-on ("kaavio"
 #|ASD|#				                                                "constants"
 #|ASD|#																"colormap"
 #|ASD|#				                                                "entity"
@@ -13,7 +13,7 @@
 #|EXPORT|#				;create-svg.lisp
  |#
 
-(in-package :cl-diagram)
+(in-package :kaavio)
 
 
 ;;------------------------------------------------------------------------------

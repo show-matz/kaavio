@@ -1,4 +1,4 @@
-(in-package :cl-diagram-user)
+(in-package :kaavio-user)
 
 (load-stencil :uml-keyword-info)
 (load-stencil :uml-multiplicity-info)
@@ -31,7 +31,7 @@
 ;;-------------------------------------------------------------------------------
 (defclass uml-class-stuff () ())
 
-;;(defgeneric check (stuff canvas dict))	;;use cl-diagram:check
+;;(defgeneric check (stuff canvas dict))	;;use kaavio:check
 (defgeneric uml-class-stuff-class-scope-p (stuff))
 (defgeneric uml-class-stuff-abstract-p (stuff))
 (defgeneric uml-class-stuff-to-string (stuff))
@@ -307,7 +307,7 @@
 ;; class uml-class
 ;;
 ;;-------------------------------------------------------------------------------
-(defclass uml-class (diagram:group)
+(defclass uml-class (kaavio:group)
   ((name				:initform nil :initarg :name)				; (or keyword string)
    (keyword				:initform nil :initarg :keyword)			; uml-keyword-info
    (multiplicity		:initform nil :initarg :multiplicity)		; (or nil uml-multiplicity-info)
@@ -343,14 +343,14 @@
 
 (defun uml-class-caluculate-shapesize (cls)
   (with-slots (name keyword font attributes operations active-p
-				diagram::width diagram::height emptybox
+				kaavio::width kaavio::height emptybox
 				responsibilities heights-cache margin-cache name-margin-cache) cls
 	(let ((total-height  0)
 		  (total-width   0)
 		  (name-height   0)
-		  (size    (slot-value font 'diagram::size))
-		  (spice   (slot-value font 'diagram::width-spice))
-		  (spacing (slot-value font 'diagram::line-spacing)))
+		  (size    (slot-value font 'kaavio::size))
+		  (spice   (slot-value font 'kaavio::width-spice))
+		  (spacing (slot-value font 'kaavio::line-spacing)))
 	  (setf heights-cache nil)
 	  (labels ((get-width (line margin)
 				 (+ (* 2 margin) (* (length line) size spice))) ;ToDo : what can I do ?
@@ -367,14 +367,14 @@
 							  (* (length lst) size)
 							  (* (1- (length lst)) spacing))))))
 		;; name
-		(let ((lst (diagram::string/split (fix-name name) #\newline)))
+		(let ((lst (kaavio::string/split (fix-name name) #\newline)))
 		  (when keyword
 			(setf lst (cons (uml-keyword-to-string keyword) lst)))
 		  (let ((w.h (calc-box lst #'get-width nil margin-cache
 							   (+ margin-cache name-margin-cache))))
 			(setf name-height  (cdr w.h))
-			(setf total-width  (max (car w.h) diagram::width))
-			(setf total-height (max (cdr w.h) diagram::height))
+			(setf total-width  (max (car w.h) kaavio::width))
+			(setf total-height (max (cdr w.h) kaavio::height))
 			(push total-height heights-cache)))
 		;; members
 		(let ((w.h (calc-box attributes #'get-object-width
@@ -425,11 +425,11 @@
 	  (check-object operation canvas dict :nullable nil :class uml-class-stuff)
 	  (check operation canvas dict))
 	(when responsibilities
-	  (setf responsibilities (diagram::string/split (fix-name responsibilities) #\newline)))
+	  (setf responsibilities (kaavio::string/split (fix-name responsibilities) #\newline)))
 	(multiple-value-bind (w h nh) (uml-class-caluculate-shapesize cls)
 	  (setf name-actual-height nh)
-	  (setf (slot-value cls 'diagram::width)  w)
-	  (setf (slot-value cls 'diagram::height) h)))
+	  (setf (slot-value cls 'kaavio::width)  w)
+	  (setf (slot-value cls 'kaavio::height) h)))
   nil)
 
 ;;MEMO : use impelementation of shape...
@@ -449,9 +449,9 @@
 				  attributes operations responsibilities emptybox
 				  name-actual-height margin-cache heights-cache font fill stroke) cls
 	  (with-canvas (cc width height) canvas
-		(let ((font-size (slot-value font 'diagram::size))
-			  (spice     (slot-value font 'diagram::width-spice))
-			  (spacing   (slot-value font 'diagram::line-spacing))
+		(let ((font-size (slot-value font 'kaavio::size))
+			  (spice     (slot-value font 'kaavio::width-spice))
+			  (spacing   (slot-value font 'kaavio::line-spacing))
 			  (topleft   (xy+ cc (- (/ width 2)) (- (/ height 2)))))
 		  (macrolet ((register-entity (entity)
 					   `(check-and-draw-local-entity ,entity canvas writer)))
@@ -472,7 +472,7 @@
 					(center (/ width 2)))
 				;; draw name box.
 				(let ((height (car heights-cache))
-					  (names  (diagram::string/split (fix-name name) #\newline)))
+					  (names  (kaavio::string/split (fix-name name) #\newline)))
 				  (setf y (+ (/ (- height name-actual-height) 2) margin-cache))
 				  ;; keyword and name
 				  (when keyword
@@ -491,7 +491,7 @@
 				;; draw multiplicity ( if exists ).
 				(when multiplicity
 				  (let* ((font  (slot-value multiplicity 'font))
-						 (fsize (slot-value font         'diagram::size))
+						 (fsize (slot-value font         'kaavio::size))
 						 (x (- (+ (point-x topleft) width) margin-cache))
 						 (y    (+ (point-y topleft) fsize  margin-cache)))
 					(uml-multiplicity-draw multiplicity x y :right writer)))

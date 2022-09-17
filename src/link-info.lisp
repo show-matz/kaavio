@@ -1,11 +1,11 @@
 #|
-#|ASD|#				(:file "link-info"                 :depends-on ("cl-diagram"
+#|ASD|#				(:file "link-info"                 :depends-on ("kaavio"
 #|ASD|#																"constants"
 #|ASD|#																"writer"))
 #|EXPORT|#				;link-info.lisp
  |#
 
-(in-package :cl-diagram)
+(in-package :kaavio)
 
 ;;------------------------------------------------------------------------------
 ;;

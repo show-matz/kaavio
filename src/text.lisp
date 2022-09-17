@@ -1,5 +1,5 @@
 #|
-#|ASD|#				(:file "text"                      :depends-on ("cl-diagram"
+#|ASD|#				(:file "text"                      :depends-on ("kaavio"
 #|ASD|#																"constants"
 #|ASD|#																"entity"
 #|ASD|#																"font-info"
@@ -9,7 +9,7 @@
  |#
 
 
-(in-package :cl-diagram)
+(in-package :kaavio)
 
 
 (defun need-preserve-space-p (txt &optional (start 0))
@@ -117,7 +117,7 @@
 #|EXPORT|#				:text
  |#
 (defmacro text (position text &key align font link layer id)
-  `(register-entity (make-instance 'diagram:text
+  `(register-entity (make-instance 'kaavio:text
 								   :position ,position :text ,text
 								   :align ,align :font ,font 
 								   :link ,link :layer ,layer :id ,id)))

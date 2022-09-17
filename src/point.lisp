@@ -1,9 +1,9 @@
 #|
-#|ASD|#				(:file "point"                     :depends-on ("cl-diagram"))
+#|ASD|#				(:file "point"                     :depends-on ("kaavio"))
 #|EXPORT|#				;point.lisp
  |#
 
-(in-package :cl-diagram)
+(in-package :kaavio)
 
 ;;------------------------------------------------------------------------------
 ;;

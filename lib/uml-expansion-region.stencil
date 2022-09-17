@@ -1,5 +1,5 @@
 
-(in-package :cl-diagram-user)
+(in-package :kaavio-user)
 
 (load-stencil :uml-keyword-info)
 
@@ -13,7 +13,7 @@
 ;; class uml-expansion-region
 ;;
 ;;------------------------------------------------------------------------------
-(defclass uml-expansion-region (diagram:rectangle)
+(defclass uml-expansion-region (kaavio:rectangle)
   ((keyword	:initform nil	:initarg  :keyword)		; (or nil uml-keyword-info)
    (offset	:initform nil	:initarg  :offset)))	; offset
 
@@ -29,7 +29,7 @@
 (defmethod check ((region uml-expansion-region) canvas dict)
   ;;(format t "check called.~%")
   (with-slots (keyword offset
-					   (stroke diagram::stroke)) region
+					   (stroke kaavio::stroke)) region
 	(check-object keyword  canvas dict :nullable t :class uml-keyword-info)
 	(unless (point-p offset)
 	  (throw-exception "offset is not point object."))
@@ -53,7 +53,7 @@
 	(when keyword
 	  (let* ((canvas    (shape-get-subcanvas region))
 			 (topleft   (canvas-topleft   canvas))
-			 (font-size (slot-value (slot-value keyword 'font) 'diagram::size)))
+			 (font-size (slot-value (slot-value keyword 'font) 'kaavio::size)))
 		(macrolet ((register-entity (entity)
 					 `(check-and-draw-local-entity ,entity canvas writer)))
 		  (uml-keyword-draw keyword

@@ -1,4 +1,4 @@
-(in-package :cl-diagram-user)
+(in-package :kaavio-user)
 
 (defparameter *uml-activity-final-radius*       15)
 (defparameter *uml-activity-final-ratio*       0.6)
@@ -10,7 +10,7 @@
 ;; class uml-activity-final
 ;;
 ;;------------------------------------------------------------------------------
-(defclass uml-activity-final (diagram:circle)
+(defclass uml-activity-final (kaavio:circle)
   ((ratio :initform 0 :initarg :ratio)))	; number
 
 (defmethod check ((obj uml-activity-final) canvas dict)
@@ -25,7 +25,7 @@
 	(let* ((canvas (shape-get-subcanvas obj))
 		   (center (/ (canvas-width canvas) 2))
 		   (radius (* center ratio))
-		   (fill   (slot-value (slot-value obj 'diagram::stroke) 'diagram::color)))
+		   (fill   (slot-value (slot-value obj 'kaavio::stroke) 'kaavio::color)))
 	  (macrolet ((register-entity (entity)
 				   `(check-and-draw-local-entity ,entity canvas writer)))
 		(circle (make-point center center) radius :fill fill :stroke :none))))

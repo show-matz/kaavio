@@ -1,5 +1,5 @@
 #|
-#|ASD|#				(:file "text-shape"                :depends-on ("cl-diagram"
+#|ASD|#				(:file "text-shape"                :depends-on ("kaavio"
 #|ASD|#																"canvas"
 #|ASD|#																"group"
 #|ASD|#																"paragraph"
@@ -10,7 +10,7 @@
 #|EXPORT|#				;text-shape.lisp
  |#
 
-(in-package :cl-diagram)
+(in-package :kaavio)
 
 
 ;;------------------------------------------------------------------------------

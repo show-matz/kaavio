@@ -1,5 +1,5 @@
 #|
-#|ASD|#				(:file "label-info"                :depends-on ("cl-diagram"
+#|ASD|#				(:file "label-info"                :depends-on ("kaavio"
 #|ASD|#																"constants"
 #|ASD|#																"point"
 #|ASD|#																"canvas"
@@ -9,7 +9,7 @@
 #|EXPORT|#				;label-info.lisp
  |#
 
-(in-package :cl-diagram)
+(in-package :kaavio)
 
 ;;------------------------------------------------------------------------------
 ;;
@@ -85,8 +85,8 @@
 			   (let* ((width     0)
 					  (height    0)
 					  (lines     (escape-characters (fix-name text)))
-					  (font-size (slot-value font 'diagram::size))
-					  (spacing   (slot-value font 'diagram::line-spacing)))
+					  (font-size (slot-value font 'kaavio::size))
+					  (spacing   (slot-value font 'kaavio::line-spacing)))
 				 (multiple-value-setq (width height)
 									  (font-calc-textarea font lines))
 				 (values width height font-size

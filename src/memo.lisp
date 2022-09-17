@@ -1,5 +1,5 @@
 #|
-#|ASD|#				(:file "memo"                      :depends-on ("cl-diagram"
+#|ASD|#				(:file "memo"                      :depends-on ("kaavio"
 #|ASD|#																"constants"
 #|ASD|#																"arc"
 #|ASD|#																"polygon"
@@ -8,7 +8,7 @@
 #|EXPORT|#				;memo.lisp
  |#
 
-(in-package :cl-diagram)
+(in-package :kaavio)
 
 #|
 #|EXPORT|#				:*default-memo-crease*
@@ -128,7 +128,7 @@
 		code
 		(let ((g-obj (gensym "OBJ")))
 		  `(let* ((,g-obj ,code)
-				  (canvas (diagram:shape-get-subcanvas ,g-obj)))
+				  (canvas (kaavio:shape-get-subcanvas ,g-obj)))
 			 (declare (special canvas))
 			 ,@contents)))))
 

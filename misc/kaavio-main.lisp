@@ -1,8 +1,8 @@
-(require :cl-diagram)
+(require :kaavio)
 
-(in-package :cl-diagram)    ;;ToDo : :diagram-user でもいける？
+(in-package :kaavio)    ;;ToDo : :kaavio-user でもいける？
 
-(defun cl-diagram-main (self args)
+(defun kaavio-main (self args)
   (handler-bind ((condition
 				  (lambda (c)
 					(let ((is-warn (typep c 'warning)))
@@ -13,7 +13,7 @@
 								  (print-object c stream))))
 					  (if is-warn
 						  (muffle-warning)
-						  (return-from cl-diagram-main nil))))))
+						  (return-from kaavio-main nil))))))
 	(if (string= (car args) "--help")
 		(format t "usage : ~A [-IPATH]... [INFILE]~%" self)
 		(labels ((is-I-option (param)
@@ -33,16 +33,16 @@
 							 (retrieve-include-paths (cdr args)
 													 (cons (fix-path param) paths)))))))
 		  (multiple-value-bind (paths args) (retrieve-include-paths args)
-			(let ((diagram:*include-paths* paths))
+			(let ((kaavio:*include-paths* paths))
 			  (if (< 1 (length args))
-				  (diagram::throw-exception "Invalid parameter count.")
+				  (kaavio::throw-exception "Invalid parameter count.")
 				  (labels ((read-whole (stream acc)
 							 (let ((lst (read stream nil nil)))
 							   (if (null lst)
 								   (cons 'progn (nreverse acc))
 								   (read-whole stream (cons lst acc)))))
 						   (impl (stream)
-							 (let ((*package* (find-package :diagram-user)))
+							 (let ((*package* (find-package :kaavio-user)))
 							   (write-string (eval (read-whole stream nil))))))
 					(if (zerop (length args))
 						(impl *standard-input*)

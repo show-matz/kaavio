@@ -1,5 +1,5 @@
 
-(in-package :cl-diagram-user)
+(in-package :kaavio-user)
 
 (defparameter *uml-diagram-font*      nil)
 (defparameter *uml-diagram-fill*   :white)
@@ -12,7 +12,7 @@
 ;; class uml-diagram
 ;;
 ;;-------------------------------------------------------------------------------
-(defclass uml-diagram (diagram:shape)
+(defclass uml-diagram (kaavio:shape)
   ((topleft	:initform nil :initarg :topleft)	; point
    (width	:initform   0 :initarg :width)		; number
    (height	:initform   0 :initarg :height)		; number
@@ -81,8 +81,8 @@
 			  (*default-stroke* stroke))
 		  (rectangle (make-point (/ width 2) (/ height 2)) width height)
 		  (paragraph (make-point margin margin) title :align :left :valign :top)
-		  (multiple-value-bind (w h) (diagram::caluculate-paragraph-shapesize
-									  font (diagram::string/split title #\newline))
+		  (multiple-value-bind (w h) (kaavio::caluculate-paragraph-shapesize
+									  font (kaavio::string/split title #\newline))
 			(incf w (* 2 margin))
 			(incf h (* 2 margin))
 			(path `((:move-to (0 ,h)

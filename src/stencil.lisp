@@ -1,11 +1,11 @@
 #|
-#|ASD|#				(:file "stencil"                   :depends-on ("cl-diagram"
+#|ASD|#				(:file "stencil"                   :depends-on ("kaavio"
 #|ASD|#																"pathutil"))
 #|EXPORT|#				;stencil.lisp
  |#
 
 
-(in-package :cl-diagram)
+(in-package :kaavio)
 
 #|
 #|EXPORT|#				:*include-paths*

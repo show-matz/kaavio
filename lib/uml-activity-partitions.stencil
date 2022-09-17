@@ -1,5 +1,5 @@
 
-(in-package :cl-diagram-user)
+(in-package :kaavio-user)
 
 (defparameter *uml-activity-partitions-lines*     :mid)
 (defparameter *uml-activity-partitions-margin*       5)
@@ -21,7 +21,7 @@
 ;; class uml-activity-partitions
 ;;
 ;;------------------------------------------------------------------------------
-(defclass uml-activity-partitions (diagram:entity)
+(defclass uml-activity-partitions (kaavio:entity)
   ((topleft			:initform nil :initarg :topleft)		; point
    (vertical		:initform nil :initarg :vertical)		; (or number list)
    (horizontal		:initform nil :initarg :horizontal)		; (or number list)
@@ -100,7 +100,7 @@
 		(macrolet ((register-entity (entity)
 					 `(check-and-draw-local-entity ,entity canvas writer)))
 		  ;; draw background fill.
-		  (unless (eq :none (slot-value fill 'diagram::color))
+		  (unless (eq :none (slot-value fill 'kaavio::color))
 			(rectangle (make-point (/ width  2)
 								   (/ height 2)) width height :fill fill :stroke :none))
 		  ;; draw lines.
@@ -138,7 +138,7 @@
 		(macrolet ((register-entity (entity)
 					 `(check-and-draw-local-entity ,entity canvas writer)))
 		  ;; draw background fill.
-		  (unless (eq :none (slot-value fill 'diagram::color))
+		  (unless (eq :none (slot-value fill 'kaavio::color))
 			(rectangle (make-point (/ width  2)
 								   (/ height 2)) width height :fill fill :stroke :none))
 		  ;; draw lines.
@@ -178,7 +178,7 @@
 		(macrolet ((register-entity (entity)
 					 `(check-and-draw-local-entity ,entity canvas writer)))
 		  ;; draw background fill.
-		  (unless (eq :none (slot-value fill 'diagram::color))
+		  (unless (eq :none (slot-value fill 'kaavio::color))
 			(rectangle (make-point (/ width  2)
 								   (/ height 2)) width height :fill fill :stroke :none))
 		  ;; draw lines.

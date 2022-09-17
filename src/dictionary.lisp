@@ -1,10 +1,10 @@
 #|
-#|ASD|#				(:file "dictionary"                :depends-on ("cl-diagram"))
+#|ASD|#				(:file "dictionary"                :depends-on ("kaavio"))
 #|EXPORT|#				;dictionary.lisp
  |#
 
 
-(in-package :cl-diagram)
+(in-package :kaavio)
 
 ;;------------------------------------------------------------------------------
 ;;

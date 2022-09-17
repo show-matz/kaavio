@@ -1,11 +1,11 @@
 #|
-#|ASD|#				(:file "block-arrow"               :depends-on ("cl-diagram"
+#|ASD|#				(:file "block-arrow"               :depends-on ("kaavio"
 #|ASD|#																"constants"
 #|ASD|#																"polygon"))
 #|EXPORT|#				;block-arrow.lisp
  |#
 
-(in-package :cl-diagram)
+(in-package :kaavio)
 
 #|
 #|EXPORT|#				:*default-block-arrow-stroke*
@@ -19,14 +19,14 @@
 (defparameter *default-block-arrow-layer*        nil)
 
 (defun make-block-arrow-points-1 (pt1 pt2 margin width l s)
-  (let* ((pt1 (xy+ pt1 (* (diagram::math/cos2 pt1 pt2) margin)
-					   (* (diagram::math/sin2 pt1 pt2) margin)))
-		 (pt2 (xy+ pt2 (* (diagram::math/cos2 pt2 pt1) margin)
-					   (* (diagram::math/sin2 pt2 pt1) margin)))
+  (let* ((pt1 (xy+ pt1 (* (kaavio::math/cos2 pt1 pt2) margin)
+					   (* (kaavio::math/sin2 pt1 pt2) margin)))
+		 (pt2 (xy+ pt2 (* (kaavio::math/cos2 pt2 pt1) margin)
+					   (* (kaavio::math/sin2 pt2 pt1) margin)))
 		 (size   (or s (* width 2)))
 		 (length (or l size))
-		 (sin1 (diagram::math/sin2 pt1 pt2))
-		 (cos1 (diagram::math/cos2 pt1 pt2))
+		 (sin1 (kaavio::math/sin2 pt1 pt2))
+		 (cos1 (kaavio::math/cos2 pt1 pt2))
 		 (pt3  (xy+ pt2 (* -1   length    cos1)	(* -1   length    sin1)))
 		 (k1   (xy+ pt1 (* -1 (/ width 2) sin1) (*    (/ width 2) cos1)))
 		 (k2   (xy+ pt1 (*    (/ width 2) sin1) (* -1 (/ width 2) cos1)))
@@ -37,14 +37,14 @@
 	`(,k1 ,k2 ,k3 ,k4 ,pt2 ,k5 ,k6)))
 
 (defun make-block-arrow-points-2 (pt1 pt2 margin width l s)
-  (let* ((pt1 (xy+ pt1 (* (diagram::math/cos2 pt1 pt2) margin)
-					   (* (diagram::math/sin2 pt1 pt2) margin)))
-		 (pt2 (xy+ pt2 (* (diagram::math/cos2 pt2 pt1) margin)
-					   (* (diagram::math/sin2 pt2 pt1) margin)))
+  (let* ((pt1 (xy+ pt1 (* (kaavio::math/cos2 pt1 pt2) margin)
+					   (* (kaavio::math/sin2 pt1 pt2) margin)))
+		 (pt2 (xy+ pt2 (* (kaavio::math/cos2 pt2 pt1) margin)
+					   (* (kaavio::math/sin2 pt2 pt1) margin)))
 		 (size   (or s (* width 2)))
 		 (length (or l size))
-		 (sin1 (diagram::math/sin2 pt1 pt2))
-		 (cos1 (diagram::math/cos2 pt1 pt2))
+		 (sin1 (kaavio::math/sin2 pt1 pt2))
+		 (cos1 (kaavio::math/cos2 pt1 pt2))
 		 (pt3  (xy+ pt2 (* -1   length    cos1)	(* -1   length    sin1)))
 		 (pt4  (xy+ pt1 (*      length    cos1)	(*      length    sin1)))
 		 (k1   (xy+ pt4 (*    (/ size  2) sin1) (* -1 (/ size  2) cos1)))
@@ -78,8 +78,8 @@
  |#
 (defmacro block-arrow1 (pt1 pt2 width
 						&key length size margin fill stroke link layer filter id)
-  `(register-entity (make-instance 'diagram:block-arrow
-								   :points (diagram::make-block-arrow-points-1
+  `(register-entity (make-instance 'kaavio:block-arrow
+								   :points (kaavio::make-block-arrow-points-1
 													,pt1 ,pt2 (or ,margin 0) ,width ,length ,size)
 								   :fill   (or ,fill   *default-block-arrow-fill*)
 								   :stroke (or ,stroke *default-block-arrow-stroke*)
@@ -96,8 +96,8 @@
  |#
 (defmacro block-arrow2 (pt1 pt2 width
 						&key length size margin fill stroke link layer filter id)
-  `(register-entity (make-instance 'diagram:block-arrow
-								   :points (diagram::make-block-arrow-points-2
+  `(register-entity (make-instance 'kaavio:block-arrow
+								   :points (kaavio::make-block-arrow-points-2
 													,pt1 ,pt2 (or ,margin 0) ,width ,length ,size)
 								   :fill   (or ,fill   *default-block-arrow-fill*)
 								   :stroke (or ,stroke *default-block-arrow-stroke*)

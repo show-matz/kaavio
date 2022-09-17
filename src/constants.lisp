@@ -1,9 +1,9 @@
 #|
-#|ASD|#				(:file "constants"                 :depends-on ("cl-diagram"))
+#|ASD|#				(:file "constants"                 :depends-on ("kaavio"))
 #|EXPORT|#				;constants.lisp
  |#
 
-(in-package :cl-diagram)
+(in-package :kaavio)
 
 
 ;;------------------------------------------------------------------------------

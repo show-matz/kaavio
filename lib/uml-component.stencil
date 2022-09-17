@@ -1,5 +1,5 @@
 
-(in-package :cl-diagram-user)
+(in-package :kaavio-user)
 
 (load-stencil :uml-keyword-info)
 
@@ -17,7 +17,7 @@
 ;; class uml-component
 ;;
 ;;------------------------------------------------------------------------------
-(defclass uml-component (diagram:group)
+(defclass uml-component (kaavio:group)
   ((name		:initform nil :initarg :name)			; (or string keyword)
    (keyword		:initform nil :initarg :keyword)		; (or nil uml-keyword-info)
    (contents-p	:initform nil :initarg :contents-p)		; boolean
@@ -66,8 +66,8 @@
 			 (height    (canvas-height canvas))
 			 (x         (/ width  2))
 			 (y         (/ height 2))
-			 (font-size (slot-value font 'diagram::size))
-			 (spacing   (slot-value font 'diagram::line-spacing)))
+			 (font-size (slot-value font 'kaavio::size))
+			 (spacing   (slot-value font 'kaavio::line-spacing)))
 		(macrolet ((register-entity (entity)
 					 `(check-and-draw-local-entity ,entity canvas writer)))
 		  (let ((*default-font*   font)

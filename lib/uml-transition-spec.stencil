@@ -1,4 +1,4 @@
-(in-package :cl-diagram-user)
+(in-package :kaavio-user)
 
 (defparameter *uml-transition-spec-font*  nil)
 
@@ -73,5 +73,5 @@
 					   :action    action
 					   :offset    offset
 					   :font     (if font-p  font  (or *uml-transition-spec-font*
-															diagram:*default-font*))))))
+															kaavio:*default-font*))))))
 

@@ -1,5 +1,5 @@
 #|
-#|ASD|#				(:file "paragraph"                 :depends-on ("cl-diagram"
+#|ASD|#				(:file "paragraph"                 :depends-on ("kaavio"
 #|ASD|#																"constants"
 #|ASD|#																"text"
 #|ASD|#																"shape"
@@ -11,7 +11,7 @@
  |#
 
 
-(in-package :cl-diagram)
+(in-package :kaavio)
 
 (defun caluculate-paragraph-shapesize (font text)
   (with-slots (size
@@ -127,7 +127,7 @@
  |#
 (defmacro paragraph (position text
 					 &key align valign rotate font link layer id)
-  `(register-entity (make-instance 'diagram:paragraph
+  `(register-entity (make-instance 'kaavio:paragraph
 								   :position ,position :text ,text
 								   :align ,align :valign ,valign :rotate ,rotate
 								   :font ,font :link ,link :layer ,layer :id ,id)))

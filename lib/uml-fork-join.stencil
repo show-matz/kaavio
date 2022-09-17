@@ -1,5 +1,5 @@
 
-(in-package :cl-diagram-user)
+(in-package :kaavio-user)
 
 (defparameter *uml-fork-join-width*      10)
 (defparameter *uml-fork-join-length*     40)
@@ -10,7 +10,7 @@
 ;; class uml-fork
 ;;
 ;;------------------------------------------------------------------------------
-(defclass uml-fork (diagram:rectangle) ())
+(defclass uml-fork (kaavio:rectangle) ())
 
 (defmacro uml-fork-v (center &key width length fill link layer id)
   `(register-entity (make-instance 'uml-fork
@@ -36,7 +36,7 @@
 ;; class uml-join
 ;;
 ;;------------------------------------------------------------------------------
-(defclass uml-join (diagram:rectangle)
+(defclass uml-join (kaavio:rectangle)
   ((spec :initform nil :initarg :spec)))	; (or nil label-info)
 
 (defmethod initialize-instance :after ((obj uml-join) &rest initargs)

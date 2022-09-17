@@ -1,5 +1,5 @@
 #|
-#|ASD|#				(:file "cross"                     :depends-on ("cl-diagram"
+#|ASD|#				(:file "cross"                     :depends-on ("kaavio"
 #|ASD|#																"constants"
 #|ASD|#																"canvas"
 #|ASD|#																"point"
@@ -12,7 +12,7 @@
  |#
 
 
-(in-package :cl-diagram)
+(in-package :kaavio)
 
 #|
 #|EXPORT|#				:*default-cross-fill*
@@ -134,7 +134,7 @@
  |#
 (defmacro cross (center width height size
 						&key size-v pivot fill stroke filter rotate link layer id)
-  `(register-entity (make-instance 'diagram:cross
+  `(register-entity (make-instance 'kaavio:cross
 								   :center ,center :width ,width :height ,height
 								   :size ,size :size-v ,size-v :pivot ,pivot
 								   :fill   (or ,fill   *default-cross-fill*)

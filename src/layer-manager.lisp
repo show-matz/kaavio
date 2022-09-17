@@ -1,10 +1,10 @@
 #|
-#|ASD|#				(:file "layer-manager"             :depends-on ("cl-diagram"
+#|ASD|#				(:file "layer-manager"             :depends-on ("kaavio"
 #|ASD|#																"writer"))
 #|EXPORT|#				;layer-manager.lisp
  |#
 
-(in-package :cl-diagram)
+(in-package :kaavio)
 
 
 ;;------------------------------------------------------------------------------

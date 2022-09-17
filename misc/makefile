@@ -1,7 +1,7 @@
 
-TARGET     = diagram
+TARGET     = kaavio
 OPTIONS    = --noinform --no-sysinit
-LOADLIST   = --load cl-diagram-main.lisp --load make-executable.lisp
+LOADLIST   = --load kaavio-main.lisp --load make-executable.lisp
 
 # COMSPEC 環境変数が定義されていれば Windows(cygwin) 環境とみなす
 ifdef COMSPEC
@@ -14,6 +14,6 @@ endif
 
 TARGET_DEF = --eval "(defconstant +OUTPUT-FILENAME+ \"$(TARGET)$(TARGET_SUFFIX)\")"
 
-$(TARGET)$(TARGET_SUFFIX): cl-diagram-main.lisp make-executable.lisp
+$(TARGET)$(TARGET_SUFFIX): kaavio-main.lisp make-executable.lisp
 	sbcl $(OPTIONS) $(PRE_EVAL) $(TARGET_DEF) $(LOADLIST)
 

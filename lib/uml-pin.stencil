@@ -1,4 +1,4 @@
-(in-package :cl-diagram-user)
+(in-package :kaavio-user)
 
 (defparameter *uml-pin-font*      nil)
 (defparameter *uml-pin-fill*   :white)
@@ -10,7 +10,7 @@
 ;; class uml-pin
 ;;
 ;;------------------------------------------------------------------------------
-(defclass uml-pin (diagram:group)
+(defclass uml-pin (kaavio:group)
   ((name	:initform nil :initarg :name)		; (or keyword string)
    (target	:initform nil :initarg :target)		; (keyword . keyword)
    (size	:initform nil :initarg :size)		; number
@@ -47,9 +47,9 @@
 	  (check-member target   :nullable nil :types keyword)
 	  (check-member position :nullable nil :types keyword)
 	  (labels ((entity-and-position ()
-				 (let ((ent (diagram::dict-get-entity dict target))
+				 (let ((ent (kaavio::dict-get-entity dict target))
 					   (pos (string-upcase (symbol-name position))))
-				   (unless (typep ent 'diagram:shape)
+				   (unless (typep ent 'kaavio:shape)
 					 (throw-exception "uml-pin : target is not shape object."))
 				   (when (< 2 (length pos))
 					 (throw-exception "uml-pin : invalid position."))
@@ -77,9 +77,9 @@
 					((:bottom) (incf y half))
 					((:left)   (decf x half))
 					((:right)  (incf x half))))
-				(setf (slot-value pin 'diagram::center) (make-point x y :absolute))
-				(setf (slot-value pin 'diagram::width)  (* half 2 (if w4 4 1)))
-				(setf (slot-value pin 'diagram::height) (* half 2 (if h4 4 1)))))))))
+				(setf (slot-value pin 'kaavio::center) (make-point x y :absolute))
+				(setf (slot-value pin 'kaavio::width)  (* half 2 (if w4 4 1)))
+				(setf (slot-value pin 'kaavio::height) (* half 2 (if h4 4 1)))))))))
 	;; this method must call super class' one.
 	(call-next-method))
 
@@ -119,7 +119,7 @@
 	  (with-canvas (cc width height) canvas
 		(let* ((x (/ width  2))
 			   (y (/ height 2))
-			   (font-size (slot-value font 'diagram::size)))
+			   (font-size (slot-value font 'kaavio::size)))
 		  (labels ((locate-text ()
 					 (let ((pos (string-upcase
 								 (symbol-name

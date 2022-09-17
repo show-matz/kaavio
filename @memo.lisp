@@ -1,16 +1,16 @@
 ;;(load "./@load.lisp")
-(require :cl-diagram)
-(load "./misc/cl-diagram-main.lisp")
+(require :kaavio)
+(load "./misc/kaavio-main.lisp")
 
 (let ((path (if (member :linux *features*)
-				"~/sandbox.github/cl-diagram.github/lib/"
-				(merge-pathnames "cl-diagram.github/lib/"
+				"~/sandbox.github/kaavio.github/lib/"
+				(merge-pathnames "kaavio.github/lib/"
 								 (sb-ext:posix-getenv "CVS_SANDBOX")))))
-  (setf diagram:*include-paths* (list path)))
+  (setf kaavio:*include-paths* (list path)))
 
 ;(path:set-current-directory (if (member :linux *features*)
 ;										 "./sample"
-;										 "C:/sandbox/cl-diagram/sample/"))
+;										 "C:/sandbox/kaavio/sample/"))
 ;(path:get-current-directory)
 
 ;;usage (update-svg-files "sample/" :all t)
@@ -19,16 +19,16 @@
 		 (new-path (merge-pathnames rel-path org-path))
 		 (pred (if all
 				   (constantly t)
-				   (lambda (diagram-file svg-file)
+				   (lambda (kaavio-file svg-file)
 					 (or (not (path:is-existing-file svg-file))
-						 (let ((time1 (path:get-time diagram-file))
+						 (let ((time1 (path:get-time kaavio-file))
 							   (time2 (path:get-time     svg-file)))
 						   (string< time2 time1)))))))
 	(path:set-current-directory new-path)
 	(dolist (file (path:list-directory new-path))
-	  (when (string= "diagram" (pathname-type file))
+	  (when (string= "kaavio" (pathname-type file))
 		(let ((outfile (make-pathname :type "svg" :defaults file)))
 		  (when (funcall pred file outfile)
 			(format t "~A~%" file)
-			(diagram::cl-diagram-main "./" `(,file ,outfile))))))
+			(kaavio::kaavio-main "./" `(,file ,outfile))))))
 	(path:set-current-directory org-path)))

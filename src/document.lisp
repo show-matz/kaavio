@@ -1,5 +1,5 @@
 #|
-#|ASD|#				(:file "document"                  :depends-on ("cl-diagram"
+#|ASD|#				(:file "document"                  :depends-on ("kaavio"
 #|ASD|#																"constants"
 #|ASD|#																"path"
 #|ASD|#																"filter"
@@ -7,7 +7,7 @@
 #|EXPORT|#				;document.lisp
  |#
 
-(in-package :cl-diagram)
+(in-package :kaavio)
 
 #|
 #|EXPORT|#				:*default-document-align*
@@ -110,7 +110,7 @@
 		code
 		(let ((g-obj (gensym "OBJ")))
 		  `(let* ((,g-obj ,code)
-				  (canvas (diagram:shape-get-subcanvas ,g-obj)))
+				  (canvas (kaavio:shape-get-subcanvas ,g-obj)))
 			 (declare (special canvas))
 			 ,@contents)))))
 

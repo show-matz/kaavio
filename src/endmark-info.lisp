@@ -1,5 +1,5 @@
 #|
-#|ASD|#				(:file "endmark-info"              :depends-on ("cl-diagram"
+#|ASD|#				(:file "endmark-info"              :depends-on ("kaavio"
 #|ASD|#																"constants"
 #|ASD|#																"mathutil"
 #|ASD|#																"point"
@@ -12,7 +12,7 @@
  |#
 
 
-(in-package :cl-diagram)
+(in-package :kaavio)
 
 
 ;;------------------------------------------------------------------------------

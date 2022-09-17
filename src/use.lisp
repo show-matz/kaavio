@@ -1,5 +1,5 @@
 #|
-#|ASD|#				(:file "use"                       :depends-on ("cl-diagram"
+#|ASD|#				(:file "use"                       :depends-on ("kaavio"
 #|ASD|#																"constants"
 #|ASD|#																"canvas"
 #|ASD|#																"point"
@@ -8,7 +8,7 @@
 #|EXPORT|#				;use.lisp
  |#
 
-(in-package :cl-diagram)
+(in-package :kaavio)
 
 
 ;;-------------------------------------------------------------------------------
@@ -30,7 +30,7 @@
   (call-next-method)
   (with-slots (ref center layer) ent
 	(let ((obj (dict-get-entity dict ref)))
-	  (if (and obj (typep obj 'diagram:defs))
+	  (if (and obj (typep obj 'kaavio:defs))
 		  (setf ref obj)
 		  (throw-exception "ID '~A' is not found in dictionary or not defs object." ref)))
 	(setf center (canvas-fix-point canvas center))
@@ -74,7 +74,7 @@
 #|EXPORT|#				:use
  |#
 (defmacro use (ref center &key link rotate layer id contents)
-  (let ((code `(register-entity (make-instance 'diagram:use
+  (let ((code `(register-entity (make-instance 'kaavio:use
 											   :ref   ,ref   :center ,center
 											   :link  ,link  :rotate ,rotate
 											   :layer ,layer :id ,id))))
@@ -82,7 +82,7 @@
 		code
 		(let ((g-obj (gensym "OBJ")))
 		  `(let* ((,g-obj ,code)
-				  (canvas (diagram:shape-get-subcanvas ,g-obj)))
+				  (canvas (kaavio:shape-get-subcanvas ,g-obj)))
 			 (declare (special canvas))
 			 ,@contents)))))
 

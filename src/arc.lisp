@@ -1,5 +1,5 @@
 #|
-#|ASD|#				(:file "arc"                       :depends-on ("cl-diagram"
+#|ASD|#				(:file "arc"                       :depends-on ("kaavio"
 #|ASD|#																"point"
 #|ASD|#																"canvas"
 #|ASD|#																"mathutil"
@@ -7,7 +7,7 @@
 #|EXPORT|#				;arc.lisp
  |#
 
-(in-package :cl-diagram)
+(in-package :kaavio)
 
 ;;------------------------------------------------------------------------------
 ;;
@@ -80,7 +80,7 @@
 #|EXPORT|#				:arc
  |#
 (defmacro arc (center rx ry x-axis-rotation degree1 degree2 &key stroke layer filter id)
-  `(register-entity (make-instance 'diagram:arc
+  `(register-entity (make-instance 'kaavio:arc
 								   :center ,center :rx ,rx :ry ,ry
 								   :x-axis-rotation ,x-axis-rotation
 								   :degree1 ,degree1 :degree2 ,degree2

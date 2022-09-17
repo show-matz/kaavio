@@ -1,5 +1,5 @@
 
-(in-package :cl-diagram-user)
+(in-package :kaavio-user)
 
 (load-stencil :uml-keyword-info)
 
@@ -13,7 +13,7 @@
 ;; class uml-usecase
 ;;
 ;;------------------------------------------------------------------------------
-(defclass uml-usecase (diagram:text-shape)
+(defclass uml-usecase (kaavio:text-shape)
   ((text	:initform nil :initarg :text)		; (or keyword string)
    (keyword	:initform nil :initarg :keyword)	; (or nil uml-keyword-info)
    (margin2	:initform nil)))					; number ( margin for keyword )
@@ -24,8 +24,8 @@
 	(setf keyword (and keyword (make-uml-keyword keyword)))
 	(setf margin2 (if (null keyword)
 					  0
-					  (or (and *uml-usecase-font* (slot-value *uml-usecase-font* 'diagram::size))
-						  (and *default-font*     (slot-value *default-font*     'diagram::size))
+					  (or (and *uml-usecase-font* (slot-value *uml-usecase-font* 'kaavio::size))
+						  (and *default-font*     (slot-value *default-font*     'kaavio::size))
 						  12))))	;;ToDo : これはなんとかしないと。
   usecase)
 
@@ -48,15 +48,15 @@
 	  (macrolet ((register-entity (entity)
 				   `(check-and-draw-local-entity ,entity canvas writer)))
 		(with-slots (keyword margin2
-							 diagram::margin diagram::fill diagram::stroke) usecase
+							 kaavio::margin kaavio::fill kaavio::stroke) usecase
 		  ;; draw usecase body
 		  (ellipse `(,(/ width 2) ,(/ height 2))
-				   (/ width 2) (/ height 2) :fill diagram::fill :stroke diagram::stroke)
+				   (/ width 2) (/ height 2) :fill kaavio::fill :stroke kaavio::stroke)
 		  ;; draw keyword
 		  (when keyword
 			(uml-keyword-draw keyword
 							  (+ left (/ width 2))
-							  (+ top  diagram::margin margin2) :center writer))
+							  (+ top  kaavio::margin margin2) :center writer))
 		  ;; draw text
 		  (call-next-method)))))
   nil)

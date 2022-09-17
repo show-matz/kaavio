@@ -3,7 +3,7 @@
 pushd ./src
 
 # --------------------------------------------------------------------------------------
-TARGET_FILE="cl-diagram.lisp"
+TARGET_FILE="kaavio.lisp"
 
 LINE1=`grep -E -n ' BEGIN EXPORT$' ./${TARGET_FILE} | perl -pe 's/^([0-9]+):.+$/\1/'`
 LINE2=`grep -E -n   ' END EXPORT$' ./${TARGET_FILE} | perl -pe 's/^([0-9]+):.+$/\1/'`
@@ -19,7 +19,7 @@ mv ./${TARGET_FILE}.new  ./${TARGET_FILE}
 
 
 # --------------------------------------------------------------------------------------
-TARGET_FILE="cl-diagram.asd"
+TARGET_FILE="kaavio.asd"
 
 LINE1=`grep -E -n ' BEGIN COMPONENTS$' ./${TARGET_FILE} | perl -pe 's/^([0-9]+):.+$/\1/'`
 LINE2=`grep -E -n   ' END COMPONENTS$' ./${TARGET_FILE} | perl -pe 's/^([0-9]+):.+$/\1/'`

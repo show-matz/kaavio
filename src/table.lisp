@@ -1,5 +1,5 @@
 #|
-#|ASD|#				(:file "table"                     :depends-on ("cl-diagram"
+#|ASD|#				(:file "table"                     :depends-on ("kaavio"
 #|ASD|#																"constants"
 #|ASD|#																"group"
 #|ASD|#																"font-info"
@@ -10,7 +10,7 @@
  |#
 
 
-(in-package :cl-diagram)
+(in-package :kaavio)
 
 (defun table-destructure-rc-keyword (kwd)
   (labels ((recur (lst acc)
@@ -224,7 +224,7 @@
 #|EXPORT|#				:table
  |#
 (defmacro table (center rows cols &key font fills stroke texts layer id)
-  `(register-entity (make-instance 'diagram:table
+  `(register-entity (make-instance 'kaavio:table
 								   :center ,center
 								   :width  (apply #'+ ,cols)
 								   :height (apply #'+ ,rows)
@@ -273,10 +273,10 @@
 		(g-width   (gensym "WIDTH"))
 		(g-height  (gensym "HEIGHT"))
 		(g-topleft (gensym "TOPLEFT")))
-	`(let ((,g-tbl (diagram::dict-get-entity (diagram::get-dictionary) ,id)))
+	`(let ((,g-tbl (kaavio::dict-get-entity (kaavio::get-dictionary) ,id)))
 	   (multiple-value-bind (,g-center ,g-width ,g-height)
-				(diagram::table-get-cell-area ,r ,c (slot-value ,g-tbl 'diagram::rows)
-													(slot-value ,g-tbl 'diagram::cols))
+				(kaavio::table-get-cell-area ,r ,c (slot-value ,g-tbl 'kaavio::rows)
+													(slot-value ,g-tbl 'kaavio::cols))
 		 (let* ((,g-topleft (point+ (shape-topleft ,g-tbl)
 								   (xy+ ,g-center (- (/ ,g-width 2)) (- (/ ,g-height 2)))))
 				(canvas (make-canvas ,g-topleft ,g-width ,g-height)))

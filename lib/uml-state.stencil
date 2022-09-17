@@ -1,5 +1,5 @@
 
-(in-package :cl-diagram-user)
+(in-package :kaavio-user)
 
 (load-stencil :uml-keyword-info)
 (load-stencil :uml-transition-spec)
@@ -17,7 +17,7 @@
 ;; class uml-state
 ;;
 ;;------------------------------------------------------------------------------
-(defclass uml-state (diagram:text-shape)
+(defclass uml-state (kaavio:text-shape)
   ((keyword		:initform nil :initarg :keyword)	; (or nil uml-keyword-info)
    (contents-p	:initform nil :initarg :contents-p)	; boolean
    (activities	:initform nil :initarg :activities)	; list of uml-transition-spec
@@ -34,8 +34,8 @@
 	(setf contents-p (not (not (or activities contents-p))))
 	(setf kwd-height (if (null keyword)
 						 0
-						 (or (and *uml-state-font*  (slot-value *uml-state-font* 'diagram::size))
-							 (and *default-font*    (slot-value *default-font*   'diagram::size))
+						 (or (and *uml-state-font*  (slot-value *uml-state-font* 'kaavio::size))
+							 (and *default-font*    (slot-value *default-font*   'kaavio::size))
 							 12))))	;;ToDo : これはなんとかしないと。
   state)
 
@@ -70,34 +70,34 @@
 	  (macrolet ((register-entity (entity)
 				   `(check-and-draw-local-entity ,entity canvas writer)))
 		(with-slots (keyword kwd-height corner-r activities contents-p
-						 diagram::margin diagram::fill diagram::stroke) state
+						 kaavio::margin kaavio::fill kaavio::stroke) state
 		  ;; draw state body
 		  (rectangle (make-point (/ width 2) (/ height 2))
 					 width height :rx corner-r :ry corner-r
-					 :fill diagram::fill :stroke diagram::stroke)
+					 :fill kaavio::fill :stroke kaavio::stroke)
 		  ;; draw keyword
 		  (when keyword
 			(uml-keyword-draw keyword
 							  (+ left (/ width 2))
-							  (+ top  diagram::margin kwd-height) :center writer))
+							  (+ top  kaavio::margin kwd-height) :center writer))
 		  ;; draw text
 		  (call-next-method)
 		  ;;contents
 		  (when contents-p
 			(let ((y (canvas-height (text-shape-paragraph-area state))))
 			  ;;draw partition line
-			  (incf y diagram::margin)
+			  (incf y kaavio::margin)
 			  (line `((0 ,y) (,width ,y)))
-			  (incf y diagram::margin)
+			  (incf y kaavio::margin)
 			  ;;activities がある場合は順番に描画する必要がある
 			  (dolist (act activities)
 				(when act
 				  (let ((txt (uml-transition-spec-to-string act)))
 					(with-slots (font) act
-					  (with-slots ((fsize diagram::size)
-								   (ls diagram::line-spacing)) font
+					  (with-slots ((fsize kaavio::size)
+								   (ls kaavio::line-spacing)) font
 						(incf y (+ ls fsize))
-						(text `(,diagram::margin ,y) txt :align :left :font font))))))))))))
+						(text `(,kaavio::margin ,y) txt :align :left :font font))))))))))))
   nil)
 
 
@@ -113,7 +113,7 @@
   ;;(format t "text-shape-calc-size called.~%")
   (multiple-value-bind (width height) (call-next-method)
 	(with-slots (keyword activities contents-p
-						 (margin diagram::margin)) state
+						 (margin kaavio::margin)) state
 	  ;; ToDo : margin は上記 call-next-method の結果に含まれているはずだが、何故か必要。
 	  (incf height (* margin 2))
 	  ;; keyword (if exists).
@@ -129,7 +129,7 @@
 		(dolist (act activities)
 		  (let ((txt (uml-transition-spec-to-string act)))
 			(with-slots (font) act
-			  (with-slots ((ls diagram::line-spacing)) font
+			  (with-slots ((ls kaavio::line-spacing)) font
 				(multiple-value-bind (w h) (font-calc-textarea font txt)
 				  (setf width (cl:max width (+ w (* margin 2))))
 				  (incf height (+ h ls)))))))))
@@ -141,20 +141,20 @@
   ;;(format t "text-shape-paragraph-area called.~%")
   (let ((canvas (call-next-method)))
 	(with-slots (text contents-p kwd-height
-					  diagram::font diagram::margin) state
+					  kaavio::font kaavio::margin) state
 	  (incf (canvas-top canvas) (/ kwd-height 2))
 	  (when contents-p
 		(multiple-value-bind (w h)
-				(font-calc-textarea diagram::font text)
+				(font-calc-textarea kaavio::font text)
 		  (declare (ignore w))
 		  (setf (canvas-height canvas)
-				(+ kwd-height (* 2 diagram::margin) h)))))
+				(+ kwd-height (* 2 kaavio::margin) h)))))
 	canvas))
 
 (defmethod shape-get-subcanvas ((state uml-state))
   ;;(format t "shape-get-subcanvas called.~%")
-  (with-slots (diagram::margin) state
-	(let ((partition (+ diagram::margin
+  (with-slots (kaavio::margin) state
+	(let ((partition (+ kaavio::margin
 						(canvas-height (text-shape-paragraph-area state)))))
 	  (make-canvas (point/y+ (shape-topleft state) partition)
 				   (shape-width state)

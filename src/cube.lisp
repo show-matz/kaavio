@@ -1,5 +1,5 @@
 #|
-#|ASD|#				(:file "cube"                      :depends-on ("cl-diagram"
+#|ASD|#				(:file "cube"                      :depends-on ("kaavio"
 #|ASD|#																"constants"
 #|ASD|#																"path"
 #|ASD|#																"filter"
@@ -7,7 +7,7 @@
 #|EXPORT|#				;cube.lisp
  |#
 
-(in-package :cl-diagram)
+(in-package :kaavio)
 
 #|
 #|EXPORT|#				:*default-cube-depth*

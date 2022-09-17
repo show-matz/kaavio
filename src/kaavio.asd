@@ -1,29 +1,29 @@
-(defsystem :cl-diagram
-  :description "cl-diagram: svg diagram creating utility."
+(defsystem :kaavio
+  :description "kaavio: svg diagram generating utility."
   :version     "0.1.0"
   :depends-on  ()
   :components  (;; ---------------------------------------- BEGIN COMPONENTS
-				(:file "arc"                       :depends-on ("cl-diagram"
+				(:file "arc"                       :depends-on ("kaavio"
 																"point"
 																"canvas"
 																"mathutil"
 																"path"))
-				(:file "balloon"                   :depends-on ("cl-diagram"
+				(:file "balloon"                   :depends-on ("kaavio"
 																"constants"
 																"arc"
 																"polygon"
 																"filter"
 																"text-shape"))
-				(:file "binutil"                   :depends-on ("cl-diagram"))
-				(:file "block-arrow"               :depends-on ("cl-diagram"
+				(:file "binutil"                   :depends-on ("kaavio"))
+				(:file "block-arrow"               :depends-on ("kaavio"
 																"constants"
 																"polygon"))
-				(:file "brace"                     :depends-on ("cl-diagram"
+				(:file "brace"                     :depends-on ("kaavio"
 																"constants"
 																"path"))
-				(:file "canvas"                    :depends-on ("cl-diagram"
+				(:file "canvas"                    :depends-on ("kaavio"
 																"point"))
-				(:file "circle"                    :depends-on ("cl-diagram"
+				(:file "circle"                    :depends-on ("kaavio"
 																"constants"
 																"mathutil"
 																"canvas"
@@ -33,17 +33,16 @@
 																"link-info"
 																"filter"
 																"writer"))
-				(:file "cl-diagram")
-				(:file "colormap"                  :depends-on ("cl-diagram"))
-				(:file "connector"                 :depends-on ("cl-diagram"
+				(:file "colormap"                  :depends-on ("kaavio"))
+				(:file "connector"                 :depends-on ("kaavio"
 																"constants"
 																"line"
 																"shape"
 				                                                "dictionary"
 				                                                "rectangle"
 				                                                "writer"))
-				(:file "constants"                 :depends-on ("cl-diagram"))
-				(:file "create-svg"                :depends-on ("cl-diagram"
+				(:file "constants"                 :depends-on ("kaavio"))
+				(:file "create-svg"                :depends-on ("kaavio"
 				                                                "constants"
 																"colormap"
 				                                                "entity"
@@ -54,7 +53,7 @@
 				                                                "font-info"
 				                                                "stroke-info"
 				                                                "writer"))
-				(:file "cross"                     :depends-on ("cl-diagram"
+				(:file "cross"                     :depends-on ("kaavio"
 																"constants"
 																"canvas"
 																"point"
@@ -63,17 +62,17 @@
 																"link-info"
 																"filter"
 																"writer"))
-				(:file "cube"                      :depends-on ("cl-diagram"
+				(:file "cube"                      :depends-on ("kaavio"
 																"constants"
 																"path"
 																"filter"
 																"text-shape"))
-				(:file "cylinder"                  :depends-on ("cl-diagram"
+				(:file "cylinder"                  :depends-on ("kaavio"
 																"constants"
 																"path"
 																"filter"
 																"text-shape"))
-				(:file "defs"                      :depends-on ("cl-diagram"
+				(:file "defs"                      :depends-on ("kaavio"
 				                                                "constants"
 																"entity"
 				                                                "layer-manager"
@@ -83,13 +82,13 @@
 				                                                "font-info"
 				                                                "stroke-info"
 				                                                "writer"))
-				(:file "dictionary"                :depends-on ("cl-diagram"))
-				(:file "document"                  :depends-on ("cl-diagram"
+				(:file "dictionary"                :depends-on ("kaavio"))
+				(:file "document"                  :depends-on ("kaavio"
 																"constants"
 																"path"
 																"filter"
 																"text-shape"))
-				(:file "ellipse"                   :depends-on ("cl-diagram"
+				(:file "ellipse"                   :depends-on ("kaavio"
 																"constants"
 																"canvas"
 																"point"
@@ -98,7 +97,7 @@
 																"link-info"
 																"filter"
 																"writer"))
-				(:file "endmark-info"              :depends-on ("cl-diagram"
+				(:file "endmark-info"              :depends-on ("kaavio"
 																"constants"
 																"mathutil"
 																"point"
@@ -107,38 +106,38 @@
 																"fill-info"
 																"stroke-info"
 																"writer"))
-				(:file "entity"                    :depends-on ("cl-diagram"
+				(:file "entity"                    :depends-on ("kaavio"
 																"canvas"
 																"writer"))
-				(:file "explosion"                 :depends-on ("cl-diagram"
+				(:file "explosion"                 :depends-on ("kaavio"
 																"constants"
 																"polygon"
 																"filter"
 																"text-shape"))
-				(:file "fill-info"                 :depends-on ("cl-diagram"
+				(:file "fill-info"                 :depends-on ("kaavio"
 																"colormap"))
-				(:file "filter"                    :depends-on ("cl-diagram"
+				(:file "filter"                    :depends-on ("kaavio"
 																"writer"))
-				(:file "folder"                    :depends-on ("cl-diagram"
+				(:file "folder"                    :depends-on ("kaavio"
 																"constants"
 																"polygon"
 																"filter"
 																"text-shape"))
-				(:file "font-info"                 :depends-on ("cl-diagram"
+				(:file "font-info"                 :depends-on ("kaavio"
 																"colormap"
 																"fill-info"
 																"stroke-info"))
-				(:file "grid"                      :depends-on ("cl-diagram"
+				(:file "grid"                      :depends-on ("kaavio"
 																"colormap"
 																"stroke-info"
 																"entity"
 																"writer"))
-				(:file "group"                     :depends-on ("cl-diagram"
+				(:file "group"                     :depends-on ("kaavio"
 																"canvas"
 																"shape"
 																"rectangle"
 																"writer"))
-				(:file "image"                     :depends-on ("cl-diagram"
+				(:file "image"                     :depends-on ("kaavio"
 																"binutil"
 																"shape"
 																"label-info"
@@ -146,16 +145,17 @@
 																"point"
 																"filter"
 																"writer"))
-				(:file "label-info"                :depends-on ("cl-diagram"
+				(:file "kaavio")
+				(:file "label-info"                :depends-on ("kaavio"
 																"constants"
 																"point"
 																"canvas"
 																"font-info"
 																"shape"
 																"writer"))
-				(:file "layer-manager"             :depends-on ("cl-diagram"
+				(:file "layer-manager"             :depends-on ("kaavio"
 																"writer"))
-				(:file "line"                      :depends-on ("cl-diagram"
+				(:file "line"                      :depends-on ("kaavio"
 																"constants"
 																"point"
 																"mathutil"
@@ -165,18 +165,18 @@
 																"entity"
 																"filter"
 																"writer"))
-				(:file "link-info"                 :depends-on ("cl-diagram"
+				(:file "link-info"                 :depends-on ("kaavio"
 																"constants"
 																"writer"))
-				(:file "mathutil"                  :depends-on ("cl-diagram"
+				(:file "mathutil"                  :depends-on ("kaavio"
 																"point"))
-				(:file "memo"                      :depends-on ("cl-diagram"
+				(:file "memo"                      :depends-on ("kaavio"
 																"constants"
 																"arc"
 																"polygon"
 																"filter"
 																"text-shape"))
-				(:file "paragraph"                 :depends-on ("cl-diagram"
+				(:file "paragraph"                 :depends-on ("kaavio"
 																"constants"
 																"text"
 																"shape"
@@ -184,19 +184,19 @@
 																"link-info"
 																"point"
 																"writer"))
-				(:file "path"                      :depends-on ("cl-diagram"
+				(:file "path"                      :depends-on ("kaavio"
 																"constants"
 																"fill-info"
 																"stroke-info"
 																"entity"
 																"filter"
 																"writer"))
-				(:file "pathutil"                  :depends-on ("cl-diagram"))
-				(:file "person"                    :depends-on ("cl-diagram"
+				(:file "pathutil"                  :depends-on ("kaavio"))
+				(:file "person"                    :depends-on ("kaavio"
 																"constants"
 																"path"))
-				(:file "point"                     :depends-on ("cl-diagram"))
-				(:file "polygon"                   :depends-on ("cl-diagram"
+				(:file "point"                     :depends-on ("kaavio"))
+				(:file "polygon"                   :depends-on ("kaavio"
 																"constants"
 																"fill-info"
 																"stroke-info"
@@ -204,11 +204,11 @@
 																"entity"
 																"filter"
 																"writer"))
-				(:file "raw-svg"                   :depends-on ("cl-diagram"
+				(:file "raw-svg"                   :depends-on ("kaavio"
 																"constants"
 																"entity"
 																"writer"))
-				(:file "rectangle"                 :depends-on ("cl-diagram"
+				(:file "rectangle"                 :depends-on ("kaavio"
 																"constants"
 																"canvas"
 																"point"
@@ -217,33 +217,33 @@
 																"link-info"
 																"filter"
 																"writer"))
-				(:file "shadow-filter"             :depends-on ("cl-diagram"
+				(:file "shadow-filter"             :depends-on ("kaavio"
 																"filter"
 																"writer"))
-				(:file "shape"                     :depends-on ("cl-diagram"
+				(:file "shape"                     :depends-on ("kaavio"
 																"point"
 																"canvas"
 																"mathutil"
 																"entity"
 																"link-info"))
-				(:file "stencil"                   :depends-on ("cl-diagram"
+				(:file "stencil"                   :depends-on ("kaavio"
 																"pathutil"))
-				(:file "stroke-info"               :depends-on ("cl-diagram"
+				(:file "stroke-info"               :depends-on ("kaavio"
 																"colormap"))
-				(:file "stylesheet"                :depends-on ("cl-diagram"
+				(:file "stylesheet"                :depends-on ("kaavio"
 																"entity"
 																"stroke-info"
 																"fill-info"
 																"font-info"
 																"writer"))
-				(:file "table"                     :depends-on ("cl-diagram"
+				(:file "table"                     :depends-on ("kaavio"
 																"constants"
 																"group"
 																"font-info"
 																"fill-info"
 																"stroke-info"
 																"writer"))
-				(:file "text-shape"                :depends-on ("cl-diagram"
+				(:file "text-shape"                :depends-on ("kaavio"
 																"canvas"
 																"group"
 																"paragraph"
@@ -251,24 +251,24 @@
 																"fill-info"
 																"stroke-info"
 																"writer"))
-				(:file "text"                      :depends-on ("cl-diagram"
+				(:file "text"                      :depends-on ("kaavio"
 																"constants"
 																"entity"
 																"font-info"
 																"link-info"
 																"writer"))
-				(:file "textbox"                   :depends-on ("cl-diagram"
+				(:file "textbox"                   :depends-on ("kaavio"
 																"constants"
 																"rectangle"
 																"filter"
 																"text-shape"))
-				(:file "use"                       :depends-on ("cl-diagram"
+				(:file "use"                       :depends-on ("kaavio"
 																"constants"
 																"canvas"
 																"point"
 																"shape"
 																"writer"))
-				(:file "writer"                    :depends-on ("cl-diagram"))
+				(:file "writer"                    :depends-on ("kaavio"))
 				;; ------------------------------------------ END COMPONENTS
 ))
 

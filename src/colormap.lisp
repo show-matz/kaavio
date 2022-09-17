@@ -1,9 +1,9 @@
 #|
-#|ASD|#				(:file "colormap"                  :depends-on ("cl-diagram"))
+#|ASD|#				(:file "colormap"                  :depends-on ("kaavio"))
 #|EXPORT|#				;colormap.lisp
  |#
 
-(in-package :cl-diagram)
+(in-package :kaavio)
 
 
 (defconstant +color-map+

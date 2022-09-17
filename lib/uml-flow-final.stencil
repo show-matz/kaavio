@@ -1,4 +1,4 @@
-(in-package :cl-diagram-user)
+(in-package :kaavio-user)
 
 (defparameter *uml-flow-final-radius*       15)
 (defparameter *uml-flow-final-fill*     :white)
@@ -9,7 +9,7 @@
 ;; class uml-flow-final
 ;;
 ;;------------------------------------------------------------------------------
-(defclass uml-flow-final (diagram:circle) ())
+(defclass uml-flow-final (kaavio:circle) ())
 
 ;; no implementation
 ;;(defmethod check ((obj uml-flow-final) canvas dict) ...)
@@ -21,7 +21,7 @@
 		 (len    (/ radius (sqrt 2))))
 	(macrolet ((register-entity (entity)
 				 `(check-and-draw-local-entity ,entity canvas writer)))
-	  (let ((*default-stroke* (slot-value obj 'diagram::stroke)))
+	  (let ((*default-stroke* (slot-value obj 'kaavio::stroke)))
 		(line `((,(- c len) ,(- c len)) (,(+ c len) ,(+ c len))))
 		(line `((,(+ c len) ,(- c len)) (,(- c len) ,(+ c len)))))))
   (call-next-method)

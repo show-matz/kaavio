@@ -1,4 +1,4 @@
-(in-package :cl-diagram-user)
+(in-package :kaavio-user)
 
 (load-stencil :uml-transition-spec)
 
@@ -9,7 +9,7 @@
 ;; class uml-transition
 ;;
 ;;------------------------------------------------------------------------------
-(defclass uml-transition (diagram:connector)
+(defclass uml-transition (kaavio:connector)
   ((spec :initform nil :initarg :spec)))	; (or nil uml-transition-spec)
 
 (defmethod initialize-instance :after ((tran uml-transition) &rest initargs)
@@ -33,7 +33,7 @@
 (defun uml-transition-draw-spec (tran x y sin cos writer)
   (with-slots (spec) tran
 	(with-slots (offset font) spec
-	  (let ((f-size (slot-value font 'diagram::size))
+	  (let ((f-size (slot-value font 'kaavio::size))
 			(align (cond ((zerop sin) :center)
 						 ((<  0  sin) :left)
 						 (t           :right))))

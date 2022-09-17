@@ -1,10 +1,10 @@
 #|
-#|ASD|#				(:file "filter"                    :depends-on ("cl-diagram"
+#|ASD|#				(:file "filter"                    :depends-on ("kaavio"
 #|ASD|#																"writer"))
 #|EXPORT|#				;filter.lisp
  |#
 
-(in-package :cl-diagram)
+(in-package :kaavio)
 
 
 #|

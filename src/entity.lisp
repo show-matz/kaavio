@@ -1,11 +1,11 @@
 #|
-#|ASD|#				(:file "entity"                    :depends-on ("cl-diagram"
+#|ASD|#				(:file "entity"                    :depends-on ("kaavio"
 #|ASD|#																"canvas"
 #|ASD|#																"writer"))
 #|EXPORT|#				;entity.lisp
  |#
 
-(in-package :cl-diagram)
+(in-package :kaavio)
 
 
 ;;------------------------------------------------------------------------------

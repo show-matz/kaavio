@@ -1,4 +1,4 @@
-(in-package :cl-diagram-user)
+(in-package :kaavio-user)
 
 (defparameter *uml-state-history-radius*     15)
 (defparameter *uml-state-history-fill*   :white)
@@ -9,17 +9,17 @@
 ;; class uml-state-history
 ;;
 ;;------------------------------------------------------------------------------
-(defclass uml-state-history (diagram:circle) ())
+(defclass uml-state-history (kaavio:circle) ())
 
 (defmethod post-draw ((obj uml-state-history) writer)
-  (with-slots (diagram::stroke) obj
+  (with-slots (kaavio::stroke) obj
 	(let* ((canvas (shape-get-subcanvas obj))
 		   (x (/ (canvas-width canvas) 2))
 		   (y x)
 		   (r x))
 	  (macrolet ((register-entity (entity)
 				   `(check-and-draw-local-entity ,entity canvas writer)))
-		(let ((*default-stroke* diagram::stroke))
+		(let ((*default-stroke* kaavio::stroke))
 		  (path `((:move-to (,(- x (/ r 3)) ,y) (,(+ x (/ r 3)) ,y))
 				  (:move-to (,(- x (/ r 3)) ,(- y (/ r 2))) (,(- x (/ r 3)) ,(+ y (/ r 2))))
 				  (:move-to (,(+ x (/ r 3)) ,(- y (/ r 2))) (,(+ x (/ r 3)) ,(+ y (/ r 2))))))))))

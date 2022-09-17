@@ -1,5 +1,5 @@
 #|
-#|ASD|#				(:file "textbox"                   :depends-on ("cl-diagram"
+#|ASD|#				(:file "textbox"                   :depends-on ("kaavio"
 #|ASD|#																"constants"
 #|ASD|#																"rectangle"
 #|ASD|#																"filter"
@@ -7,7 +7,7 @@
 #|EXPORT|#				;textbox.lisp
  |#
 
-(in-package :cl-diagram)
+(in-package :kaavio)
 
 #|
 #|EXPORT|#				:*default-textbox-rx*

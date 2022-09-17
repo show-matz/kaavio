@@ -1,11 +1,11 @@
 #|
-#|ASD|#				(:file "stroke-info"               :depends-on ("cl-diagram"
+#|ASD|#				(:file "stroke-info"               :depends-on ("kaavio"
 #|ASD|#																"colormap"))
 #|EXPORT|#				;stroke-info.lisp
  |#
 
 
-(in-package :cl-diagram)
+(in-package :kaavio)
 
 ;; default parameter for stroke-info
 #|

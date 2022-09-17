@@ -1,4 +1,4 @@
-<!-- define: APPNAME = diagram -->
+<!-- define: APPNAME = kaavio -->
 <!-- define: BLANK_PARAGRAPH = '　　' -->
 <!-- define: TODO = '@((background:red;color:white;)(ToDo : %1))' -->
 
@@ -10,7 +10,7 @@
 <!-- config:entity-numbering-depth 1 -->
 <!-- <!-- config:term-link-in-header -->
 
-<!-- filter:diagram  = bash ./diagram.sh  %in %out -->
+<!-- filter:kaavio   = bash ./kaavio.sh   %in %out -->
 <!-- filter:plantuml = bash ./plantuml.sh %in %out -->
 
 <!-- PIM の eoPS3MRF1gI というデータで過去にマニュアル作ろうとした形跡があるぞ  -->
@@ -64,7 +64,7 @@ ${BLANK_PARAGRAPH}
 
 　以下のような画像が生成されます。
 
-```diagram
+```kaavio
 <!-- expand: FIRST-SAMPLE -->
 ```
 Figure. 簡単なサンプル
@@ -75,21 +75,21 @@ Figure. 簡単なサンプル
 書き出されるので、ファイルにリダイレクトしてください。以下のように。
 
 ```sh
-diagram ./input.digram > ./output.svg
+${APPNAME} ./input.digram > ./output.svg
 ```
 
 　入力ファイル名が与えられない場合、${APPNAME} は標準入力からデータを読み取ろうとします。そのため、
 以下のように書くこともできます。
 
 ```sh
-cat ./input.digram | diagram > ./output.svg
+cat ./input.digram | ${APPNAME} > ./output.svg
 ```
 
 　余談ですが、SVG 画像には gzip 圧縮した svgz という形式もあります。以下のように出力を gzip に
 通してやれば作成できます。
 
 ```sh
-cat ./input.digram | diagram | gzip > ./output.svgz
+cat ./input.digram | ${APPNAME} | gzip > ./output.svgz
 ```
 
 　では、先ほどの入力データをもう一度みてみましょう。
@@ -153,7 +153,7 @@ ${BLANK_PARAGRAPH}
   (grid)
   (drop-shadow)
   (with-shape-filter (:drop-shadow)
-    (textbox (y+ canvas.center 20) "diagram" :height 40 :fill :cornsilk :id :app)
+    (textbox (y+ canvas.center 20) "${APPNAME}" :height 40 :fill :cornsilk :id :app)
     (with-options (:stroke '(:color :navy :width 2)
                    :fill   '(:color :skyblue :opacity 0.3))
       (document (x+ app.center -175) 80 60 "input~%file" :id :in)
@@ -164,7 +164,7 @@ ${BLANK_PARAGRAPH}
       (balloon (xy+ app.center 110 -60) "Made with LISP." app.topright))))
 -->
 
-```diagram
+```kaavio
 <!-- expand: SECOND-SAMPLE -->
 ```
 Figure. 簡単なサンプル-2
@@ -182,7 +182,7 @@ Figure. 簡単なサンプル-2
 * drop-shadow という種類の「フィルタ」の使用を宣言
 * with-shape-filter でデフォルトのフィルタを drop-shadow に設定
 	* textbox でテキストボックスを描画 : 場所は画像の中心（canvas.center）から y 軸方向に 20、 \
-テキストは "diagram"、これに app という ID を設定
+テキストは "${APPNAME}"、これに app という ID を設定
 	* with-options で、デフォルトの線を太さ 2 の `navy` に、デフォルトの塗りつぶしを不透明度 0.3 の `skyblue` にそれぞれ設定
 		* document でドキュメントを描画 : 場所は app の中心（app.center）から x 軸方向に -175、 \
 幅と高さは 80 60、テキストは "input~%file"、これに in という ID を設定
@@ -230,7 +230,7 @@ ${BLANK_PARAGRAPH}
 <!-- define: HASH_ARC     = '[](#円弧)' -->
 <!-- define: HASH_TEXT    = '[](#テキスト)' -->
 
-```diagram
+```kaavio
 (diagram (800 120)
   (glow-shadow :id :foo-filter)
   ;(grid)
@@ -290,7 +290,7 @@ ${BLANK_PARAGRAPH}
 
 　`rect` によって四角形を描画できます。角を丸くすることもできます。
 
-```diagram
+```kaavio
 <!-- expand: RECTANGLE-SAMPLE -->
 ```
 Figure. rect のサンプル
@@ -348,7 +348,7 @@ rx と ry のどちらかだけを指定すると、もう一方も同じであ�
 
 　`circle` によって正円を描画できます。楕円を描画したい場合は ellipse を使用してください。
 
-```diagram
+```kaavio
 <!-- expand: CIRCLE-SAMPLE -->
 ```
 Figure. circle のサンプル
@@ -402,7 +402,7 @@ Table. circle のパラメータ
 
 　`ellipse` によって楕円を描画できます。
 
-```diagram
+```kaavio
 <!-- expand: ELLIPSE-SAMPLE -->
 ```
 Figure. ellipse のサンプル
@@ -461,7 +461,7 @@ Table. ellipse のパラメータ
 
 　`polygon` によって多角形、すなわち複数の直線からなる形状を描画できます。
 
-```diagram
+```kaavio
 <!-- expand: POLYGON-SAMPLE -->
 ```
 Figure. polygon のサンプル
@@ -516,7 +516,7 @@ Table. polygon のパラメータ
 　`line` によって直線（または複数の直線からなる折線）を描画できます。図形要素どうしを接続
 したい場合はコネクタを使用した方が良いでしょう。
 
-```diagram
+```kaavio
 <!-- expand: LINE-SAMPLE -->
 ```
 Figure. line のサンプル
@@ -568,7 +568,7 @@ Table. line のパラメータ
 　`arc` によって円弧を描画できます。円弧のベースとなる楕円の中心点や始点・終点の角度が明らかな
 場合の使用を想定しています。始点・終点の座標がわかっている場合は path の使用を検討してください。
 
-```diagram
+```kaavio
 <!-- expand: ARC-SAMPLE -->
 ```
 Figure. arc のサンプル
@@ -620,7 +620,7 @@ ${BLANK_PARAGRAPH}
 円弧として（赤い線で）描画しています。つまり、これは `(arc '(100 50) 40 30 45 0 90)` による描画
 となります。
 
-```diagram
+```kaavio
 (diagram (200 100)
    (grid)
    (let ((rx 40)
@@ -660,7 +660,7 @@ Figure. arc のサンプル - 2
 
 　`text` によってテキストを描画できます。
 
-```diagram
+```kaavio
 <!-- expand: TEXT-SAMPLE -->
 ```
 Figure. text のサンプル
@@ -706,7 +706,7 @@ ${BLANK_PARAGRAPH}
 　position と align の関係を以下に示します。以下において、赤い点が position で、
 align 指定はテキストで示されています。
 
-```diagram
+```kaavio
 (diagram (300 100)
   (grid)
   (labels ((impl (y text align)
@@ -734,7 +734,7 @@ ${BLANK_PARAGRAPH}
 
 　`path` によって直線や曲線からなる複雑な図形を描画できます。
 
-```diagram
+```kaavio
 <!-- expand: PATH-SAMPLE -->
 ```
 Figure. path のサンプル
@@ -815,7 +815,7 @@ ${BLANK_PARAGRAPH}
 `(:move-to pt1 pt2 pt3 ...)` のように複数の点を記述することができ、これは `(:move-to pt1)  \
 (:line-to pt2 pt3 ...)` と等価になります。以下に例を示します。
 
-```diagram
+```kaavio
 (diagram (400 100)
   (grid)
   (path '((:move-to (200 10) (230 50) (170 50) (200 10)))
@@ -833,7 +833,7 @@ Figure. :move-to ディレクティブのサンプル
 `(:line-to pt1 pt2 pt3 ...)` のように複数の点を記述することができます。これは現在の点から
 順番に直線を描きながら移動します。
 
-```diagram
+```kaavio
 (diagram (400 100)
   (grid)
   (path '((:move-to (200 10))
@@ -865,7 +865,7 @@ ${{TODO}{まだ記述されていません。}}
 '(arc-to rx ry x-axis-rotation large-arc-flag sweep-flag pt)
 ```
 
-```diagram
+```kaavio
 (diagram (400 100)
   (grid)
   (path '((:move-to (150 50))
@@ -877,7 +877,7 @@ ${{TODO}{まだ記述されていません。}}
 ```
 Figure. :arc-to ディレクティブのサンプル
 
-```diagram
+```kaavio
 (diagram (400 140)
   (grid)
   (with-options (:fill :none :stroke '(:color :lightgray :width 2))
@@ -893,7 +893,7 @@ Figure. :arc-to ディレクティブのサンプル
 
 　上記を見ればわかる通り、指定した２つの点を通過する半径 rx, ry の楕円には４種類あります。
 
-```diagram
+```kaavio
 (diagram (510 220)
   (grid)
   (defs (240 100 :back)
@@ -929,7 +929,7 @@ Figure. :arc-to ディレクティブのサンプル
           (text '(115 80) "sweep-flag : 0"     :align :left)))))
 ```
 
-```diagram
+```kaavio
 (diagram (200 200)
   (grid)
   ;(centered-to-svg 100 100 40 20 30 90 0)
@@ -939,7 +939,7 @@ Figure. :arc-to ディレクティブのサンプル
             (:arc-to 40 20 0 0 1 (80.0 117.32050807568878))))))
 ```
 
-```diagram
+```kaavio
 (diagram (200 200)
   (grid)
   ;(centered-to-svg 100 100 40 20 30 90 45)
@@ -996,7 +996,7 @@ ${BLANK_PARAGRAPH}
 <!-- define: HASH_BRACE      = '[](#波括弧)' -->
 <!-- define: HASH_TABLE      = '[](#テーブル)' -->
 
-```diagram
+```kaavio
 (diagram (800 360)
   ;(grid)
   (let ((w 100)
@@ -1109,7 +1109,7 @@ ${BLANK_PARAGRAPH}
     (connect :r2 :r3 :style :CC :end2 :arrow)))
 -->
 
-```diagram
+```kaavio
 <!-- expand: CONNECTOR-SAMPLE -->
 ```
 Figure. コネクタのサンプル
@@ -1171,7 +1171,7 @@ ${BLANK_PARAGRAPH}
 することができます。先程の :BL という指定は、実は :B2L2 の省略記法です。インデックスと実際の
 接続位置の関係を以下に示します。
 
-```diagram
+```kaavio
 (diagram (300 160)
   (grid)
   (rect canvas.center 120 120 :stroke :gray :fill :white
@@ -1195,7 +1195,7 @@ Figure. コネクタにおける接続点の指定
 　style パラメータを使って :CC 以外の接続を指定すると、コネクタは接続対象の図形要素の位置関係
 を調べて適切な折線を描画します。たとえば、以下は `:style :LR` で接続しています。
 
-```diagram
+```kaavio
 (diagram (300 120)
   (grid)
   (with-options (:stroke :navy :fill :skyblue)
@@ -1209,7 +1209,7 @@ Figure. コネクタによる接続経路決定
 注意してください。以下のように、先程の接続経路上に他の要素があったとしても、それを迂回するほどには
 賢くありません。
 
-```diagram
+```kaavio
 (diagram (300 120)
   (grid)
   (with-options (:stroke :navy :fill :skyblue)
@@ -1226,7 +1226,7 @@ Figure. コネクタによる接続経路決定は他の要素を迂回しない
 いる線分は（ `:style :LR` 指定によって）動かせませんが、残り 3 つの線分はそれぞれ x 軸方向または y 軸
 方向に移動させられそうなことがわかるでしょう。つまり、以下で赤くした部分です。
 
-```diagram
+```kaavio
 (diagram (300 120)
   (grid)
   (with-options (:stroke :navy :fill :skyblue)
@@ -1247,7 +1247,7 @@ from 側から順番にどれだけズラすかの値を並べたリストで指
 なのかは線分毎に自動的に決まります）。ここでは、自由な線分のうち 2 番目の長い線分を下方向に思い切りズラして
 しまいましょう。つまり、 `:spacing '(0 60 0)` と指定します。すると、以下のようになります。
 
-```diagram
+```kaavio
 (diagram (300 140)
   (grid)
   (with-options (:stroke :navy :fill :skyblue)
@@ -1276,7 +1276,7 @@ Figure. spacing パラメータによるコネクタ接続経路の調整
              :align :center :valign :center))
 -->
 
-```diagram
+```kaavio
 <!-- expand: PARAGRAPH-SAMPLE -->
 ```
 Figure. パラグラフのサンプル
@@ -1323,7 +1323,7 @@ ${BLANK_PARAGRAPH}
 　position と align, valign の関係を以下に示します。以下において、赤い点が position で、
 アライメント指定はテキストで示されています。
 
-```diagram
+```kaavio
 (diagram (500 180)
   (grid)
   (labels ((impl (pos align valign)
@@ -1358,7 +1358,7 @@ ${BLANK_PARAGRAPH}
                      :rx 10 :ry 10 :stroke :black :fill :white))
 -->
 
-```diagram
+```kaavio
 <!-- expand: TEXTBOX-SAMPLE -->
 ```
 Figure. テキストボックスのサンプル
@@ -1421,7 +1421,7 @@ ${BLANK_PARAGRAPH}
 　align, valign の関係を以下に示します。以下のように、テキストボックスの内部で水平方向、および
 垂直方向にそれぞれどう寄せるかが変化します。
 
-```diagram
+```kaavio
 (diagram (550 220)
   (grid)
   (labels ((impl (pos align valign)
@@ -1459,7 +1459,7 @@ ${BLANK_PARAGRAPH}
 <!-- expand: WITH-TEXTBOX-OPTIONS-SAMPLE -->
 ```
 
-```diagram
+```kaavio
 <!-- expand: WITH-TEXTBOX-OPTIONS-SAMPLE -->
 ```
 Figure. with-textbox-options のサンプル
@@ -1479,7 +1479,7 @@ Figure. with-textbox-options のサンプル
                     :stroke :navy :fill :skyblue))
 -->
 
-```diagram
+```kaavio
 <!-- expand: DOCUMENT-SAMPLE -->
 ```
 Figure. ドキュメントのサンプル
@@ -1553,7 +1553,7 @@ ${BLANK_PARAGRAPH}
 <!-- expand: WITH-DOCUMENT-OPTIONS-SAMPLE -->
 ```
 
-```diagram
+```kaavio
 <!-- expand: WITH-DOCUMENT-OPTIONS-SAMPLE -->
 ```
 Figure. with-document-options のサンプル
@@ -1573,7 +1573,7 @@ Figure. with-document-options のサンプル
                     :stroke :darkkhaki :fill :cornsilk))
 -->
 
-```diagram
+```kaavio
 <!-- expand: FOLDER-SAMPLE -->
 ```
 Figure. フォルダのサンプル
@@ -1648,7 +1648,7 @@ ${BLANK_PARAGRAPH}
 <!-- expand: WITH-FOLDER-OPTIONS-SAMPLE -->
 ```
 
-```diagram
+```kaavio
 <!-- expand: WITH-FOLDER-OPTIONS-SAMPLE -->
 ```
 Figure. with-folder-options のサンプル
@@ -1667,7 +1667,7 @@ Figure. with-folder-options のサンプル
   (person '(150 50) 40 :fill :oldlace :stroke :brown :label :engineer))
 -->
 
-```diagram
+```kaavio
 <!-- expand: PERSON-SAMPLE -->
 ```
 Figure. 人物のサンプル
@@ -1732,7 +1732,7 @@ ${BLANK_PARAGRAPH}
 <!-- expand: WITH-PERSON-OPTIONS-SAMPLE -->
 ```
 
-```diagram
+```kaavio
 <!-- expand: WITH-PERSON-OPTIONS-SAMPLE -->
 ```
 Figure. with-person-options のサンプル
@@ -1751,7 +1751,7 @@ Figure. with-person-options のサンプル
                                    :fill :skyblue :stroke :navy))
 -->
 
-```diagram
+```kaavio
 <!-- expand: BALLOON-SAMPLE -->
 ```
 Figure. 吹き出しのサンプル
@@ -1829,7 +1829,7 @@ ${BLANK_PARAGRAPH}
 <!-- expand: WITH-BALLOON-OPTIONS-SAMPLE -->
 ```
 
-```diagram
+```kaavio
 <!-- expand: WITH-BALLOON-OPTIONS-SAMPLE -->
 ```
 Figure. with-balloon-options のサンプル
@@ -1848,7 +1848,7 @@ Figure. with-balloon-options のサンプル
                   :align :left :valign :top :fill :lightpink :stroke :red))
 -->
 
-```diagram
+```kaavio
 <!-- expand: MEMO-SAMPLE -->
 ```
 Figure. メモのサンプル
@@ -1924,7 +1924,7 @@ ${BLANK_PARAGRAPH}
 <!-- expand: WITH-MEMO-OPTIONS-SAMPLE -->
 ```
 
-```diagram
+```kaavio
 <!-- expand: WITH-MEMO-OPTIONS-SAMPLE -->
 ```
 Figure. with-memo-options のサンプル
@@ -1943,7 +1943,7 @@ Figure. with-memo-options のサンプル
               :fill :lightgray :fill2 :darkgray :stroke :black))
 -->
 
-```diagram
+```kaavio
 <!-- expand: CUBE-SAMPLE -->
 ```
 Figure. キューブのサンプル
@@ -2021,7 +2021,7 @@ ${BLANK_PARAGRAPH}
 <!-- expand: WITH-CUBE-OPTIONS-SAMPLE -->
 ```
 
-```diagram
+```kaavio
 <!-- expand: WITH-CUBE-OPTIONS-SAMPLE -->
 ```
 Figure. with-cube-options のサンプル
@@ -2040,7 +2040,7 @@ Figure. with-cube-options のサンプル
                                    :fill :honeydew :stroke :forestgreen))
 -->
 
-```diagram
+```kaavio
 <!-- expand: CYLINDER-SAMPLE -->
 ```
 Figure. 円柱のサンプル
@@ -2116,7 +2116,7 @@ ${BLANK_PARAGRAPH}
 <!-- expand: WITH-CYLINDER-OPTIONS-SAMPLE -->
 ```
 
-```diagram
+```kaavio
 <!-- expand: WITH-CYLINDER-OPTIONS-SAMPLE -->
 ```
 Figure. with-cylinder-options のサンプル
@@ -2138,7 +2138,7 @@ Figure. with-cylinder-options のサンプル
   (explosion2 '(250 75) 140 120 "explosion~%type2" :fill :pink :stroke :red))
 -->
 
-```diagram
+```kaavio
 <!-- expand: EXPLOSION-SAMPLE -->
 ```
 Figure. 爆発のサンプル
@@ -2208,7 +2208,7 @@ ${BLANK_PARAGRAPH}
 <!-- expand: WITH-EXPLOSION-OPTIONS-SAMPLE -->
 ```
 
-```diagram
+```kaavio
 <!-- expand: WITH-EXPLOSION-OPTIONS-SAMPLE -->
 ```
 Figure. with-explosion-options のサンプル
@@ -2228,7 +2228,7 @@ Figure. with-explosion-options のサンプル
   (cross '(320 50) 80 80 10 :fill :pink :stroke :red :pivot '(-10 -15) :size-v 15))
 -->
 
-```diagram
+```kaavio
 <!-- expand: CROSS-SAMPLE -->
 ```
 Figure. 十字のサンプル
@@ -2297,7 +2297,7 @@ ${BLANK_PARAGRAPH}
 <!-- expand: WITH-CROSS-OPTIONS-SAMPLE -->
 ```
 
-```diagram
+```kaavio
 <!-- expand: WITH-CROSS-OPTIONS-SAMPLE -->
 ```
 Figure. with-cross-options のサンプル
@@ -2319,7 +2319,7 @@ Figure. with-cross-options のサンプル
     (block-arrow2 '(50 110) '(250 110) 20)))
 -->
 
-```diagram
+```kaavio
 <!-- expand: BLOCKARROW-SAMPLE -->
 ```
 Figure. ブロック矢印のサンプル
@@ -2369,7 +2369,7 @@ ${BLANK_PARAGRAPH}
 
 　上記だけではわかりにくいので、以下を参考にしてください。
 
-```diagram
+```kaavio
 (diagram (400 120)
 	(grid)
 	(let ((pt1 '( 50 50))
@@ -2430,7 +2430,7 @@ ${BLANK_PARAGRAPH}
 <!-- expand: WITH-BLOCK-ARROW-OPTIONS-SAMPLE -->
 ```
 
-```diagram
+```kaavio
 <!-- expand: WITH-BLOCK-ARROW-OPTIONS-SAMPLE -->
 ```
 Figure. with-block-arrow-options のサンプル
@@ -2453,7 +2453,7 @@ Figure. with-block-arrow-options のサンプル
        (brace '(370 110) :right   40 120 :r 10 :point  80 :text "right brace" )))
 -->
 
-```diagram
+```kaavio
 <!-- expand: BRACE-SAMPLE -->
 ```
 Figure. 波括弧のサンプル
@@ -2503,7 +2503,7 @@ ${BLANK_PARAGRAPH}
 
 　上記だけではわかりにくいので、以下を参考にしてください。
 
-```diagram
+```kaavio
 (diagram (400 150)
   (grid)
   (with-options (:font   '(:fill :navy :size 16)
@@ -2555,7 +2555,7 @@ ${BLANK_PARAGRAPH}
 <!-- expand: WITH-BRACE-OPTIONS-SAMPLE -->
 ```
 
-```diagram
+```kaavio
 <!-- expand: WITH-BRACE-OPTIONS-SAMPLE -->
 ```
 Figure. with-brace-options のサンプル
@@ -2575,7 +2575,7 @@ Figure. with-brace-options のサンプル
                    ("asdf" "qwer" "zxcv" "hjkl"))))
 -->
 
-```diagram
+```kaavio
 <!-- expand: TABLE-SAMPLE -->
 ```
 Figure. テーブルのサンプル
@@ -2680,7 +2680,7 @@ ${BLANK_PARAGRAPH}
         (line `((0 0) (,w ,h)) :stroke :navy)))))
 -->
 
-```diagram
+```kaavio
 <!-- expand: TABLE-ALIGN-SAMPLE -->
 ```
 Figure. テーブルにおけるテキストの align と valign パラメータ
@@ -2719,7 +2719,7 @@ Figure. テーブルにおけるテキストの align と valign パラメータ
       (rect canvas.center 50 50 :fill :lightpink :stroke :red :rotate 45)))
 -->
 
-```diagram
+```kaavio
 <!-- expand: WITH-TABLE-CELL-SAMPLE -->
 ```
 Figure. with-table-cell の使用例
@@ -2755,10 +2755,10 @@ ${BLANK_PARAGRAPH}
     (line '((123  80) (115  85)) :end2 em) (text '(130  85) "θ" :align :left)))
 -->
 
-```diagram
+```kaavio
 <!-- expand: GEOMETRY-SAMPLE-1 -->
 ```
-Figure. diagram における座標系
+Figure. ${APPNAME} における座標系
 
 <!-- collapse:begin -->
 　※上記画像のソースはこちら。
@@ -2783,7 +2783,7 @@ ${BLANK_PARAGRAPH}
 参照するものです。これには９種類あり、その名前と具体的な場所は以下の通りです{{fn:この他に `width, height` があって、 \
 その図形要素の幅と高さを取得することもできますが、あまり使用しません。}}。
 
-```diagram
+```kaavio
 (diagram (300 150)
   (grid)
   (rect canvas.center 100 100 :stroke :gray :fill :white :id :rct)
@@ -2856,7 +2856,7 @@ ${BLANK_PARAGRAPH}
 （青い方の）circle が with-subcanvas の配下にあるためで、このサブキャンバスの実際の領域は 
 rect で示されています。
 
-```diagram
+```kaavio
 <!-- expand: SUBCANVAS-SAMPLE-1 -->
 ```
 Figure. サブキャンバスのサンプル
@@ -2886,7 +2886,7 @@ Figure. contents パラメータを使ったサブキャンバス
 原則です。つまり、円や楕円の場合は以下のようにサブキャンバスの方が大きくなりますので注意して
 ください。
 
-```diagram
+```kaavio
 (diagram (300 120)
   (grid)
   (let ((st (make-stroke :width 3 :color :red :opacity 0.3 :dasharray '(10 5))))
@@ -2902,7 +2902,7 @@ Figure. contents パラメータを使ったサブキャンバス
 以下のようになります。青い点線の枠が cube の幅と高さからなる矩形で、赤い点線の枠がサブキャンバス
 です。
 
-```diagram
+```kaavio
 (diagram (300 200)
   (grid)
   (let ((st (make-stroke :width 3 :color :red :opacity 0.5 :dasharray '(10 5))))
@@ -2981,7 +2981,7 @@ ${BLANK_PARAGRAPH}
 <!-- expand: DEFS-USE-SAMPLE-1 -->
 ```
 
-```diagram
+```kaavio
 <!-- expand: DEFS-USE-SAMPLE-1 -->
 ```
 
@@ -3087,7 +3087,7 @@ defs で定義した図形を実際に描画するには、use を使います�
 <!-- expand: DEFS-USE-SAMPLE -->
 ```
 
-```diagram
+```kaavio
 <!-- expand: DEFS-USE-SAMPLE -->
 ```
 Figure. defs と use のサンプル
@@ -3186,7 +3186,7 @@ ${BLANK_PARAGRAPH}
 <!-- expand: WITH-OPTIONS-STROKE-SAMPLE -->
 ```
 
-```diagram
+```kaavio
 <!-- expand: WITH-OPTIONS-STROKE-SAMPLE -->
 ```
 Figure. with-options によるデフォルトストロークの変更
@@ -3211,7 +3211,7 @@ ${BLANK_PARAGRAPH}
 線の端の形状が変わります。butt は指定した開始点／終了点で線が切れますが、round / square では
 開始点／終了点を少しはみ出すことに注意してください。
 
-```diagram
+```kaavio
 (diagram (200 100)
   (grid)
   (with-options (:font 10
@@ -3235,7 +3235,7 @@ ${BLANK_PARAGRAPH}
 　`linejoin` は、線が折れ曲る部分の形状を miter, round, bevel から指定するもので、以下のように
 角の形状が変わります。
 
-```diagram
+```kaavio
 (diagram (300 100)
   (grid)
   (with-options (:stroke '(:color :gray :width 20))
@@ -3258,7 +3258,7 @@ __miterlimit についての説明は暫定です（作者自身 SVG 規格に�
 　`miterlimit` は、 `linejoin` が `:miter` の場合における、結合される線の太さに対する結合部の長さの
 比率を数値で指定します。デフォルト値は 4 です。
 
-```diagram
+```kaavio
 (diagram (600 100)
   (grid)
   (with-options (:stroke '(:color :gray :width 16))
@@ -3286,7 +3286,7 @@ ${BLANK_PARAGRAPH}
 間隔の幅を数値でリストにしたものを渡します。通常は `dasharray` で指定された点線・破線を最初から描画します
 が、 `dashoffset` を指定すると開始するオフセットを指定できます。以下に例を示します。
 
-```diagram
+```kaavio
 (diagram (400 120)
   (grid)
   (with-options (:font 10 :stroke '(:color :black :width 4))
@@ -3373,7 +3373,7 @@ ${BLANK_PARAGRAPH}
 <!-- expand: WITH-OPTIONS-FILL-SAMPLE -->
 ```
 
-```diagram
+```kaavio
 <!-- expand: WITH-OPTIONS-FILL-SAMPLE -->
 ```
 Figure. with-options によるデフォルトフィルの変更
@@ -3408,7 +3408,7 @@ ${BLANK_PARAGRAPH}
       (text '(50 110) ":evenodd" :align :center))))
 -->
 
-```diagram
+```kaavio
 <!-- expand: FILL-RULE-SAMPLE -->
 ```
 Figure. fill における rule のサンプル
@@ -3438,9 +3438,27 @@ ${BLANK_PARAGRAPH}
 > 　evenodd ルールも、問題になっている点から無限遠まで線を引きますが、その線が多角形の線と何回交差する
 > かを単純に数えます。交差した回数が奇数であれば、その点は内側にあります。偶数であれば、外側にあります。
 
-### フォント
+${BLANK_PARAGRAPH}
 
-　${{TODO}{まだ記述されていません。}}
+### フォント
+<!-- autolink: [$$](#フォント) -->
+
+　${APPNAME} では様々な図形要素にテキストを付与できます。
+
+* `family` はフォントの名称を文字列で指定します。
+* `size` はフォントのサイズを指定します（厳密には違うらしいのですが、詳細は後述します）。
+* `fill` はフォントの塗り潰しの色を指定します。
+* `stroke` はフォントの輪郭線を指定します。フォントの場合、通常は塗り潰しのみで輪郭線は指定しません。
+* `style` はスタイルの指定です。 `:normal, :italic, :oblique` のいずれかから選択します。
+* `decoration` は装飾の指定です。 `:none, :underline, :overline, :line-through` のいずれかから選択します。
+* `weight` は文字の太さの指定です。 `:normal, :bold, :bolder, :lighter` のいずれか、または 100 200 300 400 500 600 700 800 900 のいずれかです。
+* `filter` はテキストに適用するフィルタの指定です。
+* `line-spacing` は、テキストが複数行になる場合の行間を指定します。
+* `width-spice` は、「テキストが実際に描画される幅」を計算するための目安となる係数を指定します。詳細は後述します。${{TODO}{まだ記述されていません。}}
+
+${BLANK_PARAGRAPH}
+
+${{TODO}{まだ記述されていません。}}
 
 
 ${BLANK_PARAGRAPH}
@@ -3470,13 +3488,14 @@ ${BLANK_PARAGRAPH}
 
 　以下のような画像が生成されます。
 
-```diagram
+```kaavio
 <!-- expand: ROTATE-SAMPLE -->
 ```
 Figure. 回転のサンプル
 
 
 ### フィルタ
+<!-- autolink: [$$](#フィルタ) -->
 
 　${{TODO}{まだ記述されていません}}
 
@@ -3502,7 +3521,7 @@ ${BLANK_PARAGRAPH}
 
 　以下のような画像が生成されます。
 
-```diagram
+```kaavio
 <!-- expand: FILTER-SAMPLE -->
 ```
 Figure. フィルタのサンプル
@@ -3619,7 +3638,7 @@ ${BLANK_PARAGRAPH}
   (uml-flow :inner-act :prm2))
 -->
 
-```diagram
+```kaavio
 <!-- expand: UML-ACTION-PARAM-SAMPLE -->
 ```
 Figure. uml-action-param 要素
@@ -3653,7 +3672,7 @@ Figure. uml-action-param 要素
   (connector :act2 :final :end2 :arrow))
 -->
 
-```diagram
+```kaavio
 <!-- expand: UML-ACTION-SAMPLE -->
 ```
 Figure. uml-action 要素
@@ -3710,7 +3729,7 @@ Figure. uml-action 要素
     (uml-flow :close-order   :final)))
 -->
 
-```diagram
+```kaavio
 <!-- expand: UML-ACTIVITY-PARTITIONS-SAMPLE -->
 ```
 Figure. uml-activity-partitions 要素
@@ -4281,7 +4300,7 @@ ${BLANK_PARAGRAPH}
                           (255 255 255 "white"               ))))))))
 -->
 
-```diagram
+```kaavio
 <!-- expand: COLOR-NAME-SAMPLE -->
 ```
 Figure. 色の名前とサンプル
@@ -4745,7 +4764,7 @@ maroon(#B03060), purple(#A020F0) については規格側にも同じ名前が�
                           (139 139   0 "yellow4"         ))))))))
 -->
 
-```diagram
+```kaavio
 <!-- expand: EXTERNAL-COLOR-NAME-SAMPLE -->
 ```
 Figure. 色の名前とサンプル - 2

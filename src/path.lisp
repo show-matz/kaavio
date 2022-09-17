@@ -1,5 +1,5 @@
 #|
-#|ASD|#				(:file "path"                      :depends-on ("cl-diagram"
+#|ASD|#				(:file "path"                      :depends-on ("kaavio"
 #|ASD|#																"constants"
 #|ASD|#																"fill-info"
 #|ASD|#																"stroke-info"
@@ -9,7 +9,7 @@
 #|EXPORT|#				;path.lisp
  |#
 
-(in-package :cl-diagram)
+(in-package :kaavio)
 
 ;;------------------------------------------------------------------------------
 ;;
@@ -21,18 +21,18 @@
 						(string-upcase ,v) ,v) acc))
 		   (push-point (pt)
 			 `(progn
-				(push (diagram:point-x ,pt) acc)
-				(push (diagram:point-y ,pt) acc))))
+				(push (kaavio:point-x ,pt) acc)
+				(push (kaavio:point-y ,pt) acc))))
 
   (defun __check-&-fix-move-to (param acc mode canvas)
 	(unless param
 	  (throw-exception "No param for :move-to in path."))
 	(let ((cmd "m"))
 	  (dolist (pt param)
-		(unless (diagram:point-p pt)
+		(unless (kaavio:point-p pt)
 		  (throw-exception "Invalid param for :move-to in path."))
 		(cond
-		  ((diagram:point-absolute-p pt)
+		  ((kaavio:point-absolute-p pt)
 		   (let ((mode :absolute))
 			 (push-cmd cmd)
 			 (push-point pt)))
@@ -43,7 +43,7 @@
 		  ((eq mode :absolute)
 		   (progn
 			 (push-cmd   cmd)
-			 (push-point (diagram:point+ pt (diagram:canvas-topleft canvas))))))
+			 (push-point (kaavio:point+ pt (kaavio:canvas-topleft canvas))))))
 		(setf cmd "l")))
 	(values mode acc))
 
@@ -52,10 +52,10 @@
 	  (throw-exception "No param for :line-to in path."))
 	(let ((cmd "l"))
 	  (dolist (pt param)
-		(unless (diagram:point-p pt)
+		(unless (kaavio:point-p pt)
 		  (throw-exception "Invalid param for :line-to in path."))
 		(cond
-		  ((diagram:point-absolute-p pt)
+		  ((kaavio:point-absolute-p pt)
 		   (let ((mode :absolute))
 			 (push-cmd cmd)
 			 (push-point pt)))
@@ -66,7 +66,7 @@
 		  ((eq mode :absolute)
 		   (progn
 			 (push-cmd   cmd)
-			 (push-point (diagram:point+ pt (diagram:canvas-topleft canvas))))))))
+			 (push-point (kaavio:point+ pt (kaavio:canvas-topleft canvas))))))))
 	(values mode acc))
 
   (defun __check-&-fix-h-line-to (param acc mode canvas)
@@ -74,20 +74,20 @@
 	  (throw-exception "No param for :h-line-to in path."))
 	(let ((cmd "h")
 		  (param (car param)))
-	  (if (and (diagram:point-p param) (diagram:point-absolute-p param))
+	  (if (and (kaavio:point-p param) (kaavio:point-absolute-p param))
 		  (let ((mode :absolute))
 			(push-cmd cmd)
-			(push (diagram:point-x param) acc))
+			(push (kaavio:point-x param) acc))
 		  (progn
-			(when (diagram:point-p param)
-			  (setf param (diagram:point-x param)))
+			(when (kaavio:point-p param)
+			  (setf param (kaavio:point-x param)))
 			(if (eq mode :relative)
 				(progn
 				  (push-cmd cmd)
 				  (push param acc))
 				(progn
 				  (push-cmd cmd)
-				  (push (+ param (diagram:canvas-left canvas)) acc))))))
+				  (push (+ param (kaavio:canvas-left canvas)) acc))))))
 	(values mode acc))
 
   (defun __check-&-fix-v-line-to (param acc mode canvas)
@@ -95,20 +95,20 @@
 	  (throw-exception "No param for :v-line-to in path."))
 	(let ((cmd "v")
 		  (param (car param)))
-	  (if (and (diagram:point-p param) (diagram:point-absolute-p param))
+	  (if (and (kaavio:point-p param) (kaavio:point-absolute-p param))
 		  (let ((mode :absolute))
 			(push-cmd cmd)
-			(push (diagram:point-y param) acc))
+			(push (kaavio:point-y param) acc))
 		  (progn
-			(when (diagram:point-p param)
-			  (setf param (diagram:point-y param)))
+			(when (kaavio:point-p param)
+			  (setf param (kaavio:point-y param)))
 			(if (eq mode :relative)
 				(progn
 				  (push-cmd cmd)
 				  (push param acc))
 				(progn
 				  (push-cmd cmd)
-				  (push (+ param (diagram:canvas-top canvas)) acc))))))
+				  (push (+ param (kaavio:canvas-top canvas)) acc))))))
 	(values mode acc))
 
   (defun __check-&-fix-arc-to (param acc mode canvas)
@@ -117,9 +117,9 @@
 	(destructuring-bind (rx ry x-axis-rotation
 							large-arc-flag sweep-flag pt) param
 	  ;;ToDo : check each params...
-	  (unless (diagram:point-p pt)
+	  (unless (kaavio:point-p pt)
 		(throw-exception "Invalid pt param for :arc-to in path."))
-	  (let ((mode (if (diagram:point-absolute-p pt) :absolute mode)))
+	  (let ((mode (if (kaavio:point-absolute-p pt) :absolute mode)))
 		(push-cmd				"a")
 		(push rx				acc)
 		(push ry				acc)
@@ -127,9 +127,9 @@
 		(push large-arc-flag	acc)
 		(push sweep-flag		acc)
 		(cond
-		  ((diagram:point-absolute-p pt)	(push-point pt))
+		  ((kaavio:point-absolute-p pt)	(push-point pt))
 		  ((eq mode :relative)				(push-point pt))
-		  ((eq mode :absolute) (push-point (diagram:point+ pt (diagram:canvas-topleft canvas)))))))
+		  ((eq mode :absolute) (push-point (kaavio:point+ pt (kaavio:canvas-topleft canvas)))))))
 	(values mode acc))
 
   (defun __check-&-fix-2d-curve-to (param acc mode canvas)
@@ -141,12 +141,12 @@
 	  (let ((cmd (if (= len 1) "t" "q")))
 		(push-cmd cmd)
 		(dolist (pt param)
-		  (unless (diagram:point-p pt)
+		  (unless (kaavio:point-p pt)
 			(throw-exception "Invalid point param for :2d-curve-to in path."))
 		  (cond
-			((diagram:point-absolute-p pt) (push-point pt))
+			((kaavio:point-absolute-p pt) (push-point pt))
 			((eq mode :relative) (push-point pt))
-			((eq mode :absolute) (push-point (diagram:point+ pt (diagram:canvas-topleft canvas))))))))
+			((eq mode :absolute) (push-point (kaavio:point+ pt (kaavio:canvas-topleft canvas))))))))
 	(values mode acc))
 
   (defun __check-&-fix-3d-curve-to (param acc mode canvas)
@@ -158,12 +158,12 @@
 	  (let ((cmd (if (= len 2) "s" "c")))
 		(push-cmd cmd)
 		(dolist (pt param)
-		  (unless (diagram:point-p pt)
+		  (unless (kaavio:point-p pt)
 			(throw-exception "Invalid point param for :2d-curve-to in path."))
 		  (cond
-			((diagram:point-absolute-p pt) (push-point pt))
+			((kaavio:point-absolute-p pt) (push-point pt))
 			((eq mode :relative) (push-point pt))
-			((eq mode :absolute) (push-point (diagram:point+ pt (diagram:canvas-topleft canvas))))))))
+			((eq mode :absolute) (push-point (kaavio:point+ pt (kaavio:canvas-topleft canvas))))))))
 	(values mode acc)))
 
 (defun __check-&-fix-data (lst acc mode canvas)
@@ -265,7 +265,7 @@
 #|EXPORT|#				:path
  |#
 (defmacro path (data &key fill stroke layer filter id)
-  `(register-entity (make-instance 'diagram:path
+  `(register-entity (make-instance 'kaavio:path
 								   :data ,data :fill ,fill :stroke ,stroke
 								   :layer ,layer :filter ,filter :id ,id)))
 

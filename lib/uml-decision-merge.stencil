@@ -1,5 +1,5 @@
 
-(in-package :cl-diagram-user)
+(in-package :kaavio-user)
 
 (defparameter *uml-decision-fill*       :white)
 (defparameter *uml-decision-stroke*     :black)
@@ -21,7 +21,7 @@
 ;; class uml-decision-merge
 ;;
 ;;-------------------------------------------------------------------------------
-(defclass uml-decision-merge (diagram:shape)
+(defclass uml-decision-merge (kaavio:shape)
   ((center			:initform nil :initarg :center)			; point
    (size			:initform   0 :initarg :size)			; number
    (height-ratio	:initform   0 :initarg :height-ratio)	; number

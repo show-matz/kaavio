@@ -1,4 +1,4 @@
-(in-package :cl-diagram-user)
+(in-package :kaavio-user)
 
 (defparameter *uml-state-begin-radius*     10)
 (defparameter *uml-state-begin-fill*   :black)
@@ -8,7 +8,7 @@
 ;; class uml-state-begin
 ;;
 ;;------------------------------------------------------------------------------
-(defclass uml-state-begin (diagram:circle) ())
+(defclass uml-state-begin (kaavio:circle) ())
 
 ;;------------------------------------------------------------------------------
 ;;

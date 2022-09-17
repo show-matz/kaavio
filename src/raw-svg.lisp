@@ -1,12 +1,12 @@
 #|
-#|ASD|#				(:file "raw-svg"                   :depends-on ("cl-diagram"
+#|ASD|#				(:file "raw-svg"                   :depends-on ("kaavio"
 #|ASD|#																"constants"
 #|ASD|#																"entity"
 #|ASD|#																"writer"))
 #|EXPORT|#				;raw-svg.lisp
  |#
 
-(in-package :cl-diagram)
+(in-package :kaavio)
 
 ;;------------------------------------------------------------------------------
 ;;
@@ -47,6 +47,6 @@
 #|EXPORT|#				:raw-svg
  |#
 (defmacro raw-svg (svgdata &key (layer nil))
-  `(register-entity (make-instance 'diagram:raw-svg
+  `(register-entity (make-instance 'kaavio:raw-svg
 								   :svgdata ,svgdata :layer ,layer)))
 

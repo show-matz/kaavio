@@ -1,4 +1,4 @@
-(in-package :cl-diagram-user)
+(in-package :kaavio-user)
 
 (defun calculate-degrees (center points degree)
   (labels ((reverse-degree (sin cos)
@@ -27,7 +27,7 @@
 (defparameter *uml-interface-fill*   :white)
 (defparameter *uml-interface-stroke* :black)
 
-(defclass uml-interface (diagram:circle)
+(defclass uml-interface (kaavio:circle)
   ((name :initform nil :initarg :name)))	; (or nil label-info)
 
 (defmethod initialize-instance :after ((obj uml-interface) &rest initargs)
@@ -77,7 +77,7 @@
 (defparameter *uml-interface-socket-stroke*   :black)
 (defparameter *uml-interface-socket-degree*      150)
 
-(defclass uml-interface-socket (diagram:entity)
+(defclass uml-interface-socket (kaavio:entity)
   ((name			:initform nil :initarg :name)	; (or nil label-inf)
    (center			:initform nil :initarg :center)	; point
    (from			:initform nil :initarg :from)	; keyword
@@ -112,14 +112,14 @@
 	(when (remove-if #'numberp spacing)
 	  (throw-exception "Invalid spacing : '~A'." spacing))
 	(setf center (canvas-fix-point canvas center))
-	(setf style (diagram::check-and-fix-connector-style style))
+	(setf style (kaavio::check-and-fix-connector-style style))
 	(setf canvas-cache (copy-canvas canvas))
-	(let ((from-entity (diagram::dict-get-entity dict from)))
+	(let ((from-entity (kaavio::dict-get-entity dict from)))
 	  (unless from-entity
 		(throw-exception "Entity '~A' not found in dictionary." from))
 	  (unless (typep from-entity 'shape)
 		(throw-exception "Entity '~A' is not shape object." from))
-	  (setf dummy-circle (make-instance 'diagram:circle
+	  (setf dummy-circle (make-instance 'kaavio:circle
 										:center center
 										:radius *uml-interface-radius*))
 	  (setf points (resolve-connector-points from-entity dummy-circle style spacing))))
@@ -141,10 +141,10 @@
 		(let ((*default-stroke* stroke))
 		  (line points)
 		  (multiple-value-bind (deg1 deg2)
-			  (calculate-degrees (slot-value dummy-circle 'diagram::center) points degree)
+			  (calculate-degrees (slot-value dummy-circle 'kaavio::center) points degree)
 			(when (<= 360 deg1) (decf deg1 360))
 			(when (<= 360 deg2) (decf deg2 360))
-			(let ((radius  (slot-value dummy-circle 'diagram::radius)))
+			(let ((radius  (slot-value dummy-circle 'kaavio::radius)))
 			  (arc center radius radius 0 deg1 deg2)))
 		  (when name
 			(draw-label name dummy-circle writer))))))    ;;ToDo : font OK...?
@@ -214,7 +214,7 @@
 	  (values points last2 (make-point x y :absolute)))))
 
 
-(defclass uml-interface-request (diagram:connector)
+(defclass uml-interface-request (kaavio:connector)
   ((arrow-p			:initform nil :initarg :arrow-p)	; boolean value
    (pt-cache		:initform nil)						; point
    (canvas-cache	:initform nil)						; (or nil canvas)
@@ -239,13 +239,13 @@
 	(let ((new-points nil))
 	  (multiple-value-setq (new-points points-cache pt-cache)
 								(fix-points arrow-p radius-cache
-									(copy-list (slot-value req 'diagram::points))))
+									(copy-list (slot-value req 'kaavio::points))))
 	  (let ((topleft (canvas-topleft canvas)))
 		(setf pt-cache (point- pt-cache topleft))
 		(when points-cache
 		  (setf (first  points-cache) (point- (first  points-cache) topleft))
 		  (setf (second points-cache) (point- (second points-cache) topleft))))
-	  (setf (slot-value req 'diagram::points) new-points)))
+	  (setf (slot-value req 'kaavio::points) new-points)))
   nil)
 
 (defmethod entity-composition-p ((req uml-interface-request))
@@ -254,18 +254,18 @@
 
 (defmethod post-draw ((req uml-interface-request) writer)
   (with-slots (canvas-cache points-cache pt-cache
-				degree-cache radius-cache diagram::stroke) req
+				degree-cache radius-cache kaavio::stroke) req
 	(let ((canvas canvas-cache))
 	  (declare (special canvas))
 	  (macrolet ((register-entity (entity)
 				   `(check-and-draw-local-entity ,entity canvas writer)))
-		(let ((*default-stroke* diagram::stroke))
+		(let ((*default-stroke* kaavio::stroke))
 		  (when points-cache
 			(line points-cache :end1 nil :end2 :arrow
 							   :stroke '(:dasharray (3 3)))) ; ToDo : fix ?
 			  (multiple-value-bind (deg1 deg2)
 				  (calculate-degrees (point+ (canvas-topleft canvas) pt-cache)
-									 (copy-list (slot-value req 'diagram::points)) degree-cache)
+									 (copy-list (slot-value req 'kaavio::points)) degree-cache)
 				(when (<= 360 deg1) (decf deg1 360))
 				(when (<= 360 deg2) (decf deg2 360))
 				(arc pt-cache radius-cache radius-cache 0 deg1 deg2))))))

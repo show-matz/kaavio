@@ -1,11 +1,11 @@
 #|
-#|ASD|#				(:file "fill-info"                 :depends-on ("cl-diagram"
+#|ASD|#				(:file "fill-info"                 :depends-on ("kaavio"
 #|ASD|#																"colormap"))
 #|EXPORT|#				;fill-info.lisp
  |#
 
 
-(in-package :cl-diagram)
+(in-package :kaavio)
 
 ;; default parameter for fill
 #|

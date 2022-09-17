@@ -1,5 +1,5 @@
 
-(in-package :cl-diagram-user)
+(in-package :kaavio-user)
 
 (load-stencil :uml-keyword-info)
 
@@ -9,19 +9,19 @@
 			   (let* ((width   0)
 					  (height  0)
 					  (lines   nil)
-					  (offset  (if name (slot-value name 'diagram::offset) '(0 0)))
+					  (offset  (if name (slot-value name 'kaavio::offset) '(0 0)))
 					  (k-font  (and keyword (slot-value keyword 'font)))
-					  (k-size  (if  k-font  (slot-value k-font  'diagram::size) 0))
-					  (n-font  (and name    (slot-value name    'diagram::font)))
-					  (n-size  (if  n-font  (slot-value n-font  'diagram::size) 0))
-					  (spacing (if  n-font  (slot-value n-font  'diagram::line-spacing) 0)))
+					  (k-size  (if  k-font  (slot-value k-font  'kaavio::size) 0))
+					  (n-font  (and name    (slot-value name    'kaavio::font)))
+					  (n-size  (if  n-font  (slot-value n-font  'kaavio::size) 0))
+					  (spacing (if  n-font  (slot-value n-font  'kaavio::line-spacing) 0)))
 				 (when keyword
 				   (multiple-value-setq (width height)
 										(font-calc-textarea k-font
 															(uml-keyword-to-string keyword))))
 				 (when name
-				   (let ((text (fix-name (slot-value name 'diagram::text))))
-					 (setf lines (diagram::string/split text #\newline))
+				   (let ((text (fix-name (slot-value name 'kaavio::text))))
+					 (setf lines (kaavio::string/split text #\newline))
 					 (multiple-value-bind (w h) (font-calc-textarea n-font text)
 					   (setf width (max width w))
 					   (incf height spacing)

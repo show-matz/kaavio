@@ -1,11 +1,11 @@
 #|
-#|ASD|#				(:file "shadow-filter"             :depends-on ("cl-diagram"
+#|ASD|#				(:file "shadow-filter"             :depends-on ("kaavio"
 #|ASD|#																"filter"
 #|ASD|#																"writer"))
 #|EXPORT|#				;shadow-filter.lisp
  |#
 
-(in-package :cl-diagram)
+(in-package :kaavio)
 
 
 ;;------------------------------------------------------------------------------
@@ -53,7 +53,7 @@
 #|EXPORT|#				:drop-shadow
  |#
 (defmacro drop-shadow (&key id color-matrix deviation dx dy)
-  `(register-filter (make-instance 'diagram::shadow-filter
+  `(register-filter (make-instance 'kaavio::shadow-filter
 								   :id (or ,id :drop-shadow)
 								   :color-matrix (or ,color-matrix '(0 0 0 0   0
 																	 0 0 0 0   0
@@ -71,7 +71,7 @@
 #|EXPORT|#				:glow-shadow
  |#
 (defmacro glow-shadow (&key id color-matrix deviation)
-  `(register-filter (make-instance 'diagram::shadow-filter
+  `(register-filter (make-instance 'kaavio::shadow-filter
 								   :id (or ,id :glow-shadow)
 								   :color-matrix (or ,color-matrix '(0 0 0 0 0
 																	 0 0 0 0 0

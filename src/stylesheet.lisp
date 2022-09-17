@@ -1,5 +1,5 @@
 #|
-#|ASD|#				(:file "stylesheet"                :depends-on ("cl-diagram"
+#|ASD|#				(:file "stylesheet"                :depends-on ("kaavio"
 #|ASD|#																"entity"
 #|ASD|#																"stroke-info"
 #|ASD|#																"fill-info"
@@ -8,7 +8,7 @@
 #|EXPORT|#				;stylesheet.lisp
  |#
 
-(in-package :cl-diagram)
+(in-package :kaavio)
 
 ;;------------------------------------------------------------------------------
 ;;
@@ -93,5 +93,5 @@
 #|EXPORT|#				:stylesheet
 |#
 (defmacro stylesheet (&rest styles)
-  `(register-entity (make-instance 'diagram:stylesheet :styles (list ,@styles))))
+  `(register-entity (make-instance 'kaavio:stylesheet :styles (list ,@styles))))
 

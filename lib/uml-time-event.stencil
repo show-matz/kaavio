@@ -1,5 +1,5 @@
 
-(in-package :cl-diagram-user)
+(in-package :kaavio-user)
 
 (defparameter *uml-time-event-fill*         :white)
 (defparameter *uml-time-event-stroke*       :black)
@@ -12,7 +12,7 @@
 ;; class uml-time-event
 ;;
 ;;------------------------------------------------------------------------------
-(defclass uml-time-event (diagram:group)
+(defclass uml-time-event (kaavio:group)
   ((name	:initform nil :initarg :name)		; (or nil label-info)
    (fill	:initform nil :initarg :fill)		; (or nil fill-info)
    (stroke	:initform nil :initarg :stroke)))	; (or nil stroke-info)

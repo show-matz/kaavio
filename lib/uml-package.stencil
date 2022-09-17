@@ -1,5 +1,5 @@
 
-(in-package :cl-diagram-user)
+(in-package :kaavio-user)
 
 (load-stencil :uml-keyword-info)
 
@@ -20,7 +20,7 @@
 				 (when keyword
 				   (format s "~A~%" (uml-keyword-to-string keyword)))
 				 (princ (fix-name name) s))))
-	  (diagram:font-calc-textarea font txt))))
+	  (kaavio:font-calc-textarea font txt))))
 
 
 ;;------------------------------------------------------------------------------
@@ -28,7 +28,7 @@
 ;; class uml-package
 ;;
 ;;------------------------------------------------------------------------------
-(defclass uml-package (diagram:group)
+(defclass uml-package (kaavio:group)
   ((name		:initform nil :initarg :name)		; (or string keyword)
    (keyword		:initform nil :initarg :keyword)	; (or nil uml-keyword-info)
    (contents-p	:initform nil :initarg :contents-p)	; boolean
@@ -96,15 +96,15 @@
 					  fill stroke tab-width tab-height tab-margin) pkg
 	  (let* ((width     (canvas-width  canvas))
 			 (height    (canvas-height canvas))
-			 (font-size (slot-value font 'diagram::size))
-			 (spacing   (slot-value font 'diagram::line-spacing)))
+			 (font-size (slot-value font 'kaavio::size))
+			 (spacing   (slot-value font 'kaavio::line-spacing)))
 		(macrolet ((register-entity (entity)
 					 `(check-and-draw-local-entity ,entity canvas writer)))
 		  (let ((*default-fill*   fill)
 				(*default-stroke* stroke))
 			(rectangle `(,(/ width 2) ,(/ (+ height tab-height) 2)) width (- height tab-height))
 			(rectangle `(,(/ tab-width 2) ,(/ tab-height 2)) tab-width tab-height))
-		  (let ((names (diagram::string/split (fix-name name) #\newline)))
+		  (let ((names (kaavio::string/split (fix-name name) #\newline)))
 			(let ((x (if contents-p (/ tab-width 2) (/ width 2)))
 				  (y (if contents-p
 						 tab-margin

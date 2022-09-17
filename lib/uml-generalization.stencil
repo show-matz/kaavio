@@ -1,5 +1,5 @@
 
-(in-package :cl-diagram-user)
+(in-package :kaavio-user)
 
 (load-stencil :uml-connection-common)
 (load-stencil :uml-keyword-info)
@@ -9,8 +9,8 @@
 ;; class uml-generalization
 ;;
 ;;------------------------------------------------------------------------------
-(defclass uml-generalization (diagram:connector)
-  ((name	:initform nil :initarg :name)		; (or nil diagram::label-info)
+(defclass uml-generalization (kaavio:connector)
+  ((name	:initform nil :initarg :name)		; (or nil kaavio::label-info)
    (keyword :initform nil :initarg :keyword)))	; (or nil uml-keyword-info)
 
 (defmethod initialize-instance :after ((gen uml-generalization) &rest initargs)

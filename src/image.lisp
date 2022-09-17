@@ -1,5 +1,5 @@
 #|
-#|ASD|#				(:file "image"                     :depends-on ("cl-diagram"
+#|ASD|#				(:file "image"                     :depends-on ("kaavio"
 #|ASD|#																"binutil"
 #|ASD|#																"shape"
 #|ASD|#																"label-info"
@@ -11,7 +11,7 @@
  |#
 
 
-(in-package :cl-diagram)
+(in-package :kaavio)
 
 ;;------------------------------------------------------------------------------
 ;;
@@ -182,7 +182,7 @@
  |#
 (defmacro image (center filename
 				 &key width height label link rotate layer id filter contents)
-  (let ((code `(register-entity (make-instance 'diagram:image
+  (let ((code `(register-entity (make-instance 'kaavio:image
 											   :center ,center
 											   :filename ,filename
 											   :width ,width :height ,height
@@ -193,7 +193,7 @@
 		code
 		(let ((g-obj (gensym "OBJ")))
 		  `(let* ((,g-obj ,code)
-				  (canvas (diagram:shape-get-subcanvas ,g-obj)))
+				  (canvas (kaavio:shape-get-subcanvas ,g-obj)))
 			 (declare (special canvas))
 			 ,@contents)))))
 

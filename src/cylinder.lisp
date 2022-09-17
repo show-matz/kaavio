@@ -1,5 +1,5 @@
 #|
-#|ASD|#				(:file "cylinder"                  :depends-on ("cl-diagram"
+#|ASD|#				(:file "cylinder"                  :depends-on ("kaavio"
 #|ASD|#																"constants"
 #|ASD|#																"path"
 #|ASD|#																"filter"
@@ -7,7 +7,7 @@
 #|EXPORT|#				;cylinder.lisp
  |#
 
-(in-package :cl-diagram)
+(in-package :kaavio)
 
 #|
 #|EXPORT|#				:*default-cylinder-depth*
@@ -113,7 +113,7 @@
 		code
 		(let ((g-obj (gensym "OBJ")))
 		  `(let* ((,g-obj ,code)
-				  (canvas (diagram:shape-get-subcanvas ,g-obj)))
+				  (canvas (kaavio:shape-get-subcanvas ,g-obj)))
 			 (declare (special canvas))
 			 ,@contents)))))
 

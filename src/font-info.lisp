@@ -1,5 +1,5 @@
 #|
-#|ASD|#				(:file "font-info"                 :depends-on ("cl-diagram"
+#|ASD|#				(:file "font-info"                 :depends-on ("kaavio"
 #|ASD|#																"colormap"
 #|ASD|#																"fill-info"
 #|ASD|#																"stroke-info"))
@@ -7,7 +7,7 @@
  |#
 
 
-(in-package :cl-diagram)
+(in-package :kaavio)
 
 ;; default parameter for font-info
 #|

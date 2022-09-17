@@ -1,9 +1,9 @@
 #|
-#|ASD|#				(:file "binutil"                   :depends-on ("cl-diagram"))
+#|ASD|#				(:file "binutil"                   :depends-on ("kaavio"))
 #|EXPORT|#				;binutil.lisp
  |#
 
-(in-package :cl-diagram)
+(in-package :kaavio)
 
 
 #+little-endian (defparameter *default-endian* :little)

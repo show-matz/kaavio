@@ -1,5 +1,5 @@
 
-(in-package :cl-diagram-user)
+(in-package :kaavio-user)
 
 (defparameter *uml-actor-fill*              nil)
 (defparameter *uml-actor-stroke*            nil)
@@ -15,7 +15,7 @@
 ;; class uml-actor
 ;;
 ;;------------------------------------------------------------------------------
-(defclass uml-actor (diagram:group)
+(defclass uml-actor (kaavio:group)
   ((name		:initform nil	:initarg  :name)	; (or nil label-info)
    (fill		:initform nil	:initarg  :fill)	; (or nil fill-info)
    (stroke		:initform nil	:initarg  :stroke)	; (or nil stroke-info)
@@ -29,7 +29,7 @@
 	(setf name   (and name (make-label name)))
 	(setf fill   (make-fill   (or fill   *uml-actor-fill*   *default-fill*  )))
 	(setf stroke (make-stroke (or stroke *uml-actor-stroke* *default-stroke*)))
-	(let ((height (slot-value actor 'diagram::height)))
+	(let ((height (slot-value actor 'kaavio::height)))
 	  (setf head  (/ (* height *uml-actor-head-ratio*) 2))
 	  (setf thigh    (* height *uml-actor-thigh-position*))
 	  (setf shoulder (* height *uml-actor-shoulder-position*))))

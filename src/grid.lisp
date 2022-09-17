@@ -1,5 +1,5 @@
 #|
-#|ASD|#				(:file "grid"                      :depends-on ("cl-diagram"
+#|ASD|#				(:file "grid"                      :depends-on ("kaavio"
 #|ASD|#																"colormap"
 #|ASD|#																"stroke-info"
 #|ASD|#																"entity"
@@ -7,7 +7,7 @@
 #|EXPORT|#				;grid.lisp
  |#
 
-(in-package :cl-diagram)
+(in-package :kaavio)
 
 ;;------------------------------------------------------------------------------
 ;;

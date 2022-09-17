@@ -1,5 +1,5 @@
 #|
-#|ASD|#				(:file "rectangle"                 :depends-on ("cl-diagram"
+#|ASD|#				(:file "rectangle"                 :depends-on ("kaavio"
 #|ASD|#																"constants"
 #|ASD|#																"canvas"
 #|ASD|#																"point"
@@ -12,7 +12,7 @@
  |#
 
 
-(in-package :cl-diagram)
+(in-package :kaavio)
 
 ;;-------------------------------------------------------------------------------
 ;;
@@ -111,7 +111,7 @@
  |#
 (defmacro rectangle (center width height
 					 &key rx ry fill stroke rotate link layer id filter contents)
-  (let ((code `(register-entity (make-instance 'diagram:rectangle
+  (let ((code `(register-entity (make-instance 'kaavio:rectangle
 											   :center ,center
 											   :width ,width :height ,height
 											   :rx ,rx :ry ,ry
@@ -122,7 +122,7 @@
 		code
 		(let ((g-obj (gensym "OBJ")))
 		  `(let* ((,g-obj ,code)
-				  (canvas (diagram:shape-get-subcanvas ,g-obj)))
+				  (canvas (kaavio:shape-get-subcanvas ,g-obj)))
 			 (declare (special canvas))
 			 ,@contents)))))
 
@@ -131,7 +131,7 @@
  |#
 (defmacro rect (center width height
 				&key rx ry fill stroke rotate link layer id filter contents)
-  (let ((code `(register-entity (make-instance 'diagram:rectangle
+  (let ((code `(register-entity (make-instance 'kaavio:rectangle
 											   :center ,center
 											   :width ,width :height ,height
 											   :rx ,rx :ry ,ry
@@ -142,7 +142,7 @@
 		code
 		(let ((g-obj (gensym "OBJ")))
 		  `(let* ((,g-obj ,code)
-				  (canvas (diagram:shape-get-subcanvas ,g-obj)))
+				  (canvas (kaavio:shape-get-subcanvas ,g-obj)))
 			 (declare (special canvas))
 			 ,@contents)))))
 

@@ -1,5 +1,5 @@
 
-(in-package :cl-diagram-user)
+(in-package :kaavio-user)
 
 (load-stencil :uml-keyword-info)
 
@@ -15,7 +15,7 @@
 ;; class uml-signal-receipt
 ;;
 ;;------------------------------------------------------------------------------
-(defclass uml-signal-receipt (diagram:text-shape)
+(defclass uml-signal-receipt (kaavio:text-shape)
   ((text		:initform nil :initarg :text)		; (or keyword string)
    (keyword		:initform nil :initarg :keyword)	; (or nil uml-keyword-info)
    (direction	:initform nil :initarg :direction)	; keyword - :left, :right
@@ -29,9 +29,9 @@
 	(setf margin2 (if (null keyword)
 					  0
 					  (or (and *uml-signal-receipt-font*
-							   (slot-value *uml-signal-receipt-font* 'diagram::size))
+							   (slot-value *uml-signal-receipt-font* 'kaavio::size))
 						  (and *default-font*
-							   (slot-value  *default-font* 'diagram::size))
+							   (slot-value  *default-font* 'kaavio::size))
 						  12))))	;;ToDo : これはなんとかしないと。
   sig-rcpt)
 
@@ -56,10 +56,10 @@
 	  (macrolet ((register-entity (entity)
 				   `(check-and-draw-local-entity ,entity canvas writer)))
 		(with-slots (keyword direction depth margin2
-						diagram::margin diagram::fill diagram::stroke) sig-rcpt
+						kaavio::margin kaavio::fill kaavio::stroke) sig-rcpt
 		  (let ((half (/ depth 2))
-				(*default-fill*   diagram::fill)
-				(*default-stroke* diagram::stroke))
+				(*default-fill*   kaavio::fill)
+				(*default-stroke* kaavio::stroke))
 			;; draw body
 			(if (eq direction :right)
 				(polygon `((0 0)
@@ -78,7 +78,7 @@
 		  (when keyword
 			(uml-keyword-draw keyword
 							  (+ left (/ width 2))
-							  (+ top  diagram::margin margin2) :center writer))
+							  (+ top  kaavio::margin margin2) :center writer))
 		  ;; draw text
 		  (call-next-method)))))
   nil)

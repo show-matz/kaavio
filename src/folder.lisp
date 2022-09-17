@@ -1,5 +1,5 @@
 #|
-#|ASD|#				(:file "folder"                    :depends-on ("cl-diagram"
+#|ASD|#				(:file "folder"                    :depends-on ("kaavio"
 #|ASD|#																"constants"
 #|ASD|#																"polygon"
 #|ASD|#																"filter"
@@ -7,7 +7,7 @@
 #|EXPORT|#				;folder.lisp
  |#
 
-(in-package :cl-diagram)
+(in-package :kaavio)
 
 #|
 #|EXPORT|#				:*default-folder-tabwidth*
@@ -125,7 +125,7 @@
 		code
 		(let ((g-obj (gensym "OBJ")))
 		  `(let* ((,g-obj ,code)
-				  (canvas (diagram:shape-get-subcanvas ,g-obj)))
+				  (canvas (kaavio:shape-get-subcanvas ,g-obj)))
 			 (declare (special canvas))
 			 ,@contents)))))
 

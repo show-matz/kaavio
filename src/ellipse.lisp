@@ -1,5 +1,5 @@
 #|
-#|ASD|#				(:file "ellipse"                   :depends-on ("cl-diagram"
+#|ASD|#				(:file "ellipse"                   :depends-on ("kaavio"
 #|ASD|#																"constants"
 #|ASD|#																"canvas"
 #|ASD|#																"point"
@@ -12,7 +12,7 @@
  |#
 
 
-(in-package :cl-diagram)
+(in-package :kaavio)
 
 ;;------------------------------------------------------------------------------
 ;;
@@ -182,7 +182,7 @@
  |#
 (defmacro ellipse (center rx ry
 				   &key fill stroke rotate link layer id filter contents)
-  (let ((code `(register-entity (make-instance 'diagram:ellipse
+  (let ((code `(register-entity (make-instance 'kaavio:ellipse
 											   :center ,center :rotate ,rotate
 											   :radius-x ,rx :radius-y ,ry
 											   :fill ,fill :stroke ,stroke
@@ -192,7 +192,7 @@
 		code
 		(let ((g-obj (gensym "OBJ")))
 		  `(let* ((,g-obj ,code)
-				  (canvas (diagram:shape-get-subcanvas ,g-obj)))
+				  (canvas (kaavio:shape-get-subcanvas ,g-obj)))
 			 (declare (special canvas))
 			 ,@contents)))))
 

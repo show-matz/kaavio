@@ -1,11 +1,11 @@
 #|
-#|ASD|#				(:file "person"                    :depends-on ("cl-diagram"
+#|ASD|#				(:file "person"                    :depends-on ("kaavio"
 #|ASD|#																"constants"
 #|ASD|#																"path"))
 #|EXPORT|#				;person.lisp
  |#
 
-(in-package :cl-diagram)
+(in-package :kaavio)
 
 #|
 #|EXPORT|#				:*default-person-fill*
@@ -87,7 +87,7 @@
  |#
 (defmacro person (center size
 						&key fill stroke label link rotate layer filter id)
-  `(register-entity (make-instance 'diagram:person
+  `(register-entity (make-instance 'kaavio:person
 								   :label ,label :fill ,fill
 								   :stroke ,stroke :filter ,filter
 					#| group  |#   :center ,center :width ,size :height ,(* 2 size)

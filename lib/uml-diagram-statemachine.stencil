@@ -1,4 +1,4 @@
-(in-package :cl-diagram-user)
+(in-package :kaavio-user)
 
 (load-stencil :uml-note)
 (load-stencil :uml-state-begin)

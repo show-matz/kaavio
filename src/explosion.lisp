@@ -1,5 +1,5 @@
 #|
-#|ASD|#				(:file "explosion"                 :depends-on ("cl-diagram"
+#|ASD|#				(:file "explosion"                 :depends-on ("kaavio"
 #|ASD|#																"constants"
 #|ASD|#																"polygon"
 #|ASD|#																"filter"
@@ -7,7 +7,7 @@
 #|EXPORT|#				;explosion.lisp
  |#
 
-(in-package :cl-diagram)
+(in-package :kaavio)
 
 #|
 #|EXPORT|#				:*default-explosion-font*

@@ -1,5 +1,5 @@
 #|
-#|ASD|#				(:file "shape"                     :depends-on ("cl-diagram"
+#|ASD|#				(:file "shape"                     :depends-on ("kaavio"
 #|ASD|#																"point"
 #|ASD|#																"canvas"
 #|ASD|#																"mathutil"
@@ -8,7 +8,7 @@
 #|EXPORT|#				;shape.lisp
  |#
 
-(in-package :cl-diagram)
+(in-package :kaavio)
 
 ;;------------------------------------------------------------------------------
 ;;

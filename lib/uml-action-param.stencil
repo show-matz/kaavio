@@ -1,5 +1,5 @@
 
-(in-package :cl-diagram-user)
+(in-package :kaavio-user)
 
 (load-stencil :uml-keyword-info)
 
@@ -15,7 +15,7 @@
 ;; class uml-action-param
 ;;
 ;;------------------------------------------------------------------------------
-(defclass uml-action-param (diagram:text-shape)
+(defclass uml-action-param (kaavio:text-shape)
   ((target		:initform nil	:initarg :target)		; (keyword . keyword)
    (keyword		:initform nil	:initarg :keyword)		; (or nil uml-keyword-info)
    (kwd-height	:initform nil)))						; number
@@ -28,8 +28,8 @@
 	(setf kwd-height (if (null keyword)
 						 0
 						 (or (and *uml-action-param-font*
-								  (slot-value *uml-action-param-font* 'diagram::size))
-							 (and *default-font*    (slot-value *default-font*    'diagram::size))
+								  (slot-value *uml-action-param-font* 'kaavio::size))
+							 (and *default-font*    (slot-value *default-font*    'kaavio::size))
 							 12))))	;;ToDo : これはなんとかしないと。
   param)
 
@@ -43,9 +43,9 @@
 	  (check-member target   :nullable nil :types keyword)
 	  (check-member position :nullable nil :types keyword)
 	  (labels ((entity-and-position ()
-				 (let ((ent (diagram::dict-get-entity dict target))
+				 (let ((ent (kaavio::dict-get-entity dict target))
 					   (pos (string-upcase (symbol-name position))))
-				   (unless (typep ent 'diagram:shape)
+				   (unless (typep ent 'kaavio:shape)
 					 (throw-exception "uml-action-param : target is not shape object."))
 				   (when (< 2 (length pos))
 					 (throw-exception "uml-action-param : invalid position."))
@@ -66,7 +66,7 @@
 			(with-point (x y) pt
 				(decf x (canvas-left canvas))	;; group::check で incf される分の相殺
 				(decf y (canvas-top  canvas))	;; group::check で incf される分の相殺
-				(setf (slot-value param 'diagram::center) (make-point x y))))))))
+				(setf (slot-value param 'kaavio::center) (make-point x y))))))))
   ;; this method must call super class' one.
   (call-next-method))
 
@@ -88,15 +88,15 @@
 	  (macrolet ((register-entity (entity)
 				   `(check-and-draw-local-entity ,entity canvas writer)))
 		(with-slots (keyword kwd-height
-						 diagram::margin diagram::fill diagram::stroke) param
+						 kaavio::margin kaavio::fill kaavio::stroke) param
 		  ;; draw param body
 		  (rectangle (make-point (/ width 2) (/ height 2))
-					 width height :fill diagram::fill :stroke diagram::stroke)
+					 width height :fill kaavio::fill :stroke kaavio::stroke)
 		  ;; draw keyword
 		  (when keyword
 			(uml-keyword-draw keyword
 							  (+ (point-x pt) (/ width 2))
-							  (+ (point-y pt) diagram::margin kwd-height) :center writer))
+							  (+ (point-y pt) kaavio::margin kwd-height) :center writer))
 		  ;; draw text
 		  (call-next-method)))))
   nil)
@@ -111,7 +111,7 @@
 (defmethod text-shape-calc-size ((param uml-action-param))
   ;;(format t "text-shape-calc-size called.~%")
   (multiple-value-bind (width height) (call-next-method)
-	(with-slots (keyword (margin diagram::margin)) param
+	(with-slots (keyword (margin kaavio::margin)) param
 	  ;; ToDo : margin は上記 call-next-method の結果に含まれているはずだが、何故か必要。
 	  (incf height (* margin 2))
 	  ;; keyword (if exists).
@@ -127,7 +127,7 @@
 (defmethod text-shape-paragraph-area ((param uml-action-param))
   ;;(format t "text-shape-paragraph-area called.~%")
   (let ((canvas (call-next-method)))
-	(with-slots (text kwd-height diagram::font diagram::margin) param
+	(with-slots (text kwd-height kaavio::font kaavio::margin) param
 	  (incf (canvas-top canvas) (/ kwd-height 2)))
 	canvas))
 

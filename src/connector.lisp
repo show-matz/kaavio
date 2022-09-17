@@ -1,5 +1,5 @@
 #|
-#|ASD|#				(:file "connector"                 :depends-on ("cl-diagram"
+#|ASD|#				(:file "connector"                 :depends-on ("kaavio"
 #|ASD|#																"constants"
 #|ASD|#																"line"
 #|ASD|#																"shape"
@@ -9,7 +9,7 @@
 #|EXPORT|#				;connector.lisp
  |#
 
-(in-package :cl-diagram)
+(in-package :kaavio)
 
 
 ;;------------------------------------------------------------------------------
@@ -566,7 +566,7 @@
 			 (if (not (typep entity 'line))
 				 entity
 				 (multiple-value-bind (x y) (line-get-center entity)
-				   (make-instance 'diagram:rectangle
+				   (make-instance 'kaavio:rectangle
 								  :center (make-point x y :absolute)
 								  :width 0.01 :height 0.01 :rx 0 :ry 0)))))    ; 0.01 ... OK?
 	(setf from (get-dummy-rect-when-line from))
@@ -660,7 +660,7 @@
 #|EXPORT|#				:connector
  |#
 (defmacro connector (from to &key style spacing label stroke end1 end2 layer filter id)
-  `(register-entity (make-instance 'diagram:connector
+  `(register-entity (make-instance 'kaavio:connector
 								   :from ,from :to ,to
 								   :style ,style :spacing ,spacing
 								   :label ,label :end1 ,end1 :end2 ,end2
@@ -670,7 +670,7 @@
 #|EXPORT|#				:connect
  |#
 (defmacro connect (from to &key style spacing label stroke end1 end2 layer filter id)
-  `(register-entity (make-instance 'diagram:connector
+  `(register-entity (make-instance 'kaavio:connector
 								   :from ,from :to ,to
 								   :style ,style :spacing ,spacing
 								   :label ,label :end1 ,end1 :end2 ,end2

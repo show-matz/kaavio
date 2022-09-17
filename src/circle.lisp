@@ -1,5 +1,5 @@
 #|
-#|ASD|#				(:file "circle"                    :depends-on ("cl-diagram"
+#|ASD|#				(:file "circle"                    :depends-on ("kaavio"
 #|ASD|#																"constants"
 #|ASD|#																"mathutil"
 #|ASD|#																"canvas"
@@ -13,7 +13,7 @@
  |#
 
 
-(in-package :cl-diagram)
+(in-package :kaavio)
 
 ;;------------------------------------------------------------------------------
 ;;
@@ -130,7 +130,7 @@
  |#
 (defmacro circle (center radius
 				  &key fill stroke link layer id filter contents)
-  (let ((code `(register-entity (make-instance 'diagram:circle
+  (let ((code `(register-entity (make-instance 'kaavio:circle
 											   :center ,center :radius ,radius
 											   :fill ,fill :stroke ,stroke :link ,link
 											   :filter ,filter :layer ,layer :id ,id))))
@@ -138,7 +138,7 @@
 		code
 		(let ((g-obj (gensym "OBJ")))
 		  `(let* ((,g-obj ,code)
-				  (canvas (diagram:shape-get-subcanvas ,g-obj)))
+				  (canvas (kaavio:shape-get-subcanvas ,g-obj)))
 			 (declare (special canvas))
 			 ,@contents)))))
 

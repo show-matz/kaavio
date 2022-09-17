@@ -1,5 +1,5 @@
 #|
-#|ASD|#				(:file "defs"                      :depends-on ("cl-diagram"
+#|ASD|#				(:file "defs"                      :depends-on ("kaavio"
 #|ASD|#				                                                "constants"
 #|ASD|#																"entity"
 #|ASD|#				                                                "layer-manager"
@@ -12,7 +12,7 @@
 #|EXPORT|#				;defs.lisp
  |#
 
-(in-package :cl-diagram)
+(in-package :kaavio)
 
 
 ;;-------------------------------------------------------------------------------
@@ -101,7 +101,7 @@
 					   (draw-entity  ,g-entity ,g-writer))
 					 (layer-change ,g-layer-mgr nil ,g-writer)
 					 (writer-close ,g-writer)))))
-	   (register-entity (make-instance 'diagram::defs
+	   (register-entity (make-instance 'kaavio::defs
 									   :id     ,id
 									   :data   data
 									   :width  ,width

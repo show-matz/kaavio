@@ -1,5 +1,5 @@
 #|
-#|ASD|#				(:file "line"                      :depends-on ("cl-diagram"
+#|ASD|#				(:file "line"                      :depends-on ("kaavio"
 #|ASD|#																"constants"
 #|ASD|#																"point"
 #|ASD|#																"mathutil"
@@ -12,7 +12,7 @@
 #|EXPORT|#				;line.lisp
  |#
 
-(in-package :cl-diagram)
+(in-package :kaavio)
 
 
 ;;------------------------------------------------------------------------------
@@ -174,7 +174,7 @@
 #|EXPORT|#				:line
  |#
 (defmacro line (points &key stroke label end1 end2 layer filter id)
-  `(register-entity (make-instance 'diagram:line
+  `(register-entity (make-instance 'kaavio:line
 								   :points ,points
 								   :end1 ,end1 :end2 ,end2 :label ,label
 								   :stroke ,stroke :filter ,filter

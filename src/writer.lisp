@@ -1,9 +1,9 @@
 #|
-#|ASD|#				(:file "writer"                    :depends-on ("cl-diagram"))
+#|ASD|#				(:file "writer"                    :depends-on ("kaavio"))
 #|EXPORT|#				;writer.lisp
  |#
 
-(in-package :cl-diagram)
+(in-package :kaavio)
 
 
 ;;------------------------------------------------------------------------------

@@ -1,5 +1,5 @@
 #|
-#|ASD|#				(:file "group"                     :depends-on ("cl-diagram"
+#|ASD|#				(:file "group"                     :depends-on ("kaavio"
 #|ASD|#																"canvas"
 #|ASD|#																"shape"
 #|ASD|#																"rectangle"
@@ -8,7 +8,7 @@
  |#
 
 
-(in-package :cl-diagram)
+(in-package :kaavio)
 
 ;;------------------------------------------------------------------------------
 ;;

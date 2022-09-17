@@ -1,10 +1,10 @@
 #|
-#|ASD|#				(:file "mathutil"                  :depends-on ("cl-diagram"
+#|ASD|#				(:file "mathutil"                  :depends-on ("kaavio"
 #|ASD|#																"point"))
 #|EXPORT|#				;mathutil.lisp
  |#
 
-(in-package :cl-diagram)
+(in-package :kaavio)
 
 ;;------------------------------------------------------------------------------
 ;;

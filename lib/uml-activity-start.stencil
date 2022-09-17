@@ -1,4 +1,4 @@
-(in-package :cl-diagram-user)
+(in-package :kaavio-user)
 
 (defparameter *uml-activity-start-radius*     10)
 (defparameter *uml-activity-start-fill*   :black)
@@ -8,7 +8,7 @@
 ;; class uml-activity-start
 ;;
 ;;------------------------------------------------------------------------------
-(defclass uml-activity-start (diagram:circle) ())
+(defclass uml-activity-start (kaavio:circle) ())
 
 ;;------------------------------------------------------------------------------
 ;;
