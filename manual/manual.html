@@ -3819,7 +3819,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p>　　</p>
 <p>　それぞれについて細かい説明を始める前に、 <code>:stroke :red</code> といった記述がどのように扱われるのかを説明する必要があるでしょう。 <code>:stroke</code> によるこれらの指定は、実は全て <a class='autolink' href='#ezUVhtPwl3J'>make-stroke</a> 関数に渡されます。<a class='autolink' href='#ezUVhtPwl3J'>make-stroke</a> 関数は、渡されたのが単一の値の場合には、数値なら太さ、キーワードや文字列なら色名などと解釈します。そして <code>'(:color :red :width 3)</code> などの（複数要素からなる）リストの場合、名前付きパラメータの羅列として解釈します。</p>
-<p>　<a class='autolink' href='#ezUVhtPwl3J'>make-stroke</a> 関数はその結果として「<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>情報」オブジェクトを返しますが、その<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>情報オブジェクトを <a class='autolink' href='#ezUVhtPwl3J'>make-stroke</a> 関数自身に渡した場合、そのまま返すようになっています。そのため、自分で明示的に <a class='autolink' href='#ezUVhtPwl3J'>make-stroke</a> 関数を使って<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>情報オブジェクトを作成し、Common LISP 変数に格納して複数の図形要素で使用する、ということも可能です。以下のように<sup><a name='footnote_ref9' href='#footnote9'>9</a></sup>。この関数の詳細は「<a href='#ezUVhtPwl3J'>11.1.6  make-stroke 関数</a>」を参照してください。</p>
+<p>　<a class='autolink' href='#ezUVhtPwl3J'>make-stroke</a> 関数はその結果として「<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>情報オブジェクト」を返しますが、その<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>情報オブジェクトを <a class='autolink' href='#ezUVhtPwl3J'>make-stroke</a> 関数自身に渡した場合、そのまま返すようになっています。そのため、自分で明示的に <a class='autolink' href='#ezUVhtPwl3J'>make-stroke</a> 関数を使って<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>情報オブジェクトを作成し、Common LISP 変数に格納して複数の図形要素で使用する、ということも可能です。以下のように<sup><a name='footnote_ref9' href='#footnote9'>9</a></sup>。この関数の詳細は「<a href='#ezUVhtPwl3J'>11.1.7  make-stroke 関数</a>」を参照してください。</p>
 <pre class='code'>
 (<span class='keyword1'>let</span> ((st (make-stroke <span class='keyword3'>:color</span> <span class='keyword3'>:blue</span> <span class='keyword3'>:width</span> 4 <span class='keyword3'>:opacity</span> 0.3)))
   (rect   ... <span class='keyword3'>:stroke</span> st)
@@ -4048,7 +4048,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p>　　</p>
 <p>　それぞれについて細かい説明を始める前に、 <code>:fill :white</code> といった記述がどのように扱われるのかを説明する必要があるでしょう。 <code>:fill</code> によるこれらの指定は、実は全て <a class='autolink' href='#8IkB7VinE7h'>make-fill</a> 関数に渡されます。<a class='autolink' href='#8IkB7VinE7h'>make-fill</a> 関数は、渡されたのが単一の値の場合には、キーワードや文字列なら色名と解釈します。そして <code>'(:color :red :width 3)</code> などの（複数要素からなる）リストの場合、名前付きパラメータの羅列として解釈します。</p>
-<p>　<a class='autolink' href='#8IkB7VinE7h'>make-fill</a> 関数はその結果として「<a class='autolink' href='#dBUd7L4C3dx'>フィル</a>情報」オブジェクトを返しますが、その<a class='autolink' href='#dBUd7L4C3dx'>フィル</a>情報オブジェクトを <a class='autolink' href='#8IkB7VinE7h'>make-fill</a> 関数自身に渡した場合、そのまま返すようになっています。そのため、自分で明示的に <a class='autolink' href='#8IkB7VinE7h'>make-fill</a> 関数を使って<a class='autolink' href='#dBUd7L4C3dx'>フィル</a>情報オブジェクトを作成し、Common LISP 変数に格納して複数の図形要素で使用する、ということも可能です。以下のように<sup><a name='footnote_ref11' href='#footnote11'>11</a></sup>。この関数の詳細は「<a href='#8IkB7VinE7h'>11.1.5  make-fill 関数</a>」を参照してください。</p>
+<p>　<a class='autolink' href='#8IkB7VinE7h'>make-fill</a> 関数はその結果として「<a class='autolink' href='#dBUd7L4C3dx'>フィル</a>情報オブジェクト」を返しますが、その<a class='autolink' href='#dBUd7L4C3dx'>フィル</a>情報オブジェクトを <a class='autolink' href='#8IkB7VinE7h'>make-fill</a> 関数自身に渡した場合、そのまま返すようになっています。そのため、自分で明示的に <a class='autolink' href='#8IkB7VinE7h'>make-fill</a> 関数を使って<a class='autolink' href='#dBUd7L4C3dx'>フィル</a>情報オブジェクトを作成し、Common LISP 変数に格納して複数の図形要素で使用する、ということも可能です。以下のように<sup><a name='footnote_ref11' href='#footnote11'>11</a></sup>。この関数の詳細は「<a href='#8IkB7VinE7h'>11.1.5  make-fill 関数</a>」を参照してください。</p>
 <pre class='code'>
 (<span class='keyword1'>let</span> ((fl (make-fill <span class='keyword3'>:color</span> <span class='keyword3'>:blue</span> <span class='keyword3'>:opacity</span> 0.3)))
   (rect   ... <span class='keyword3'>:fill</span> fl)
@@ -4146,21 +4146,232 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </blockquote>
 <p>　　</p>
 <h3><a name='3kZ9FkounyK'></a>9.4 フォント</h3>
-<p>　kaavio では様々な図形要素にテキストを付与できます。</p>
+<p>　kaavio では様々な図形要素にテキストを付与できます。おおむね Web における<a class='autolink' href='#3kZ9FkounyK'>フォント</a>指定と同じですが、醜いハックも含まれています。</p>
+<p>　通常の使用では、 <code>:font 24</code> のようにサイズだけを指定したりします。もう少し複雑な場合、 <code>:font '(:family "monospace" :size 16)</code> といった要領で<a class='autolink' href='#3kZ9FkounyK'>フォント</a>の種類とサイズを指定することもあります。実はこれらは全て簡易的な指定方法で、<a class='autolink' href='#3kZ9FkounyK'>フォント</a>にはもっと多くの情報が含まれています。以下に説明します。</p>
 <ul>
 <li><code>family</code> は<a class='autolink' href='#3kZ9FkounyK'>フォント</a>の名称を文字列で指定します。</li>
 <li><code>size</code> は<a class='autolink' href='#3kZ9FkounyK'>フォント</a>のサイズを指定します（厳密には違うらしいのですが、詳細は後述します）。</li>
-<li><code>fill</code> は<a class='autolink' href='#3kZ9FkounyK'>フォント</a>の塗り潰しの色を指定します。</li>
+<li><code>fill</code> は<a class='autolink' href='#3kZ9FkounyK'>フォント</a>の塗り潰しを指定します。</li>
 <li><code>stroke</code> は<a class='autolink' href='#3kZ9FkounyK'>フォント</a>の輪郭線を指定します。<a class='autolink' href='#3kZ9FkounyK'>フォント</a>の場合、通常は塗り潰しのみで輪郭線は指定しません。</li>
 <li><code>style</code> はスタイルの指定です。 <code>:normal, :italic, :oblique</code> のいずれかから選択します。</li>
 <li><code>decoration</code> は装飾の指定です。 <code>:none, :underline, :overline, :line-through</code> のいずれかから選択します。</li>
 <li><code>weight</code> は文字の太さの指定です。 <code>:normal, :bold, :bolder, :lighter</code> のいずれか、または 100 200 300 400 500 600 700 800 900 のいずれかです。</li>
 <li><code>filter</code> はテキストに適用する<a class='autolink' href='#gPGlqSbIfdL'>フィルタ</a>の指定です。</li>
 <li><code>line-spacing</code> は、テキストが複数行になる場合の行間を指定します。</li>
-<li><code>width-spice</code> は、「テキストが実際に描画される幅」を計算するための目安となる係数を指定します。詳細は後述します。<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></li>
+<li><code>width-spice</code> は、「テキストが実際に描画される幅」を計算するための目安となる係数を指定します。詳細は後述します。</li>
 </ul>
 <p>　　</p>
-<p><span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<p>　それぞれについて細かい説明を始める前に、 <code>:font 24</code> といった記述がどのように扱われるのかを説明する必要があるでしょう。 <code>:font</code> によるこれらの指定は、実は全て <a class='autolink' href='#673GXF9YiIQ'>make-font</a> 関数に渡されます。<a class='autolink' href='#673GXF9YiIQ'>make-font</a> 関数は、渡されたのが単一の値の場合には、数値ならサイズ、文字列なら<a class='autolink' href='#3kZ9FkounyK'>フォント</a>ファミリ名などと解釈します。そして <code>'(:family "sans serif" :size 10)</code> などの（複数要素からなる）リストの場合、名前付きパラメータの羅列として解釈します。</p>
+<p>　<a class='autolink' href='#673GXF9YiIQ'>make-font</a> 関数はその結果として「<a class='autolink' href='#3kZ9FkounyK'>フォント</a>情報オブジェクト」を返しますが、その<a class='autolink' href='#3kZ9FkounyK'>フォント</a>情報オブジェクトを <a class='autolink' href='#673GXF9YiIQ'>make-font</a> 関数自身に渡した場合、そのまま返すようになっています。そのため、自分で明示的に <a class='autolink' href='#673GXF9YiIQ'>make-font</a> 関数を使って<a class='autolink' href='#3kZ9FkounyK'>フォント</a>情報オブジェクトを作成し、Common LISP 変数に格納して複数の図形要素で使用する、ということも可能です。以下のように。この関数の詳細は「<a href='#673GXF9YiIQ'>11.1.6  make-font 関数</a>」を参照してください。</p>
+<pre class='code'>
+(<span class='keyword1'>let</span> ((fnt (make-font <span class='keyword3'>:family</span> <span class='literal'>"Courier New, monospace"</span> <span class='keyword3'>:size</span> 12)))
+  (text   ... <span class='keyword3'>:font</span> fnt)
+  (paragraph ... <span class='keyword3'>:font</span> fnt))
+</pre>
+<p>　　</p>
+<h4><a name='6ogELpgtwxO'></a>9.4.1 フォントのデフォルト設定</h4>
+<p>　実際のところ、作図をする上でそれぞれのテキストがバラバラな<a class='autolink' href='#3kZ9FkounyK'>フォント</a>で描かれることはないでしょう。わかりやすい図面というのは、同じ種類の図形要素は同じ種類の線で描画されているなど、統制が取れているものです。このことは、複数のテキストを含む作図においては「まったく同じ<a class='autolink' href='#3kZ9FkounyK'>フォント</a>の指定を繰り返す場合が多い」ことを意味します。前述の方法で<a class='autolink' href='#3kZ9FkounyK'>フォント</a>情報オブジェクトを作成して使い回すことも可能ですが、もっとよい方法があります。それは「デフォルト<a class='autolink' href='#3kZ9FkounyK'>フォント</a>の変更」です。もともと、<a class='autolink' href='#3kZ9FkounyK'>フォント</a>はデフォルトで <code>:size 12 :fill :black</code> とされています<sup><a name='footnote_ref12' href='#footnote12'>12</a></sup>が、<a class='autolink' href='#5afU9yg86c0'>with-options</a> を使えばこれを変更することができます。以下の例では４種類のテキストを描いていますが、B, C のテキストはデフォルト<a class='autolink' href='#3kZ9FkounyK'>フォント</a>を変更しています。</p>
+<pre class='code'>
+(diagram (250 100)
+  (grid)
+  (text '(30 70) <span class='literal'>"A"</span> <span class='keyword3'>:font</span> 36)
+  (with-options (<span class='keyword3'>:font</span> '(<span class='keyword3'>:size</span> 36 <span class='keyword3'>:fill</span> <span class='keyword3'>:navy</span> <span class='keyword3'>:style</span> <span class='keyword3'>:italic</span> <span class='keyword3'>:weight</span> <span class='keyword3'>:bold</span>))
+    (text '(80 70) <span class='literal'>"B"</span>)
+    (text '(130 70) <span class='literal'>"C"</span> <span class='keyword3'>:font</span> '(<span class='keyword3'>:fill</span> <span class='keyword3'>:brown</span>)))
+  (text '(190 70) <span class='literal'>"D"</span> <span class='keyword3'>:font</span> '(<span class='keyword3'>:size</span> 36 <span class='keyword3'>:fill</span> <span class='keyword3'>:brown</span>)))
+</pre>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='250' height='100'>
+	
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- text -->
+	<text x='30' y='70' text-anchor='start' font-size='36pt' fill='black' >A</text>
+	<!-- text -->
+	<text x='80' y='70' text-anchor='start' font-size='36pt' fill='navy' font-style='italic' font-weight='bold' >B</text>
+	<!-- text -->
+	<text x='130' y='70' text-anchor='start' font-size='36pt' fill='brown' font-style='italic' font-weight='bold' >C</text>
+	<!-- text -->
+	<text x='190' y='70' text-anchor='start' font-size='36pt' fill='brown' >D</text>
+
+</svg>
+</div>
+
+<p class='fig_title'><a name='aImv1ABfsGj'></a>Figure.9-8 with-options によるデフォルトフォントの変更</p>
+<p>　　</p>
+<p>　C のテキストでは「色しか指定していない」のに文字装飾が変更されていることに注意してください。これは、「明示的に指定されていないものはデフォルトの設定が使用される」からです。<a class='autolink' href='#5afU9yg86c0'>with-options</a> によってデフォルト設定が変更されており、B のテキストでは（ <code>:font</code> を省略することによって）全てがデフォルト設定で描画されました。C の<a class='autolink' href='#kJonRG8GtHF'>四角形</a>では、 <code>:font :brown</code> によってデフォルト設定をベースとして色だけを変更している、というわけです。</p>
+<p>　<a class='autolink' href='#5afU9yg86c0'>with-options</a> では全体のデフォルト設定を変更しますが、図形要素によっては個別にデフォルト設定を持っています。たとえば、<a class='autolink' href='#e7hkC2YUaKe'>テキストボックス</a>であれば <a class='autolink' href='#2XsIFr1er3s'>with-textbox-options</a> でデフォルト設定を変更することができます。</p>
+<p>　　</p>
+<h4><a name='kEzS3nMEHGk'></a>9.4.2 フォントにおける family パラメータ</h4>
+<p>　family パラメータについては、書籍「SVG エッセンシャルズ第２版」の説明を引用しておきます（手抜きでごめんなさい）。</p>
+<blockquote>
+<p><strong>font-family</strong></p>
+<p>この値に指定するのは、<a class='autolink' href='#3kZ9FkounyK'>フォント</a>ファミリー名または総称ファミリー名をカンマで区切って並べたリストです。これはフォールバック値のリストです。つまり、SVGビューアーは、自身が認識する最初のファミリー名を使用します。総称ファミリー名は、リスト内の最後に指定しなければなりません。SVG ビューアーに義務づけられているのは、総称ファミリー名を認識することと、それらを表示できる<a class='autolink' href='#3kZ9FkounyK'>フォント</a>を備えていることです。総称ファミリー名は、serif、 sans-serif、 monospace、 fantasy、 cursive です。 serif （セリフ）<a class='autolink' href='#3kZ9FkounyK'>フォント</a>には、<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>の端に「セリフ」と呼ばれる小さな飾り −−「うろこ」や「ひげ」などとも呼ばれます −− があります。sans-serif （サンセリフ）<a class='autolink' href='#3kZ9FkounyK'>フォント</a>には、セリフがありません。‥‥（中略）‥‥serif <a class='autolink' href='#3kZ9FkounyK'>フォント</a>も sans-serif <a class='autolink' href='#3kZ9FkounyK'>フォント</a>も、プロポーショナル<a class='autolink' href='#3kZ9FkounyK'>フォント</a>（可変幅<a class='autolink' href='#3kZ9FkounyK'>フォント</a>）です。つまり、大文字の「M」の幅と「I」の幅は異なります。 monospace （モノスペース）<a class='autolink' href='#3kZ9FkounyK'>フォント</a>は、タイプライターの文字のように、すべてのグリフが同じ幅を持つ<a class='autolink' href='#3kZ9FkounyK'>フォント</a>です（等幅<a class='autolink' href='#3kZ9FkounyK'>フォント</a>、固定幅<a class='autolink' href='#3kZ9FkounyK'>フォント</a>などと呼ばれます）。これは、セリフがある<a class='autolink' href='#3kZ9FkounyK'>フォント</a>でも、ない<a class='autolink' href='#3kZ9FkounyK'>フォント</a>でもかまいません。 fantasy <a class='autolink' href='#3kZ9FkounyK'>フォント</a>と cursive <a class='autolink' href='#3kZ9FkounyK'>フォント</a>は、ブラウザーやSVGビューアーによって実装が大きく異なる可能性があります。</p>
+</blockquote>
+<p>　　</p>
+<h4><a name='8v1oWuXm6mt'></a>9.4.3 フォントにおける stroke と fill</h4>
+<p>　前述の通り、<a class='autolink' href='#3kZ9FkounyK'>フォント</a>では通常 stroke を指定しません。しかし、逆に fill を無し（あるいは背景色同等）にして stroke を指定することで縁取られたテキストを描画することもできます。以下に例を示します。</p>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='400' height='190'>
+	
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- text -->
+	<text x='10' y='50' text-anchor='start' font-family='sans-serif' font-size='40pt' fill='white' stroke='black' stroke-width='2' font-weight='bold' >Abcdefgh</text>
+	<!-- text -->
+	<text x='270' y='30' text-anchor='start' font-family='sans-serif' font-size='12pt' fill='black' stroke='none' stroke-width='2' font-weight='normal' >:stroke :black</text>
+	<!-- text -->
+	<text x='270' y='50' text-anchor='start' font-family='sans-serif' font-size='12pt' fill='black' stroke='none' stroke-width='2' font-weight='normal' >:fill :white</text>
+	<!-- text -->
+	<text x='10' y='110' text-anchor='start' font-family='sans-serif' font-size='40pt' fill='black' stroke='none' stroke-width='2' font-weight='bold' >Abcdefgh</text>
+	<!-- text -->
+	<text x='270' y='90' text-anchor='start' font-family='sans-serif' font-size='12pt' fill='black' stroke='none' stroke-width='2' font-weight='normal' >:stroke :none</text>
+	<!-- text -->
+	<text x='270' y='110' text-anchor='start' font-family='sans-serif' font-size='12pt' fill='black' stroke='none' stroke-width='2' font-weight='normal' >:fill :black</text>
+	<!-- text -->
+	<text x='10' y='170' text-anchor='start' font-family='sans-serif' font-size='40pt' fill='black' stroke='black' stroke-width='2' font-weight='bold' >Abcdefgh</text>
+	<!-- text -->
+	<text x='270' y='150' text-anchor='start' font-family='sans-serif' font-size='12pt' fill='black' stroke='none' stroke-width='2' font-weight='normal' >:stroke :black</text>
+	<!-- text -->
+	<text x='270' y='170' text-anchor='start' font-family='sans-serif' font-size='12pt' fill='black' stroke='none' stroke-width='2' font-weight='normal' >:fill :black</text>
+
+</svg>
+</div>
+
+<p class='fig_title'><a name='gbHwYj2Ai06'></a>Figure.9-9 font における stroke と fill</p>
+<p>　　</p>
+<h4><a name='fxm5l02ul2O'></a>9.4.4 size と line-spacing</h4>
+<p>　<a class='autolink' href='#3kZ9FkounyK'>フォント</a>の size 情報については、まず書籍「SVG エッセンシャルズ第２版」の説明を引用しておきましょう。</p>
+<blockquote>
+<p><strong>font-size</strong></p>
+<p>この値には、テキストが複数行になる場合の、ベースラインからベースラインまでのグリフの距離を指定します（SVGでは、複数行の <code>&lt;text&gt;</code> の内容は自分自身で配置しなければならないので、この概念は少々空論的です）。</p>
+</blockquote>
+<p>　上記のようなわけで、kaavio では<a class='autolink' href='#3kZ9FkounyK'>フォント</a>情報の size は単純に「<a class='autolink' href='#3kZ9FkounyK'>フォント</a>の縦方向のサイズである」という立場をとっています。正確には、「文字の上端からベースラインまでの距離」です。そして、<a class='autolink' href='#4WyMTv59pvw'>paragraph</a> などで複数行を描画する場合の「ベースラインから次行の上端までの距離」を <code>line-spacing</code> で指定します。以下は、 <code>:font '(:size 50 :line-spacing 30)</code> で描画した場合のサンプルです。</p>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='400' height='170'>
+	
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- paragraph -->
+	<text x='130' y='70' text-anchor='start' font-size='50pt' fill='black' >Abcdefg</text>
+	<text x='130' y='150' text-anchor='start' font-size='50pt' fill='black' >Hijklmn</text>
+	<!-- line -->
+	<polyline fill='none' stroke='red' stroke-width='1' stroke-dasharray='2 2 ' points=' 130.0,0.0 130.0,160.0' />
+	<!-- line -->
+	<polyline fill='none' stroke='red' stroke-width='1' stroke-dasharray='2 2 ' points=' 0.0,20.0 400.0,20.0' />
+	<!-- line -->
+	<polyline fill='none' stroke='red' stroke-width='1' stroke-dasharray='2 2 ' points=' 0.0,70.0 400.0,70.0' />
+	<!-- line -->
+	<polyline fill='none' stroke='red' stroke-width='1' stroke-dasharray='2 2 ' points=' 0.0,100.0 400.0,100.0' />
+	<!-- line -->
+	<polyline fill='none' stroke='red' stroke-width='1' stroke-dasharray='2 2 ' points=' 0.0,150.0 400.0,150.0' />
+	<!-- line -->
+	<polyline fill='none' stroke='blue' stroke-width='1' points=' 110.0,20.0 110.0,70.0' />
+	<polyline fill='none' stroke='blue' stroke-width='1' points='115.0,28.660254 110,20 105.0,28.660254' />
+	<polyline fill='none' stroke='blue' stroke-width='1' points='105.0,61.339745 110,70 115.0,61.339745' />
+	<!-- text -->
+	<text x='100' y='50' text-anchor='end' font-size='12pt' fill='blue' >size</text>
+	<!-- line -->
+	<polyline fill='none' stroke='blue' stroke-width='1' points=' 110.0,70.0 110.0,100.0' />
+	<polyline fill='none' stroke='blue' stroke-width='1' points='115.0,78.660255 110,70 105.0,78.660255' />
+	<polyline fill='none' stroke='blue' stroke-width='1' points='105.0,91.339745 110,100 115.0,91.339745' />
+	<!-- text -->
+	<text x='100' y='90' text-anchor='end' font-size='12pt' fill='blue' >line-spacing</text>
+
+</svg>
+</div>
+
+<p class='fig_title'><a name='8UprDrMi9gT'></a>Figure.9-10 font における size と line-spacing</p>
+<p>　　</p>
+<p>　見ての通り、文字によってはベースラインよりも下に描画されることがありますから、 <code>size</code> によって <code>line-spacing</code> も調整する必要があります。</p>
+<p>　　</p>
+<h4><a name='iFx6Ice5zu7'></a>9.4.5 width-spice</h4>
+<p>　width-spice は、kaavio におけるもっとも醜いハックです。簡単に言えば、「<a class='autolink' href='#3kZ9FkounyK'>フォント</a>サイズとテキスト長にかける係数を指定可能にし、テキストの描画幅の計算に使う」というものです。というのも、「テキストがその<a class='autolink' href='#3kZ9FkounyK'>フォント</a>設定で実際に描画される場合、どれだけの幅をとることになるかわからない」ためです。たとえば、<a class='autolink' href='#e7hkC2YUaKe'>テキストボックス</a>では明示的に幅を指定しない場合はテキストから幅を自動計算しようとしますが、width-spice の値によって結果は以下のように変わります。</p>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='450' height='200'>
+	
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- text -->
+	<text x='120' y='20' text-anchor='middle' font-family='Courier New, monospace' font-size='12pt' fill='black' >Courier New</text>
+	<!-- textbox -->
+	<rect x='74.0' y='34' width='92.0' height='32' fill='lightgray' stroke='gray' stroke-width='1' />
+	<text x='120.0' y='56' text-anchor='middle' font-family='Courier New, monospace' font-size='12pt' fill='red' >width-spice 0.4</text>
+	<!-- textbox -->
+	<rect x='56.0' y='74' width='128.0' height='32' fill='lightgray' stroke='gray' stroke-width='1' />
+	<text x='120.0' y='96' text-anchor='middle' font-family='Courier New, monospace' font-size='12pt' fill='red' >width-spice 0.6</text>
+	<!-- textbox -->
+	<rect x='38.0' y='114' width='164.0' height='32' fill='lightgray' stroke='gray' stroke-width='1' />
+	<text x='120.0' y='136' text-anchor='middle' font-family='Courier New, monospace' font-size='12pt' fill='red' >width-spice 0.8</text>
+	<!-- textbox -->
+	<rect x='20.0' y='154' width='200.0' height='32' fill='lightgray' stroke='gray' stroke-width='1' />
+	<text x='120.0' y='176' text-anchor='middle' font-family='Courier New, monospace' font-size='12pt' fill='red' >width-spice 1.0</text>
+	<!-- text -->
+	<text x='330' y='20' text-anchor='middle' font-family='serif' font-size='12pt' fill='black' >serif font</text>
+	<!-- textbox -->
+	<rect x='284.0' y='34' width='92.0' height='32' fill='lightgray' stroke='gray' stroke-width='1' />
+	<text x='330.0' y='56' text-anchor='middle' font-family='serif' font-size='12pt' fill='red' >width-spice 0.4</text>
+	<!-- textbox -->
+	<rect x='266.0' y='74' width='128.0' height='32' fill='lightgray' stroke='gray' stroke-width='1' />
+	<text x='330.0' y='96' text-anchor='middle' font-family='serif' font-size='12pt' fill='red' >width-spice 0.6</text>
+	<!-- textbox -->
+	<rect x='248.0' y='114' width='164.0' height='32' fill='lightgray' stroke='gray' stroke-width='1' />
+	<text x='330.0' y='136' text-anchor='middle' font-family='serif' font-size='12pt' fill='red' >width-spice 0.8</text>
+	<!-- textbox -->
+	<rect x='230.0' y='154' width='200.0' height='32' fill='lightgray' stroke='gray' stroke-width='1' />
+	<text x='330.0' y='176' text-anchor='middle' font-family='serif' font-size='12pt' fill='red' >width-spice 1.0</text>
+
+</svg>
+</div>
+
+<p class='fig_title'><a name='1Z9lqmEkvJx'></a>Figure.9-11 width-spice のサンプル</p>
+<details>
+<summary><a href='#1Z9lqmEkvJx'>Figure.9-11</a> のソースはこちら</summary>
+<pre class='code'>
+(diagram (450 200)
+  (grid)
+  (<span class='keyword1'>labels</span> ((impl (x y spice)
+             (<span class='keyword1'>let</span> ((txt (format nil <span class='literal'>"width-spice ~A"</span> spice)))
+               (textbox `(,x ,y) txt <span class='keyword3'>:font</span> `(<span class='keyword3'>:width-spice</span> ,spice)))))
+    (with-options (<span class='keyword3'>:stroke</span> <span class='keyword3'>:gray</span> <span class='keyword3'>:fill</span> <span class='keyword3'>:lightgray</span>
+                   <span class='keyword3'>:font</span> '(<span class='keyword3'>:fill</span> <span class='keyword3'>:red</span> <span class='keyword3'>:size</span> 12 <span class='keyword3'>:family</span> <span class='literal'>"Courier New, monospace"</span>))
+      (text '(120 20) <span class='literal'>"Courier New"</span> <span class='keyword3'>:align</span> <span class='keyword3'>:center</span> <span class='keyword3'>:font</span> '(<span class='keyword3'>:fill</span> <span class='keyword3'>:black</span>))
+      (impl 120  50 0.4)
+      (impl 120  90 0.6)
+      (impl 120 130 0.8)
+      (impl 120 170 1.0))
+    (with-options (<span class='keyword3'>:stroke</span> <span class='keyword3'>:gray</span> <span class='keyword3'>:fill</span> <span class='keyword3'>:lightgray</span>
+                   <span class='keyword3'>:font</span> '(<span class='keyword3'>:fill</span> <span class='keyword3'>:red</span> <span class='keyword3'>:size</span> 12 <span class='keyword3'>:family</span> <span class='literal'>"serif"</span>))
+      (text '(330 20) <span class='literal'>"serif font"</span> <span class='keyword3'>:align</span> <span class='keyword3'>:center</span> <span class='keyword3'>:font</span> '(<span class='keyword3'>:fill</span> <span class='keyword3'>:black</span>))
+      (impl 330  50 0.4)
+      (impl 330  90 0.6)
+      (impl 330 130 0.8)
+      (impl 330 170 1.0))))
+</pre>
+</details>
+<p>　　</p>
+<p>　上記の結果を見る限りでは、Courier New <a class='autolink' href='#3kZ9FkounyK'>フォント</a>では 0.8 程度、serif <a class='autolink' href='#3kZ9FkounyK'>フォント</a>では 0.7 弱が spice 値としてよさそうに思えます。しかし、プロポーショナル<a class='autolink' href='#3kZ9FkounyK'>フォント</a>では（文字数が同じでも）文字列内で使われている文字の種類によって変わってしまいますし、そもそも制御できない外部環境によって描画は変わりえるのです。上記サンプルの左側は <code>:family</code> 指定で <code>Courier New, monospace</code> としていますから、Courier New <a class='autolink' href='#3kZ9FkounyK'>フォント</a>がない環境で表示すれば monospace が使用されるでしょう。それによって、テキストの実際の描画幅は大きく変化してしまいます。</p>
+<p>　width-spice は kaavio の開発初期の段階で導入されたものですが、現在ではあまり良くないアイデアとみなされています。<a class='autolink' href='#e7hkC2YUaKe'>テキストボックス</a>などでは幅を明示的に指定するのが現実的であり、その他テキストの描画幅においてもなんらかの仮定に依存するようなデザインをしないことが賢明でしょう<sup><a name='footnote_ref13' href='#footnote13'>13</a></sup>。</p>
 <p>　　</p>
 <h3><a name='iu9Ovm00KHn'></a>9.5 IDと参照</h3>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
@@ -4192,7 +4403,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='h7K5JgIwvZY'></a>Figure.9-8 回転のサンプル</p>
+<p class='fig_title'><a name='h7K5JgIwvZY'></a>Figure.9-12 回転のサンプル</p>
 <h3><a name='gPGlqSbIfdL'></a>9.7 フィルタ</h3>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません</span></p>
 <pre class='code'>
@@ -4244,7 +4455,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='9Z8wQykrThD'></a>Figure.9-9 フィルタのサンプル</p>
+<p class='fig_title'><a name='9Z8wQykrThD'></a>Figure.9-13 フィルタのサンプル</p>
 <h3><a name='1ovJxG7Ie9O'></a>9.8 レイヤー</h3>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <p>　　</p>
@@ -4670,7 +4881,55 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <tr><td nowrap align='left'><code>base</code></td><td align='left'><span style='background:red;color:white;'>ToDo : まだ記述されていません</span></td></tr>
 </table>
 <p>　　</p>
-<h4><a name='ezUVhtPwl3J'></a>11.1.6 make-stroke 関数</h4>
+<h4><a name='673GXF9YiIQ'></a>11.1.6 make-font 関数</h4>
+<p>　<a class='autolink' href='#673GXF9YiIQ'>make-font</a> 関数は<a class='autolink' href='#3kZ9FkounyK'>フォント</a>情報を生成します。<a class='autolink' href='#3kZ9FkounyK'>フォント</a>情報の詳細は「<a href='#3kZ9FkounyK'>9.4  フォント</a>」を参照してください。関数シグネチャは以下の通りです。</p>
+<pre class='code'>
+(<span class='keyword1'>defun</span> <span class='keyword5'>make-font</span> (<span class='keyword2'>&amp;rest</span> params) ...)
+</pre>
+<p>　上記は簡潔な記述で柔軟な<a class='autolink' href='#3kZ9FkounyK'>フォント</a>情報の生成を可能にするためのもので、 <code>params</code> として渡されるパラメータ数に応じて以下のことをします。</p>
+<ul>
+<li>パラメータ数が 0 の場合
+<ul>
+<li>デフォルトの<a class='autolink' href='#3kZ9FkounyK'>フォント</a>情報を返します</li>
+</ul>
+</li>
+<li>パラメータ数が 1 の場合
+<ul>
+<li><a class='autolink' href='#3kZ9FkounyK'>フォント</a>情報が渡された場合、それをそのまま返します</li>
+<li>数値 N が渡された場合、 <code>(make-font :size N)</code> を返します</li>
+<li>リスト lst が渡された場合、 <code>(apply #'make-font lst)</code> を返します</li>
+<li>上記のいずれでもない prm の場合、 <code>(make-font :family prm)</code> を返します</li>
+</ul>
+</li>
+<li>パラメータ数が 2 以上の場合
+<ul>
+<li>後述します</li>
+</ul>
+</li>
+</ul>
+<p>　パラメータ数が 2 以上の場合、<a class='autolink' href='#673GXF9YiIQ'>make-font</a> 関数は実質的に以下の関数であるかのように振舞います。</p>
+<pre class='code'>
+(<span class='keyword1'>defun</span> <span class='keyword5'>make-font</span> <span class='keyword2'>&amp;key</span> family size fill stroke style decoration 
+                      weight filter line-spacing width-spice base)
+</pre>
+<p>　各パラメータの意味は以下の通りです。詳細は「<a href='#3kZ9FkounyK'>9.4  フォント</a>」を参照してください。</p>
+<p class='tbl_title'><a name='3B1RHolTZeW'></a>Table.11-2 make-font 関数のパラメータ</p>
+<table align='center'>
+<tr><th>parameter</th><th>description</th></tr>
+<tr><td nowrap align='left'><code>family</code></td><td align='left'>使用する<a class='autolink' href='#3kZ9FkounyK'>フォント</a>の名前をカンマで区切って並べた文字列を指定します（後述）。</td></tr>
+<tr><td nowrap align='left'><code>size</code></td><td align='left'><a class='autolink' href='#3kZ9FkounyK'>フォント</a>サイズを数値で指定します。</td></tr>
+<tr><td nowrap align='left'><code>fill</code></td><td align='left'><a class='autolink' href='#3kZ9FkounyK'>フォント</a>の塗り潰しを指定します。詳細は「<a href='#dBUd7L4C3dx'>9.3  フィル</a>」を参照してください。</td></tr>
+<tr><td nowrap align='left'><code>stroke</code></td><td align='left'><a class='autolink' href='#3kZ9FkounyK'>フォント</a>の輪郭を描く<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>を指定します。詳細は「<a href='#4HFjqmTuIU6'>9.2  ストローク</a>」を参照してください。通常、<a class='autolink' href='#3kZ9FkounyK'>フォント</a>では輪郭線は指定しません。</td></tr>
+<tr><td nowrap align='left'><code>style</code></td><td align='left'>スタイルを <code>:normal, :italic, :oblique</code> のいずれかから指定します。</td></tr>
+<tr><td nowrap align='left'><code>decoration</code></td><td align='left'>装飾を <code>:none, :underline, :overline, :line-through</code> のいずれかから指定します。</td></tr>
+<tr><td nowrap align='left'><code>weight</code></td><td align='left'>文字の太さを <code>:normal, :bold, :bolder, :lighter</code> のいずれか、または 100 200 300 400 500 600 700 800 900 のいずれかから指定します。</td></tr>
+<tr><td nowrap align='left'><code>filter</code></td><td align='left'><a class='autolink' href='#3kZ9FkounyK'>フォント</a>の描画に適用する<a class='autolink' href='#gPGlqSbIfdL'>フィルタ</a>を指定します。詳細は「<a href='#gPGlqSbIfdL'>9.7  フィルタ</a>」を参照してください。</td></tr>
+<tr><td nowrap align='left'><code>line-spacing</code></td><td align='left'><a class='autolink' href='#4WyMTv59pvw'>パラグラフ</a>などで複数行のテキストを描画する際の行間を数値で指定します。</td></tr>
+<tr><td nowrap align='left'><code>width-spice</code></td><td align='left'><a class='autolink' href='#3kZ9FkounyK'>フォント</a>サイズとテキスト内容から描画幅を計算する際の係数を数値で指定します。</td></tr>
+<tr><td nowrap align='left'><code>base</code></td><td align='left'><span style='background:red;color:white;'>ToDo : まだ記述されていません</span></td></tr>
+</table>
+<p>　　</p>
+<h4><a name='ezUVhtPwl3J'></a>11.1.7 make-stroke 関数</h4>
 <p>　<a class='autolink' href='#ezUVhtPwl3J'>make-stroke</a> 関数は<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>情報を生成します。<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>情報の詳細は「<a href='#4HFjqmTuIU6'>9.2  ストローク</a>」を参照してください。関数シグネチャは以下の通りです。</p>
 <pre class='code'>
 (<span class='keyword1'>defun</span> <span class='keyword5'>make-stroke</span> (<span class='keyword2'>&amp;rest</span> params) ...)
@@ -4702,7 +4961,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
                         miterlimit dasharray dashoffset base)
 </pre>
 <p>　各パラメータの意味は以下の通りです。詳細は「<a href='#4HFjqmTuIU6'>9.2  ストローク</a>」を参照してください。</p>
-<p class='tbl_title'><a name='8gU4HDke41S'></a>Table.11-2 make-stroke 関数のパラメータ</p>
+<p class='tbl_title'><a name='8gU4HDke41S'></a>Table.11-3 make-stroke 関数のパラメータ</p>
 <table align='center'>
 <tr><th>parameter</th><th>description</th></tr>
 <tr><td nowrap align='left'><code>color</code></td><td align='left'>線の色を指定します。色の指定方法については <a href='#1rpUB3fre67'>9.1  節</a>を、色の名前については<br><a href='#dR01Jh257Q6'>11.2  節</a>を参照してください。</td></tr>
@@ -4716,101 +4975,101 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <tr><td nowrap align='left'><code>base</code></td><td align='left'><span style='background:red;color:white;'>ToDo : まだ記述されていません</span></td></tr>
 </table>
 <p>　　</p>
-<h4><a name='7QraN5WNGea'></a>11.1.7 rgb 関数</h4>
+<h4><a name='7QraN5WNGea'></a>11.1.8 rgb 関数</h4>
 <pre class='code'>
 (rgb r g b)
 </pre>
-<h4><a name='klH6tZ6gdaQ'></a>11.1.8 use マクロ</h4>
+<h4><a name='klH6tZ6gdaQ'></a>11.1.9 use マクロ</h4>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='7WY0qIioOWV'></a>11.1.9 with-balloon-options マクロ</h4>
+<h4><a name='7WY0qIioOWV'></a>11.1.10 with-balloon-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-balloon-options</span> ((<span class='keyword2'>&amp;key</span> tab-width tab-height
                                      align valign margin
                                      font fill stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='kT3ITG7nfBI'></a>11.1.10 with-block-arrow-options マクロ</h4>
+<h4><a name='kT3ITG7nfBI'></a>11.1.11 with-block-arrow-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-block-arrow-options</span> ((<span class='keyword2'>&amp;key</span> fill stroke
                                           filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='avbLVTgRge8'></a>11.1.11 with-brace-options マクロ</h4>
+<h4><a name='avbLVTgRge8'></a>11.1.12 with-brace-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-brace-options</span> ((<span class='keyword2'>&amp;key</span> font stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='jHhN85RvHYn'></a>11.1.12 with-canvasマクロ</h4>
+<h4><a name='jHhN85RvHYn'></a>11.1.13 with-canvasマクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-canvas</span> ((sym-cc sym-width sym-height) canvas <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
-<h4><a name='gE4r2xg8b9U'></a>11.1.13 with-cross-options マクロ</h4>
+<h4><a name='gE4r2xg8b9U'></a>11.1.14 with-cross-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-cross-options</span> ((<span class='keyword2'>&amp;key</span> fill stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='dpsPduib5te'></a>11.1.14 with-cube-options マクロ</h4>
+<h4><a name='dpsPduib5te'></a>11.1.15 with-cube-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-cube-options</span> ((<span class='keyword2'>&amp;key</span> depth align valign margin
                                    font fill fill2 stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='6STY3Kxzonk'></a>11.1.15 with-cylinder-options マクロ</h4>
+<h4><a name='6STY3Kxzonk'></a>11.1.16 with-cylinder-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-cylinder-options</span> ((<span class='keyword2'>&amp;key</span> depth align valign margin
                                   font fill stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='0axtDA7gRzz'></a>11.1.16 with-document-options マクロ</h4>
+<h4><a name='0axtDA7gRzz'></a>11.1.17 with-document-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-document-options</span> ((<span class='keyword2'>&amp;key</span> align valign margin
                                        font fill stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='h8PWgenmp0d'></a>11.1.17 with-explosion-options マクロ</h4>
+<h4><a name='h8PWgenmp0d'></a>11.1.18 with-explosion-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-explosion-options</span> ((<span class='keyword2'>&amp;key</span> font fill
                                         stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='grfAvoJdCpJ'></a>11.1.18 with-folder-options マクロ</h4>
+<h4><a name='grfAvoJdCpJ'></a>11.1.19 with-folder-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-folder-options</span> ((<span class='keyword2'>&amp;key</span> tab-width tab-height
                                      align valign margin
                                      font fill stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='0C8r7LcFb7c'></a>11.1.19 with-memo-options マクロ</h4>
+<h4><a name='0C8r7LcFb7c'></a>11.1.20 with-memo-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-memo-options</span> ((<span class='keyword2'>&amp;key</span> crease align valign margin
                                    font fill stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='5afU9yg86c0'></a>11.1.20 with-optionsマクロ</h4>
+<h4><a name='5afU9yg86c0'></a>11.1.21 with-optionsマクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-options</span> ((<span class='keyword2'>&amp;key</span> fill stroke font layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
-<h4><a name='0B9bMaXVpqW'></a>11.1.21 with-person-options マクロ</h4>
+<h4><a name='0B9bMaXVpqW'></a>11.1.22 with-person-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-person-options</span> ((<span class='keyword2'>&amp;key</span> fill stroke layer filter) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='lsGULoUqoK4'></a>11.1.22 with-subcanvasマクロ</h4>
+<h4><a name='lsGULoUqoK4'></a>11.1.23 with-subcanvasマクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-subcanvas</span> ((top-left width height) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
-<h4><a name='2c8duiejnaO'></a>11.1.23 with-subcanvas-ofマクロ</h4>
+<h4><a name='2c8duiejnaO'></a>11.1.24 with-subcanvas-ofマクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-subcanvas-of</span> ((id) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
-<h4><a name='2XsIFr1er3s'></a>11.1.24 with-textbox-options マクロ</h4>
+<h4><a name='2XsIFr1er3s'></a>11.1.25 with-textbox-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-textbox-options</span> ((<span class='keyword2'>&amp;key</span> rx ry align valign margin
                                       font fill stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <h3><a name='dR01Jh257Q6'></a>11.2 色の名前</h3>
-<p> <a href='#1rpUB3fre67'>9.1  節</a>ではいくつかの色の指定方法を紹介しています。ここでは、そのうち色の名前について使用できるものを紹介します。まず、以下は SVG 規格に記載されている色名のサンプルです<sup><a name='footnote_ref12' href='#footnote12'>12</a></sup>。</p>
+<p> <a href='#1rpUB3fre67'>9.1  節</a>ではいくつかの色の指定方法を紹介しています。ここでは、そのうち色の名前について使用できるものを紹介します。まず、以下は SVG 規格に記載されている色名のサンプルです<sup><a name='footnote_ref14' href='#footnote14'>14</a></sup>。</p>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='750' height='1000'>
@@ -5578,7 +5837,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </pre>
 </details>
 <p>　　</p>
-<p>　kaavio では、上記に加えて以下の名前も使用することができます。これらは規格に含まれていないため、 <code>#RRGGBB</code> 形式に変換されて出力されます<sup><a name='footnote_ref13' href='#footnote13'>13</a></sup>。</p>
+<p>　kaavio では、上記に加えて以下の名前も使用することができます。これらは規格に含まれていないため、 <code>#RRGGBB</code> 形式に変換されて出力されます<sup><a name='footnote_ref15' href='#footnote15'>15</a></sup>。</p>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='760' height='2140'>
@@ -7302,6 +7561,12 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li>DOCUMENT : 「<a href='#dBUd7L4C3dx'>9.3  フィル</a>」を執筆</li>
 </ul>
 </li>
+<li><strong>2022/09/19</strong>
+<ul>
+<li>プロダクト名を diagram から kaavio に変更</li>
+<li>DOCUMENT : 「<a href='#3kZ9FkounyK'>9.4  フォント</a>」を執筆</li>
+</ul>
+</li>
 </ul>
 <h2><a name='1iQ3KRF8uJQ'></a>13 図表一覧</h2>
 <ul>
@@ -7372,8 +7637,12 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li><a href='#dpbOii37pGP'>Figure.9-5 dasharray, dashoffset のサンプル</a></li>
 <li><a href='#3bmxM1d5ylR'>Figure.9-6 with-options によるデフォルトフィルの変更</a></li>
 <li><a href='#9n3NgPBJGzS'>Figure.9-7 fill における rule のサンプル</a></li>
-<li><a href='#h7K5JgIwvZY'>Figure.9-8 回転のサンプル</a></li>
-<li><a href='#9Z8wQykrThD'>Figure.9-9 フィルタのサンプル</a></li>
+<li><a href='#aImv1ABfsGj'>Figure.9-8 with-options によるデフォルトフォントの変更</a></li>
+<li><a href='#gbHwYj2Ai06'>Figure.9-9 font における stroke と fill</a></li>
+<li><a href='#8UprDrMi9gT'>Figure.9-10 font における size と line-spacing</a></li>
+<li><a href='#1Z9lqmEkvJx'>Figure.9-11 width-spice のサンプル</a></li>
+<li><a href='#h7K5JgIwvZY'>Figure.9-12 回転のサンプル</a></li>
+<li><a href='#9Z8wQykrThD'>Figure.9-13 フィルタのサンプル</a></li>
 <li><a href='#2Hj3wMypfUt'>Figure.10-1 uml-action-param 要素</a></li>
 <li><a href='#2p79zKV2A8T'>Figure.10-2 uml-action 要素</a></li>
 <li><a href='#bGeFbFhlXGE'>Figure.10-3 uml-activity-partitions 要素</a></li>
@@ -7407,7 +7676,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li><a href='#kt8n5zzXY1P'>Table.5-14 brace のパラメータ</a></li>
 <li><a href='#46vpyWYCtdw'>Table.5-15 table のパラメータ</a></li>
 <li><a href='#jaLWrUQI3jh'>Table.11-1 make-fill 関数のパラメータ</a></li>
-<li><a href='#8gU4HDke41S'>Table.11-2 make-stroke 関数のパラメータ</a></li>
+<li><a href='#3B1RHolTZeW'>Table.11-2 make-font 関数のパラメータ</a></li>
+<li><a href='#8gU4HDke41S'>Table.11-3 make-stroke 関数のパラメータ</a></li>
 </ul>
 <p>　　</p>
 <h2><a name='1ewHzjI62xn'></a>14 索引</h2>
@@ -7482,6 +7752,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <summary class='idx_x'>M</summary>
 <blockquote class='idx_x'>
 <li class='idx_x'><a class='autolink' href='#8IkB7VinE7h'>make-fill</a></li>
+<li class='idx_x'><a class='autolink' href='#673GXF9YiIQ'>make-font</a></li>
 <li class='idx_x'><a class='autolink' href='#ezUVhtPwl3J'>make-stroke</a></li>
 <li class='idx_x'><a class='autolink' href='#0AVJhEKnK1M'>memo</a></li>
 </blockquote>
@@ -7627,7 +7898,9 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p class='footnote'><a name='footnote9' href='#footnote_ref9'>9</a> : これはあまり使わない方が良いテクニックかもしれません。図形要素別の「デフォルト設定」とは無関係に動作するので、慣れないと混乱するかもしれないからです。</p>
 <p class='footnote'><a name='footnote10' href='#footnote_ref10'>10</a> : Lisper の方へ。<a class='autolink' href='#5afU9yg86c0'>with-options</a> マクロは <code>*default-stroke*</code> や <code>*default-fill*</code> といったスペシャル変数を束縛するものです。非 Lisper のユーザーへの説明をわかりやすくする上でこの方法をとっています。</p>
 <p class='footnote'><a name='footnote11' href='#footnote_ref11'>11</a> : これはあまり使わない方が良いテクニックかもしれません。図形要素別の「デフォルト設定」とは無関係に動作するので、慣れないと混乱するかもしれないからです。</p>
-<p class='footnote'><a name='footnote12' href='#footnote_ref12'>12</a> : SVG 2 の規格において色名に関する節は削除され、CSS 規格を参照することになりました。</p>
-<p class='footnote'><a name='footnote13' href='#footnote_ref13'>13</a> : <a href='#6tYSz371NWb'>Figure.11-2</a> に記載されているのは、Emacs エディタで定義されている色名のうち、規格に含まれないものの一覧です。このうち、green(#00FF00), grey(#BEBEBE), maroon(#B03060), purple(#A020F0) については規格側にも同じ名前があるものの異なる値です。これらは「規格優先」としているため、たとえば <code>:green</code> を指定した場合は規格の #008000 が使用され、#00FF00 は使用されません。</p>
+<p class='footnote'><a name='footnote12' href='#footnote_ref12'>12</a> : 正確には <code>:size 12 :fill :black :width-spice 0.65 :line-spacing 2</code> です。</p>
+<p class='footnote'><a name='footnote13' href='#footnote_ref13'>13</a> : SVG 規格には <code>textLength</code> 属性というものがあって、指定されたスペースにテキストを収めることができるそうです。これを今後導入するかもしれません。しかし、重箱の隅っこ的な機能は SVG レンダリングエンジン（多くの場合はブラウザのことですが）がサポートしていない可能性があるので、今後の検討次第です。</p>
+<p class='footnote'><a name='footnote14' href='#footnote_ref14'>14</a> : SVG 2 の規格において色名に関する節は削除され、CSS 規格を参照することになりました。</p>
+<p class='footnote'><a name='footnote15' href='#footnote_ref15'>15</a> : <a href='#6tYSz371NWb'>Figure.11-2</a> に記載されているのは、Emacs エディタで定義されている色名のうち、規格に含まれないものの一覧です。このうち、green(#00FF00), grey(#BEBEBE), maroon(#B03060), purple(#A020F0) については規格側にも同じ名前があるものの異なる値です。これらは「規格優先」としているため、たとえば <code>:green</code> を指定した場合は規格の #008000 が使用され、#00FF00 は使用されません。</p>
 </body>
 </html>

@@ -3141,7 +3141,7 @@ ${BLANK_PARAGRAPH}
 文字列なら色名などと解釈します。そして `'(:color :red :width 3)` などの（複数要素からなる）
 リストの場合、名前付きパラメータの羅列として解釈します。
 
-　make-stroke 関数はその結果として「ストローク情報」オブジェクトを返しますが、そのストローク情報
+　make-stroke 関数はその結果として「ストローク情報オブジェクト」を返しますが、そのストローク情報
 オブジェクトを make-stroke 関数自身に渡した場合、そのまま返すようになっています。そのため、自分で
 明示的に make-stroke 関数を使ってストローク情報オブジェクトを作成し、Common LISP 変数に格納して
 複数の図形要素で使用する、ということも可能です。以下のように{{fn:これはあまり使わない方が良いテクニックかもしれません。 \
@@ -3333,7 +3333,7 @@ ${BLANK_PARAGRAPH}
 します。そして `'(:color :red :width 3)` などの（複数要素からなる）リストの場合、名前付き
 パラメータの羅列として解釈します。
 
-　make-fill 関数はその結果として「フィル情報」オブジェクトを返しますが、そのフィル情報オブジェクト
+　make-fill 関数はその結果として「フィル情報オブジェクト」を返しますが、そのフィル情報オブジェクト
 を make-fill 関数自身に渡した場合、そのまま返すようになっています。そのため、自分で明示的に 
 make-fill 関数を使ってフィル情報オブジェクトを作成し、Common LISP 変数に格納して複数の図形要素
 で使用する、ということも可能です。以下のように{{fn:これはあまり使わない方が良いテクニックかもしれません。 \
@@ -3443,23 +3443,240 @@ ${BLANK_PARAGRAPH}
 ### フォント
 <!-- autolink: [$$](#フォント) -->
 
-　${APPNAME} では様々な図形要素にテキストを付与できます。
+　${APPNAME} では様々な図形要素にテキストを付与できます。おおむね Web におけるフォント指定と同じ
+ですが、醜いハックも含まれています。
+
+　通常の使用では、 `:font 24` のようにサイズだけを指定したりします。もう少し複雑な場合、 
+`:font '(:family "monospace" :size 16)` といった要領でフォントの種類とサイズを指定することも
+あります。実はこれらは全て簡易的な指定方法で、フォントにはもっと多くの情報が含まれています。
+以下に説明します。
 
 * `family` はフォントの名称を文字列で指定します。
 * `size` はフォントのサイズを指定します（厳密には違うらしいのですが、詳細は後述します）。
-* `fill` はフォントの塗り潰しの色を指定します。
+* `fill` はフォントの塗り潰しを指定します。
 * `stroke` はフォントの輪郭線を指定します。フォントの場合、通常は塗り潰しのみで輪郭線は指定しません。
 * `style` はスタイルの指定です。 `:normal, :italic, :oblique` のいずれかから選択します。
 * `decoration` は装飾の指定です。 `:none, :underline, :overline, :line-through` のいずれかから選択します。
-* `weight` は文字の太さの指定です。 `:normal, :bold, :bolder, :lighter` のいずれか、または 100 200 300 400 500 600 700 800 900 のいずれかです。
+* `weight` は文字の太さの指定です。 `:normal, :bold, :bolder, :lighter` のいずれか、または  \
+100 200 300 400 500 600 700 800 900 のいずれかです。
 * `filter` はテキストに適用するフィルタの指定です。
 * `line-spacing` は、テキストが複数行になる場合の行間を指定します。
-* `width-spice` は、「テキストが実際に描画される幅」を計算するための目安となる係数を指定します。詳細は後述します。${{TODO}{まだ記述されていません。}}
+* `width-spice` は、「テキストが実際に描画される幅」を計算するための目安となる係数を指定します。詳細は後述します。
 
 ${BLANK_PARAGRAPH}
 
-${{TODO}{まだ記述されていません。}}
+　それぞれについて細かい説明を始める前に、 `:font 24` といった記述がどのように扱われるのか
+を説明する必要があるでしょう。 `:font` によるこれらの指定は、実は全て make-font 関数に
+渡されます。make-font 関数は、渡されたのが単一の値の場合には、数値ならサイズ、文字列なら
+フォントファミリ名などと解釈します。そして `'(:family "sans serif" :size 10)` などの
+（複数要素からなる）リストの場合、名前付きパラメータの羅列として解釈します。
 
+　make-font 関数はその結果として「フォント情報オブジェクト」を返しますが、そのフォント情報
+オブジェクトを make-font 関数自身に渡した場合、そのまま返すようになっています。そのため、自分で
+明示的に make-font 関数を使ってフォント情報オブジェクトを作成し、Common LISP 変数に格納して
+複数の図形要素で使用する、ということも可能です。以下のように。この関数の詳細は「[](#make-font 関数)」
+を参照してください。
+
+```lisp
+(let ((fnt (make-font :family "Courier New, monospace" :size 12)))
+  (text   ... :font fnt)
+  (paragraph ... :font fnt))
+```
+
+${BLANK_PARAGRAPH}
+
+#### フォントのデフォルト設定
+
+　実際のところ、作図をする上でそれぞれのテキストがバラバラなフォントで描かれることはないでしょう。
+わかりやすい図面というのは、同じ種類の図形要素は同じ種類の線で描画されているなど、統制が取れているものです。
+このことは、複数のテキストを含む作図においては「まったく同じフォントの指定を繰り返す場合が多い」ことを意味します。
+前述の方法でフォント情報オブジェクトを作成して使い回すことも可能ですが、もっとよい方法があります。
+それは「デフォルトフォントの変更」です。もともと、フォントはデフォルトで `:size 12 :fill :black` と
+されています{{fn:正確には `:size 12 :fill :black :width-spice 0.65 :line-spacing 2` です。}}が、
+with-options を使えばこれを変更することができます。以下の例では４種類のテキストを描いていますが、
+B, C のテキストはデフォルトフォントを変更しています。
+
+<!-- snippet: WITH-OPTIONS-FONT-SAMPLE
+(diagram (250 100)
+  (grid)
+  (text '(30 70) "A" :font 36)
+  (with-options (:font '(:size 36 :fill :navy :style :italic :weight :bold))
+    (text '(80 70) "B")
+    (text '(130 70) "C" :font '(:fill :brown)))
+  (text '(190 70) "D" :font '(:size 36 :fill :brown)))
+-->
+
+```lisp
+<!-- expand: WITH-OPTIONS-FONT-SAMPLE -->
+```
+
+```kaavio
+<!-- expand: WITH-OPTIONS-FONT-SAMPLE -->
+```
+Figure. with-options によるデフォルトフォントの変更
+
+${BLANK_PARAGRAPH}
+
+　C のテキストでは「色しか指定していない」のに文字装飾が変更されていることに注意してください。
+これは、「明示的に指定されていないものはデフォルトの設定が使用される」からです。with-options に
+よってデフォルト設定が変更されており、B のテキストでは（ `:font` を省略することによって）全てが
+デフォルト設定で描画されました。C の四角形では、 `:font :brown` によってデフォルト設定をベース
+として色だけを変更している、というわけです。
+
+　with-options では全体のデフォルト設定を変更しますが、図形要素によっては個別にデフォルト設定
+を持っています。たとえば、テキストボックスであれば with-textbox-options でデフォルト設定を
+変更することができます。
+
+${BLANK_PARAGRAPH}
+
+#### フォントにおける family パラメータ
+
+　family パラメータについては、書籍「SVG エッセンシャルズ第２版」の説明を引用しておきます
+（手抜きでごめんなさい）。
+
+> __font-family__
+>
+> この値に指定するのは、フォントファミリー名または総称ファミリー名をカンマで区切って並べたリストです。
+> これはフォールバック値のリストです。つまり、SVGビューアーは、自身が認識する最初のファミリー名を使用します。
+> 総称ファミリー名は、リスト内の最後に指定しなければなりません。SVG ビューアーに義務づけられているのは、
+> 総称ファミリー名を認識することと、それらを表示できるフォントを備えていることです。総称ファミリー名は、
+> serif、 sans-serif、 monospace、 fantasy、 cursive です。 serif （セリフ）フォントには、
+> ストロークの端に「セリフ」と呼ばれる小さな飾り −−「うろこ」や「ひげ」などとも呼ばれます −− があります。
+> sans-serif （サンセリフ）フォントには、セリフがありません。‥‥（中略）‥‥serif フォントも 
+> sans-serif フォントも、プロポーショナルフォント（可変幅フォント）です。つまり、大文字の「M」の幅と
+> 「I」の幅は異なります。 monospace （モノスペース）フォントは、タイプライターの文字のように、
+> すべてのグリフが同じ幅を持つフォントです（等幅フォント、固定幅フォントなどと呼ばれます）。これは、
+> セリフがあるフォントでも、ないフォントでもかまいません。 fantasy フォントと cursive フォントは、
+> ブラウザーやSVGビューアーによって実装が大きく異なる可能性があります。
+
+${BLANK_PARAGRAPH}
+
+#### フォントにおける stroke と fill
+
+　前述の通り、フォントでは通常 stroke を指定しません。しかし、逆に fill を無し（あるいは背景色同等）に
+して stroke を指定することで縁取られたテキストを描画することもできます。以下に例を示します。
+
+```kaavio
+(diagram (400 190)
+  (grid)
+  (with-options (:stroke 2)
+    (labels ((frmt (lst)
+               (string-downcase (format nil ":~A :~A" (first lst) (second lst))))
+             (impl (y &rest lst)
+               (text `(10 ,y) "Abcdefgh" :align :left :font lst)
+               (with-options (:font '(:size 12 :weight :normal :stroke :none :fill :black))
+                 (text `(270 ,(- y 20)) (frmt lst))
+                 (text `(270 ,y)        (frmt (cddr lst))))))
+      (with-options (:font '(:family "sans-serif" :size 40 :weight :bold))
+        (impl  50 :stroke :black :fill :white)
+        (impl 110 :stroke :none  :fill :black)
+        (impl 170 :stroke :black :fill :black)))))
+```
+Figure. font における stroke と fill
+
+${BLANK_PARAGRAPH}
+
+#### size と line-spacing
+
+　フォントの size 情報については、まず書籍「SVG エッセンシャルズ第２版」の説明を引用して
+おきましょう。
+
+> __font-size__
+> 
+> この値には、テキストが複数行になる場合の、ベースラインからベースラインまでのグリフの距離を
+> 指定します（SVGでは、複数行の `<text>` の内容は自分自身で配置しなければならないので、この
+> 概念は少々空論的です）。
+
+　上記のようなわけで、${APPNAME} ではフォント情報の size は単純に「フォントの縦方向のサイズである」
+という立場をとっています。正確には、「文字の上端からベースラインまでの距離」です。そして、
+paragraph などで複数行を描画する場合の「ベースラインから次行の上端までの距離」を `line-spacing` で
+指定します。以下は、 `:font '(:size 50 :line-spacing 30)` で描画した場合のサンプルです。
+
+```kaavio
+(diagram (400 170)
+  (grid)
+  (with-options (:font '(:size 50 :line-spacing 30))
+    (paragraph '(130 20) "Abcdefg~%Hijklmn"))
+  (with-options (:stroke '(:color :red :width 1 :dasharray (2 2)))
+    (line '((130   0) (130 160)))
+    (line '((  0  20) (400  20)))
+    (line '((  0  70) (400  70)))
+    (line '((  0 100) (400 100)))
+    (line '((  0 150) (400 150))))
+  (with-options (:font '(:fill :blue))
+    (let ((em (make-endmark :stroke :blue :type :arrow :size :small)))
+      (line '((110 20) (110  70)) :stroke :blue :end1 em :end2 em)
+      (text '(100 50) "size" :align :right)
+      (line '((110 70) (110 100)) :stroke :blue :end1 em :end2 em)
+      (text '(100 90) "line-spacing" :align :right))))
+```
+Figure. font における size と line-spacing
+
+${BLANK_PARAGRAPH}
+
+　見ての通り、文字によってはベースラインよりも下に描画されることがありますから、 `size` に
+よって `line-spacing` も調整する必要があります。
+
+${BLANK_PARAGRAPH}
+
+#### width-spice
+
+　width-spice は、${APPNAME} におけるもっとも醜いハックです。簡単に言えば、「フォントサイズと
+テキスト長にかける係数を指定可能にし、テキストの描画幅の計算に使う」というものです。というのも、
+「テキストがそのフォント設定で実際に描画される場合、どれだけの幅をとることになるかわからない」ためです。
+たとえば、テキストボックスでは明示的に幅を指定しない場合はテキストから幅を自動計算しようとしますが、
+width-spice の値によって結果は以下のように変わります。
+
+<!-- snippet: WIDTH-SPICE-SAMPLE
+(diagram (450 200)
+  (grid)
+  (labels ((impl (x y spice)
+             (let ((txt (format nil "width-spice ~A" spice)))
+               (textbox `(,x ,y) txt :font `(:width-spice ,spice)))))
+    (with-options (:stroke :gray :fill :lightgray
+                   :font '(:fill :red :size 12 :family "Courier New, monospace"))
+      (text '(120 20) "Courier New" :align :center :font '(:fill :black))
+      (impl 120  50 0.4)
+      (impl 120  90 0.6)
+      (impl 120 130 0.8)
+      (impl 120 170 1.0))
+    (with-options (:stroke :gray :fill :lightgray
+                   :font '(:fill :red :size 12 :family "serif"))
+      (text '(330 20) "serif font" :align :center :font '(:fill :black))
+      (impl 330  50 0.4)
+      (impl 330  90 0.6)
+      (impl 330 130 0.8)
+      (impl 330 170 1.0))))
+-->
+
+```kaavio
+<!-- expand: WIDTH-SPICE-SAMPLE -->
+```
+Figure. width-spice のサンプル
+
+<!-- collapse:begin -->
+[$@](F#width-spice のサンプル) のソースはこちら
+
+```lisp
+<!-- expand: WIDTH-SPICE-SAMPLE -->
+```
+<!-- collapse:end -->
+
+${BLANK_PARAGRAPH}
+
+　上記の結果を見る限りでは、Courier New フォントでは 0.8 程度、serif フォントでは 0.7 弱
+が spice 値としてよさそうに思えます。しかし、プロポーショナルフォントでは（文字数が同じでも）
+文字列内で使われている文字の種類によって変わってしまいますし、そもそも制御できない外部環境に
+よって描画は変わりえるのです。上記サンプルの左側は `:family` 指定で `Courier New, monospace` と
+していますから、Courier New フォントがない環境で表示すれば monospace が使用されるでしょう。
+それによって、テキストの実際の描画幅は大きく変化してしまいます。
+
+　width-spice は ${APPNAME} の開発初期の段階で導入されたものですが、現在ではあまり良くない
+アイデアとみなされています。テキストボックスなどでは幅を明示的に指定するのが現実的であり、
+その他テキストの描画幅においてもなんらかの仮定に依存するようなデザインをしないことが賢明でしょう
+{{fn:SVG 規格には `textLength` 属性というものがあって、指定されたスペースにテキストを収めることができるそうです。 \
+これを今後導入するかもしれません。しかし、重箱の隅っこ的な機能は SVG レンダリングエンジン（多くの場合はブラウザのこと \
+ですが）がサポートしていない可能性があるので、今後の検討次第です。}}。
 
 ${BLANK_PARAGRAPH}
 
@@ -3913,6 +4130,58 @@ Table. make-fill 関数のパラメータ
 | `opacity`   | 塗り潰しの不透明度を 0.0 ～ 1.0 の数値で指定します。  |
 | `rule`      | 塗りつぶしのルールを `:nonzero` または `:evenodd` で指定します。|
 | `base`      | ${{TODO}{まだ記述されていません}} |
+
+
+${BLANK_PARAGRAPH}
+
+#### make-font 関数
+<!-- autolink: [make-font](#make-font 関数) -->
+
+　make-font 関数はフォント情報を生成します。フォント情報の詳細は「[](#フォント)」を参照して
+ください。関数シグネチャは以下の通りです。
+
+```lisp
+(defun make-font (&rest params) ...)
+```
+
+　上記は簡潔な記述で柔軟なフォント情報の生成を可能にするためのもので、 `params` として渡される
+パラメータ数に応じて以下のことをします。
+
+* パラメータ数が 0 の場合
+	* デフォルトのフォント情報を返します
+* パラメータ数が 1 の場合
+	* フォント情報が渡された場合、それをそのまま返します
+	* 数値 N が渡された場合、 `(make-font :size N)` を返します
+	* リスト lst が渡された場合、 `(apply #'make-font lst)` を返します
+	* 上記のいずれでもない prm の場合、 `(make-font :family prm)` を返します
+* パラメータ数が 2 以上の場合
+	* 後述します
+
+　パラメータ数が 2 以上の場合、make-font 関数は実質的に以下の関数であるかのように振舞います。
+
+```lisp
+(defun make-font &key family size fill stroke style decoration 
+                      weight filter line-spacing width-spice base)
+```
+
+　各パラメータの意味は以下の通りです。詳細は「[](#フォント)」を参照してください。
+
+Table. make-font 関数のパラメータ
+| parameter      | description          |
+|:===============|:---------------------|
+| `family`       | 使用するフォントの名前をカンマで区切って並べた文字列を指定します（後述）。 |
+| `size`         | フォントサイズを数値で指定します。 |
+| `fill`         | フォントの塗り潰しを指定します。詳細は「[](#フィル)」を参照してください。 |
+| `stroke`       | フォントの輪郭を描くストロークを指定します。詳細は「[](#ストローク)」を参照してください。 \
+通常、フォントでは輪郭線は指定しません。 |
+| `style`        | スタイルを `:normal, :italic, :oblique` のいずれかから指定します。 |
+| `decoration`   | 装飾を `:none, :underline, :overline, :line-through` のいずれかから指定します。 |
+| `weight`       | 文字の太さを `:normal, :bold, :bolder, :lighter` のいずれか、または  \
+100 200 300 400 500 600 700 800 900 のいずれかから指定します。 |
+| `filter`       | フォントの描画に適用するフィルタを指定します。詳細は「[](#フィルタ)」を参照してください。 |
+| `line-spacing` | パラグラフなどで複数行のテキストを描画する際の行間を数値で指定します。 |
+| `width-spice`  | フォントサイズとテキスト内容から描画幅を計算する際の係数を数値で指定します。 |
+| `base`         | ${{TODO}{まだ記述されていません}} |
 
 
 ${BLANK_PARAGRAPH}
@@ -4787,6 +5056,9 @@ Figure. 色の名前とサンプル - 2
 * __2022/09/11__
 	* DOCUMENT : 「[](#ストローク)」を執筆
 	* DOCUMENT : 「[](#フィル)」を執筆
+* __2022/09/19__
+	* プロダクト名を diagram から kaavio に変更
+	* DOCUMENT : 「[](#フォント)」を執筆
 
 ## 図表一覧
 <!-- embed:figure-list -->
