@@ -140,33 +140,47 @@
 #|EXPORT|#				:explosion1
  |#
 (defmacro explosion1 (center width height text
-						 &key font fill stroke link rotate layer id filter)
-  `(register-entity (make-instance 'explosion
-								   :pattern 1 :center ,center
-								   :width ,width :height ,height
-								   :text ,text
-								   :align  :center :valign :center
-								   :font   (or ,font   *default-explosion-font*)
-								   :fill   (or ,fill   *default-explosion-fill*)
-								   :stroke (or ,stroke *default-explosion-stroke*)
-								   :link ,link  :rotate ,rotate
-								   :filter ,filter :layer ,layer :id ,id)))
+						 &key font fill stroke link rotate layer id filter contents)
+  (let ((code `(register-entity (make-instance 'explosion
+											   :pattern 1 :center ,center
+											   :width ,width :height ,height
+											   :text ,text
+											   :align  :center :valign :center
+											   :font   (or ,font   *default-explosion-font*)
+											   :fill   (or ,fill   *default-explosion-fill*)
+											   :stroke (or ,stroke *default-explosion-stroke*)
+											   :link ,link  :rotate ,rotate
+											   :filter ,filter :layer ,layer :id ,id))))
+	(if (null contents)
+		code
+		(let ((g-obj (gensym "OBJ")))
+		  `(let* ((,g-obj ,code)
+				  (canvas (kaavio:shape-get-subcanvas ,g-obj)))
+			 (declare (special canvas))
+			 ,@contents)))))
 
 #|
 #|EXPORT|#				:explosion2
  |#
 (defmacro explosion2 (center width height text
-						 &key font fill stroke link rotate layer id filter)
-  `(register-entity (make-instance 'explosion
-								   :pattern 2 :center ,center
-								   :width ,width :height ,height
-								   :text ,text
-								   :align  :center :valign :center
-								   :font   (or ,font   *default-explosion-font*)
-								   :fill   (or ,fill   *default-explosion-fill*)
-								   :stroke (or ,stroke *default-explosion-stroke*)
-								   :link ,link  :rotate ,rotate
-								   :filter ,filter :layer ,layer :id ,id)))
+						 &key font fill stroke link rotate layer id filter contents)
+  (let ((code `(register-entity (make-instance 'explosion
+											   :pattern 2 :center ,center
+											   :width ,width :height ,height
+											   :text ,text
+											   :align  :center :valign :center
+											   :font   (or ,font   *default-explosion-font*)
+											   :fill   (or ,fill   *default-explosion-fill*)
+											   :stroke (or ,stroke *default-explosion-stroke*)
+											   :link ,link  :rotate ,rotate
+											   :filter ,filter :layer ,layer :id ,id))))
+	(if (null contents)
+		code
+		(let ((g-obj (gensym "OBJ")))
+		  `(let* ((,g-obj ,code)
+				  (canvas (kaavio:shape-get-subcanvas ,g-obj)))
+			 (declare (special canvas))
+			 ,@contents)))))
 
 ;;------------------------------------------------------------------------------
 ;;

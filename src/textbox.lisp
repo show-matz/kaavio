@@ -86,24 +86,31 @@
 #|
 #|EXPORT|#				:textbox
  |#
-(defmacro textbox (center text &key width height no-frame
-									rx ry align valign margin
-									font fill stroke link rotate layer id filter)
-  `(register-entity (make-instance 'textbox
-								   :no-frame ,no-frame
-								   :center ,center
-								   :width ,width :height ,height
-								   :text ,text
-								   :rx     (or ,rx     *default-textbox-rx*)
-								   :ry     (or ,ry     *default-textbox-ry*)
-								   :align  (or ,align  *default-textbox-align*)
-								   :valign (or ,valign *default-textbox-valign*)
-								   :margin (or ,margin *default-textbox-margin*)
-								   :font   (or ,font   *default-textbox-font*)
-								   :fill   (or ,fill   *default-textbox-fill*)
-								   :stroke (or ,stroke *default-textbox-stroke*)
-								   :link ,link  :rotate ,rotate
-								   :filter ,filter :layer ,layer :id ,id)))
+(defmacro textbox (center text &key width height no-frame rx ry
+									align valign margin font fill stroke
+									link rotate layer id filter contents)
+  (let ((code `(register-entity (make-instance 'textbox
+											   :no-frame ,no-frame
+											   :center ,center
+											   :width ,width :height ,height
+											   :text ,text
+											   :rx     (or ,rx     *default-textbox-rx*)
+											   :ry     (or ,ry     *default-textbox-ry*)
+											   :align  (or ,align  *default-textbox-align*)
+											   :valign (or ,valign *default-textbox-valign*)
+											   :margin (or ,margin *default-textbox-margin*)
+											   :font   (or ,font   *default-textbox-font*)
+											   :fill   (or ,fill   *default-textbox-fill*)
+											   :stroke (or ,stroke *default-textbox-stroke*)
+											   :link ,link  :rotate ,rotate
+											   :filter ,filter :layer ,layer :id ,id))))
+	(if (null contents)
+		code
+		(let ((g-obj (gensym "OBJ")))
+		  `(let* ((,g-obj ,code)
+				  (canvas (kaavio:shape-get-subcanvas ,g-obj)))
+			 (declare (special canvas))
+			 ,@contents)))))
 
 
 ;;------------------------------------------------------------------------------
