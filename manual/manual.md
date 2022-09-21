@@ -17,7 +17,7 @@
 
 # README - ${APPNAME}
 
-　この文書は、 **${APPNAME}** のためのマニュアル文書です。
+　この文書は、 **${APPNAME}** のマニュアル文書です。
 
 <!-- anchor: toc-link-target -->
 ```raw
@@ -32,7 +32,9 @@ ${BLANK_PARAGRAPH}
 
 ## ${APPNAME} とは
 
-　${APPNAME} は、テキストベースの作図ツールです。テキスト形式のデータファイルを入力として、
+　${APPNAME}{{fn:正式な名称が決まる前は、diagram という名前でした。${APPNAME} は同じ意味のフィンランドの \
+言葉だそうです。この名前にした深い理由はなく、単純にネット検索で埋もれてしまわない名前にしたかっただけです。}} 
+は、テキストベースの作図ツールです。テキスト形式のデータファイルを入力として、
 SVG 形式{{fn:SVG は Scalable Vector Graphics の略です。}}の画像ファイルを生成します。
 
 　${APPNAME} の入力データの記述方法には違和感を感じるかもしれません。これは、${APPNAME} が 
@@ -41,6 +43,10 @@ language) で記述するためです。しかし、このツールを使って�
 お勉強から始めたいとは思わないでしょう。そのため、このマニュアルではサンプルをたくさん提示し、
 Common LISP の詳細には極力立ち入らないようにします{{fn:もともと LISPer だという方で DSL の詳細を知りたい方は、 \
 申し訳ありませんがコードを直接参照してください。}}。
+
+　${APPNAME} は、O'Reilly の「[SVG エッセンシャルズ 第二版](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwjxstvtvKL6AhUNUd4KHbdhCmAQFnoECA0QAQ&url=https%3A%2F%2Fwww.oreilly.co.jp%2Fbooks%2F9784873117973%2F&usg=AOvVaw0qe65qVh3tZyCnBnhoaC-V)」
+を読んで作られています。SVG 規格にあたることも時々ありますが、基本的にほとんどの情報はこの書籍から
+得ています。電子版もありますので興味のある方は手に取ってみてください。
 
 
 ## 簡単なサンプル
@@ -223,10 +229,10 @@ ${BLANK_PARAGRAPH}
 リンクになっています。
 
 <!-- define: HASH_RECT    = '[](#四角形)' -->
-<!-- define: HASH_CIRCLE  = '[](#円)' -->
+<!-- define: HASH_CIRCLE  = '[](#正円)' -->
 <!-- define: HASH_ELLIPSE = '[](#楕円)' -->
 <!-- define: HASH_POLYGON = '[](#多角形)' -->
-<!-- define: HASH_LINE    = '[](#線)' -->
+<!-- define: HASH_LINE    = '[](#直線)' -->
 <!-- define: HASH_ARC     = '[](#円弧)' -->
 <!-- define: HASH_TEXT    = '[](#テキスト)' -->
 
@@ -720,261 +726,6 @@ Figure. テキストの position とアライメント指定の関係
 
 ${BLANK_PARAGRAPH}
 
-## パス
-<!-- autolink: [path](#パス) -->
-<!-- autolink: [$$](#パス) -->
-
-<!-- snippet: PATH-SAMPLE
-(diagram (300 100)
-  (grid)
-  (path '((:move-to (120 50))
-          (:arc-to 30 30 0 1 1 (150 80))
-          (:line-to (150 50)) :close-path) :stroke :black :fill :rosybrown))
--->
-
-　`path` によって直線や曲線からなる複雑な図形を描画できます。
-
-```kaavio
-<!-- expand: PATH-SAMPLE -->
-```
-Figure. path のサンプル
-
-
-<!-- collapse:begin -->
-　※上記サンプルのソースはこちら。
-
-```lisp
-<!-- expand: PATH-SAMPLE -->
-```
-<!-- collapse:end -->
-
-　path のパラメータ構成は以下の通りです。
-
-```lisp
-(defmacro path (data &key fill stroke layer filter id) ... )
-```
-
-<!-- stack:push tr style="font-size: 14;" -->
-
-Table. path のパラメータ
-| パラメータ | 説明                                                                           |
-|:==========|:--------------------------------------------------------------------------------------|
-| data      | パスを構成するデータを指定します。詳細は後述します。                                |
-| fill      | 内部の塗り潰しを指定します。詳細は「[](#フィル)」を参照してください。           |
-| stroke    | 線を指定します。詳細は「[](#ストローク)」を参照してください。         |
-| layer     | レイヤーに所属させる場合、その名前をキーワードで指定します。<br> \
-詳細は「[](#レイヤー)」を参照してください。           |
-| id        | ID を付与したい場合、その名前をキーワードで指定します。<br> \
-詳細は「[](#IDと参照)」を参照してください。            |
-| filter    | フィルタ効果を適用したい場合、その名前を指定します。<br> \
-詳細は「[](#フィルタ)」を参照してください。 |
-
-<!-- stack:pop tr -->
-
-${BLANK_PARAGRAPH}
-
-　data パラメータについて説明します。data パラメータは以下のような **ディレクティブ** キーワードを
-要素とするリストで指定します。点や値の指定を伴うディレクティブは、それ自体をリストにする必要があります。
-
-<!-- stack:push tr style="font-size: 14;" -->
-
-Table. path の data で使用できるディレクティブ
-| ディレクティブ  | 説明                                                                  |
-|:===============|:----------------------------------------------------------------------|
-| `:move-to`     | 指定した点に（線を描くことなく）移動します。                             |
-| `:line-to`     | 現在の点から指定した点に向かって（線を描きながら）移動します。            |
-| `:h-line-to`   | 現在の点から指定した x 座標に向かって水平線を描きながら移動します。       |
-| `:v-line-to`   | 現在の点から指定した y 座標に向かって垂直線を描きながら移動します。       |
-| `:arc-to`      | ${{TODO}{まだ記述されていません。}}     |
-| `:2d-curve-to` | ${{TODO}{まだ記述されていません。}}     |
-| `:3d-curve-to` | ${{TODO}{まだ記述されていません。}}     |
-| `:absolute`    | 後続のディレクティブを、現在のキャンバスに対する絶対座標として処理します。 |
-| `:relative`    | 後続のディレクティブを、現在の点に対する相対座標として処理します。         |
-| `:close-path`  | パスを閉じます。すなわち、現在の点から先頭の点までを結ぶ直線を引きます。   |
-
-<!-- stack:pop tr -->
-
-${BLANK_PARAGRAPH}
-
-　多くの場合、開始点に移動してから直線や曲線を描いて、最後には開始点に戻ることで図形を描くことに
-なります。たとえば、正方形を描く場合の data パラメータは以下のようなリストになるでしょう。
-
-```lisp
-  '((:move-to ( 50  50))
-    (:line-to (100  50))
-    (:line-to (100 100))
-    (:line-to ( 50 100)) :close-path)
-```
-
-　以下に、各ディレクティブの詳細について説明します。
-
-### :move-to ディレクティブ
-<!-- autolink: [:move-to](#:move-to ディレクティブ) -->
-
-　`(:move-to pt)` という記述により、線を描くことなく指定した点 pt に移動します。また、 
-`(:move-to pt1 pt2 pt3 ...)` のように複数の点を記述することができ、これは `(:move-to pt1)  \
-(:line-to pt2 pt3 ...)` と等価になります。以下に例を示します。
-
-```kaavio
-(diagram (400 100)
-  (grid)
-  (path '((:move-to (200 10) (230 50) (170 50) (200 10)))
-          :stroke :black :fill :rosybrown)
-  (text '(200 80) "(:move-to (200 10) (230 50) (170 50) (200 10))" :align :center ))
-```
-Figure. :move-to ディレクティブのサンプル
-
-　なお、:move-to で指定する点は :absolute および :relative の影響を受けます。
-
-### :line-to ディレクティブ
-<!-- autolink: [:line-to](#:line-to ディレクティブ) -->
-
-　`(:line-to pt)` という記述により、現在の点から直線を描きながら指定した点 pt に移動します。
-`(:line-to pt1 pt2 pt3 ...)` のように複数の点を記述することができます。これは現在の点から
-順番に直線を描きながら移動します。
-
-```kaavio
-(diagram (400 100)
-  (grid)
-  (path '((:move-to (200 10))
-          (:line-to (230 50) (170 50) (200 10)))
-          :stroke :black :fill :rosybrown)
-  (text '(70 75) "(:move-to (200 10))" :align :left )
-  (text '(70 95) "(:line-to (230 50) (170 50) (200 10))" :align :left))
-```
-Figure. :line-to ディレクティブのサンプル
-
-　なお、:line-to で指定する点は :absolute および :relative の影響を受けます。
-
-### :h-line-to ディレクティブ
-<!-- autolink: [:h-line-to](#:h-line-to ディレクティブ) -->
-
-${{TODO}{まだ記述されていません。}}
-
-### :v-line-to ディレクティブ
-<!-- autolink: [:v-line-to](#:v-line-to ディレクティブ) -->
-
-${{TODO}{まだ記述されていません。}}
-
-### :arc-to ディレクティブ
-<!-- autolink: [:arc-to](#:arc-to ディレクティブ) -->
-
-${{TODO}{まだ記述されていません。}}
-
-```
-'(arc-to rx ry x-axis-rotation large-arc-flag sweep-flag pt)
-```
-
-```kaavio
-(diagram (400 100)
-  (grid)
-  (path '((:move-to (150 50))
-          (:arc-to 30 30 0 0 1 (250 80)) :close-path)
-          :stroke :black :fill :rosybrown)
-;  (text '(70 75) "(:move-to (200 10))" :align :left )
-;  (text '(70 95) "(:line-to (230 50) (170 50) (200 10))" :align :left)
-)
-```
-Figure. :arc-to ディレクティブのサンプル
-
-```kaavio
-(diagram (400 140)
-  (grid)
-  (with-options (:fill :none :stroke '(:color :lightgray :width 2))
-    (ellipse '(250 50) 100 40)
-    (ellipse '(150 90) 100 40))
-  (with-options (:fill :red :stroke :none)
-    (circle '(150 50) 3)
-    (circle '(250 90) 3))
-  (with-options (:font '(:fill :red))
-    (text '(145  45) "pt1" :align :right)
-    (text '(255 105) "pt2" :align :left)))
-```
-
-　上記を見ればわかる通り、指定した２つの点を通過する半径 rx, ry の楕円には４種類あります。
-
-```kaavio
-(diagram (510 220)
-  (grid)
-  (defs (240 100 :back)
-    ;(rect canvas.center canvas.width canvas.height :fill :none :stroke :lightgray)
-    (with-options (:fill :none :stroke '(:color :lightgray :width 2))
-      (ellipse '(110 30) 50 20)
-      (ellipse '( 60 50) 50 20))
-    (with-options (:fill :red :stroke :none)
-      (circle '( 60 30) 3)
-      (circle '(110 50) 3)))
-  (with-options (:fill :none
-                 :font '(:size 10)
-                 :stroke '(:color :red :width 3 :opacity 0.4))
-    (use :back '(130 60)
-         :contents
-         ((path '((:move-to (60 30)) (:arc-to 50 20 0 0 1 (110 50))))
-          (text '(115 65) "large-arc-flag : 0" :align :left)
-          (text '(115 80) "sweep-flag : 1"     :align :left)))
-    (use :back '(380 60)
-         :contents
-         ((path '((:move-to (60 30)) (:arc-to 50 20 0 0 0 (110 50))))
-          (text '(115 65) "large-arc-flag : 0" :align :left)
-          (text '(115 80) "sweep-flag : 0"     :align :left)))
-    (use :back '(130 160)
-         :contents
-         ((path '((:move-to (60 30)) (:arc-to 50 20 0 1 1 (110 50))))
-          (text '(115 65) "large-arc-flag : 1" :align :left)
-          (text '(115 80) "sweep-flag : 1"     :align :left)))
-    (use :back '(380 160)
-         :contents
-         ((path '((:move-to (60 30)) (:arc-to 50 20 0 1 0 (110 50))))
-          (text '(115 65) "large-arc-flag : 1" :align :left)
-          (text '(115 80) "sweep-flag : 0"     :align :left)))))
-```
-
-```kaavio
-(diagram (200 200)
-  (grid)
-  ;(centered-to-svg 100 100 40 20 30 90 0)
-  (ellipse '(100 100) 40 20 :stroke '(:color :lightgray :width 3))
-  (with-options (:fill :none :stroke :red)
-    (path '((:move-to (134.64101615137756 110.0))
-            (:arc-to 40 20 0 0 1 (80.0 117.32050807568878))))))
-```
-
-```kaavio
-(diagram (200 200)
-  (grid)
-  ;(centered-to-svg 100 100 40 20 30 90 45)
-  (ellipse '(100 100) 40 20 :rotate 45 :stroke '(:color :lightgray :width 3))
-  (with-options (:fill :none :stroke :red)
-    (path '((:move-to (117.42382961596631 131.56596523969725))
-            (:arc-to 40 20 45 0 1 (73.61041566235316 98.10531309018495))))))
-```
-### :2d-curve-to ディレクティブ
-<!-- autolink: [:2d-curve-to](#:2d-curve-to ディレクティブ) -->
-
-${{TODO}{まだ記述されていません。}}
-
-### :3d-curve-to ディレクティブ
-<!-- autolink: [:3d-curve-to](#:3d-curve-to ディレクティブ) -->
-
-${{TODO}{まだ記述されていません。}}
-
-### :absolute ディレクティブ
-<!-- autolink: [:absolute](#:absolute ディレクティブ) -->
-
-${{TODO}{まだ記述されていません。}}
-
-### :relative ディレクティブ
-<!-- autolink: [:relative](#:relative ディレクティブ) -->
-
-${{TODO}{まだ記述されていません。}}
-
-### :close-path ディレクティブ
-<!-- autolink: [:close-path](#:close-path ディレクティブ) -->
-
-${{TODO}{まだ記述されていません。}}
-
-${BLANK_PARAGRAPH}
-
 ## 一般的な図形
 
 　基本的な図形を組み合わせて作成される、複合的な図形を紹介します。以下のサンプルはそれぞれの
@@ -1374,9 +1125,9 @@ Figure. テキストボックスのサンプル
 　textbox のパラメータ構成は以下の通りです。
 
 ```lisp
-(defmacro textbox (center text &key width height no-frame
-                                    rx ry align valign margin
-                                    font fill stroke link rotate layer id filter) ...)
+(defmacro textbox (center text &key width height no-frame rx ry
+                                    align valign margin font fill stroke
+                                    link rotate layer id filter contents) ...)
 ```
 
 ${BLANK_PARAGRAPH}
@@ -1413,6 +1164,8 @@ rx と ry のどちらかだけを指定すると、もう一方も同じであ�
 詳細は「[](#IDと参照)」を参照してください。            |
 | filter    | ボックスの描画にフィルタ効果を適用したい場合、その名前を指定します。<br> \
 詳細は「[](#フィルタ)」を参照してください。 |
+| contents  | 内部をサブキャンバスとした描画をしたい場合、その内容を指定します。<br> \
+詳細は「[](#サブキャンバス)」を参照してください。|
 
 <!-- stack:pop tr -->
 
@@ -2156,10 +1909,10 @@ Figure. 爆発のサンプル
 ```lisp
 (defmacro explosion1 (center width height text
                          &key font fill stroke
-                              link rotate layer id filter) ...)
+                              link rotate layer id filter contents) ...)
 (defmacro explosion2 (center width height text
                          &key font fill stroke
-                              link rotate layer id filter) ...)
+                              link rotate layer id filter contents) ...)
 ```
 
 ${BLANK_PARAGRAPH}
@@ -2185,6 +1938,8 @@ Table. explosion1, explosion2 のパラメータ
 詳細は「[](#IDと参照)」を参照してください。            |
 | filter     | フィルタ効果を適用したい場合、その名前を指定します。<br> \
 詳細は「[](#フィルタ)」を参照してください。 |
+| contents  | 内部をサブキャンバスとした描画をしたい場合、その内容を指定します。<br> \
+詳細は「[](#サブキャンバス)」を参照してください。|
 
 <!-- stack:pop tr -->
 
@@ -2733,6 +2488,329 @@ Figure. with-table-cell の使用例
 
 　`with-table-cell` は事実上、指定したテーブルの指定セル領域を指定した `with-subcanvas` として
 機能します。そのため、 `canvas` を使ってその中心座標や幅、高さ情報にアクセスできます。
+
+${BLANK_PARAGRAPH}
+
+## その他の図形要素
+
+　ほしい図形要素がなければ、手間はかかりますがパスを使って実現できるかもしれません。図面の中に
+写真などのラスタ画像を含めることもできます。あるいは、${APPNAME} がサポートしていない SVG の
+機能を利用したければ生の SVG コードを挿入することもできます。
+
+### パス
+<!-- autolink: [path](#パス) -->
+<!-- autolink: [$$](#パス) -->
+
+<!-- snippet: PATH-SAMPLE
+(diagram (300 100)
+  (grid)
+  (path '((:move-to (120 50))
+          (:arc-to 30 30 0 1 1 (150 80))
+          (:line-to (150 50)) :close-path) :stroke :black :fill :rosybrown))
+-->
+
+　path によって直線や曲線からなる複雑な図形を描画できます。polygon は直線からなる多角形でしたが、
+path は複雑な曲線を含む図形を描画できます。ただ、その分構文も複雑です。
+
+```kaavio
+<!-- expand: PATH-SAMPLE -->
+```
+Figure. path のサンプル
+
+
+<!-- collapse:begin -->
+　※上記サンプルのソースはこちら。
+
+```lisp
+<!-- expand: PATH-SAMPLE -->
+```
+<!-- collapse:end -->
+
+　path のパラメータ構成は以下の通りです。
+
+```lisp
+(defmacro path (data &key fill stroke layer filter id) ... )
+```
+
+<!-- stack:push tr style="font-size: 14;" -->
+
+Table. path のパラメータ
+| パラメータ | 説明                                                                           |
+|:==========|:--------------------------------------------------------------------------------------|
+| data      | パスを構成するデータを指定します。詳細は後述します。                                |
+| fill      | 内部の塗り潰しを指定します。詳細は「[](#フィル)」を参照してください。           |
+| stroke    | 線を指定します。詳細は「[](#ストローク)」を参照してください。         |
+| layer     | レイヤーに所属させる場合、その名前をキーワードで指定します。<br> \
+詳細は「[](#レイヤー)」を参照してください。           |
+| id        | ID を付与したい場合、その名前をキーワードで指定します。<br> \
+詳細は「[](#IDと参照)」を参照してください。            |
+| filter    | フィルタ効果を適用したい場合、その名前を指定します。<br> \
+詳細は「[](#フィルタ)」を参照してください。 |
+
+<!-- stack:pop tr -->
+
+${BLANK_PARAGRAPH}
+
+　data パラメータについて説明します。data パラメータは以下のような **ディレクティブ** キーワードを
+要素とするリストで指定します。点や値の指定を伴うディレクティブは、それ自体をリストにする必要があります。
+
+<!-- stack:push tr style="font-size: 14;" -->
+
+Table. path の data で使用できるディレクティブ
+| ディレクティブ  | 説明                                                                  |
+|:===============|:----------------------------------------------------------------------|
+| `:move-to`     | 指定した点に（線を描くことなく）移動します。                             |
+| `:line-to`     | 現在の点から指定した点に向かって（線を描きながら）移動します。            |
+| `:h-line-to`   | 現在の点から指定した x 座標に向かって水平線を描きながら移動します。       |
+| `:v-line-to`   | 現在の点から指定した y 座標に向かって垂直線を描きながら移動します。       |
+| `:arc-to`      | ${{TODO}{まだ記述されていません。}}     |
+| `:2d-curve-to` | ${{TODO}{まだ記述されていません。}}     |
+| `:3d-curve-to` | ${{TODO}{まだ記述されていません。}}     |
+| `:absolute`    | 後続のディレクティブを、現在のキャンバスに対する絶対座標として処理します。 |
+| `:relative`    | 後続のディレクティブを、現在の点に対する相対座標として処理します。         |
+| `:close-path`  | パスを閉じます。すなわち、現在の点から先頭の点までを結ぶ直線を引きます。   |
+
+<!-- stack:pop tr -->
+
+${BLANK_PARAGRAPH}
+
+　多くの場合、開始点に移動してから直線や曲線を描いて、最後には開始点に戻ることで図形を描くことに
+なります。たとえば、正方形を描く場合の data パラメータは以下のようなリストになるでしょう。
+
+```lisp
+  '((:move-to ( 50  50))
+    (:line-to (100  50))
+    (:line-to (100 100))
+    (:line-to ( 50 100)) :close-path)
+```
+
+　以下に、各ディレクティブの詳細について説明します。
+
+#### :move-to ディレクティブ
+<!-- autolink: [:move-to](#:move-to ディレクティブ) -->
+
+　`(:move-to pt)` という記述により、線を描くことなく指定した点 pt に移動します。また、 
+`(:move-to pt1 pt2 pt3 ...)` のように複数の点を記述することができ、これは `(:move-to pt1)  \
+(:line-to pt2 pt3 ...)` と等価になります。以下に例を示します。
+
+```kaavio
+(diagram (400 100)
+  (grid)
+  (path '((:move-to (200 10) (230 50) (170 50) (200 10)))
+          :stroke :black :fill :rosybrown)
+  (text '(200 80) "(:move-to (200 10) (230 50) (170 50) (200 10))" :align :center ))
+```
+Figure. :move-to ディレクティブのサンプル
+
+　なお、:move-to で指定する点は :absolute および :relative の影響を受けます。
+
+#### :line-to ディレクティブ
+<!-- autolink: [:line-to](#:line-to ディレクティブ) -->
+
+　`(:line-to pt)` という記述により、現在の点から直線を描きながら指定した点 pt に移動します。
+`(:line-to pt1 pt2 pt3 ...)` のように複数の点を記述することができます。これは現在の点から
+順番に直線を描きながら移動します。
+
+```kaavio
+(diagram (400 100)
+  (grid)
+  (path '((:move-to (200 10))
+          (:line-to (230 50) (170 50) (200 10)))
+          :stroke :black :fill :rosybrown)
+  (text '(70 75) "(:move-to (200 10))" :align :left )
+  (text '(70 95) "(:line-to (230 50) (170 50) (200 10))" :align :left))
+```
+Figure. :line-to ディレクティブのサンプル
+
+　なお、:line-to で指定する点は :absolute および :relative の影響を受けます。
+
+#### :h-line-to ディレクティブ
+<!-- autolink: [:h-line-to](#:h-line-to ディレクティブ) -->
+
+${{TODO}{まだ記述されていません。}}
+
+#### :v-line-to ディレクティブ
+<!-- autolink: [:v-line-to](#:v-line-to ディレクティブ) -->
+
+${{TODO}{まだ記述されていません。}}
+
+#### :arc-to ディレクティブ
+<!-- autolink: [:arc-to](#:arc-to ディレクティブ) -->
+
+${{TODO}{まだ記述されていません。}}
+
+```
+'(arc-to rx ry x-axis-rotation large-arc-flag sweep-flag pt)
+```
+
+```kaavio
+(diagram (400 100)
+  (grid)
+  (path '((:move-to (150 50))
+          (:arc-to 30 30 0 0 1 (250 80)) :close-path)
+          :stroke :black :fill :rosybrown)
+;  (text '(70 75) "(:move-to (200 10))" :align :left )
+;  (text '(70 95) "(:line-to (230 50) (170 50) (200 10))" :align :left)
+)
+```
+Figure. :arc-to ディレクティブのサンプル
+
+```kaavio
+(diagram (400 140)
+  (grid)
+  (with-options (:fill :none :stroke '(:color :lightgray :width 2))
+    (ellipse '(250 50) 100 40)
+    (ellipse '(150 90) 100 40))
+  (with-options (:fill :red :stroke :none)
+    (circle '(150 50) 3)
+    (circle '(250 90) 3))
+  (with-options (:font '(:fill :red))
+    (text '(145  45) "pt1" :align :right)
+    (text '(255 105) "pt2" :align :left)))
+```
+
+　上記を見ればわかる通り、指定した２つの点を通過する半径 rx, ry の楕円には４種類あります。
+
+```kaavio
+(diagram (510 220)
+  (grid)
+  (defs (240 100 :back)
+    ;(rect canvas.center canvas.width canvas.height :fill :none :stroke :lightgray)
+    (with-options (:fill :none :stroke '(:color :lightgray :width 2))
+      (ellipse '(110 30) 50 20)
+      (ellipse '( 60 50) 50 20))
+    (with-options (:fill :red :stroke :none)
+      (circle '( 60 30) 3)
+      (circle '(110 50) 3)))
+  (with-options (:fill :none
+                 :font '(:size 10)
+                 :stroke '(:color :red :width 3 :opacity 0.4))
+    (use :back '(130 60)
+         :contents
+         ((path '((:move-to (60 30)) (:arc-to 50 20 0 0 1 (110 50))))
+          (text '(115 65) "large-arc-flag : 0" :align :left)
+          (text '(115 80) "sweep-flag : 1"     :align :left)))
+    (use :back '(380 60)
+         :contents
+         ((path '((:move-to (60 30)) (:arc-to 50 20 0 0 0 (110 50))))
+          (text '(115 65) "large-arc-flag : 0" :align :left)
+          (text '(115 80) "sweep-flag : 0"     :align :left)))
+    (use :back '(130 160)
+         :contents
+         ((path '((:move-to (60 30)) (:arc-to 50 20 0 1 1 (110 50))))
+          (text '(115 65) "large-arc-flag : 1" :align :left)
+          (text '(115 80) "sweep-flag : 1"     :align :left)))
+    (use :back '(380 160)
+         :contents
+         ((path '((:move-to (60 30)) (:arc-to 50 20 0 1 0 (110 50))))
+          (text '(115 65) "large-arc-flag : 1" :align :left)
+          (text '(115 80) "sweep-flag : 0"     :align :left)))))
+```
+
+```kaavio
+(diagram (200 200)
+  (grid)
+  ;(centered-to-svg 100 100 40 20 30 90 0)
+  (ellipse '(100 100) 40 20 :stroke '(:color :lightgray :width 3))
+  (with-options (:fill :none :stroke :red)
+    (path '((:move-to (134.64101615137756 110.0))
+            (:arc-to 40 20 0 0 1 (80.0 117.32050807568878))))))
+```
+
+```kaavio
+(diagram (200 200)
+  (grid)
+  ;(centered-to-svg 100 100 40 20 30 90 45)
+  (ellipse '(100 100) 40 20 :rotate 45 :stroke '(:color :lightgray :width 3))
+  (with-options (:fill :none :stroke :red)
+    (path '((:move-to (117.42382961596631 131.56596523969725))
+            (:arc-to 40 20 45 0 1 (73.61041566235316 98.10531309018495))))))
+```
+#### :2d-curve-to ディレクティブ
+<!-- autolink: [:2d-curve-to](#:2d-curve-to ディレクティブ) -->
+
+${{TODO}{まだ記述されていません。}}
+
+#### :3d-curve-to ディレクティブ
+<!-- autolink: [:3d-curve-to](#:3d-curve-to ディレクティブ) -->
+
+${{TODO}{まだ記述されていません。}}
+
+#### :absolute ディレクティブ
+<!-- autolink: [:absolute](#:absolute ディレクティブ) -->
+
+${{TODO}{まだ記述されていません。}}
+
+#### :relative ディレクティブ
+<!-- autolink: [:relative](#:relative ディレクティブ) -->
+
+${{TODO}{まだ記述されていません。}}
+
+#### :close-path ディレクティブ
+<!-- autolink: [:close-path](#:close-path ディレクティブ) -->
+
+${{TODO}{まだ記述されていません。}}
+
+${BLANK_PARAGRAPH}
+
+### 画像ファイルの埋め込み
+
+　${{TODO}{まだ記述されていません。}}
+
+```lisp
+(defmacro image (center filename
+                 &key width height label link rotate layer id filter contents) ...)
+```
+
+```lisp
+  ;; width, height の両方とも明示的に指定されている場合、アスペクト比の維持をしない
+  (if (and width height)
+      (setf preserve-ratio nil)
+      ;; 上記以外の場合、画像ファイルの実際のサイズを取得する。
+      (multiple-value-bind (w h) (__get-size-of-imagefile path)
+        ;; width, height の両方とも nil ならば実際のサイズを設定
+        (if (and (null width) (null height))
+            (setf width  w
+                  height h)
+            ;; 上記以外の場合、実サイズのアスペクト比にあわせて nil 側を設定
+            (if (null width)
+                (setf width  (* height (/ w h)))
+                (setf height (* width  (/ h w))))))))
+```
+
+${BLANK_PARAGRAPH}
+
+### 生の SVG コード片の挿入
+<!-- autolink: [raw-svg](#生の SVG コード片の挿入) -->
+
+　raw-svg を使うことで、${APPNAME} が生成する SVG 画像の中に任意の SVG コード片を挿入する
+ことができます。サンプルとしては雑ですが、以下のようにすれば、
+
+<!-- snippet: RAW-SVG-SAMPLE
+(diagram (200 100)
+  (grid)
+  (raw-svg "<rect x='50' y='25' width='100' height='50' fill='linen' stroke='brown' stroke-width='1' />"))
+-->
+
+```lisp
+<!-- expand: RAW-SVG-SAMPLE -->
+```
+
+　文字列として raw-svg に渡したコード片がそのまま挿入されます。
+
+```kaavio
+<!-- expand: RAW-SVG-SAMPLE -->
+```
+Figure. raw-svg のサンプル
+
+${BLANK_PARAGRAPH}
+
+　raw-svg のパラメータ構成は以下の通りです。文字列として渡す `svgdata` パラメータの他に、
+名前付きパラメータとして `layer` を取ります。詳細は「[](#レイヤー)」を参照してください。
+
+```lisp
+(defmacro raw-svg (svgdata &key (layer nil)) ...)
+```
 
 ${BLANK_PARAGRAPH}
 
@@ -5059,6 +5137,10 @@ Figure. 色の名前とサンプル - 2
 * __2022/09/19__
 	* プロダクト名を diagram から kaavio に変更
 	* DOCUMENT : 「[](#フォント)」を執筆
+* __2022/09/20__
+	* DOCUMENT : 「[](#生の SVG コード片の挿入)」を執筆
+	* ENHANCE : 「[](#テキストボックス)」と「[](#爆発)」に contents パラメータを追加
+
 
 ## 図表一覧
 <!-- embed:figure-list -->
