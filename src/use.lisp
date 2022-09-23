@@ -1,6 +1,7 @@
 #|
 #|ASD|#				(:file "use"                       :depends-on ("kaavio"
 #|ASD|#																"constants"
+#|ASD|#																"defgroup"
 #|ASD|#																"canvas"
 #|ASD|#																"point"
 #|ASD|#																"shape"
@@ -30,9 +31,9 @@
   (call-next-method)
   (with-slots (ref center layer) ent
 	(let ((obj (dict-get-entity dict ref)))
-	  (if (and obj (typep obj 'kaavio:defs))
+	  (if (and obj (typep obj 'kaavio:group-definition))
 		  (setf ref obj)
-		  (throw-exception "ID '~A' is not found in dictionary or not defs object." ref)))
+		  (throw-exception "ID '~A' is not found in dictionary or not defgroup object." ref)))
 	(setf center (canvas-fix-point canvas center))
 	(setf layer  (if (eq layer :none)
 					 nil

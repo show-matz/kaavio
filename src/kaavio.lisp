@@ -121,8 +121,15 @@
 				:*default-cylinder-layer*
 				:cylinder
 				:with-cylinder-options
-				;defs.lisp
+				;defgroup.lisp
+				:group-definition
 				:defs
+				:defgroup
+				;definition.lisp
+				:definition
+				;defpattern.lisp
+				:pattern-definition
+				:defpattern
 				;dictionary.lisp
 				:dictionary
 				;document.lisp

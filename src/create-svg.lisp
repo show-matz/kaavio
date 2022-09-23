@@ -3,6 +3,7 @@
 #|ASD|#				                                                "constants"
 #|ASD|#																"colormap"
 #|ASD|#				                                                "entity"
+#|ASD|#				                                                "definition"
 #|ASD|#				                                                "layer-manager"
 #|ASD|#				                                                "dictionary"
 #|ASD|#				                                                "point"
@@ -82,13 +83,13 @@
 		   (writer-write ,g-writer "<desc>" ,g-desc "</desc>"))
 		 (writer-write ,g-writer)
 
-		 (labels ((defsp (ent)
-					(typep ent 'defs)))
+		 (labels ((definitionp (ent)
+					(typep ent 'definition)))
 		   ;; filter があれば最初に出力
 		   (dolist (,g-filter ,g-filters)
 			 (write-filter ,g-filter ,g-writer))
-		   ;; defs は layer とは無関係に先頭に出力
-		   (dolist (,g-entity (remove-if-not #'defsp ,g-entities))
+		   ;; definition は layer とは無関係に先頭に出力
+		   (dolist (,g-entity (remove-if-not #'definitionp ,g-entities))
 			 (write-header ,g-entity ,g-writer)
 			 (draw-entity  ,g-entity ,g-writer))
 		   (when ,fill
@@ -96,8 +97,8 @@
 									 "width='"  (canvas-width  canvas)  "' "
 									 "height='" (canvas-height  canvas) "' "
 									 "fill='" ,(colormap-fix fill) "' stroke='none' />"))
-		   ;; defs 以外を layer の優先順で出力
-		   (dolist (,g-entity (remove-if #'defsp ,g-entities))
+		   ;; definition 以外を layer の優先順で出力
+		   (dolist (,g-entity (remove-if #'definitionp ,g-entities))
 			 (layer-change ,g-layer-mgr (slot-value ,g-entity 'layer) ,g-writer)
 			 (write-header ,g-entity ,g-writer)
 			 (draw-entity  ,g-entity ,g-writer))

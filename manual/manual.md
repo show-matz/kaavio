@@ -243,34 +243,34 @@ ${BLANK_PARAGRAPH}
   (let ((w  80)
         (h 100)
         (bgclr :white)) ;;(make-fill :color :lightgray :opacity 0.4 )));;
-    (defs (w h :rect-grp)
+    (defgroup (w h :rect-grp)
       (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
       (rect `(,(/ w 2) ,(/ w 2)) 50 50 :fill :skyblue :stroke :blue)
 	  (text `(,(/ w 2) ,(- h 5)) "四角形" :align :center))
-    (defs (w h :circle-grp)
+    (defgroup (w h :circle-grp)
       (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
       (circle `(,(/ w 2) ,(/ w 2)) 25 :fill :bisque :stroke :brown)
 	  (text `(,(/ w 2) ,(- h 5)) "円" :align :center))
-    (defs (w h :ellipse-grp)
+    (defgroup (w h :ellipse-grp)
       (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
       (ellipse `(,(/ w 2) ,(/ w 2)) 30 20 :fill :beige :stroke :olive)
 	  (text `(,(/ w 2) ,(- h 5)) "楕円" :align :center))
-    (defs (w h :polygon-grp)
+    (defgroup (w h :polygon-grp)
       (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
       (polygon '((40.00 10.00) (32.75 31.50) (10.25 31.50)
                  (28.25 45.00) (21.75 66.50) (40.00 53.75)
                  (58.25 66.50) (51.75 45.00) (69.75 31.50)
                  (47.25 31.50)) :stroke :red :fill :lightpink)
 	  (text `(,(/ w 2) ,(- h 5)) "多角形" :align :center))
-	(defs (w h :line-grp)
+	(defgroup (w h :line-grp)
       (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
       (line '((20 20) (60 20) (20 65) (60 65)) :stroke :black)
 	  (text `(,(/ w 2) ,(- h 5)) "線" :align :center))
-    (defs (w h :arc-grp)
+    (defgroup (w h :arc-grp)
       (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
       (arc `(,(/ w 2) ,(+ 5 (/ w 2))) 25 25 0 120 60 :stroke '(:color :navy :width 8))
 	  (text `(,(/ w 2) ,(- h 5)) "円弧" :align :center))
-    (defs (w h :text-grp)
+    (defgroup (w h :text-grp)
       (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
       (text `(,(/ w 2) 55) "Text" :align :center
             :font '(:family "Times New Roman" :size 30 :style :italic :filter :foo-filter))
@@ -753,73 +753,73 @@ ${BLANK_PARAGRAPH}
   (let ((w 100)
         (h 100)
         (bgclr :white)) ;; (make-fill :color :lightgray :opacity 0.4 )));; 
-	(defs (w h :connect-grp)
+	(defgroup (w h :connect-grp)
       (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
       (rect   '(20 20) 20 20 :fill :white :stroke :black :id :r1)
       (circle '(80 60) 10    :fill :white :stroke :black :id :r2)
       (connect :r1 :r2 :stroke :black)
 	  (text `(,(/ w 2) ,(- h 5)) "コネクタ" :align :center))
-	(defs (w h :paragraph-grp)
+	(defgroup (w h :paragraph-grp)
       (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
 	  (paragraph (y+ canvas.center -35) "this is~%multi line~%text." :align :center :font 16)
 	  (text `(,(/ w 2) ,(- h 5)) "パラグラフ" :align :center))
-	(defs (w h :textbox-grp)
+	(defgroup (w h :textbox-grp)
       (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
 	  (textbox (y+ canvas.center -10) "this is~%textbox." :rx 5 :ry 5 :align :center :fill :white)
 	  (text `(,(/ w 2) ,(- h 5)) "テキストボックス" :align :center))
-	(defs (w h :document-grp)
+	(defgroup (w h :document-grp)
       (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
 	  (document (y+ canvas.center -10) 80 60 "this is~%document."
                                        :align :center :stroke :navy :fill :skyblue)
 	  (text `(,(/ w 2) ,(- h 5)) "ドキュメント" :align :center))
-	(defs (w h :folder-grp)
+	(defgroup (w h :folder-grp)
       (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
 	  (folder (y+ canvas.center -5) "this is~%folder."
                                    :align :center :height 50 :stroke :darkkhaki :fill :cornsilk)
 	  (text `(,(/ w 2) ,(- h 5)) "フォルダ" :align :center))
-	(defs (w h :person-grp)
+	(defgroup (w h :person-grp)
       (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
 	  (person (y+ canvas.center -10) 35 :fill :oldlace :stroke :brown)
 	  (text `(,(/ w 2) ,(- h 5)) "人物" :align :center))
-	(defs (w h :balloon-grp)
+	(defgroup (w h :balloon-grp)
       (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
 	  (balloon (y+ canvas.center -15) "this is~%balloon." '(10 75)
                                                     :fill :honeydew :stroke :forestgreen)
 	  (text `(,(/ w 2) ,(- h 5)) "吹き出し" :align :center))
-	(defs (w h :memo-grp)
+	(defgroup (w h :memo-grp)
       (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
 	  (memo (y+ canvas.center -15) "this is~%memo." :width 80 :height 60
                        :valign :top :align :left :stroke :red :fill :lightpink)
 	  (text `(,(/ w 2) ,(- h 5)) "メモ" :align :center))
-	(defs (w h :cube-grp)
+	(defgroup (w h :cube-grp)
       (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
 	  (cube (y+ canvas.center -10) 65 60 "this is~%cube." 
                                        :stroke :black :fill :lightgray :fill2 :darkgray)
 	  (text `(,(/ w 2) ,(- h 5)) "キューブ" :align :center))
-	(defs (w h :cylinder-grp)
+	(defgroup (w h :cylinder-grp)
       (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
 	  (cylinder (y+ canvas.center -10) 65 60 "this is~%cylinder." 
                                        :stroke :darkgray :fill :lightgray)
 	  (text `(,(/ w 2) ,(- h 5)) "円柱" :align :center))
-	(defs (w h :explosion-grp)
+	(defgroup (w h :explosion-grp)
       (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
 	  (explosion1 (y+ canvas.center -10) 90 80 "bomb!!" 
                                        :stroke :red :fill :lightpink)
 	  (text `(,(/ w 2) ,(- h 5)) "爆発" :align :center))
-	(defs (w h :cross-grp)
+	(defgroup (w h :cross-grp)
       (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
 	  (cross (y+ canvas.center -10) (- canvas.width 30) (- canvas.height 30) 20 
                                        :stroke :purple :fill :plum)
 	  (text `(,(/ w 2) ,(- h 5)) "十字" :align :center))
-	(defs (w h :blockarrow-grp)
+	(defgroup (w h :blockarrow-grp)
       (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
 	  (block-arrow1 '(0 40) '(100 40) 20 :margin 5 :stroke :brown :fill :burlywood)
 	  (text `(,(/ w 2) ,(- h 5)) "ブロック矢印" :align :center))
-	(defs (w h :brace-grp)
+	(defgroup (w h :brace-grp)
       (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
 	  (brace (y+ canvas.center -20) :upper 80 30 :r 10 :text "this is brace." :stroke :navy)
 	  (text `(,(/ w 2) ,(- h 5)) "波括弧" :align :center))
-	(defs (w h :table-grp)
+	(defgroup (w h :table-grp)
       (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
 	  (table (y+ canvas.center -10) '(10 10 10 10) '(20 20 20 20) :fills '(:rc :white :r0 :skyblue) :stroke :navy)
 	  (text `(,(/ w 2) ,(- h 5)) "テーブル" :align :center))
@@ -2674,7 +2674,7 @@ Figure. :arc-to ディレクティブのサンプル
 ```kaavio
 (diagram (510 220)
   (grid)
-  (defs (240 100 :back)
+  (defgroup (240 100 :back)
     ;(rect canvas.center canvas.width canvas.height :fill :none :stroke :lightgray)
     (with-options (:fill :none :stroke '(:color :lightgray :width 2))
       (ellipse '(110 30) 50 20)
@@ -3033,7 +3033,7 @@ ${BLANK_PARAGRAPH}
 
 ## 定義と再使用
 
-　defs と use を使うことによって、複数の図形要素をひとつにまとめ、図面の中で繰り返し使用
+　defgroup と use を使うことによって、複数の図形要素をひとつにまとめ、図面の中で繰り返し使用
 することができます。要点を明確にするために、まずは同じ図形（ちょっと装飾のついた四角形）を
 ３回描画することを考えてみてください。まずは単純に記述を３回繰り返します。座標以外は完全に
 同じ内容です。
@@ -3096,13 +3096,13 @@ ${BLANK_PARAGRAPH}
 ```
 
 
-　これに対して、defs と use を使うと SVG 上でも「一度だけ定義して複数回描画させる」ような出力を
+　これに対して、defgroup と use を使うと SVG 上でも「一度だけ定義して複数回描画させる」ような出力を
 することができます。先程のサンプルと同じ出力をするコードは以下のようになります。
 
 ```lisp
 (diagram (200 100)
   (grid)
-  (defs (40 40 :icon)
+  (defgroup (40 40 :icon)
     (with-canvas (cc w h) canvas
       (rect cc w h :fill :white :stroke :black
             :contents
@@ -3113,15 +3113,15 @@ ${BLANK_PARAGRAPH}
   (use :icon '(150 50)))
 ```
 
-　上記のコードでは、 `(defs (40 40 :icon) ...)` によって icon という名前の定義を作成しています。
+　上記のコードでは、 `(defgroup (40 40 :icon) ...)` によって icon という名前の定義を作成しています。
 幅と高さはそれぞれ 40 です。これによって独立したキャンバスが確立され、その中で作図を行うことが
 できます。ここではそのキャンバスいっぱいに rect を描き、さらにその中で line を 2 本描いています。
-しかしこれは defs の中でのこと（つまり定義を作成しただけ）なので、これだけでは描画は行なわれません。
-defs で定義した図形を実際に描画するには、use を使います。上記の例では、 `(use :icon '( 50 50))` と
+しかしこれは defgroup の中でのこと（つまり定義を作成しただけ）なので、これだけでは描画は行なわれません。
+defgroup で定義した図形を実際に描画するには、use を使います。上記の例では、 `(use :icon '( 50 50))` と
 いった記述を 3 回行なっています。パラメータは、定義名と描画する中心の座標です。
 
 　上記のコードによって生成される SVG 画像は以下のようになります。入力データとの対応がわかると
-思います。定義（defs）は一度だけで、それを参照（use）するタグが複数登場しています。
+思います。定義（defgroup）は一度だけで、それを参照（use）するタグが複数登場しています。
 
 ```
 <svg xmlns='http://www.w3.org/2000/svg' ...>
@@ -3139,16 +3139,16 @@ defs で定義した図形を実際に描画するには、use を使います�
 </svg>
 ```
 
-　このように、defs と use を使えば繰り返し登場する図形要素の再利用が可能になりますが、スタンプの
+　このように、defgroup と use を使えば繰り返し登場する図形要素の再利用が可能になりますが、スタンプの
 ようにまったく同じものを表示させることしかできないのでしょうか。また、use で描画した要素どうしを
 コネクタで接続したりできないでしょうか。最初の質問については、「基本的に定義した通りにしか描画でき
 ないけど、use で contents パラメータが使えます」が答えになります。そして２番目の質問の答えは、
 「use に ID を付ければコネクタが使える」です。以下の例ではその両方をやっています。
 
-<!-- snippet: DEFS-USE-SAMPLE
+<!-- snippet: DEFGROUP-USE-SAMPLE
 (diagram (300 150)
   (grid)
-  (defs (70 50 :frame)
+  (defgroup (70 50 :frame)
     (with-canvas (cc w h) canvas
       (rect cc w h :fill :white :stroke :black)
       (line `((0 10) (,w 10))   :stroke :black)))
@@ -3162,20 +3162,202 @@ defs で定義した図形を実際に描画するには、use を使います�
 -->
 
 ```lisp
-<!-- expand: DEFS-USE-SAMPLE -->
+<!-- expand: DEFGROUP-USE-SAMPLE -->
 ```
 
 ```kaavio
-<!-- expand: DEFS-USE-SAMPLE -->
+<!-- expand: DEFGROUP-USE-SAMPLE -->
 ```
-Figure. defs と use のサンプル
+Figure. defgroup と use のサンプル
 
 ${BLANK_PARAGRAPH}
 
-　注意してほしいのは、defs で作成する定義に指定する ID と、図形要素を描画する時に指定する ID は
+　注意してほしいのは、defgroup で作成する定義に指定する ID と、図形要素を描画する時に指定する ID は
 別モノだということです。上記の例で言えば、 `:frame` は定義の ID なので、use の最初のパラメータに
 は使えますがコネクタの接続対象としては指定できません。逆も同様で、たとえば rect を描いた後にその 
 ID を指定して use することはできません。
+
+${BLANK_PARAGRAPH}
+
+## パターンとグラデーション
+
+　「フィル」では通常塗り潰しを指定しますが、定義した図形を敷き詰める「パターン」や、複雑な色の
+変化を見せる「グラデーション」も利用できます。
+
+### パターン
+<!-- autolink: [$$](#パターン) -->
+
+　パターンを定義するには defpattern を使用します。 defpattern は defgroup に良く
+似ていますが、パターンを定義するための構文です。以下のサンプルでは 5 x 5 の小さな領域
+に細い青線を斜めにひくパターンを定義し、rect の中にそれを敷き詰めています。
+
+<!-- snippet: PATTERN-1ST-SAMPLE
+(diagram (140 70)
+  (defpattern (5 5 :tile)
+    (line '((5 0) (0 5)) :stroke '(:color :blue :width 0.3)))
+  (rect canvas.center 100 50 :stroke :black :fill '(:url :tile)))
+-->
+
+```lisp
+<!-- expand: PATTERN-1ST-SAMPLE -->
+```
+
+　上記のコードは以下の図を生成します。defpattern で定義したパターンに `:tile` という
+ID をつけ、そのパターンを使用したい rect の [fill パラメータ](#フィル)で `'(:url :tile)` と
+いう指定をすることでパターンの使用を指示しています。
+
+```kaavio
+<!-- expand: PATTERN-1ST-SAMPLE -->
+```
+Figure. 単純なパターンのサンプル
+
+${BLANK_PARAGRAPH}
+
+
+　せっかくなのでサンプルをもうひとつ。センス云々はともかくとして、お望みならこんなカラフルな
+パターンも作成できます。
+
+<!-- snippet: PATTERN-2ND-SAMPLE
+(diagram (140 140)
+  (defpattern (40 40 :crazy)
+    (circle '(10 10) 8     :stroke :none :fill :red)
+    (rect   '(30 10) 14 14 :stroke :none :fill :blue)
+    (rect   '(10 30) 12 12 :stroke :none :fill :green :rotate 45)
+    (circle '(30 30) 8     :stroke :none :fill :orange))
+  (rect canvas.center 120 120 :stroke :black :fill '(:url :crazy)))
+-->
+
+```kaavio
+<!-- expand: PATTERN-2ND-SAMPLE -->
+```
+Figure. パターンのサンプル - 2
+
+<!-- collapse:begin -->
+　※上記画像のソースはこちら。
+
+```lisp
+<!-- expand: PATTERN-2ND-SAMPLE -->
+```
+<!-- collapse:end -->
+
+${BLANK_PARAGRAPH}
+
+　defpattern には `x, y, units, content-units, view-box` などの名前付きパラメータが
+ありますが、現時点ではその詳細な説明は割愛します。今後説明を充実させる可能性はありますが、
+現時点では「SVG エッセンシャルズ 第二版」の８章をお読みください。${APPNAME} でパターンを
+利用するサンプルをいくつか以下に提示しておきます。なお、現在 preserveAspectRatio 属性には
+対応していません。将来対応する可能性はありますが、未確定です。
+
+<!-- collapse:close -->
+　※「SVG エッセンシャルズ 第二版」 8.1 節の図面サンプルはこちら
+
+
+__◆ 図 8.2__
+
+<!-- snippet: BIBLE-8.2-SAMPLE
+(diagram (400 170)
+  (defpattern ("20%" "20%" :tile1 :x 0 :y 0 :units :objectBoundingBox)
+    (raw-svg "<path d='M 0 0 Q 5 20 10 10 T 20 20' stroke='black' fill='none' />")
+    (raw-svg "<path d='M 0 0 h 20 v 20 h -20 z'    stroke='gray'  fill='none' />"))
+  (rect '( 70 70) 100 100 :stroke :black :fill '(:url :tile1))
+  (rect '(170 60)  70  80 :stroke :black :fill '(:url :tile1))
+  (rect '(300 85) 150 130 :stroke :black :fill '(:url :tile1)))
+-->
+```kaavio
+<!-- expand: BIBLE-8.2-SAMPLE -->
+```
+```lisp
+<!-- expand: BIBLE-8.2-SAMPLE -->
+```
+
+${BLANK_PARAGRAPH}
+
+__◆ 図 8.3__
+
+<!-- snippet: BIBLE-8.3-SAMPLE
+(diagram (400 170)
+  (defpattern (20 20 :tile2 :units :userSpaceOnUse)
+    (raw-svg "<path d='M 0 0 Q 5 20 10 10 T 20 20' stroke='black' fill='none' />")
+    (raw-svg "<path d='M 0 0 h 20 v 20 h -20 z'    stroke='gray'  fill='none' />"))
+  (rect '( 70 70) 100 100 :stroke :black :fill '(:url :tile2))
+  (rect '(170 60)  70  80 :stroke :black :fill '(:url :tile2))
+  (rect '(300 85) 150 130 :stroke :black :fill '(:url :tile2)))
+-->
+```kaavio
+<!-- expand: BIBLE-8.3-SAMPLE -->
+```
+```lisp
+<!-- expand: BIBLE-8.3-SAMPLE -->
+```
+
+${BLANK_PARAGRAPH}
+
+__◆ 図 8.4__
+
+<!-- snippet: BIBLE-8.4-SAMPLE
+(diagram (400 170)
+  (defpattern (".2" ".2" :tile3
+               :units :objectBoundingBox :content-units :objectBoundingBox)
+    (raw-svg "<path d='M 0 0 Q .05 .20 .10 .10 T .20 .20' stroke='black' stroke-width='0.01' fill='none' />")
+    (raw-svg "<path d='M 0 0 h 0.20 v 0.20 h -0.2 z'      stroke='gray'  stroke-width='0.01' fill='none' />"))
+  (rect '( 70 70) 100 100 :stroke :black :fill '(:url :tile3))
+  (rect '(170 60)  70  80 :stroke :black :fill '(:url :tile3))
+  (rect '(300 85) 150 130 :stroke :black :fill '(:url :tile3)))
+-->
+```kaavio
+<!-- expand: BIBLE-8.4-SAMPLE -->
+```
+```lisp
+<!-- expand: BIBLE-8.4-SAMPLE -->
+```
+
+${BLANK_PARAGRAPH}
+
+__◆ 図 8.5__
+
+<!-- snippet: BIBLE-8.5-SAMPLE
+(diagram (140 140)
+  (defpattern (20 20 :tile4
+               :units :userSpaceOnUse :view-box '(0 0 150 150))
+    (raw-svg "<path d='M 30 100 C 50 50, 70 20, 100 100, 110, 130, 45, 150, 65, 100' stroke='black' stroke-width='5' fill='none' />"))
+  (rect canvas.center 100 100 :stroke :black :fill '(:url :tile4)))
+-->
+```kaavio
+<!-- expand: BIBLE-8.5-SAMPLE -->
+```
+```lisp
+<!-- expand: BIBLE-8.5-SAMPLE -->
+```
+
+${BLANK_PARAGRAPH}
+
+__◆ 図 8.6__
+
+<!-- snippet: BIBLE-8.6-SAMPLE
+(diagram (110 110)
+  (defpattern (6 6 :stripe :units :userSpaceOnUse)
+    (raw-svg "<path d='M 0 0 6 0' stroke='black' fill='none' />"))
+  (defpattern (36 36 :polcadot :units :userSpaceOnUse)
+    (circle '(18 18) 12 :fill '(:url :stripe) :stroke :black))
+  (rect '(54 54) 100 100 :stroke :black :fill '(:url :polcadot)))
+-->
+```kaavio
+<!-- expand: BIBLE-8.6-SAMPLE -->
+```
+```lisp
+<!-- expand: BIBLE-8.6-SAMPLE -->
+```
+
+<!-- collapse:end -->
+
+${BLANK_PARAGRAPH}
+
+### グラデーション
+<!-- autolink: [$$](#グラデーション) -->
+
+${{TODO}{まだ記述されていません}}
+
+${BLANK_PARAGRAPH}
 
 ## パラメータの詳細
 ### 色の指定
@@ -3515,6 +3697,40 @@ ${BLANK_PARAGRAPH}
 > 
 > 　evenodd ルールも、問題になっている点から無限遠まで線を引きますが、その線が多角形の線と何回交差する
 > かを単純に数えます。交差した回数が奇数であれば、その点は内側にあります。偶数であれば、外側にあります。
+
+${BLANK_PARAGRAPH}
+
+#### パターンとグラデーションの指定
+
+　フィルでできるのは、単色で塗り潰すことだけではありません。パターンやグラデーションを
+定義して、それを使うこともできます。たとえば以下では、細い斜め線のパターンを作成し、
+四角形の中に敷き詰めています。
+
+<!-- snippet: FILL-URL-SAMPLE
+(diagram (140 70)
+  (defpattern (5 5 :tile)
+    (line '((5 0) (0 5)) :stroke '(:color :blue :width 0.3)))
+  (rect canvas.center 100 50 :stroke :black :fill '(:url :tile)))
+-->
+
+```kaavio
+<!-- expand: FILL-URL-SAMPLE -->
+```
+Figure. パターンを使った塗り潰しのサンプル
+
+${BLANK_PARAGRAPH}
+
+　上記のサンプルを生成するコードは以下になります。パターンとグラデーションの詳細について
+は [$@ 章](#パターンとグラデーション)を参照してください。定義されたパターンを指定する
+ために、 `:fill '(:url :tile)` という記述をしています。
+
+```lisp
+<!-- expand: FILL-URL-SAMPLE -->
+```
+
+　[$@ 節](#フィル)では説明を省略しましたが、make-fill 関数は `url` というパラメータで
+パターンやグラデーションのID を指定することができます。これを指定した場合、 `:color` など
+他のパラメータは無視されます。
 
 ${BLANK_PARAGRAPH}
 
@@ -4163,10 +4379,45 @@ Figure. uml-activity-partitions 要素
 
 　${{TODO}{まだ記述されていません。}}
 
-#### defs マクロ
-<!-- autolink: [defs](#defs マクロ) -->
+#### defgroup マクロ
+<!-- autolink: [defgroup](#defgroup マクロ) -->
+
+```lisp
+(defmacro defgroup ((width height id) &rest body) ... )
+```
 
 　${{TODO}{まだ記述されていません。}}
+
+#### defpattern マクロ
+<!-- autolink: [defpattern](#defpattern マクロ) -->
+
+　defpattern マクロはパターンを定義します。パターンの詳細は「[](#パターン)」を参照してください。
+マクロシグネチャは以下の通りです。なお、現在、preserveAspectRatio 属性には対応していません。
+将来対応する可能性はありますが、未確定です。
+
+
+```lisp
+(defmacro defpattern ((width height id &key (x 0) (y 0)
+                                            (units :userSpaceOnUse)
+                                            content-units view-box) &rest body) ... )
+```
+
+Table. defpattern マクロのパラメータ
+| parameter       | description                               |
+|:================|:------------------------------------------|
+| `width`         | 幅を数値で指定します。                     |
+| `height`        | 高さを数値で指定します。                   |
+| `id`            | ID をキーワードで指定します。              |
+| `x`             |   |
+| `y`             |   |
+| `units`         | patternUnits 属性を `:userSpaceOnUse` または `:objectBoundingBox` から<br> \
+選択します。 |
+| `content-units` | patternContentUnits 属性を `:userSpaceOnUse` または `:objectBoundingBox` <br> \
+から選択します。 |
+| `view-box`      | viewBox 属性を 4 つの数値からなるリストで指定します。 |
+
+
+${BLANK_PARAGRAPH}
 
 #### diagram マクロ
 
@@ -4197,7 +4448,7 @@ Figure. uml-activity-partitions 要素
 　パラメータ数が 2 以上の場合、make-fill 関数は実質的に以下の関数であるかのように振舞います。
 
 ```lisp
-(defun make-fill &key color opacity rule base)
+(defun make-fill &key color opacity rule url base)
 ```
 
 Table. make-fill 関数のパラメータ
@@ -4207,6 +4458,7 @@ Table. make-fill 関数のパラメータ
 [$@ 節](#色の名前)を参照してください。  |
 | `opacity`   | 塗り潰しの不透明度を 0.0 ～ 1.0 の数値で指定します。  |
 | `rule`      | 塗りつぶしのルールを `:nonzero` または `:evenodd` で指定します。|
+| `url`       | パターンやグラデーションの ID を指定します。詳細は [$@ 節](#パターンとグラデーションの指定)を参照してください。 |
 | `base`      | ${{TODO}{まだ記述されていません}} |
 
 
@@ -5140,6 +5392,10 @@ Figure. 色の名前とサンプル - 2
 * __2022/09/20__
 	* DOCUMENT : 「[](#生の SVG コード片の挿入)」を執筆
 	* ENHANCE : 「[](#テキストボックス)」と「[](#爆発)」に contents パラメータを追加
+* __2022/09/22 - version 0.004__
+	* __IMCOMPATIBLE CHANGE : defs マクロを defgroup マクロに改名__
+	* ENHANCE : 「[](#パターン)」を追加
+	* ENHANCE : 「[](#make-fill 関数)」に `url` パラメータを追加
 
 
 ## 図表一覧
