@@ -124,7 +124,8 @@
 <h2><a name='cWuZL5pQm2F'></a>1 kaavio とは</h2>
 <p>　kaavio<sup><a name='footnote_ref1' href='#footnote1'>1</a></sup> は、テキストベースの作図ツールです。テキスト形式のデータファイルを入力として、SVG 形式<sup><a name='footnote_ref2' href='#footnote2'>2</a></sup>の画像ファイルを生成します。</p>
 <p>　kaavio の入力データの記述方法には違和感を感じるかもしれません。これは、kaavio が Common LISP 言語で実装されており、入力データも Common LISP 上に作成された DSL(domain specific language) で記述するためです。しかし、このツールを使ってみたいからといって、知りもしない言語のお勉強から始めたいとは思わないでしょう。そのため、このマニュアルではサンプルをたくさん提示し、Common LISP の詳細には極力立ち入らないようにします<sup><a name='footnote_ref3' href='#footnote3'>3</a></sup>。</p>
-<p>　kaavio は、O'Reilly の「<a href='https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwjxstvtvKL6AhUNUd4KHbdhCmAQFnoECA0QAQ&url=https%3A%2F%2Fwww.oreilly.co.jp%2Fbooks%2F9784873117973%2F&usg=AOvVaw0qe65qVh3tZyCnBnhoaC-V'>SVG エッセンシャルズ 第二版</a>」を読んで作られています。SVG 規格にあたることも時々ありますが、基本的にほとんどの情報はこの書籍から得ています。電子版もありますので興味のある方は手に取ってみてください。</p>
+<a name='l10jSaJeUDk'></a>
+<p>　kaavio は、O'Reilly の「<a href='https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwjxstvtvKL6AhUNUd4KHbdhCmAQFnoECA0QAQ&url=https%3A%2F%2Fwww.oreilly.co.jp%2Fbooks%2F9784873117973%2F&usg=AOvVaw0qe65qVh3tZyCnBnhoaC-V'>SVG エッセンシャルズ 第二版</a>」を読んで作られています（この書籍に言及する時は「<a class='autolink' href='#l10jSaJeUDk'>SVG本</a>」と呼ぶことにします）。SVG 規格にあたることも時々ありますが、基本的にほとんどの情報はこの書籍から得ています。電子版もありますので興味のある方は手に取ってみてください。</p>
 <h2><a name='9LLncE6hWlx'></a>2 簡単なサンプル</h2>
 <p>　簡単なサンプルから始めましょう。以下のような入力を kaavio に与えると、</p>
 <pre class='code'>
@@ -3856,7 +3857,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p>　注意してほしいのは、<a class='autolink' href='#gxb34ymFlDc'>defgroup</a> で作成する定義に指定する ID と、図形要素を描画する時に指定する ID は別モノだということです。上記の例で言えば、 <code>:frame</code> は定義の ID なので、<a class='autolink' href='#klH6tZ6gdaQ'>use</a> の最初のパラメータには使えますが<a class='autolink' href='#eFhVs4WwYUG'>コネクタ</a>の接続対象としては指定できません。逆も同様で、たとえば <a class='autolink' href='#kJonRG8GtHF'>rect</a> を描いた後にその ID を指定して <a class='autolink' href='#klH6tZ6gdaQ'>use</a> することはできません。</p>
 <p>　　</p>
 <h2><a name='kfrwaPRQE9I'></a>9 パターンとグラデーション</h2>
-<p>　「<a class='autolink' href='#dBUd7L4C3dx'>フィル</a>」では通常塗り潰しを指定しますが、定義した図形を敷き詰める「<a class='autolink' href='#dmYFJAv81Kl'>パターン</a>」や、複雑な色の変化を見せる「<a class='autolink' href='#4p1J7EWjD3m'>グラデーション</a>」も利用できます。</p>
+<p>　「<a class='autolink' href='#dBUd7L4C3dx'>フィル</a>」では通常塗り潰しを指定しますが、定義した図形を敷き詰める「<a class='autolink' href='#dmYFJAv81Kl'>パターン</a>」や、複雑な色の変化を見せる「<a class='autolink' href='#4p1J7EWjD3m'>グラデーション</a>」も利用できます。また、<a class='autolink' href='#dmYFJAv81Kl'>パターン</a>と<a class='autolink' href='#4p1J7EWjD3m'>グラデーション</a>は<a class='autolink' href='#dBUd7L4C3dx'>フィル</a>だけでなく<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>で使用することも可能です。</p>
 <h3><a name='dmYFJAv81Kl'></a>9.1 パターン</h3>
 <p>　<a class='autolink' href='#dmYFJAv81Kl'>パターン</a>を定義するには <a class='autolink' href='#81YGnpDRA3K'>defpattern</a> を使用します。 <a class='autolink' href='#81YGnpDRA3K'>defpattern</a> は <a class='autolink' href='#gxb34ymFlDc'>defgroup</a> に良く似ていますが、<a class='autolink' href='#dmYFJAv81Kl'>パターン</a>を定義するための構文です。以下のサンプルでは 5 x 5 の小さな領域に細い青線を斜めにひく<a class='autolink' href='#dmYFJAv81Kl'>パターン</a>を定義し、<a class='autolink' href='#kJonRG8GtHF'>rect</a> の中にそれを敷き詰めています。</p>
 <pre class='code'>
@@ -3865,7 +3866,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
     (line '((5 0) (0 5)) <span class='keyword3'>:stroke</span> '(<span class='keyword3'>:color</span> <span class='keyword3'>:blue</span> <span class='keyword3'>:width</span> 0.3)))
   (rect canvas.center 100 50 <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span> <span class='keyword3'>:fill</span> '(<span class='keyword3'>:url</span> <span class='keyword3'>:tile</span>)))
 </pre>
-<p>　上記のコードは以下の図を生成します。<a class='autolink' href='#81YGnpDRA3K'>defpattern</a> で定義した<a class='autolink' href='#dmYFJAv81Kl'>パターン</a>に <code>:tile</code> というID をつけ、その<a class='autolink' href='#dmYFJAv81Kl'>パターン</a>を使用したい <a class='autolink' href='#kJonRG8GtHF'>rect</a> の <a href='#dBUd7L4C3dx'>fill パラメータ</a>で <code>'(:url :tile)</code> という指定をすることで<a class='autolink' href='#dmYFJAv81Kl'>パターン</a>の使用を指示しています。</p>
+<p>　上記のコードは以下の図を生成します。<a class='autolink' href='#81YGnpDRA3K'>defpattern</a> で定義した<a class='autolink' href='#dmYFJAv81Kl'>パターン</a>に <code>:tile</code> というID をつけ、後続の <a class='autolink' href='#kJonRG8GtHF'>rect</a> の <a href='#dBUd7L4C3dx'>fill パラメータ</a>で <code>'(:url :tile)</code> という指定をすることで<a class='autolink' href='#dmYFJAv81Kl'>パターン</a>の使用を指示しています。</p>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='140' height='70'>
@@ -3927,7 +3928,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </pre>
 </details>
 <p>　　</p>
-<p>　<a class='autolink' href='#81YGnpDRA3K'>defpattern</a> には <code>x, y, units, content-units, view-box</code> などの名前付きパラメータがありますが、現時点ではその詳細な説明は割愛します。今後説明を充実させる可能性はありますが、現時点では「SVG エッセンシャルズ 第二版」の８章をお読みください。kaavio で<a class='autolink' href='#dmYFJAv81Kl'>パターン</a>を利用するサンプルをいくつか以下に提示しておきます。なお、現在 preserveAspectRatio 属性には対応していません。将来対応する可能性はありますが、未確定です。</p>
+<p>　<a class='autolink' href='#81YGnpDRA3K'>defpattern</a> には <code>x, y, units, content-units, view-box</code> などの名前付きパラメータがありますが、現時点ではその詳細な説明は割愛します。今後説明を充実させる可能性はありますが、現時点では <a class='autolink' href='#l10jSaJeUDk'>SVG本</a>の８章をお読みください。kaavio で <a class='autolink' href='#l10jSaJeUDk'>SVG本</a>の 8.1 節のサンプルを実現するコードを以下に提示しておきます。なお、現在 preserveAspectRatio 属性には対応していません。将来対応する可能性はありますが、未確定です。</p>
 <details>
 <summary>　※「SVG エッセンシャルズ 第二版」 8.1 節の図面サンプルはこちら</summary>
 <p><strong>◆ 図 8.2</strong></p>
@@ -4101,7 +4102,486 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </details>
 <p>　　</p>
 <h3><a name='4p1J7EWjD3m'></a>9.2 グラデーション</h3>
-<p><span style='background:red;color:white;'>ToDo : まだ記述されていません</span></p>
+<p>　<a class='autolink' href='#4p1J7EWjD3m'>グラデーション</a>を定義するには <a class='autolink' href='#dNdd5AGYfnC'>defgradient</a> を使用します。<a class='autolink' href='#4p1J7EWjD3m'>グラデーション</a>には線型と円形の２種類があります。以下のサンプルでは、青から赤に連続的に変換する<a class='autolink' href='#4p1J7EWjD3m'>グラデーション</a>を定義し、<a class='autolink' href='#kJonRG8GtHF'>rect</a> の中でそれを利用しています。</p>
+<pre class='code'>
+(diagram (140 70)
+  (defgradient (<span class='keyword3'>:linear</span> <span class='keyword3'>:gradient1</span>)
+    (0.00 <span class='keyword3'>:blue</span>)
+    (1.00 <span class='keyword3'>:red</span>))
+  (rect canvas.center 100 50 <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span> <span class='keyword3'>:fill</span> '(<span class='keyword3'>:url</span> <span class='keyword3'>:gradient1</span>)))
+</pre>
+<p>　上記のコードは以下の図を生成します。<a class='autolink' href='#dNdd5AGYfnC'>defgradient</a> で定義した<a class='autolink' href='#4p1J7EWjD3m'>グラデーション</a>に <code>:gradient1</code> というID をつけ、後続の <a class='autolink' href='#kJonRG8GtHF'>rect</a> の <a href='#dBUd7L4C3dx'>fill パラメータ</a>で <code>'(:url :gradient1)</code> という指定をすることで<a class='autolink' href='#4p1J7EWjD3m'>グラデーション</a>の使用を指示しています。</p>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='140' height='70'>
+	
+	<!-- gradient1 : linear-gradient-definition -->
+	<defs>
+		<linearGradient id='gradient1' >
+			<stop offset='0.0' stop-color='blue' />
+			<stop offset='1.0' stop-color='red' />
+		</linearGradient>
+	</defs>
+	<!-- rectangle -->
+	<rect x='20' y='10' width='100' height='50' fill='url(#gradient1)' stroke='black' stroke-width='1' />
+
+</svg>
+</div>
+
+<p class='fig_title'><a name='fMuRXwcCVRN'></a>Figure.9-3 単純なグラデーションのサンプル</p>
+<p>　　</p>
+<p>　もうひとつのサンプルは円形<a class='autolink' href='#4p1J7EWjD3m'>グラデーション</a>です。今度は単色で不透明度を変化させています。</p>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='140' height='140'>
+	
+	<!-- gradient2 : radial-gradient-definition -->
+	<defs>
+		<radialGradient id='gradient2' r='70%' >
+			<stop offset='0.0' stop-color='green' stop-opacity='0.0' />
+			<stop offset='1.0' stop-color='green' stop-opacity='1.0' />
+		</radialGradient>
+	</defs>
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- rectangle -->
+	<rect x='20' y='20' width='100' height='100' fill='url(#gradient2)' stroke='black' stroke-width='1' />
+
+</svg>
+</div>
+
+<p class='fig_title'><a name='04QAFmYhXse'></a>Figure.9-4 グラデーションのサンプル - 2</p>
+<details>
+<summary>　※上記画像のソースはこちら。</summary>
+<pre class='code'>
+(diagram (140 140)
+  (grid)
+  (defgradient (<span class='keyword3'>:radial</span> <span class='keyword3'>:gradient2</span> <span class='keyword3'>:radius</span> <span class='literal'>"70%"</span>)
+    (0.00 <span class='keyword3'>:green</span> 0.0)
+    (1.00 <span class='keyword3'>:green</span> 1.0))
+  (rect '(70 70) 100 100 <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span> <span class='keyword3'>:fill</span> '(<span class='keyword3'>:url</span> <span class='keyword3'>:gradient2</span>)))
+</pre>
+</details>
+<p>　　</p>
+<p>　<a class='autolink' href='#dNdd5AGYfnC'>defgradient</a> には多くの名前付きパラメータがありますが、現時点ではその詳細な説明は割愛します。今後説明を充実させる可能性はありますが、現時点では <a class='autolink' href='#l10jSaJeUDk'>SVG本</a>の８章をお読みください。kaavio で <a class='autolink' href='#l10jSaJeUDk'>SVG本</a>の 8.2 節のサンプルを実現するコードを以下に提示しておきます。</p>
+<details>
+<summary>　※「SVG エッセンシャルズ 第二版」 8.2 節の図面サンプルはこちら</summary>
+<p><strong>◆ 図 8.7</strong></p>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='240' height='120'>
+	
+	<!-- two_hues_8_7 : linear-gradient-definition -->
+	<defs>
+		<linearGradient id='two_hues_8_7' >
+			<stop offset='0.0' stop-color='#ffcc00' />
+			<stop offset='1.0' stop-color='#0099cc' />
+		</linearGradient>
+	</defs>
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- rectangle -->
+	<rect x='20' y='10' width='200' height='100' fill='url(#two_hues_8_7)' stroke='black' stroke-width='1' />
+
+</svg>
+</div>
+
+<pre class='code'>
+(diagram (240 120)
+  (grid)
+  (defgradient (<span class='keyword3'>:linear</span> <span class='keyword3'>:two_hues_8_7</span>)
+    (0.0 <span class='literal'>"#ffcc00"</span>)
+    (1.0 <span class='literal'>"#0099cc"</span>))
+  (rect canvas.center 200 100 <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span> <span class='keyword3'>:fill</span> '(<span class='keyword3'>:url</span> <span class='keyword3'>:two_hues_8_7</span>)))
+</pre>
+<p>　　</p>
+<p><strong>◆ 図 8.8</strong></p>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='240' height='120'>
+	
+	<!-- three_stops_8_8 : linear-gradient-definition -->
+	<defs>
+		<linearGradient id='three_stops_8_8' >
+			<stop offset='0.0' stop-color='#ffcc00' />
+			<stop offset='0.33' stop-color='#cc6699' />
+			<stop offset='1.0' stop-color='#66cc99' />
+		</linearGradient>
+	</defs>
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- rectangle -->
+	<rect x='20' y='10' width='200' height='100' fill='url(#three_stops_8_8)' stroke='black' stroke-width='1' />
+
+</svg>
+</div>
+
+<pre class='code'>
+(diagram (240 120)
+  (grid)
+  (defgradient (<span class='keyword3'>:linear</span> <span class='keyword3'>:three_stops_8_8</span>)
+    (0.00 <span class='literal'>"#ffcc00"</span>)
+    (0.33 <span class='literal'>"#cc6699"</span>)
+    (1.00 <span class='literal'>"#66cc99"</span>))
+  (rect canvas.center 200 100 <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span> <span class='keyword3'>:fill</span> '(<span class='keyword3'>:url</span> <span class='keyword3'>:three_stops_8_8</span>)))
+</pre>
+<p>　　</p>
+<p><strong>◆ 図 8.9</strong></p>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='240' height='120'>
+	
+	<!-- three_stops_8_9 : linear-gradient-definition -->
+	<defs>
+		<linearGradient id='three_stops_8_9' >
+			<stop offset='0.0' stop-color='#906' stop-opacity='1.0' />
+			<stop offset='0.5' stop-color='#906' stop-opacity='0.3' />
+			<stop offset='1.0' stop-color='#906' stop-opacity='0.1' />
+		</linearGradient>
+	</defs>
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- rectangle -->
+	<rect x='20' y='10' width='200' height='100' fill='url(#three_stops_8_9)' stroke='black' stroke-width='1' />
+
+</svg>
+</div>
+
+<pre class='code'>
+(diagram (240 120)
+  (grid)
+  (defgradient (<span class='keyword3'>:linear</span> <span class='keyword3'>:three_stops_8_9</span>)
+    (0.00 <span class='literal'>"#906"</span> 1.0)
+    (0.50 <span class='literal'>"#906"</span> 0.3)
+    (1.00 <span class='literal'>"#906"</span> 0.1))
+  (rect canvas.center 200 100 <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span> <span class='keyword3'>:fill</span> '(<span class='keyword3'>:url</span> <span class='keyword3'>:three_stops_8_9</span>)))
+</pre>
+<p>　　</p>
+<p><strong>◆ 図 8.10</strong></p>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='380' height='240'>
+	
+	<!-- three_stops_8_10 : linear-gradient-definition -->
+	<defs>
+		<linearGradient id='three_stops_8_10' >
+			<stop offset='0.0' stop-color='#ffcc00' />
+			<stop offset='0.33' stop-color='#cc6699' />
+			<stop offset='1.0' stop-color='#66cc99' />
+		</linearGradient>
+	</defs>
+	<!-- right_to_left_8_10 : linear-gradient-definition -->
+	<defs>
+		<linearGradient id='right_to_left_8_10' xlink:href='#three_stops_8_10' x1='100%' y1='0%' x2='0%' y2='0%' />
+	</defs>
+	<!-- down_8_10 : linear-gradient-definition -->
+	<defs>
+		<linearGradient id='down_8_10' xlink:href='#three_stops_8_10' x1='0%' y1='0%' x2='0%' y2='100%' />
+	</defs>
+	<!-- up_8_10 : linear-gradient-definition -->
+	<defs>
+		<linearGradient id='up_8_10' xlink:href='#three_stops_8_10' x1='0%' y1='100%' x2='0%' y2='0%' />
+	</defs>
+	<!-- diagonal_8_10 : linear-gradient-definition -->
+	<defs>
+		<linearGradient id='diagonal_8_10' xlink:href='#three_stops_8_10' x1='0%' y1='0%' x2='100%' y2='100%' />
+	</defs>
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- rectangle -->
+	<rect x='40' y='20' width='200' height='40' fill='url(#three_stops_8_10)' stroke='black' stroke-width='1' />
+	<!-- rectangle -->
+	<rect x='40' y='70' width='200' height='40' fill='url(#right_to_left_8_10)' stroke='black' stroke-width='1' />
+	<!-- rectangle -->
+	<rect x='250' y='20' width='40' height='200' fill='url(#down_8_10)' stroke='black' stroke-width='1' />
+	<!-- rectangle -->
+	<rect x='300' y='20' width='40' height='200' fill='url(#up_8_10)' stroke='black' stroke-width='1' />
+	<!-- rectangle -->
+	<rect x='40' y='120' width='200' height='100' fill='url(#diagonal_8_10)' stroke='black' stroke-width='1' />
+
+</svg>
+</div>
+
+<pre class='code'>
+(diagram (380 240)
+  (grid)
+  (defgradient (<span class='keyword3'>:linear</span> <span class='keyword3'>:three_stops_8_10</span>)
+    (0.00 <span class='literal'>"#ffcc00"</span>)
+    (0.33 <span class='literal'>"#cc6699"</span>)
+    (1.00 <span class='literal'>"#66cc99"</span>))
+  (defgradient (<span class='keyword3'>:linear</span> <span class='keyword3'>:right_to_left_8_10</span> <span class='keyword3'>:href</span> <span class='keyword3'>:three_stops_8_10</span>
+                        <span class='keyword3'>:x1</span> <span class='literal'>"100%"</span> <span class='keyword3'>:y1</span> <span class='literal'>"0%"</span> <span class='keyword3'>:x2</span> <span class='literal'>"0%"</span> <span class='keyword3'>:y2</span> <span class='literal'>"0%"</span>))
+  (defgradient (<span class='keyword3'>:linear</span> <span class='keyword3'>:down_8_10</span>          <span class='keyword3'>:href</span> <span class='keyword3'>:three_stops_8_10</span>
+                        <span class='keyword3'>:x1</span> <span class='literal'>"0%"</span> <span class='keyword3'>:y1</span> <span class='literal'>"0%"</span> <span class='keyword3'>:x2</span> <span class='literal'>"0%"</span> <span class='keyword3'>:y2</span> <span class='literal'>"100%"</span>))
+  (defgradient (<span class='keyword3'>:linear</span> <span class='keyword3'>:up_8_10</span>            <span class='keyword3'>:href</span> <span class='keyword3'>:three_stops_8_10</span>
+                        <span class='keyword3'>:x1</span> <span class='literal'>"0%"</span> <span class='keyword3'>:y1</span> <span class='literal'>"100%"</span> <span class='keyword3'>:x2</span> <span class='literal'>"0%"</span> <span class='keyword3'>:y2</span> <span class='literal'>"0%"</span>))
+  (defgradient (<span class='keyword3'>:linear</span> <span class='keyword3'>:diagonal_8_10</span>      <span class='keyword3'>:href</span> <span class='keyword3'>:three_stops_8_10</span>
+                        <span class='keyword3'>:x1</span> <span class='literal'>"0%"</span> <span class='keyword3'>:y1</span> <span class='literal'>"0%"</span> <span class='keyword3'>:x2</span> <span class='literal'>"100%"</span> <span class='keyword3'>:y2</span> <span class='literal'>"100%"</span>))
+  (rect '(140  40) 200 40  <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span> <span class='keyword3'>:fill</span> '(<span class='keyword3'>:url</span> <span class='keyword3'>:three_stops_8_10</span>))
+  (rect '(140  90) 200 40  <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span> <span class='keyword3'>:fill</span> '(<span class='keyword3'>:url</span> <span class='keyword3'>:right_to_left_8_10</span>))
+  (rect '(270 120)  40 200 <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span> <span class='keyword3'>:fill</span> '(<span class='keyword3'>:url</span> <span class='keyword3'>:down_8_10</span>))
+  (rect '(320 120)  40 200 <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span> <span class='keyword3'>:fill</span> '(<span class='keyword3'>:url</span> <span class='keyword3'>:up_8_10</span>))
+  (rect '(140 170) 200 100 <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span> <span class='keyword3'>:fill</span> '(<span class='keyword3'>:url</span> <span class='keyword3'>:diagonal_8_10</span>)))
+</pre>
+<p>　　</p>
+<p><strong>◆ 図 8.11</strong></p>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='360' height='140'>
+	
+	<!-- partial_8_11 : linear-gradient-definition -->
+	<defs>
+		<linearGradient id='partial_8_11' x1='20%' y1='30%' x2='40%' y2='80%' >
+			<stop offset='0.0' stop-color='#ffcc00' />
+			<stop offset='0.33' stop-color='#cc6699' />
+			<stop offset='1.0' stop-color='#66cc99' />
+		</linearGradient>
+	</defs>
+	<!-- padded_8_11 : linear-gradient-definition -->
+	<defs>
+		<linearGradient id='padded_8_11' xlink:href='#partial_8_11' spreadMethod='pad' />
+	</defs>
+	<!-- repeated_8_11 : linear-gradient-definition -->
+	<defs>
+		<linearGradient id='repeated_8_11' xlink:href='#partial_8_11' spreadMethod='repeat' />
+	</defs>
+	<!-- reflected_8_11 : linear-gradient-definition -->
+	<defs>
+		<linearGradient id='reflected_8_11' xlink:href='#partial_8_11' spreadMethod='reflect' />
+	</defs>
+	<!-- line_8_11 : group-definition -->
+	<defs>
+		<g id='line_8_11'>
+			<!-- line -->
+			<polyline fill='none' stroke='black' stroke-width='1' points=' 20.0,30.0 40.0,80.0' />
+			
+		</g>
+	</defs>
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- rectangle -->
+	<rect x='20' y='20' width='100' height='100' fill='url(#padded_8_11)' stroke='black' stroke-width='1' />
+	<!-- use -->
+	<use xlink:href='#line_8_11' x='20' y='20' />
+	<!-- rectangle -->
+	<rect x='130' y='20' width='100' height='100' fill='url(#repeated_8_11)' stroke='black' stroke-width='1' />
+	<!-- use -->
+	<use xlink:href='#line_8_11' x='130' y='20' />
+	<!-- rectangle -->
+	<rect x='240' y='20' width='100' height='100' fill='url(#reflected_8_11)' stroke='black' stroke-width='1' />
+	<!-- use -->
+	<use xlink:href='#line_8_11' x='240' y='20' />
+
+</svg>
+</div>
+
+<pre class='code'>
+(diagram (360 140)
+  (grid)
+  (defgradient (<span class='keyword3'>:linear</span> <span class='keyword3'>:partial_8_11</span> <span class='keyword3'>:x1</span> <span class='literal'>"20%"</span> <span class='keyword3'>:y1</span> <span class='literal'>"30%"</span> <span class='keyword3'>:x2</span> <span class='literal'>"40%"</span> <span class='keyword3'>:y2</span> <span class='literal'>"80%"</span>)
+    (0.00 <span class='literal'>"#ffcc00"</span>)
+    (0.33 <span class='literal'>"#cc6699"</span>)
+    (1.00 <span class='literal'>"#66cc99"</span>))
+  (defgradient (<span class='keyword3'>:linear</span> <span class='keyword3'>:padded_8_11</span>    <span class='keyword3'>:href</span> <span class='keyword3'>:partial_8_11</span> <span class='keyword3'>:spread</span> <span class='keyword3'>:pad</span>))
+  (defgradient (<span class='keyword3'>:linear</span> <span class='keyword3'>:repeated_8_11</span>  <span class='keyword3'>:href</span> <span class='keyword3'>:partial_8_11</span> <span class='keyword3'>:spread</span> <span class='keyword3'>:repeat</span>))
+  (defgradient (<span class='keyword3'>:linear</span> <span class='keyword3'>:reflected_8_11</span> <span class='keyword3'>:href</span> <span class='keyword3'>:partial_8_11</span> <span class='keyword3'>:spread</span> <span class='keyword3'>:reflect</span>))
+  (defgroup (100 100 <span class='keyword3'>:line_8_11</span>)
+      (line '((20 30) (40 80)) <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span>))
+  (rect '( 70  70) 100 100 <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span> <span class='keyword3'>:fill</span> '(<span class='keyword3'>:url</span> <span class='keyword3'>:padded_8_11</span>)
+                           <span class='keyword3'>:contents</span> ((use <span class='keyword3'>:line_8_11</span> canvas.center)))
+  (rect '(180  70) 100 100 <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span> <span class='keyword3'>:fill</span> '(<span class='keyword3'>:url</span> <span class='keyword3'>:repeated_8_11</span>)
+                           <span class='keyword3'>:contents</span> ((use <span class='keyword3'>:line_8_11</span> canvas.center)))
+  (rect '(290  70) 100 100 <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span> <span class='keyword3'>:fill</span> '(<span class='keyword3'>:url</span> <span class='keyword3'>:reflected_8_11</span>)
+                           <span class='keyword3'>:contents</span> ((use <span class='keyword3'>:line_8_11</span> canvas.center))))
+</pre>
+<p>　　</p>
+<p><strong>◆ 図 8.12</strong></p>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='140' height='140'>
+	
+	<!-- three_stops_8_12 : radial-gradient-definition -->
+	<defs>
+		<radialGradient id='three_stops_8_12' >
+			<stop offset='0.0' stop-color='#f96' />
+			<stop offset='0.5' stop-color='#9c9' />
+			<stop offset='1.0' stop-color='#906' />
+		</radialGradient>
+	</defs>
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- rectangle -->
+	<rect x='20' y='20' width='100' height='100' fill='url(#three_stops_8_12)' stroke='black' stroke-width='1' />
+
+</svg>
+</div>
+
+<pre class='code'>
+(diagram (140 140)
+  (grid)
+  (defgradient (<span class='keyword3'>:radial</span> <span class='keyword3'>:three_stops_8_12</span>)
+    (0.00 <span class='literal'>"#f96"</span>)
+    (0.50 <span class='literal'>"#9c9"</span>)
+    (1.00 <span class='literal'>"#906"</span>))
+  (rect '(70 70) 100 100 <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span> <span class='keyword3'>:fill</span> '(<span class='keyword3'>:url</span> <span class='keyword3'>:three_stops_8_12</span>)))
+</pre>
+<p>　　</p>
+<p><strong>◆ 図 8.13</strong></p>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='140' height='140'>
+	
+	<!-- center_origin_8_13 : radial-gradient-definition -->
+	<defs>
+		<radialGradient id='center_origin_8_13' cx='0%' cy='0%' r='141%' >
+			<stop offset='0.0' stop-color='#f96' />
+			<stop offset='0.5' stop-color='#9c9' />
+			<stop offset='1.0' stop-color='#906' />
+		</radialGradient>
+	</defs>
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- rectangle -->
+	<rect x='20' y='20' width='100' height='100' fill='url(#center_origin_8_13)' stroke='black' stroke-width='1' />
+
+</svg>
+</div>
+
+<pre class='code'>
+(diagram (140 140)
+  (grid)
+  (defgradient (<span class='keyword3'>:radial</span> <span class='keyword3'>:center_origin_8_13</span> <span class='keyword3'>:cx</span> <span class='literal'>"0%"</span> <span class='keyword3'>:cy</span> <span class='literal'>"0%"</span> <span class='keyword3'>:radius</span> <span class='literal'>"141%"</span>)
+    (0.00 <span class='literal'>"#f96"</span>)
+    (0.50 <span class='literal'>"#9c9"</span>)
+    (1.00 <span class='literal'>"#906"</span>))
+  (rect '(70 70) 100 100 <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span> <span class='keyword3'>:fill</span> '(<span class='keyword3'>:url</span> <span class='keyword3'>:center_origin_8_13</span>)))
+</pre>
+<p>　　</p>
+<p><strong>◆ 図 8.14</strong></p>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='140' height='140'>
+	
+	<!-- focal_set_8_14 : radial-gradient-definition -->
+	<defs>
+		<radialGradient id='focal_set_8_14' cx='0%' cy='0%' fx='50%' fy='50%' r='100%' >
+			<stop offset='0.0' stop-color='#f96' />
+			<stop offset='0.5' stop-color='#9c9' />
+			<stop offset='1.0' stop-color='#906' />
+		</radialGradient>
+	</defs>
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- rectangle -->
+	<rect x='20' y='20' width='100' height='100' fill='url(#focal_set_8_14)' stroke='black' stroke-width='1' />
+
+</svg>
+</div>
+
+<pre class='code'>
+(diagram (140 140)
+  (grid)
+  (defgradient (<span class='keyword3'>:radial</span> <span class='keyword3'>:focal_set_8_14</span> <span class='keyword3'>:cx</span> <span class='literal'>"0%"</span> <span class='keyword3'>:cy</span> <span class='literal'>"0%"</span>
+                        <span class='keyword3'>:fx</span> <span class='literal'>"50%"</span> <span class='keyword3'>:fy</span> <span class='literal'>"50%"</span> <span class='keyword3'>:radius</span> <span class='literal'>"100%"</span>)
+    (0.00 <span class='literal'>"#f96"</span>)
+    (0.50 <span class='literal'>"#9c9"</span>)
+    (1.00 <span class='literal'>"#906"</span>))
+  (rect '(70 70) 100 100 <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span> <span class='keyword3'>:fill</span> '(<span class='keyword3'>:url</span> <span class='keyword3'>:focal_set_8_14</span>)))
+</pre>
+<p>　　</p>
+<p><strong>◆ 図 8.15</strong></p>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='360' height='140'>
+	
+	<!-- three_stops_8_15 : radial-gradient-definition -->
+	<defs>
+		<radialGradient id='three_stops_8_15' cx='0%' cy='0%' r='70%' >
+			<stop offset='0.0' stop-color='#f96' />
+			<stop offset='0.5' stop-color='#9c9' />
+			<stop offset='1.0' stop-color='#906' />
+		</radialGradient>
+	</defs>
+	<!-- padded_8_15 : radial-gradient-definition -->
+	<defs>
+		<radialGradient id='padded_8_15' xlink:href='#three_stops_8_15' spreadMethod='pad' />
+	</defs>
+	<!-- repeated_8_15 : radial-gradient-definition -->
+	<defs>
+		<radialGradient id='repeated_8_15' xlink:href='#three_stops_8_15' spreadMethod='repeat' />
+	</defs>
+	<!-- reflected_8_15 : radial-gradient-definition -->
+	<defs>
+		<radialGradient id='reflected_8_15' xlink:href='#three_stops_8_15' spreadMethod='reflect' />
+	</defs>
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- rectangle -->
+	<rect x='20' y='20' width='100' height='100' fill='url(#padded_8_15)' stroke='black' stroke-width='1' />
+	<!-- rectangle -->
+	<rect x='130' y='20' width='100' height='100' fill='url(#repeated_8_15)' stroke='black' stroke-width='1' />
+	<!-- rectangle -->
+	<rect x='240' y='20' width='100' height='100' fill='url(#reflected_8_15)' stroke='black' stroke-width='1' />
+
+</svg>
+</div>
+
+<pre class='code'>
+(diagram (360 140)
+  (grid)
+  (defgradient (<span class='keyword3'>:radial</span> <span class='keyword3'>:three_stops_8_15</span> <span class='keyword3'>:cx</span> <span class='literal'>"0%"</span> <span class='keyword3'>:cy</span> <span class='literal'>"0%"</span> <span class='keyword3'>:radius</span> <span class='literal'>"70%"</span>)
+    (0.00 <span class='literal'>"#f96"</span>)
+    (0.50 <span class='literal'>"#9c9"</span>)
+    (1.00 <span class='literal'>"#906"</span>))
+  (defgradient (<span class='keyword3'>:radial</span> <span class='keyword3'>:padded_8_15</span>    <span class='keyword3'>:href</span> <span class='keyword3'>:three_stops_8_15</span> <span class='keyword3'>:spread</span> <span class='keyword3'>:pad</span>))
+  (defgradient (<span class='keyword3'>:radial</span> <span class='keyword3'>:repeated_8_15</span>  <span class='keyword3'>:href</span> <span class='keyword3'>:three_stops_8_15</span> <span class='keyword3'>:spread</span> <span class='keyword3'>:repeat</span>))
+  (defgradient (<span class='keyword3'>:radial</span> <span class='keyword3'>:reflected_8_15</span> <span class='keyword3'>:href</span> <span class='keyword3'>:three_stops_8_15</span> <span class='keyword3'>:spread</span> <span class='keyword3'>:reflect</span>))
+  (rect '( 70  70) 100 100 <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span> <span class='keyword3'>:fill</span> '(<span class='keyword3'>:url</span> <span class='keyword3'>:padded_8_15</span>))
+  (rect '(180  70) 100 100 <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span> <span class='keyword3'>:fill</span> '(<span class='keyword3'>:url</span> <span class='keyword3'>:repeated_8_15</span>))
+  (rect '(290  70) 100 100 <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span> <span class='keyword3'>:fill</span> '(<span class='keyword3'>:url</span> <span class='keyword3'>:reflected_8_15</span>)))
+</pre>
+<p>　　</p>
+</details>
 <p>　　</p>
 <h2><a name='2QhgoP1QBEQ'></a>10 パラメータの詳細</h2>
 <h3><a name='1rpUB3fre67'></a>10.1 色の指定</h3>
@@ -4126,7 +4606,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p>　　</p>
 <p>　それぞれについて細かい説明を始める前に、 <code>:stroke :red</code> といった記述がどのように扱われるのかを説明する必要があるでしょう。 <code>:stroke</code> によるこれらの指定は、実は全て <a class='autolink' href='#ezUVhtPwl3J'>make-stroke</a> 関数に渡されます。<a class='autolink' href='#ezUVhtPwl3J'>make-stroke</a> 関数は、渡されたのが単一の値の場合には、数値なら太さ、キーワードや文字列なら色名などと解釈します。そして <code>'(:color :red :width 3)</code> などの（複数要素からなる）リストの場合、名前付きパラメータの羅列として解釈します。</p>
-<p>　<a class='autolink' href='#ezUVhtPwl3J'>make-stroke</a> 関数はその結果として「<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>情報オブジェクト」を返しますが、その<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>情報オブジェクトを <a class='autolink' href='#ezUVhtPwl3J'>make-stroke</a> 関数自身に渡した場合、そのまま返すようになっています。そのため、自分で明示的に <a class='autolink' href='#ezUVhtPwl3J'>make-stroke</a> 関数を使って<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>情報オブジェクトを作成し、Common LISP 変数に格納して複数の図形要素で使用する、ということも可能です。以下のように<sup><a name='footnote_ref10' href='#footnote10'>10</a></sup>。この関数の詳細は「<a href='#ezUVhtPwl3J'>12.1.8  make-stroke 関数</a>」を参照してください。</p>
+<p>　<a class='autolink' href='#ezUVhtPwl3J'>make-stroke</a> 関数はその結果として「<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>情報オブジェクト」を返しますが、その<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>情報オブジェクトを <a class='autolink' href='#ezUVhtPwl3J'>make-stroke</a> 関数自身に渡した場合、そのまま返すようになっています。そのため、自分で明示的に <a class='autolink' href='#ezUVhtPwl3J'>make-stroke</a> 関数を使って<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>情報オブジェクトを作成し、Common LISP 変数に格納して複数の図形要素で使用する、ということも可能です。以下のように<sup><a name='footnote_ref10' href='#footnote10'>10</a></sup>。この関数の詳細は「<a href='#ezUVhtPwl3J'>12.1.9  make-stroke 関数</a>」を参照してください。</p>
 <pre class='code'>
 (<span class='keyword1'>let</span> ((st (make-stroke <span class='keyword3'>:color</span> <span class='keyword3'>:blue</span> <span class='keyword3'>:width</span> 4 <span class='keyword3'>:opacity</span> 0.3)))
   (rect   ... <span class='keyword3'>:stroke</span> st)
@@ -4378,7 +4858,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
   (grid)
   (defgradient (<span class='keyword3'>:linear</span> <span class='keyword3'>:gradient1</span>)
     (0.00 <span class='keyword3'>:red</span>)
-	(1.00 <span class='keyword3'>:blue</span>))
+    (1.00 <span class='keyword3'>:blue</span>))
   (rect canvas.center 100 50 <span class='keyword3'>:stroke</span> '(<span class='keyword3'>:url</span> <span class='keyword3'>:gradient1</span> <span class='keyword3'>:width</span> 4) <span class='keyword3'>:fill</span> <span class='keyword3'>:white</span>))
 </pre>
 <p>　<a href='#4HFjqmTuIU6'>10.2  節</a>では説明を省略しましたが、<a class='autolink' href='#ezUVhtPwl3J'>make-stroke</a> 関数は <code>url</code> というパラメータで<a class='autolink' href='#dmYFJAv81Kl'>パターン</a>や<a class='autolink' href='#4p1J7EWjD3m'>グラデーション</a>の ID を指定することができます。これを指定した場合、 <code>:color</code> パラメータは無視されます。</p>
@@ -4393,7 +4873,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p>　　</p>
 <p>　それぞれについて細かい説明を始める前に、 <code>:fill :white</code> といった記述がどのように扱われるのかを説明する必要があるでしょう。 <code>:fill</code> によるこれらの指定は、実は全て <a class='autolink' href='#8IkB7VinE7h'>make-fill</a> 関数に渡されます。<a class='autolink' href='#8IkB7VinE7h'>make-fill</a> 関数は、渡されたのが単一の値の場合には、キーワードや文字列なら色名と解釈します。そして <code>'(:color :red :width 3)</code> などの（複数要素からなる）リストの場合、名前付きパラメータの羅列として解釈します。</p>
-<p>　<a class='autolink' href='#8IkB7VinE7h'>make-fill</a> 関数はその結果として「<a class='autolink' href='#dBUd7L4C3dx'>フィル</a>情報オブジェクト」を返しますが、その<a class='autolink' href='#dBUd7L4C3dx'>フィル</a>情報オブジェクトを <a class='autolink' href='#8IkB7VinE7h'>make-fill</a> 関数自身に渡した場合、そのまま返すようになっています。そのため、自分で明示的に <a class='autolink' href='#8IkB7VinE7h'>make-fill</a> 関数を使って<a class='autolink' href='#dBUd7L4C3dx'>フィル</a>情報オブジェクトを作成し、Common LISP 変数に格納して複数の図形要素で使用する、ということも可能です。以下のように<sup><a name='footnote_ref12' href='#footnote12'>12</a></sup>。この関数の詳細は「<a href='#8IkB7VinE7h'>12.1.6  make-fill 関数</a>」を参照してください。</p>
+<p>　<a class='autolink' href='#8IkB7VinE7h'>make-fill</a> 関数はその結果として「<a class='autolink' href='#dBUd7L4C3dx'>フィル</a>情報オブジェクト」を返しますが、その<a class='autolink' href='#dBUd7L4C3dx'>フィル</a>情報オブジェクトを <a class='autolink' href='#8IkB7VinE7h'>make-fill</a> 関数自身に渡した場合、そのまま返すようになっています。そのため、自分で明示的に <a class='autolink' href='#8IkB7VinE7h'>make-fill</a> 関数を使って<a class='autolink' href='#dBUd7L4C3dx'>フィル</a>情報オブジェクトを作成し、Common LISP 変数に格納して複数の図形要素で使用する、ということも可能です。以下のように<sup><a name='footnote_ref12' href='#footnote12'>12</a></sup>。この関数の詳細は「<a href='#8IkB7VinE7h'>12.1.7  make-fill 関数</a>」を参照してください。</p>
 <pre class='code'>
 (<span class='keyword1'>let</span> ((fl (make-fill <span class='keyword3'>:color</span> <span class='keyword3'>:blue</span> <span class='keyword3'>:opacity</span> 0.3)))
   (rect   ... <span class='keyword3'>:fill</span> fl)
@@ -4483,7 +4963,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </pre>
 </details>
 <p>　　</p>
-<p>　これについては、ひとまずのところあまり使用頻度が高いとは思われないため、書籍「SVG エッセンシャルズ第２版」の説明を引用するに留めます。</p>
+<p>　これについては、ひとまずのところあまり使用頻度が高いとは思われないため、<a class='autolink' href='#l10jSaJeUDk'>SVG本</a>の説明を引用するに留めます。</p>
 <blockquote>
 <p><strong>塗りつぶしのルールの説明</strong></p>
 <p>　完全を期すために、fill-rule がどのように機能するかを説明しますが、悩む必要はありません −− 詳細を知らなくてもルールを利用することはできます。nonzero ルールは、問題になっている点から無限遠まで線を引くことで、その点が<a class='autolink' href='#5vGRm9AMypB'>多角形</a>の内側か外側かを判断します。その線が<a class='autolink' href='#5vGRm9AMypB'>多角形</a>の線と何回交差するかを数え、<a class='autolink' href='#5vGRm9AMypB'>多角形</a>の線が右から左に向かって描かれている場合は1を足し、左から右に向かって描かれている場合は1を引きます。合計がゼロであれば、その点は<a class='autolink' href='#5vGRm9AMypB'>多角形</a>の外側にあります。合計がゼロ以外（nonzero）であれば、その点は<a class='autolink' href='#5vGRm9AMypB'>多角形</a>の内側にあります。</p>
@@ -4538,7 +5018,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p>　　</p>
 <p>　それぞれについて細かい説明を始める前に、 <code>:font 24</code> といった記述がどのように扱われるのかを説明する必要があるでしょう。 <code>:font</code> によるこれらの指定は、実は全て <a class='autolink' href='#673GXF9YiIQ'>make-font</a> 関数に渡されます。<a class='autolink' href='#673GXF9YiIQ'>make-font</a> 関数は、渡されたのが単一の値の場合には、数値ならサイズ、文字列なら<a class='autolink' href='#3kZ9FkounyK'>フォント</a>ファミリ名などと解釈します。そして <code>'(:family "sans serif" :size 10)</code> などの（複数要素からなる）リストの場合、名前付きパラメータの羅列として解釈します。</p>
-<p>　<a class='autolink' href='#673GXF9YiIQ'>make-font</a> 関数はその結果として「<a class='autolink' href='#3kZ9FkounyK'>フォント</a>情報オブジェクト」を返しますが、その<a class='autolink' href='#3kZ9FkounyK'>フォント</a>情報オブジェクトを <a class='autolink' href='#673GXF9YiIQ'>make-font</a> 関数自身に渡した場合、そのまま返すようになっています。そのため、自分で明示的に <a class='autolink' href='#673GXF9YiIQ'>make-font</a> 関数を使って<a class='autolink' href='#3kZ9FkounyK'>フォント</a>情報オブジェクトを作成し、Common LISP 変数に格納して複数の図形要素で使用する、ということも可能です。以下のように。この関数の詳細は「<a href='#673GXF9YiIQ'>12.1.7  make-font 関数</a>」を参照してください。</p>
+<p>　<a class='autolink' href='#673GXF9YiIQ'>make-font</a> 関数はその結果として「<a class='autolink' href='#3kZ9FkounyK'>フォント</a>情報オブジェクト」を返しますが、その<a class='autolink' href='#3kZ9FkounyK'>フォント</a>情報オブジェクトを <a class='autolink' href='#673GXF9YiIQ'>make-font</a> 関数自身に渡した場合、そのまま返すようになっています。そのため、自分で明示的に <a class='autolink' href='#673GXF9YiIQ'>make-font</a> 関数を使って<a class='autolink' href='#3kZ9FkounyK'>フォント</a>情報オブジェクトを作成し、Common LISP 変数に格納して複数の図形要素で使用する、ということも可能です。以下のように。この関数の詳細は「<a href='#673GXF9YiIQ'>12.1.8  make-font 関数</a>」を参照してください。</p>
 <pre class='code'>
 (<span class='keyword1'>let</span> ((fnt (make-font <span class='keyword3'>:family</span> <span class='literal'>"Courier New, monospace"</span> <span class='keyword3'>:size</span> 12)))
   (text   ... <span class='keyword3'>:font</span> fnt)
@@ -4584,7 +5064,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p>　<a class='autolink' href='#5afU9yg86c0'>with-options</a> では全体のデフォルト設定を変更しますが、図形要素によっては個別にデフォルト設定を持っています。たとえば、<a class='autolink' href='#e7hkC2YUaKe'>テキストボックス</a>であれば <a class='autolink' href='#2XsIFr1er3s'>with-textbox-options</a> でデフォルト設定を変更することができます。</p>
 <p>　　</p>
 <h4><a name='kEzS3nMEHGk'></a>10.4.2 フォントにおける family パラメータ</h4>
-<p>　family パラメータについては、書籍「SVG エッセンシャルズ第２版」の説明を引用しておきます（手抜きでごめんなさい）。</p>
+<p>　family パラメータについては、<a class='autolink' href='#l10jSaJeUDk'>SVG本</a>の説明を引用しておきます（手抜きでごめんなさい）。</p>
 <blockquote>
 <p><strong>font-family</strong></p>
 <p>この値に指定するのは、<a class='autolink' href='#3kZ9FkounyK'>フォント</a>ファミリー名または総称ファミリー名をカンマで区切って並べたリストです。これはフォールバック値のリストです。つまり、SVGビューアーは、自身が認識する最初のファミリー名を使用します。総称ファミリー名は、リスト内の最後に指定しなければなりません。SVG ビューアーに義務づけられているのは、総称ファミリー名を認識することと、それらを表示できる<a class='autolink' href='#3kZ9FkounyK'>フォント</a>を備えていることです。総称ファミリー名は、serif、 sans-serif、 monospace、 fantasy、 cursive です。 serif （セリフ）<a class='autolink' href='#3kZ9FkounyK'>フォント</a>には、<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>の端に「セリフ」と呼ばれる小さな飾り −−「うろこ」や「ひげ」などとも呼ばれます −− があります。sans-serif （サンセリフ）<a class='autolink' href='#3kZ9FkounyK'>フォント</a>には、セリフがありません。‥‥（中略）‥‥serif <a class='autolink' href='#3kZ9FkounyK'>フォント</a>も sans-serif <a class='autolink' href='#3kZ9FkounyK'>フォント</a>も、プロポーショナル<a class='autolink' href='#3kZ9FkounyK'>フォント</a>（可変幅<a class='autolink' href='#3kZ9FkounyK'>フォント</a>）です。つまり、大文字の「M」の幅と「I」の幅は異なります。 monospace （モノスペース）<a class='autolink' href='#3kZ9FkounyK'>フォント</a>は、タイプライターの文字のように、すべてのグリフが同じ幅を持つ<a class='autolink' href='#3kZ9FkounyK'>フォント</a>です（等幅<a class='autolink' href='#3kZ9FkounyK'>フォント</a>、固定幅<a class='autolink' href='#3kZ9FkounyK'>フォント</a>などと呼ばれます）。これは、セリフがある<a class='autolink' href='#3kZ9FkounyK'>フォント</a>でも、ない<a class='autolink' href='#3kZ9FkounyK'>フォント</a>でもかまいません。 fantasy <a class='autolink' href='#3kZ9FkounyK'>フォント</a>と cursive <a class='autolink' href='#3kZ9FkounyK'>フォント</a>は、ブラウザーやSVGビューアーによって実装が大きく異なる可能性があります。</p>
@@ -4627,7 +5107,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p class='fig_title'><a name='gbHwYj2Ai06'></a>Figure.10-11 font における stroke と fill</p>
 <p>　　</p>
 <h4><a name='fxm5l02ul2O'></a>10.4.4 size と line-spacing</h4>
-<p>　<a class='autolink' href='#3kZ9FkounyK'>フォント</a>の size 情報については、まず書籍「SVG エッセンシャルズ第２版」の説明を引用しておきましょう。</p>
+<p>　<a class='autolink' href='#3kZ9FkounyK'>フォント</a>の size 情報については、まず <a class='autolink' href='#l10jSaJeUDk'>SVG本</a>の説明を引用しておきましょう。</p>
 <blockquote>
 <p><strong>font-size</strong></p>
 <p>この値には、テキストが複数行になる場合の、ベースラインからベースラインまでのグリフの距離を指定します（SVGでは、複数行の <code>&lt;text&gt;</code> の内容は自分自身で配置しなければならないので、この概念は少々空論的です）。</p>
@@ -5215,34 +5695,82 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <h4><a name='7pITpDTSaVn'></a>12.1.2 *default-stroke*変数</h4>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='gxb34ymFlDc'></a>12.1.3 defgroup マクロ</h4>
+<h4><a name='dNdd5AGYfnC'></a>12.1.3 defgradient マクロ</h4>
+<p>　<a class='autolink' href='#dNdd5AGYfnC'>defgradient</a> マクロは<a class='autolink' href='#4p1J7EWjD3m'>グラデーション</a>を定義します。<a class='autolink' href='#4p1J7EWjD3m'>グラデーション</a>の詳細は「<a href='#4p1J7EWjD3m'>9.2  グラデーション</a>」を参照してください。説明不足ですが、基本的に SVG 規格に沿っていますので必要に応じて書籍や規格にあたってください。マクロシグネチャは以下の通りです。</p>
+<pre class='code'>
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>defgradient</span> ((type id <span class='keyword2'>&amp;rest</span> params) <span class='keyword2'>&amp;rest</span> stops) ... )
+</pre>
+<p>　　</p>
+<p class='tbl_title'><a name='l8ZKPnackNk'></a>Table.12-1 defgradient マクロのパラメータ</p>
+<table align='center'>
+<tr><th>parameter</th><th>description</th></tr>
+<tr><td nowrap align='left'><code>type</code></td><td align='left'><a class='autolink' href='#4p1J7EWjD3m'>グラデーション</a>の種類を <code>:linear</code> または <code>:radial</code> から選択します。</td></tr>
+<tr><td nowrap align='left'><code>id</code></td><td align='left'>ID をキーワードで指定します。</td></tr>
+<tr><td nowrap align='left'><code>params</code></td><td align='left'><a class='autolink' href='#4p1J7EWjD3m'>グラデーション</a>の付加パラメータを指定します。 <code>type</code> により異なるため後述します。</td></tr>
+<tr><td nowrap align='left'><code>stops</code></td><td align='left'><a class='autolink' href='#4p1J7EWjD3m'>グラデーション</a>ストップをリストで指定します。詳細は「<a href='#4p1J7EWjD3m'>9.2  グラデーション</a>」<br>を参照してください。後述する <code>href</code> パラメータで他の定義を参照する場合は<br>指定する必要はありません。</td></tr>
+</table>
+<p>　　</p>
+<p>　<code>params</code> は<a class='autolink' href='#4p1J7EWjD3m'>グラデーション</a>の種類（<a class='autolink' href='#fv4OUML78x4'>line</a>ar/radial）によって異なりますが、いずれの場合でも名前付きパラメータとして扱われます。まず、共通のパラメータを以下に示します。</p>
+<p class='tbl_title'><a name='75EaQ9VoQov'></a>Table.12-2 defgradient マクロの付加パラメータ（linear/radial 共通）</p>
+<table align='center'>
+<tr><th>parameter</th><th>description</th></tr>
+<tr><td nowrap align='left'><code>href</code></td><td align='left'>他の<a class='autolink' href='#4p1J7EWjD3m'>グラデーション</a>定義を参照する場合、その ID をキーワードで指定します。</td></tr>
+<tr><td nowrap align='left'><code>units</code></td><td align='left'>patternUnits 属性を <code>:userSpaceOnUse</code> または <code>:objectBoundingBox</code> から<br>選択します。</td></tr>
+<tr><td nowrap align='left'><code>spread</code></td><td align='left'>spreadMethod 属性を指定する場合、`:pad :repeat :reflect` から選択します。</td></tr>
+<tr><td nowrap align='left'><code>transform</code></td><td align='left'>gradientTtransform 属性を指定する場合、文字列で指定します。</td></tr>
+</table>
+<p>　　</p>
+<p>　線型<a class='autolink' href='#4p1J7EWjD3m'>グラデーション</a>特有の付加パラメータは以下の通りです。</p>
+<p class='tbl_title'><a name='7B7qYLtcQVS'></a>Table.12-3 defgradient マクロの付加パラメータ（linear）</p>
+<table align='center'>
+<tr><th>parameter</th><th>description</th></tr>
+<tr><td nowrap align='left'><code>x1</code></td><td align='left'>x1 属性を指定する場合、数値または文字列で指定します。</td></tr>
+<tr><td nowrap align='left'><code>y1</code></td><td align='left'>y1 属性を指定する場合、数値または文字列で指定します。</td></tr>
+<tr><td nowrap align='left'><code>x2</code></td><td align='left'>x2 属性を指定する場合、数値または文字列で指定します。</td></tr>
+<tr><td nowrap align='left'><code>y2</code></td><td align='left'>y2 属性を指定する場合、数値または文字列で指定します。</td></tr>
+</table>
+<p>　　</p>
+<p>　円形<a class='autolink' href='#4p1J7EWjD3m'>グラデーション</a>特有の付加パラメータは以下の通りです。</p>
+<p class='tbl_title'><a name='bRsr41rCkR5'></a>Table.12-4 defgradient マクロの付加パラメータ（radial）</p>
+<table align='center'>
+<tr><th>parameter</th><th>description</th></tr>
+<tr><td nowrap align='left'><code>cx</code></td><td align='left'>cx 属性を指定する場合、数値または文字列で指定します。</td></tr>
+<tr><td nowrap align='left'><code>cy</code></td><td align='left'>cy 属性を指定する場合、数値または文字列で指定します。</td></tr>
+<tr><td nowrap align='left'><code>fx</code></td><td align='left'>fx 属性を指定する場合、数値または文字列で指定します。</td></tr>
+<tr><td nowrap align='left'><code>fy</code></td><td align='left'>fy 属性を指定する場合、数値または文字列で指定します。</td></tr>
+<tr><td nowrap align='left'><code>radius</code></td><td align='left'>r 属性を指定する場合、数値または文字列で指定します。</td></tr>
+</table>
+<p>　　</p>
+<h4><a name='gxb34ymFlDc'></a>12.1.4 defgroup マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>defgroup</span> ((width height id) <span class='keyword2'>&amp;rest</span> body) ... )
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='81YGnpDRA3K'></a>12.1.4 defpattern マクロ</h4>
-<p>　<a class='autolink' href='#81YGnpDRA3K'>defpattern</a> マクロは<a class='autolink' href='#dmYFJAv81Kl'>パターン</a>を定義します。<a class='autolink' href='#dmYFJAv81Kl'>パターン</a>の詳細は「<a href='#dmYFJAv81Kl'>9.1  パターン</a>」を参照してください。マクロシグネチャは以下の通りです。なお、現在、preserveAspectRatio 属性には対応していません。将来対応する可能性はありますが、未確定です。</p>
+<h4><a name='81YGnpDRA3K'></a>12.1.5 defpattern マクロ</h4>
+<p>　<a class='autolink' href='#81YGnpDRA3K'>defpattern</a> マクロは<a class='autolink' href='#dmYFJAv81Kl'>パターン</a>を定義します。<a class='autolink' href='#dmYFJAv81Kl'>パターン</a>の詳細は「<a href='#dmYFJAv81Kl'>9.1  パターン</a>」を参照してください。説明不足ですが、基本的に SVG 規格に沿っていますので必要に応じて書籍や規格にあたってください。マクロシグネチャは以下の通りです。なお、現在、preserveAspectRatio 属性には対応していません。将来対応する可能性はありますが、未確定です。</p>
 <pre class='code'>
-(<span class='keyword1'>defmacro</span> <span class='keyword5'>defpattern</span> ((width height id <span class='keyword2'>&amp;key</span> (x 0) (y 0)
-                                            (units <span class='keyword3'>:userSpaceOnUse</span>)
-                                            content-units view-box) <span class='keyword2'>&amp;rest</span> body) ... )
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>defpattern</span> ((id <span class='keyword2'>&amp;key</span> x y width height href units
+                               content-units view-box transform) <span class='keyword2'>&amp;rest</span> body) ... )
 </pre>
-<p class='tbl_title'><a name='43tbSrg0HB4'></a>Table.12-1 defpattern マクロのパラメータ</p>
+<p>　　</p>
+<p class='tbl_title'><a name='43tbSrg0HB4'></a>Table.12-5 defpattern マクロのパラメータ</p>
 <table align='center'>
 <tr><th>parameter</th><th>description</th></tr>
-<tr><td nowrap align='left'><code>width</code></td><td align='left'>幅を数値で指定します。</td></tr>
-<tr><td nowrap align='left'><code>height</code></td><td align='left'>高さを数値で指定します。</td></tr>
 <tr><td nowrap align='left'><code>id</code></td><td align='left'>ID をキーワードで指定します。</td></tr>
 <tr><td nowrap align='left'><code>x</code></td><td align='left'></td></tr>
 <tr><td nowrap align='left'><code>y</code></td><td align='left'></td></tr>
+<tr><td nowrap align='left'><code>width</code></td><td align='left'>幅を数値で指定します。</td></tr>
+<tr><td nowrap align='left'><code>height</code></td><td align='left'>高さを数値で指定します。</td></tr>
+<tr><td nowrap align='left'><code>href</code></td><td align='left'>高さを数値で指定します。</td></tr>
 <tr><td nowrap align='left'><code>units</code></td><td align='left'>patternUnits 属性を <code>:userSpaceOnUse</code> または <code>:objectBoundingBox</code> から<br>選択します。</td></tr>
 <tr><td nowrap align='left'><code>content-units</code></td><td align='left'>patternContentUnits 属性を <code>:userSpaceOnUse</code> または <code>:objectBoundingBox</code> <br>から選択します。</td></tr>
 <tr><td nowrap align='left'><code>view-box</code></td><td align='left'>viewBox 属性を 4 つの数値からなるリストで指定します。</td></tr>
+<tr><td nowrap align='left'><code>transform</code></td><td align='left'>patternTtransform 属性を指定する場合、文字列で指定します。</td></tr>
 </table>
 <p>　　</p>
-<h4><a name='2xCCaUuNLlH'></a>12.1.5 diagram マクロ</h4>
+<h4><a name='2xCCaUuNLlH'></a>12.1.6 diagram マクロ</h4>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='8IkB7VinE7h'></a>12.1.6 make-fill 関数</h4>
+<h4><a name='8IkB7VinE7h'></a>12.1.7 make-fill 関数</h4>
 <p>　<a class='autolink' href='#8IkB7VinE7h'>make-fill</a> 関数は<a class='autolink' href='#dBUd7L4C3dx'>フィル</a>情報を生成します。<a class='autolink' href='#dBUd7L4C3dx'>フィル</a>情報の詳細は「<a href='#dBUd7L4C3dx'>10.3  フィル</a>」を参照してください。関数シグネチャは以下の通りです。</p>
 <pre class='code'>
 (<span class='keyword1'>defun</span> <span class='keyword5'>make-fill</span> (<span class='keyword2'>&amp;rest</span> params) ...)
@@ -5271,7 +5799,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <pre class='code'>
 (<span class='keyword1'>defun</span> <span class='keyword5'>make-fill</span> <span class='keyword2'>&amp;key</span> color opacity rule url base)
 </pre>
-<p class='tbl_title'><a name='jaLWrUQI3jh'></a>Table.12-2 make-fill 関数のパラメータ</p>
+<p class='tbl_title'><a name='jaLWrUQI3jh'></a>Table.12-6 make-fill 関数のパラメータ</p>
 <table align='center'>
 <tr><th>parameter</th><th>description</th></tr>
 <tr><td nowrap align='left'><code>color</code></td><td align='left'>塗り潰しの色を指定します。色の指定方法については <a href='#1rpUB3fre67'>10.1  節</a>を、色の名前については<br><a href='#dR01Jh257Q6'>12.2  節</a>を参照してください。</td></tr>
@@ -5281,7 +5809,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <tr><td nowrap align='left'><code>base</code></td><td align='left'><span style='background:red;color:white;'>ToDo : まだ記述されていません</span></td></tr>
 </table>
 <p>　　</p>
-<h4><a name='673GXF9YiIQ'></a>12.1.7 make-font 関数</h4>
+<h4><a name='673GXF9YiIQ'></a>12.1.8 make-font 関数</h4>
 <p>　<a class='autolink' href='#673GXF9YiIQ'>make-font</a> 関数は<a class='autolink' href='#3kZ9FkounyK'>フォント</a>情報を生成します。<a class='autolink' href='#3kZ9FkounyK'>フォント</a>情報の詳細は「<a href='#3kZ9FkounyK'>10.4  フォント</a>」を参照してください。関数シグネチャは以下の通りです。</p>
 <pre class='code'>
 (<span class='keyword1'>defun</span> <span class='keyword5'>make-font</span> (<span class='keyword2'>&amp;rest</span> params) ...)
@@ -5313,7 +5841,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
                       weight filter line-spacing width-spice base)
 </pre>
 <p>　各パラメータの意味は以下の通りです。詳細は「<a href='#3kZ9FkounyK'>10.4  フォント</a>」を参照してください。</p>
-<p class='tbl_title'><a name='3B1RHolTZeW'></a>Table.12-3 make-font 関数のパラメータ</p>
+<p class='tbl_title'><a name='3B1RHolTZeW'></a>Table.12-7 make-font 関数のパラメータ</p>
 <table align='center'>
 <tr><th>parameter</th><th>description</th></tr>
 <tr><td nowrap align='left'><code>family</code></td><td align='left'>使用する<a class='autolink' href='#3kZ9FkounyK'>フォント</a>の名前をカンマで区切って並べた文字列を指定します（後述）。</td></tr>
@@ -5329,7 +5857,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <tr><td nowrap align='left'><code>base</code></td><td align='left'><span style='background:red;color:white;'>ToDo : まだ記述されていません</span></td></tr>
 </table>
 <p>　　</p>
-<h4><a name='ezUVhtPwl3J'></a>12.1.8 make-stroke 関数</h4>
+<h4><a name='ezUVhtPwl3J'></a>12.1.9 make-stroke 関数</h4>
 <p>　<a class='autolink' href='#ezUVhtPwl3J'>make-stroke</a> 関数は<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>情報を生成します。<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>情報の詳細は「<a href='#4HFjqmTuIU6'>10.2  ストローク</a>」を参照してください。関数シグネチャは以下の通りです。</p>
 <pre class='code'>
 (<span class='keyword1'>defun</span> <span class='keyword5'>make-stroke</span> (<span class='keyword2'>&amp;rest</span> params) ...)
@@ -5361,7 +5889,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
                         miterlimit dasharray dashoffset url base)
 </pre>
 <p>　各パラメータの意味は以下の通りです。詳細は「<a href='#4HFjqmTuIU6'>10.2  ストローク</a>」を参照してください。</p>
-<p class='tbl_title'><a name='8gU4HDke41S'></a>Table.12-4 make-stroke 関数のパラメータ</p>
+<p class='tbl_title'><a name='8gU4HDke41S'></a>Table.12-8 make-stroke 関数のパラメータ</p>
 <table align='center'>
 <tr><th>parameter</th><th>description</th></tr>
 <tr><td nowrap align='left'><code>color</code></td><td align='left'>線の色を指定します。色の指定方法については <a href='#1rpUB3fre67'>10.1  節</a>を、色の名前については<br><a href='#dR01Jh257Q6'>12.2  節</a>を参照してください。</td></tr>
@@ -5376,94 +5904,94 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <tr><td nowrap align='left'><code>base</code></td><td align='left'><span style='background:red;color:white;'>ToDo : まだ記述されていません</span></td></tr>
 </table>
 <p>　　</p>
-<h4><a name='7QraN5WNGea'></a>12.1.9 rgb 関数</h4>
+<h4><a name='7QraN5WNGea'></a>12.1.10 rgb 関数</h4>
 <pre class='code'>
 (rgb r g b)
 </pre>
-<h4><a name='klH6tZ6gdaQ'></a>12.1.10 use マクロ</h4>
+<h4><a name='klH6tZ6gdaQ'></a>12.1.11 use マクロ</h4>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='7WY0qIioOWV'></a>12.1.11 with-balloon-options マクロ</h4>
+<h4><a name='7WY0qIioOWV'></a>12.1.12 with-balloon-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-balloon-options</span> ((<span class='keyword2'>&amp;key</span> tab-width tab-height
                                      align valign margin
                                      font fill stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='kT3ITG7nfBI'></a>12.1.12 with-block-arrow-options マクロ</h4>
+<h4><a name='kT3ITG7nfBI'></a>12.1.13 with-block-arrow-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-block-arrow-options</span> ((<span class='keyword2'>&amp;key</span> fill stroke
                                           filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='avbLVTgRge8'></a>12.1.13 with-brace-options マクロ</h4>
+<h4><a name='avbLVTgRge8'></a>12.1.14 with-brace-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-brace-options</span> ((<span class='keyword2'>&amp;key</span> font stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='jHhN85RvHYn'></a>12.1.14 with-canvasマクロ</h4>
+<h4><a name='jHhN85RvHYn'></a>12.1.15 with-canvasマクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-canvas</span> ((sym-cc sym-width sym-height) canvas <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
-<h4><a name='gE4r2xg8b9U'></a>12.1.15 with-cross-options マクロ</h4>
+<h4><a name='gE4r2xg8b9U'></a>12.1.16 with-cross-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-cross-options</span> ((<span class='keyword2'>&amp;key</span> fill stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='dpsPduib5te'></a>12.1.16 with-cube-options マクロ</h4>
+<h4><a name='dpsPduib5te'></a>12.1.17 with-cube-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-cube-options</span> ((<span class='keyword2'>&amp;key</span> depth align valign margin
                                    font fill fill2 stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='6STY3Kxzonk'></a>12.1.17 with-cylinder-options マクロ</h4>
+<h4><a name='6STY3Kxzonk'></a>12.1.18 with-cylinder-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-cylinder-options</span> ((<span class='keyword2'>&amp;key</span> depth align valign margin
                                   font fill stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='0axtDA7gRzz'></a>12.1.18 with-document-options マクロ</h4>
+<h4><a name='0axtDA7gRzz'></a>12.1.19 with-document-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-document-options</span> ((<span class='keyword2'>&amp;key</span> align valign margin
                                        font fill stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='h8PWgenmp0d'></a>12.1.19 with-explosion-options マクロ</h4>
+<h4><a name='h8PWgenmp0d'></a>12.1.20 with-explosion-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-explosion-options</span> ((<span class='keyword2'>&amp;key</span> font fill
                                         stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='grfAvoJdCpJ'></a>12.1.20 with-folder-options マクロ</h4>
+<h4><a name='grfAvoJdCpJ'></a>12.1.21 with-folder-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-folder-options</span> ((<span class='keyword2'>&amp;key</span> tab-width tab-height
                                      align valign margin
                                      font fill stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='0C8r7LcFb7c'></a>12.1.21 with-memo-options マクロ</h4>
+<h4><a name='0C8r7LcFb7c'></a>12.1.22 with-memo-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-memo-options</span> ((<span class='keyword2'>&amp;key</span> crease align valign margin
                                    font fill stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='5afU9yg86c0'></a>12.1.22 with-optionsマクロ</h4>
+<h4><a name='5afU9yg86c0'></a>12.1.23 with-optionsマクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-options</span> ((<span class='keyword2'>&amp;key</span> fill stroke font layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
-<h4><a name='0B9bMaXVpqW'></a>12.1.23 with-person-options マクロ</h4>
+<h4><a name='0B9bMaXVpqW'></a>12.1.24 with-person-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-person-options</span> ((<span class='keyword2'>&amp;key</span> fill stroke layer filter) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='lsGULoUqoK4'></a>12.1.24 with-subcanvasマクロ</h4>
+<h4><a name='lsGULoUqoK4'></a>12.1.25 with-subcanvasマクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-subcanvas</span> ((top-left width height) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
-<h4><a name='2c8duiejnaO'></a>12.1.25 with-subcanvas-ofマクロ</h4>
+<h4><a name='2c8duiejnaO'></a>12.1.26 with-subcanvas-ofマクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-subcanvas-of</span> ((id) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
-<h4><a name='2XsIFr1er3s'></a>12.1.26 with-textbox-options マクロ</h4>
+<h4><a name='2XsIFr1er3s'></a>12.1.27 with-textbox-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-textbox-options</span> ((<span class='keyword2'>&amp;key</span> rx ry align valign margin
                                       font fill stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
@@ -7978,7 +8506,13 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <ul>
 <li><strong>IMCOMPATIBLE CHANGE : defs マクロを <a class='autolink' href='#gxb34ymFlDc'>defgroup</a> マクロに改名</strong></li>
 <li>ENHANCE : 「<a href='#dmYFJAv81Kl'>9.1  パターン</a>」を追加</li>
-<li>ENHANCE : 「<a href='#8IkB7VinE7h'>12.1.6  make-fill 関数</a>」に <code>url</code> パラメータを追加</li>
+<li>ENHANCE : 「<a href='#8IkB7VinE7h'>12.1.7  make-fill 関数</a>」に <code>url</code> パラメータを追加</li>
+</ul>
+</li>
+<li><strong>2022/09/25 - version 0.005</strong>
+<ul>
+<li>ENHANCE : 「<a href='#ezUVhtPwl3J'>12.1.9  make-stroke 関数</a>」に <code>url</code> パラメータを追加</li>
+<li>ENHANCE : 「<a href='#4p1J7EWjD3m'>9.2  グラデーション</a>」を追加</li>
 </ul>
 </li>
 </ul>
@@ -8047,6 +8581,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li><a href='#eY4WMx1X8UT'>Figure.8-1 defgroup と use のサンプル</a></li>
 <li><a href='#hMyYNXGygmb'>Figure.9-1 単純なパターンのサンプル</a></li>
 <li><a href='#iUL0e8M4mDl'>Figure.9-2 パターンのサンプル - 2</a></li>
+<li><a href='#fMuRXwcCVRN'>Figure.9-3 単純なグラデーションのサンプル</a></li>
+<li><a href='#04QAFmYhXse'>Figure.9-4 グラデーションのサンプル - 2</a></li>
 <li><a href='#g39KVcpoX7B'>Figure.10-1 with-options によるデフォルトストロークの変更</a></li>
 <li><a href='#eXOpfZPd3Nn'>Figure.10-2 linecap のサンプル</a></li>
 <li><a href='#hP90ozCer2U'>Figure.10-3 linejoin のサンプル</a></li>
@@ -8094,10 +8630,14 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li><a href='#46vpyWYCtdw'>Table.4-15 table のパラメータ</a></li>
 <li><a href='#1YwjqbZ6y0N'>Table.5-1 path のパラメータ</a></li>
 <li><a href='#f7wEYjGUqWE'>Table.5-2 path の data で使用できるディレクティブ</a></li>
-<li><a href='#43tbSrg0HB4'>Table.12-1 defpattern マクロのパラメータ</a></li>
-<li><a href='#jaLWrUQI3jh'>Table.12-2 make-fill 関数のパラメータ</a></li>
-<li><a href='#3B1RHolTZeW'>Table.12-3 make-font 関数のパラメータ</a></li>
-<li><a href='#8gU4HDke41S'>Table.12-4 make-stroke 関数のパラメータ</a></li>
+<li><a href='#l8ZKPnackNk'>Table.12-1 defgradient マクロのパラメータ</a></li>
+<li><a href='#75EaQ9VoQov'>Table.12-2 defgradient マクロの付加パラメータ（linear/radial 共通）</a></li>
+<li><a href='#7B7qYLtcQVS'>Table.12-3 defgradient マクロの付加パラメータ（linear）</a></li>
+<li><a href='#bRsr41rCkR5'>Table.12-4 defgradient マクロの付加パラメータ（radial）</a></li>
+<li><a href='#43tbSrg0HB4'>Table.12-5 defpattern マクロのパラメータ</a></li>
+<li><a href='#jaLWrUQI3jh'>Table.12-6 make-fill 関数のパラメータ</a></li>
+<li><a href='#3B1RHolTZeW'>Table.12-7 make-font 関数のパラメータ</a></li>
+<li><a href='#8gU4HDke41S'>Table.12-8 make-stroke 関数のパラメータ</a></li>
 </ul>
 <p>　　</p>
 <h2><a name='1ewHzjI62xn'></a>15 索引</h2>
@@ -8144,6 +8684,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <details class='idx_x' open>
 <summary class='idx_x'>D</summary>
 <blockquote class='idx_x'>
+<li class='idx_x'><a class='autolink' href='#dNdd5AGYfnC'>defgradient</a></li>
 <li class='idx_x'><a class='autolink' href='#gxb34ymFlDc'>defgroup</a></li>
 <li class='idx_x'><a class='autolink' href='#81YGnpDRA3K'>defpattern</a></li>
 <li class='idx_x'><a class='autolink' href='#jRjILbbJATV'>document</a></li>
@@ -8193,6 +8734,12 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li class='idx_x'><a class='autolink' href='#cNmjD3OiTOH'>raw-svg</a></li>
 <li class='idx_x'><a class='autolink' href='#kJonRG8GtHF'>rect</a></li>
 <li class='idx_x'><a class='autolink' href='#7QraN5WNGea'>rgb</a></li>
+</blockquote>
+</details>
+<details class='idx_x' open>
+<summary class='idx_x'>S</summary>
+<blockquote class='idx_x'>
+<li class='idx_x'><a class='autolink' href='#l10jSaJeUDk'>SVG本</a></li>
 </blockquote>
 </details>
 <details class='idx_x' open>

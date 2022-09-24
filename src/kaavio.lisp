@@ -121,6 +121,12 @@
 				:*default-cylinder-layer*
 				:cylinder
 				:with-cylinder-options
+				;defgradient.lisp
+				:gradient-stop
+				:gradient-definition
+				:linear-gradient-definition
+				:radial-gradient-definition
+				:defgradient
 				;defgroup.lisp
 				:group-definition
 				:defs

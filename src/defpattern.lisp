@@ -24,31 +24,36 @@
 #|EXPORT|#				:pattern-definition
  |#
 (defclass pattern-definition (definition)
-  ((data			:initform  "" :initarg :data)	; string
-   (x				:initform   0 :initarg :x)		; number
-   (y				:initform   0 :initarg :y)		; number
-   (width			:initform   0 :initarg :width)	; number
-   (height			:initform   0 :initarg :height)	; number
-   (units			:initform nil :initarg :units)	; keyword
+  ((data			:initform  "" :initarg :data)			; string
+   (x				:initform   0 :initarg :x)				; number
+   (y				:initform   0 :initarg :y)				; number
+   (width			:initform   0 :initarg :width)			; number
+   (height			:initform   0 :initarg :height)			; number
+   (href			:initform nil :initarg :href)			; keyword
+   (units			:initform nil :initarg :units)			; keyword
    (content-units	:initform nil :initarg :content-units)	; keyword
-   (view-box		:initform nil :initarg :view-box))); list
+   (view-box		:initform nil :initarg :view-box)		; list
+   (transform       :initform nil :initarg :transform)))	; string
 
 
 (defmethod check ((ptn pattern-definition) canvas dict)
   (declare (ignore canvas dict))
-  (with-slots (data x y width height
-			   units content-units view-box) ptn
+  (with-slots (data x y width height href units
+			   content-units view-box transform) ptn
 	(check-member data   :nullable nil :types string)
-	(check-member x      :nullable nil :types number)
-	(check-member y      :nullable nil :types number)
-	(check-member width  :nullable nil :types (or number string))
-	(check-member height :nullable nil :types (or number string))
-	(check-member units  :nullable nil :types keyword)
-	(check-keywords units :userSpaceOnUse :objectBoundingBox)
+	(check-member x      :nullable   t :types number)
+	(check-member y      :nullable   t :types number)
+	(check-member width  :nullable   t :types (or number string))
+	(check-member height :nullable   t :types (or number string))
+	(check-member href   :nullable   t :types keyword)
+	(check-member units  :nullable   t :types keyword)
+	(when units
+	  (check-keywords units :userSpaceOnUse :objectBoundingBox))
     (check-member content-units :nullable t :types keyword)
 	(when content-units
 	  (check-keywords content-units :userSpaceOnUse :objectBoundingBox))
-    (check-member view-box      :nullable t :types list))
+    (check-member view-box  :nullable t :types list)
+	(check-member transform :nullable t :types string))
   ;; this method must call super class' one.
   (call-next-method))
 
@@ -58,21 +63,30 @@
 
 (defmethod pre-draw ((ptn pattern-definition) writer)
   (when (entity-composition-p ptn)
-    (with-slots (id x y width height
-			     units content-units view-box) ptn
+    (with-slots (id x y width height href units
+			     content-units view-box transform) ptn
 	  (when id
 		(labels ((units-tag (kwd)
 				   (if (eq kwd :userSpaceOnUse)
 					   "userSpaceOnUse"
 					   "objectBoundingBox")))
-		  (writer-write writer "<pattern id='" id "' x='" x "' y='" y "' "
-							   "width='" width "' height='" height "' "
-							   "patternUnits='" (units-tag units) "' "
-							   (write-when content-units
-							   			"patternContentUnits='" (units-tag it) "' ")
-							   (write-when view-box
-							   			"viewBox='" (format nil "~{ ~A~}" it) "' ")
-							   ">"))
+		  (writer-write writer
+						"<pattern "
+							"id='" id "' "
+							(write-when x      "x='"      it "' ")
+							(write-when y      "y='"      it "' ")
+							(write-when width  "width='"  it "' ")
+							(write-when height "height='" it "' ")
+							(write-when href   "xlink:href='#" it "' ")
+							(write-when units
+								"patternUnits='" (units-tag it) "' ")
+							(write-when content-units
+								"patternContentUnits='" (units-tag it) "' ")
+							(write-when view-box
+								"viewBox='" (format nil "~{ ~A~}" it) "' ")
+							(write-when transform
+								"patternTransform='" it "' ")
+							">"))
 		(writer-incr-level writer)))))
 
 (defmethod draw-entity ((ptn pattern-definition) writer)
@@ -103,8 +117,8 @@
 #|
 #|EXPORT|#				:defpattern
  |#
-(defmacro defpattern ((width height id &key (x 0) (y 0)
-						  (units :userSpaceOnUse) content-units view-box) &rest body)
+(defmacro defpattern ((id &key x y width height href units
+						  content-units view-box transform) &rest body)
   (let ((g-layer-mgr (gensym "LAYER-MGR"))
 		(g-writer    (gensym "WRITER"))
 		(g-entity    (gensym "ENTITY"))
@@ -147,6 +161,8 @@
 					 (writer-close ,g-writer)))))
 	   (register-entity (make-instance 'kaavio::pattern-definition
 									   :id ,id :data data :x ,x :y ,y
-									   :width  ,width :height ,height :units ,units
-									   :content-units ,content-units :view-box ,view-box)))))
+									   :width  ,width :height ,height
+									   :href ,href :units ,units
+									   :content-units ,content-units
+									   :view-box ,view-box :transform ,transform)))))
 									   

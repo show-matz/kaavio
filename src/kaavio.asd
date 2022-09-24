@@ -73,6 +73,10 @@
 																"path"
 																"filter"
 																"text-shape"))
+				(:file "defgradient"               :depends-on ("kaavio"
+				                                                "definition"
+																"colormap"
+				                                                "writer"))
 				(:file "defgroup"                  :depends-on ("kaavio"
 				                                                "constants"
 				                                                "definition"

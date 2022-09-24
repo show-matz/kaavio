@@ -44,9 +44,13 @@ language) で記述するためです。しかし、このツールを使って�
 Common LISP の詳細には極力立ち入らないようにします{{fn:もともと LISPer だという方で DSL の詳細を知りたい方は、 \
 申し訳ありませんがコードを直接参照してください。}}。
 
+<!-- anchor: SVG-ESSENTIALS-2ND -->
+<!-- autolink: [SVG本](A#SVG-ESSENTIALS-2ND) -->
+
 　${APPNAME} は、O'Reilly の「[SVG エッセンシャルズ 第二版](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwjxstvtvKL6AhUNUd4KHbdhCmAQFnoECA0QAQ&url=https%3A%2F%2Fwww.oreilly.co.jp%2Fbooks%2F9784873117973%2F&usg=AOvVaw0qe65qVh3tZyCnBnhoaC-V)」
-を読んで作られています。SVG 規格にあたることも時々ありますが、基本的にほとんどの情報はこの書籍から
-得ています。電子版もありますので興味のある方は手に取ってみてください。
+を読んで作られています（この書籍に言及する時は「SVG本」と呼ぶことにします）。SVG 規格にあたることも
+時々ありますが、基本的にほとんどの情報はこの書籍から得ています。電子版もありますので興味のある方は
+手に取ってみてください。
 
 
 ## 簡単なサンプル
@@ -3182,7 +3186,8 @@ ${BLANK_PARAGRAPH}
 ## パターンとグラデーション
 
 　「フィル」では通常塗り潰しを指定しますが、定義した図形を敷き詰める「パターン」や、複雑な色の
-変化を見せる「グラデーション」も利用できます。
+変化を見せる「グラデーション」も利用できます。また、パターンとグラデーションはフィルだけでなく
+ストロークで使用することも可能です。
 
 ### パターン
 <!-- autolink: [$$](#パターン) -->
@@ -3203,8 +3208,8 @@ ${BLANK_PARAGRAPH}
 ```
 
 　上記のコードは以下の図を生成します。defpattern で定義したパターンに `:tile` という
-ID をつけ、そのパターンを使用したい rect の [fill パラメータ](#フィル)で `'(:url :tile)` と
-いう指定をすることでパターンの使用を指示しています。
+ID をつけ、後続の rect の [fill パラメータ](#フィル)で `'(:url :tile)` という
+指定をすることでパターンの使用を指示しています。
 
 ```kaavio
 <!-- expand: PATTERN-1ST-SAMPLE -->
@@ -3244,9 +3249,9 @@ ${BLANK_PARAGRAPH}
 
 　defpattern には `x, y, units, content-units, view-box` などの名前付きパラメータが
 ありますが、現時点ではその詳細な説明は割愛します。今後説明を充実させる可能性はありますが、
-現時点では「SVG エッセンシャルズ 第二版」の８章をお読みください。${APPNAME} でパターンを
-利用するサンプルをいくつか以下に提示しておきます。なお、現在 preserveAspectRatio 属性には
-対応していません。将来対応する可能性はありますが、未確定です。
+現時点では SVG本の８章をお読みください。${APPNAME} で SVG本の 8.1 節のサンプルを実現する
+コードを以下に提示しておきます。なお、現在 preserveAspectRatio 属性には対応していません。
+将来対応する可能性はありますが、未確定です。
 
 <!-- collapse:close -->
 　※「SVG エッセンシャルズ 第二版」 8.1 節の図面サンプルはこちら
@@ -3355,7 +3360,276 @@ ${BLANK_PARAGRAPH}
 ### グラデーション
 <!-- autolink: [$$](#グラデーション) -->
 
-${{TODO}{まだ記述されていません}}
+　グラデーションを定義するには defgradient を使用します。グラデーションには線型と円形の
+２種類があります。以下のサンプルでは、青から赤に連続的に変換するグラデーションを定義し、
+rect の中でそれを利用しています。
+
+<!-- snippet: GRADIENT-1ST-SAMPLE
+(diagram (140 70)
+  (defgradient (:linear :gradient1)
+    (0.00 :blue)
+    (1.00 :red))
+  (rect canvas.center 100 50 :stroke :black :fill '(:url :gradient1)))
+-->
+
+```lisp
+<!-- expand: GRADIENT-1ST-SAMPLE -->
+```
+
+　上記のコードは以下の図を生成します。defgradient で定義したグラデーションに `:gradient1` と
+いうID をつけ、後続の rect の [fill パラメータ](#フィル)で `'(:url :gradient1)` という
+指定をすることでグラデーションの使用を指示しています。
+
+```kaavio
+<!-- expand: GRADIENT-1ST-SAMPLE -->
+```
+Figure. 単純なグラデーションのサンプル
+
+${BLANK_PARAGRAPH}
+
+
+　もうひとつのサンプルは円形グラデーションです。今度は単色で不透明度を変化させています。
+
+<!-- snippet: GRADIENT-2ND-SAMPLE
+(diagram (140 140)
+  (grid)
+  (defgradient (:radial :gradient2 :radius "70%")
+    (0.00 :green 0.0)
+    (1.00 :green 1.0))
+  (rect '(70 70) 100 100 :stroke :black :fill '(:url :gradient2)))
+-->
+
+```kaavio
+<!-- expand: GRADIENT-2ND-SAMPLE -->
+```
+Figure. グラデーションのサンプル - 2
+
+<!-- collapse:begin -->
+　※上記画像のソースはこちら。
+
+```lisp
+<!-- expand: GRADIENT-2ND-SAMPLE -->
+```
+<!-- collapse:end -->
+
+${BLANK_PARAGRAPH}
+
+　defgradient には多くの名前付きパラメータがありますが、現時点ではその詳細な説明は割愛します。
+今後説明を充実させる可能性はありますが、現時点では SVG本の８章をお読みください。${APPNAME} で 
+SVG本の 8.2 節のサンプルを実現するコードを以下に提示しておきます。
+
+
+<!-- collapse:close -->
+　※「SVG エッセンシャルズ 第二版」 8.2 節の図面サンプルはこちら
+
+__◆ 図 8.7__
+
+<!-- snippet: BIBLE-8.7-SAMPLE
+(diagram (240 120)
+  (grid)
+  (defgradient (:linear :two_hues_8_7)
+    (0.0 "#ffcc00")
+    (1.0 "#0099cc"))
+  (rect canvas.center 200 100 :stroke :black :fill '(:url :two_hues_8_7)))
+-->
+```kaavio
+<!-- expand: BIBLE-8.7-SAMPLE -->
+```
+```lisp
+<!-- expand: BIBLE-8.7-SAMPLE -->
+```
+
+${BLANK_PARAGRAPH}
+
+__◆ 図 8.8__
+
+<!-- snippet: BIBLE-8.8-SAMPLE
+(diagram (240 120)
+  (grid)
+  (defgradient (:linear :three_stops_8_8)
+    (0.00 "#ffcc00")
+    (0.33 "#cc6699")
+    (1.00 "#66cc99"))
+  (rect canvas.center 200 100 :stroke :black :fill '(:url :three_stops_8_8)))
+-->
+```kaavio
+<!-- expand: BIBLE-8.8-SAMPLE -->
+```
+```lisp
+<!-- expand: BIBLE-8.8-SAMPLE -->
+```
+
+${BLANK_PARAGRAPH}
+
+__◆ 図 8.9__
+
+<!-- snippet: BIBLE-8.9-SAMPLE
+(diagram (240 120)
+  (grid)
+  (defgradient (:linear :three_stops_8_9)
+    (0.00 "#906" 1.0)
+    (0.50 "#906" 0.3)
+    (1.00 "#906" 0.1))
+  (rect canvas.center 200 100 :stroke :black :fill '(:url :three_stops_8_9)))
+-->
+```kaavio
+<!-- expand: BIBLE-8.9-SAMPLE -->
+```
+```lisp
+<!-- expand: BIBLE-8.9-SAMPLE -->
+```
+
+${BLANK_PARAGRAPH}
+
+__◆ 図 8.10__
+
+<!-- snippet: BIBLE-8.10-SAMPLE
+(diagram (380 240)
+  (grid)
+  (defgradient (:linear :three_stops_8_10)
+    (0.00 "#ffcc00")
+    (0.33 "#cc6699")
+    (1.00 "#66cc99"))
+  (defgradient (:linear :right_to_left_8_10 :href :three_stops_8_10
+                        :x1 "100%" :y1 "0%" :x2 "0%" :y2 "0%"))
+  (defgradient (:linear :down_8_10          :href :three_stops_8_10
+                        :x1 "0%" :y1 "0%" :x2 "0%" :y2 "100%"))
+  (defgradient (:linear :up_8_10            :href :three_stops_8_10
+                        :x1 "0%" :y1 "100%" :x2 "0%" :y2 "0%"))
+  (defgradient (:linear :diagonal_8_10      :href :three_stops_8_10
+                        :x1 "0%" :y1 "0%" :x2 "100%" :y2 "100%"))
+  (rect '(140  40) 200 40  :stroke :black :fill '(:url :three_stops_8_10))
+  (rect '(140  90) 200 40  :stroke :black :fill '(:url :right_to_left_8_10))
+  (rect '(270 120)  40 200 :stroke :black :fill '(:url :down_8_10))
+  (rect '(320 120)  40 200 :stroke :black :fill '(:url :up_8_10))
+  (rect '(140 170) 200 100 :stroke :black :fill '(:url :diagonal_8_10)))
+-->
+```kaavio
+<!-- expand: BIBLE-8.10-SAMPLE -->
+```
+```lisp
+<!-- expand: BIBLE-8.10-SAMPLE -->
+```
+
+${BLANK_PARAGRAPH}
+
+__◆ 図 8.11__
+
+<!-- snippet: BIBLE-8.11-SAMPLE
+(diagram (360 140)
+  (grid)
+  (defgradient (:linear :partial_8_11 :x1 "20%" :y1 "30%" :x2 "40%" :y2 "80%")
+    (0.00 "#ffcc00")
+    (0.33 "#cc6699")
+    (1.00 "#66cc99"))
+  (defgradient (:linear :padded_8_11    :href :partial_8_11 :spread :pad))
+  (defgradient (:linear :repeated_8_11  :href :partial_8_11 :spread :repeat))
+  (defgradient (:linear :reflected_8_11 :href :partial_8_11 :spread :reflect))
+  (defgroup (100 100 :line_8_11)
+      (line '((20 30) (40 80)) :stroke :black))
+  (rect '( 70  70) 100 100 :stroke :black :fill '(:url :padded_8_11)
+                           :contents ((use :line_8_11 canvas.center)))
+  (rect '(180  70) 100 100 :stroke :black :fill '(:url :repeated_8_11)
+                           :contents ((use :line_8_11 canvas.center)))
+  (rect '(290  70) 100 100 :stroke :black :fill '(:url :reflected_8_11)
+                           :contents ((use :line_8_11 canvas.center))))
+-->
+```kaavio
+<!-- expand: BIBLE-8.11-SAMPLE -->
+```
+```lisp
+<!-- expand: BIBLE-8.11-SAMPLE -->
+```
+
+${BLANK_PARAGRAPH}
+
+__◆ 図 8.12__
+
+<!-- snippet: BIBLE-8.12-SAMPLE
+(diagram (140 140)
+  (grid)
+  (defgradient (:radial :three_stops_8_12)
+    (0.00 "#f96")
+    (0.50 "#9c9")
+    (1.00 "#906"))
+  (rect '(70 70) 100 100 :stroke :black :fill '(:url :three_stops_8_12)))
+-->
+```kaavio
+<!-- expand: BIBLE-8.12-SAMPLE -->
+```
+```lisp
+<!-- expand: BIBLE-8.12-SAMPLE -->
+```
+
+${BLANK_PARAGRAPH}
+
+__◆ 図 8.13__
+
+<!-- snippet: BIBLE-8.13-SAMPLE
+(diagram (140 140)
+  (grid)
+  (defgradient (:radial :center_origin_8_13 :cx "0%" :cy "0%" :radius "141%")
+    (0.00 "#f96")
+    (0.50 "#9c9")
+    (1.00 "#906"))
+  (rect '(70 70) 100 100 :stroke :black :fill '(:url :center_origin_8_13)))
+-->
+```kaavio
+<!-- expand: BIBLE-8.13-SAMPLE -->
+```
+```lisp
+<!-- expand: BIBLE-8.13-SAMPLE -->
+```
+
+${BLANK_PARAGRAPH}
+
+__◆ 図 8.14__
+
+<!-- snippet: BIBLE-8.14-SAMPLE
+(diagram (140 140)
+  (grid)
+  (defgradient (:radial :focal_set_8_14 :cx "0%" :cy "0%"
+                        :fx "50%" :fy "50%" :radius "100%")
+    (0.00 "#f96")
+    (0.50 "#9c9")
+    (1.00 "#906"))
+  (rect '(70 70) 100 100 :stroke :black :fill '(:url :focal_set_8_14)))
+-->
+```kaavio
+<!-- expand: BIBLE-8.14-SAMPLE -->
+```
+```lisp
+<!-- expand: BIBLE-8.14-SAMPLE -->
+```
+
+${BLANK_PARAGRAPH}
+
+__◆ 図 8.15__
+
+<!-- snippet: BIBLE-8.15-SAMPLE
+(diagram (360 140)
+  (grid)
+  (defgradient (:radial :three_stops_8_15 :cx "0%" :cy "0%" :radius "70%")
+    (0.00 "#f96")
+    (0.50 "#9c9")
+    (1.00 "#906"))
+  (defgradient (:radial :padded_8_15    :href :three_stops_8_15 :spread :pad))
+  (defgradient (:radial :repeated_8_15  :href :three_stops_8_15 :spread :repeat))
+  (defgradient (:radial :reflected_8_15 :href :three_stops_8_15 :spread :reflect))
+  (rect '( 70  70) 100 100 :stroke :black :fill '(:url :padded_8_15))
+  (rect '(180  70) 100 100 :stroke :black :fill '(:url :repeated_8_15))
+  (rect '(290  70) 100 100 :stroke :black :fill '(:url :reflected_8_15)))
+-->
+```kaavio
+<!-- expand: BIBLE-8.15-SAMPLE -->
+```
+```lisp
+<!-- expand: BIBLE-8.15-SAMPLE -->
+```
+
+${BLANK_PARAGRAPH}
+
+<!-- collapse:end -->
 
 ${BLANK_PARAGRAPH}
 
@@ -3582,7 +3856,7 @@ ${BLANK_PARAGRAPH}
   (grid)
   (defgradient (:linear :gradient1)
     (0.00 :red)
-	(1.00 :blue))
+    (1.00 :blue))
   (rect canvas.center 100 50 :stroke '(:url :gradient1 :width 4) :fill :white))
 -->
 
@@ -3719,8 +3993,8 @@ Figure. fill における rule のサンプル
 
 ${BLANK_PARAGRAPH}
 
-　これについては、ひとまずのところあまり使用頻度が高いとは思われないため、書籍「SVG エッセンシャルズ
-第２版」の説明を引用するに留めます。
+　これについては、ひとまずのところあまり使用頻度が高いとは思われないため、SVG本の説明を
+引用するに留めます。
 
 > __塗りつぶしのルールの説明__
 > 
@@ -3861,8 +4135,7 @@ ${BLANK_PARAGRAPH}
 
 #### フォントにおける family パラメータ
 
-　family パラメータについては、書籍「SVG エッセンシャルズ第２版」の説明を引用しておきます
-（手抜きでごめんなさい）。
+　family パラメータについては、SVG本の説明を引用しておきます（手抜きでごめんなさい）。
 
 > __font-family__
 >
@@ -3908,8 +4181,7 @@ ${BLANK_PARAGRAPH}
 
 #### size と line-spacing
 
-　フォントの size 情報については、まず書籍「SVG エッセンシャルズ第２版」の説明を引用して
-おきましょう。
+　フォントの size 情報については、まず SVG本の説明を引用しておきましょう。
 
 > __font-size__
 > 
@@ -4415,6 +4687,74 @@ Figure. uml-activity-partitions 要素
 
 　${{TODO}{まだ記述されていません。}}
 
+#### defgradient マクロ
+<!-- autolink: [defgradient](#defgradient マクロ) -->
+
+　defgradient マクロはグラデーションを定義します。グラデーションの詳細は「[](#グラデーション)」を
+参照してください。説明不足ですが、基本的に SVG 規格に沿っていますので必要に応じて書籍や規格にあたって
+ください。マクロシグネチャは以下の通りです。
+
+```lisp
+(defmacro defgradient ((type id &rest params) &rest stops) ... )
+```
+
+${BLANK_PARAGRAPH}
+
+Table. defgradient マクロのパラメータ
+| parameter       | description                               |
+|:================|:------------------------------------------|
+| `type`          | グラデーションの種類を `:linear` または `:radial` から選択します。 |
+| `id`            | ID をキーワードで指定します。              |
+| `params`        | グラデーションの付加パラメータを指定します。 `type` により異なるため後述します。  |
+| `stops`         | グラデーションストップをリストで指定します。詳細は「[](#グラデーション)」<br> \
+を参照してください。後述する `href` パラメータで他の定義を参照する場合は<br> \
+指定する必要はありません。 |
+
+${BLANK_PARAGRAPH}
+
+　`params` はグラデーションの種類（linear/radial）によって異なりますが、いずれの場合でも
+名前付きパラメータとして扱われます。まず、共通のパラメータを以下に示します。
+
+
+Table. defgradient マクロの付加パラメータ（linear/radial 共通）
+| parameter       | description                               |
+|:================|:------------------------------------------|
+| `href`          | 他のグラデーション定義を参照する場合、その ID をキーワードで指定します。 |
+| `units`         | patternUnits 属性を `:userSpaceOnUse` または `:objectBoundingBox` から<br> \
+選択します。 |
+| `spread`        | spreadMethod 属性を指定する場合、`:pad :repeat :reflect` から選択します。 |
+| `transform`     | gradientTtransform 属性を指定する場合、文字列で指定します。    |
+
+${BLANK_PARAGRAPH}
+
+　線型グラデーション特有の付加パラメータは以下の通りです。
+
+
+Table. defgradient マクロの付加パラメータ（linear）
+| parameter       | description                               |
+|:================|:------------------------------------------|
+| `x1`            | x1 属性を指定する場合、数値または文字列で指定します。 |
+| `y1`            | y1 属性を指定する場合、数値または文字列で指定します。 |
+| `x2`            | x2 属性を指定する場合、数値または文字列で指定します。 |
+| `y2`            | y2 属性を指定する場合、数値または文字列で指定します。 |
+
+${BLANK_PARAGRAPH}
+
+　円形グラデーション特有の付加パラメータは以下の通りです。
+
+
+Table. defgradient マクロの付加パラメータ（radial）
+| parameter       | description                               |
+|:================|:------------------------------------------|
+| `cx`            | cx 属性を指定する場合、数値または文字列で指定します。 |
+| `cy`            | cy 属性を指定する場合、数値または文字列で指定します。 |
+| `fx`            | fx 属性を指定する場合、数値または文字列で指定します。 |
+| `fy`            | fy 属性を指定する場合、数値または文字列で指定します。 |
+| `radius`        | r 属性を指定する場合、数値または文字列で指定します。 |
+
+
+${BLANK_PARAGRAPH}
+
 #### defgroup マクロ
 <!-- autolink: [defgroup](#defgroup マクロ) -->
 
@@ -4428,29 +4768,33 @@ Figure. uml-activity-partitions 要素
 <!-- autolink: [defpattern](#defpattern マクロ) -->
 
 　defpattern マクロはパターンを定義します。パターンの詳細は「[](#パターン)」を参照してください。
+説明不足ですが、基本的に SVG 規格に沿っていますので必要に応じて書籍や規格にあたってください。
 マクロシグネチャは以下の通りです。なお、現在、preserveAspectRatio 属性には対応していません。
 将来対応する可能性はありますが、未確定です。
 
 
 ```lisp
-(defmacro defpattern ((width height id &key (x 0) (y 0)
-                                            (units :userSpaceOnUse)
-                                            content-units view-box) &rest body) ... )
+(defmacro defpattern ((id &key x y width height href units
+                               content-units view-box transform) &rest body) ... )
 ```
+
+${BLANK_PARAGRAPH}
 
 Table. defpattern マクロのパラメータ
 | parameter       | description                               |
 |:================|:------------------------------------------|
-| `width`         | 幅を数値で指定します。                     |
-| `height`        | 高さを数値で指定します。                   |
 | `id`            | ID をキーワードで指定します。              |
 | `x`             |   |
 | `y`             |   |
+| `width`         | 幅を数値で指定します。                     |
+| `height`        | 高さを数値で指定します。                   |
+| `href`          | 高さを数値で指定します。                   |
 | `units`         | patternUnits 属性を `:userSpaceOnUse` または `:objectBoundingBox` から<br> \
 選択します。 |
 | `content-units` | patternContentUnits 属性を `:userSpaceOnUse` または `:objectBoundingBox` <br> \
 から選択します。 |
 | `view-box`      | viewBox 属性を 4 つの数値からなるリストで指定します。 |
+| `transform`     | patternTtransform 属性を指定する場合、文字列で指定します。  |
 
 
 ${BLANK_PARAGRAPH}
@@ -5433,6 +5777,9 @@ Figure. 色の名前とサンプル - 2
 	* __IMCOMPATIBLE CHANGE : defs マクロを defgroup マクロに改名__
 	* ENHANCE : 「[](#パターン)」を追加
 	* ENHANCE : 「[](#make-fill 関数)」に `url` パラメータを追加
+* __2022/09/25 - version 0.005__
+	* ENHANCE : 「[](#make-stroke 関数)」に `url` パラメータを追加
+	* ENHANCE : 「[](#グラデーション)」を追加
 
 
 ## 図表一覧
