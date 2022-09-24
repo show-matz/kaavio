@@ -3861,7 +3861,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p>　<a class='autolink' href='#dmYFJAv81Kl'>パターン</a>を定義するには <a class='autolink' href='#81YGnpDRA3K'>defpattern</a> を使用します。 <a class='autolink' href='#81YGnpDRA3K'>defpattern</a> は <a class='autolink' href='#gxb34ymFlDc'>defgroup</a> に良く似ていますが、<a class='autolink' href='#dmYFJAv81Kl'>パターン</a>を定義するための構文です。以下のサンプルでは 5 x 5 の小さな領域に細い青線を斜めにひく<a class='autolink' href='#dmYFJAv81Kl'>パターン</a>を定義し、<a class='autolink' href='#kJonRG8GtHF'>rect</a> の中にそれを敷き詰めています。</p>
 <pre class='code'>
 (diagram (140 70)
-  (defpattern (5 5 <span class='keyword3'>:tile</span>)
+  (defpattern (<span class='keyword3'>:tile</span> <span class='keyword3'>:width</span> 5 <span class='keyword3'>:height</span> 5 <span class='keyword3'>:units</span> <span class='keyword3'>:userSpaceOnUse</span>)
     (line '((5 0) (0 5)) <span class='keyword3'>:stroke</span> '(<span class='keyword3'>:color</span> <span class='keyword3'>:blue</span> <span class='keyword3'>:width</span> 0.3)))
   (rect canvas.center 100 50 <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span> <span class='keyword3'>:fill</span> '(<span class='keyword3'>:url</span> <span class='keyword3'>:tile</span>)))
 </pre>
@@ -3872,7 +3872,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 	
 	<!-- tile : pattern-definition -->
 	<defs>
-		<pattern id='tile' x='0' y='0' width='5' height='5' patternUnits='userSpaceOnUse' >
+		<pattern id='tile' width='5' height='5' patternUnits='userSpaceOnUse' >
 			<!-- line -->
 			<polyline fill='none' stroke='blue' stroke-width='0.3' points=' 5.0,0.0 0.0,5.0' />
 			
@@ -3893,7 +3893,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 	
 	<!-- crazy : pattern-definition -->
 	<defs>
-		<pattern id='crazy' x='0' y='0' width='40' height='40' patternUnits='userSpaceOnUse' >
+		<pattern id='crazy' width='40' height='40' patternUnits='userSpaceOnUse' >
 			<!-- circle -->
 			<circle cx='10' cy='10' r='8' fill='red' stroke='none' stroke-width='1' />
 			<!-- rectangle -->
@@ -3918,7 +3918,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <summary>　※上記画像のソースはこちら。</summary>
 <pre class='code'>
 (diagram (140 140)
-  (defpattern (40 40 <span class='keyword3'>:crazy</span>)
+  (defpattern (<span class='keyword3'>:crazy</span> <span class='keyword3'>:width</span> 40 <span class='keyword3'>:height</span> 40 <span class='keyword3'>:units</span> <span class='keyword3'>:userSpaceOnUse</span>)
     (circle '(10 10) 8     <span class='keyword3'>:stroke</span> <span class='keyword3'>:none</span> <span class='keyword3'>:fill</span> <span class='keyword3'>:red</span>)
     (rect   '(30 10) 14 14 <span class='keyword3'>:stroke</span> <span class='keyword3'>:none</span> <span class='keyword3'>:fill</span> <span class='keyword3'>:blue</span>)
     (rect   '(10 30) 12 12 <span class='keyword3'>:stroke</span> <span class='keyword3'>:none</span> <span class='keyword3'>:fill</span> <span class='keyword3'>:green</span> <span class='keyword3'>:rotate</span> 45)
@@ -3957,7 +3957,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 
 <pre class='code'>
 (diagram (400 170)
-  (defpattern (<span class='literal'>"20%"</span> <span class='literal'>"20%"</span> <span class='keyword3'>:tile1</span> <span class='keyword3'>:x</span> 0 <span class='keyword3'>:y</span> 0 <span class='keyword3'>:units</span> <span class='keyword3'>:objectBoundingBox</span>)
+  (defpattern (<span class='keyword3'>:tile1</span> <span class='keyword3'>:x</span> 0 <span class='keyword3'>:y</span> 0 <span class='keyword3'>:width</span> <span class='literal'>"20%"</span> <span class='keyword3'>:height</span> <span class='literal'>"20%"</span> <span class='keyword3'>:units</span> <span class='keyword3'>:objectBoundingBox</span>)
     (raw-svg <span class='literal'>"&lt;path d='M 0 0 Q 5 20 10 10 T 20 20' stroke='black' fill='none' /&gt;"</span>)
     (raw-svg <span class='literal'>"&lt;path d='M 0 0 h 20 v 20 h -20 z'    stroke='gray'  fill='none' /&gt;"</span>))
   (rect '( 70 70) 100 100 <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span> <span class='keyword3'>:fill</span> '(<span class='keyword3'>:url</span> <span class='keyword3'>:tile1</span>))
@@ -3972,7 +3972,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 	
 	<!-- tile2 : pattern-definition -->
 	<defs>
-		<pattern id='tile2' x='0' y='0' width='20' height='20' patternUnits='userSpaceOnUse' >
+		<pattern id='tile2' width='20' height='20' patternUnits='userSpaceOnUse' >
 			<!-- raw-svg -->
 			<path d='M 0 0 Q 5 20 10 10 T 20 20' stroke='black' fill='none' />
 			<!-- raw-svg -->
@@ -3992,7 +3992,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 
 <pre class='code'>
 (diagram (400 170)
-  (defpattern (20 20 <span class='keyword3'>:tile2</span> <span class='keyword3'>:units</span> <span class='keyword3'>:userSpaceOnUse</span>)
+  (defpattern (<span class='keyword3'>:tile2</span> <span class='keyword3'>:width</span> 20 <span class='keyword3'>:height</span> 20 <span class='keyword3'>:units</span> <span class='keyword3'>:userSpaceOnUse</span>)
     (raw-svg <span class='literal'>"&lt;path d='M 0 0 Q 5 20 10 10 T 20 20' stroke='black' fill='none' /&gt;"</span>)
     (raw-svg <span class='literal'>"&lt;path d='M 0 0 h 20 v 20 h -20 z'    stroke='gray'  fill='none' /&gt;"</span>))
   (rect '( 70 70) 100 100 <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span> <span class='keyword3'>:fill</span> '(<span class='keyword3'>:url</span> <span class='keyword3'>:tile2</span>))
@@ -4007,7 +4007,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 	
 	<!-- tile3 : pattern-definition -->
 	<defs>
-		<pattern id='tile3' x='0' y='0' width='.2' height='.2' patternUnits='objectBoundingBox' patternContentUnits='objectBoundingBox' >
+		<pattern id='tile3' width='.2' height='.2' patternUnits='objectBoundingBox' patternContentUnits='objectBoundingBox' >
 			<!-- raw-svg -->
 			<path d='M 0 0 Q .05 .20 .10 .10 T .20 .20' stroke='black' stroke-width='0.01' fill='none' />
 			<!-- raw-svg -->
@@ -4027,7 +4027,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 
 <pre class='code'>
 (diagram (400 170)
-  (defpattern (<span class='literal'>".2"</span> <span class='literal'>".2"</span> <span class='keyword3'>:tile3</span>
+  (defpattern (<span class='keyword3'>:tile3</span> <span class='keyword3'>:width</span> <span class='literal'>".2"</span> <span class='keyword3'>:height</span> <span class='literal'>".2"</span> 
                <span class='keyword3'>:units</span> <span class='keyword3'>:objectBoundingBox</span> <span class='keyword3'>:content-units</span> <span class='keyword3'>:objectBoundingBox</span>)
     (raw-svg <span class='literal'>"&lt;path d='M 0 0 Q .05 .20 .10 .10 T .20 .20' stroke='black' stroke-width='0.01' fill='none' /&gt;"</span>)
     (raw-svg <span class='literal'>"&lt;path d='M 0 0 h 0.20 v 0.20 h -0.2 z'      stroke='gray'  stroke-width='0.01' fill='none' /&gt;"</span>))
@@ -4043,7 +4043,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 	
 	<!-- tile4 : pattern-definition -->
 	<defs>
-		<pattern id='tile4' x='0' y='0' width='20' height='20' patternUnits='userSpaceOnUse' viewBox=' 0 0 150 150' >
+		<pattern id='tile4' width='20' height='20' patternUnits='userSpaceOnUse' viewBox=' 0 0 150 150' >
 			<!-- raw-svg -->
 			<path d='M 30 100 C 50 50, 70 20, 100 100, 110, 130, 45, 150, 65, 100' stroke='black' stroke-width='5' fill='none' />
 			
@@ -4057,7 +4057,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 
 <pre class='code'>
 (diagram (140 140)
-  (defpattern (20 20 <span class='keyword3'>:tile4</span>
+  (defpattern (<span class='keyword3'>:tile4</span> <span class='keyword3'>:width</span> 20 <span class='keyword3'>:height</span> 20 
                <span class='keyword3'>:units</span> <span class='keyword3'>:userSpaceOnUse</span> <span class='keyword3'>:view-box</span> '(0 0 150 150))
     (raw-svg <span class='literal'>"&lt;path d='M 30 100 C 50 50, 70 20, 100 100, 110, 130, 45, 150, 65, 100' stroke='black' stroke-width='5' fill='none' /&gt;"</span>))
   (rect canvas.center 100 100 <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span> <span class='keyword3'>:fill</span> '(<span class='keyword3'>:url</span> <span class='keyword3'>:tile4</span>)))
@@ -4070,7 +4070,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 	
 	<!-- stripe : pattern-definition -->
 	<defs>
-		<pattern id='stripe' x='0' y='0' width='6' height='6' patternUnits='userSpaceOnUse' >
+		<pattern id='stripe' width='6' height='6' patternUnits='userSpaceOnUse' >
 			<!-- raw-svg -->
 			<path d='M 0 0 6 0' stroke='black' fill='none' />
 			
@@ -4078,7 +4078,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 	</defs>
 	<!-- polcadot : pattern-definition -->
 	<defs>
-		<pattern id='polcadot' x='0' y='0' width='36' height='36' patternUnits='userSpaceOnUse' >
+		<pattern id='polcadot' width='36' height='36' patternUnits='userSpaceOnUse' >
 			<!-- circle -->
 			<circle cx='18' cy='18' r='12' fill='url(#stripe)' stroke='black' stroke-width='1' />
 			
@@ -4092,9 +4092,9 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 
 <pre class='code'>
 (diagram (110 110)
-  (defpattern (6 6 <span class='keyword3'>:stripe</span> <span class='keyword3'>:units</span> <span class='keyword3'>:userSpaceOnUse</span>)
+  (defpattern (<span class='keyword3'>:stripe</span> <span class='keyword3'>:width</span> 6 <span class='keyword3'>:height</span> 6 <span class='keyword3'>:units</span> <span class='keyword3'>:userSpaceOnUse</span>)
     (raw-svg <span class='literal'>"&lt;path d='M 0 0 6 0' stroke='black' fill='none' /&gt;"</span>))
-  (defpattern (36 36 <span class='keyword3'>:polcadot</span> <span class='keyword3'>:units</span> <span class='keyword3'>:userSpaceOnUse</span>)
+  (defpattern (<span class='keyword3'>:polcadot</span> <span class='keyword3'>:width</span> 36 <span class='keyword3'>:height</span> 36 <span class='keyword3'>:units</span> <span class='keyword3'>:userSpaceOnUse</span>)
     (circle '(18 18) 12 <span class='keyword3'>:fill</span> '(<span class='keyword3'>:url</span> <span class='keyword3'>:stripe</span>) <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span>))
   (rect '(54 54) 100 100 <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span> <span class='keyword3'>:fill</span> '(<span class='keyword3'>:url</span> <span class='keyword3'>:polcadot</span>)))
 </pre>
@@ -4345,6 +4345,44 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 
 <p class='fig_title'><a name='dpbOii37pGP'></a>Figure.10-5 dasharray, dashoffset のサンプル</p>
 <p>　　</p>
+<h4><a name='cPNmZfLmh3t'></a>10.2.5 ストロークにおけるパターンとグラデーションの指定</h4>
+<p>　<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>でできるのは、単色で線や点線をひくことだけではありません。<a class='autolink' href='#dmYFJAv81Kl'>パターン</a>や<a class='autolink' href='#4p1J7EWjD3m'>グラデーション</a>を定義して、それを使うこともできます。たとえば以下では、赤色から青色に変換する<a class='autolink' href='#4p1J7EWjD3m'>グラデーション</a>を作成し、<a class='autolink' href='#kJonRG8GtHF'>四角形</a>の<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>で使用しています。</p>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='140' height='70'>
+	
+	<!-- gradient1 : linear-gradient-definition -->
+	<defs>
+		<linearGradient id='gradient1' >
+			<stop offset='0.0' stop-color='red' />
+			<stop offset='1.0' stop-color='blue' />
+		</linearGradient>
+	</defs>
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- rectangle -->
+	<rect x='20' y='10' width='100' height='50' fill='white' stroke='url(#gradient1)' stroke-width='4' />
+
+</svg>
+</div>
+
+<p class='fig_title'><a name='4csTWXsTuKW'></a>Figure.10-6 グラデーションを使ったストロークのサンプル</p>
+<p>　　</p>
+<p>　上記のサンプルを生成するコードは以下になります。<a class='autolink' href='#dmYFJAv81Kl'>パターン</a>と<a class='autolink' href='#4p1J7EWjD3m'>グラデーション</a>の詳細については <a href='#kfrwaPRQE9I'>9  章</a>を参照してください。定義された<a class='autolink' href='#4p1J7EWjD3m'>グラデーション</a>を指定するために、 <code>:stroke '(:url :gradient1 :width 4)</code> という記述をしています。</p>
+<pre class='code'>
+(diagram (140 70)
+  (grid)
+  (defgradient (<span class='keyword3'>:linear</span> <span class='keyword3'>:gradient1</span>)
+    (0.00 <span class='keyword3'>:red</span>)
+	(1.00 <span class='keyword3'>:blue</span>))
+  (rect canvas.center 100 50 <span class='keyword3'>:stroke</span> '(<span class='keyword3'>:url</span> <span class='keyword3'>:gradient1</span> <span class='keyword3'>:width</span> 4) <span class='keyword3'>:fill</span> <span class='keyword3'>:white</span>))
+</pre>
+<p>　<a href='#4HFjqmTuIU6'>10.2  節</a>では説明を省略しましたが、<a class='autolink' href='#ezUVhtPwl3J'>make-stroke</a> 関数は <code>url</code> というパラメータで<a class='autolink' href='#dmYFJAv81Kl'>パターン</a>や<a class='autolink' href='#4p1J7EWjD3m'>グラデーション</a>の ID を指定することができます。これを指定した場合、 <code>:color</code> パラメータは無視されます。</p>
+<p>　　</p>
 <h3><a name='dBUd7L4C3dx'></a>10.3 フィル</h3>
 <p>　<a class='autolink' href='#dBUd7L4C3dx'>フィル</a>とは、図形を描画する際の「塗り潰し方」を指定する情報です。</p>
 <p>　このマニュアルのほとんどの部分では、 <code>:fill :white</code> のように、 <code>:fill</code> に続けて色名だけを指定しています。もう少し複雑な場合、 <code>:fill '(:color :skyblue :opacity 0.3)</code> といった要領で色名と不透明度を指定している個所もあります。実はこれらは全て簡易的な指定方法で、<a class='autolink' href='#dBUd7L4C3dx'>フィル</a>にはもっと多くの情報が含まれています。以下に説明します。</p>
@@ -4407,7 +4445,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='3bmxM1d5ylR'></a>Figure.10-6 with-options によるデフォルトフィルの変更</p>
+<p class='fig_title'><a name='3bmxM1d5ylR'></a>Figure.10-7 with-options によるデフォルトフィルの変更</p>
 <p>　　</p>
 <p>　C の<a class='autolink' href='#kJonRG8GtHF'>四角形</a>では「色しか指定していない」のに半透明になっていることに注意してください。これは、「明示的に指定されていないものはデフォルトの設定が使用される」からです。<a class='autolink' href='#5afU9yg86c0'>with-options</a> によってデフォルト設定が変更されており、B の<a class='autolink' href='#kJonRG8GtHF'>四角形</a>では（ <code>:fill</code> を省略することによって）全てがデフォルト設定で描画されました。C の<a class='autolink' href='#kJonRG8GtHF'>四角形</a>では、 <code>:fill :blue</code> によってデフォルト設定をベースとして色だけを変更している、というわけです。</p>
 <p>　<a class='autolink' href='#5afU9yg86c0'>with-options</a> では全体のデフォルト設定を変更しますが、図形要素によっては個別にデフォルト設定を持っています。たとえば、<a class='autolink' href='#e7hkC2YUaKe'>テキストボックス</a>であれば <a class='autolink' href='#2XsIFr1er3s'>with-textbox-options</a> でデフォルト設定を変更することができます。</p>
@@ -4430,9 +4468,9 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='9n3NgPBJGzS'></a>Figure.10-7 fill における rule のサンプル</p>
+<p class='fig_title'><a name='9n3NgPBJGzS'></a>Figure.10-8 fill における rule のサンプル</p>
 <details>
-<summary><a href='#9n3NgPBJGzS'>Figure.10-7</a> のソースはこちら</summary>
+<summary><a href='#9n3NgPBJGzS'>Figure.10-8</a> のソースはこちら</summary>
 <pre class='code'>
 (diagram (400 120)
   (<span class='keyword1'>let</span> ((points '((50 10) (20 90) (90 40) (10 40) (80 90))))
@@ -4452,7 +4490,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p>　evenodd ルールも、問題になっている点から無限遠まで線を引きますが、その線が<a class='autolink' href='#5vGRm9AMypB'>多角形</a>の線と何回交差するかを単純に数えます。交差した回数が奇数であれば、その点は内側にあります。偶数であれば、外側にあります。</p>
 </blockquote>
 <p>　　</p>
-<h4><a name='iDaYeogMf9R'></a>10.3.3 パターンとグラデーションの指定</h4>
+<h4><a name='7K8A5tBrYlW'></a>10.3.3 フィルにおけるパターンとグラデーションの指定</h4>
 <p>　<a class='autolink' href='#dBUd7L4C3dx'>フィル</a>でできるのは、単色で塗り潰すことだけではありません。<a class='autolink' href='#dmYFJAv81Kl'>パターン</a>や<a class='autolink' href='#4p1J7EWjD3m'>グラデーション</a>を定義して、それを使うこともできます。たとえば以下では、細い斜め線の<a class='autolink' href='#dmYFJAv81Kl'>パターン</a>を作成し、<a class='autolink' href='#kJonRG8GtHF'>四角形</a>の中に敷き詰めています。</p>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
@@ -4460,7 +4498,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 	
 	<!-- tile : pattern-definition -->
 	<defs>
-		<pattern id='tile' x='0' y='0' width='5' height='5' patternUnits='userSpaceOnUse' >
+		<pattern id='tile' width='5' height='5' patternUnits='userSpaceOnUse' >
 			<!-- line -->
 			<polyline fill='none' stroke='blue' stroke-width='0.3' points=' 5.0,0.0 0.0,5.0' />
 			
@@ -4472,12 +4510,12 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='6bZICAqfljz'></a>Figure.10-8 パターンを使った塗り潰しのサンプル</p>
+<p class='fig_title'><a name='6bZICAqfljz'></a>Figure.10-9 パターンを使った塗り潰しのサンプル</p>
 <p>　　</p>
 <p>　上記のサンプルを生成するコードは以下になります。<a class='autolink' href='#dmYFJAv81Kl'>パターン</a>と<a class='autolink' href='#4p1J7EWjD3m'>グラデーション</a>の詳細については <a href='#kfrwaPRQE9I'>9  章</a>を参照してください。定義された<a class='autolink' href='#dmYFJAv81Kl'>パターン</a>を指定するために、 <code>:fill '(:url :tile)</code> という記述をしています。</p>
 <pre class='code'>
 (diagram (140 70)
-  (defpattern (5 5 <span class='keyword3'>:tile</span>)
+  (defpattern (<span class='keyword3'>:tile</span> <span class='keyword3'>:width</span> 5 <span class='keyword3'>:height</span> 5 <span class='keyword3'>:units</span> <span class='keyword3'>:userSpaceOnUse</span>)
     (line '((5 0) (0 5)) <span class='keyword3'>:stroke</span> '(<span class='keyword3'>:color</span> <span class='keyword3'>:blue</span> <span class='keyword3'>:width</span> 0.3)))
   (rect canvas.center 100 50 <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span> <span class='keyword3'>:fill</span> '(<span class='keyword3'>:url</span> <span class='keyword3'>:tile</span>)))
 </pre>
@@ -4540,7 +4578,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='aImv1ABfsGj'></a>Figure.10-9 with-options によるデフォルトフォントの変更</p>
+<p class='fig_title'><a name='aImv1ABfsGj'></a>Figure.10-10 with-options によるデフォルトフォントの変更</p>
 <p>　　</p>
 <p>　C のテキストでは「色しか指定していない」のに文字装飾が変更されていることに注意してください。これは、「明示的に指定されていないものはデフォルトの設定が使用される」からです。<a class='autolink' href='#5afU9yg86c0'>with-options</a> によってデフォルト設定が変更されており、B のテキストでは（ <code>:font</code> を省略することによって）全てがデフォルト設定で描画されました。C の<a class='autolink' href='#kJonRG8GtHF'>四角形</a>では、 <code>:font :brown</code> によってデフォルト設定をベースとして色だけを変更している、というわけです。</p>
 <p>　<a class='autolink' href='#5afU9yg86c0'>with-options</a> では全体のデフォルト設定を変更しますが、図形要素によっては個別にデフォルト設定を持っています。たとえば、<a class='autolink' href='#e7hkC2YUaKe'>テキストボックス</a>であれば <a class='autolink' href='#2XsIFr1er3s'>with-textbox-options</a> でデフォルト設定を変更することができます。</p>
@@ -4586,7 +4624,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='gbHwYj2Ai06'></a>Figure.10-10 font における stroke と fill</p>
+<p class='fig_title'><a name='gbHwYj2Ai06'></a>Figure.10-11 font における stroke と fill</p>
 <p>　　</p>
 <h4><a name='fxm5l02ul2O'></a>10.4.4 size と line-spacing</h4>
 <p>　<a class='autolink' href='#3kZ9FkounyK'>フォント</a>の size 情報については、まず書籍「SVG エッセンシャルズ第２版」の説明を引用しておきましょう。</p>
@@ -4634,7 +4672,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='8UprDrMi9gT'></a>Figure.10-11 font における size と line-spacing</p>
+<p class='fig_title'><a name='8UprDrMi9gT'></a>Figure.10-12 font における size と line-spacing</p>
 <p>　　</p>
 <p>　見ての通り、文字によってはベースラインよりも下に描画されることがありますから、 <code>size</code> によって <code>line-spacing</code> も調整する必要があります。</p>
 <p>　　</p>
@@ -4682,9 +4720,9 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='1Z9lqmEkvJx'></a>Figure.10-12 width-spice のサンプル</p>
+<p class='fig_title'><a name='1Z9lqmEkvJx'></a>Figure.10-13 width-spice のサンプル</p>
 <details>
-<summary><a href='#1Z9lqmEkvJx'>Figure.10-12</a> のソースはこちら</summary>
+<summary><a href='#1Z9lqmEkvJx'>Figure.10-13</a> のソースはこちら</summary>
 <pre class='code'>
 (diagram (450 200)
   (grid)
@@ -4741,7 +4779,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='h7K5JgIwvZY'></a>Figure.10-13 回転のサンプル</p>
+<p class='fig_title'><a name='h7K5JgIwvZY'></a>Figure.10-14 回転のサンプル</p>
 <h3><a name='gPGlqSbIfdL'></a>10.7 フィルタ</h3>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません</span></p>
 <pre class='code'>
@@ -4793,7 +4831,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='9Z8wQykrThD'></a>Figure.10-14 フィルタのサンプル</p>
+<p class='fig_title'><a name='9Z8wQykrThD'></a>Figure.10-15 フィルタのサンプル</p>
 <h3><a name='1ovJxG7Ie9O'></a>10.8 レイヤー</h3>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <p>　　</p>
@@ -5239,7 +5277,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <tr><td nowrap align='left'><code>color</code></td><td align='left'>塗り潰しの色を指定します。色の指定方法については <a href='#1rpUB3fre67'>10.1  節</a>を、色の名前については<br><a href='#dR01Jh257Q6'>12.2  節</a>を参照してください。</td></tr>
 <tr><td nowrap align='left'><code>opacity</code></td><td align='left'>塗り潰しの不透明度を 0.0 ～ 1.0 の数値で指定します。</td></tr>
 <tr><td nowrap align='left'><code>rule</code></td><td align='left'>塗りつぶしのルールを <code>:nonzero</code> または <code>:evenodd</code> で指定します。</td></tr>
-<tr><td nowrap align='left'><code>url</code></td><td align='left'><a class='autolink' href='#dmYFJAv81Kl'>パターン</a>や<a class='autolink' href='#4p1J7EWjD3m'>グラデーション</a>の ID を指定します。詳細は <a href='#iDaYeogMf9R'>10.3.3  節</a>を参照してください。</td></tr>
+<tr><td nowrap align='left'><code>url</code></td><td align='left'><a class='autolink' href='#dmYFJAv81Kl'>パターン</a>や<a class='autolink' href='#4p1J7EWjD3m'>グラデーション</a>の ID を指定します。詳細は <a href='#7K8A5tBrYlW'>10.3.3  節</a>を参照してください。</td></tr>
 <tr><td nowrap align='left'><code>base</code></td><td align='left'><span style='background:red;color:white;'>ToDo : まだ記述されていません</span></td></tr>
 </table>
 <p>　　</p>
@@ -5320,7 +5358,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p>　パラメータ数が 2 以上の場合、<a class='autolink' href='#ezUVhtPwl3J'>make-stroke</a> 関数は実質的に以下の関数であるかのように振舞います。</p>
 <pre class='code'>
 (<span class='keyword1'>defun</span> <span class='keyword5'>make-stroke</span> <span class='keyword2'>&amp;key</span> color width opacity linecap linejoin
-                        miterlimit dasharray dashoffset base)
+                        miterlimit dasharray dashoffset url base)
 </pre>
 <p>　各パラメータの意味は以下の通りです。詳細は「<a href='#4HFjqmTuIU6'>10.2  ストローク</a>」を参照してください。</p>
 <p class='tbl_title'><a name='8gU4HDke41S'></a>Table.12-4 make-stroke 関数のパラメータ</p>
@@ -5334,6 +5372,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <tr><td nowrap align='left'><code>miterlimit</code></td><td align='left'><code>linejoin</code> が <code>:miter</code> の場合の、結合される線の太さに対する結合部の長さの<br>比率を数値で指定します。デフォルト値は 4 です。</td></tr>
 <tr><td nowrap align='left'><code>dasharray</code></td><td align='left'>点線や破線を描画したい場合に、繰り返される線の長さと間隔の長さをリストで<br>指定します。デフォルト値は nil で、<a class='autolink' href='#fv4OUML78x4'>直線</a>になります。</td></tr>
 <tr><td nowrap align='left'><code>dashoffset</code></td><td align='left'><code>dasharray</code> を指定する場合に、線の開始を <code>dasharray</code> のどこから始めるかの<br>オフセットを数値で指定します。</td></tr>
+<tr><td nowrap align='left'><code>url</code></td><td align='left'><a class='autolink' href='#dmYFJAv81Kl'>パターン</a>や<a class='autolink' href='#4p1J7EWjD3m'>グラデーション</a>の ID を指定します。詳細は <a href='#cPNmZfLmh3t'>10.2.5  節</a>を参照してください。</td></tr>
 <tr><td nowrap align='left'><code>base</code></td><td align='left'><span style='background:red;color:white;'>ToDo : まだ記述されていません</span></td></tr>
 </table>
 <p>　　</p>
@@ -8013,15 +8052,16 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li><a href='#hP90ozCer2U'>Figure.10-3 linejoin のサンプル</a></li>
 <li><a href='#6vs2Vz9sOKj'>Figure.10-4 miterlimit のサンプル</a></li>
 <li><a href='#dpbOii37pGP'>Figure.10-5 dasharray, dashoffset のサンプル</a></li>
-<li><a href='#3bmxM1d5ylR'>Figure.10-6 with-options によるデフォルトフィルの変更</a></li>
-<li><a href='#9n3NgPBJGzS'>Figure.10-7 fill における rule のサンプル</a></li>
-<li><a href='#6bZICAqfljz'>Figure.10-8 パターンを使った塗り潰しのサンプル</a></li>
-<li><a href='#aImv1ABfsGj'>Figure.10-9 with-options によるデフォルトフォントの変更</a></li>
-<li><a href='#gbHwYj2Ai06'>Figure.10-10 font における stroke と fill</a></li>
-<li><a href='#8UprDrMi9gT'>Figure.10-11 font における size と line-spacing</a></li>
-<li><a href='#1Z9lqmEkvJx'>Figure.10-12 width-spice のサンプル</a></li>
-<li><a href='#h7K5JgIwvZY'>Figure.10-13 回転のサンプル</a></li>
-<li><a href='#9Z8wQykrThD'>Figure.10-14 フィルタのサンプル</a></li>
+<li><a href='#4csTWXsTuKW'>Figure.10-6 グラデーションを使ったストロークのサンプル</a></li>
+<li><a href='#3bmxM1d5ylR'>Figure.10-7 with-options によるデフォルトフィルの変更</a></li>
+<li><a href='#9n3NgPBJGzS'>Figure.10-8 fill における rule のサンプル</a></li>
+<li><a href='#6bZICAqfljz'>Figure.10-9 パターンを使った塗り潰しのサンプル</a></li>
+<li><a href='#aImv1ABfsGj'>Figure.10-10 with-options によるデフォルトフォントの変更</a></li>
+<li><a href='#gbHwYj2Ai06'>Figure.10-11 font における stroke と fill</a></li>
+<li><a href='#8UprDrMi9gT'>Figure.10-12 font における size と line-spacing</a></li>
+<li><a href='#1Z9lqmEkvJx'>Figure.10-13 width-spice のサンプル</a></li>
+<li><a href='#h7K5JgIwvZY'>Figure.10-14 回転のサンプル</a></li>
+<li><a href='#9Z8wQykrThD'>Figure.10-15 フィルタのサンプル</a></li>
 <li><a href='#2Hj3wMypfUt'>Figure.11-1 uml-action-param 要素</a></li>
 <li><a href='#2p79zKV2A8T'>Figure.11-2 uml-action 要素</a></li>
 <li><a href='#bGeFbFhlXGE'>Figure.11-3 uml-activity-partitions 要素</a></li>

@@ -29,7 +29,8 @@
    (linejoin	:initform nil :initarg :linejoin)		; (or nil keyword)
    (miterlimit	:initform nil :initarg :miterlimit)		; number
    (dasharray	:initform nil :initarg :dasharray)		; list
-   (dashoffset	:initform nil :initarg :dashoffset)))	; number
+   (dashoffset	:initform nil :initarg :dashoffset)		; number
+   (url			:initform nil :initarg :url)))			; (or nil keyword)
 
 (defmethod initialize-instance :after ((stroke stroke-info) &rest initargs)
   (declare (ignore initargs))
@@ -39,7 +40,7 @@
 (defmethod check ((ent stroke-info) canvas dict)
   (declare (ignore canvas dict))
   (with-slots (color width opacity linecap linejoin
-					 miterlimit dasharray dashoffset) ent
+					 miterlimit dasharray dashoffset url) ent
 	(check-member color      :nullable t :types (or string keyword))
 	(when color
 	  (setf color (colormap-fix color)))
@@ -53,7 +54,8 @@
 	(when linecap
 	  (check-keywords linecap :butt :round :square))
 	(when linejoin
-	  (check-keywords linejoin :miter :round :bevel)))
+	  (check-keywords linejoin :miter :round :bevel))
+	(check-member url        :nullable t :types keyword))
   t)
 
 (defmethod to-property-strings ((stroke stroke-info))
@@ -64,8 +66,12 @@
 		(linejoin   (slot-value stroke   'linejoin))
 		(miterlimit (slot-value stroke 'miterlimit))
 		(dasharr    (slot-value stroke  'dasharray))
-		(dashoffset (slot-value stroke 'dashoffset)))
-	(when color      (setf color      (format-string "stroke='" color "' ")))
+		(dashoffset (slot-value stroke 'dashoffset))
+		(url        (slot-value stroke        'url)))
+	(if url
+		(setf color (format-string "stroke='url(#" url ")' "))
+		(when color
+		  (setf color (format-string "stroke='" color "' "))))
 	(when width	     (setf width      (format-string "stroke-width='" width "' ")))
 	(when opacity    (setf opacity    (format-string "stroke-opacity='" opacity "' ")))
 	(when linecap    (setf linecap    (format-string "stroke-linecap='" linecap "' ")))
@@ -83,8 +89,12 @@
 		(linejoin   (slot-value stroke   'linejoin))
 		(miterlimit (slot-value stroke 'miterlimit))
 		(dasharr    (slot-value stroke  'dasharray))
-		(dashoffset (slot-value stroke 'dashoffset)))
-	(when color      (setf color      (format-string "stroke: " color "; ")))
+		(dashoffset (slot-value stroke 'dashoffset))
+		(url        (slot-value stroke        'url)))
+	(if url
+		(setf color (format-string "stroke=: url(#" url "); "))
+		(when color
+		  (setf color (format-string "stroke: " color "; "))))
 	(when width	     (setf width      (format-string "stroke-width: " width "; ")))
 	(when opacity    (setf opacity    (format-string "stroke-opacity: " opacity "; ")))
 	(when linecap    (setf linecap    (format-string "stroke-linecap: " linecap "; ")))
@@ -115,7 +125,8 @@
 									(linejoin   nil   linejoin-p)
 									(miterlimit nil miterlimit-p)
 									(dasharray  nil  dasharray-p)
-									(dashoffset nil dashoffset-p) base) params
+									(dashoffset nil dashoffset-p)
+									(url        nil        url-p) base) params
 			(let ((base (or base *default-stroke*)))
 			  (labels ((fixval (val-p val slot-sym default)
 						 (if val-p
@@ -130,7 +141,8 @@
 							   :linejoin   (fixval linejoin-p   linejoin   'linejoin   nil)
 							   :miterlimit (fixval miterlimit-p miterlimit 'miterlimit nil)
 							   :dasharray  (fixval dasharray-p  dasharray  'dasharray  nil)
-							   :dashoffset (fixval dashoffset-p dashoffset 'dashoffset nil))))))))
+							   :dashoffset (fixval dashoffset-p dashoffset 'dashoffset nil)
+							   :url        (fixval url-p        url        'url        nil))))))))
 
 
 

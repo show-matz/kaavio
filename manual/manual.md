@@ -3193,7 +3193,7 @@ ${BLANK_PARAGRAPH}
 
 <!-- snippet: PATTERN-1ST-SAMPLE
 (diagram (140 70)
-  (defpattern (5 5 :tile)
+  (defpattern (:tile :width 5 :height 5 :units :userSpaceOnUse)
     (line '((5 0) (0 5)) :stroke '(:color :blue :width 0.3)))
   (rect canvas.center 100 50 :stroke :black :fill '(:url :tile)))
 -->
@@ -3219,7 +3219,7 @@ ${BLANK_PARAGRAPH}
 
 <!-- snippet: PATTERN-2ND-SAMPLE
 (diagram (140 140)
-  (defpattern (40 40 :crazy)
+  (defpattern (:crazy :width 40 :height 40 :units :userSpaceOnUse)
     (circle '(10 10) 8     :stroke :none :fill :red)
     (rect   '(30 10) 14 14 :stroke :none :fill :blue)
     (rect   '(10 30) 12 12 :stroke :none :fill :green :rotate 45)
@@ -3256,7 +3256,7 @@ __◆ 図 8.2__
 
 <!-- snippet: BIBLE-8.2-SAMPLE
 (diagram (400 170)
-  (defpattern ("20%" "20%" :tile1 :x 0 :y 0 :units :objectBoundingBox)
+  (defpattern (:tile1 :x 0 :y 0 :width "20%" :height "20%" :units :objectBoundingBox)
     (raw-svg "<path d='M 0 0 Q 5 20 10 10 T 20 20' stroke='black' fill='none' />")
     (raw-svg "<path d='M 0 0 h 20 v 20 h -20 z'    stroke='gray'  fill='none' />"))
   (rect '( 70 70) 100 100 :stroke :black :fill '(:url :tile1))
@@ -3276,7 +3276,7 @@ __◆ 図 8.3__
 
 <!-- snippet: BIBLE-8.3-SAMPLE
 (diagram (400 170)
-  (defpattern (20 20 :tile2 :units :userSpaceOnUse)
+  (defpattern (:tile2 :width 20 :height 20 :units :userSpaceOnUse)
     (raw-svg "<path d='M 0 0 Q 5 20 10 10 T 20 20' stroke='black' fill='none' />")
     (raw-svg "<path d='M 0 0 h 20 v 20 h -20 z'    stroke='gray'  fill='none' />"))
   (rect '( 70 70) 100 100 :stroke :black :fill '(:url :tile2))
@@ -3296,7 +3296,7 @@ __◆ 図 8.4__
 
 <!-- snippet: BIBLE-8.4-SAMPLE
 (diagram (400 170)
-  (defpattern (".2" ".2" :tile3
+  (defpattern (:tile3 :width ".2" :height ".2" 
                :units :objectBoundingBox :content-units :objectBoundingBox)
     (raw-svg "<path d='M 0 0 Q .05 .20 .10 .10 T .20 .20' stroke='black' stroke-width='0.01' fill='none' />")
     (raw-svg "<path d='M 0 0 h 0.20 v 0.20 h -0.2 z'      stroke='gray'  stroke-width='0.01' fill='none' />"))
@@ -3317,7 +3317,7 @@ __◆ 図 8.5__
 
 <!-- snippet: BIBLE-8.5-SAMPLE
 (diagram (140 140)
-  (defpattern (20 20 :tile4
+  (defpattern (:tile4 :width 20 :height 20 
                :units :userSpaceOnUse :view-box '(0 0 150 150))
     (raw-svg "<path d='M 30 100 C 50 50, 70 20, 100 100, 110, 130, 45, 150, 65, 100' stroke='black' stroke-width='5' fill='none' />"))
   (rect canvas.center 100 100 :stroke :black :fill '(:url :tile4)))
@@ -3335,9 +3335,9 @@ __◆ 図 8.6__
 
 <!-- snippet: BIBLE-8.6-SAMPLE
 (diagram (110 110)
-  (defpattern (6 6 :stripe :units :userSpaceOnUse)
+  (defpattern (:stripe :width 6 :height 6 :units :userSpaceOnUse)
     (raw-svg "<path d='M 0 0 6 0' stroke='black' fill='none' />"))
-  (defpattern (36 36 :polcadot :units :userSpaceOnUse)
+  (defpattern (:polcadot :width 36 :height 36 :units :userSpaceOnUse)
     (circle '(18 18) 12 :fill '(:url :stripe) :stroke :black))
   (rect '(54 54) 100 100 :stroke :black :fill '(:url :polcadot)))
 -->
@@ -3571,6 +3571,42 @@ Figure. dasharray, dashoffset のサンプル
 
 ${BLANK_PARAGRAPH}
 
+#### ストロークにおけるパターンとグラデーションの指定
+
+　ストロークでできるのは、単色で線や点線をひくことだけではありません。パターンやグラデーション
+を定義して、それを使うこともできます。たとえば以下では、赤色から青色に変換するグラデーションを
+作成し、四角形のストロークで使用しています。
+
+<!-- snippet: STROKE-URL-SAMPLE
+(diagram (140 70)
+  (grid)
+  (defgradient (:linear :gradient1)
+    (0.00 :red)
+	(1.00 :blue))
+  (rect canvas.center 100 50 :stroke '(:url :gradient1 :width 4) :fill :white))
+-->
+
+```kaavio
+<!-- expand: STROKE-URL-SAMPLE -->
+```
+Figure. グラデーションを使ったストロークのサンプル
+
+${BLANK_PARAGRAPH}
+
+　上記のサンプルを生成するコードは以下になります。パターンとグラデーションの詳細について
+は [$@ 章](#パターンとグラデーション)を参照してください。定義されたグラデーションを指定する
+ために、 `:stroke '(:url :gradient1 :width 4)` という記述をしています。
+
+```lisp
+<!-- expand: STROKE-URL-SAMPLE -->
+```
+
+　[$@ 節](#ストローク)では説明を省略しましたが、make-stroke 関数は `url` というパラメータで
+パターンやグラデーションの ID を指定することができます。これを指定した場合、 `:color` パラメータは
+無視されます。
+
+${BLANK_PARAGRAPH}
+
 ### フィル
 <!-- autolink: [$$](#フィル) -->
 
@@ -3700,7 +3736,7 @@ ${BLANK_PARAGRAPH}
 
 ${BLANK_PARAGRAPH}
 
-#### パターンとグラデーションの指定
+#### フィルにおけるパターンとグラデーションの指定
 
 　フィルでできるのは、単色で塗り潰すことだけではありません。パターンやグラデーションを
 定義して、それを使うこともできます。たとえば以下では、細い斜め線のパターンを作成し、
@@ -3708,7 +3744,7 @@ ${BLANK_PARAGRAPH}
 
 <!-- snippet: FILL-URL-SAMPLE
 (diagram (140 70)
-  (defpattern (5 5 :tile)
+  (defpattern (:tile :width 5 :height 5 :units :userSpaceOnUse)
     (line '((5 0) (0 5)) :stroke '(:color :blue :width 0.3)))
   (rect canvas.center 100 50 :stroke :black :fill '(:url :tile)))
 -->
@@ -4458,7 +4494,7 @@ Table. make-fill 関数のパラメータ
 [$@ 節](#色の名前)を参照してください。  |
 | `opacity`   | 塗り潰しの不透明度を 0.0 ～ 1.0 の数値で指定します。  |
 | `rule`      | 塗りつぶしのルールを `:nonzero` または `:evenodd` で指定します。|
-| `url`       | パターンやグラデーションの ID を指定します。詳細は [$@ 節](#パターンとグラデーションの指定)を参照してください。 |
+| `url`       | パターンやグラデーションの ID を指定します。詳細は [$@ 節](#フィルにおけるパターンとグラデーションの指定)を参照してください。 |
 | `base`      | ${{TODO}{まだ記述されていません}} |
 
 
@@ -4543,7 +4579,7 @@ ${BLANK_PARAGRAPH}
 
 ```lisp
 (defun make-stroke &key color width opacity linecap linejoin
-                        miterlimit dasharray dashoffset base)
+                        miterlimit dasharray dashoffset url base)
 ```
 
 　各パラメータの意味は以下の通りです。詳細は「[](#ストローク)」を参照してください。
@@ -4563,6 +4599,7 @@ Table. make-stroke 関数のパラメータ
 指定します。デフォルト値は nil で、直線になります。 |
 | `dashoffset` | `dasharray` を指定する場合に、線の開始を `dasharray` のどこから始めるかの<br> \
 オフセットを数値で指定します。  |
+| `url`        | パターンやグラデーションの ID を指定します。詳細は [$@ 節](#ストロークにおけるパターンとグラデーションの指定)を参照してください。 |
 | `base`       | ${{TODO}{まだ記述されていません}} |
 
 
