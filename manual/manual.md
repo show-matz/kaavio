@@ -229,7 +229,7 @@ ${BLANK_PARAGRAPH}
 
 ## 基本的な図形
 
-　SVG 規格における基本図形（一部例外あり）から紹介します。以下のサンプルはそれぞれの説明項目への
+　SVG 規格における基本図形（とそれに類するもの）から紹介します。以下のサンプルはそれぞれの説明項目への
 リンクになっています。
 
 <!-- define: HASH_RECT    = '[](#四角形)' -->
@@ -239,9 +239,10 @@ ${BLANK_PARAGRAPH}
 <!-- define: HASH_LINE    = '[](#直線)' -->
 <!-- define: HASH_ARC     = '[](#円弧)' -->
 <!-- define: HASH_TEXT    = '[](#テキスト)' -->
+<!-- define: HASH_DIAMOND = '[](#ひし形)' -->
 
 ```kaavio
-(diagram (800 120)
+(diagram (800 230)
   (glow-shadow :id :foo-filter)
   ;(grid)
   (let ((w  80)
@@ -279,13 +280,18 @@ ${BLANK_PARAGRAPH}
       (text `(,(/ w 2) 55) "Text" :align :center
             :font '(:family "Times New Roman" :size 30 :style :italic :filter :foo-filter))
 	  (text `(,(/ w 2) ,(- h 5)) "テキスト" :align :center))
-    (use :rect-grp    '(100 60) :link "${HASH_RECT}")
-    (use :circle-grp  '(200 60) :link "${HASH_CIRCLE}")
-    (use :ellipse-grp '(300 60) :link "${HASH_ELLIPSE}")
-    (use :polygon-grp '(400 60) :link "${HASH_POLYGON}")
-    (use :line-grp    '(500 60) :link "${HASH_LINE}")
-    (use :arc-grp     '(600 60) :link "${HASH_ARC}")
-    (use :text-grp    '(700 60) :link "${HASH_TEXT}")))
+    (defgroup (w h :diamond-grp)
+      (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
+      (diamond `(,(/ w 2) ,(/ w 2)) 60 60 :fill :plum3 :stroke '(:color :red3 :width 2))
+	  (text `(,(/ w 2) ,(- h 5)) "ひし形" :align :center))
+    (use :rect-grp    '(100  60) :link "${HASH_RECT}")
+    (use :circle-grp  '(200  60) :link "${HASH_CIRCLE}")
+    (use :ellipse-grp '(300  60) :link "${HASH_ELLIPSE}")
+    (use :polygon-grp '(400  60) :link "${HASH_POLYGON}")
+    (use :line-grp    '(500  60) :link "${HASH_LINE}")
+    (use :arc-grp     '(600  60) :link "${HASH_ARC}")
+    (use :text-grp    '(700  60) :link "${HASH_TEXT}")
+    (use :diamond-grp '(100 170) :link "${HASH_DIAMOND}")))
 ```
 
 ### 四角形
@@ -729,6 +735,62 @@ align 指定はテキストで示されています。
 Figure. テキストの position とアライメント指定の関係
 
 ${BLANK_PARAGRAPH}
+
+### ひし形
+<!-- autolink: [diamond](#ひし形) -->
+<!-- autolink: [$$](#ひし形) -->
+
+<!-- snippet: DIAMOND-SAMPLE
+(diagram (300 100)
+  (grid)
+  (diamond '(150 50) 150 60 :stroke '(:color :red3 :width 2) :fill :plum3))
+-->
+
+　`diamond` によってひし形を描画できます。
+
+```kaavio
+<!-- expand: DIAMOND-SAMPLE -->
+```
+Figure. diamond のサンプル
+
+
+<!-- collapse:begin -->
+　※上記サンプルのソースはこちら。
+
+```lisp
+<!-- expand: DIAMOND-SAMPLE -->
+```
+<!-- collapse:end -->
+
+　diamond のパラメータ構成は以下の通りです。
+
+```lisp
+(defmacro diamond (center width height
+                   &key fill stroke rotate link layer id filter contents) ... )
+```
+
+<!-- stack:push tr style="font-size: 14;" -->
+
+Table. diamond のパラメータ
+| パラメータ | 説明                                                                           |
+|:==========|:--------------------------------------------------------------------------------------|
+| center    | 中心点を指定します。詳細は「[](#座標と位置)」を参照してください。                 |
+| width     | 幅を数値で指定します。                                                        |
+| height    | 高さを数値で指定します。                                                      |
+| fill      | 内部の塗り潰しを指定します。詳細は「[](#フィル)」を参照してください。           |
+| stroke    | 外枠を描画する線を指定します。詳細は「[](#ストローク)」を参照してください。         |
+| rotate    | 回転させる場合、その角度を指定します。詳細は「[](#回転)」を参照してください。 |
+| link      | リンクにする場合、リンク先を指定します。詳細は「[](#リンク)」を参照してください。 |
+| layer     | レイヤーに所属させる場合、その名前をキーワードで指定します。<br> \
+詳細は「[](#レイヤー)」を参照してください。           |
+| id        | ID を付与したい場合、その名前をキーワードで指定します。<br> \
+詳細は「[](#IDと参照)」を参照してください。            |
+| filter    | フィルタ効果を適用したい場合、その名前を指定します。<br> \
+詳細は「[](#フィルタ)」を参照してください。 |
+| contents  | 内部をサブキャンバスとした描画をしたい場合、その内容を指定します。<br> \
+詳細は「[](#サブキャンバス)」を参照してください。 |
+
+<!-- stack:pop tr -->
 
 ## 一般的な図形
 
@@ -5780,6 +5842,8 @@ Figure. 色の名前とサンプル - 2
 * __2022/09/25 - version 0.005__
 	* ENHANCE : 「[](#make-stroke 関数)」に `url` パラメータを追加
 	* ENHANCE : 「[](#グラデーション)」を追加
+* __2022/09/26__
+	* ENHANCE : 「[](#ひし形)」を追加
 
 
 ## 図表一覧

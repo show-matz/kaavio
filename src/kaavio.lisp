@@ -136,6 +136,8 @@
 				;defpattern.lisp
 				:pattern-definition
 				:defpattern
+				;diamond.lisp
+				:diamond
 				;dictionary.lisp
 				:dictionary
 				;document.lisp

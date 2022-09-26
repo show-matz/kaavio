@@ -99,6 +99,15 @@
 				                                                "font-info"
 				                                                "stroke-info"
 				                                                "writer"))
+				(:file "diamond"                   :depends-on ("kaavio"
+																"constants"
+																"canvas"
+																"point"
+																"shape"
+																"stroke-info"
+																"link-info"
+																"filter"
+																"writer"))
 				(:file "dictionary"                :depends-on ("kaavio"))
 				(:file "document"                  :depends-on ("kaavio"
 																"constants"

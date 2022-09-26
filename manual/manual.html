@@ -42,6 +42,7 @@
 <li class='tocx'><a href='#fv4OUML78x4'>3.5 直線</a></li>
 <li class='tocx'><a href='#cp2F91gKG7W'>3.6 円弧</a></li>
 <li class='tocx'><a href='#cTdCvBeU6ZJ'>3.7 テキスト</a></li>
+<li class='tocx'><a href='#4dFMjynUMYw'>3.8 ひし形</a></li>
 </blockquote>
 </details>
 <details class='tocx' open>
@@ -324,7 +325,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p>　　</p>
 <p>　サンプルは以上です。雰囲気は掴めたと思うので、続いて各種の図形要素について説明します。</p>
 <h2><a name='2msfXdtEc6a'></a>3 基本的な図形</h2>
-<p>　SVG 規格における基本図形（一部例外あり）から紹介します。以下のサンプルはそれぞれの説明項目へのリンクになっています。</p>
+<p>　SVG 規格における基本図形（とそれに類するもの）から紹介します。以下のサンプルはそれぞれの説明項目へのリンクになっています。</p>
 <!-- define: HASH_RECT    = '[](#四角形)' -->
 <!-- define: HASH_CIRCLE  = '[](#正円)' -->
 <!-- define: HASH_ELLIPSE = '[](#楕円)' -->
@@ -332,9 +333,10 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <!-- define: HASH_LINE    = '[](#直線)' -->
 <!-- define: HASH_ARC     = '[](#円弧)' -->
 <!-- define: HASH_TEXT    = '[](#テキスト)' -->
+<!-- define: HASH_DIAMOND = '[](#ひし形)' -->
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
-<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='800' height='120'>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='800' height='230'>
 	
 	<filter id='foo-filter'>
 		<feColorMatrix type='matrix' values=' 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0' />
@@ -428,6 +430,18 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 			
 		</g>
 	</defs>
+	<!-- diamond-grp : group-definition -->
+	<defs>
+		<g id='diamond-grp'>
+			<!-- rectangle -->
+			<rect x='0' y='0' width='80' height='100' fill='white' stroke='none' stroke-width='1' />
+			<!-- diamond -->
+			<polygon fill='#CD96CD' stroke='#CD0000' stroke-width='2' points='40.0,10.0 10.0,40.0 40.0,70.0 70.0,40.0 40.0,10.0' />
+			<!-- text -->
+			<text x='40' y='95' text-anchor='middle' font-size='12pt' fill='black' >ひし形</text>
+			
+		</g>
+	</defs>
 	<!-- use -->
 	<a xlink:href='#kJonRG8GtHF' target='_self'>
 		<use xlink:href='#rect-grp' x='60' y='10' />
@@ -455,6 +469,10 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 	<!-- use -->
 	<a xlink:href='#cTdCvBeU6ZJ' target='_self'>
 		<use xlink:href='#text-grp' x='660' y='10' />
+	</a>
+	<!-- use -->
+	<a xlink:href='#4dFMjynUMYw' target='_self'>
+		<use xlink:href='#diamond-grp' x='60' y='120' />
 	</a>
 
 </svg>
@@ -855,6 +873,53 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 
 <p class='fig_title'><a name='5BXk9aTPHsl'></a>Figure.3-9 テキストの position とアライメント指定の関係</p>
 <p>　　</p>
+<h3><a name='4dFMjynUMYw'></a>3.8 ひし形</h3>
+<p>　<code>diamond</code> によって<a class='autolink' href='#4dFMjynUMYw'>ひし形</a>を描画できます。</p>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='100'>
+	
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- diamond -->
+	<polygon fill='#CD96CD' stroke='#CD0000' stroke-width='2' points='150.0,20.0 75.0,50.0 150.0,80.0 225.0,50.0 150.0,20.0' />
+
+</svg>
+</div>
+
+<p class='fig_title'><a name='2sQudXmWdXy'></a>Figure.3-10 diamond のサンプル</p>
+<details>
+<summary>　※上記サンプルのソースはこちら。</summary>
+<pre class='code'>
+(diagram (300 100)
+  (grid)
+  (diamond '(150 50) 150 60 <span class='keyword3'>:stroke</span> '(<span class='keyword3'>:color</span> <span class='keyword3'>:red3</span> <span class='keyword3'>:width</span> 2) <span class='keyword3'>:fill</span> <span class='keyword3'>:plum3</span>))
+</pre>
+</details>
+<p>　<a class='autolink' href='#4dFMjynUMYw'>diamond</a> のパラメータ構成は以下の通りです。</p>
+<pre class='code'>
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>diamond</span> (center width height
+                   <span class='keyword2'>&amp;key</span> fill stroke rotate link layer id filter contents) ... )
+</pre>
+<p class='tbl_title'><a name='iARD0ysYKSD'></a>Table.3-8 diamond のパラメータ</p>
+<table align='center'>
+<tr style="font-size: 14;"><th>パラメータ</th><th>説明</th></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>center</td><td align='left'>中心点を指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>width</td><td align='left'>幅を数値で指定します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>height</td><td align='left'>高さを数値で指定します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>fill</td><td align='left'>内部の塗り潰しを指定します。詳細は「<a href='#dBUd7L4C3dx'>10.3  フィル</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>stroke</td><td align='left'>外枠を描画する線を指定します。詳細は「<a href='#4HFjqmTuIU6'>10.2  ストローク</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>rotate</td><td align='left'>回転させる場合、その角度を指定します。詳細は「<a href='#heEi5Lc5BX9'>10.6  回転</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>link</td><td align='left'>リンクにする場合、リンク先を指定します。詳細は「<a href='#fbLcMRTVXac'>10.9  リンク</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>layer</td><td align='left'>レイヤーに所属させる場合、その名前をキーワードで指定します。<br>詳細は「<a href='#1ovJxG7Ie9O'>10.8  レイヤー</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>id</td><td align='left'>ID を付与したい場合、その名前をキーワードで指定します。<br>詳細は「<a href='#iu9Ovm00KHn'>10.5  IDと参照</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>filter</td><td align='left'><a class='autolink' href='#gPGlqSbIfdL'>フィルタ</a>効果を適用したい場合、その名前を指定します。<br>詳細は「<a href='#gPGlqSbIfdL'>10.7  フィルタ</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>contents</td><td align='left'>内部を<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>とした描画をしたい場合、その内容を指定します。<br>詳細は「<a href='#kgs1vf3AbTN'>7  サブキャンバス</a>」を参照してください。</td></tr>
+</table>
 <h2><a name='1s5LsvBYupX'></a>4 一般的な図形</h2>
 <p>　基本的な図形を組み合わせて作成される、複合的な図形を紹介します。以下のサンプルはそれぞれの説明項目へのリンクになっています。</p>
 <!-- define: HASH_CONNECTOR  = '[](#コネクタ)' -->
@@ -8515,6 +8580,11 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li>ENHANCE : 「<a href='#4p1J7EWjD3m'>9.2  グラデーション</a>」を追加</li>
 </ul>
 </li>
+<li><strong>2022/09/26</strong>
+<ul>
+<li>ENHANCE : 「<a href='#4dFMjynUMYw'>3.8  ひし形</a>」を追加</li>
+</ul>
+</li>
 </ul>
 <h2><a name='1iQ3KRF8uJQ'></a>14 図表一覧</h2>
 <ul>
@@ -8529,6 +8599,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li><a href='#bSd48Y8N0w0'>Figure.3-7 arc のサンプル - 2</a></li>
 <li><a href='#7uvPIQqWhZy'>Figure.3-8 text のサンプル</a></li>
 <li><a href='#5BXk9aTPHsl'>Figure.3-9 テキストの position とアライメント指定の関係</a></li>
+<li><a href='#2sQudXmWdXy'>Figure.3-10 diamond のサンプル</a></li>
 <li><a href='#4gGy4q3tl7a'>Figure.4-1 コネクタのサンプル</a></li>
 <li><a href='#iS4fHSfl5nF'>Figure.4-2 コネクタにおける接続点の指定</a></li>
 <li><a href='#5cNBVVOciY7'>Figure.4-3 コネクタによる接続経路決定</a></li>
@@ -8613,6 +8684,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li><a href='#4y0W4mtr1SE'>Table.3-5 line のパラメータ</a></li>
 <li><a href='#gg6iCoxAfmr'>Table.3-6 arc のパラメータ</a></li>
 <li><a href='#iSYTxHvOAoB'>Table.3-7 text のパラメータ</a></li>
+<li><a href='#iARD0ysYKSD'>Table.3-8 diamond のパラメータ</a></li>
 <li><a href='#79EVRrlxEbF'>Table.4-1 connect のパラメータ</a></li>
 <li><a href='#0mFeKi0I0Lr'>Table.4-2 paragraph のパラメータ</a></li>
 <li><a href='#hOloecoUbQv'>Table.4-3 textbox のパラメータ</a></li>
@@ -8687,6 +8759,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li class='idx_x'><a class='autolink' href='#dNdd5AGYfnC'>defgradient</a></li>
 <li class='idx_x'><a class='autolink' href='#gxb34ymFlDc'>defgroup</a></li>
 <li class='idx_x'><a class='autolink' href='#81YGnpDRA3K'>defpattern</a></li>
+<li class='idx_x'><a class='autolink' href='#4dFMjynUMYw'>diamond</a></li>
 <li class='idx_x'><a class='autolink' href='#jRjILbbJATV'>document</a></li>
 </blockquote>
 </details>
@@ -8820,6 +8893,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <details class='idx_x' open>
 <summary class='idx_x'>Others</summary>
 <blockquote class='idx_x'>
+<li class='idx_x'><a class='autolink' href='#4dFMjynUMYw'>ひし形</a></li>
 <li class='idx_x'><a class='autolink' href='#8ya1jqc5cZQ'>アクティビティ図</a></li>
 <li class='idx_x'><a class='autolink' href='#kgs1vf3AbTN'>キャンバス</a></li>
 <li class='idx_x'><a class='autolink' href='#hja1QJC0Ivb'>キューブ</a></li>
