@@ -79,6 +79,7 @@
 	  (slot-value shp 'rotate)))
 
 #|
+#|EXPORT|#				:shape-id
 #|EXPORT|#				:shape-width
 #|EXPORT|#				:shape-height
 #|EXPORT|#				:shape-topleft
@@ -91,6 +92,7 @@
 #|EXPORT|#				:shape-bottom
 #|EXPORT|#				:shape-bottomright
  |#
+(defgeneric shape-id          (shp))	;; returns symbol (keyword or gensym).
 (defgeneric shape-width       (shp))	;; returns number.
 (defgeneric shape-height      (shp))	;; returns number.
 (defgeneric shape-topleft     (shp))	;; returns point object.
@@ -118,6 +120,9 @@
 ; arg   := point object (when   (eq type :center)) |
 ;          -1,0,1       (unless (eq type :center))
 
+
+(defmethod shape-id ((shp shape))
+  (slot-value shp 'id))
 
 ;; need implement in derived class...
 ;;(defmethod shape-width ((shp shape)) ...)
@@ -186,10 +191,10 @@
 	(let ((id     (slot-value shp 'id))
 		  (lnk    (slot-value shp 'link))
 		  (rotate (slot-value shp 'rotate)))
-	  (when (or id rotate)
+	  (when (or (keywordp id) rotate)
 		(let ((cc (shape-center shp)))
 		  (writer-write writer "<g"
-						(write-when id " id='" it "'")
+						(write-when (keywordp id) " id='" id "'")
 						(write-when rotate " transform='rotate(" it ","
 											(point-x cc) "," (point-y cc) ")'" )
 						">"))
@@ -204,7 +209,7 @@
 		  (rotate (slot-value shp 'rotate)))
 	  (when lnk
 		(write-link-close lnk writer))
-	  (when (or id rotate)
+	  (when (or (keywordp id) rotate)
 		(writer-decr-level writer)
 		(writer-write writer "</g>")))))
 

@@ -155,7 +155,7 @@
 	  (pre-draw img writer)
 	  (writer-write writer
 					"<image "
-					(write-when id "id='" it "' ")
+					(write-when (keywordp id) "id='" id "' ")
 					"x='" (point-x topleft) "' "
 					"y='" (point-y topleft) "' "
 					"width='"  width  "' "

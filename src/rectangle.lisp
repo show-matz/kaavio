@@ -86,7 +86,7 @@
 	  (pre-draw rct writer)
 	  (writer-write writer
 					"<rect "
-					(write-when id "id='" it "' ")
+					(write-when (keywordp id) "id='" id "' ")
 					"x='" (point-x topleft) "' "
 					"y='" (point-y topleft) "' "
 					"width='"  (shape-width  rct) "' "

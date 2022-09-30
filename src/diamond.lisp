@@ -91,7 +91,7 @@
 		(pre-draw rct writer)
 		(writer-write writer
 					  "<polygon "
-					  (write-when id "id='" it "' ")
+					  (write-when (keywordp id) "id='" id "' ")
 					  (to-property-strings fill)
 					  (to-property-strings stroke)
 					  "points='" (format-points points) "' "

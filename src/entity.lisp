@@ -17,7 +17,7 @@
 #|EXPORT|#				:entity
  |#
 (defclass entity ()
-  ((id		:initform nil :initarg :id)			; keyword
+  ((id		:initform nil :initarg :id)			; keyword or gensym
    (layer	:initform nil :initarg :layer)))	; keyword
 
 
@@ -39,21 +39,22 @@
   nil)
 
 (defmethod write-header ((ent entity) writer)
-  (writer-write writer "<!-- "
-					   (write-when (slot-value ent 'id) it " : ")
-					   (string-downcase (symbol-name (type-of ent)))
-					   " -->"))
+  (with-slots (id) ent
+	(writer-write writer "<!-- "
+						 (write-when (keywordp id) id " : ")
+						 (string-downcase (symbol-name (type-of ent)))
+						 " -->")))
 
 (defmethod pre-draw ((ent entity) writer)
   (when (entity-composition-p ent)
 	(let ((id (slot-value ent 'id)))
-	  (when id
+	  (when (keywordp id)
 		(writer-write writer "<g id='" id "'>")
 		(writer-incr-level writer)))))
 
 (defmethod post-draw ((ent entity) writer)
   (when (entity-composition-p ent)
-	(when (slot-value ent 'id)
+	(when (keywordp (slot-value ent 'id))
 	  (writer-decr-level writer)
 	  (writer-write writer "</g>"))))
 
@@ -61,6 +62,8 @@
   (declare (ignore canvas dict))
   (with-slots (id layer) ent
 	(check-member id    :nullable t :types keyword)
+	(unless id
+	  (setf id (gensym "ENTITY")))
 	(check-member layer :nullable t :types keyword)))
   
 

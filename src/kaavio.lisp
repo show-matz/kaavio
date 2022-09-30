@@ -321,6 +321,7 @@
 				;shape.lisp
 				:rectangle-connect-point
 				:shape
+				:shape-id
 				:shape-width
 				:shape-height
 				:shape-topleft

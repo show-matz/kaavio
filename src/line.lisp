@@ -145,7 +145,7 @@
 				   (format-points (cdr pts) st))))
 		(writer-write writer
 					  "<polyline "
-					  (write-when id "id='" it "' ")
+					  (write-when (keywordp id) "id='" id "' ")
 					  "fill='none' "
 					  (to-property-strings stroke)
 					  "points='" (with-output-to-string (st)

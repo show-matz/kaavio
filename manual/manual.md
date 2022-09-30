@@ -4348,6 +4348,13 @@ ${BLANK_PARAGRAPH}
 
 　${{TODO}{まだ記述されていません。}}
 
+<!--
+	* (foo ... :id :foo1) で ID 指定し、あとで foo.center とかできるよね。
+	* 上記の ID 指定なしでも、$1.center とかでもできるよ。
+	* でも、(connect :foo1 :bar1 ...) みたいな ID そのものを指定する場合は無理？
+	* (connect $1.id $2.id ...) って書き方ができるようになったよ。
+-->
+
 ${BLANK_PARAGRAPH}
 
 ### 回転

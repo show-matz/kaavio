@@ -247,7 +247,7 @@
 		(pre-draw ent writer)
 		(writer-write writer
 					  "<path "
-					  (write-when id       "id='" it "' ")
+					  (write-when (keywordp id) "id='" id "' ")
 					  (to-property-strings fill)
 					  (to-property-strings stroke)
 					  "d='" (format-path-data data) "' "

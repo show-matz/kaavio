@@ -159,7 +159,7 @@
 	  (pre-draw shp writer)
 	  (writer-write writer
 					"<ellipse "
-					(write-when id "id='" it "' ")
+					(write-when (keywordp id) "id='" id "' ")
 					"cx='" (point-x center) "' "
 					"cy='" (point-y center) "' "
 					"rx='" radius-x "' "

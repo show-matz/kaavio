@@ -108,7 +108,7 @@
 		   (id (and (not (entity-composition-p crs)) (slot-value crs 'id))))
 	  (writer-write writer
 					"<path "
-					(write-when id       "id='" it "' ")
+					(write-when (keywordp id) "id='" id "' ")
 					(to-property-strings fill)
 					(to-property-strings stroke)
 					"d='M " h2 " " v1 " "

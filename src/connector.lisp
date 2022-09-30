@@ -620,8 +620,8 @@
 
 (defmethod check ((ent connector) canvas dict)
   (with-slots (from to spacing style) ent
-	(check-member from    :nullable nil :types keyword)
-	(check-member to      :nullable nil :types keyword)
+	(check-member from    :nullable nil :types symbol)
+	(check-member to      :nullable nil :types symbol)
 	(check-member spacing :nullable   t :types (or number list))
 	(check-member style   :nullable nil :types keyword)
 	(setf spacing (if (numberp spacing) (list spacing) spacing))
@@ -643,12 +643,13 @@
 	  (call-next-method))))
 
 (defmethod write-header ((ent connector) writer)
-  (writer-write writer "<!-- "
-					   (write-when (slot-value ent 'id) it " : ")
-					   (string-downcase (symbol-name (type-of ent)))
-					   " from " (slot-value ent 'from)
-					   " to "   (slot-value ent 'to)
-					   " -->"))
+  (with-slots (id) ent
+	(writer-write writer "<!-- "
+						 (write-when (keywordp id) id " : ")
+						 (string-downcase (symbol-name (type-of ent)))
+						 " from " (slot-value ent 'from)
+						 " to "   (slot-value ent 'to)
+						 " -->")))
 
 
 ;;------------------------------------------------------------------------------

@@ -28,7 +28,7 @@
 (defun write-text-tag (x y anchor txt writer &key id font)
   (writer-write writer
 				"<text x='" x "' y='" y "' "
-				(write-when id "id='" it "' ")
+				(write-when (keywordp id) "id='" id "' ")
 				"text-anchor='" anchor "' "
 				(when font
 				  (if (stringp font)
