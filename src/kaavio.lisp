@@ -137,6 +137,7 @@
 				:pattern-definition
 				:defpattern
 				;diamond.lisp
+				:diamond-connect-point
 				:diamond
 				;dictionary.lisp
 				:dictionary
@@ -266,6 +267,7 @@
 				:math/cos3
 				:math/cos4
 				:math/cos5
+				:math/intersection-point
 				;memo.lisp
 				:*default-memo-crease*
 				:*default-memo-align*

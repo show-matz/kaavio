@@ -24,6 +24,7 @@
 #|EXPORT|#				:math/cos3
 #|EXPORT|#				:math/cos4
 #|EXPORT|#				:math/cos5
+#|EXPORT|#				:math/intersection-point
  |#
 (symbol-macrolet ((RADIAN-UNIT (/ pi 180)))
 
@@ -92,3 +93,33 @@
 	(- (* (math/cos4 x1 y1 x2 y2) (math/cos1 degree))
 	   (* (math/sin4 x1 y1 x2 y2) (math/sin1 degree)))))
 
+
+;; pt1->pt2, pt3->pt4 の両直線の交点を求めて返す
+;; 平行の場合など、交点が存在しない場合は nil を返す
+(defun math/intersection-point (pt1 pt2 pt3 pt4)
+  (labels ((calc-coeff (xa ya xb yb)
+			 (if (= xa xb)
+				 :div0
+				 (/ (- yb ya) (- xb xa)))))
+	(let ((x1 (point-x pt1)) (y1 (point-y pt1))
+		  (x2 (point-x pt2)) (y2 (point-y pt2))
+		  (x3 (point-x pt3)) (y3 (point-y pt3))
+		  (x4 (point-x pt4)) (y4 (point-y pt4)))
+	  ;; pt1->pt2, pt3->pt4 の両直線を y=Ax+B, y=Cx+D とする
+	  ;; まずは A,B,C,D を求める
+	  (let* ((A (calc-coeff x1 y1 x2 y2))
+			 (B (if (eq A :div0) A (- y1 (* A x1))))
+			 (C (calc-coeff x3 y3 x4 y4))
+			 (D (if (eq C :div0) C (- y3 (* C x3)))))
+		(cond
+		  ;;「交わる前提」なので、双方 :div0 はおかしい → nil 終了
+		  ((and (eq A :div0) (eq C :div0)) nil)
+		  ;;片方が :div0 なら他方に代入するだけで終了
+		  ((eq A :div0) (make-point x1 (+ (* C x1) D)))
+		  ((eq C :div0) (make-point x3 (+ (* A x1) B)))
+		  ;; 交点の x,y 座標を求める : y=Ax+B, y=Cx+D より Ax+B = Cx+D => (A-C)x=(D-B)
+		  ;;「交わる前提」なので、A == C もおかしい → nil 終了
+		  ((= A C) nil)
+		  (t (let* ((ix (/ (- D B) (- A C)))
+					(iy (+ (* A ix) B)))
+			   (make-point ix iy))))))))

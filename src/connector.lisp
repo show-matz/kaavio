@@ -643,12 +643,12 @@
 	  (call-next-method))))
 
 (defmethod write-header ((ent connector) writer)
-  (with-slots (id) ent
+  (with-slots (id from to) ent
 	(writer-write writer "<!-- "
 						 (write-when (keywordp id) id " : ")
 						 (string-downcase (symbol-name (type-of ent)))
-						 " from " (slot-value ent 'from)
-						 " to "   (slot-value ent 'to)
+						 (write-when (keywordp from) " from " from)
+						 (write-when (keywordp   to) " to " to)
 						 " -->")))
 
 

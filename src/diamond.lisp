@@ -1,5 +1,6 @@
 #|
 #|ASD|#				(:file "diamond"                   :depends-on ("kaavio"
+#|ASD|#																"mathutil"
 #|ASD|#																"constants"
 #|ASD|#																"canvas"
 #|ASD|#																"point"
@@ -13,6 +14,63 @@
 
 
 (in-package :kaavio)
+
+;;------------------------------------------------------------------------------
+;;
+;; utility functions
+;;
+;;------------------------------------------------------------------------------
+#|
+#|EXPORT|#				:diamond-connect-point
+ |#
+(defun diamond-connect-point-C (cx cy w h pt)
+  (let ((pt (xy+ pt (- cx) (- cy))))
+	(with-point (px py) pt
+	  (let ((ret (cond
+				   ((and (<= 0 px) (<= 0 py))
+					(math/intersection-point '(0 0) pt `(0 ,(+ (/ h 2))) `(,(+ (/ w 2)) 0)))
+				   ((and (<= 0 px) (< py  0))
+					(math/intersection-point '(0 0) pt `(0 ,(- (/ h 2))) `(,(+ (/ w 2)) 0)))
+				   ((and (< px  0) (<= 0 py))
+					(math/intersection-point '(0 0) pt `(0 ,(+ (/ h 2))) `(,(- (/ w 2)) 0)))
+				   ((and (< px  0) (< py  0))
+					(math/intersection-point '(0 0) pt `(0 ,(- (/ h 2))) `(,(- (/ w 2)) 0))))))
+		(make-point (+ (point-x ret) cx)
+					(+ (point-y ret) cy)  :absolute)))))
+
+(defun diamond-connect-point-T (cx cy w h idx)
+  (let* ((magic (if (zerop idx) 0 1)))
+	(make-point (+ cx (* (/ w 6) idx))
+				(+ cy (- (/ h 2)) (* (/ h 6) magic)) :absolute)))
+
+(defun diamond-connect-point-B (cx cy w h idx)
+  (let* ((magic (if (zerop idx) 0 1)))
+	(make-point (+ cx (* (/ w 6) idx))
+				(- cy (- (/ h 2)) (* (/ h 6) magic)) :absolute)))
+
+(defun diamond-connect-point-L (cx cy w h idx)
+  (let* ((magic (if (zerop idx) 0 1)))
+	(make-point (+ cx (- (/ w 2)) (* (/ w 6) magic))
+				(+ cy (* (/ h 6) idx)) :absolute)))
+
+(defun diamond-connect-point-R (cx cy w h idx)
+  (let* ((magic (if (zerop idx) 0 1)))
+	(make-point (- cx (- (/ w 2)) (* (/ w 6) magic))
+				(+ cy (* (/ h 6) idx)) :absolute)))
+
+
+(defun diamond-connect-point (center w h type1 type2 arg)
+  (declare (ignore type1))
+  (let ((cx (point-x center))
+		(cy (point-y center))
+		(handler (ecase type2
+				   ((:center) #'diamond-connect-point-C)
+				   ((:top)    #'diamond-connect-point-T)
+				   ((:bottom) #'diamond-connect-point-B)
+				   ((:left)   #'diamond-connect-point-L)
+				   ((:right)  #'diamond-connect-point-R))))
+	(funcall handler cx cy w h arg)))
+
 
 ;;-------------------------------------------------------------------------------
 ;;
@@ -62,8 +120,10 @@
 (defmethod shape-center ((rct diamond))
   (slot-value rct 'center))
 
-;;MEMO : use impelementation of shape...
-;;(defmethod shape-connect-point ((shp diamond) type1 type2 arg) ...)
+(defmethod shape-connect-point ((shp diamond) type1 type2 arg)
+  (diamond-connect-point (shape-center   shp)
+						 (slot-value shp 'width)
+						 (slot-value shp 'height) type1 type2 arg))
   
 ;;MEMO : use impelementation of shape...
 ;;(defmethod shape-get-subcanvas ((shp diamond)) ...)
@@ -82,7 +142,7 @@
 	(with-slots (center width height fill stroke filter) rct
 	  (let ((id (and (not (entity-composition-p rct))
 					 (slot-value rct 'id)))
-			(topleft (shape-topleft rct))
+			;(topleft (shape-topleft rct))
 			(points  (list (y+ center (- (/ height 2)))
 						   (x+ center (- (/ width  2)))
 						   (y+ center (+ (/ height 2)))

@@ -100,6 +100,7 @@
 				                                                "stroke-info"
 				                                                "writer"))
 				(:file "diamond"                   :depends-on ("kaavio"
+																"mathutil"
 																"constants"
 																"canvas"
 																"point"
