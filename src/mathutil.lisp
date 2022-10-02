@@ -116,7 +116,7 @@
 		  ((and (eq A :div0) (eq C :div0)) nil)
 		  ;;片方が :div0 なら他方に代入するだけで終了
 		  ((eq A :div0) (make-point x1 (+ (* C x1) D)))
-		  ((eq C :div0) (make-point x3 (+ (* A x1) B)))
+		  ((eq C :div0) (make-point x3 (+ (* A x3) B)))
 		  ;; 交点の x,y 座標を求める : y=Ax+B, y=Cx+D より Ax+B = Cx+D => (A-C)x=(D-B)
 		  ;;「交わる前提」なので、A == C もおかしい → nil 終了
 		  ((= A C) nil)

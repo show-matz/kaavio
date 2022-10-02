@@ -211,6 +211,15 @@
 																"link-info"
 																"point"
 																"writer"))
+				(:file "parallelogram"             :depends-on ("kaavio"
+																"constants"
+																"canvas"
+																"point"
+																"shape"
+																"stroke-info"
+																"link-info"
+																"filter"
+																"writer"))
 				(:file "path"                      :depends-on ("kaavio"
 																"constants"
 																"fill-info"

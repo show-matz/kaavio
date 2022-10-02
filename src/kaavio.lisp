@@ -282,6 +282,9 @@
 				:with-memo-options
 				;paragraph.lisp
 				:paragraph
+				;parallelogram.lisp
+				:parallelogram-connect-point
+				:parallelogram
 				;path.lisp
 				:path
 				;pathutil.lisp

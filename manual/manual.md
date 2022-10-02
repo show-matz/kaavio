@@ -232,14 +232,15 @@ ${BLANK_PARAGRAPH}
 　SVG 規格における基本図形（とそれに類するもの）から紹介します。以下のサンプルはそれぞれの説明項目への
 リンクになっています。
 
-<!-- define: HASH_RECT    = '[](#四角形)' -->
-<!-- define: HASH_CIRCLE  = '[](#正円)' -->
-<!-- define: HASH_ELLIPSE = '[](#楕円)' -->
-<!-- define: HASH_POLYGON = '[](#多角形)' -->
-<!-- define: HASH_LINE    = '[](#直線)' -->
-<!-- define: HASH_ARC     = '[](#円弧)' -->
-<!-- define: HASH_TEXT    = '[](#テキスト)' -->
-<!-- define: HASH_DIAMOND = '[](#ひし形)' -->
+<!-- define: HASH_RECT          = '[](#四角形)' -->
+<!-- define: HASH_CIRCLE        = '[](#正円)' -->
+<!-- define: HASH_ELLIPSE       = '[](#楕円)' -->
+<!-- define: HASH_POLYGON       = '[](#多角形)' -->
+<!-- define: HASH_LINE          = '[](#直線)' -->
+<!-- define: HASH_ARC           = '[](#円弧)' -->
+<!-- define: HASH_TEXT          = '[](#テキスト)' -->
+<!-- define: HASH_DIAMOND       = '[](#ひし形)' -->
+<!-- define: HASH_PARALLELOGRAM = '[](#平行四辺形)' -->
 
 ```kaavio
 (diagram (800 230)
@@ -284,14 +285,19 @@ ${BLANK_PARAGRAPH}
       (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
       (diamond `(,(/ w 2) ,(/ w 2)) 60 60 :fill :plum3 :stroke '(:color :red3 :width 2))
 	  (text `(,(/ w 2) ,(- h 5)) "ひし形" :align :center))
-    (use :rect-grp    '(100  60) :link "${HASH_RECT}")
-    (use :circle-grp  '(200  60) :link "${HASH_CIRCLE}")
-    (use :ellipse-grp '(300  60) :link "${HASH_ELLIPSE}")
-    (use :polygon-grp '(400  60) :link "${HASH_POLYGON}")
-    (use :line-grp    '(500  60) :link "${HASH_LINE}")
-    (use :arc-grp     '(600  60) :link "${HASH_ARC}")
-    (use :text-grp    '(700  60) :link "${HASH_TEXT}")
-    (use :diamond-grp '(100 170) :link "${HASH_DIAMOND}")))
+    (defgroup (w h :parallelogram-grp)
+      (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
+      (parallelogram `(,(/ w 2) ,(/ w 2)) 70 40 :h 20 :fill :lightsteelblue :stroke '(:color :darkslateblue :width 2))
+	  (text `(,(/ w 2) ,(- h 5)) "平行四辺形" :align :center))
+    (use :rect-grp          '(100  60) :link "${HASH_RECT}")
+    (use :circle-grp        '(200  60) :link "${HASH_CIRCLE}")
+    (use :ellipse-grp       '(300  60) :link "${HASH_ELLIPSE}")
+    (use :polygon-grp       '(400  60) :link "${HASH_POLYGON}")
+    (use :line-grp          '(500  60) :link "${HASH_LINE}")
+    (use :arc-grp           '(600  60) :link "${HASH_ARC}")
+    (use :text-grp          '(700  60) :link "${HASH_TEXT}")
+    (use :diamond-grp       '(100 170) :link "${HASH_DIAMOND}")
+    (use :parallelogram-grp '(200 170) :link "${HASH_PARALLELOGRAM}")))
 ```
 
 ### 四角形
@@ -791,6 +797,107 @@ Table. diamond のパラメータ
 詳細は「[](#サブキャンバス)」を参照してください。 |
 
 <!-- stack:pop tr -->
+
+### 平行四辺形
+<!-- autolink: [parallelogram](#平行四辺形) -->
+<!-- autolink: [$$](#平行四辺形) -->
+
+<!-- snippet: PARALLELOGRAM-SAMPLE
+(diagram (200 100)
+  (grid)
+  (parallelogram canvas.center 150 60 :h 40
+                 :fill :lightsteelblue
+                 :stroke '(:color :darkslateblue :width 2)))
+-->
+
+　`parallelogram` によって平行四辺形を描画できます。
+
+```kaavio
+<!-- expand: PARALLELOGRAM-SAMPLE -->
+```
+Figure. parallelogram のサンプル
+
+
+<!-- collapse:begin -->
+　※上記サンプルのソースはこちら。
+
+```lisp
+<!-- expand: PARALLELOGRAM-SAMPLE -->
+```
+<!-- collapse:end -->
+
+　parallelogram のパラメータ構成は以下の通りです。
+
+```lisp
+(defmacro parallelogram (center width height direction offset
+                         &key fill stroke rotate link layer id filter contents) ... )
+```
+
+<!-- stack:push tr style="font-size: 14;" -->
+
+Table. parallelogram のパラメータ
+| パラメータ   | 説明                                                                           |
+|:============|:--------------------------------------------------------------------------------------|
+| `center`    | 中心点を指定します。詳細は「[](#座標と位置)」を参照してください。                 |
+| `width`     | 幅を数値で指定します。                                                        |
+| `height`    | 高さを数値で指定します。                                                      |
+| `direction` | 平行四辺形の「向き」を `:h` または `:v` で指定します。詳細は後述します。        |
+| `offset`    | 平行四辺形の形状に関するオフセット値を数値で指定します。詳細は後述します。        |
+| `fill`      | 内部の塗り潰しを指定します。詳細は「[](#フィル)」を参照してください。           |
+| `stroke`    | 外枠を描画する線を指定します。詳細は「[](#ストローク)」を参照してください。         |
+| `rotate`    | 回転させる場合、その角度を指定します。詳細は「[](#回転)」を参照してください。 |
+| `link`      | リンクにする場合、リンク先を指定します。詳細は「[](#リンク)」を参照してください。 |
+| `layer`     | レイヤーに所属させる場合、その名前をキーワードで指定します。<br> \
+詳細は「[](#レイヤー)」を参照してください。           |
+| `id`        | ID を付与したい場合、その名前をキーワードで指定します。<br> \
+詳細は「[](#IDと参照)」を参照してください。            |
+| `filter`    | フィルタ効果を適用したい場合、その名前を指定します。<br> \
+詳細は「[](#フィルタ)」を参照してください。 |
+| `contents`  | 内部をサブキャンバスとした描画をしたい場合、その内容を指定します。<br> \
+詳細は「[](#サブキャンバス)」を参照してください。 |
+
+<!-- stack:pop tr -->
+
+${BLANK_PARAGRAPH}
+
+　`direction` および `offset` パラメータについて説明します。 `direction` が `:H` の場合、
+上側の角を右または左方向に押して変形させたような形になります。その長さを指定するのが `offset` 
+です。 `offset` が０以上の場合は左上の角を右方向に、負数の場合は右上の角を左方向に押すイメージ
+です。 `direction` が `:H` の場合は、同じ要領で左側の角を上または下に押すイメージになります。
+以下のように。
+
+```kaavio
+(diagram (400 280 :fill :white)
+  ;(grid)
+  (with-options (:stroke '(:color :red :dasharray (2 2)) :fill :none)
+    (rect '(100  70) 160  80 :id :r1)
+    (rect '(300  70) 160  80 :id :r2)
+    (rect '(100 200) 160 120 :id :r3)
+    (rect '(300 200) 160 120 :id :r4))
+  (with-options (:stroke :navy :fill :lightcyan :font 10)
+    (dolist (e '((:r1 :h  40  40  0   0   0)
+                 (:r2 :h -40 120  0 160   0)
+                 (:r3 :v  40   0 40   0   0)
+                 (:r4 :v -40   0 80   0 120)))
+      (destructuring-bind (id dir offset x y x2 y2) e
+        (with-subcanvas-of (id)
+          (parallelogram canvas.center canvas.width canvas.height dir offset
+              :contents
+              ((block-arrow1 `(,x2 ,y2) `(,x ,y) 5 :size 15 :stroke :none :fill :red)
+               (paragraph canvas.center
+                          (format nil "direction = :~A~%~A" dir
+                                  (if (< offset 0) "offset < 0" "0 <= offset"))
+                          :align :center :valign :center))))))))
+```
+Figure. parallelogram における direction と offset
+
+
+
+　ただし、 `width / height` で指定されたサイズはあくまで赤い点線の矩形であることに注意して
+ください。また、サブキャンバスやコネクタによる接続点は現状では赤い点線の矩形ベースで計算され
+ますが、この挙動は将来変更される可能性があります。
+
+${BLANK_PARAGRAPH}
 
 ## 一般的な図形
 
@@ -5849,10 +5956,11 @@ Figure. 色の名前とサンプル - 2
 * __2022/09/25 - version 0.005__
 	* ENHANCE : 「[](#make-stroke 関数)」に `url` パラメータを追加
 	* ENHANCE : 「[](#グラデーション)」を追加
-* __2022/09/26__
+* __2022/09/27__
 	* ENHANCE : 「[](#ひし形)」を追加
-* __2022/10/01__
-	* ENHANCE : ID 指定のない要素に gensym ID を付与し、`$N.id` で参照を可能とする修正
+	* ENHANCE : 「[](#平行四辺形)」を追加
+* __2022/10/01 - version 0.006__
+	* ENHANCE : ID 指定のない要素に gensym ID を付与し、 `$N.id` で参照を可能とする修正
 
 
 ## 図表一覧

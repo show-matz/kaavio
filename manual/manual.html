@@ -43,6 +43,7 @@
 <li class='tocx'><a href='#cp2F91gKG7W'>3.6 円弧</a></li>
 <li class='tocx'><a href='#cTdCvBeU6ZJ'>3.7 テキスト</a></li>
 <li class='tocx'><a href='#4dFMjynUMYw'>3.8 ひし形</a></li>
+<li class='tocx'><a href='#8YR8CiywoW8'>3.9 平行四辺形</a></li>
 </blockquote>
 </details>
 <details class='tocx' open>
@@ -326,14 +327,15 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p>　サンプルは以上です。雰囲気は掴めたと思うので、続いて各種の図形要素について説明します。</p>
 <h2><a name='2msfXdtEc6a'></a>3 基本的な図形</h2>
 <p>　SVG 規格における基本図形（とそれに類するもの）から紹介します。以下のサンプルはそれぞれの説明項目へのリンクになっています。</p>
-<!-- define: HASH_RECT    = '[](#四角形)' -->
-<!-- define: HASH_CIRCLE  = '[](#正円)' -->
-<!-- define: HASH_ELLIPSE = '[](#楕円)' -->
-<!-- define: HASH_POLYGON = '[](#多角形)' -->
-<!-- define: HASH_LINE    = '[](#直線)' -->
-<!-- define: HASH_ARC     = '[](#円弧)' -->
-<!-- define: HASH_TEXT    = '[](#テキスト)' -->
-<!-- define: HASH_DIAMOND = '[](#ひし形)' -->
+<!-- define: HASH_RECT          = '[](#四角形)' -->
+<!-- define: HASH_CIRCLE        = '[](#正円)' -->
+<!-- define: HASH_ELLIPSE       = '[](#楕円)' -->
+<!-- define: HASH_POLYGON       = '[](#多角形)' -->
+<!-- define: HASH_LINE          = '[](#直線)' -->
+<!-- define: HASH_ARC           = '[](#円弧)' -->
+<!-- define: HASH_TEXT          = '[](#テキスト)' -->
+<!-- define: HASH_DIAMOND       = '[](#ひし形)' -->
+<!-- define: HASH_PARALLELOGRAM = '[](#平行四辺形)' -->
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='800' height='230'>
@@ -442,6 +444,18 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 			
 		</g>
 	</defs>
+	<!-- parallelogram-grp : group-definition -->
+	<defs>
+		<g id='parallelogram-grp'>
+			<!-- rectangle -->
+			<rect x='0' y='0' width='80' height='100' fill='white' stroke='none' stroke-width='1' />
+			<!-- parallelogram -->
+			<polygon id='ENTITY1065' fill='lightsteelblue' stroke='darkslateblue' stroke-width='2' points='25.0,20.0 5.0,60.0 55.0,60.0 75.0,20.0' />
+			<!-- text -->
+			<text x='40' y='95' text-anchor='middle' font-size='12pt' fill='black' >平行四辺形</text>
+			
+		</g>
+	</defs>
 	<!-- use -->
 	<a xlink:href='#kJonRG8GtHF' target='_self'>
 		<use xlink:href='#rect-grp' x='60' y='10' />
@@ -473,6 +487,10 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 	<!-- use -->
 	<a xlink:href='#4dFMjynUMYw' target='_self'>
 		<use xlink:href='#diamond-grp' x='60' y='120' />
+	</a>
+	<!-- use -->
+	<a xlink:href='#8YR8CiywoW8' target='_self'>
+		<use xlink:href='#parallelogram-grp' x='160' y='120' />
 	</a>
 
 </svg>
@@ -920,6 +938,107 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <tr style="font-size: 14;"><td nowrap align='left'>filter</td><td align='left'><a class='autolink' href='#gPGlqSbIfdL'>フィルタ</a>効果を適用したい場合、その名前を指定します。<br>詳細は「<a href='#gPGlqSbIfdL'>10.7  フィルタ</a>」を参照してください。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'>contents</td><td align='left'>内部を<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>とした描画をしたい場合、その内容を指定します。<br>詳細は「<a href='#kgs1vf3AbTN'>7  サブキャンバス</a>」を参照してください。</td></tr>
 </table>
+<h3><a name='8YR8CiywoW8'></a>3.9 平行四辺形</h3>
+<p>　<code>parallelogram</code> によって<a class='autolink' href='#8YR8CiywoW8'>平行四辺形</a>を描画できます。</p>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='200' height='100'>
+	
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- parallelogram -->
+	<polygon id='ENTITY1041' fill='lightsteelblue' stroke='darkslateblue' stroke-width='2' points='65.0,20.0 25.0,80.0 135.0,80.0 175.0,20.0' />
+
+</svg>
+</div>
+
+<p class='fig_title'><a name='by41YHJgt3q'></a>Figure.3-11 parallelogram のサンプル</p>
+<details>
+<summary>　※上記サンプルのソースはこちら。</summary>
+<pre class='code'>
+(diagram (200 100)
+  (grid)
+  (parallelogram canvas.center 150 60 <span class='keyword3'>:h</span> 40
+                 <span class='keyword3'>:fill</span> <span class='keyword3'>:lightsteelblue</span>
+                 <span class='keyword3'>:stroke</span> '(<span class='keyword3'>:color</span> <span class='keyword3'>:darkslateblue</span> <span class='keyword3'>:width</span> 2)))
+</pre>
+</details>
+<p>　<a class='autolink' href='#8YR8CiywoW8'>parallelogram</a> のパラメータ構成は以下の通りです。</p>
+<pre class='code'>
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>parallelogram</span> (center width height direction offset
+                         <span class='keyword2'>&amp;key</span> fill stroke rotate link layer id filter contents) ... )
+</pre>
+<p class='tbl_title'><a name='7o40kH16ufr'></a>Table.3-9 parallelogram のパラメータ</p>
+<table align='center'>
+<tr style="font-size: 14;"><th>パラメータ</th><th>説明</th></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>center</code></td><td align='left'>中心点を指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>width</code></td><td align='left'>幅を数値で指定します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>height</code></td><td align='left'>高さを数値で指定します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>direction</code></td><td align='left'><a class='autolink' href='#8YR8CiywoW8'>平行四辺形</a>の「向き」を <code>:h</code> または <code>:v</code> で指定します。詳細は後述します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>offset</code></td><td align='left'><a class='autolink' href='#8YR8CiywoW8'>平行四辺形</a>の形状に関するオフセット値を数値で指定します。詳細は後述します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>fill</code></td><td align='left'>内部の塗り潰しを指定します。詳細は「<a href='#dBUd7L4C3dx'>10.3  フィル</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>stroke</code></td><td align='left'>外枠を描画する線を指定します。詳細は「<a href='#4HFjqmTuIU6'>10.2  ストローク</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>rotate</code></td><td align='left'>回転させる場合、その角度を指定します。詳細は「<a href='#heEi5Lc5BX9'>10.6  回転</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>link</code></td><td align='left'>リンクにする場合、リンク先を指定します。詳細は「<a href='#fbLcMRTVXac'>10.9  リンク</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>layer</code></td><td align='left'>レイヤーに所属させる場合、その名前をキーワードで指定します。<br>詳細は「<a href='#1ovJxG7Ie9O'>10.8  レイヤー</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>id</code></td><td align='left'>ID を付与したい場合、その名前をキーワードで指定します。<br>詳細は「<a href='#iu9Ovm00KHn'>10.5  IDと参照</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>filter</code></td><td align='left'><a class='autolink' href='#gPGlqSbIfdL'>フィルタ</a>効果を適用したい場合、その名前を指定します。<br>詳細は「<a href='#gPGlqSbIfdL'>10.7  フィルタ</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>contents</code></td><td align='left'>内部を<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>とした描画をしたい場合、その内容を指定します。<br>詳細は「<a href='#kgs1vf3AbTN'>7  サブキャンバス</a>」を参照してください。</td></tr>
+</table>
+<p>　　</p>
+<p>　<code>direction</code> および <code>offset</code> パラメータについて説明します。 <code>direction</code> が <code>:H</code> の場合、上側の角を右または左方向に押して変形させたような形になります。その長さを指定するのが <code>offset</code> です。 <code>offset</code> が０以上の場合は左上の角を右方向に、負数の場合は右上の角を左方向に押すイメージです。 <code>direction</code> が <code>:H</code> の場合は、同じ要領で左側の角を上または下に押すイメージになります。以下のように。</p>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='400' height='280'>
+	
+	<rect x='0' y='0' width='400' height='280' fill='white' stroke='none' />
+	<!-- r1 : rectangle -->
+	<rect id='r1' x='20' y='30' width='160' height='80' fill='none' stroke='red' stroke-width='1' stroke-dasharray='2 2 ' />
+	<!-- r2 : rectangle -->
+	<rect id='r2' x='220' y='30' width='160' height='80' fill='none' stroke='red' stroke-width='1' stroke-dasharray='2 2 ' />
+	<!-- r3 : rectangle -->
+	<rect id='r3' x='20' y='140' width='160' height='120' fill='none' stroke='red' stroke-width='1' stroke-dasharray='2 2 ' />
+	<!-- r4 : rectangle -->
+	<rect id='r4' x='220' y='140' width='160' height='120' fill='none' stroke='red' stroke-width='1' stroke-dasharray='2 2 ' />
+	<!-- parallelogram -->
+	<polygon id='ENTITY1040' fill='lightcyan' stroke='navy' stroke-width='1' points='60.0,30.0 20.0,110.0 140.0,110.0 180.0,30.0' />
+	<!-- block-arrow -->
+	<polygon fill='red' stroke='none' stroke-width='1' points='20.0,32.5 20.0,27.5 45.0,27.5 45.0,22.5 60.0,30.0 45.0,37.5 45.0,32.5' />
+	<!-- paragraph -->
+	<text x='100' y='69' text-anchor='middle' font-size='10pt' fill='black' >direction = :H</text>
+	<text x='100' y='81' text-anchor='middle' font-size='10pt' fill='black' >0 &lt;= offset</text>
+	<!-- parallelogram -->
+	<polygon id='ENTITY1043' fill='lightcyan' stroke='navy' stroke-width='1' points='220.0,30.0 260.0,110.0 380.0,110.0 340.0,30.0' />
+	<!-- block-arrow -->
+	<polygon fill='red' stroke='none' stroke-width='1' points='380.0,27.5 380.0,32.5 355.0,32.5 355.0,37.5 340.0,30.0 355.0,22.5 355.0,27.5' />
+	<!-- paragraph -->
+	<text x='300' y='69' text-anchor='middle' font-size='10pt' fill='black' >direction = :H</text>
+	<text x='300' y='81' text-anchor='middle' font-size='10pt' fill='black' >offset &lt; 0</text>
+	<!-- parallelogram -->
+	<polygon id='ENTITY1046' fill='lightcyan' stroke='navy' stroke-width='1' points='20.0,180.0 20.0,260.0 180.0,220.0 180.0,140.0' />
+	<!-- block-arrow -->
+	<polygon fill='red' stroke='none' stroke-width='1' points='17.5,140.0 22.5,140.0 22.5,165.0 27.5,165.0 20.0,180.0 12.5,165.0 17.5,165.0' />
+	<!-- paragraph -->
+	<text x='100' y='199' text-anchor='middle' font-size='10pt' fill='black' >direction = :V</text>
+	<text x='100' y='211' text-anchor='middle' font-size='10pt' fill='black' >0 &lt;= offset</text>
+	<!-- parallelogram -->
+	<polygon id='ENTITY1049' fill='lightcyan' stroke='navy' stroke-width='1' points='220.0,140.0 220.0,220.0 380.0,260.0 380.0,180.0' />
+	<!-- block-arrow -->
+	<polygon fill='red' stroke='none' stroke-width='1' points='222.5,260.0 217.5,260.0 217.5,235.0 212.5,235.0 220.0,220.0 227.5,235.0 222.5,235.0' />
+	<!-- paragraph -->
+	<text x='300' y='199' text-anchor='middle' font-size='10pt' fill='black' >direction = :V</text>
+	<text x='300' y='211' text-anchor='middle' font-size='10pt' fill='black' >offset &lt; 0</text>
+
+</svg>
+</div>
+
+<p class='fig_title'><a name='67lJneaqrLn'></a>Figure.3-12 parallelogram における direction と offset</p>
+<p>　ただし、 <code>width / height</code> で指定されたサイズはあくまで赤い点線の矩形であることに注意してください。また、<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>や<a class='autolink' href='#eFhVs4WwYUG'>コネクタ</a>による接続点は現状では赤い点線の矩形ベースで計算されますが、この挙動は将来変更される可能性があります。</p>
+<p>　　</p>
 <h2><a name='1s5LsvBYupX'></a>4 一般的な図形</h2>
 <p>　基本的な図形を組み合わせて作成される、複合的な図形を紹介します。以下のサンプルはそれぞれの説明項目へのリンクになっています。</p>
 <!-- define: HASH_CONNECTOR  = '[](#コネクタ)' -->
@@ -5296,6 +5415,12 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p>　　</p>
 <h3><a name='iu9Ovm00KHn'></a>10.5 IDと参照</h3>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<!--
+	* (foo ... :id :foo1) で ID 指定し、あとで foo.center とかできるよね。
+	* 上記の ID 指定なしでも、$1.center とかでもできるよ。
+	* でも、(connect :foo1 :bar1 ...) みたいな ID そのものを指定する場合は無理？
+	* (connect $1.id $2.id ...) って書き方ができるようになったよ。
+-->
 <p>　　</p>
 <h3><a name='heEi5Lc5BX9'></a>10.6 回転</h3>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません</span></p>
@@ -8580,9 +8705,15 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li>ENHANCE : 「<a href='#4p1J7EWjD3m'>9.2  グラデーション</a>」を追加</li>
 </ul>
 </li>
-<li><strong>2022/09/26</strong>
+<li><strong>2022/09/27</strong>
 <ul>
 <li>ENHANCE : 「<a href='#4dFMjynUMYw'>3.8  ひし形</a>」を追加</li>
+<li>ENHANCE : 「<a href='#8YR8CiywoW8'>3.9  平行四辺形</a>」を追加</li>
+</ul>
+</li>
+<li><strong>2022/10/01 - version 0.006</strong>
+<ul>
+<li>ENHANCE : ID 指定のない要素に gensym ID を付与し、 <code>$N.id</code> で参照を可能とする修正</li>
 </ul>
 </li>
 </ul>
@@ -8600,6 +8731,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li><a href='#7uvPIQqWhZy'>Figure.3-8 text のサンプル</a></li>
 <li><a href='#5BXk9aTPHsl'>Figure.3-9 テキストの position とアライメント指定の関係</a></li>
 <li><a href='#2sQudXmWdXy'>Figure.3-10 diamond のサンプル</a></li>
+<li><a href='#by41YHJgt3q'>Figure.3-11 parallelogram のサンプル</a></li>
+<li><a href='#67lJneaqrLn'>Figure.3-12 parallelogram における direction と offset</a></li>
 <li><a href='#4gGy4q3tl7a'>Figure.4-1 コネクタのサンプル</a></li>
 <li><a href='#iS4fHSfl5nF'>Figure.4-2 コネクタにおける接続点の指定</a></li>
 <li><a href='#5cNBVVOciY7'>Figure.4-3 コネクタによる接続経路決定</a></li>
@@ -8685,6 +8818,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li><a href='#gg6iCoxAfmr'>Table.3-6 arc のパラメータ</a></li>
 <li><a href='#iSYTxHvOAoB'>Table.3-7 text のパラメータ</a></li>
 <li><a href='#iARD0ysYKSD'>Table.3-8 diamond のパラメータ</a></li>
+<li><a href='#7o40kH16ufr'>Table.3-9 parallelogram のパラメータ</a></li>
 <li><a href='#79EVRrlxEbF'>Table.4-1 connect のパラメータ</a></li>
 <li><a href='#0mFeKi0I0Lr'>Table.4-2 paragraph のパラメータ</a></li>
 <li><a href='#hOloecoUbQv'>Table.4-3 textbox のパラメータ</a></li>
@@ -8796,6 +8930,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <summary class='idx_x'>P</summary>
 <blockquote class='idx_x'>
 <li class='idx_x'><a class='autolink' href='#4WyMTv59pvw'>paragraph</a></li>
+<li class='idx_x'><a class='autolink' href='#8YR8CiywoW8'>parallelogram</a></li>
 <li class='idx_x'><a class='autolink' href='#4qgt62QVDZl'>path</a></li>
 <li class='idx_x'><a class='autolink' href='#03WwbeGq0eH'>person</a></li>
 <li class='idx_x'><a class='autolink' href='#5vGRm9AMypB'>polygon</a></li>
@@ -8924,6 +9059,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li class='idx_x'><a class='autolink' href='#5IHcv4bxjLU'>吹き出し</a></li>
 <li class='idx_x'><a class='autolink' href='#kJonRG8GtHF'>四角形</a></li>
 <li class='idx_x'><a class='autolink' href='#5vGRm9AMypB'>多角形</a></li>
+<li class='idx_x'><a class='autolink' href='#8YR8CiywoW8'>平行四辺形</a></li>
 <li class='idx_x'><a class='autolink' href='#7YzIcjhyGKN'>楕円</a></li>
 <li class='idx_x'><a class='autolink' href='#8UQowBxrcaE'>正円</a></li>
 <li class='idx_x'><a class='autolink' href='#lBS33hNe32a'>波括弧</a></li>
