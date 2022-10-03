@@ -17,6 +17,7 @@
 #|EXPORT|#				:*default-memo-margin*
 #|EXPORT|#				:*default-memo-font*
 #|EXPORT|#				:*default-memo-fill*
+#|EXPORT|#				:*default-memo-fill2*
 #|EXPORT|#				:*default-memo-stroke*
 #|EXPORT|#				:*default-memo-filter*
 #|EXPORT|#				:*default-memo-layer*
@@ -27,6 +28,7 @@
 (defparameter *default-memo-margin*   10)
 (defparameter *default-memo-font*     nil)
 (defparameter *default-memo-fill*     nil)
+(defparameter *default-memo-fill2*    nil)
 (defparameter *default-memo-stroke*   nil)
 (defparameter *default-memo-filter*   nil)
 (defparameter *default-memo-layer*    nil)
@@ -53,12 +55,14 @@
 ;;------------------------------------------------------------------------------
 (defclass memo (text-shape)
   ((crease	:initform nil :initarg :crease)  ; number
+   (fill2	:initform nil :initarg :fill2)    ; (or nil fill-info)
    (filter	:initform nil :initarg :filter))) ; (or nil keyword)
   
 (defmethod initialize-instance :after ((obj memo) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (crease filter layer) obj
+  (with-slots (crease fill2 filter layer) obj
 	(setf crease (or crease *default-memo-crease*))
+	(setf fill2  (make-fill (or fill2 *default-fill* :none)))
 	(setf filter  (if (eq filter :none)
 					  nil
 					  (or filter *default-memo-filter* *default-shape-filter*)))
@@ -70,8 +74,10 @@
 (defmethod check ((obj memo) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (with-slots (crease filter) obj
+  (with-slots (crease fill fill2 filter) obj
 	(check-member crease    :nullable nil :types number)
+	(setf fill2 (or fill2 fill))
+	(check-object fill2  canvas dict :nullable t :class fill-info)
 	(check-member filter    :nullable   t :types keyword))
   nil)
 
@@ -82,14 +88,12 @@
 		 (height (canvas-height canvas)))
 	(macrolet ((register-entity (entity)
 				 `(check-and-draw-local-entity ,entity canvas writer)))
-	  (with-slots (crease fill stroke filter) obj
+	  (with-slots (crease fill fill2 stroke filter) obj
 		;; draw
 		(polygon (memo-get-points1 width height crease)
 				 :fill fill :stroke stroke :filter filter)
 		(polygon (memo-get-points2 width height crease)
-				 :fill (make-fill :base fill
-								  :color (colormap-more-dark (slot-value fill 'color)))
-				 :stroke (make-stroke :linejoin :round :base stroke)))))
+				 :fill fill2 :stroke (make-stroke :linejoin :round :base stroke)))))
   ;; draw text
   (call-next-method))
 
@@ -110,7 +114,7 @@
 #|EXPORT|#				:memo
  |#
 (defmacro memo (center text &key width height crease align valign margin
-								 font fill stroke link rotate layer id filter contents)
+								 font fill fill2 stroke link rotate layer id filter contents)
   (let ((code `(register-entity (make-instance 'memo
 											   :crease ,crease
 											   :center ,center
@@ -121,6 +125,9 @@
 											   :margin (or ,margin *default-memo-margin*)
 											   :font   (or ,font   *default-memo-font*)
 											   :fill   (or ,fill   *default-memo-fill*)
+											   :fill2  (or ,fill2
+														   ,fill   *default-memo-fill2*
+																   *default-memo-fill*)
 											   :stroke (or ,stroke *default-memo-stroke*)
 											   :link ,link :rotate ,rotate
 											   :filter ,filter :layer ,layer :id ,id))))
@@ -142,7 +149,7 @@
 #|EXPORT|#				:with-memo-options
  |#
 (defmacro with-memo-options ((&key crease align valign margin
-								   font fill stroke filter layer) &rest body)
+								   font fill fill2 stroke filter layer) &rest body)
   (labels ((impl (params acc)
 			 (if (null params)
 				 acc
@@ -158,6 +165,7 @@
 						   margin '*default-memo-margin*
 						   font   '*default-memo-font*
 						   fill   '*default-memo-fill*
+						   fill2  '*default-memo-fill2*
 						   stroke '*default-memo-stroke*
 						   filter '*default-memo-filter*
 						   layer  '*default-memo-layer*) nil)))

@@ -60,6 +60,7 @@
 				:circle-connect-point
 				:circle
 				;colormap.lisp
+				:colormap-fix
 				;connector.lisp
 				:resolve-connector-points
 				:connector
@@ -275,6 +276,7 @@
 				:*default-memo-margin*
 				:*default-memo-font*
 				:*default-memo-fill*
+				:*default-memo-fill2*
 				:*default-memo-stroke*
 				:*default-memo-filter*
 				:*default-memo-layer*

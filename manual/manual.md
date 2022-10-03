@@ -962,7 +962,8 @@ ${BLANK_PARAGRAPH}
 	(defgroup (w h :memo-grp)
       (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
 	  (memo (y+ canvas.center -15) "this is~%memo." :width 80 :height 60
-                       :valign :top :align :left :stroke :red :fill :lightpink)
+                       :valign :top :align :left
+                       :stroke :red :fill :lavenderblush :fill2 :lightpink)
 	  (text `(,(/ w 2) ,(- h 5)) "メモ" :align :center))
 	(defgroup (w h :cube-grp)
       (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
@@ -1769,9 +1770,9 @@ Figure. with-balloon-options のサンプル
 <!-- snippet: MEMO-SAMPLE
 (diagram (200 100)
   (grid)
-  (memo '(100 50) "memo text.~%multi line."
-                  :width 150 :height 80 :crease 30
-                  :align :left :valign :top :fill :lightpink :stroke :red))
+  (memo '(100 50) "memo text.~%multi line." :width 150 :height 80
+                  :crease 30 :align :left :valign :top 
+                  :fill :lavenderblush :fill2 :lightpink :stroke :red))
 -->
 
 ```kaavio
@@ -1792,7 +1793,7 @@ Figure. メモのサンプル
 ```lisp
 (defmacro memo (center text &key width height crease
                                  align valign margin
-                                 font fill stroke link
+                                 font fill fill2 stroke link
                                  rotate layer id filter contents) ...)
 ```
 
@@ -1814,8 +1815,8 @@ Table. memo のパラメータ
 省略した場合のデフォルト値は `:center` です。詳細は後述します。 |
 | margin     | テキスト描画における「余白」のサイズです。省略した場合のデフォルト値は 10 です。 |
 | font       | フォントを指定します。詳細は「[](#フォント)」を参照してください。         |
-| fill       | 内部の塗り潰しを指定します。詳細は「[](#フィル)」を参照してください。<br> \
-折り目部分の色は fill の指定から自動的に「少し暗い色」が選択されます。 |
+| fill       | 内部の塗り潰しを指定します。詳細は「[](#フィル)」を参照してください。 |
+| fill2      | 折り目部分の塗り潰しを指定します。詳細は「[](#フィル)」を参照してください。 |
 | stroke     | 外枠を描画する線を指定します。詳細は「[](#ストローク)」を参照してください。 |
 | link       | リンクにする場合、リンク先を指定します。詳細は「[](#リンク)」を参照してください。 |
 | rotate     | 回転させたい場合に、その角度を指定します。<br> \
@@ -1841,7 +1842,8 @@ ${BLANK_PARAGRAPH}
 (diagram (240 100)
   (grid)
   (drop-shadow)
-  (with-memo-options (:stroke :crimson :fill :mistyrose :filter :drop-shadow)
+  (with-memo-options (:stroke :red :fill :lavenderblush
+                      :fill2 :lightpink :filter :drop-shadow)
     (memo '( 60 50) "first~%memo"  :width 80 :height 60)
     (memo '(180 50) "second~%memo" :width 80 :height 60)))
 -->
@@ -5239,7 +5241,7 @@ ${BLANK_PARAGRAPH}
 
 ```lisp
 (defmacro with-memo-options ((&key crease align valign margin
-                                   font fill stroke filter layer) &rest body) ...)
+                                   font fill fill2 stroke filter layer) &rest body) ...)
 ```
 
 　${{TODO}{まだ記述されていません。}}
@@ -5961,6 +5963,10 @@ Figure. 色の名前とサンプル - 2
 	* ENHANCE : 「[](#平行四辺形)」を追加
 * __2022/10/01 - version 0.006__
 	* ENHANCE : ID 指定のない要素に gensym ID を付与し、 `$N.id` で参照を可能とする修正
+* __2022/10/03__
+	* __MINOR IMCOMPATIBLE CHANGE : [$$](#パターン)と[$$](#グラデーション)の追加に伴い、fill 指定から別の色を \
+導出する機能を廃止__
+	* ENHANCE : 上記の対応として「[](#メモ)」に `:fill2` パラメータを追加
 
 
 ## 図表一覧

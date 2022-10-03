@@ -212,6 +212,7 @@
 																"point"
 																"writer"))
 				(:file "parallelogram"             :depends-on ("kaavio"
+																"mathutil"
 																"constants"
 																"canvas"
 																"point"

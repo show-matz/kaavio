@@ -1165,8 +1165,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 			<!-- rectangle -->
 			<rect x='0' y='0' width='100' height='100' fill='white' stroke='none' stroke-width='1' />
 			<!-- memo -->
-			<polygon fill='lightpink' stroke='red' stroke-width='1' points='10.0,5.0 10.0,65.0 70.0,65.0 90.0,55.0 90.0,5.0 10.0,5.0' />
-			<polygon fill='#D89AA4' stroke='red' stroke-width='1' stroke-linejoin='round' points='70.0,65.0 90.0,55.0 76.666664,51.666668 70.0,65.0' />
+			<polygon fill='lavenderblush' stroke='red' stroke-width='1' points='10.0,5.0 10.0,65.0 70.0,65.0 90.0,55.0 90.0,5.0 10.0,5.0' />
+			<polygon fill='lightpink' stroke='red' stroke-width='1' stroke-linejoin='round' points='70.0,65.0 90.0,55.0 76.666664,51.666668 70.0,65.0' />
 			<text x='20' y='27' text-anchor='start' font-size='12pt' fill='black' >this is</text>
 			<text x='20' y='41' text-anchor='start' font-size='12pt' fill='black' >memo.</text>
 			<!-- text -->
@@ -2259,8 +2259,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 	</pattern>
 	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
 	<!-- memo -->
-	<polygon fill='lightpink' stroke='red' stroke-width='1' points='25.0,10.0 25.0,90.0 145.0,90.0 175.0,75.0 175.0,10.0 25.0,10.0' />
-	<polygon fill='#D89AA4' stroke='red' stroke-width='1' stroke-linejoin='round' points='145.0,90.0 175.0,75.0 155.0,70.0 145.0,90.0' />
+	<polygon fill='lavenderblush' stroke='red' stroke-width='1' points='25.0,10.0 25.0,90.0 145.0,90.0 175.0,75.0 175.0,10.0 25.0,10.0' />
+	<polygon fill='lightpink' stroke='red' stroke-width='1' stroke-linejoin='round' points='145.0,90.0 175.0,75.0 155.0,70.0 145.0,90.0' />
 	<text x='35' y='32' text-anchor='start' font-size='12pt' fill='black' >memo text.</text>
 	<text x='35' y='46' text-anchor='start' font-size='12pt' fill='black' >multi line.</text>
 
@@ -2273,16 +2273,16 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <pre class='code'>
 (diagram (200 100)
   (grid)
-  (memo '(100 50) <span class='literal'>"memo text.~%multi line."</span>
-                  <span class='keyword3'>:width</span> 150 <span class='keyword3'>:height</span> 80 <span class='keyword3'>:crease</span> 30
-                  <span class='keyword3'>:align</span> <span class='keyword3'>:left</span> <span class='keyword3'>:valign</span> <span class='keyword3'>:top</span> <span class='keyword3'>:fill</span> <span class='keyword3'>:lightpink</span> <span class='keyword3'>:stroke</span> <span class='keyword3'>:red</span>))
+  (memo '(100 50) <span class='literal'>"memo text.~%multi line."</span> <span class='keyword3'>:width</span> 150 <span class='keyword3'>:height</span> 80
+                  <span class='keyword3'>:crease</span> 30 <span class='keyword3'>:align</span> <span class='keyword3'>:left</span> <span class='keyword3'>:valign</span> <span class='keyword3'>:top</span> 
+                  <span class='keyword3'>:fill</span> <span class='keyword3'>:lavenderblush</span> <span class='keyword3'>:fill2</span> <span class='keyword3'>:lightpink</span> <span class='keyword3'>:stroke</span> <span class='keyword3'>:red</span>))
 </pre>
 </details>
 <p>　<a class='autolink' href='#0AVJhEKnK1M'>memo</a> のパラメータ構成は以下の通りです。</p>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>memo</span> (center text <span class='keyword2'>&amp;key</span> width height crease
                                  align valign margin
-                                 font fill stroke link
+                                 font fill fill2 stroke link
                                  rotate layer id filter contents) ...)
 </pre>
 <p>　　</p>
@@ -2298,7 +2298,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <tr style="font-size: 14;"><td nowrap align='left'>vlign</td><td align='left'>テキストの垂直方向のアライメントを <code>:top :center :bottom</code> のいずれかで指定します。<br>省略した場合のデフォルト値は <code>:center</code> です。詳細は後述します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'>margin</td><td align='left'>テキスト描画における「余白」のサイズです。省略した場合のデフォルト値は 10 です。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'>font</td><td align='left'><a class='autolink' href='#3kZ9FkounyK'>フォント</a>を指定します。詳細は「<a href='#3kZ9FkounyK'>10.4  フォント</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>fill</td><td align='left'>内部の塗り潰しを指定します。詳細は「<a href='#dBUd7L4C3dx'>10.3  フィル</a>」を参照してください。<br>折り目部分の色は fill の指定から自動的に「少し暗い色」が選択されます。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>fill</td><td align='left'>内部の塗り潰しを指定します。詳細は「<a href='#dBUd7L4C3dx'>10.3  フィル</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>fill2</td><td align='left'>折り目部分の塗り潰しを指定します。詳細は「<a href='#dBUd7L4C3dx'>10.3  フィル</a>」を参照してください。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'>stroke</td><td align='left'>外枠を描画する線を指定します。詳細は「<a href='#4HFjqmTuIU6'>10.2  ストローク</a>」を参照してください。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'>link</td><td align='left'>リンクにする場合、リンク先を指定します。詳細は「<a href='#fbLcMRTVXac'>10.9  リンク</a>」を参照してください。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'>rotate</td><td align='left'>回転させたい場合に、その角度を指定します。<br>詳細は「<a href='#heEi5Lc5BX9'>10.6  回転</a>」を参照してください。</td></tr>
@@ -2313,7 +2314,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 (diagram (240 100)
   (grid)
   (drop-shadow)
-  (with-memo-options (<span class='keyword3'>:stroke</span> <span class='keyword3'>:crimson</span> <span class='keyword3'>:fill</span> <span class='keyword3'>:mistyrose</span> <span class='keyword3'>:filter</span> <span class='keyword3'>:drop-shadow</span>)
+  (with-memo-options (<span class='keyword3'>:stroke</span> <span class='keyword3'>:red</span> <span class='keyword3'>:fill</span> <span class='keyword3'>:lavenderblush</span>
+                      <span class='keyword3'>:fill2</span> <span class='keyword3'>:lightpink</span> <span class='keyword3'>:filter</span> <span class='keyword3'>:drop-shadow</span>)
     (memo '( 60 50) <span class='literal'>"first~%memo"</span>  <span class='keyword3'>:width</span> 80 <span class='keyword3'>:height</span> 60)
     (memo '(180 50) <span class='literal'>"second~%memo"</span> <span class='keyword3'>:width</span> 80 <span class='keyword3'>:height</span> 60)))
 </pre>
@@ -2337,13 +2339,13 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 	</pattern>
 	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
 	<!-- memo -->
-	<polygon fill='mistyrose' stroke='crimson' stroke-width='1' points='20.0,20.0 20.0,80.0 80.0,80.0 100.0,70.0 100.0,20.0 20.0,20.0' filter='url(#drop-shadow)' />
-	<polygon fill='#D8C1BF' stroke='crimson' stroke-width='1' stroke-linejoin='round' points='80.0,80.0 100.0,70.0 86.666664,66.66667 80.0,80.0' />
+	<polygon fill='lavenderblush' stroke='red' stroke-width='1' points='20.0,20.0 20.0,80.0 80.0,80.0 100.0,70.0 100.0,20.0 20.0,20.0' filter='url(#drop-shadow)' />
+	<polygon fill='lightpink' stroke='red' stroke-width='1' stroke-linejoin='round' points='80.0,80.0 100.0,70.0 86.666664,66.66667 80.0,80.0' />
 	<text x='60' y='49' text-anchor='middle' font-size='12pt' fill='black' >first</text>
 	<text x='60' y='63' text-anchor='middle' font-size='12pt' fill='black' >memo</text>
 	<!-- memo -->
-	<polygon fill='mistyrose' stroke='crimson' stroke-width='1' points='140.0,20.0 140.0,80.0 200.0,80.0 220.0,70.0 220.0,20.0 140.0,20.0' filter='url(#drop-shadow)' />
-	<polygon fill='#D8C1BF' stroke='crimson' stroke-width='1' stroke-linejoin='round' points='200.0,80.0 220.0,70.0 206.66666,66.66667 200.0,80.0' />
+	<polygon fill='lavenderblush' stroke='red' stroke-width='1' points='140.0,20.0 140.0,80.0 200.0,80.0 220.0,70.0 220.0,20.0 140.0,20.0' filter='url(#drop-shadow)' />
+	<polygon fill='lightpink' stroke='red' stroke-width='1' stroke-linejoin='round' points='200.0,80.0 220.0,70.0 206.66666,66.66667 200.0,80.0' />
 	<text x='180' y='49' text-anchor='middle' font-size='12pt' fill='black' >second</text>
 	<text x='180' y='63' text-anchor='middle' font-size='12pt' fill='black' >memo</text>
 
@@ -6161,7 +6163,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <h4><a name='0C8r7LcFb7c'></a>12.1.22 with-memo-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-memo-options</span> ((<span class='keyword2'>&amp;key</span> crease align valign margin
-                                   font fill stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
+                                   font fill fill2 stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <h4><a name='5afU9yg86c0'></a>12.1.23 with-optionsマクロ</h4>
@@ -8714,6 +8716,12 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li><strong>2022/10/01 - version 0.006</strong>
 <ul>
 <li>ENHANCE : ID 指定のない要素に gensym ID を付与し、 <code>$N.id</code> で参照を可能とする修正</li>
+</ul>
+</li>
+<li><strong>2022/10/03</strong>
+<ul>
+<li><strong>MINOR IMCOMPATIBLE CHANGE : <a href='#dmYFJAv81Kl'>パターン</a>と<a href='#4p1J7EWjD3m'>グラデーション</a>の追加に伴い、fill 指定から別の色を導出する機能を廃止</strong></li>
+<li>ENHANCE : 上記の対応として「<a href='#0AVJhEKnK1M'>4.8  メモ</a>」に <code>:fill2</code> パラメータを追加</li>
 </ul>
 </li>
 </ul>

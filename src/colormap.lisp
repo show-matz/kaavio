@@ -579,64 +579,15 @@
 
 
 
-
+#|
+#|EXPORT|#				:colormap-fix
+ |#
+;; 色情報を処理（外部エントリなら #RRGGBB 文字列に変換）する
 (defun colormap-fix (kwd)
   (let ((entry (find-if (lambda (lst)
 						  (eq (first lst) kwd)) +color-map+)))
-	(if (null entry)
+	(if (or (null entry)
+			(null (second entry)))
 		kwd
-		(if (null (second entry))
-			kwd
-			(third entry)))))
-
-(defun colormap-destructure (color)
-  (cond
-	((keywordp color)
-	 (let ((entry (find-if (lambda (lst)
-							 (eq (first lst) color)) +color-map+)))
-	   (when entry
-		 (cdddr entry))))
-	((stringp color)
-	 (let ((code (string-downcase color)))
-	   (labels ((hexchar-to-val (idx)
-				  (mod (mod (char-code (char code idx)) 87) 48)))
-		 (cond
-		   ((= 7 (length code))
-			(labels ((impl (idx acc)
-					   (if (= idx 7)
-						   (nreverse acc)
-						   (let ((val (+ (ash (hexchar-to-val idx) 4)
-										 (hexchar-to-val (1+ idx)))))
-							 (impl (+ idx 2) (cons val acc))))))
-			  (impl 1 nil)))
-		   ((= 4 (length code))
-			(labels ((impl (idx acc)
-					   (if (= idx 4)
-						   (nreverse acc)
-						   (let* ((v1 (hexchar-to-val idx))
-								  (val (+ (ash v1 4) v1)))
-							 (impl (1+ idx) (cons val acc))))))
-			  (impl 1 nil)))
-		   (t nil)))))
-	(t nil)))
-	  
-(defun colormap-more-light (color)
-  (if (eq color :none)
-	  :none
-	  (destructuring-bind (r g b) (colormap-destructure color)
-		(setf r (min 255 (truncate (+ r (max 15 (* r 0.15))))))
-		(setf g (min 255 (truncate (+ g (max 15 (* g 0.15))))))
-		(setf b (min 255 (truncate (+ b (max 15 (* b 0.15))))))
-		(format  nil "#~2,'0x~2,'0x~2,'0x" r g b))))
-
-	  
-(defun colormap-more-dark (color)
-  (if (eq color :none)
-	  :none
-	  (destructuring-bind (r g b) (colormap-destructure color)
-		(setf r (max 0 (truncate (- r (max 15 (* r 0.15))))))
-		(setf g (max 0 (truncate (- g (max 15 (* g 0.15))))))
-		(setf b (max 0 (truncate (- b (max 15 (* b 0.15))))))
-		(format  nil "#~2,'0x~2,'0x~2,'0x" r g b))))
-
+		(third entry))))
 
