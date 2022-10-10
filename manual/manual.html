@@ -5416,13 +5416,69 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p>　width-spice は kaavio の開発初期の段階で導入されたものですが、現在ではあまり良くないアイデアとみなされています。<a class='autolink' href='#e7hkC2YUaKe'>テキストボックス</a>などでは幅を明示的に指定するのが現実的であり、その他テキストの描画幅においてもなんらかの仮定に依存するようなデザインをしないことが賢明でしょう<sup><a name='footnote_ref14' href='#footnote14'>14</a></sup>。</p>
 <p>　　</p>
 <h3><a name='iu9Ovm00KHn'></a>10.5 IDと参照</h3>
-<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<!--
-	* (foo ... :id :foo1) で ID 指定し、あとで foo.center とかできるよね。
-	* 上記の ID 指定なしでも、$1.center とかでもできるよ。
-	* でも、(connect :foo1 :bar1 ...) みたいな ID そのものを指定する場合は無理？
-	* (connect $1.id $2.id ...) って書き方ができるようになったよ。
--->
+<p>　たいていの場合、図中の要素は互いに関係しています。矢印などで接続されることもありますし、それ以外の位置関係に意味があるかもしれません。kaavio では、個々の図形要素に ID を付与し、その ID を指定することで図形要素どうしを接続したり位置関係を指定したりできます。</p>
+<p>　このマニュアルの<a href='#9LLncE6hWlx'>冒頭に出てきたサンプル</a>は、以下のようなものでした。</p>
+<pre class='code'>
+(diagram (300 150)
+  (grid)
+  (rect   '( 50  50) 80 60 <span class='keyword3'>:fill</span> <span class='keyword3'>:powderblue</span> <span class='keyword3'>:id</span> <span class='keyword3'>:x</span>)
+  (circle '(250 100) 40    <span class='keyword3'>:fill</span> <span class='keyword3'>:moccasin</span>   <span class='keyword3'>:id</span> <span class='keyword3'>:y</span>)
+  (connect <span class='keyword3'>:x</span> <span class='keyword3'>:y</span> <span class='keyword3'>:end2</span> <span class='keyword3'>:arrow</span>))
+</pre>
+<p>　ここでは、<a class='autolink' href='#kJonRG8GtHF'>rect</a> と <a class='autolink' href='#8UQowBxrcaE'>circle</a> に <code>:x</code> や <code>:y</code> という ID を付与しており、<a class='autolink' href='#eFhVs4WwYUG'>connect</a> での指定に利用しています。これが ID とその参照の基本的なかたちです。もうひとつ、ID は座標の指定でも利用できます。上のサンプルを少し変えて、<a class='autolink' href='#8UQowBxrcaE'>circle</a> を <a class='autolink' href='#kJonRG8GtHF'>rect</a> の相対位置で指定してみましょう。生成される図はまったく同じです。</p>
+<pre class='code'>
+(diagram (300 150)
+  (grid)
+  (rect   '( 50  50) 80 60         <span class='keyword3'>:fill</span> <span class='keyword3'>:powderblue</span> <span class='keyword3'>:id</span> <span class='keyword3'>:x</span>)
+  (circle (xy+ x.center 200 50) 40 <span class='keyword3'>:fill</span> <span class='keyword3'>:moccasin</span>   <span class='keyword3'>:id</span> <span class='keyword3'>:y</span>)
+  (connect <span class='keyword3'>:x</span> <span class='keyword3'>:y</span> <span class='keyword3'>:end2</span> <span class='keyword3'>:arrow</span>))
+</pre>
+<p>　このように、ID（この例では <code>x</code> ）とその図形要素の属性（この例では <code>center</code> ）を <code>.</code> で繋ぐことで既出の図形要素の位置などを参照することができます。使用できる属性は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」にて紹介しています。</p>
+<p>　続いて、ID を使わない方法について説明します。これは 「$N 記法」と呼ばれるもので、「N 個手前で登場した図形要素を参照」するものです。先ほどの <a class='autolink' href='#8UQowBxrcaE'>circle</a> の例は以下のように書くことができます。</p>
+<pre class='code'>
+(diagram (300 150)
+  (grid)
+  (rect   '( 50  50) 80 60          <span class='keyword3'>:fill</span> <span class='keyword3'>:powderblue</span> <span class='keyword3'>:id</span> <span class='keyword3'>:x</span>)
+  (circle (xy+ $1.center 200 50) 40 <span class='keyword3'>:fill</span> <span class='keyword3'>:moccasin</span>   <span class='keyword3'>:id</span> <span class='keyword3'>:y</span>)
+  (connect <span class='keyword3'>:x</span> <span class='keyword3'>:y</span> <span class='keyword3'>:end2</span> <span class='keyword3'>:arrow</span>))
+</pre>
+<p>　この <code>$1</code> は、<a class='autolink' href='#8UQowBxrcaE'>circle</a> から見て「ひとつ前の図形要素」、つまり <a class='autolink' href='#kJonRG8GtHF'>rect</a> を参照しています。このような $N 記法は、$1 から $9 までが利用可能です。つまり、9 つ前までの要素を ID なしで参照できるわけです。</p>
+<p>　この <code>$1.center</code> といった記法は、ID 指定を省略した図形要素でも使用することができます。しかし、<a class='autolink' href='#eFhVs4WwYUG'>connect</a> はどうでしょう。<a class='autolink' href='#eFhVs4WwYUG'>connect</a> では図形要素の ID そのものを指定する必要があります。</p>
+<p>　まず、<a class='autolink' href='#eFhVs4WwYUG'>connect</a> での ID 指定の話からしましょう。$N 記法を使うと、以下のように書くことができます。</p>
+<pre class='code'>
+(diagram (300 150)
+  (grid)
+  (rect   '( 50  50) 80 60          <span class='keyword3'>:fill</span> <span class='keyword3'>:powderblue</span> <span class='keyword3'>:id</span> <span class='keyword3'>:x</span>)
+  (circle (xy+ $1.center 200 50) 40 <span class='keyword3'>:fill</span> <span class='keyword3'>:moccasin</span>   <span class='keyword3'>:id</span> <span class='keyword3'>:y</span>)
+  (connect $2.id $1.id <span class='keyword3'>:end2</span> <span class='keyword3'>:arrow</span>))
+</pre>
+<p>　<a class='autolink' href='#eFhVs4WwYUG'>connect</a> からみれば <a class='autolink' href='#kJonRG8GtHF'>rect</a> は 2 つ前なので $2、<a class='autolink' href='#8UQowBxrcaE'>circle</a> は 1 つ前なので $1 で参照し、$1.id とすることでその ID を参照しています。結局、これは <code>:x</code> や <code>:y</code> を指定しているのと同じことになります。</p>
+<p>　上記の説明からすると奇妙に思われるかもしれませんが、上記の状態になっていれば、<a class='autolink' href='#kJonRG8GtHF'>rect</a> / <a class='autolink' href='#8UQowBxrcaE'>circle</a> から ID 指定は除去しても問題ありません。つまり、以下のように書けるということです。</p>
+<pre class='code'>
+(diagram (300 150)
+  (grid)
+  (rect   '( 50  50) 80 60          <span class='keyword3'>:fill</span> <span class='keyword3'>:powderblue</span>)
+  (circle (xy+ $1.center 200 50) 40 <span class='keyword3'>:fill</span> <span class='keyword3'>:moccasin</span>)
+  (connect $2.id $1.id <span class='keyword3'>:end2</span> <span class='keyword3'>:arrow</span>))
+</pre>
+<p>　このコードでは、<a class='autolink' href='#eFhVs4WwYUG'>connect</a> における <code>$2.id</code> といった記述は何を返すのでしょうか？　実は、kaavio では ID 指定を省略された図形要素には、kaavio が独自の ID を付与するようになっています<sup><a name='footnote_ref15' href='#footnote15'>15</a></sup>。この自動付与される ID はコード上には現われないため直接指定することはできませんが、<a class='autolink' href='#eFhVs4WwYUG'>connect</a> での指定で $N.id とする場合には使用できます。</p>
+<p>　最後に、ID に . を続けることで参照できる属性の一覧を示しておきます。座標参照の正確な位置については <a href='#2oP7i8nCaCH'>Figure.6-2</a> を参照してください。</p>
+<p class='tbl_title'><a name='ju0HQrRY8oT'></a>Table.10-1 ID 指定で参照できる属性の一覧</p>
+<table align='center'>
+<tr style="font-size: 14;"><th>属性</th><th>説明</th></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>id</code></td><td align='left'>図形要素の ID を参照します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>width</code></td><td align='left'>図形要素の幅を参照します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>height</code></td><td align='left'>図形要素の高さを参照します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>topleft</code></td><td align='left'>図形要素の左上の座標を参照します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>top</code></td><td align='left'>図形要素の上端の座標を参照します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>topright</code></td><td align='left'>図形要素の右上の座標を参照します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>left</code></td><td align='left'>図形要素の右端の座標を参照します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>center</code></td><td align='left'>図形要素の中心の座標を参照します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>right</code></td><td align='left'>図形要素の左端の座標を参照します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>bottomleft</code></td><td align='left'>図形要素の左下の座標を参照します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>bottom</code></td><td align='left'>図形要素の下端の座標を参照します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>bottomright</code></td><td align='left'>図形要素の右下の座標を参照します。</td></tr>
+</table>
 <p>　　</p>
 <h3><a name='heEi5Lc5BX9'></a>10.6 回転</h3>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません</span></p>
@@ -6190,7 +6246,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <h3><a name='dR01Jh257Q6'></a>12.2 色の名前</h3>
-<p> <a href='#1rpUB3fre67'>10.1  節</a>ではいくつかの色の指定方法を紹介しています。ここでは、そのうち色の名前について使用できるものを紹介します。まず、以下は SVG 規格に記載されている色名のサンプルです<sup><a name='footnote_ref15' href='#footnote15'>15</a></sup>。</p>
+<p> <a href='#1rpUB3fre67'>10.1  節</a>ではいくつかの色の指定方法を紹介しています。ここでは、そのうち色の名前について使用できるものを紹介します。まず、以下は SVG 規格に記載されている色名のサンプルです<sup><a name='footnote_ref16' href='#footnote16'>16</a></sup>。</p>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='750' height='1000'>
@@ -6958,7 +7014,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </pre>
 </details>
 <p>　　</p>
-<p>　kaavio では、上記に加えて以下の名前も使用することができます。これらは規格に含まれていないため、 <code>#RRGGBB</code> 形式に変換されて出力されます<sup><a name='footnote_ref16' href='#footnote16'>16</a></sup>。</p>
+<p>　kaavio では、上記に加えて以下の名前も使用することができます。これらは規格に含まれていないため、 <code>#RRGGBB</code> 形式に変換されて出力されます<sup><a name='footnote_ref17' href='#footnote17'>17</a></sup>。</p>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='760' height='2140'>
@@ -8724,6 +8780,11 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li>ENHANCE : 上記の対応として「<a href='#0AVJhEKnK1M'>4.8  メモ</a>」に <code>:fill2</code> パラメータを追加</li>
 </ul>
 </li>
+<li><strong>2022/10/10</strong>
+<ul>
+<li>DOCUMENT : 「<a href='#iu9Ovm00KHn'>10.5  IDと参照</a>」を執筆</li>
+</ul>
+</li>
 </ul>
 <h2><a name='1iQ3KRF8uJQ'></a>14 図表一覧</h2>
 <ul>
@@ -8844,6 +8905,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li><a href='#46vpyWYCtdw'>Table.4-15 table のパラメータ</a></li>
 <li><a href='#1YwjqbZ6y0N'>Table.5-1 path のパラメータ</a></li>
 <li><a href='#f7wEYjGUqWE'>Table.5-2 path の data で使用できるディレクティブ</a></li>
+<li><a href='#ju0HQrRY8oT'>Table.10-1 ID 指定で参照できる属性の一覧</a></li>
 <li><a href='#l8ZKPnackNk'>Table.12-1 defgradient マクロのパラメータ</a></li>
 <li><a href='#75EaQ9VoQov'>Table.12-2 defgradient マクロの付加パラメータ（linear/radial 共通）</a></li>
 <li><a href='#7B7qYLtcQVS'>Table.12-3 defgradient マクロの付加パラメータ（linear）</a></li>
@@ -9090,7 +9152,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p class='footnote'><a name='footnote12' href='#footnote_ref12'>12</a> : これはあまり使わない方が良いテクニックかもしれません。図形要素別の「デフォルト設定」とは無関係に動作するので、慣れないと混乱するかもしれないからです。</p>
 <p class='footnote'><a name='footnote13' href='#footnote_ref13'>13</a> : 正確には <code>:size 12 :fill :black :width-spice 0.65 :line-spacing 2</code> です。</p>
 <p class='footnote'><a name='footnote14' href='#footnote_ref14'>14</a> : SVG 規格には <code>textLength</code> 属性というものがあって、指定されたスペースにテキストを収めることができるそうです。これを今後導入するかもしれません。しかし、重箱の隅っこ的な機能は SVG レンダリングエンジン（多くの場合はブラウザのことですが）がサポートしていない可能性があるので、今後の検討次第です。</p>
-<p class='footnote'><a name='footnote15' href='#footnote_ref15'>15</a> : SVG 2 の規格において色名に関する節は削除され、CSS 規格を参照することになりました。</p>
-<p class='footnote'><a name='footnote16' href='#footnote_ref16'>16</a> : <a href='#6tYSz371NWb'>Figure.12-2</a> に記載されているのは、Emacs エディタで定義されている色名のうち、規格に含まれないものの一覧です。このうち、green(#00FF00), grey(#BEBEBE), maroon(#B03060), purple(#A020F0) については規格側にも同じ名前があるものの異なる値です。これらは「規格優先」としているため、たとえば <code>:green</code> を指定した場合は規格の #008000 が使用され、#00FF00 は使用されません。</p>
+<p class='footnote'><a name='footnote15' href='#footnote_ref15'>15</a> : Lisper の方へ：要するに <code>gensym</code> を使っています。</p>
+<p class='footnote'><a name='footnote16' href='#footnote_ref16'>16</a> : SVG 2 の規格において色名に関する節は削除され、CSS 規格を参照することになりました。</p>
+<p class='footnote'><a name='footnote17' href='#footnote_ref17'>17</a> : <a href='#6tYSz371NWb'>Figure.12-2</a> に記載されているのは、Emacs エディタで定義されている色名のうち、規格に含まれないものの一覧です。このうち、green(#00FF00), grey(#BEBEBE), maroon(#B03060), purple(#A020F0) については規格側にも同じ名前があるものの異なる値です。これらは「規格優先」としているため、たとえば <code>:green</code> を指定した場合は規格の #008000 が使用され、#00FF00 は使用されません。</p>
 </body>
 </html>
