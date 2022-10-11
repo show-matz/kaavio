@@ -4565,28 +4565,60 @@ ${BLANK_PARAGRAPH}
 
 ### 回転
 
-　${{TODO}{まだ記述されていません}}
+　お望みなら、図形要素を回転させることができます。ただし、この機能は ${APPNAME} の他の機能とは
+あまり整合しないので注意が必要です。ひとまずのところ、 `:rotate` パラメータに角度を与えること
+で回転させることができます。以下のように。
 
 <!-- snippet: ROTATE-SAMPLE
-(diagram (400 200)
+(diagram (300 200)
   (grid)
-  (rect '(200 100) 100 70 :fill :lightgray :stroke :black :rotate 30))
+  (rect canvas.center 150 100 :fill :lightgray :stroke :black :rotate 30))
 -->
 
 ```lisp
 <!-- expand: ROTATE-SAMPLE -->
 ```
 
-${BLANK_PARAGRAPH}
-
-
-　以下のような画像が生成されます。
+　このコードは以下の図を生成します。
 
 ```kaavio
 <!-- expand: ROTATE-SAMPLE -->
 ```
 Figure. 回転のサンプル
 
+　見た目は問題なく回転できていますが、この四角形にコネクタを接続しようとすると何がどう
+「整合しない」のかがわかります。以下のように、接続点は回転には追従しないのです。
+
+```kaavio
+(diagram (300 200)
+  (grid)
+  (drop-shadow)
+  (let ((w 150)
+        (h 100))
+    (rect canvas.center w h :id :frame :fill :none
+                        :stroke '(:color :gray :dasharray (3 3)))
+    (with-options (:stroke :none :fill :red)
+      (dotimes (x 3)
+        (circle (x+ frame.topleft    (* (1+ x) (/ w 4))) 3)
+        (circle (x+ frame.bottomleft (* (1+ x) (/ w 4))) 3)
+        (circle (y+ frame.topleft    (* (1+ x) (/ h 4))) 3)
+        (circle (y+ frame.topright   (* (1+ x) (/ h 4))) 3)))
+    (rect canvas.center w h :stroke :black :rotate 30 :id :target
+          :fill '(:color :gray :opacity 0.3) :filter :drop-shadow)
+    (with-options (:stroke '(:color :brown :width 2)  :fill :white)
+      (circle '( 20 20) 10 :id :c1)
+      (circle '(280 20) 10 :id :c2)
+      (connect :c1 :target :style :CC  :end2 :arrow)
+      (connect :c2 :target :style :LT3 :end2 :arrow))))
+```
+Figure. 回転しても図形要素の属性は変化しない
+
+　接続点だけではありません。[$@](T#ID 指定で参照できる属性の一覧) で紹介した属性についても、
+すべて回転前の状態のままとなります。これら全てを回転に追従させることも開発途上で検討されました
+が、すっきりとした仕様に落とし込むことができなかったため、回転の機能は「図形要素の見た目だけを
+回転させるもの」とされました。
+
+${BLANK_PARAGRAPH}
 
 ### フィルタ
 <!-- autolink: [$$](#フィルタ) -->
@@ -6066,6 +6098,8 @@ Figure. 色の名前とサンプル - 2
 	* ENHANCE : 上記の対応として「[](#メモ)」に `:fill2` パラメータを追加
 * __2022/10/10 - version 0.007__
 	* DOCUMENT : 「[](#IDと参照)」を執筆
+* __2022/10/11__
+	* DOCUMENT : 「[](#回転)」を執筆
 
 ## 図表一覧
 <!-- embed:figure-list -->

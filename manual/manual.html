@@ -5481,17 +5481,16 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </table>
 <p>　　</p>
 <h3><a name='heEi5Lc5BX9'></a>10.6 回転</h3>
-<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません</span></p>
+<p>　お望みなら、図形要素を回転させることができます。ただし、この機能は kaavio の他の機能とはあまり整合しないので注意が必要です。ひとまずのところ、 <code>:rotate</code> パラメータに角度を与えることで回転させることができます。以下のように。</p>
 <pre class='code'>
-(diagram (400 200)
+(diagram (300 200)
   (grid)
-  (rect '(200 100) 100 70 <span class='keyword3'>:fill</span> <span class='keyword3'>:lightgray</span> <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span> <span class='keyword3'>:rotate</span> 30))
+  (rect canvas.center 150 100 <span class='keyword3'>:fill</span> <span class='keyword3'>:lightgray</span> <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span> <span class='keyword3'>:rotate</span> 30))
 </pre>
-<p>　　</p>
-<p>　以下のような画像が生成されます。</p>
+<p>　このコードは以下の図を生成します。</p>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
-<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='400' height='200'>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='200'>
 	
 	<!-- grid -->
 	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
@@ -5500,14 +5499,81 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 	</pattern>
 	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
 	<!-- rectangle -->
-	<g transform='rotate(30,200,100)'>
-		<rect x='150' y='65' width='100' height='70' fill='lightgray' stroke='black' stroke-width='1' />
+	<g transform='rotate(30,150,100)'>
+		<rect x='75' y='50' width='150' height='100' fill='lightgray' stroke='black' stroke-width='1' />
 	</g>
 
 </svg>
 </div>
 
 <p class='fig_title'><a name='h7K5JgIwvZY'></a>Figure.10-14 回転のサンプル</p>
+<p>　見た目は問題なく回転できていますが、この<a class='autolink' href='#kJonRG8GtHF'>四角形</a>に<a class='autolink' href='#eFhVs4WwYUG'>コネクタ</a>を接続しようとすると何がどう「整合しない」のかがわかります。以下のように、接続点は回転には追従しないのです。</p>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='200'>
+	
+	<filter id='drop-shadow'>
+		<feColorMatrix type='matrix' values=' 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.4 0' />
+		<feGaussianBlur stdDeviation='2' result='blur' />
+		<feOffset in='blur' dx='4' dy='4' result='offsetBlur' />
+		<feMerge>
+			<feMergeNode in='offsetBlur' />
+			<feMergeNode in='SourceGraphic'/>
+		</feMerge>
+	</filter>
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- frame : rectangle -->
+	<rect id='frame' x='75' y='50' width='150' height='100' fill='none' stroke='gray' stroke-width='1' stroke-dasharray='3 3 ' />
+	<!-- circle -->
+	<circle cx='112.5' cy='50' r='3' fill='red' stroke='none' stroke-width='1' />
+	<!-- circle -->
+	<circle cx='112.5' cy='150' r='3' fill='red' stroke='none' stroke-width='1' />
+	<!-- circle -->
+	<circle cx='75' cy='75' r='3' fill='red' stroke='none' stroke-width='1' />
+	<!-- circle -->
+	<circle cx='225' cy='75' r='3' fill='red' stroke='none' stroke-width='1' />
+	<!-- circle -->
+	<circle cx='150' cy='50' r='3' fill='red' stroke='none' stroke-width='1' />
+	<!-- circle -->
+	<circle cx='150' cy='150' r='3' fill='red' stroke='none' stroke-width='1' />
+	<!-- circle -->
+	<circle cx='75' cy='100' r='3' fill='red' stroke='none' stroke-width='1' />
+	<!-- circle -->
+	<circle cx='225' cy='100' r='3' fill='red' stroke='none' stroke-width='1' />
+	<!-- circle -->
+	<circle cx='187.5' cy='50' r='3' fill='red' stroke='none' stroke-width='1' />
+	<!-- circle -->
+	<circle cx='187.5' cy='150' r='3' fill='red' stroke='none' stroke-width='1' />
+	<!-- circle -->
+	<circle cx='75' cy='125' r='3' fill='red' stroke='none' stroke-width='1' />
+	<!-- circle -->
+	<circle cx='225' cy='125' r='3' fill='red' stroke='none' stroke-width='1' />
+	<!-- target : rectangle -->
+	<g id='target' transform='rotate(30,150,100)'>
+		<rect x='75' y='50' width='150' height='100' fill='gray' fill-opacity='0.3' stroke='black' stroke-width='1' filter='url(#drop-shadow)' />
+	</g>
+	<!-- c1 : circle -->
+	<circle id='c1' cx='20' cy='20' r='10' fill='white' stroke='brown' stroke-width='2' />
+	<!-- c2 : circle -->
+	<circle id='c2' cx='280' cy='20' r='10' fill='white' stroke='brown' stroke-width='2' />
+	<!-- connector from c1 to target -->
+	<polyline fill='none' stroke='brown' stroke-width='2' points=' 28.516582,25.240974 75.0,53.846153' />
+	<polyline fill='none' stroke='brown' stroke-width='2' points='60.005905,53.425365 75,53.846153 67.86736,40.65049' />
+	<!-- connector from c2 to target -->
+	<polyline fill='none' stroke='brown' stroke-width='2' points=' 270.0,20.0 187.5,20.0 187.5,50.0' />
+	<polyline fill='none' stroke='brown' stroke-width='2' points='180.0,37.00962 187.5,50 195.0,37.00962' />
+
+</svg>
+</div>
+
+<p class='fig_title'><a name='9DgdURPyOHh'></a>Figure.10-15 回転しても図形要素の属性は変化しない</p>
+<p>　接続点だけではありません。<a href='#ju0HQrRY8oT'>Table.10-1</a> で紹介した属性についても、すべて回転前の状態のままとなります。これら全てを回転に追従させることも開発途上で検討されましたが、すっきりとした仕様に落とし込むことができなかったため、回転の機能は「図形要素の見た目だけを回転させるもの」とされました。</p>
+<p>　　</p>
 <h3><a name='gPGlqSbIfdL'></a>10.7 フィルタ</h3>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません</span></p>
 <pre class='code'>
@@ -5559,7 +5625,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='9Z8wQykrThD'></a>Figure.10-15 フィルタのサンプル</p>
+<p class='fig_title'><a name='9Z8wQykrThD'></a>Figure.10-16 フィルタのサンプル</p>
 <h3><a name='1ovJxG7Ie9O'></a>10.8 レイヤー</h3>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <p>　　</p>
@@ -8785,6 +8851,11 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li>DOCUMENT : 「<a href='#iu9Ovm00KHn'>10.5  IDと参照</a>」を執筆</li>
 </ul>
 </li>
+<li><strong>2022/10/11</strong>
+<ul>
+<li>DOCUMENT : 「<a href='#heEi5Lc5BX9'>10.6  回転</a>」を執筆</li>
+</ul>
+</li>
 </ul>
 <h2><a name='1iQ3KRF8uJQ'></a>14 図表一覧</h2>
 <ul>
@@ -8870,7 +8941,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li><a href='#8UprDrMi9gT'>Figure.10-12 font における size と line-spacing</a></li>
 <li><a href='#1Z9lqmEkvJx'>Figure.10-13 width-spice のサンプル</a></li>
 <li><a href='#h7K5JgIwvZY'>Figure.10-14 回転のサンプル</a></li>
-<li><a href='#9Z8wQykrThD'>Figure.10-15 フィルタのサンプル</a></li>
+<li><a href='#9DgdURPyOHh'>Figure.10-15 回転しても図形要素の属性は変化しない</a></li>
+<li><a href='#9Z8wQykrThD'>Figure.10-16 フィルタのサンプル</a></li>
 <li><a href='#2Hj3wMypfUt'>Figure.11-1 uml-action-param 要素</a></li>
 <li><a href='#2p79zKV2A8T'>Figure.11-2 uml-action 要素</a></li>
 <li><a href='#bGeFbFhlXGE'>Figure.11-3 uml-activity-partitions 要素</a></li>
