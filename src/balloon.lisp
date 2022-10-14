@@ -121,7 +121,7 @@
 					 (or layer *default-balloon-layer* *default-layer*)))
 	(setf filter (if (eq filter :none)
 					 nil
-					 (or filter *default-balloon-filter* *default-shape-filter*))))
+					 (or filter *default-balloon-filter* *default-filter*))))
   bln)
    
 (defmethod check ((bln balloon) canvas dict)

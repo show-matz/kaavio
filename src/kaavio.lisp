@@ -181,12 +181,9 @@
 				:fill-info
 				:make-fill
 				;filter.lisp
-				:*default-line-filter*
-				:*default-shape-filter*
+				:*default-filter*
 				:filter
 				:write-filter
-				:with-line-filter
-				:with-shape-filter
 				;folder.lisp
 				:*default-folder-tabwidth*
 				:*default-folder-tabheight*
@@ -719,11 +716,12 @@
 #|
 #|EXPORT|#				:with-options
  |#
-(defmacro with-options ((&key fill stroke font layer) &rest body)
+(defmacro with-options ((&key fill stroke font filter layer) &rest body)
   (let ((lst nil))
 	(when font   (setf lst (push `(*default-font*   (make-font   ,font))   lst)))
 	(when fill   (setf lst (push `(*default-fill*   (make-fill   ,fill))   lst)))
 	(when stroke (setf lst (push `(*default-stroke* (make-stroke ,stroke)) lst)))
+	(when filter (setf lst (push `(*default-filter* ,filter) lst)))
 	(when layer  (setf lst (push `(*default-layer*  ,layer) lst)))
 	`(let ,lst
 	   ,@body)))

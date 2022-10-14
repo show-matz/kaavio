@@ -34,7 +34,7 @@
 	(setf link   (make-link   link))
 	(setf filter (if (eq filter :none)
 					 nil
-					 (or filter *default-shape-filter*)))
+					 (or filter *default-filter*)))
 	(setf layer  (if (eq layer :none)
 					 nil
 					 (or layer *default-layer*))))

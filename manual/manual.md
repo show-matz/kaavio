@@ -162,7 +162,7 @@ ${BLANK_PARAGRAPH}
 (diagram (450 150)
   (grid)
   (drop-shadow)
-  (with-shape-filter (:drop-shadow)
+  (with-options (:filter :drop-shadow)
     (textbox (y+ canvas.center 20) "${APPNAME}" :height 40 :fill :cornsilk :id :app)
     (with-options (:stroke '(:color :navy :width 2)
                    :fill   '(:color :skyblue :opacity 0.3))
@@ -190,7 +190,7 @@ Figure. 簡単なサンプル-2
 
 * diagram と grid は先程と同じなので省略
 * drop-shadow という種類の「フィルタ」の使用を宣言
-* with-shape-filter でデフォルトのフィルタを drop-shadow に設定
+* with-options でデフォルトのフィルタを drop-shadow に設定
 	* textbox でテキストボックスを描画 : 場所は画像の中心（canvas.center）から y 軸方向に 20、 \
 テキストは "${APPNAME}"、これに app という ID を設定
 	* with-options で、デフォルトの線を太さ 2 の `navy` に、デフォルトの塗りつぶしを不透明度 0.3 の `skyblue` にそれぞれ設定
@@ -208,7 +208,7 @@ ${BLANK_PARAGRAPH}
 
 　この 2 つめのサンプルには、新しいポイントがいくつかあります。もう少し詳しく説明します。
 
-* `drop-shadow` で宣言し、 `with-shape-filter` でデフォルトを設定しているのを「フィルタ」といいます。 \
+* `drop-shadow` で宣言し、 `with-options` でデフォルトを設定しているのを「フィルタ」といいます。 \
 四角形や円に表示されている影が drop shadow です。
 * `with-options` を使って、デフォルトの塗り潰しや線を指定しています。 `:stroke` や `:fill` を \
 毎回指定する必要がなくなります。
@@ -671,13 +671,9 @@ Figure. arc のサンプル - 2
 <!-- snippet: TEXT-SAMPLE
 (diagram (300 100)
   (grid)
-  (glow-shadow :color-matrix '(0 0 0 0   0
-                               0 0 0 0.4 0
-                               0 0 0 0   0
-                               0 0 0 1   0))
   (text '(150 70) "Text" :align :center
-        :font '(:family "Times New Roman" :size 48
-                :fill :green :style :italic :filter :glow-shadow)))
+        :font '(:family "Times New Roman"
+                :size 48 :weight :bold :fill :green :style :italic)))
 -->
 
 　`text` によってテキストを描画できます。
@@ -4623,34 +4619,85 @@ ${BLANK_PARAGRAPH}
 ### フィルタ
 <!-- autolink: [$$](#フィルタ) -->
 
-　${{TODO}{まだ記述されていません}}
+　フィルタは、SVG 規格における `<filter>` 要素の機能を利用するものの総称で、おおまかに言って
+図形要素に対してなんらかのグラフィカルな効果を及ぼす機能です。現在の ${APPNAME} における
+フィルタ機能は極めて限定されたもので、包括的なサポートを行うかは未定です。
+
+　現在、drop-shadow と glow-shadow の２種類が利用できます。例を以下に示します。通常、冒頭で
+`(drop-shadow)` などの記述により使用を宣言し、図形要素の `:filter` パラメータで指定します。
 
 <!-- snippet: FILTER-SAMPLE
-(diagram (400 200)
+(diagram (360 180)
   (grid)
   (drop-shadow)
-  (glow-shadow :color-matrix '(0 0 0 0   0
-                               0 0 0 0.6 0
-                               0 0 0 0.3 0
-                               0 0 0 0.5 0))
-  (rect '(200 100) 100 70 :fill :lightgray :stroke :black :filter :drop-shadow)
-  (text '(200 180) "sample text" :align :center
-                   :font (make-font :size 24 :fill :cadetblue :filter :glow-shadow)))
+  (glow-shadow)
+  (rect (y+ canvas.center -30) 100 70
+        :stroke :black :fill :lightgray :filter :drop-shadow)
+  (text (y+ canvas.center  70) "sample text"
+        :align :center :font (make-font :size 36 :filter :glow-shadow)))
 -->
 
 ```lisp
 <!-- expand: FILTER-SAMPLE -->
 ```
 
-${BLANK_PARAGRAPH}
-
-
-　以下のような画像が生成されます。
+　上記のコードは以下の画像を生成します。四角形の右下にできている影が drop-shadow で、テキスト
+の周囲に広がるような影が glow-shadow です。
 
 ```kaavio
 <!-- expand: FILTER-SAMPLE -->
 ```
 Figure. フィルタのサンプル
+
+
+	
+${BLANK_PARAGRAPH}
+
+　これらのシャドウは通常図面内で１種類しか使用しないため、ID もデフォルト値を使用可能になっています。
+複数のシャドウを導入する場合には、ID を明示的に指定して区別することができます。以下の例では、
+`color-matrix` を指定して異なる色のシャドウを導入しています。
+
+<!-- snippet: FILTER-SAMPLE-2
+(diagram (400 200)
+  (grid)
+  (drop-shadow :id :shadow1 :color-matrix '(0 0 0 0.5 0
+                                            0 0 0 0   0
+                                            0 0 0 0   0
+                                            0 0 0 0.6 0))
+  (drop-shadow :id :shadow2 :color-matrix '(0 0 0 0   0
+                                            0 0 0 0   0
+                                            0 0 0 0.5 0
+                                            0 0 0 0.6 0))
+  (glow-shadow :id :shadow3 :color-matrix '(0 0 0 0   0
+                                            0 0 0 0.5 0
+                                            0 0 0 0   0
+                                            0 0 0 0.9 0))
+  (rect '(100  70) 100 70 :fill :lightpink :stroke :red  :filter :shadow1)
+  (rect '(300  70) 100 70 :fill :lightcyan :stroke :navy :filter :shadow2)
+  (text '(200 170) "sample text" :align :center
+                   :font (make-font :size 36 :fill :green :filter :shadow3)))
+-->
+
+```kaavio
+<!-- expand: FILTER-SAMPLE-2 -->
+```
+Figure. フィルタのサンプル - 2
+
+<!-- collapse:close -->
+上記サンプルのコードはこちら。
+
+```lisp
+<!-- expand: FILTER-SAMPLE-2 -->
+```
+<!-- collapse:end -->
+
+${BLANK_PARAGRAPH}
+
+　シャドウを使用する場合、通常は図面内の多くの図形要素に同じフィルタを適用します。そのため、
+`with-options` でデフォルトのフィルタを指定可能になっています。[$@](F#簡単なサンプル-2) の
+コードを参照してください。
+
+${BLANK_PARAGRAPH}
 
 ### レイヤー
 
@@ -5110,6 +5157,54 @@ ${BLANK_PARAGRAPH}
 
 　${{TODO}{まだ記述されていません。}}
 
+#### drop-shadow マクロ
+<!-- autolink: [drop-shadow](#drop-shadow マクロ) -->
+
+　生成画像にドロップシャドウを導入します。詳細は SVG 規格を参照してください。
+
+```lisp
+(defmacro drop-shadow (&key id color-matrix deviation dx dy) ...)
+```
+
+${BLANK_PARAGRAPH}
+
+Table. drop-shadow マクロのパラメータ
+| parameter       | description                               |
+|:================|:------------------------------------------|
+| `id`            | ID をキーワードで指定します。省略した場合のデフォルト値は `:drop-shadow` です。 |
+| `color-matrix`  | `<feColorMatrix>` の values 値を数値のリストで指定します。詳細は SVG 規格を \
+参照してください。省略した場合のデフォルト値は `'(0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.4 0)` です。 |
+| `deviation`     | `<feGaussianBlur>` における `stdDeviation` 値を指定します。詳細は SVG 規格を \
+参照してください。省略した場合のデフォルト値は 2 です。  |
+| `dx, dy`        | `<feOffset>` における `dx` および `dy` 値を指定します。詳細は SVG 規格を \
+参照してください。省略した場合のデフォルト値は 4 です。  |
+
+
+${BLANK_PARAGRAPH}
+
+#### glow-shadow マクロ
+<!-- autolink: [glow-shadow](#glow-shadow マクロ) -->
+
+　生成画像にグローシャドウを導入します。詳細は SVG 規格を参照してください。
+
+```lisp
+(defmacro glow-shadow (&key id color-matrix deviation) ...)
+```
+
+${BLANK_PARAGRAPH}
+
+Table. glow-shadow マクロのパラメータ
+| parameter       | description                               |
+|:================|:------------------------------------------|
+| `id`            | ID をキーワードで指定します。省略した場合のデフォルト値は `:glow-shadow` です。 |
+| `color-matrix`  | `<feColorMatrix>` の values 値を数値のリストで指定します。詳細は SVG 規格を \
+参照してください。省略した場合のデフォルト値は `'(0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0)` です。 |
+| `deviation`     | `<feGaussianBlur>` における `stdDeviation` 値を指定します。詳細は SVG 規格を \
+参照してください。省略した場合のデフォルト値は 3 です。  |
+
+
+${BLANK_PARAGRAPH}
+
 #### make-fill 関数
 <!-- autolink: [make-fill](#make-fill 関数) -->
 
@@ -5379,7 +5474,7 @@ ${BLANK_PARAGRAPH}
 <!-- autolink: [with-options](#with-optionsマクロ) -->
 
 ```lisp
-(defmacro with-options ((&key fill stroke font layer) &rest body) ...)
+(defmacro with-options ((&key fill stroke font filter layer) &rest body) ...)
 ```
 
 #### with-person-options マクロ
@@ -6100,6 +6195,10 @@ Figure. 色の名前とサンプル - 2
 	* DOCUMENT : 「[](#IDと参照)」を執筆
 * __2022/10/11__
 	* DOCUMENT : 「[](#回転)」を執筆
+* __2022/10/14__
+	* __IMCOMPATIBLE CHANGE : フィルタのデフォルトを line / shape で区別する仕様を廃止__
+	* ENHANCE : with-options でデフォルトフィルタを指定できるようにする修正
+	* DOCUMENT : 「[](#フィルタ)」を執筆
 
 ## 図表一覧
 <!-- embed:figure-list -->

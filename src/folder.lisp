@@ -47,7 +47,7 @@
   (with-slots (filter layer) fldr
 	(setf filter (if (eq filter :none)
 					 nil
-					 (or filter *default-folder-filter* *default-shape-filter*)))
+					 (or filter *default-folder-filter* *default-filter*)))
 	(setf layer  (if (eq layer :none)
 					 nil
 					 (or layer *default-folder-layer* *default-layer*))))

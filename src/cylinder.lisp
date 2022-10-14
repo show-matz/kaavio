@@ -44,7 +44,7 @@
   (with-slots (filter layer) cyl
 	(setf filter (if (eq filter :none)
 					 nil
-					 (or filter *default-cylinder-filter* *default-shape-filter*)))
+					 (or filter *default-cylinder-filter* *default-filter*)))
 	(setf layer  (if (eq layer :none)
 					 nil
 					 (or layer *default-cylinder-layer* *default-layer*))))

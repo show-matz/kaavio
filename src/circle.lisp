@@ -63,7 +63,7 @@
 	(setf stroke (make-stroke (or stroke *default-stroke* :none)))
 	(setf filter (if (eq filter :none)
 					 nil
-					 (or filter *default-shape-filter*))))
+					 (or filter *default-filter*))))
   ent)
 
 (defmethod check ((shp circle) canvas dict)

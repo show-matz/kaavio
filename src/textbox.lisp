@@ -48,7 +48,7 @@
   (with-slots (filter layer) box
 	(setf filter (if (eq filter :none)
 					 nil
-					 (or filter *default-textbox-filter* *default-shape-filter*)))
+					 (or filter *default-textbox-filter* *default-filter*)))
 	(setf layer  (if (eq layer :none)
 					 nil
 					 (or layer *default-textbox-layer* *default-layer*))))

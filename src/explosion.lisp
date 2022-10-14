@@ -98,7 +98,7 @@
 					 (or layer *default-explosion-layer* *default-layer*)))
 	(setf filter (if (eq filter :none)
 					 nil
-					 (or filter *default-explosion-filter* *default-shape-filter*))))
+					 (or filter *default-explosion-filter* *default-filter*))))
   exp)
    
 (defmethod check ((exp explosion) canvas dict)

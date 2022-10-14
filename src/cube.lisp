@@ -48,7 +48,7 @@
 	(setf fill2  (make-fill (or fill2 *default-fill* :none)))
 	(setf filter (if (eq filter :none)
 					 nil
-					 (or filter *default-cube-filter* *default-shape-filter*)))
+					 (or filter *default-cube-filter* *default-filter*)))
 	(setf layer  (if (eq layer :none)
 					 nil
 					 (or layer *default-cube-layer* *default-layer*))))

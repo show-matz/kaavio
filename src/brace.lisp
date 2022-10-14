@@ -95,7 +95,7 @@
 	(setf stroke (make-stroke (or stroke *default-brace-stroke* *default-stroke* :none)))
 	(setf filter (if (eq filter :none)
 					 nil
-					 (or filter *default-brace-filter* *default-line-filter*)))
+					 (or filter *default-brace-filter* *default-filter*)))
 	(setf layer  (if (eq layer :none)
 					 nil
 					 (or layer *default-brace-layer* *default-layer*))))

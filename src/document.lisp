@@ -46,7 +46,7 @@
 					 (or layer *default-document-layer* *default-layer*)))
 	(setf filter (if (eq filter :none)
 					 nil
-					 (or filter *default-document-filter* *default-shape-filter*))))
+					 (or filter *default-document-filter* *default-filter*))))
   doc)
    
 (defmethod check ((doc document) canvas dict)

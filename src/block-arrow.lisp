@@ -85,7 +85,7 @@
 								   :stroke (or ,stroke *default-block-arrow-stroke*)
 								   :filter (or ,filter
 											   *default-block-arrow-filter*
-											   *default-shape-filter*)
+											   *default-filter*)
 								   :layer  (or ,layer 
 											   *default-block-arrow-layer*
 											   *default-layer*)
@@ -103,7 +103,7 @@
 								   :stroke (or ,stroke *default-block-arrow-stroke*)
 								   :filter (or ,filter
 											   *default-block-arrow-filter*
-											   *default-shape-filter*)
+											   *default-filter*)
 								   :layer  (or ,layer 
 											   *default-block-arrow-layer*
 											   *default-layer*)

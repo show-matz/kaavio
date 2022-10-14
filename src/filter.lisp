@@ -8,11 +8,9 @@
 
 
 #|
-#|EXPORT|#				:*default-line-filter*
-#|EXPORT|#				:*default-shape-filter*
+#|EXPORT|#				:*default-filter*
  |#
-(defparameter *default-line-filter*  nil)
-(defparameter *default-shape-filter* nil)
+(defparameter *default-filter* nil)
 
 
 ;;------------------------------------------------------------------------------
@@ -31,16 +29,4 @@
 #|EXPORT|#				:write-filter
  |#
 (defgeneric write-filter (filter writer))
-
-
-#|
-#|EXPORT|#				:with-line-filter
-#|EXPORT|#				:with-shape-filter
- |#
-(defmacro with-line-filter ((filter) &rest body)
-  `(let ((*default-line-filter* ,filter))
-	 ,@body))
-(defmacro with-shape-filter ((filter) &rest body)
-  `(let ((*default-shape-filter* ,filter))
-	 ,@body))
 

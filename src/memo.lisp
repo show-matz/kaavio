@@ -65,7 +65,7 @@
 	(setf fill2  (make-fill (or fill2 *default-fill* :none)))
 	(setf filter  (if (eq filter :none)
 					  nil
-					  (or filter *default-memo-filter* *default-shape-filter*)))
+					  (or filter *default-memo-filter* *default-filter*)))
 	(setf layer  (if (eq layer :none)
 					 nil
 					 (or layer *default-memo-layer* *default-layer*))))

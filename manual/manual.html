@@ -271,7 +271,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 (diagram (450 150)
   (grid)
   (drop-shadow)
-  (with-shape-filter (<span class='keyword3'>:drop-shadow</span>)
+  (with-options (<span class='keyword3'>:filter</span> <span class='keyword3'>:drop-shadow</span>)
     (textbox (y+ canvas.center 20) <span class='literal'>"kaavio"</span> <span class='keyword3'>:height</span> 40 <span class='keyword3'>:fill</span> <span class='keyword3'>:cornsilk</span> <span class='keyword3'>:id</span> <span class='keyword3'>:app</span>)
     (with-options (<span class='keyword3'>:stroke</span> '(<span class='keyword3'>:color</span> <span class='keyword3'>:navy</span> <span class='keyword3'>:width</span> 2)
                    <span class='keyword3'>:fill</span>   '(<span class='keyword3'>:color</span> <span class='keyword3'>:skyblue</span> <span class='keyword3'>:opacity</span> 0.3))
@@ -285,8 +285,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p>　こちらも、ざっくりした説明をしておきます。</p>
 <ul>
 <li>diagram と grid は先程と同じなので省略</li>
-<li>drop-shadow という種類の「<a class='autolink' href='#gPGlqSbIfdL'>フィルタ</a>」の使用を宣言</li>
-<li>with-shape-filter でデフォルトの<a class='autolink' href='#gPGlqSbIfdL'>フィルタ</a>を drop-shadow に設定
+<li><a class='autolink' href='#13cQuI9DTKo'>drop-shadow</a> という種類の「<a class='autolink' href='#gPGlqSbIfdL'>フィルタ</a>」の使用を宣言</li>
+<li><a class='autolink' href='#5afU9yg86c0'>with-options</a> でデフォルトの<a class='autolink' href='#gPGlqSbIfdL'>フィルタ</a>を <a class='autolink' href='#13cQuI9DTKo'>drop-shadow</a> に設定
 <ul>
 <li><a class='autolink' href='#e7hkC2YUaKe'>textbox</a> で<a class='autolink' href='#e7hkC2YUaKe'>テキストボックス</a>を描画 : 場所は画像の中心（canvas.center）から y 軸方向に 20、テキストは "kaavio"、これに app という ID を設定</li>
 <li><a class='autolink' href='#5afU9yg86c0'>with-options</a> で、デフォルトの線を太さ 2 の <code>navy</code> に、デフォルトの塗りつぶしを不透明度 0.3 の <code>skyblue</code> にそれぞれ設定
@@ -308,7 +308,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p>　　</p>
 <p>　この 2 つめのサンプルには、新しいポイントがいくつかあります。もう少し詳しく説明します。</p>
 <ul>
-<li><code>drop-shadow</code> で宣言し、 <code>with-shape-filter</code> でデフォルトを設定しているのを「<a class='autolink' href='#gPGlqSbIfdL'>フィルタ</a>」といいます。<a class='autolink' href='#kJonRG8GtHF'>四角形</a>や円に表示されている影が drop shadow です。</li>
+<li><code>drop-shadow</code> で宣言し、 <code>with-options</code> でデフォルトを設定しているのを「<a class='autolink' href='#gPGlqSbIfdL'>フィルタ</a>」といいます。<a class='autolink' href='#kJonRG8GtHF'>四角形</a>や円に表示されている影が drop shadow です。</li>
 <li><code>with-options</code> を使って、デフォルトの塗り潰しや線を指定しています。 <code>:stroke</code> や <code>:fill</code> を毎回指定する必要がなくなります。
 <ul>
 <li><code>:stroke</code> では線の色 <code>navy</code> の他に <code>:width</code> で線の太さを指定しています。</li>
@@ -810,14 +810,6 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='100'>
 	
-	<filter id='glow-shadow'>
-		<feColorMatrix type='matrix' values=' 0 0 0 0 0 0 0 0 0.4 0 0 0 0 0 0 0 0 0 1 0' />
-		<feGaussianBlur stdDeviation='3' result='blur' />
-		<feMerge>
-			<feMergeNode in='blur' />
-			<feMergeNode in='SourceGraphic'/>
-		</feMerge>
-	</filter>
 	<!-- grid -->
 	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
 		<rect x='0' y='0' width='10' height='10' fill='white' />
@@ -825,7 +817,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 	</pattern>
 	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
 	<!-- text -->
-	<text x='150' y='70' text-anchor='middle' font-family='Times New Roman' font-size='48pt' fill='green' font-style='italic' filter='url(#glow-shadow)' >Text</text>
+	<text x='150' y='70' text-anchor='middle' font-family='Times New Roman' font-size='48pt' fill='green' font-style='italic' font-weight='bold' >Text</text>
 
 </svg>
 </div>
@@ -836,13 +828,9 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <pre class='code'>
 (diagram (300 100)
   (grid)
-  (glow-shadow <span class='keyword3'>:color-matrix</span> '(0 0 0 0   0
-                               0 0 0 0.4 0
-                               0 0 0 0   0
-                               0 0 0 1   0))
   (text '(150 70) <span class='literal'>"Text"</span> <span class='keyword3'>:align</span> <span class='keyword3'>:center</span>
-        <span class='keyword3'>:font</span> '(<span class='keyword3'>:family</span> <span class='literal'>"Times New Roman"</span> <span class='keyword3'>:size</span> 48
-                <span class='keyword3'>:fill</span> <span class='keyword3'>:green</span> <span class='keyword3'>:style</span> <span class='keyword3'>:italic</span> <span class='keyword3'>:filter</span> <span class='keyword3'>:glow-shadow</span>)))
+        <span class='keyword3'>:font</span> '(<span class='keyword3'>:family</span> <span class='literal'>"Times New Roman"</span>
+                <span class='keyword3'>:size</span> 48 <span class='keyword3'>:weight</span> <span class='keyword3'>:bold</span> <span class='keyword3'>:fill</span> <span class='keyword3'>:green</span> <span class='keyword3'>:style</span> <span class='keyword3'>:italic</span>)))
 </pre>
 </details>
 <p>　<a class='autolink' href='#cTdCvBeU6ZJ'>text</a> のパラメータ構成は以下の通りです。なお、<a class='autolink' href='#cTdCvBeU6ZJ'>text</a> では <strong>複数行に渡るテキストは描画できません</strong> 。複数行のテキストを描画したい場合は、<a class='autolink' href='#4WyMTv59pvw'>paragraph</a> を使用してください。</p>
@@ -4792,7 +4780,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p>　　</p>
 <p>　それぞれについて細かい説明を始める前に、 <code>:stroke :red</code> といった記述がどのように扱われるのかを説明する必要があるでしょう。 <code>:stroke</code> によるこれらの指定は、実は全て <a class='autolink' href='#ezUVhtPwl3J'>make-stroke</a> 関数に渡されます。<a class='autolink' href='#ezUVhtPwl3J'>make-stroke</a> 関数は、渡されたのが単一の値の場合には、数値なら太さ、キーワードや文字列なら色名などと解釈します。そして <code>'(:color :red :width 3)</code> などの（複数要素からなる）リストの場合、名前付きパラメータの羅列として解釈します。</p>
-<p>　<a class='autolink' href='#ezUVhtPwl3J'>make-stroke</a> 関数はその結果として「<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>情報オブジェクト」を返しますが、その<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>情報オブジェクトを <a class='autolink' href='#ezUVhtPwl3J'>make-stroke</a> 関数自身に渡した場合、そのまま返すようになっています。そのため、自分で明示的に <a class='autolink' href='#ezUVhtPwl3J'>make-stroke</a> 関数を使って<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>情報オブジェクトを作成し、Common LISP 変数に格納して複数の図形要素で使用する、ということも可能です。以下のように<sup><a name='footnote_ref10' href='#footnote10'>10</a></sup>。この関数の詳細は「<a href='#ezUVhtPwl3J'>12.1.9  make-stroke 関数</a>」を参照してください。</p>
+<p>　<a class='autolink' href='#ezUVhtPwl3J'>make-stroke</a> 関数はその結果として「<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>情報オブジェクト」を返しますが、その<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>情報オブジェクトを <a class='autolink' href='#ezUVhtPwl3J'>make-stroke</a> 関数自身に渡した場合、そのまま返すようになっています。そのため、自分で明示的に <a class='autolink' href='#ezUVhtPwl3J'>make-stroke</a> 関数を使って<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>情報オブジェクトを作成し、Common LISP 変数に格納して複数の図形要素で使用する、ということも可能です。以下のように<sup><a name='footnote_ref10' href='#footnote10'>10</a></sup>。この関数の詳細は「<a href='#ezUVhtPwl3J'>12.1.11  make-stroke 関数</a>」を参照してください。</p>
 <pre class='code'>
 (<span class='keyword1'>let</span> ((st (make-stroke <span class='keyword3'>:color</span> <span class='keyword3'>:blue</span> <span class='keyword3'>:width</span> 4 <span class='keyword3'>:opacity</span> 0.3)))
   (rect   ... <span class='keyword3'>:stroke</span> st)
@@ -5059,7 +5047,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p>　　</p>
 <p>　それぞれについて細かい説明を始める前に、 <code>:fill :white</code> といった記述がどのように扱われるのかを説明する必要があるでしょう。 <code>:fill</code> によるこれらの指定は、実は全て <a class='autolink' href='#8IkB7VinE7h'>make-fill</a> 関数に渡されます。<a class='autolink' href='#8IkB7VinE7h'>make-fill</a> 関数は、渡されたのが単一の値の場合には、キーワードや文字列なら色名と解釈します。そして <code>'(:color :red :width 3)</code> などの（複数要素からなる）リストの場合、名前付きパラメータの羅列として解釈します。</p>
-<p>　<a class='autolink' href='#8IkB7VinE7h'>make-fill</a> 関数はその結果として「<a class='autolink' href='#dBUd7L4C3dx'>フィル</a>情報オブジェクト」を返しますが、その<a class='autolink' href='#dBUd7L4C3dx'>フィル</a>情報オブジェクトを <a class='autolink' href='#8IkB7VinE7h'>make-fill</a> 関数自身に渡した場合、そのまま返すようになっています。そのため、自分で明示的に <a class='autolink' href='#8IkB7VinE7h'>make-fill</a> 関数を使って<a class='autolink' href='#dBUd7L4C3dx'>フィル</a>情報オブジェクトを作成し、Common LISP 変数に格納して複数の図形要素で使用する、ということも可能です。以下のように<sup><a name='footnote_ref12' href='#footnote12'>12</a></sup>。この関数の詳細は「<a href='#8IkB7VinE7h'>12.1.7  make-fill 関数</a>」を参照してください。</p>
+<p>　<a class='autolink' href='#8IkB7VinE7h'>make-fill</a> 関数はその結果として「<a class='autolink' href='#dBUd7L4C3dx'>フィル</a>情報オブジェクト」を返しますが、その<a class='autolink' href='#dBUd7L4C3dx'>フィル</a>情報オブジェクトを <a class='autolink' href='#8IkB7VinE7h'>make-fill</a> 関数自身に渡した場合、そのまま返すようになっています。そのため、自分で明示的に <a class='autolink' href='#8IkB7VinE7h'>make-fill</a> 関数を使って<a class='autolink' href='#dBUd7L4C3dx'>フィル</a>情報オブジェクトを作成し、Common LISP 変数に格納して複数の図形要素で使用する、ということも可能です。以下のように<sup><a name='footnote_ref12' href='#footnote12'>12</a></sup>。この関数の詳細は「<a href='#8IkB7VinE7h'>12.1.9  make-fill 関数</a>」を参照してください。</p>
 <pre class='code'>
 (<span class='keyword1'>let</span> ((fl (make-fill <span class='keyword3'>:color</span> <span class='keyword3'>:blue</span> <span class='keyword3'>:opacity</span> 0.3)))
   (rect   ... <span class='keyword3'>:fill</span> fl)
@@ -5204,7 +5192,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p>　　</p>
 <p>　それぞれについて細かい説明を始める前に、 <code>:font 24</code> といった記述がどのように扱われるのかを説明する必要があるでしょう。 <code>:font</code> によるこれらの指定は、実は全て <a class='autolink' href='#673GXF9YiIQ'>make-font</a> 関数に渡されます。<a class='autolink' href='#673GXF9YiIQ'>make-font</a> 関数は、渡されたのが単一の値の場合には、数値ならサイズ、文字列なら<a class='autolink' href='#3kZ9FkounyK'>フォント</a>ファミリ名などと解釈します。そして <code>'(:family "sans serif" :size 10)</code> などの（複数要素からなる）リストの場合、名前付きパラメータの羅列として解釈します。</p>
-<p>　<a class='autolink' href='#673GXF9YiIQ'>make-font</a> 関数はその結果として「<a class='autolink' href='#3kZ9FkounyK'>フォント</a>情報オブジェクト」を返しますが、その<a class='autolink' href='#3kZ9FkounyK'>フォント</a>情報オブジェクトを <a class='autolink' href='#673GXF9YiIQ'>make-font</a> 関数自身に渡した場合、そのまま返すようになっています。そのため、自分で明示的に <a class='autolink' href='#673GXF9YiIQ'>make-font</a> 関数を使って<a class='autolink' href='#3kZ9FkounyK'>フォント</a>情報オブジェクトを作成し、Common LISP 変数に格納して複数の図形要素で使用する、ということも可能です。以下のように。この関数の詳細は「<a href='#673GXF9YiIQ'>12.1.8  make-font 関数</a>」を参照してください。</p>
+<p>　<a class='autolink' href='#673GXF9YiIQ'>make-font</a> 関数はその結果として「<a class='autolink' href='#3kZ9FkounyK'>フォント</a>情報オブジェクト」を返しますが、その<a class='autolink' href='#3kZ9FkounyK'>フォント</a>情報オブジェクトを <a class='autolink' href='#673GXF9YiIQ'>make-font</a> 関数自身に渡した場合、そのまま返すようになっています。そのため、自分で明示的に <a class='autolink' href='#673GXF9YiIQ'>make-font</a> 関数を使って<a class='autolink' href='#3kZ9FkounyK'>フォント</a>情報オブジェクトを作成し、Common LISP 変数に格納して複数の図形要素で使用する、ということも可能です。以下のように。この関数の詳細は「<a href='#673GXF9YiIQ'>12.1.10  make-font 関数</a>」を参照してください。</p>
 <pre class='code'>
 (<span class='keyword1'>let</span> ((fnt (make-font <span class='keyword3'>:family</span> <span class='literal'>"Courier New, monospace"</span> <span class='keyword3'>:size</span> 12)))
   (text   ... <span class='keyword3'>:font</span> fnt)
@@ -5575,27 +5563,25 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p>　接続点だけではありません。<a href='#ju0HQrRY8oT'>Table.10-1</a> で紹介した属性についても、すべて回転前の状態のままとなります。これら全てを回転に追従させることも開発途上で検討されましたが、すっきりとした仕様に落とし込むことができなかったため、回転の機能は「図形要素の見た目だけを回転させるもの」とされました。</p>
 <p>　　</p>
 <h3><a name='gPGlqSbIfdL'></a>10.7 フィルタ</h3>
-<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません</span></p>
+<p>　<a class='autolink' href='#gPGlqSbIfdL'>フィルタ</a>は、SVG 規格における <code>&lt;filter&gt;</code> 要素の機能を利用するものの総称で、おおまかに言って図形要素に対してなんらかのグラフィカルな効果を及ぼす機能です。現在の kaavio における<a class='autolink' href='#gPGlqSbIfdL'>フィルタ</a>機能は極めて限定されたもので、包括的なサポートを行うかは未定です。</p>
+<p>　現在、<a class='autolink' href='#13cQuI9DTKo'>drop-shadow</a> と <a class='autolink' href='#aK4WyL00CPC'>glow-shadow</a> の２種類が利用できます。例を以下に示します。通常、冒頭で<code>(drop-shadow)</code> などの記述により使用を宣言し、図形要素の <code>:filter</code> パラメータで指定します。</p>
 <pre class='code'>
-(diagram (400 200)
+(diagram (360 180)
   (grid)
   (drop-shadow)
-  (glow-shadow <span class='keyword3'>:color-matrix</span> '(0 0 0 0   0
-                               0 0 0 0.6 0
-                               0 0 0 0.3 0
-                               0 0 0 0.5 0))
-  (rect '(200 100) 100 70 <span class='keyword3'>:fill</span> <span class='keyword3'>:lightgray</span> <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span> <span class='keyword3'>:filter</span> <span class='keyword3'>:drop-shadow</span>)
-  (text '(200 180) <span class='literal'>"sample text"</span> <span class='keyword3'>:align</span> <span class='keyword3'>:center</span>
-                   <span class='keyword3'>:font</span> (make-font <span class='keyword3'>:size</span> 24 <span class='keyword3'>:fill</span> <span class='keyword3'>:cadetblue</span> <span class='keyword3'>:filter</span> <span class='keyword3'>:glow-shadow</span>)))
+  (glow-shadow)
+  (rect (y+ canvas.center -30) 100 70
+        <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span> <span class='keyword3'>:fill</span> <span class='keyword3'>:lightgray</span> <span class='keyword3'>:filter</span> <span class='keyword3'>:drop-shadow</span>)
+  (text (y+ canvas.center  70) <span class='literal'>"sample text"</span>
+        <span class='keyword3'>:align</span> <span class='keyword3'>:center</span> <span class='keyword3'>:font</span> (make-font <span class='keyword3'>:size</span> 36 <span class='keyword3'>:filter</span> <span class='keyword3'>:glow-shadow</span>)))
 </pre>
-<p>　　</p>
-<p>　以下のような画像が生成されます。</p>
+<p>　上記のコードは以下の画像を生成します。<a class='autolink' href='#kJonRG8GtHF'>四角形</a>の右下にできている影が <a class='autolink' href='#13cQuI9DTKo'>drop-shadow</a> で、テキストの周囲に広がるような影が <a class='autolink' href='#aK4WyL00CPC'>glow-shadow</a> です。</p>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
-<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='400' height='200'>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='360' height='180'>
 	
 	<filter id='glow-shadow'>
-		<feColorMatrix type='matrix' values=' 0 0 0 0 0 0 0 0 0.6 0 0 0 0 0.3 0 0 0 0 0.5 0' />
+		<feColorMatrix type='matrix' values=' 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0' />
 		<feGaussianBlur stdDeviation='3' result='blur' />
 		<feMerge>
 			<feMergeNode in='blur' />
@@ -5618,14 +5604,89 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 	</pattern>
 	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
 	<!-- rectangle -->
-	<rect x='150' y='65' width='100' height='70' fill='lightgray' stroke='black' stroke-width='1' filter='url(#drop-shadow)' />
+	<rect x='130' y='25' width='100' height='70' fill='lightgray' stroke='black' stroke-width='1' filter='url(#drop-shadow)' />
 	<!-- text -->
-	<text x='200' y='180' text-anchor='middle' font-size='24pt' fill='cadetblue' filter='url(#glow-shadow)' >sample text</text>
+	<text x='180' y='160' text-anchor='middle' font-size='36pt' fill='black' filter='url(#glow-shadow)' >sample text</text>
 
 </svg>
 </div>
 
 <p class='fig_title'><a name='9Z8wQykrThD'></a>Figure.10-16 フィルタのサンプル</p>
+<p>　　</p>
+<p>　これらのシャドウは通常図面内で１種類しか使用しないため、ID もデフォルト値を使用可能になっています。複数のシャドウを導入する場合には、ID を明示的に指定して区別することができます。以下の例では、<code>color-matrix</code> を指定して異なる色のシャドウを導入しています。</p>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='400' height='200'>
+	
+	<filter id='shadow3'>
+		<feColorMatrix type='matrix' values=' 0 0 0 0 0 0 0 0 0.5 0 0 0 0 0 0 0 0 0 0.9 0' />
+		<feGaussianBlur stdDeviation='3' result='blur' />
+		<feMerge>
+			<feMergeNode in='blur' />
+			<feMergeNode in='SourceGraphic'/>
+		</feMerge>
+	</filter>
+	<filter id='shadow2'>
+		<feColorMatrix type='matrix' values=' 0 0 0 0 0 0 0 0 0 0 0 0 0 0.5 0 0 0 0 0.6 0' />
+		<feGaussianBlur stdDeviation='2' result='blur' />
+		<feOffset in='blur' dx='4' dy='4' result='offsetBlur' />
+		<feMerge>
+			<feMergeNode in='offsetBlur' />
+			<feMergeNode in='SourceGraphic'/>
+		</feMerge>
+	</filter>
+	<filter id='shadow1'>
+		<feColorMatrix type='matrix' values=' 0 0 0 0.5 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.6 0' />
+		<feGaussianBlur stdDeviation='2' result='blur' />
+		<feOffset in='blur' dx='4' dy='4' result='offsetBlur' />
+		<feMerge>
+			<feMergeNode in='offsetBlur' />
+			<feMergeNode in='SourceGraphic'/>
+		</feMerge>
+	</filter>
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- rectangle -->
+	<rect x='50' y='35' width='100' height='70' fill='lightpink' stroke='red' stroke-width='1' filter='url(#shadow1)' />
+	<!-- rectangle -->
+	<rect x='250' y='35' width='100' height='70' fill='lightcyan' stroke='navy' stroke-width='1' filter='url(#shadow2)' />
+	<!-- text -->
+	<text x='200' y='170' text-anchor='middle' font-size='36pt' fill='green' filter='url(#shadow3)' >sample text</text>
+
+</svg>
+</div>
+
+<p class='fig_title'><a name='fVptn2Tiqv7'></a>Figure.10-17 フィルタのサンプル - 2</p>
+<details>
+<summary>上記サンプルのコードはこちら。</summary>
+<pre class='code'>
+(diagram (400 200)
+  (grid)
+  (drop-shadow <span class='keyword3'>:id</span> <span class='keyword3'>:shadow1</span> <span class='keyword3'>:color-matrix</span> '(0 0 0 0.5 0
+                                            0 0 0 0   0
+                                            0 0 0 0   0
+                                            0 0 0 0.6 0))
+  (drop-shadow <span class='keyword3'>:id</span> <span class='keyword3'>:shadow2</span> <span class='keyword3'>:color-matrix</span> '(0 0 0 0   0
+                                            0 0 0 0   0
+                                            0 0 0 0.5 0
+                                            0 0 0 0.6 0))
+  (glow-shadow <span class='keyword3'>:id</span> <span class='keyword3'>:shadow3</span> <span class='keyword3'>:color-matrix</span> '(0 0 0 0   0
+                                            0 0 0 0.5 0
+                                            0 0 0 0   0
+                                            0 0 0 0.9 0))
+  (rect '(100  70) 100 70 <span class='keyword3'>:fill</span> <span class='keyword3'>:lightpink</span> <span class='keyword3'>:stroke</span> <span class='keyword3'>:red</span>  <span class='keyword3'>:filter</span> <span class='keyword3'>:shadow1</span>)
+  (rect '(300  70) 100 70 <span class='keyword3'>:fill</span> <span class='keyword3'>:lightcyan</span> <span class='keyword3'>:stroke</span> <span class='keyword3'>:navy</span> <span class='keyword3'>:filter</span> <span class='keyword3'>:shadow2</span>)
+  (text '(200 170) <span class='literal'>"sample text"</span> <span class='keyword3'>:align</span> <span class='keyword3'>:center</span>
+                   <span class='keyword3'>:font</span> (make-font <span class='keyword3'>:size</span> 36 <span class='keyword3'>:fill</span> <span class='keyword3'>:green</span> <span class='keyword3'>:filter</span> <span class='keyword3'>:shadow3</span>)))
+</pre>
+</details>
+<p>　　</p>
+<p>　シャドウを使用する場合、通常は図面内の多くの図形要素に同じ<a class='autolink' href='#gPGlqSbIfdL'>フィルタ</a>を適用します。そのため、<code>with-options</code> でデフォルトの<a class='autolink' href='#gPGlqSbIfdL'>フィルタ</a>を指定可能になっています。<a href='#aw36ReN8sMQ'>Figure.2-2</a> のコードを参照してください。</p>
+<p>　　</p>
 <h3><a name='1ovJxG7Ie9O'></a>10.8 レイヤー</h3>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <p>　　</p>
@@ -6084,7 +6145,36 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p>　　</p>
 <h4><a name='2xCCaUuNLlH'></a>12.1.6 diagram マクロ</h4>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='8IkB7VinE7h'></a>12.1.7 make-fill 関数</h4>
+<h4><a name='13cQuI9DTKo'></a>12.1.7 drop-shadow マクロ</h4>
+<p>　生成画像にドロップシャドウを導入します。詳細は SVG 規格を参照してください。</p>
+<pre class='code'>
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>drop-shadow</span> (<span class='keyword2'>&amp;key</span> id color-matrix deviation dx dy) ...)
+</pre>
+<p>　　</p>
+<p class='tbl_title'><a name='98FSocmF926'></a>Table.12-6 drop-shadow マクロのパラメータ</p>
+<table align='center'>
+<tr><th>parameter</th><th>description</th></tr>
+<tr><td nowrap align='left'><code>id</code></td><td align='left'>ID をキーワードで指定します。省略した場合のデフォルト値は <code>:drop-shadow</code> です。</td></tr>
+<tr><td nowrap align='left'><code>color-matrix</code></td><td align='left'><code>&lt;feColorMatrix&gt;</code> の values 値を数値のリストで指定します。詳細は SVG 規格を参照してください。省略した場合のデフォルト値は <code>'(0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.4 0)</code> です。</td></tr>
+<tr><td nowrap align='left'><code>deviation</code></td><td align='left'><code>&lt;feGaussianBlur&gt;</code> における <code>stdDeviation</code> 値を指定します。詳細は SVG 規格を参照してください。省略した場合のデフォルト値は 2 です。</td></tr>
+<tr><td nowrap align='left'><code>dx, dy</code></td><td align='left'><code>&lt;feOffset&gt;</code> における <code>dx</code> および <code>dy</code> 値を指定します。詳細は SVG 規格を参照してください。省略した場合のデフォルト値は 4 です。</td></tr>
+</table>
+<p>　　</p>
+<h4><a name='aK4WyL00CPC'></a>12.1.8 glow-shadow マクロ</h4>
+<p>　生成画像にグローシャドウを導入します。詳細は SVG 規格を参照してください。</p>
+<pre class='code'>
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>glow-shadow</span> (<span class='keyword2'>&amp;key</span> id color-matrix deviation) ...)
+</pre>
+<p>　　</p>
+<p class='tbl_title'><a name='8OxjHEdW6gK'></a>Table.12-7 glow-shadow マクロのパラメータ</p>
+<table align='center'>
+<tr><th>parameter</th><th>description</th></tr>
+<tr><td nowrap align='left'><code>id</code></td><td align='left'>ID をキーワードで指定します。省略した場合のデフォルト値は <code>:glow-shadow</code> です。</td></tr>
+<tr><td nowrap align='left'><code>color-matrix</code></td><td align='left'><code>&lt;feColorMatrix&gt;</code> の values 値を数値のリストで指定します。詳細は SVG 規格を参照してください。省略した場合のデフォルト値は <code>'(0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0)</code> です。</td></tr>
+<tr><td nowrap align='left'><code>deviation</code></td><td align='left'><code>&lt;feGaussianBlur&gt;</code> における <code>stdDeviation</code> 値を指定します。詳細は SVG 規格を参照してください。省略した場合のデフォルト値は 3 です。</td></tr>
+</table>
+<p>　　</p>
+<h4><a name='8IkB7VinE7h'></a>12.1.9 make-fill 関数</h4>
 <p>　<a class='autolink' href='#8IkB7VinE7h'>make-fill</a> 関数は<a class='autolink' href='#dBUd7L4C3dx'>フィル</a>情報を生成します。<a class='autolink' href='#dBUd7L4C3dx'>フィル</a>情報の詳細は「<a href='#dBUd7L4C3dx'>10.3  フィル</a>」を参照してください。関数シグネチャは以下の通りです。</p>
 <pre class='code'>
 (<span class='keyword1'>defun</span> <span class='keyword5'>make-fill</span> (<span class='keyword2'>&amp;rest</span> params) ...)
@@ -6113,7 +6203,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <pre class='code'>
 (<span class='keyword1'>defun</span> <span class='keyword5'>make-fill</span> <span class='keyword2'>&amp;key</span> color opacity rule url base)
 </pre>
-<p class='tbl_title'><a name='jaLWrUQI3jh'></a>Table.12-6 make-fill 関数のパラメータ</p>
+<p class='tbl_title'><a name='jaLWrUQI3jh'></a>Table.12-8 make-fill 関数のパラメータ</p>
 <table align='center'>
 <tr><th>parameter</th><th>description</th></tr>
 <tr><td nowrap align='left'><code>color</code></td><td align='left'>塗り潰しの色を指定します。色の指定方法については <a href='#1rpUB3fre67'>10.1  節</a>を、色の名前については<br><a href='#dR01Jh257Q6'>12.2  節</a>を参照してください。</td></tr>
@@ -6123,7 +6213,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <tr><td nowrap align='left'><code>base</code></td><td align='left'><span style='background:red;color:white;'>ToDo : まだ記述されていません</span></td></tr>
 </table>
 <p>　　</p>
-<h4><a name='673GXF9YiIQ'></a>12.1.8 make-font 関数</h4>
+<h4><a name='673GXF9YiIQ'></a>12.1.10 make-font 関数</h4>
 <p>　<a class='autolink' href='#673GXF9YiIQ'>make-font</a> 関数は<a class='autolink' href='#3kZ9FkounyK'>フォント</a>情報を生成します。<a class='autolink' href='#3kZ9FkounyK'>フォント</a>情報の詳細は「<a href='#3kZ9FkounyK'>10.4  フォント</a>」を参照してください。関数シグネチャは以下の通りです。</p>
 <pre class='code'>
 (<span class='keyword1'>defun</span> <span class='keyword5'>make-font</span> (<span class='keyword2'>&amp;rest</span> params) ...)
@@ -6155,7 +6245,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
                       weight filter line-spacing width-spice base)
 </pre>
 <p>　各パラメータの意味は以下の通りです。詳細は「<a href='#3kZ9FkounyK'>10.4  フォント</a>」を参照してください。</p>
-<p class='tbl_title'><a name='3B1RHolTZeW'></a>Table.12-7 make-font 関数のパラメータ</p>
+<p class='tbl_title'><a name='3B1RHolTZeW'></a>Table.12-9 make-font 関数のパラメータ</p>
 <table align='center'>
 <tr><th>parameter</th><th>description</th></tr>
 <tr><td nowrap align='left'><code>family</code></td><td align='left'>使用する<a class='autolink' href='#3kZ9FkounyK'>フォント</a>の名前をカンマで区切って並べた文字列を指定します（後述）。</td></tr>
@@ -6171,7 +6261,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <tr><td nowrap align='left'><code>base</code></td><td align='left'><span style='background:red;color:white;'>ToDo : まだ記述されていません</span></td></tr>
 </table>
 <p>　　</p>
-<h4><a name='ezUVhtPwl3J'></a>12.1.9 make-stroke 関数</h4>
+<h4><a name='ezUVhtPwl3J'></a>12.1.11 make-stroke 関数</h4>
 <p>　<a class='autolink' href='#ezUVhtPwl3J'>make-stroke</a> 関数は<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>情報を生成します。<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>情報の詳細は「<a href='#4HFjqmTuIU6'>10.2  ストローク</a>」を参照してください。関数シグネチャは以下の通りです。</p>
 <pre class='code'>
 (<span class='keyword1'>defun</span> <span class='keyword5'>make-stroke</span> (<span class='keyword2'>&amp;rest</span> params) ...)
@@ -6203,7 +6293,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
                         miterlimit dasharray dashoffset url base)
 </pre>
 <p>　各パラメータの意味は以下の通りです。詳細は「<a href='#4HFjqmTuIU6'>10.2  ストローク</a>」を参照してください。</p>
-<p class='tbl_title'><a name='8gU4HDke41S'></a>Table.12-8 make-stroke 関数のパラメータ</p>
+<p class='tbl_title'><a name='8gU4HDke41S'></a>Table.12-10 make-stroke 関数のパラメータ</p>
 <table align='center'>
 <tr><th>parameter</th><th>description</th></tr>
 <tr><td nowrap align='left'><code>color</code></td><td align='left'>線の色を指定します。色の指定方法については <a href='#1rpUB3fre67'>10.1  節</a>を、色の名前については<br><a href='#dR01Jh257Q6'>12.2  節</a>を参照してください。</td></tr>
@@ -6218,94 +6308,94 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <tr><td nowrap align='left'><code>base</code></td><td align='left'><span style='background:red;color:white;'>ToDo : まだ記述されていません</span></td></tr>
 </table>
 <p>　　</p>
-<h4><a name='7QraN5WNGea'></a>12.1.10 rgb 関数</h4>
+<h4><a name='7QraN5WNGea'></a>12.1.12 rgb 関数</h4>
 <pre class='code'>
 (rgb r g b)
 </pre>
-<h4><a name='klH6tZ6gdaQ'></a>12.1.11 use マクロ</h4>
+<h4><a name='klH6tZ6gdaQ'></a>12.1.13 use マクロ</h4>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='7WY0qIioOWV'></a>12.1.12 with-balloon-options マクロ</h4>
+<h4><a name='7WY0qIioOWV'></a>12.1.14 with-balloon-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-balloon-options</span> ((<span class='keyword2'>&amp;key</span> tab-width tab-height
                                      align valign margin
                                      font fill stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='kT3ITG7nfBI'></a>12.1.13 with-block-arrow-options マクロ</h4>
+<h4><a name='kT3ITG7nfBI'></a>12.1.15 with-block-arrow-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-block-arrow-options</span> ((<span class='keyword2'>&amp;key</span> fill stroke
                                           filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='avbLVTgRge8'></a>12.1.14 with-brace-options マクロ</h4>
+<h4><a name='avbLVTgRge8'></a>12.1.16 with-brace-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-brace-options</span> ((<span class='keyword2'>&amp;key</span> font stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='jHhN85RvHYn'></a>12.1.15 with-canvasマクロ</h4>
+<h4><a name='jHhN85RvHYn'></a>12.1.17 with-canvasマクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-canvas</span> ((sym-cc sym-width sym-height) canvas <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
-<h4><a name='gE4r2xg8b9U'></a>12.1.16 with-cross-options マクロ</h4>
+<h4><a name='gE4r2xg8b9U'></a>12.1.18 with-cross-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-cross-options</span> ((<span class='keyword2'>&amp;key</span> fill stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='dpsPduib5te'></a>12.1.17 with-cube-options マクロ</h4>
+<h4><a name='dpsPduib5te'></a>12.1.19 with-cube-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-cube-options</span> ((<span class='keyword2'>&amp;key</span> depth align valign margin
                                    font fill fill2 stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='6STY3Kxzonk'></a>12.1.18 with-cylinder-options マクロ</h4>
+<h4><a name='6STY3Kxzonk'></a>12.1.20 with-cylinder-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-cylinder-options</span> ((<span class='keyword2'>&amp;key</span> depth align valign margin
                                   font fill stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='0axtDA7gRzz'></a>12.1.19 with-document-options マクロ</h4>
+<h4><a name='0axtDA7gRzz'></a>12.1.21 with-document-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-document-options</span> ((<span class='keyword2'>&amp;key</span> align valign margin
                                        font fill stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='h8PWgenmp0d'></a>12.1.20 with-explosion-options マクロ</h4>
+<h4><a name='h8PWgenmp0d'></a>12.1.22 with-explosion-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-explosion-options</span> ((<span class='keyword2'>&amp;key</span> font fill
                                         stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='grfAvoJdCpJ'></a>12.1.21 with-folder-options マクロ</h4>
+<h4><a name='grfAvoJdCpJ'></a>12.1.23 with-folder-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-folder-options</span> ((<span class='keyword2'>&amp;key</span> tab-width tab-height
                                      align valign margin
                                      font fill stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='0C8r7LcFb7c'></a>12.1.22 with-memo-options マクロ</h4>
+<h4><a name='0C8r7LcFb7c'></a>12.1.24 with-memo-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-memo-options</span> ((<span class='keyword2'>&amp;key</span> crease align valign margin
                                    font fill fill2 stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='5afU9yg86c0'></a>12.1.23 with-optionsマクロ</h4>
+<h4><a name='5afU9yg86c0'></a>12.1.25 with-optionsマクロ</h4>
 <pre class='code'>
-(<span class='keyword1'>defmacro</span> <span class='keyword5'>with-options</span> ((<span class='keyword2'>&amp;key</span> fill stroke font layer) <span class='keyword2'>&amp;rest</span> body) ...)
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>with-options</span> ((<span class='keyword2'>&amp;key</span> fill stroke font filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
-<h4><a name='0B9bMaXVpqW'></a>12.1.24 with-person-options マクロ</h4>
+<h4><a name='0B9bMaXVpqW'></a>12.1.26 with-person-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-person-options</span> ((<span class='keyword2'>&amp;key</span> fill stroke layer filter) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='lsGULoUqoK4'></a>12.1.25 with-subcanvasマクロ</h4>
+<h4><a name='lsGULoUqoK4'></a>12.1.27 with-subcanvasマクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-subcanvas</span> ((top-left width height) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
-<h4><a name='2c8duiejnaO'></a>12.1.26 with-subcanvas-ofマクロ</h4>
+<h4><a name='2c8duiejnaO'></a>12.1.28 with-subcanvas-ofマクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-subcanvas-of</span> ((id) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
-<h4><a name='2XsIFr1er3s'></a>12.1.27 with-textbox-options マクロ</h4>
+<h4><a name='2XsIFr1er3s'></a>12.1.29 with-textbox-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-textbox-options</span> ((<span class='keyword2'>&amp;key</span> rx ry align valign margin
                                       font fill stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
@@ -8820,12 +8910,12 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <ul>
 <li><strong>IMCOMPATIBLE CHANGE : defs マクロを <a class='autolink' href='#gxb34ymFlDc'>defgroup</a> マクロに改名</strong></li>
 <li>ENHANCE : 「<a href='#dmYFJAv81Kl'>9.1  パターン</a>」を追加</li>
-<li>ENHANCE : 「<a href='#8IkB7VinE7h'>12.1.7  make-fill 関数</a>」に <code>url</code> パラメータを追加</li>
+<li>ENHANCE : 「<a href='#8IkB7VinE7h'>12.1.9  make-fill 関数</a>」に <code>url</code> パラメータを追加</li>
 </ul>
 </li>
 <li><strong>2022/09/25 - version 0.005</strong>
 <ul>
-<li>ENHANCE : 「<a href='#ezUVhtPwl3J'>12.1.9  make-stroke 関数</a>」に <code>url</code> パラメータを追加</li>
+<li>ENHANCE : 「<a href='#ezUVhtPwl3J'>12.1.11  make-stroke 関数</a>」に <code>url</code> パラメータを追加</li>
 <li>ENHANCE : 「<a href='#4p1J7EWjD3m'>9.2  グラデーション</a>」を追加</li>
 </ul>
 </li>
@@ -8854,6 +8944,13 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li><strong>2022/10/11</strong>
 <ul>
 <li>DOCUMENT : 「<a href='#heEi5Lc5BX9'>10.6  回転</a>」を執筆</li>
+</ul>
+</li>
+<li><strong>2022/10/14</strong>
+<ul>
+<li><strong>IMCOMPATIBLE CHANGE : <a class='autolink' href='#gPGlqSbIfdL'>フィルタ</a>のデフォルトを <a class='autolink' href='#fv4OUML78x4'>line</a> / shape で区別する仕様を廃止</strong></li>
+<li>ENHANCE : <a class='autolink' href='#5afU9yg86c0'>with-options</a> でデフォルト<a class='autolink' href='#gPGlqSbIfdL'>フィルタ</a>を指定できるようにする修正</li>
+<li>DOCUMENT : 「<a href='#gPGlqSbIfdL'>10.7  フィルタ</a>」を執筆</li>
 </ul>
 </li>
 </ul>
@@ -8943,6 +9040,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li><a href='#h7K5JgIwvZY'>Figure.10-14 回転のサンプル</a></li>
 <li><a href='#9DgdURPyOHh'>Figure.10-15 回転しても図形要素の属性は変化しない</a></li>
 <li><a href='#9Z8wQykrThD'>Figure.10-16 フィルタのサンプル</a></li>
+<li><a href='#fVptn2Tiqv7'>Figure.10-17 フィルタのサンプル - 2</a></li>
 <li><a href='#2Hj3wMypfUt'>Figure.11-1 uml-action-param 要素</a></li>
 <li><a href='#2p79zKV2A8T'>Figure.11-2 uml-action 要素</a></li>
 <li><a href='#bGeFbFhlXGE'>Figure.11-3 uml-activity-partitions 要素</a></li>
@@ -8983,9 +9081,11 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li><a href='#7B7qYLtcQVS'>Table.12-3 defgradient マクロの付加パラメータ（linear）</a></li>
 <li><a href='#bRsr41rCkR5'>Table.12-4 defgradient マクロの付加パラメータ（radial）</a></li>
 <li><a href='#43tbSrg0HB4'>Table.12-5 defpattern マクロのパラメータ</a></li>
-<li><a href='#jaLWrUQI3jh'>Table.12-6 make-fill 関数のパラメータ</a></li>
-<li><a href='#3B1RHolTZeW'>Table.12-7 make-font 関数のパラメータ</a></li>
-<li><a href='#8gU4HDke41S'>Table.12-8 make-stroke 関数のパラメータ</a></li>
+<li><a href='#98FSocmF926'>Table.12-6 drop-shadow マクロのパラメータ</a></li>
+<li><a href='#8OxjHEdW6gK'>Table.12-7 glow-shadow マクロのパラメータ</a></li>
+<li><a href='#jaLWrUQI3jh'>Table.12-8 make-fill 関数のパラメータ</a></li>
+<li><a href='#3B1RHolTZeW'>Table.12-9 make-font 関数のパラメータ</a></li>
+<li><a href='#8gU4HDke41S'>Table.12-10 make-stroke 関数のパラメータ</a></li>
 </ul>
 <p>　　</p>
 <h2><a name='1ewHzjI62xn'></a>15 索引</h2>
@@ -9037,6 +9137,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li class='idx_x'><a class='autolink' href='#81YGnpDRA3K'>defpattern</a></li>
 <li class='idx_x'><a class='autolink' href='#4dFMjynUMYw'>diamond</a></li>
 <li class='idx_x'><a class='autolink' href='#jRjILbbJATV'>document</a></li>
+<li class='idx_x'><a class='autolink' href='#13cQuI9DTKo'>drop-shadow</a></li>
 </blockquote>
 </details>
 <details class='idx_x' open>
@@ -9051,6 +9152,12 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <summary class='idx_x'>F</summary>
 <blockquote class='idx_x'>
 <li class='idx_x'><a class='autolink' href='#5ZT843xJDiq'>folder</a></li>
+</blockquote>
+</details>
+<details class='idx_x' open>
+<summary class='idx_x'>G</summary>
+<blockquote class='idx_x'>
+<li class='idx_x'><a class='autolink' href='#aK4WyL00CPC'>glow-shadow</a></li>
 </blockquote>
 </details>
 <details class='idx_x' open>

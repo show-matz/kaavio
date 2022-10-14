@@ -38,7 +38,7 @@
 	(setf crease  (or crease *uml-note-crease-size*))
 	(setf filter  (if (eq filter :none)
 					  nil
-					  (or filter *uml-note-filter* *default-shape-filter*))))
+					  (or filter *uml-note-filter* *default-filter*))))
   note)
 
 (defmethod check ((note uml-note) canvas dict)
