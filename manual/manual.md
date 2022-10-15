@@ -6195,7 +6195,7 @@ Figure. 色の名前とサンプル - 2
 	* DOCUMENT : 「[](#IDと参照)」を執筆
 * __2022/10/11__
 	* DOCUMENT : 「[](#回転)」を執筆
-* __2022/10/14__
+* __2022/10/14 - version 0.008__
 	* __IMCOMPATIBLE CHANGE : フィルタのデフォルトを line / shape で区別する仕様を廃止__
 	* ENHANCE : with-options でデフォルトフィルタを指定できるようにする修正
 	* DOCUMENT : 「[](#フィルタ)」を執筆
