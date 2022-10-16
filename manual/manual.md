@@ -4016,7 +4016,7 @@ ${BLANK_PARAGRAPH}
 #### ストロークにおけるパターンとグラデーションの指定
 
 　ストロークでできるのは、単色で線や点線をひくことだけではありません。パターンやグラデーション
-を定義して、それを使うこともできます。たとえば以下では、赤色から青色に変換するグラデーションを
+を定義して、それを使うこともできます。たとえば以下では、赤色から青色に変化するグラデーションを
 作成し、四角形のストロークで使用しています。
 
 <!-- snippet: STROKE-URL-SAMPLE
@@ -4793,8 +4793,78 @@ ${BLANK_PARAGRAPH}
 ${BLANK_PARAGRAPH}
 
 ### リンク
+<!-- autolink: [$$](#リンク) -->
 
-　${{TODO}{まだ記述されていません。}}
+　HTML で任意の文言にリンクを設定できるように、SVG では図形要素にリンクを設定することができます。
+${APPNAME} では、図形要素の `:link` パラメータで実現します。以下の例では、図中の四角形に
+[目次](A#toc-link-target)へのリンクを設定しています。
+
+<!-- define: HASH_TOC = '[](A#toc-link-target)' -->
+
+<!-- snippet: LINK-SAMPLE-1
+(diagram (200 100)
+  (grid)
+  (with-options (:stroke :navy :fill :lightcyan)
+    (rect canvas.center  60 60 :link "${HASH_TOC}")))
+-->
+
+```lisp
+<!-- expand:LINK-SAMPLE-1 -->
+```
+
+```kaavio
+<!-- expand:LINK-SAMPLE-1 -->
+```
+Figure. 図形要素へのリンクの設定例
+
+　この例では、 `:link` に続けて文字列でリンク先を指定しています（本文書では SVG 図面を HTML に
+直接埋め込んでいるので、これは HTML 文書内へのアンカーを指定したリンクです）。あるいは、
+`:link '(:url "${HASH_TOC}" :target :blank)` といった指定をする場合もあります。実はこれらは全て
+簡易的な指定方法で、リンクにはもう少し多くの情報が含まれています。以下に説明します。
+
+* `url` はリンク先の URL を文字列で指定します。
+* `target` はターゲット指定です。 `:blank` などを指定します（[$@ 節](#make-link 関数)参照）。
+
+${BLANK_PARAGRAPH}
+
+　それぞれについて細かい説明を始める前に、 `:link "URL"` といった記述がどのように扱われるのか
+を説明する必要があるでしょう。 `:link` によるこれらの指定は、実は全て make-link 関数に
+渡されます。make-link 関数は、渡されたのが単一の値の場合には、それを URL と解釈します。
+そして `'(:url "URL" :target :blank)` などの（複数要素からなる）リストの場合、名前付き
+パラメータの羅列として解釈します。
+
+　make-link 関数はその結果として「リンク情報オブジェクト」を返しますが、そのリンク情報
+オブジェクトを make-link 関数自身に渡した場合、そのまま返すようになっています。そのため、
+自分で明示的に make-link 関数を使ってリンク情報オブジェクトを作成し、Common LISP 変数に
+格納して複数の図形要素で使用する、ということも可能です。この関数の詳細は「[](#make-link 関数)」を
+参照してください。
+
+${BLANK_PARAGRAPH}
+
+　複数の図形要素をまとめてリンク設定したい場合はどうすれば良いでしょうか。現状では、defgroup 
+によってグループ化し、use において `:link` パラメータを使うことになります。以下の例は、
+[$@ 章](#基本的な図形)冒頭の一覧から抜粋したものです。
+
+<!-- snippet: LINK-SAMPLE-2
+(diagram (100 120)
+  ;(grid)
+  (let ((w  80)
+        (h 100))
+    (defgroup (w h :rect-grp)
+      (rect canvas.center canvas.width canvas.height :stroke :none :fill :white)
+      (rect `(,(/ w 2) ,(/ w 2)) 50 50 :fill :skyblue :stroke :blue)
+      (text `(,(/ w 2) ,(- h 5)) "四角形" :align :center))
+    (use :rect-grp canvas.center :link "${HASH_RECT}")))
+-->
+
+```lisp
+<!-- expand:LINK-SAMPLE-2 -->
+```
+
+```kaavio
+<!-- expand:LINK-SAMPLE-2 -->
+```
+Figure. グループ化と use におけるリンク設定の例
 
 ${BLANK_PARAGRAPH}
 
@@ -5403,6 +5473,46 @@ Table. make-font 関数のパラメータ
 | `line-spacing` | パラグラフなどで複数行のテキストを描画する際の行間を数値で指定します。 |
 | `width-spice`  | フォントサイズとテキスト内容から描画幅を計算する際の係数を数値で指定します。 |
 | `base`         | ${{TODO}{まだ記述されていません}} |
+
+
+${BLANK_PARAGRAPH}
+
+#### make-link 関数
+<!-- autolink: [make-link](#make-link 関数) -->
+
+　make-link 関数はリンク情報を生成します。リンク情報の詳細は「[](#リンク)」を参照してください。
+関数シグネチャは以下の通りです。
+
+```lisp
+(defun make-link (&rest params) ...)
+```
+
+　上記は簡潔な記述で柔軟なリンク情報の生成を可能にするためのもので、 `params` として渡される
+パラメータ数に応じて以下のことをします。
+
+* パラメータ数が 0 の場合
+	* nil を返します
+* パラメータ数が 1 の場合
+	* リンク情報が渡された場合、それをそのまま返します
+	* リスト lst が渡された場合、 `(apply #'make-link lst)` を返します
+	* 上記のいずれでもない prm の場合、 `(make-link :url prm)` を返します
+* パラメータ数が 2 以上の場合
+	* 後述します
+
+　パラメータ数が 2 以上の場合、make-link 関数は実質的に以下の関数であるかのように振舞います。
+
+```lisp
+(defun make-link &key url target)
+```
+
+　各パラメータの意味は以下の通りです。詳細は「[](#リンク)」を参照してください。
+
+Table. make-link 関数のパラメータ
+| parameter    | description                          |
+|:=============|:-------------------------------------|
+| `url`        | リンク先の URL を文字列で指定します。  |
+| `target`     | a タグにおける target をキーワード `:replace :self :parent :top :blank` の<br> \
+いずれかで指定します。省略可能です。 |
 
 
 ${BLANK_PARAGRAPH}
@@ -6311,6 +6421,8 @@ Figure. 色の名前とサンプル - 2
 * __2022/10/16 - version 0.009__
 	* __MINOR INCOMPATIBLE CHANGE : レイヤー機能においてレイヤー非所属の図形要素が描画される順序を変更__
 	* DOCUMENT : 「[](#レイヤー)」を執筆
+* __2022/10/17__
+	* DOCUMENT : 「[](#リンク)」を執筆
 
 ## 図表一覧
 <!-- embed:figure-list -->
