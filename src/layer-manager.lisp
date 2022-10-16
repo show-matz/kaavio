@@ -26,25 +26,29 @@
 				 :counter 0
 				 :map (make-hash-table :test 'eq)))
 
-(defun layer-register (layers name display)
+(defun layer-register (layer-mgr name display)
   (unless (keywordp name)
 	(throw-exception "Invalid name parameter for layer."))
   (unless (or (eq display :inline) (eq display :none))
 	(throw-exception "Display parameter for layer must be :inline or :none."))
-  (with-slots (counter map) layers
+  (with-slots (counter map) layer-mgr
 	(when (gethash name map)
 	  (throw-exception "Layer '~A' has already exists." name))
-	(setf (gethash name map) (cons display counter))
-	(incf counter)))
+	(incf counter)
+	(setf (gethash name map) (cons display counter))))
 
 (defun layer-get-display (layer-mgr name)
-  (with-slots (map) layer-mgr
-	(car (gethash name map))))
+  (if (null name)
+	  :display
+	  (with-slots (map) layer-mgr
+		(car (gethash name map)))))
 
 (defun layer-get-priority (layer-mgr name)
-  (with-slots (map) layer-mgr
-	(let ((pri (cdr (gethash name map))))
-	  (or pri most-positive-fixnum))))
+  (if (null name)
+	  0
+	  (with-slots (map) layer-mgr
+		(let ((pri (cdr (gethash name map))))
+		  (or pri most-positive-fixnum)))))
 
 (defun layer-change (layer-mgr new-layer writer)
   (with-slots (current) layer-mgr

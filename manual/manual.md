@@ -4700,9 +4700,95 @@ ${BLANK_PARAGRAPH}
 ${BLANK_PARAGRAPH}
 
 ### レイヤー
+<!-- autolink: [$$](#レイヤー) -->
 
-　${{TODO}{まだ記述されていません。}}
+　レイヤーは図形要素の表示順序を制御するための仕組みです。まずは以下の例をご覧ください。表示位置が
+重なる四角形を３つ描画しています。
 
+<!-- snippet: LAYER-SAMPLE-1
+(diagram (160 160)
+  (grid)
+  (with-options (:stroke :black)
+    (rect '(50 50)              60 60 :fill :lightcyan :id :R1)
+    (rect (xy+ R1.center 30 30) 60 60 :fill :lightpink :id :R2)
+    (rect (xy+ R2.center 30 30) 60 60 :fill :palegreen :id :R3)))
+-->
+
+```lisp
+<!-- expand:LAYER-SAMPLE-1 -->
+```
+
+　R2 は R1 に、R3 は R2 に、それぞれ座標指定において依存しているので、この順序で書く必要があり、
+結果として表示は以下のようになります。これが ${APPNAME} における描画の基本的なルール、「コード
+上で書いた順に描画される」です。
+
+```kaavio
+<!-- expand:LAYER-SAMPLE-1 -->
+```
+
+　この描画順序を制御するのがレイヤーという機能です。レイヤーを使用するには、コードの冒頭で layer を
+使用してその名前とともに使用を宣言し、図形要素のパラメータ `:layer` で所属するレイヤーを指定します。
+以下の例では、3 つのレイヤーを導入し、それぞれの四角形を別のレイヤーに所属させています。
+
+<!-- snippet: LAYER-SAMPLE-2
+(diagram (160 160)
+  (layer :L1)
+  (layer :L2)
+  (layer :L3)
+  (grid)
+  (with-options (:stroke :black)
+    (rect '(50 50)              60 60 :fill :lightcyan :id :R1 :layer :L3)
+    (rect (xy+ R1.center 30 30) 60 60 :fill :lightpink :id :R2 :layer :L2)
+    (rect (xy+ R2.center 30 30) 60 60 :fill :palegreen :id :R3 :layer :L1)))
+-->
+
+```lisp
+<!-- expand:LAYER-SAMPLE-2 -->
+```
+
+　複数のレイヤーが存在する場合、その導入順で描画が行なわれます。上記の例では逆順になるようにレイヤー
+を指定しているので、以下のような描画になります。
+
+```kaavio
+<!-- expand:LAYER-SAMPLE-2 -->
+```
+Figure. レイヤーを使用した表示順序の制御
+
+　さらに、layer にはオプションの `display` 引数があります。これは省略時のデフォルト値は `:inline` で
+すが、 `:none` を指定することで「そのレイヤー全体を非表示にする」ことができます。先程の例に対してレイヤー 
+L2 を非表示にする例を以下に示します。
+
+<!-- snippet: LAYER-SAMPLE-3
+(diagram (160 160)
+  (layer :L1)
+  (layer :L2 :none)
+  (layer :L3)
+  (grid)
+  (with-options (:stroke :black)
+    (rect '(50 50)              60 60 :fill :lightcyan :id :R1 :layer :L3)
+    (rect (xy+ R1.center 30 30) 60 60 :fill :lightpink :id :R2 :layer :L2)
+    (rect (xy+ R2.center 30 30) 60 60 :fill :palegreen :id :R3 :layer :L1)))
+-->
+
+```lisp
+<!-- expand:LAYER-SAMPLE-3 -->
+```
+
+```kaavio
+<!-- expand:LAYER-SAMPLE-3 -->
+```
+Figure. レイヤーを非表示にする例
+
+${BLANK_PARAGRAPH}
+
+　レイヤー機能について以下にまとめます。
+
+* レイヤーはその宣言順で描画される
+* レイヤー指定されない図形要素は「暗黙の背景レイヤー」として最初に描画される
+* 同じレイヤーに所属する図形要素はコード上での登場順で描画される
+* layer でオプションの `display` パラメータに `:none` を指定するとレイヤーをまるごと非表示にできる \
+{{fn:ブラウザなどの SVG ビューワー上で動的にレイヤーの表示／非表示を切り替えることは可能ですが、${APPNAME} としては \
+現状サポートしていません。}}
 
 ${BLANK_PARAGRAPH}
 
@@ -5201,6 +5287,29 @@ Table. glow-shadow マクロのパラメータ
 参照してください。省略した場合のデフォルト値は `'(0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0)` です。 |
 | `deviation`     | `<feGaussianBlur>` における `stdDeviation` 値を指定します。詳細は SVG 規格を \
 参照してください。省略した場合のデフォルト値は 3 です。  |
+
+
+${BLANK_PARAGRAPH}
+
+#### layer 関数
+<!-- autolink: [layer](#layer 関数) -->
+
+　レイヤーの導入を宣言します。レイヤーについては「[](#レイヤー)」を参照してください。関数シグネチャは
+以下の通りです。
+
+```lisp
+(defun layer (name &optional (display :inline))
+```
+
+${BLANK_PARAGRAPH}
+
+Table. layer 関数のパラメータ
+| parameter       | description                               |
+|:================|:------------------------------------------|
+| `name`          | レイヤーの名前をキーワードで指定します。     |
+| `display`       | レイヤー全体の表示を `:inline` または `:none` で指定します。省略時の<br> \
+                  デフォルトは `:inline` で、レイヤー全体を表示します。 `:none` を指定<br> \
+                  すると、レイヤー全体を非表示にします。 |
 
 
 ${BLANK_PARAGRAPH}
@@ -6161,7 +6270,7 @@ Figure. 色の名前とサンプル - 2
 	* ENHANCE : with-subcanvas-ofマクロを追加
 	* DOCUMENT : 「[](#座標と位置)」、および「[](#サブキャンバス)」を執筆
 * __2022/09/04 - version 0.003__
-	* __IMCOMPATIBLE CHANGE : with-canvas マクロの第１パラメータを topleft から center に変更__
+	* __INCOMPATIBLE CHANGE : with-canvas マクロの第１パラメータを topleft から center に変更__
 	* DOCUMENT : 「[](#定義と再使用)」を執筆
 	* ENHANCE : 「[](#キューブ)」を追加
 	* ENHANCE : 「[](#十字)」を追加
@@ -6176,7 +6285,7 @@ Figure. 色の名前とサンプル - 2
 	* DOCUMENT : 「[](#生の SVG コード片の挿入)」を執筆
 	* ENHANCE : 「[](#テキストボックス)」と「[](#爆発)」に contents パラメータを追加
 * __2022/09/22 - version 0.004__
-	* __IMCOMPATIBLE CHANGE : defs マクロを defgroup マクロに改名__
+	* __INCOMPATIBLE CHANGE : defs マクロを defgroup マクロに改名__
 	* ENHANCE : 「[](#パターン)」を追加
 	* ENHANCE : 「[](#make-fill 関数)」に `url` パラメータを追加
 * __2022/09/25 - version 0.005__
@@ -6188,7 +6297,7 @@ Figure. 色の名前とサンプル - 2
 * __2022/10/01 - version 0.006__
 	* ENHANCE : ID 指定のない要素に gensym ID を付与し、 `$N.id` で参照を可能とする修正
 * __2022/10/03__
-	* __MINOR IMCOMPATIBLE CHANGE : [$$](#パターン)と[$$](#グラデーション)の追加に伴い、fill 指定から別の色を \
+	* __MINOR INCOMPATIBLE CHANGE : [$$](#パターン)と[$$](#グラデーション)の追加に伴い、fill 指定から別の色を \
 導出する機能を廃止__
 	* ENHANCE : 上記の対応として「[](#メモ)」に `:fill2` パラメータを追加
 * __2022/10/10 - version 0.007__
@@ -6196,9 +6305,12 @@ Figure. 色の名前とサンプル - 2
 * __2022/10/11__
 	* DOCUMENT : 「[](#回転)」を執筆
 * __2022/10/14 - version 0.008__
-	* __IMCOMPATIBLE CHANGE : フィルタのデフォルトを line / shape で区別する仕様を廃止__
+	* __INCOMPATIBLE CHANGE : フィルタのデフォルトを line / shape で区別する仕様を廃止__
 	* ENHANCE : with-options でデフォルトフィルタを指定できるようにする修正
 	* DOCUMENT : 「[](#フィルタ)」を執筆
+* __2022/10/16 - version 0.009__
+	* __MINOR INCOMPATIBLE CHANGE : レイヤー機能においてレイヤー非所属の図形要素が描画される順序を変更__
+	* DOCUMENT : 「[](#レイヤー)」を執筆
 
 ## 図表一覧
 <!-- embed:figure-list -->
