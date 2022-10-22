@@ -4869,8 +4869,141 @@ Figure. グループ化と use におけるリンク設定の例
 ${BLANK_PARAGRAPH}
 
 ### 終端マーク
+<!-- autolink: [$$](#終端マーク) -->
 
-　${{TODO}{まだ記述されていません。}}
+　終端マークとは、直線やコネクタの端点に描画するマークを指定する情報です。コネクタを使った例を以下に
+示します。
+
+<!-- snippet: ENDMARK-SAMPLE
+(diagram (300 210)
+  (grid)
+  (with-options (:stroke :gray :fill :lightgray)
+    (circle '( 50  40) 20 :id :C1)
+    (circle '(250  40) 20 :id :C2)
+    (circle '(150 170) 20 :id :C3)
+    (with-options (:stroke :blue)
+      (connect :C1 :C2                 :end2 :arrow)
+      (connect :C2 :C3 :end1 :triangle :end2 :diamond)
+      (connect :C3 :C1 :end1 :circle   :end2 :rect))
+    (with-options (:font '(:fill :blue))
+      (text '(225  30) ":arrow"    :align :right)
+      (text '(230  90) ":triangle" :align :left)
+      (text '(185 140) ":diamond"  :align :left)
+      (text '(125 150) ":circle"   :align :right)
+      (text '( 55  80) ":rect"     :align :right))))
+-->
+
+```kaavio
+<!-- expand: ENDMARK-SAMPLE -->
+```
+Figure. 終端マークの例
+
+<!-- collapse:close -->
+※上記サンプルのソースはこちら。
+
+```lisp
+<!-- expand: ENDMARK-SAMPLE -->
+```
+<!-- collapse:end -->
+
+　上記のサンプルでは、 `:end2 :arrow` のように、 `:end1` または `:end2` に続けて終端マークの
+種類だけを指定しています。もう少し複雑な場合、 `:end1 '(:type :arrow :size :small)` といった
+要領で種類とサイズを指定することもできます。実はこれらは全て簡易的な指定方法で、終端マークには
+もっと多くの情報が含まれています。以下に説明します。
+
+* `type` は終端マークの形状を指定します。 `:arrow :triangle :diamond :circle :rect` のいずれか、またはカスタム描画 \
+関数を指定します。詳細は make-endmark 関数を参照してください。
+* `size` は終端マークの大きさです。 `:small :medium :large :xlarge` のいずれか、または数値を指定します。
+* `stroke` は終端マークの線を描画するストローク指定です。通常は（指定を省略することで）終端マークが適用される直線や \
+コネクタのストロークと同じものを指定します。
+* `fill` は終端マークの内部の塗り潰し指定です。省略すると、ストロークと同じ色で塗り潰されます。
+
+${BLANK_PARAGRAPH}
+
+　それぞれについて細かい説明を始める前に、 `:end1 :arrow` といった記述がどのように扱われるのか
+を説明する必要があるでしょう。 `:end1 / :end2` によるこれらの指定は、実は全て make-endmark 関数
+に渡されます。make-endmark 関数は、渡されたのが単一の値の場合には、キーワードなら種類、数値なら
+サイズなどと解釈します。そして `'(:type :arrow :size :small)` などの（複数要素からなる）リスト
+の場合、名前付きパラメータの羅列として解釈します。
+
+　make-endmark 関数はその結果として「終端マーク情報オブジェクト」を返しますが、その終端マーク情報
+オブジェクトを make-endmark 関数自身に渡した場合、そのまま返すようになっています。そのため、自分で
+明示的に make-endmark 関数を使ってストローク情報オブジェクトを作成し、Common LISP 変数に格納して
+複数の図形要素で使用する、ということも可能です。以下のように。この関数の詳細は「[](#make-endmark 関数)」
+を参照してください。
+
+```lisp
+(let ((em (make-endmark :type :triangle :size :small)))
+  (connect  ... :end2 em)
+  (connect  ... :end2 em))
+```
+
+${BLANK_PARAGRAPH}
+
+#### 終端マークのデフォルト設定
+
+　実際のところ、作図をする上でそれぞれのコネクタの終端がバラバラな形状やサイズで描かれることはないでしょう。
+わかりやすい図面というのは、同じ種類の図形要素は同じ種類の線で描画されているなど、統制が取れているものです。
+このことは、多くの作図においては「まったく同じ終端マークの指定を繰り返す場合が多い」ことを意味します。
+前述の方法で終端マーク情報オブジェクトを作成して使い回すことも可能ですが、もっとよい方法があります。
+それは with-endmark-options を使った「終端マークのデフォルト設定値の変更」です。以下の例では３つの
+コネクタを描いていますが、終端マークの種類は with-endmark-options で指定しています。
+
+<!-- with-endmark-options の :end[12] のみ指定する例 -->
+<!-- snippet: WITH-ENDMARK-OPTIONS-SAMPLE-1
+(diagram (300 150)
+  (grid)
+  (with-options (:stroke :black :fill :white)
+    (circle '( 50  40) 20 :id :C1)
+    (circle '(250  40) 20 :id :C2)
+    (circle '(150 110) 20 :id :C3)
+    (with-endmark-options (:end1 nil :end2 :triangle)
+      (connect :C1 :C2 :stroke :red)
+      (connect :C2 :C3 :stroke :green)
+      (connect :C3 :C1 :stroke :blue))))
+-->
+
+```lisp
+<!-- expand: WITH-ENDMARK-OPTIONS-SAMPLE-1 -->
+```
+
+```kaavio
+<!-- expand: WITH-ENDMARK-OPTIONS-SAMPLE-1 -->
+```
+Figure. with-endmark-options によるデフォルト終端マークの変更 - 1
+
+${BLANK_PARAGRAPH}
+
+　上記の場合、３つのコネクタ全てで `:end1 nil :end2 :triangle` と指定したのと同じことになります。結果
+として、それぞれの終端マークはそれぞれのコネクタのストロークで描画され、塗り潰しもストロークと同じ
+色になりました。
+
+　種類は個別に指定して、塗り潰しやサイズのデフォルト値を変更したい場合は以下のようになります。この場合、
+それぞれのコネクタの `:end2` で指定指定された `:triangle` などのキーワードから終端マーク情報オブジェクト
+を作成する際、with-endmark-options の `:size :small :fill :white` が適用されるイメージになります。
+
+<!-- with-endmark-options の :end[12] に「具体的な endmark」を指定する例 -->
+<!-- snippet: WITH-ENDMARK-OPTIONS-SAMPLE-2
+(diagram (300 150)
+  (grid)
+  (with-options (:stroke :black :fill :white)
+    (circle '( 50  40) 20 :id :C1)
+    (circle '(250  40) 20 :id :C2)
+    (circle '(150 110) 20 :id :C3)
+    (with-endmark-options (:size :small :fill :white)
+      (connect :C1 :C2 :stroke :red   :end2 :triangle)
+      (connect :C2 :C3 :stroke :green :end2 :diamond)
+      (connect :C3 :C1 :stroke :blue  :end2 :circle))))
+-->
+
+```lisp
+<!-- expand: WITH-ENDMARK-OPTIONS-SAMPLE-2 -->
+```
+
+```kaavio
+<!-- expand: WITH-ENDMARK-OPTIONS-SAMPLE-2 -->
+```
+Figure. with-endmark-options によるデフォルト終端マークの変更 - 2
 
 ${BLANK_PARAGRAPH}
 
@@ -5384,6 +5517,60 @@ Table. layer 関数のパラメータ
 
 ${BLANK_PARAGRAPH}
 
+#### make-endmark 関数
+<!-- autolink: [make-endmark](#make-endmark 関数) -->
+
+　make-endmark 関数は終端マーク情報を生成します。終端マーク情報の詳細は「[](#終端マーク)」を
+参照してください。関数シグネチャは以下の通りです。
+
+```lisp
+(defun make-endmark (&rest params) ...)
+```
+
+　上記は簡潔な記述で柔軟な終端マーク情報の生成を可能にするためのもので、 `params` として渡される
+パラメータ数に応じて以下のことをします。
+
+* パラメータ数が 0 の場合
+	* nil を返します
+* パラメータ数が 1 の場合
+	* 終端マーク情報が渡された場合、それをそのまま返します
+	* 数値 N が渡された場合、 `(make-endmark :size N)` を返します
+	* リスト lst が渡された場合、 `(apply #'make-endmark lst)` を返します
+	* 上記のいずれでもない prm の場合、 `(make-endmark :type prm)` を返します
+* パラメータ数が 2 以上の場合
+	* 後述します
+
+　パラメータ数が 2 以上の場合、make-endmark 関数は実質的に以下の関数であるかのように振舞います。
+
+```lisp
+(defun make-endmark &key type size stroke fill)
+```
+
+Table. make-endmark 関数のパラメータ
+| parameter   | description                      |
+|:============|:---------------------------------|
+| `type`      | 終端マークの形状を指定します。 `:arrow :triangle :diamond :circle :rect` のいずれか、または \
+カスタム描画関数を指定します。 |
+| `size`      | 終端マークのサイズを指定します。 `:small :medium :large :xlarge` のいずれか、または数値を指定します。 |
+| `stroke`    | 終端マークを描画する線を指定します。詳細は「[](#ストローク)」を参照してください。省略した場合、実際に \
+終端マークが描画される対象（直線やコネクタ）のストロークが使用されます。ただしその場合、そのストロークの `:dasharray`  \
+など一部のパラメータは引き継がれません。 |
+| `fill`      | 終端マーク内部の塗り潰しを指定します。詳細は「[](#フィル)」を参照してください。省略した場合、ストローク \
+と同じ色で塗り潰されます。 |
+
+
+${BLANK_PARAGRAPH}
+
+　`type` パラメータでキーワードのかわりに指定するカスタム描画関数ですが、以下のシグネチャの関数を
+指定する必要があります。これは現状では暫定的で undocumented な状態です。詳細はコードを参照して
+ください。
+
+```lisp
+(lambda (points size stroke fill writer) ...)
+```
+
+${BLANK_PARAGRAPH}
+
 #### make-fill 関数
 <!-- autolink: [make-fill](#make-fill 関数) -->
 
@@ -5654,6 +5841,15 @@ ${BLANK_PARAGRAPH}
 ```lisp
 (defmacro with-document-options ((&key align valign margin
                                        font fill stroke filter layer) &rest body) ...)
+```
+
+　${{TODO}{まだ記述されていません。}}
+
+#### with-endmark-options マクロ
+<!-- autolink: [with-endmark-options](#with-endmark-options マクロ) -->
+
+```lisp
+(defmacro with-endmark-options ((&key type size fill end1 end2) &rest body) ...)
 ```
 
 　${{TODO}{まだ記述されていません。}}
@@ -6423,6 +6619,9 @@ Figure. 色の名前とサンプル - 2
 	* DOCUMENT : 「[](#レイヤー)」を執筆
 * __2022/10/17__
 	* DOCUMENT : 「[](#リンク)」を執筆
+* __2022/10/22 - version 0.010__
+	* ENHANCE : [$$](#終端マーク)で stroke や fill を指定しなかった場合の挙動を改善
+	* DOCUMENT : 「[](#終端マーク)」を執筆
 
 ## 図表一覧
 <!-- embed:figure-list -->

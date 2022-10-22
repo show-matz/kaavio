@@ -97,19 +97,25 @@
 				  "/>")))
 
 (defun __draw-endmark-rectangle (points size stroke fill writer)
-  (let* ((pt (cdr points)))
+  (let* ((pt1  (car points))
+		 (pt2  (cdr points))
+		 (r    (/ size (sqrt 2)))
+		 (cx   (point-x pt2))
+		 (cy   (point-y pt2)))
 	(writer-write writer
-				  "<rect "
-				  "x='" (- (point-x pt) (/ size 2)) "' "
-				  "y='" (- (point-y pt) (/ size 2)) "' "
-				  "width='" size "' "
-				  "height='" size "' "
+				  "<path "
 				  (when fill
 					(to-property-strings fill))
 				  (when stroke
 					(to-property-strings stroke))
-				  "/>")))
-
+				  "d='M " (+ cx (* r (math/cos3 pt1 pt2  45)))
+				  " "     (+ cy (* r (math/sin3 pt1 pt2  45)))
+				  " L "   (+ cx (* r (math/cos3 pt1 pt2 135)))
+				  " "     (+ cy (* r (math/sin3 pt1 pt2 135)))
+				  " L "   (+ cx (* r (math/cos3 pt1 pt2 225)))
+				  " "     (+ cy (* r (math/sin3 pt1 pt2 225)))
+				  " L "   (+ cx (* r (math/cos3 pt1 pt2 315)))
+				  " "     (+ cy (* r (math/sin3 pt1 pt2 315))) " z' />")))
 
 ;;------------------------------------------------------------------------------
 ;;
@@ -123,7 +129,7 @@
   ((type	:initform nil :initarg :type)		; (or keyword function)
 												; :none|:arrow|:triangle|:diamond|:circle|:rect
    (size	:initform nil :initarg :size)		; (or keyword number)
-												; :small|:midium|:large|:xlarge
+												; :small|:medium|:large|:xlarge
    (fill	:initform nil :initarg :fill)		; (or nil fill-info)	; nil means same as stroke
    (stroke	:initform nil :initarg :stroke)))	; (or nil stroke-info)
 
@@ -133,8 +139,10 @@
   (with-slots (type size fill stroke) mark
 	(setf type   (or type *default-endmark-type*))
 	(setf size   (or size *default-endmark-size*))
-	(setf fill   (make-fill   (or fill   *default-fill*)))
-	(setf stroke (make-stroke (or stroke *default-stroke*))))
+	(when (or fill *default-endmark-fill*)
+	  (setf fill (make-fill (or fill *default-endmark-fill*))))
+	(when stroke
+	  (setf stroke (make-stroke stroke))))
   mark)
 
 
@@ -147,18 +155,26 @@
 	(when (keywordp type)
 	  (check-keywords type :arrow :triangle :diamond :circle :rect))
 	(when (keywordp size)
-	  (check-keywords size :small :midium :large :xlarge)))
+	  (check-keywords size :small :medium :large :xlarge)))
   t)
 
 (defun draw-endmark (mark points stroke writer)
+  ;; RULE : 1. mark 自体に stroke/fill が設定されていればそれを使う
+  ;;        2. stroke が mark に設定されていない場合、パラメータの stroke を使う
+  ;;        3. fill が mark に設定されていない場合、stroke の color/url を使う
   (with-slots (type size fill) mark
-	(let* ((size (if (numberp size)
-					 size
-					 (ecase size
-					   ((:small)  10.0)
-					   ((:midium) 15.0)
-					   ((:large)  20.0)
-					   ((:xlarge) 30.0))))
+	(let* ((sz (if (numberp size)
+				   size
+				   (ecase size
+					 ((:small)  10.0)
+					 ((:medium) 15.0)
+					 ((:large)  20.0)
+					 ((:xlarge) 30.0))))
+		   (st (or (slot-value mark 'stroke)
+				   (make-stroke :dasharray nil :base stroke)))
+		   (fl (or fill (make-fill :color   (slot-value st 'color)
+								   :url     (slot-value st 'url)
+								   :opacity (slot-value st 'opacity))))
 		   (drawer (if (functionp type)
 					   type
 					   (ecase type
@@ -167,9 +183,7 @@
 						 ((:diamond)  #'__draw-endmark-diamond)
 						 ((:circle)   #'__draw-endmark-circle)
 						 ((:rect)     #'__draw-endmark-rectangle)))))
-	  (funcall drawer points size
-			   (or (slot-value mark 'stroke) stroke)    ;ToDo : m-stroke is always not nil...
-			   fill writer))))
+	  (funcall drawer points sz st fl writer))))
   
 
 #|
@@ -193,3 +207,28 @@
 						   :fill   fill
 						   :stroke stroke)))))
 
+;;------------------------------------------------------------------------------
+;;
+;; macro with-endmark-options
+;;
+;;------------------------------------------------------------------------------
+#|
+#|EXPORT|#				:with-endmark-options
+ |#
+(defmacro with-endmark-options ((&key type size fill end1 end2) &rest body)
+  (labels ((impl (params acc)
+			 (if (null params)
+				 acc
+				 (let ((value  (car  params))
+					   (symbol (cadr params)))
+				   (impl (cddr params)
+						 (if (null value)
+							 acc
+							 (push (list symbol value) acc)))))))
+	(let ((lst (impl (list type '*default-endmark-type*
+						   size '*default-endmark-size*
+						   fill '*default-endmark-fill*
+						   end1 '*default-endmark-1*
+						   end2 '*default-endmark-2*) nil)))
+	  `(let ,lst
+		 ,@body))))

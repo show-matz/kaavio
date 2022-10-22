@@ -71,6 +71,7 @@
 				:*default-endmark-2*
 				:*default-endmark-type*
 				:*default-endmark-size*
+				:*default-endmark-fill*
 				:*default-label-position*
 				:*default-label-font*
 				:*default-label-offset*
@@ -159,6 +160,7 @@
 				;endmark-info.lisp
 				:endmark-info
 				:make-endmark
+				:with-endmark-options
 				;entity.lisp
 				:entity
 				:write-header

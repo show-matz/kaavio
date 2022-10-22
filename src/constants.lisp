@@ -24,11 +24,13 @@
 #|EXPORT|#				:*default-endmark-2*
 #|EXPORT|#				:*default-endmark-type*
 #|EXPORT|#				:*default-endmark-size*
+#|EXPORT|#				:*default-endmark-fill*
  |#
 (defparameter *default-endmark-1*       nil)
 (defparameter *default-endmark-2*       nil)
 (defparameter *default-endmark-type*    :none)
-(defparameter *default-endmark-size*    :midium)
+(defparameter *default-endmark-size*    :medium)
+(defparameter *default-endmark-fill*    nil)
 
 ;; default parameter for label-info
 #|
