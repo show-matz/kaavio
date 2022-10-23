@@ -245,6 +245,7 @@
 				:draw-label-with-point
 				:draw-label
 				:make-label
+				:with-label-options
 				;layer-manager.lisp
 				:layer-manager
 				;line.lisp

@@ -4928,7 +4928,7 @@ ${BLANK_PARAGRAPH}
 
 　make-endmark 関数はその結果として「終端マーク情報オブジェクト」を返しますが、その終端マーク情報
 オブジェクトを make-endmark 関数自身に渡した場合、そのまま返すようになっています。そのため、自分で
-明示的に make-endmark 関数を使ってストローク情報オブジェクトを作成し、Common LISP 変数に格納して
+明示的に make-endmark 関数を使って終端マーク情報オブジェクトを作成し、Common LISP 変数に格納して
 複数の図形要素で使用する、ということも可能です。以下のように。この関数の詳細は「[](#make-endmark 関数)」
 を参照してください。
 
@@ -5008,8 +5008,129 @@ Figure. with-endmark-options によるデフォルト終端マークの変更 - 
 ${BLANK_PARAGRAPH}
 
 ### ラベル
+<!-- autolink: [$$](#ラベル) -->
 
-　${{TODO}{まだ記述されていません。}}
+　ラベルとは、直線やコネクタ、および一部の図形要素に付加できる簡易的なテキスト片のことです。明示的に
+位置を指定して text を配置するよりは楽にテキストを付加することができます。人物とコネクタを使った例を
+以下に示します。
+
+<!-- snippet: LABEL-SAMPLE-1
+(diagram (400 150)
+  (grid)
+  (with-options (:stroke :navy :fill :lightcyan)
+    (person '( 50  50) 30 :label   "actor1")
+    (person '(350 100) 30 :label '("actor2" :position :above)))
+  (with-options (:stroke :black)
+    (connect $2.id $1.id
+             :stroke '(:dasharray (5 2))
+             :label '("connection" :offset (-40 -15)))))
+-->
+
+```kaavio
+<!-- expand: LABEL-SAMPLE-1 -->
+```
+Figure. ラベルの例
+
+<!-- collapse:close -->
+※上記サンプルのソースはこちら。
+
+```lisp
+<!-- expand: LABEL-SAMPLE-1 -->
+```
+<!-- collapse:end -->
+
+　上記のサンプルでは、 `:label "actor1"` のように、 `:label` に続けてラベルのテキストだけを
+指定しています。もう少し複雑な場合、 `:label '("actor2" :position :above)` や 
+`:label '("connection" :offset (-40 -15))` といった要領でテキストと表示位置を指定することも
+できます。実はこれらは全て簡易的な指定方法で、ラベルにはもっと多くの情報が含まれています。
+パラメータ先頭で常に指定するテキスト以外の名前付きパラメータを以下に説明します。
+
+* `position` はラベルの表示位置を指定します。 `:above :below :left :right` のいずれかを指定します。
+* `offset` はラベルの表示位置を調整する値を `(x y)` の要領で指定します。
+* `font` はラベルの描画に使用されるフォントを指定します。詳細は「[](#フォント)」を参照してください。
+
+${BLANK_PARAGRAPH}
+
+　それぞれについて細かい説明を始める前に、 `:label "actor1"` といった記述がどのように扱われるのか
+を説明する必要があるでしょう。 `:label` によるこれらの指定は、実は全て make-label 関数
+に渡されます。make-label 関数は、渡されたのが単一の値の場合には、それをラベルテキストと解釈します。
+そして `'("text" :position :above :offset (-5 10))` などの（複数要素からなる）リストの場合、
+パラメータの羅列として解釈します。
+
+　make-label 関数はその結果として「ラベル情報オブジェクト」を返しますが、そのラベル情報
+オブジェクトを make-label 関数自身に渡した場合、そのまま返すようになっています。そのため、自分で
+明示的に make-label 関数を使ってラベル情報オブジェクトを作成し、Common LISP 変数に格納して
+複数の図形要素で使用する、ということも可能です。以下のように。この関数の詳細は「[](#make-label 関数)」
+を参照してください。
+
+```lisp
+(let ((txt (make-label "label" :position :above)))
+  (connect  ... :label txt)
+  (connect  ... :label txt))
+```
+
+#### position パラメータによるラベル位置の指定
+
+　position パラメータを使うことで、図形要素の上下左右のどこにラベルを配置するかを指定できます。
+[先ほどの例](F#ラベルの例)では、人物に対して `:label "actor1"` とすることで図形要素の下にラベルが
+表示され、 `:label '("actor2" :position :above)` によって上にラベルが表示されました。このように、
+position パラメータはラベルの表示位置を明示的に指定する場合に使用します。省略した場合の表示位置は
+label パラメータをサポートする図形要素によって異なります。
+
+　position パラメータは、人物などの「幅と高さを持つ」図形要素でのみ有効であることに注意してください。
+直線やコネクタのような図形要素では position パラメータは単純に無視され、ラベルの配置は経路の中央付近
+に自動的に決定されます。どちらの場合でも、結果としてラベルが表示される位置に不満を感じるかもしれません。
+そのような場合は、offset パラメータで微調整をすることができます。
+
+#### offset パラメータによるラベル位置の微調整
+
+　ラベルが配置される場所を微調整したい場合、offset パラメータを使うことがとできます。これは x 軸
+および y 軸方向にどれだけ移動させるかを指定する値を `(x y)` 形式、つまり座標指定と同じ方法で指定
+します。[先ほどの例](F#ラベルの例)では、コネクタに対して `:label '("connection" :offset (-40 -15))` と
+することでラベルの位置調整を行なっています。
+
+　offset パラメータは「position パラメータ（または自動決定結果）による配置場所に対して調整をする」
+ものなので、周辺の状況が変化した場合などには、都度変更が必要になることに注意してください。
+
+#### ラベルのデフォルト設定
+
+　実際のところ、作図をする上でそれぞれのラベルの位置やフォントがバラバラに指定されることはないでしょう。
+わかりやすい図面というのは、同じ種類の図形要素は同じ種類の線で描画されているなど、統制が取れているものです。
+このことは、多くの作図においては「まったく同じラベルの指定を繰り返す場合が多い」ことを意味します。
+前述の方法でラベル情報オブジェクトを作成して使い回すことも可能ですが、もっとよい方法があります。
+それは with-label-options を使った「ラベルのデフォルト設定値の変更」です。以下の例では全部で６つの
+ラベルを描いていますが、そのフォントや位置は with-label-options で指定しています。
+
+<!-- snippet: WITH-LABEL-OPTIONS-SAMPLE
+(diagram (300 150)
+  (grid)
+  (with-options (:stroke :black :fill :white)
+    (with-label-options (:font 10)
+      (with-label-options (:position :left :offset '(-5 0))
+        (person '( 70  40) 20 :label "actor1" :id :P1)
+        (person '( 70 110) 20 :label "actor2" :id :P2))
+      (with-label-options (:position :right :offset '(5 0))
+        (person '(230  40) 20 :label "actor3" :id :P3)
+        (person '(230 110) 20 :label "actor4" :id :P4))
+      (with-label-options (:offset '(0 -5))
+        (connect :P1 :P3 :end2 :arrow :label "P1 - P3")
+        (connect :P2 :P4 :end2 :arrow :label "P2 - P4")))))
+-->
+
+```lisp
+<!-- expand: WITH-LABEL-OPTIONS-SAMPLE -->
+```
+
+```kaavio
+<!-- expand: WITH-LABEL-OPTIONS-SAMPLE -->
+```
+Figure. with-label-options によるラベル設定の変更
+
+${BLANK_PARAGRAPH}
+
+　ラベルのテキストは通常それぞれで異なるため、with-label-options で指定することはできません。
+指定可能なのは position, offset, font だけです{{fn:position もラベル毎に異なる場合が多いですが、きれいに整列 \
+した作図だと同じになる場合もあるので with-label-options でサポートしています。}}。
 
 ${BLANK_PARAGRAPH}
 
@@ -5664,6 +5785,48 @@ Table. make-font 関数のパラメータ
 
 ${BLANK_PARAGRAPH}
 
+#### make-label 関数
+<!-- autolink: [make-label](#make-label 関数) -->
+
+　make-label 関数はラベル情報を生成します。ラベル情報の詳細は「[](#ラベル)」を参照してください。
+関数シグネチャは以下の通りです。
+
+```lisp
+(defun make-label (&rest params) ...)
+```
+
+　上記は簡潔な記述で柔軟なラベル情報の生成を可能にするためのもので、 `params` として渡される
+パラメータ数に応じて以下のことをします。
+
+* パラメータ数が 0 の場合
+	* nil を返します
+* パラメータ数が 1 の場合
+	* ラベル情報が渡された場合、それをそのまま返します
+	* リスト lst が渡された場合、 `(apply #'make-label lst)` を返します
+	* 上記のいずれでもない prm の場合、 `(make-label prm :offset nil)` を返します
+* パラメータ数が 2 以上の場合
+	* 後述します
+
+　パラメータ数が 2 以上の場合、make-label 関数は実質的に以下の関数であるかのように振舞います。
+
+```lisp
+(defun make-label text &key position offset font) ...)
+```
+
+　各パラメータの意味は以下の通りです。詳細は「[](#ラベル)」を参照してください。
+
+Table. make-label 関数のパラメータ
+| parameter    | description          |
+|:=============|:---------------------|
+| `text`       | ラベルのテキストを文字列かキーワードで指定します。  |
+| `position`   | ラベルを表示する位置を `:above, :below, :left, :right` から指定します。<br> \
+直線やコネクタでは無視されます。  |
+| `offset`     | ラベルの表示位置を微調整する `(x y)` 値を指定します。  |
+| `font`       | ラベルの描画に使用するフォントを指定します。詳細は「[](#フォント)」を参照<br> \
+してください。 |
+
+${BLANK_PARAGRAPH}
+
 #### make-link 関数
 <!-- autolink: [make-link](#make-link 関数) -->
 
@@ -5871,6 +6034,15 @@ ${BLANK_PARAGRAPH}
 (defmacro with-folder-options ((&key tab-width tab-height
                                      align valign margin
                                      font fill stroke filter layer) &rest body) ...)
+```
+
+　${{TODO}{まだ記述されていません。}}
+
+#### with-label-options マクロ
+<!-- autolink: [with-label-options](#with-label-options マクロ) -->
+
+```lisp
+(defmacro with-label-options ((&key position offset font) &rest body) ...)
 ```
 
 　${{TODO}{まだ記述されていません。}}
@@ -6622,6 +6794,9 @@ Figure. 色の名前とサンプル - 2
 * __2022/10/22 - version 0.010__
 	* ENHANCE : [$$](#終端マーク)で stroke や fill を指定しなかった場合の挙動を改善
 	* DOCUMENT : 「[](#終端マーク)」を執筆
+* __2022/10/23 - version 0.011__
+	* ENHANCE : [$$](#ラベル)に関するデフォルト設定周辺の仕様を確定
+	* DOCUMENT : 「[](#ラベル)」を執筆
 
 ## 図表一覧
 <!-- embed:figure-list -->

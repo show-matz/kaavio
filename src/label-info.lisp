@@ -30,7 +30,7 @@
   (declare (ignore initargs))
   (with-slots (position font offset) label
 	(setf position (or position *default-label-position*))
-	(setf   offset (or   offset (make-point 0 0)))
+	(setf   offset (or offset   *default-label-offset* (make-point 0 0)))
 	(setf     font (make-font (or font *default-label-font* *default-font*))))
   label)
 
@@ -149,9 +149,26 @@
 						   :offset   offset :font     font)))))
 
 
-;;(make-label)
-;;(make-label "LABEL"))
-;;(make-label :name "LABEL" :position :left)
-;;(make-label '(:name "LABEL" :position :left))
-
-
+;;------------------------------------------------------------------------------
+;;
+;; macro with-label-options
+;;
+;;------------------------------------------------------------------------------
+#|
+#|EXPORT|#				:with-label-options
+ |#
+(defmacro with-label-options ((&key position offset font) &rest body)
+  (labels ((impl (params acc)
+			 (if (null params)
+				 acc
+				 (let ((value  (car  params))
+					   (symbol (cadr params)))
+				   (impl (cddr params)
+						 (if (null value)
+							 acc
+							 (push (list symbol value) acc)))))))
+	(let ((lst (impl (list position '*default-label-position*
+						   offset   '*default-label-offset*
+						   font     '*default-label-font*) nil)))
+	  `(let ,lst
+		 ,@body))))

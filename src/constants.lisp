@@ -40,7 +40,7 @@
  |#
 (defparameter *default-label-position*	:below)
 (defparameter *default-label-font*		nil)
-(defparameter *default-label-offset*	10)
+(defparameter *default-label-offset*	nil)
 
 ;; default parameter for connector
 #|
