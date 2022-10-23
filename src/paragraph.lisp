@@ -68,13 +68,13 @@
 					 (or layer *default-layer*))))
   nil)
 
-(defmethod shape-width ((shp paragraph))
+(defmethod attribute-width ((shp paragraph))
   (slot-value shp 'width))
 
-(defmethod shape-height ((shp paragraph))
+(defmethod attribute-height ((shp paragraph))
   (slot-value shp 'height))
 
-(defmethod shape-center ((shp paragraph))
+(defmethod attribute-center ((shp paragraph))
   (with-slots (position width height align valign) shp
 	(point/xy+ position
 			   (ecase align
@@ -97,7 +97,7 @@
 (defmethod draw-entity ((shp paragraph) writer)
   (with-slots (position align font text) shp
 	(let ((x (point-x position))
-		  (y (point-y (shape-top shp)))
+		  (y (point-y (attribute-top shp)))
 		  (txt-anchor (ecase align
 						((:left)   "start")
 						((:center) "middle")

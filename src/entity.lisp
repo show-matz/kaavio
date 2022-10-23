@@ -8,6 +8,37 @@
 (in-package :kaavio)
 
 
+#|
+#|EXPORT|#				:attribute-id
+#|EXPORT|#				:attribute-width
+#|EXPORT|#				:attribute-height
+#|EXPORT|#				:attribute-topleft
+#|EXPORT|#				:attribute-top
+#|EXPORT|#				:attribute-topright
+#|EXPORT|#				:attribute-left
+#|EXPORT|#				:attribute-center
+#|EXPORT|#				:attribute-right
+#|EXPORT|#				:attribute-bottomleft
+#|EXPORT|#				:attribute-bottom
+#|EXPORT|#				:attribute-bottomright
+#|EXPORT|#				:attribute-end1
+#|EXPORT|#				:attribute-end2
+ |#
+(defgeneric attribute-id          (shp))	;; returns symbol (keyword or gensym).
+(defgeneric attribute-width       (shp))	;; returns number.
+(defgeneric attribute-height      (shp))	;; returns number.
+(defgeneric attribute-topleft     (shp))	;; returns point object.
+(defgeneric attribute-top         (shp))	;; returns point object.
+(defgeneric attribute-topright    (shp))	;; returns point object.
+(defgeneric attribute-left        (shp))	;; returns point object.
+(defgeneric attribute-center      (shp))	;; returns point object.
+(defgeneric attribute-right       (shp))	;; returns point object.
+(defgeneric attribute-bottomleft  (shp))	;; returns point object.
+(defgeneric attribute-bottom      (shp))	;; returns point object.
+(defgeneric attribute-bottomright (shp))	;; returns point object.
+(defgeneric attribute-end1        (shp))	;; returns point object.
+(defgeneric attribute-end2        (shp))	;; returns point object.
+
 ;;------------------------------------------------------------------------------
 ;;
 ;; abstract class entity

@@ -105,9 +105,9 @@
 
 ;;ToDo : :CC の場合にちょっとマズいことになる‥‥‥
 (defmethod shape-connect-point ((sig-rcpt uml-signal-receipt) type1 type2 arg)
-  (let ((pt (rectangle-connect-point (shape-center sig-rcpt)
-									 (shape-width  sig-rcpt)
-									 (shape-height sig-rcpt) type1 type2 arg)))
+  (let ((pt (rectangle-connect-point (attribute-center sig-rcpt)
+									 (attribute-width  sig-rcpt)
+									 (attribute-height sig-rcpt) type1 type2 arg)))
 	(with-slots (direction depth) sig-rcpt
 	  (with-point (x y) pt
 		(cond

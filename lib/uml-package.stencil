@@ -75,9 +75,9 @@
 (defmethod shape-connect-point ((pkg uml-package) type1 type2 arg)
   ;;ToDo : 95KvWqh6oVU : タブ部分と交差する場合の考慮ができてない（まともにやると難しそう）
   (with-slots (tab-height) pkg
-	(rectangle-connect-point (point/y+ (shape-center pkg) (/ tab-height 2))
-							 (shape-width     pkg)
-							 (- (shape-height pkg) tab-height) type1 type2 arg)))
+	(rectangle-connect-point (point/y+ (attribute-center pkg) (/ tab-height 2))
+							 (attribute-width     pkg)
+							 (- (attribute-height pkg) tab-height) type1 type2 arg)))
   
 ;;MEMO : use impelementation of group...
 ;;(defmethod group-get-canvas ((pkg uml-package)) ...)
@@ -85,9 +85,9 @@
 (defmethod shape-get-subcanvas ((pkg uml-package))
   (with-slots (tab-height) pkg
 	;;(format t "tab-height is ~A~%" tab-height)
-	(make-canvas (point/y+ (shape-topleft pkg) tab-height)
-				 (shape-width pkg)
-				 (- (shape-height pkg) tab-height))))
+	(make-canvas (point/y+ (attribute-topleft pkg) tab-height)
+				 (attribute-width pkg)
+				 (- (attribute-height pkg) tab-height))))
 
 ;; override of group::draw-group
 (defmethod draw-group ((pkg uml-package) writer)

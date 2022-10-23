@@ -3686,7 +3686,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p>　　</p>
 <p>　kaavio データの中で座標を指定する方法にはいくつかあります。以下に説明します。</p>
 <p>　具体的な数値で座標を指定する場合、 <code>'(x y)</code> の要領で指定します。つまり、 <code>'(50 100)</code> といった指定です。これは即値で座標を指定する場合の書き方ですが、Common LISP の変数に格納した数値から座標を作成したい場合は make-point 関数が使えます。これは <code>(make-point x y)</code> の要領で使用してください<sup><a name='footnote_ref6' href='#footnote6'>6</a></sup>。</p>
-<p>　具体的な数値を指定するのでなく、「すでに登場した要素の位置を利用して座標を指定する」こともできます。<a href='#9LLncE6hWlx'>2  章</a>の 2 つめのサンプルでは、 <code>app.center</code> や <code>in.right</code> という表記が登場しました。これは、図形要素を記述する際に指定した ID を使ってその中心座標などを参照するものです。これには９種類あり、その名前と具体的な場所は以下の通りです<sup><a name='footnote_ref7' href='#footnote7'>7</a></sup>。</p>
+<p>　具体的な数値を指定するのでなく、「すでに登場した要素の属性を利用して位置を指定する」こともできます。<a href='#9LLncE6hWlx'>2  章</a>の 2 つめのサンプルでは、 <code>app.center</code> や <code>in.right</code> という表記が登場しました。これは、図形要素を記述する際に指定した ID を使ってその中心座標などを参照するものです。幅や高さを持つ図形要素では９種類あり、その名前と具体的な場所は以下の通りです<sup><a name='footnote_ref7' href='#footnote7'>7</a></sup>。</p>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='150'>
@@ -3739,9 +3739,40 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='2oP7i8nCaCH'></a>Figure.6-2 図形要素の座標参照</p>
+<p class='fig_title'><a name='7mETQwj0yso'></a>Figure.6-2 図形要素の座標参照 - 1</p>
 <p>　　</p>
-<p>　上記の <code>app.center</code> という記法は、座標を指定すべきところではたいてい使用できますが、これを <code>(attr :app :center)</code> という記法で代替することもできます<sup><a name='footnote_ref8' href='#footnote8'>8</a></sup>。</p>
+<p>　<a class='autolink' href='#fv4OUML78x4'>直線</a>や<a class='autolink' href='#eFhVs4WwYUG'>コネクタ</a>の場合は、 <code>center</code> および線の端点として <code>end1, end2</code> が利用できます。以下のように、この場合の <code>center</code> は線の総延長のちょうど半分になる位置になります。</p>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='110'>
+	
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- line : line -->
+	<polyline id='line' fill='none' stroke='black' stroke-width='1' points=' 50.0,40.0 100.0,40.0 100.0,80.0 250.0,80.0' />
+	<!-- circle -->
+	<circle cx='50' cy='40' r='3' fill='red' stroke='none' stroke-width='1' />
+	<!-- circle -->
+	<circle cx='130.0' cy='80.0' r='3' fill='red' stroke='none' stroke-width='1' />
+	<!-- circle -->
+	<circle cx='250' cy='80' r='3' fill='red' stroke='none' stroke-width='1' />
+	<!-- text -->
+	<text x='50' y='30' text-anchor='middle' font-size='12pt' fill='red' >end1</text>
+	<!-- text -->
+	<text x='130.0' y='70.0' text-anchor='start' font-size='12pt' fill='red' >center</text>
+	<!-- text -->
+	<text x='250' y='70' text-anchor='middle' font-size='12pt' fill='red' >end2</text>
+
+</svg>
+</div>
+
+<p class='fig_title'><a name='1YSNZvyxqVa'></a>Figure.6-3 図形要素の座標参照 - 2</p>
+<p>　　</p>
+<p>　前述の <code>app.center</code> という記法は、座標を指定すべきところではたいてい使用できますが、これを <code>(attr :app :center)</code> という記法で代替することもできます<sup><a name='footnote_ref8' href='#footnote8'>8</a></sup>。</p>
 <p>　<code>app.center</code> の記法において要素名のところに <code>canvas</code> を指定することで、<a class='autolink' href='#kgs1vf3AbTN'>キャンバス</a>全体をひとつの図形要素のように扱うことができます。つまり、 <code>canvas.center</code> とすれば SVG 画像の中心点を指定できますし、 <code>canvas.width</code> と言えば SVG 画像の幅を取得することができます。実際には、この <code>canvas</code> が意味するのは「現在の<a class='autolink' href='#kgs1vf3AbTN'>キャンバス</a>」なのですが、これについては「<a href='#kgs1vf3AbTN'>7  サブキャンバス</a>」で説明します。</p>
 <p>　<code>app.center</code> などの記述は単独で使用するよりも、「app の中心から 100pt くらい右」といった指定をしたい場合の方が多いでしょう。そのような場合、 <code>(x+ app.center 100)</code> といった記述で目的を達することができます。以下の 3 つの関数が利用できます。</p>
 <pre class='code'>
@@ -5441,7 +5472,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
   (connect $2.id $1.id <span class='keyword3'>:end2</span> <span class='keyword3'>:arrow</span>))
 </pre>
 <p>　<a class='autolink' href='#eFhVs4WwYUG'>connect</a> からみれば <a class='autolink' href='#kJonRG8GtHF'>rect</a> は 2 つ前なので $2、<a class='autolink' href='#8UQowBxrcaE'>circle</a> は 1 つ前なので $1 で参照し、$1.id とすることでその ID を参照しています。結局、これは <code>:x</code> や <code>:y</code> を指定しているのと同じことになります。</p>
-<p>　上記の説明からすると奇妙に思われるかもしれませんが、上記の状態になっていれば、<a class='autolink' href='#kJonRG8GtHF'>rect</a> / <a class='autolink' href='#8UQowBxrcaE'>circle</a> から ID 指定は除去しても問題ありません。つまり、以下のように書けるということです。</p>
+<p>　この説明からすると奇妙に思われるかもしれませんが、上記の状態になっていれば <a class='autolink' href='#kJonRG8GtHF'>rect</a> / <a class='autolink' href='#8UQowBxrcaE'>circle</a> から ID 指定は除去することができます。つまり、以下のように書けるということです。</p>
 <pre class='code'>
 (diagram (300 150)
   (grid)
@@ -5450,22 +5481,24 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
   (connect $2.id $1.id <span class='keyword3'>:end2</span> <span class='keyword3'>:arrow</span>))
 </pre>
 <p>　このコードでは、<a class='autolink' href='#eFhVs4WwYUG'>connect</a> における <code>$2.id</code> といった記述は何を返すのでしょうか？　実は、kaavio では ID 指定を省略された図形要素には、kaavio が独自の ID を付与するようになっています<sup><a name='footnote_ref15' href='#footnote15'>15</a></sup>。この自動付与される ID はコード上には現われないため直接指定することはできませんが、<a class='autolink' href='#eFhVs4WwYUG'>connect</a> での指定で $N.id とする場合には使用できます。</p>
-<p>　最後に、ID に . を続けることで参照できる属性の一覧を示しておきます。座標参照の正確な位置については <a href='#2oP7i8nCaCH'>Figure.6-2</a> を参照してください。</p>
+<p>　最後に、ID に . を続けることで参照できる属性の一覧を示しておきます。座標参照の正確な位置については <a href='#7mETQwj0yso'>Figure.6-2</a> を参照してください。</p>
 <p class='tbl_title'><a name='ju0HQrRY8oT'></a>Table.10-1 ID 指定で参照できる属性の一覧</p>
 <table align='center'>
 <tr style="font-size: 14;"><th>属性</th><th>説明</th></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>id</code></td><td align='left'>図形要素の ID を参照します。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'><code>width</code></td><td align='left'>図形要素の幅を参照します。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'><code>height</code></td><td align='left'>図形要素の高さを参照します。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'><code>topleft</code></td><td align='left'>図形要素の左上の座標を参照します。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'><code>top</code></td><td align='left'>図形要素の上端の座標を参照します。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'><code>topright</code></td><td align='left'>図形要素の右上の座標を参照します。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'><code>left</code></td><td align='left'>図形要素の右端の座標を参照します。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'><code>center</code></td><td align='left'>図形要素の中心の座標を参照します。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'><code>right</code></td><td align='left'>図形要素の左端の座標を参照します。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'><code>bottomleft</code></td><td align='left'>図形要素の左下の座標を参照します。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'><code>bottom</code></td><td align='left'>図形要素の下端の座標を参照します。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'><code>bottomright</code></td><td align='left'>図形要素の右下の座標を参照します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>width</code></td><td align='left'>幅と高さを持つ図形要素の幅を参照します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>height</code></td><td align='left'>幅と高さを持つ図形要素の高さを参照します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>topleft</code></td><td align='left'>幅と高さを持つ図形要素の左上の座標を参照します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>top</code></td><td align='left'>幅と高さを持つ図形要素の上端の座標を参照します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>topright</code></td><td align='left'>幅と高さを持つ図形要素の右上の座標を参照します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>left</code></td><td align='left'>幅と高さを持つ図形要素の右端の座標を参照します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>center</code></td><td align='left'>幅と高さを持つ図形要素の中心の座標を参照します。<br>                 または<a class='autolink' href='#fv4OUML78x4'>直線</a>や<a class='autolink' href='#eFhVs4WwYUG'>コネクタ</a>の中央点の座標を参照します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>right</code></td><td align='left'>幅と高さを持つ図形要素の左端の座標を参照します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>bottomleft</code></td><td align='left'>幅と高さを持つ図形要素の左下の座標を参照します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>bottom</code></td><td align='left'>幅と高さを持つ図形要素の下端の座標を参照します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>bottomright</code></td><td align='left'>幅と高さを持つ図形要素の右下の座標を参照します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>end1</code></td><td align='left'><a class='autolink' href='#fv4OUML78x4'>直線</a>や<a class='autolink' href='#eFhVs4WwYUG'>コネクタ</a>の端点（始点）の座標を参照します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>end2</code></td><td align='left'><a class='autolink' href='#fv4OUML78x4'>直線</a>や<a class='autolink' href='#eFhVs4WwYUG'>コネクタ</a>の端点（終点）の座標を参照します。</td></tr>
 </table>
 <p>　　</p>
 <h3><a name='heEi5Lc5BX9'></a>10.6 回転</h3>
@@ -9606,6 +9639,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li><strong>2022/10/24</strong>
 <ul>
 <li>BUGFIX : <a href='#lpCVEZ9kMoP'>ラベル</a>描画時の文字エスケープに関するバグを修正</li>
+<li>BUGFIX : <a class='autolink' href='#fv4OUML78x4'>直線</a>や<a class='autolink' href='#eFhVs4WwYUG'>コネクタ</a>の端点、および中点座標に ID.end1 などの記法でアクセスできるようにする機能追加</li>
 </ul>
 </li>
 </ul>
@@ -9669,7 +9703,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li><a href='#0iNBCVKyFlO'>Figure.5-4 :arc-to ディレクティブのサンプル</a></li>
 <li><a href='#f0G61WmPR5j'>Figure.5-5 raw-svg のサンプル</a></li>
 <li><a href='#bdrJmRrH79B'>Figure.6-1 kaavio における座標系</a></li>
-<li><a href='#2oP7i8nCaCH'>Figure.6-2 図形要素の座標参照</a></li>
+<li><a href='#7mETQwj0yso'>Figure.6-2 図形要素の座標参照 - 1</a></li>
+<li><a href='#1YSNZvyxqVa'>Figure.6-3 図形要素の座標参照 - 2</a></li>
 <li><a href='#kV8JVeAiwLR'>Figure.7-1 サブキャンバスのサンプル</a></li>
 <li><a href='#5maEWPLcbWX'>Figure.7-2 contents パラメータを使ったサブキャンバス</a></li>
 <li><a href='#04Bhkv1vkfw'>Figure.7-3 with-subcanvas-of を使ったサブキャンバス</a></li>

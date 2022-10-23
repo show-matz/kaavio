@@ -72,13 +72,13 @@
 	(setf center (canvas-fix-point canvas center)))
   nil)
 
-(defmethod shape-width ((crs cross))
+(defmethod attribute-width ((crs cross))
   (slot-value crs 'width))
 
-(defmethod shape-height ((crs cross))
+(defmethod attribute-height ((crs cross))
   (slot-value crs 'height))
 
-(defmethod shape-center ((crs cross))
+(defmethod attribute-center ((crs cross))
   (slot-value crs 'center))
 
 

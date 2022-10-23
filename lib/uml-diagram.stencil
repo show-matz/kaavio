@@ -48,13 +48,13 @@
 	(setf title  (fix-name title)))
   nil)
 
-(defmethod shape-width ((obj uml-diagram))
+(defmethod attribute-width ((obj uml-diagram))
   (slot-value obj 'width))
 
-(defmethod shape-height ((obj uml-diagram))
+(defmethod attribute-height ((obj uml-diagram))
   (slot-value obj 'height))
 
-(defmethod shape-center ((obj uml-diagram))
+(defmethod attribute-center ((obj uml-diagram))
   (with-slots (topleft width height) obj
 	(point/xy+ topleft (/ width 2) (/ height 2))))
 
@@ -70,9 +70,9 @@
   
 (defmethod draw-entity ((obj uml-diagram) writer)
   (pre-draw obj writer)
-  (let ((canvas (make-canvas (shape-topleft obj)
-							 (shape-width   obj)
-							 (shape-height  obj))))
+  (let ((canvas (make-canvas (attribute-topleft obj)
+							 (attribute-width   obj)
+							 (attribute-height  obj))))
 	(with-slots (width height title margin font fill stroke) obj
 	  (macrolet ((register-entity (entity)
 				   `(check-and-draw-local-entity ,entity canvas writer)))

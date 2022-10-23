@@ -56,9 +56,9 @@
 (defmethod shape-get-subcanvas ((node uml-node))
   (with-slots (depth) node
 	(let ((half (/ depth 2)))
-	  (make-canvas (point/y+ (shape-topleft node) half)
-				   (- (shape-width  node) half)
-				   (- (shape-height node) half)))))
+	  (make-canvas (point/y+ (attribute-topleft node) half)
+				   (- (attribute-width  node) half)
+				   (- (attribute-height node) half)))))
 
 ;; override of group::draw-group
 (defmethod draw-group ((node uml-node) writer)

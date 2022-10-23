@@ -78,32 +78,6 @@
   (or (slot-value shp 'link)
 	  (slot-value shp 'rotate)))
 
-#|
-#|EXPORT|#				:shape-id
-#|EXPORT|#				:shape-width
-#|EXPORT|#				:shape-height
-#|EXPORT|#				:shape-topleft
-#|EXPORT|#				:shape-top
-#|EXPORT|#				:shape-topright
-#|EXPORT|#				:shape-left
-#|EXPORT|#				:shape-center
-#|EXPORT|#				:shape-right
-#|EXPORT|#				:shape-bottomleft
-#|EXPORT|#				:shape-bottom
-#|EXPORT|#				:shape-bottomright
- |#
-(defgeneric shape-id          (shp))	;; returns symbol (keyword or gensym).
-(defgeneric shape-width       (shp))	;; returns number.
-(defgeneric shape-height      (shp))	;; returns number.
-(defgeneric shape-topleft     (shp))	;; returns point object.
-(defgeneric shape-top         (shp))	;; returns point object.
-(defgeneric shape-topright    (shp))	;; returns point object.
-(defgeneric shape-left        (shp))	;; returns point object.
-(defgeneric shape-center      (shp))	;; returns point object.
-(defgeneric shape-right       (shp))	;; returns point object.
-(defgeneric shape-bottomleft  (shp))	;; returns point object.
-(defgeneric shape-bottom      (shp))	;; returns point object.
-(defgeneric shape-bottomright (shp))	;; returns point object.
 
 #|
 #|EXPORT|#				:shape-get-subcanvas
@@ -121,69 +95,69 @@
 ;          -1,0,1       (unless (eq type :center))
 
 
-(defmethod shape-id ((shp shape))
+(defmethod attribute-id ((shp shape))
   (slot-value shp 'id))
 
 ;; need implement in derived class...
-;;(defmethod shape-width ((shp shape)) ...)
+;;(defmethod attribute-width ((shp shape)) ...)
 
 ;; need implement in derived class...
-;;(defmethod shape-height ((shp shape)) ...)
+;;(defmethod attribute-height ((shp shape)) ...)
 
-(defmethod shape-topleft ((shp shape))
-  (point/xy+ (shape-center shp)
-			 (- (/ (shape-width  shp) 2))
-			 (- (/ (shape-height shp) 2))))
+(defmethod attribute-topleft ((shp shape))
+  (point/xy+ (attribute-center shp)
+			 (- (/ (attribute-width  shp) 2))
+			 (- (/ (attribute-height shp) 2))))
 
-(defmethod shape-top ((shp shape))
-  (point/y+ (shape-center shp)
-			(- (/ (shape-height shp) 2))))
+(defmethod attribute-top ((shp shape))
+  (point/y+ (attribute-center shp)
+			(- (/ (attribute-height shp) 2))))
 
-(defmethod shape-topright ((shp shape))
-  (point/xy+ (shape-center shp)
-			 (/ (shape-width shp) 2)
-			 (- (/ (shape-height shp) 2))))
+(defmethod attribute-topright ((shp shape))
+  (point/xy+ (attribute-center shp)
+			 (/ (attribute-width shp) 2)
+			 (- (/ (attribute-height shp) 2))))
 
-(defmethod shape-left ((shp shape))
-  (point/x+ (shape-center shp)
-			(- (/ (shape-width shp) 2))))
+(defmethod attribute-left ((shp shape))
+  (point/x+ (attribute-center shp)
+			(- (/ (attribute-width shp) 2))))
 
 ;; need implement in derived class...
-;;(defmethod shape-center ((shp shape)) ...)
+;;(defmethod attribute-center ((shp shape)) ...)
 
-(defmethod shape-right ((shp shape))
-  (point/x+ (shape-center shp)
-			(/ (shape-width shp) 2)))
+(defmethod attribute-right ((shp shape))
+  (point/x+ (attribute-center shp)
+			(/ (attribute-width shp) 2)))
 
-(defmethod shape-bottomleft ((shp shape))
-  (point/xy+ (shape-center shp)
-			 (- (/ (shape-width shp) 2))
-			 (/ (shape-height shp) 2)))
+(defmethod attribute-bottomleft ((shp shape))
+  (point/xy+ (attribute-center shp)
+			 (- (/ (attribute-width shp) 2))
+			 (/ (attribute-height shp) 2)))
 
-(defmethod shape-bottom ((shp shape))
-  (point/y+ (shape-center shp)
-			 (/ (shape-height shp) 2)))
+(defmethod attribute-bottom ((shp shape))
+  (point/y+ (attribute-center shp)
+			 (/ (attribute-height shp) 2)))
 
-(defmethod shape-bottomright ((shp shape))
-  (point/xy+ (shape-center shp)
-			 (/ (shape-width  shp) 2)
-			 (/ (shape-height shp) 2)))
+(defmethod attribute-bottomright ((shp shape))
+  (point/xy+ (attribute-center shp)
+			 (/ (attribute-width  shp) 2)
+			 (/ (attribute-height shp) 2)))
 
 
 
 (defmethod shape-get-subcanvas ((shp shape))
-  (make-canvas (shape-topleft shp)
-			   (shape-width   shp)
-			   (shape-height  shp)))
+  (make-canvas (attribute-topleft shp)
+			   (attribute-width   shp)
+			   (attribute-height  shp)))
 
 (defmethod shape-cc-center ((shp shape) type)
   (declare (ignore type))
-  (shape-center shp))
+  (attribute-center shp))
 
 (defmethod shape-connect-point ((shp shape) type1 type2 arg)
-  (rectangle-connect-point (shape-center shp)
-						   (shape-width  shp)
-						   (shape-height shp) type1 type2 arg))
+  (rectangle-connect-point (attribute-center shp)
+						   (attribute-width  shp)
+						   (attribute-height shp) type1 type2 arg))
   
 
 (defmethod pre-draw ((shp shape) writer)
@@ -192,7 +166,7 @@
 		  (lnk    (slot-value shp 'link))
 		  (rotate (slot-value shp 'rotate)))
 	  (when (or (keywordp id) rotate)
-		(let ((cc (shape-center shp)))
+		(let ((cc (attribute-center shp)))
 		  (writer-write writer "<g"
 						(write-when (keywordp id) " id='" id "'")
 						(write-when rotate " transform='rotate(" it ","

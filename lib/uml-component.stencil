@@ -53,9 +53,9 @@
 ;;(defmethod group-get-canvas ((cmp uml-component)) ...)
 
 (defmethod shape-get-subcanvas ((cmp uml-component))
-  (make-canvas (shape-topleft cmp)
-			   (shape-width   cmp)
-			   (shape-height  cmp)))
+  (make-canvas (attribute-topleft cmp)
+			   (attribute-width   cmp)
+			   (attribute-height  cmp)))
 
 ;; override of group::draw-group
 (defmethod draw-group ((cmp uml-component) writer)

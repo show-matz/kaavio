@@ -111,17 +111,17 @@
 	(setf center (canvas-fix-point canvas center)))
   nil)
 
-(defmethod shape-width ((rct diamond))
+(defmethod attribute-width ((rct diamond))
   (slot-value rct 'width))
 
-(defmethod shape-height ((rct diamond))
+(defmethod attribute-height ((rct diamond))
   (slot-value rct 'height))
 
-(defmethod shape-center ((rct diamond))
+(defmethod attribute-center ((rct diamond))
   (slot-value rct 'center))
 
 (defmethod shape-connect-point ((shp diamond) type1 type2 arg)
-  (diamond-connect-point (shape-center   shp)
+  (diamond-connect-point (attribute-center   shp)
 						 (slot-value shp 'width)
 						 (slot-value shp 'height) type1 type2 arg))
   
@@ -142,7 +142,7 @@
 	(with-slots (center width height fill stroke filter) rct
 	  (let ((id (and (not (entity-composition-p rct))
 					 (slot-value rct 'id)))
-			;(topleft (shape-topleft rct))
+			;(topleft (attribute-topleft rct))
 			(points  (list (y+ center (- (/ height 2)))
 						   (x+ center (- (/ width  2)))
 						   (y+ center (+ (/ height 2)))

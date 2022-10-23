@@ -68,9 +68,9 @@
 (defmethod shape-get-subcanvas ((cb cube))
   (with-slots (depth) cb
 	(let ((half (/ depth 2)))
-	  (make-canvas (point/y+ (shape-topleft cb) half)
-				   (- (shape-width  cb) half)
-				   (- (shape-height cb) half)))))
+	  (make-canvas (point/y+ (attribute-topleft cb) half)
+				   (- (attribute-width  cb) half)
+				   (- (attribute-height cb) half)))))
 
 ;; override of group::draw-group
 (defmethod draw-group ((cb cube) writer)

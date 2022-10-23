@@ -81,18 +81,18 @@
 					 (or layer *default-layer*))))
   nil)
 
-(defmethod shape-width ((shp circle))
+(defmethod attribute-width ((shp circle))
   (* 2 (slot-value shp 'radius)))
 
-(defmethod shape-height ((shp circle))
+(defmethod attribute-height ((shp circle))
   (* 2 (slot-value shp 'radius)))
 
-(defmethod shape-center ((shp circle))
+(defmethod attribute-center ((shp circle))
   (slot-value shp 'center))
 
 
 (defmethod shape-connect-point ((shp circle) type1 type2 arg)
-  (circle-connect-point (shape-center shp)
+  (circle-connect-point (attribute-center shp)
 						(slot-value shp 'radius) type1 type2 arg))
   
 ;;MEMO : use impelementation of shape...

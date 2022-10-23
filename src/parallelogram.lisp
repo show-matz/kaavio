@@ -199,13 +199,13 @@
 	(setf center (canvas-fix-point canvas center)))
   nil)
 
-(defmethod shape-width ((obj parallelogram))
+(defmethod attribute-width ((obj parallelogram))
   (slot-value obj 'width))
 
-(defmethod shape-height ((obj parallelogram))
+(defmethod attribute-height ((obj parallelogram))
   (slot-value obj 'height))
 
-(defmethod shape-center ((obj parallelogram))
+(defmethod attribute-center ((obj parallelogram))
   (slot-value obj 'center))
 
 (defmethod shape-connect-point ((shp parallelogram) type1 type2 arg)

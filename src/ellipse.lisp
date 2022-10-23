@@ -131,18 +131,18 @@
 	(setf center (canvas-fix-point canvas center)))
   nil)
 
-(defmethod shape-width ((shp ellipse))
+(defmethod attribute-width ((shp ellipse))
   (* 2 (slot-value shp 'radius-x)))
 
-(defmethod shape-height ((shp ellipse))
+(defmethod attribute-height ((shp ellipse))
   (* 2 (slot-value shp 'radius-y)))
 
-(defmethod shape-center ((shp ellipse))
+(defmethod attribute-center ((shp ellipse))
   (slot-value shp 'center))
 
 
 (defmethod shape-connect-point ((shp ellipse) type1 type2 arg)
-  (ellipse-connect-point (shape-center   shp)
+  (ellipse-connect-point (attribute-center   shp)
 						 (slot-value shp 'radius-x)
 						 (slot-value shp 'radius-y) type1 type2 arg))
   

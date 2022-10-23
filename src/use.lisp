@@ -40,13 +40,13 @@
 					 (or layer *default-layer*))))
   nil)
 
-(defmethod shape-width ((obj use))
+(defmethod attribute-width ((obj use))
   (slot-value (slot-value obj 'ref) 'width))
 
-(defmethod shape-height ((obj use))
+(defmethod attribute-height ((obj use))
   (slot-value (slot-value obj 'ref) 'height))
 
-(defmethod shape-center ((obj use))
+(defmethod attribute-center ((obj use))
   (slot-value obj 'center))
 
 ;;MEMO : use impelementation of shape...

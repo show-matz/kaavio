@@ -127,13 +127,13 @@
   nil)
 
 
-(defmethod shape-width ((img image))
+(defmethod attribute-width ((img image))
   (slot-value img 'width))
 
-(defmethod shape-height ((img image))
+(defmethod attribute-height ((img image))
   (slot-value img 'height))
 
-(defmethod shape-center ((img image))
+(defmethod attribute-center ((img image))
   (slot-value img 'center))
 
 ;;MEMO : use impelementation of shape...
@@ -151,7 +151,7 @@
   (with-slots (width height filename preserve-ratio filter) img
 	(let ((id (and (not (entity-composition-p img))
 				   (slot-value img 'id)))
-		  (topleft (shape-topleft img)))
+		  (topleft (attribute-topleft img)))
 	  (pre-draw img writer)
 	  (writer-write writer
 					"<image "

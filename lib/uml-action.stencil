@@ -73,9 +73,9 @@
   (call-next-method))
 
 (defmethod shape-connect-point ((action uml-action) type1 type2 arg)
-  (rectangle-connect-point (shape-center action)
-						   (shape-width  action)
-						   (shape-height action) type1 type2 arg))
+  (rectangle-connect-point (attribute-center action)
+						   (attribute-width  action)
+						   (attribute-height action) type1 type2 arg))
 
 ;;MEMO : use impelementation of group...
 ;;(defmethod group-get-canvas ((action uml-action)) ...)
@@ -162,9 +162,9 @@
   (with-slots (kaavio::margin) action
 	(let ((partition (+ kaavio::margin
 						(canvas-height (text-shape-paragraph-area action)))))
-	  (make-canvas (point/y+ (shape-topleft action) partition)
-				   (shape-width action)
-				   (- (shape-height action) partition)))))
+	  (make-canvas (point/y+ (attribute-topleft action) partition)
+				   (attribute-width action)
+				   (- (attribute-height action) partition)))))
 
   
 ;;------------------------------------------------------------------------------

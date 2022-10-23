@@ -145,7 +145,7 @@
 								 (- (point-y pt) (point-y topleft))))))
 		  ;; draw box
 		  (multiple-value-bind (pt pos)
-			  (rectangle-connect-point-C (shape-center box) width height anchor)
+			  (rectangle-connect-point-C (attribute-center box) width height anchor)
 			(let ((points (balloon-make-path width height (or round 0)
 											(abs2rel anchor) (abs2rel pt) pos)))
 			  (path points :fill fill :stroke stroke :filter filter)))))))

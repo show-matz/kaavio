@@ -277,7 +277,7 @@
 	   (multiple-value-bind (,g-center ,g-width ,g-height)
 				(kaavio::table-get-cell-area ,r ,c (slot-value ,g-tbl 'kaavio::rows)
 													(slot-value ,g-tbl 'kaavio::cols))
-		 (let* ((,g-topleft (point+ (shape-topleft ,g-tbl)
+		 (let* ((,g-topleft (point+ (attribute-topleft ,g-tbl)
 								   (xy+ ,g-center (- (/ ,g-width 2)) (- (/ ,g-height 2)))))
 				(canvas (make-canvas ,g-topleft ,g-width ,g-height)))
 		   (declare (special canvas))

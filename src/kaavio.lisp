@@ -162,6 +162,20 @@
 				:make-endmark
 				:with-endmark-options
 				;entity.lisp
+				:attribute-id
+				:attribute-width
+				:attribute-height
+				:attribute-topleft
+				:attribute-top
+				:attribute-topright
+				:attribute-left
+				:attribute-center
+				:attribute-right
+				:attribute-bottomleft
+				:attribute-bottom
+				:attribute-bottomright
+				:attribute-end1
+				:attribute-end2
 				:entity
 				:write-header
 				:draw-entity
@@ -328,18 +342,6 @@
 				;shape.lisp
 				:rectangle-connect-point
 				:shape
-				:shape-id
-				:shape-width
-				:shape-height
-				:shape-topleft
-				:shape-top
-				:shape-topright
-				:shape-left
-				:shape-center
-				:shape-right
-				:shape-bottomleft
-				:shape-bottom
-				:shape-bottomright
 				:shape-get-subcanvas
 				:shape-cc-center
 				:shape-connect-point
@@ -656,7 +658,7 @@
 						 (method (onlisp/symb "CANVAS-DICT-" (subseq name (1+ pos)))))
 					 `(,sym (,method ,id-sym)))
 				   (let ((id-kwd (onlisp/keysymb (subseq name 0 pos)))
-						 (method (onlisp/symb "SHAPE-" (subseq name (1+ pos)))))
+						 (method (onlisp/symb "ATTRIBUTE-" (subseq name (1+ pos)))))
 					 `(,sym (,method (dict-get-entity ,dict ,id-kwd))))))))
 	(let ((syms (remove-duplicates
 				 (remove-if-not #'property-ref-symbolp
@@ -665,7 +667,7 @@
 		 (labels ((get-dictionary () ,dict))
 		   (declare (ignorable #'get-dictionary))
 		   (macrolet ((attr (id name)
-						(let ((func-sym (kaavio::onlisp/symb "SHAPE-" name)))
+						(let ((func-sym (kaavio::onlisp/symb "ATTRIBUTE-" name)))
 						  (list ,'func-sym (list 'kaavio::dict-get-entity ',dict id)))))
 			 ,@body))))))
 

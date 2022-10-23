@@ -44,13 +44,13 @@
 	(setf center (canvas-fix-point canvas center)))
   nil)
 
-(defmethod shape-width ((grp group))
+(defmethod attribute-width ((grp group))
   (slot-value grp 'width))
 
-(defmethod shape-height ((grp group))
+(defmethod attribute-height ((grp group))
   (slot-value grp 'height))
 
-(defmethod shape-center ((grp group))
+(defmethod attribute-center ((grp group))
   (slot-value grp 'center))
 
 ;;MEMO : use impelementation of shape...
@@ -70,9 +70,9 @@
 					  
 
 (defmethod group-get-canvas ((grp group))
-  (make-canvas (shape-topleft grp)
-			   (shape-width   grp)
-			   (shape-height  grp)))
+  (make-canvas (attribute-topleft grp)
+			   (attribute-width   grp)
+			   (attribute-height  grp)))
 
 
 #|

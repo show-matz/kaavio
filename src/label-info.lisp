@@ -49,7 +49,7 @@
   t)
 
 (defun label-info-locate-text-for-above (shp offset lines font-size spacing)
-  (let* ((pt     (shape-top shp))
+  (let* ((pt     (attribute-top shp))
 		 (cnt    (length lines))
 		 (height (+ (* (1- cnt) font-size) (* cnt spacing))))
 	(values "middle"
@@ -57,19 +57,19 @@
 
 (defun label-info-locate-text-for-below (shp offset lines font-size spacing)
   (declare (ignore lines))
-  (let* ((pt (shape-bottom shp)))
+  (let* ((pt (attribute-bottom shp)))
 	(values "middle"
 			(point+ (point/y+ pt (+ spacing font-size)) offset))))
 
 (defun label-info-locate-text-for-left (shp offset lines font-size spacing)
-  (let* ((pt     (shape-left shp))
+  (let* ((pt     (attribute-left shp))
 		 (cnt    (length lines))
 		 (height (+ (* cnt font-size) (* (1- cnt) spacing))))
 	(values "end"
 			(point+ (point/y+ pt (- font-size (/ height 2))) offset))))
 
 (defun label-info-locate-text-for-right (shp offset lines font-size spacing)
-  (let* ((pt     (shape-right shp))
+  (let* ((pt     (attribute-right shp))
 		 (cnt    (length lines))
 		 (height (+ (* cnt font-size) (* (1- cnt) spacing))))
 	(values "start"

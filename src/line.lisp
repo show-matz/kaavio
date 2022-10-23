@@ -165,6 +165,17 @@
   nil)
   
 
+(defmethod attribute-center ((ent line))
+  (multiple-value-bind (x y) (line-get-center ent)
+	(make-point x y)))
+
+(defmethod attribute-end1 ((ent line))
+  (first (slot-value ent 'points)))
+
+(defmethod attribute-end2 ((ent line))
+  (car (last (slot-value ent 'points))))
+
+
 ;;------------------------------------------------------------------------------
 ;;
 ;; macro line

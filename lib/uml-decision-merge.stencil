@@ -46,13 +46,13 @@
 	(setf center (canvas-fix-point canvas center)))
   nil)
 
-(defmethod shape-width ((obj uml-decision-merge))
+(defmethod attribute-width ((obj uml-decision-merge))
   (slot-value obj 'size))
 
-(defmethod shape-height ((obj uml-decision-merge))
+(defmethod attribute-height ((obj uml-decision-merge))
   (* (slot-value obj 'size) (slot-value obj 'height-ratio)))
 
-(defmethod shape-center ((obj uml-decision-merge))
+(defmethod attribute-center ((obj uml-decision-merge))
   (slot-value obj 'center))
 
 (defmethod shape-connect-point ((obj uml-decision-merge) type1 type2 arg)
@@ -68,9 +68,9 @@
   
 (defmethod draw-entity ((obj uml-decision-merge) writer)
   (pre-draw obj writer)
-  (let ((canvas (make-canvas (shape-topleft obj)
-							 (shape-width   obj)
-							 (shape-height  obj))))
+  (let ((canvas (make-canvas (attribute-topleft obj)
+							 (attribute-width   obj)
+							 (attribute-height  obj))))
 	(with-slots (center size height-ratio fill stroke) obj
 	  (let* ((width  (canvas-width  canvas))
 			 (height (canvas-height canvas))

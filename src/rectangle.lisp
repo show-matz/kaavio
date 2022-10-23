@@ -63,13 +63,13 @@
 	(setf center (canvas-fix-point canvas center)))
   nil)
 
-(defmethod shape-width ((rct rectangle))
+(defmethod attribute-width ((rct rectangle))
   (slot-value rct 'width))
 
-(defmethod shape-height ((rct rectangle))
+(defmethod attribute-height ((rct rectangle))
   (slot-value rct 'height))
 
-(defmethod shape-center ((rct rectangle))
+(defmethod attribute-center ((rct rectangle))
   (slot-value rct 'center))
 
 ;;MEMO : use impelementation of shape...
@@ -82,15 +82,15 @@
   (with-slots (rx ry fill stroke filter) rct
 	(let ((id (and (not (entity-composition-p rct))
 				   (slot-value rct 'id)))
-		  (topleft (shape-topleft rct)))
+		  (topleft (attribute-topleft rct)))
 	  (pre-draw rct writer)
 	  (writer-write writer
 					"<rect "
 					(write-when (keywordp id) "id='" id "' ")
 					"x='" (point-x topleft) "' "
 					"y='" (point-y topleft) "' "
-					"width='"  (shape-width  rct) "' "
-					"height='" (shape-height rct) "' "
+					"width='"  (attribute-width  rct) "' "
+					"height='" (attribute-height rct) "' "
 					(write-when rx "rx='" it "' ")
 					(write-when ry "ry='" it "' ")
 					(to-property-strings fill)

@@ -71,9 +71,9 @@
   (call-next-method))
 
 (defmethod shape-connect-point ((param uml-action-param) type1 type2 arg)
-  (rectangle-connect-point (shape-center param)
-						   (shape-width  param)
-						   (shape-height param) type1 type2 arg))
+  (rectangle-connect-point (attribute-center param)
+						   (attribute-width  param)
+						   (attribute-height param) type1 type2 arg))
 
 ;;MEMO : use impelementation of group...
 ;;(defmethod group-get-canvas ((param uml-action-param)) ...)

@@ -79,9 +79,9 @@
 	canvas))
 
 (defmethod shape-connect-point ((usecase uml-usecase) type1 type2 arg)
-  (ellipse-connect-point (shape-center usecase)
-						 (/ (shape-width  usecase) 2)
-						 (/ (shape-height usecase) 2) type1 type2 arg))
+  (ellipse-connect-point (attribute-center usecase)
+						 (/ (attribute-width  usecase) 2)
+						 (/ (attribute-height usecase) 2) type1 type2 arg))
   
 ;;------------------------------------------------------------------------------
 ;;
