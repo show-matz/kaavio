@@ -3816,7 +3816,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 
 <p class='fig_title'><a name='kV8JVeAiwLR'></a>Figure.7-1 サブキャンバスのサンプル</p>
 <p>　<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>は入力データの一部分で独自の座標系を一時的に作成するもので、それ以外の効果はありません。たとえば、描画順序を制御する<a class='autolink' href='#1ovJxG7Ie9O'>レイヤー</a>とは無関係です<sup><a name='footnote_ref9' href='#footnote9'>9</a></sup>。</p>
-<p>　<a class='autolink' href='#jHhN85RvHYn'>with-canvas</a> で明示的に<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>を作成するのでなく、作成した図形要素の内部を<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>とすることもできます。これには、 contents パラメータを使用します。たとえば、先程の例と同じ作図をするには以下のように書きます。この場合、先程とは違って <a class='autolink' href='#kJonRG8GtHF'>rect</a> の中に <a class='autolink' href='#8UQowBxrcaE'>circle</a> が置かれることになります（<a class='autolink' href='#kJonRG8GtHF'>rect</a> が動けば <a class='autolink' href='#8UQowBxrcaE'>circle</a> も動く）。</p>
+<p>　<a class='autolink' href='#lsGULoUqoK4'>with-subcanvas</a> で明示的に<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>を作成するのでなく、作成した図形要素の内部を<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>とすることもできます。これには、 contents パラメータを使用します。たとえば、先程の例と同じ作図をするには以下のように書きます。この場合、先程とは違って <a class='autolink' href='#kJonRG8GtHF'>rect</a> の中に <a class='autolink' href='#8UQowBxrcaE'>circle</a> が置かれることになります（<a class='autolink' href='#kJonRG8GtHF'>rect</a> が動けば <a class='autolink' href='#8UQowBxrcaE'>circle</a> も動く）。</p>
 <pre class='code'>
 (diagram (300 150)
   (grid)
