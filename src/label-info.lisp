@@ -84,7 +84,7 @@
 	(labels ((calc-width-and-height ()
 			   (let* ((width     0)
 					  (height    0)
-					  (lines     (escape-characters (fix-name text)))
+					  (lines     (fix-name text))
 					  (font-size (slot-value font 'kaavio::size))
 					  (spacing   (slot-value font 'kaavio::line-spacing)))
 				 (multiple-value-setq (width height)
@@ -112,7 +112,7 @@
   (with-slots (text offset position font) label
 	(let ((size    (slot-value font 'size))
 		  (spacing (slot-value font 'line-spacing))
-		  (lines   (string/split (escape-characters (fix-name text)) #\newline)))
+		  (lines   (string/split (fix-name text) #\newline)))
 	  (unless (typep shp 'shape)
 		(throw-exception "label-info : shp is not type of shape."))
 	  (labels ((get-location-info ()
