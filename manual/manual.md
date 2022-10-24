@@ -3203,9 +3203,9 @@ Figure. with-subcanvas-of を使ったサブキャンバス
 ${BLANK_PARAGRAPH}
 
 
-　最後に with-canvas を紹介しておきます。with-subcanvas と with-subcanvas-of は新しい
-サブキャンバスを確立するものでしたが、with-canvas は「現在のキャンバスへのアクセスを簡単にする」
-ものです。キャンバスを使っていると、 `canvas.center, canvas.width, canvs.height` を頻繁に
+　最後に with-current-canvas を紹介しておきます。with-subcanvas と with-subcanvas-of は新しい
+サブキャンバスを確立するものでしたが、with-current-canvas は「現在のキャンバスへのアクセスを簡単にする」
+ものです。キャンバスを使っていると、 `canvas.center, canvas.width, canvs.height` などを頻繁に
 使うことになりますが、これらに短い名前でアクセスできるようにします。たとえば、[本節冒頭の例](#サブキャンバス)
 は、以下のように書き換えることができます（１回ずつしか使ってないのでメリットがわかりにくいですが）。
 
@@ -3214,11 +3214,11 @@ ${BLANK_PARAGRAPH}
   (grid)
   (circle '(50 50) 20 :stroke :brown :fill :thistle)
   (with-subcanvas ('(150 40) 100 100)
-    (with-canvas (cc w h) canvas
+    (with-current-canvas ((cc center) (w width) (h height))
       (rect cc w h :stroke :gray :fill :none)
       (circle '(50 50) 20 :stroke :navy :fill :skyblue))))
 ```
-Figure. with-canvas の使用
+Figure. with-current-canvas の使用
 
 
 ${BLANK_PARAGRAPH}
@@ -3295,11 +3295,10 @@ ${BLANK_PARAGRAPH}
 (diagram (200 100)
   (grid)
   (defgroup (40 40 :icon)
-    (with-canvas (cc w h) canvas
-      (rect cc w h :fill :white :stroke :black
-            :contents
-            ((line `((0 10) (,w 10)) :stroke :black)
-             (line `((10 0) (10 ,h)) :stroke :black)))))
+    (rect canvas.center canvas.width canvas.height :fill :white :stroke :black
+          :contents
+          ((line `((0 10) (,w 10)) :stroke :black)
+           (line `((10 0) (10 ,h)) :stroke :black))))
   (use :icon '( 50 50))
   (use :icon '(100 50))
   (use :icon '(150 50)))
@@ -3341,9 +3340,9 @@ defgroup で定義した図形を実際に描画するには、use を使いま�
 (diagram (300 150)
   (grid)
   (defgroup (70 50 :frame)
-    (with-canvas (cc w h) canvas
-      (rect cc w h :fill :white :stroke :black)
-      (line `((0 10) (,w 10))   :stroke :black)))
+    (with-current-canvas (center width height)
+      (rect center width height :fill :white :stroke :black)
+      (line `((0 10) (,width 10)) :stroke :black)))
   (use :frame '(75 50) :id :frame1
        :contents
        ((text (y+ canvas.center 10) "frame 1" :align :center)))
@@ -5984,8 +5983,10 @@ ${BLANK_PARAGRAPH}
 
 　${{TODO}{まだ記述されていません。}}
 
-#### with-canvasマクロ
-<!-- autolink: [with-canvas](#with-canvasマクロ) -->
+#### with-canvas マクロ
+<!-- autolink: [with-canvas](#with-canvas マクロ) -->
+
+　with-current-canvas マクロの導入に伴い、with-canvas マクロは非推奨となりました。
 
 ```lisp
 (defmacro with-canvas ((sym-cc sym-width sym-height) canvas &rest body) ...)
@@ -6006,6 +6007,15 @@ ${BLANK_PARAGRAPH}
 ```lisp
 (defmacro with-cube-options ((&key depth align valign margin
                                    font fill fill2 stroke filter layer) &rest body) ...)
+```
+
+　${{TODO}{まだ記述されていません。}}
+
+#### with-current-canvas マクロ
+<!-- autolink: [with-current-canvas](#with-current-canvas マクロ) -->
+
+```lisp
+(defmacro with-current-canvas ((&rest vars) &rest body) ...)
 ```
 
 　${{TODO}{まだ記述されていません。}}
@@ -6822,6 +6832,9 @@ Figure. 色の名前とサンプル - 2
 * __2022/10/24__
 	* BUGFIX : [$$](#ラベル)描画時の文字エスケープに関するバグを修正
 	* BUGFIX : 直線やコネクタの端点、および中点座標に ID.end1 などの記法でアクセスできるようにする機能追加
+	* ENHANCE : with-current-canvas を追加
+	* __INCOMPATIBLE CHANGE : 上記に伴い、with-canvas マクロを非推奨に変更__
+
 
 ## 図表一覧
 <!-- embed:figure-list -->

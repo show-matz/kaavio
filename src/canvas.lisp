@@ -89,6 +89,20 @@
 		 ,@body))))
 
 #|
+#|EXPORT|#				:with-current-canvas
+ |#
+(defmacro with-current-canvas ((&rest vars) &rest body)
+  (labels ((fix-let-vars (e)
+			 (when (symbolp e)
+			   (setf e (list e e)))
+			 (let ((method-sym (onlisp/symb
+								(onlisp/mkstr "CANVAS-DICT-" (cadr e)))))
+			   `(,(car e) (,method-sym canvas)))))
+	`(let ,(mapcar #'fix-let-vars vars)
+	   ,@body)))
+
+
+#|
 #|EXPORT|#				:with-subcanvas
  |#
 (defmacro with-subcanvas ((top-left width height) &rest body)

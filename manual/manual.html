@@ -3886,17 +3886,17 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </pre>
 <p class='fig_title'><a name='04Bhkv1vkfw'></a>Figure.7-3 with-subcanvas-of を使ったサブキャンバス</p>
 <p>　　</p>
-<p>　最後に <a class='autolink' href='#jHhN85RvHYn'>with-canvas</a> を紹介しておきます。<a class='autolink' href='#lsGULoUqoK4'>with-subcanvas</a> と <a class='autolink' href='#2c8duiejnaO'>with-subcanvas-of</a> は新しい<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>を確立するものでしたが、<a class='autolink' href='#jHhN85RvHYn'>with-canvas</a> は「現在の<a class='autolink' href='#kgs1vf3AbTN'>キャンバス</a>へのアクセスを簡単にする」ものです。<a class='autolink' href='#kgs1vf3AbTN'>キャンバス</a>を使っていると、 <code>canvas.center, canvas.width, canvs.height</code> を頻繁に使うことになりますが、これらに短い名前でアクセスできるようにします。たとえば、<a href='#kgs1vf3AbTN'>本節冒頭の例</a>は、以下のように書き換えることができます（１回ずつしか使ってないのでメリットがわかりにくいですが）。</p>
+<p>　最後に <a class='autolink' href='#4RbKSY2RkFp'>with-current-canvas</a> を紹介しておきます。<a class='autolink' href='#lsGULoUqoK4'>with-subcanvas</a> と <a class='autolink' href='#2c8duiejnaO'>with-subcanvas-of</a> は新しい<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>を確立するものでしたが、<a class='autolink' href='#4RbKSY2RkFp'>with-current-canvas</a> は「現在の<a class='autolink' href='#kgs1vf3AbTN'>キャンバス</a>へのアクセスを簡単にする」ものです。<a class='autolink' href='#kgs1vf3AbTN'>キャンバス</a>を使っていると、 <code>canvas.center, canvas.width, canvs.height</code> などを頻繁に使うことになりますが、これらに短い名前でアクセスできるようにします。たとえば、<a href='#kgs1vf3AbTN'>本節冒頭の例</a>は、以下のように書き換えることができます（１回ずつしか使ってないのでメリットがわかりにくいですが）。</p>
 <pre class='code'>
 (diagram (300 150)
   (grid)
   (circle '(50 50) 20 <span class='keyword3'>:stroke</span> <span class='keyword3'>:brown</span> <span class='keyword3'>:fill</span> <span class='keyword3'>:thistle</span>)
   (with-subcanvas ('(150 40) 100 100)
-    (with-canvas (cc w h) canvas
+    (with-current-canvas ((cc center) (w width) (h height))
       (rect cc w h <span class='keyword3'>:stroke</span> <span class='keyword3'>:gray</span> <span class='keyword3'>:fill</span> <span class='keyword3'>:none</span>)
       (circle '(50 50) 20 <span class='keyword3'>:stroke</span> <span class='keyword3'>:navy</span> <span class='keyword3'>:fill</span> <span class='keyword3'>:skyblue</span>))))
 </pre>
-<p class='fig_title'><a name='hlkqXNIhtVu'></a>Figure.7-4 with-canvas の使用</p>
+<p class='fig_title'><a name='fIhw6603jDc'></a>Figure.7-4 with-current-canvas の使用</p>
 <p>　　</p>
 <h2><a name='hwRhCz9Gn9t'></a>8 定義と再使用</h2>
 <p>　<a class='autolink' href='#gxb34ymFlDc'>defgroup</a> と <a class='autolink' href='#klH6tZ6gdaQ'>use</a> を使うことによって、複数の図形要素をひとつにまとめ、図面の中で繰り返し使用することができます。要点を明確にするために、まずは同じ図形（ちょっと装飾のついた<a class='autolink' href='#kJonRG8GtHF'>四角形</a>）を３回描画することを考えてみてください。まずは単純に記述を３回繰り返します。座標以外は完全に同じ内容です。</p>
@@ -3980,11 +3980,10 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 (diagram (200 100)
   (grid)
   (defgroup (40 40 <span class='keyword3'>:icon</span>)
-    (with-canvas (cc w h) canvas
-      (rect cc w h <span class='keyword3'>:fill</span> <span class='keyword3'>:white</span> <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span>
-            <span class='keyword3'>:contents</span>
-            ((line `((0 10) (,w 10)) <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span>)
-             (line `((10 0) (10 ,h)) <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span>)))))
+    (rect canvas.center canvas.width canvas.height <span class='keyword3'>:fill</span> <span class='keyword3'>:white</span> <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span>
+          <span class='keyword3'>:contents</span>
+          ((line `((0 10) (,w 10)) <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span>)
+           (line `((10 0) (10 ,h)) <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span>))))
   (use <span class='keyword3'>:icon</span> '( 50 50))
   (use <span class='keyword3'>:icon</span> '(100 50))
   (use <span class='keyword3'>:icon</span> '(150 50)))
@@ -4011,9 +4010,9 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 (diagram (300 150)
   (grid)
   (defgroup (70 50 <span class='keyword3'>:frame</span>)
-    (with-canvas (cc w h) canvas
-      (rect cc w h <span class='keyword3'>:fill</span> <span class='keyword3'>:white</span> <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span>)
-      (line `((0 10) (,w 10))   <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span>)))
+    (with-current-canvas (center width height)
+      (rect center width height <span class='keyword3'>:fill</span> <span class='keyword3'>:white</span> <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span>)
+      (line `((0 10) (,width 10)) <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span>)))
   (use <span class='keyword3'>:frame</span> '(75 50) <span class='keyword3'>:id</span> <span class='keyword3'>:frame1</span>
        <span class='keyword3'>:contents</span>
        ((text (y+ canvas.center 10) <span class='literal'>"frame 1"</span> <span class='keyword3'>:align</span> <span class='keyword3'>:center</span>)))
@@ -6982,7 +6981,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-brace-options</span> ((<span class='keyword2'>&amp;key</span> font stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='jHhN85RvHYn'></a>12.1.21 with-canvasマクロ</h4>
+<h4><a name='8SwZig7eicm'></a>12.1.21 with-canvas マクロ</h4>
+<p>　<a class='autolink' href='#4RbKSY2RkFp'>with-current-canvas</a> マクロの導入に伴い、<a class='autolink' href='#8SwZig7eicm'>with-canvas</a> マクロは非推奨となりました。</p>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-canvas</span> ((sym-cc sym-width sym-height) canvas <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
@@ -6997,65 +6997,70 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
                                    font fill fill2 stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='6STY3Kxzonk'></a>12.1.24 with-cylinder-options マクロ</h4>
+<h4><a name='4RbKSY2RkFp'></a>12.1.24 with-current-canvas マクロ</h4>
+<pre class='code'>
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>with-current-canvas</span> ((<span class='keyword2'>&amp;rest</span> vars) <span class='keyword2'>&amp;rest</span> body) ...)
+</pre>
+<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<h4><a name='6STY3Kxzonk'></a>12.1.25 with-cylinder-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-cylinder-options</span> ((<span class='keyword2'>&amp;key</span> depth align valign margin
                                   font fill stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='0axtDA7gRzz'></a>12.1.25 with-document-options マクロ</h4>
+<h4><a name='0axtDA7gRzz'></a>12.1.26 with-document-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-document-options</span> ((<span class='keyword2'>&amp;key</span> align valign margin
                                        font fill stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='euPiyWBZQsA'></a>12.1.26 with-endmark-options マクロ</h4>
+<h4><a name='euPiyWBZQsA'></a>12.1.27 with-endmark-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-endmark-options</span> ((<span class='keyword2'>&amp;key</span> type size fill end1 end2) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='h8PWgenmp0d'></a>12.1.27 with-explosion-options マクロ</h4>
+<h4><a name='h8PWgenmp0d'></a>12.1.28 with-explosion-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-explosion-options</span> ((<span class='keyword2'>&amp;key</span> font fill
                                         stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='grfAvoJdCpJ'></a>12.1.28 with-folder-options マクロ</h4>
+<h4><a name='grfAvoJdCpJ'></a>12.1.29 with-folder-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-folder-options</span> ((<span class='keyword2'>&amp;key</span> tab-width tab-height
                                      align valign margin
                                      font fill stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='aw2yb6IRaf3'></a>12.1.29 with-label-options マクロ</h4>
+<h4><a name='aw2yb6IRaf3'></a>12.1.30 with-label-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-label-options</span> ((<span class='keyword2'>&amp;key</span> position offset font) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='0C8r7LcFb7c'></a>12.1.30 with-memo-options マクロ</h4>
+<h4><a name='0C8r7LcFb7c'></a>12.1.31 with-memo-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-memo-options</span> ((<span class='keyword2'>&amp;key</span> crease align valign margin
                                    font fill fill2 stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='5afU9yg86c0'></a>12.1.31 with-optionsマクロ</h4>
+<h4><a name='5afU9yg86c0'></a>12.1.32 with-optionsマクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-options</span> ((<span class='keyword2'>&amp;key</span> fill stroke font filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
-<h4><a name='0B9bMaXVpqW'></a>12.1.32 with-person-options マクロ</h4>
+<h4><a name='0B9bMaXVpqW'></a>12.1.33 with-person-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-person-options</span> ((<span class='keyword2'>&amp;key</span> fill stroke layer filter) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='lsGULoUqoK4'></a>12.1.33 with-subcanvasマクロ</h4>
+<h4><a name='lsGULoUqoK4'></a>12.1.34 with-subcanvasマクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-subcanvas</span> ((top-left width height) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
-<h4><a name='2c8duiejnaO'></a>12.1.34 with-subcanvas-ofマクロ</h4>
+<h4><a name='2c8duiejnaO'></a>12.1.35 with-subcanvas-ofマクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-subcanvas-of</span> ((id) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
-<h4><a name='2XsIFr1er3s'></a>12.1.35 with-textbox-options マクロ</h4>
+<h4><a name='2XsIFr1er3s'></a>12.1.36 with-textbox-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-textbox-options</span> ((<span class='keyword2'>&amp;key</span> rx ry align valign margin
                                       font fill stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
@@ -9541,7 +9546,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </li>
 <li><strong>2022/09/04 - version 0.003</strong>
 <ul>
-<li><strong>INCOMPATIBLE CHANGE : <a class='autolink' href='#jHhN85RvHYn'>with-canvas</a> マクロの第１パラメータを topleft から center に変更</strong></li>
+<li><strong>INCOMPATIBLE CHANGE : <a class='autolink' href='#8SwZig7eicm'>with-canvas</a> マクロの第１パラメータを topleft から center に変更</strong></li>
 <li>DOCUMENT : 「<a href='#hwRhCz9Gn9t'>8  定義と再使用</a>」を執筆</li>
 <li>ENHANCE : 「<a href='#hja1QJC0Ivb'>4.9  キューブ</a>」を追加</li>
 <li>ENHANCE : 「<a href='#4cZRWkwhYNO'>4.12  十字</a>」を追加</li>
@@ -9640,6 +9645,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <ul>
 <li>BUGFIX : <a href='#lpCVEZ9kMoP'>ラベル</a>描画時の文字エスケープに関するバグを修正</li>
 <li>BUGFIX : <a class='autolink' href='#fv4OUML78x4'>直線</a>や<a class='autolink' href='#eFhVs4WwYUG'>コネクタ</a>の端点、および中点座標に ID.end1 などの記法でアクセスできるようにする機能追加</li>
+<li>ENHANCE : <a class='autolink' href='#4RbKSY2RkFp'>with-current-canvas</a> を追加</li>
+<li><strong>INCOMPATIBLE CHANGE : 上記に伴い、<a class='autolink' href='#8SwZig7eicm'>with-canvas</a> マクロを非推奨に変更</strong></li>
 </ul>
 </li>
 </ul>
@@ -9708,7 +9715,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li><a href='#kV8JVeAiwLR'>Figure.7-1 サブキャンバスのサンプル</a></li>
 <li><a href='#5maEWPLcbWX'>Figure.7-2 contents パラメータを使ったサブキャンバス</a></li>
 <li><a href='#04Bhkv1vkfw'>Figure.7-3 with-subcanvas-of を使ったサブキャンバス</a></li>
-<li><a href='#hlkqXNIhtVu'>Figure.7-4 with-canvas の使用</a></li>
+<li><a href='#fIhw6603jDc'>Figure.7-4 with-current-canvas の使用</a></li>
 <li><a href='#eY4WMx1X8UT'>Figure.8-1 defgroup と use のサンプル</a></li>
 <li><a href='#hMyYNXGygmb'>Figure.9-1 単純なパターンのサンプル</a></li>
 <li><a href='#iUL0e8M4mDl'>Figure.9-2 パターンのサンプル - 2</a></li>
@@ -9966,9 +9973,10 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li class='idx_x'><a class='autolink' href='#7WY0qIioOWV'>with-balloon-options</a></li>
 <li class='idx_x'><a class='autolink' href='#kT3ITG7nfBI'>with-block-arrow-options</a></li>
 <li class='idx_x'><a class='autolink' href='#avbLVTgRge8'>with-brace-options</a></li>
-<li class='idx_x'><a class='autolink' href='#jHhN85RvHYn'>with-canvas</a></li>
+<li class='idx_x'><a class='autolink' href='#8SwZig7eicm'>with-canvas</a></li>
 <li class='idx_x'><a class='autolink' href='#gE4r2xg8b9U'>with-cross-options</a></li>
 <li class='idx_x'><a class='autolink' href='#dpsPduib5te'>with-cube-options</a></li>
+<li class='idx_x'><a class='autolink' href='#4RbKSY2RkFp'>with-current-canvas</a></li>
 <li class='idx_x'><a class='autolink' href='#6STY3Kxzonk'>with-cylinder-options</a></li>
 <li class='idx_x'><a class='autolink' href='#0axtDA7gRzz'>with-document-options</a></li>
 <li class='idx_x'><a class='autolink' href='#euPiyWBZQsA'>with-endmark-options</a></li>

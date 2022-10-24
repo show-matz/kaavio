@@ -54,6 +54,7 @@
 				:canvas-height
 				:canvas-fix-point
 				:with-canvas
+				:with-current-canvas
 				:with-subcanvas
 				:with-subcanvas-of
 				;circle.lisp
