@@ -66,8 +66,24 @@
 #|
 #|EXPORT|#				:block-arrow
  |#
-(defclass block-arrow (polygon) ())
+(defclass block-arrow (polygon)
+  ((pt1 :initform nil :initarg :pt1)	; point
+   (pt2 :initform nil :initarg :pt2)))	; point
   
+
+
+(defmethod attribute-center ((ent block-arrow))
+  (with-slots (pt1 pt2) ent
+    (make-point (/ (+ (point-x pt1) (point-x pt2)) 2)
+				(/ (+ (point-y pt1) (point-y pt2)) 2))))
+
+(defmethod attribute-end1 ((ent block-arrow))
+  (slot-value ent 'pt1))
+
+(defmethod attribute-end2 ((ent block-arrow))
+  (slot-value ent 'pt2))
+
+
 ;;------------------------------------------------------------------------------
 ;;
 ;; macro block-arrow
@@ -79,6 +95,8 @@
 (defmacro block-arrow1 (pt1 pt2 width
 						&key length size margin fill stroke link layer filter id)
   `(register-entity (make-instance 'kaavio:block-arrow
+								   :pt1    ,pt1
+								   :pt2    ,pt2
 								   :points (kaavio::make-block-arrow-points-1
 													,pt1 ,pt2 (or ,margin 0) ,width ,length ,size)
 								   :fill   (or ,fill   *default-block-arrow-fill*)
@@ -97,6 +115,8 @@
 (defmacro block-arrow2 (pt1 pt2 width
 						&key length size margin fill stroke link layer filter id)
   `(register-entity (make-instance 'kaavio:block-arrow
+								   :pt1    ,pt1
+								   :pt2    ,pt2
 								   :points (kaavio::make-block-arrow-points-2
 													,pt1 ,pt2 (or ,margin 0) ,width ,length ,size)
 								   :fill   (or ,fill   *default-block-arrow-fill*)

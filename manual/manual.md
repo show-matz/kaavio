@@ -3052,8 +3052,8 @@ Figure. 図形要素の座標参照 - 1
 
 ${BLANK_PARAGRAPH}
 
-　直線やコネクタの場合は、 `center` および線の端点として `end1, end2` が利用できます。以下の
-ように、この場合の `center` は線の総延長のちょうど半分になる位置になります。
+　直線やコネクタ、およびブロック矢印では、 `center` および線の端点として `end1, end2` が利用
+できます。以下のように、この場合の `center` は線の総延長のちょうど半分になる位置になります。
 
 ```kaavio
 (diagram (300 110)
@@ -6834,6 +6834,8 @@ Figure. 色の名前とサンプル - 2
 	* BUGFIX : 直線やコネクタの端点、および中点座標に ID.end1 などの記法でアクセスできるようにする機能追加
 	* ENHANCE : with-current-canvas を追加
 	* __INCOMPATIBLE CHANGE : 上記に伴い、with-canvas マクロを非推奨に変更__
+* __2022/10/25 - version 0.012__
+	* ENHANCE : [$$](#ブロック矢印)でコネクタ同様に center, end1, end2 をサポートする機能追加
 
 
 ## 図表一覧
