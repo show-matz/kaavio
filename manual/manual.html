@@ -3741,7 +3741,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 
 <p class='fig_title'><a name='7mETQwj0yso'></a>Figure.6-2 図形要素の座標参照 - 1</p>
 <p>　　</p>
-<p>　<a class='autolink' href='#fv4OUML78x4'>直線</a>や<a class='autolink' href='#eFhVs4WwYUG'>コネクタ</a>、および<a class='autolink' href='#49KKf97828b'>ブロック矢印</a>では、 <code>center</code> および線の端点として <code>end1, end2</code> が利用できます。以下のように、この場合の <code>center</code> は線の総延長のちょうど半分になる位置になります。</p>
+<p>　<a class='autolink' href='#fv4OUML78x4'>直線</a>や<a class='autolink' href='#cp2F91gKG7W'>円弧</a>、<a class='autolink' href='#eFhVs4WwYUG'>コネクタ</a>、および<a class='autolink' href='#49KKf97828b'>ブロック矢印</a>では、 <code>center</code> および線の端点として <code>end1, end2</code> が利用できます。以下のように、この場合の <code>center</code> は線の総延長のちょうど半分になる位置になります（<a class='autolink' href='#cp2F91gKG7W'>円弧</a>の場合はベースとなる<a class='autolink' href='#7YzIcjhyGKN'>楕円</a>の中心です）。</p>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='110'>
@@ -9652,6 +9652,11 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li><strong>2022/10/25 - version 0.012</strong>
 <ul>
 <li>ENHANCE : <a href='#49KKf97828b'>ブロック矢印</a>で<a class='autolink' href='#eFhVs4WwYUG'>コネクタ</a>同様に center, end1, end2 をサポートする機能追加</li>
+</ul>
+</li>
+<li><strong>2022/10/26</strong>
+<ul>
+<li>ENHANCE : <a href='#cp2F91gKG7W'>円弧</a>で<a class='autolink' href='#eFhVs4WwYUG'>コネクタ</a>同様に center, end1, end2 をサポートする機能追加</li>
 </ul>
 </li>
 </ul>

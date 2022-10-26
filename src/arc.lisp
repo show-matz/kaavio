@@ -16,6 +16,8 @@
 ;;------------------------------------------------------------------------------
 (defclass arc (path)
   ((center			:initform nil :initarg :center)				; point
+   (pt1	    		:initform nil)								; point
+   (pt2	    		:initform nil)								; point
    (rx	    		:initform   0 :initarg :rx)					; number
    (ry    			:initform   0 :initarg :ry)					; number
    (x-axis-rotation	:initform   0 :initarg :x-axis-rotation)	; number
@@ -48,27 +50,37 @@
 
 (defmethod check ((ent arc) canvas dict)
   (declare (ignorable dict))
-  (with-slots (center rx ry x-axis-rotation degree1 degree2) ent
+  (with-slots (center pt1 pt2 rx ry x-axis-rotation degree1 degree2) ent
 	(check-member rx              :nullable nil :types number)
 	(check-member ry              :nullable nil :types number)
 	(check-member x-axis-rotation :nullable nil :types number)
 	(check-member degree1         :nullable nil :types number)
-	(check-member degree2         :nullable nil :types number))
-  (destructuring-bind (x0 y0 x1 y1 rx ry
-					   x-axis-rotation large-arc sweep-flag) (arc-calculate-data ent)
-	(let* ((cc (canvas-topleft canvas))
-		   (pt0 (make-point (- x0 (point-x cc)) (- y0 (point-y cc))))
-		   (pt1 (make-point (- x1 (point-x cc)) (- y1 (point-y cc)))))
-	  (setf (slot-value ent 'data) `(:absolute
-									 (:move-to ,pt0)
-									 (:arc-to ,rx ,ry ,x-axis-rotation
-											  ,large-arc ,sweep-flag ,pt1)))))
+	(check-member degree2         :nullable nil :types number)
+	(destructuring-bind (x0 y0 x1 y1 rx ry
+						 x-axis-rotation large-arc sweep-flag) (arc-calculate-data ent)
+	  (let ((cc (canvas-topleft canvas)))
+		(setf pt1 (make-point (- x0 (point-x cc)) (- y0 (point-y cc))))
+		(setf pt2 (make-point (- x1 (point-x cc)) (- y1 (point-y cc))))
+		(setf (slot-value ent 'data) `(:absolute
+									   (:move-to ,pt1)
+									   (:arc-to ,rx ,ry ,x-axis-rotation
+												,large-arc ,sweep-flag ,pt2))))))
   ;; this method must call super class' one.
   (call-next-method))
 
 
 ;; this class NOT override draw-entity ( use path class one ).
 ;;(defmethod draw-entity ((ent arc) writer)...)
+
+
+(defmethod attribute-center ((ent arc))
+  (slot-value ent 'center))
+
+(defmethod attribute-end1 ((ent arc))
+  (slot-value ent 'pt1))
+
+(defmethod attribute-end2 ((ent arc))
+  (slot-value ent 'pt2))
 
 
 ;;------------------------------------------------------------------------------
