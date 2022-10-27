@@ -1,25 +1,30 @@
-<!-- define: APPNAME = diagram -->
+<!-- define: APPNAME = kaavio -->
 <!-- define: BLANK_PARAGRAPH = '　　' -->
 <!-- define: TODO = '@((background:red;color:white;)(ToDo : %1))' -->
 
-<!-- title:${APPNAME} internal -->    
+<!-- title:${APPNAME} internal -->
 <!-- style:./default.css -->			
-<!-- <!-- config:term-link-in-header -->			
 
-<!-- filter:diagram  = bash ./diagram.sh  %in %out -->
+<!-- config:write-comment -->
+<!-- config:header-numbering 2 4 -->
+<!-- config:entity-numbering-depth 1 -->
+<!-- <!-- config:term-link-in-header -->
+
+<!-- filter:kaavio   = bash ./kaavio.sh  %in %out -->
 <!-- filter:plantuml = bash ./plantuml.sh %in %out -->
-
-<!-- config:write-comment -->			
-<!-- config:header-numbering 2 5 -->
 
 # ${APPNAME} internal documents
 
 　この文書は、 **${APPNAME}** の内部設計文書です。
 
-## Table of contents
+<!-- anchor: toc-link-target -->
+```raw
+<h2>Table of contents</h2>
+```
+<!-- embed:toc-x 2 3 -->
+<!-- toc-link: top 'A#toc-link-target' -->
 
-<!-- embed:toc-x 2 5 -->
-<!-- toc-link: top 'Table of contents' -->
+--------------------------------------------------------------------------------
 
 ${BLANK_PARAGRAPH}
 
@@ -29,21 +34,18 @@ ${BLANK_PARAGRAPH}
 　${APPNAME} の座標系は、左上を原点としています。そこから水平右方向に x 軸、垂直
 下方向に y 軸です。角度は時計回りになります。
 
-```diagram
-(diagram (300 100)
+```kaavio
+(diagram (300 150)
   (grid)
-  (circle '(  0  0) 3 :fill :red :stroke :none)
-  (text   '(  5 15) "(0 0)")
-  (text   '(260 15) "→ x")
-  (text   '(  5 90) "↓ y")
-  (with-stroke (:color :gray :width 1)
-    (line  '((100 30) (150 30)))
-    (line  '((100 30) (120 80))))
-  (with-stroke (:color :black :width 1)
-    (arc    '(100 30) 40 0 68)
-    (line  '((115 67) (118 61)))
-    (line  '((115 67) (122 67))))
-  (text   '(140 60) "θ"))
+  (circle canvas.topleft 4 :fill :black)
+  (let ((em (make-endmark :type :triangle :fill :black :size :small)))
+    (text '(5 15) "(0, 0)")
+    (line '((250  10) (275  10)) :end2 em) (text '(280  15) "x" :align :left)
+    (line '(( 10 100) ( 10 130)) :end2 em) (text '( 10 145) "y" :align :center)
+    (line '((100  60) (180  60)))          (text '(185  65) "0°" :align :left)
+    (line '((100  60) (140 130)))
+    (arc   '(100  60) 30 30 0 0 50)
+    (line '((123  80) (115  85)) :end2 em) (text '(130  85) "θ" :align :left)))
 ```
 
 ### キャンバス
@@ -1006,13 +1008,6 @@ end-id-group 関数をコールします。
 * constants.lisp
 * writer.lisp
 
-```diagram
-(diagram (300 100)
-  (grid)
-  (rectangle '(100 50) 30 30 :fill :lightgray :stroke :black
-             :link (make-link :url "http://www.google.co.jp/" :target :blank)))
-```
-
 ### mathutil.lisp
 <!-- autolink: [$$](#mathutil.lisp) -->
 
@@ -1051,7 +1046,7 @@ point が手元にない場合は math/len4 関数を使用してください。
   (connector :pt1 :pt2 :stroke :blue))
 <!-- end snippet -->
 
-```diagram
+```kaavio
 <!-- expand: SAMPLE_OF_LEN2_LEN4 -->
 ```
 
@@ -1073,7 +1068,7 @@ point が手元にない場合は math/len4 関数を使用してください。
 
 　これは、以下の青い線の部分の長さを測っていることになります。
 
-```diagram
+```kaavio
 <!-- expand: SAMPLE_OF_LEN2_LEN4 -->
 ```
 
@@ -1111,7 +1106,7 @@ point が手元にない場合は math/len4 関数を使用してください。
   (let ((pt1 (make-point  50 30))
         (pt2 (make-point 150 70))
         (pt3 (make-point 150 30)))
-    (with-stroke (:color :gray :dasharray '(2 2))
+    (with-options (:stroke '(:color :gray :dasharray (2 2)))
       (line (list pt1 pt3))
       (line (list pt2 pt3)))
     (line (list pt1 pt2) :stroke :blue)
@@ -1124,7 +1119,7 @@ point が手元にない場合は math/len4 関数を使用してください。
     (text '( 90 70) "len" :align :left)))
 <!-- end snippet -->
 
-```diagram
+```kaavio
 <!-- expand: SAMPLE_OF_SIN2_COS2 -->
 ```
 
@@ -1139,7 +1134,7 @@ point が手元にない場合は math/len4 関数を使用してください。
 および `pt2` は point です。すなわち、以下における `a / len` を計算します。point が
 手元にない場合は math/cos4 関数を使用してください。
 
-```diagram
+```kaavio
 <!-- expand: SAMPLE_OF_SIN2_COS2 -->
 ```
 
@@ -1164,15 +1159,15 @@ point が手元にない場合は math/len4 関数を使用してください。
     (line (list pt1 pt2) :stroke :blue)
     (circle pt1 3 :fill :red :stroke :none)
     (circle pt2 3 :fill :red :stroke :none)
-    (arc  pt1     20 20 72)
-    (arc  '(40 0) 20  0 72)
+    (arc  '(40 0) 20 20 0  0 72)
+    (arc  pt1     20 20 0 25 72)
     (text (xy+ pt1 -5 10) "pt1" :align :right)
     (text (y+  pt2    15) "pt2")
     (text '( 70 70) "degree" :align :left)
     (text '( 60 20) "θ" :align :left)))
 <!-- end snippet -->
 
-```diagram
+```kaavio
 <!-- expand: SAMPLE_OF_SIN3_COS3 -->
 ```
 
@@ -1188,7 +1183,7 @@ point が手元にない場合は math/len4 関数を使用してください。
 ます。 `degree` は [0, 360) である必要があります。point が手元にない場合は math/cos5 関数を
 使用してください。
 
-```diagram
+```kaavio
 <!-- expand: SAMPLE_OF_SIN3_COS3 -->
 ```
 
@@ -1208,7 +1203,7 @@ point が手元にない場合は math/len4 関数を使用してください。
   (let ((pt1 (make-point  50 30))
         (pt2 (make-point 150 70))
         (pt3 (make-point 150 30)))
-    (with-stroke (:color :gray :dasharray '(2 2))
+    (with-options (:stroke '(:color :gray :dasharray (2 2)))
       (line (list pt1 pt3))
       (line (list pt2 pt3)))
     (line (list pt1 pt2) :stroke :blue)
@@ -1221,7 +1216,7 @@ point が手元にない場合は math/len4 関数を使用してください。
     (text '( 90 70) "len" :align :left)))
 <!-- end snippet -->
 
-```diagram
+```kaavio
 <!-- expand: SAMPLE_OF_SIN4_COS4 -->
 ```
 
@@ -1235,7 +1230,7 @@ point が手元にない場合は math/len4 関数を使用してください。
 　2 点 `(x1 y1), (x2 y2)` を通る直線が x 軸に対してなす角度の cos を計算して返します。すなわち、
 以下における `a / len` を計算します。point が手元にある場合は math/cos2 関数を使用してください。
 
-```diagram
+```kaavio
 <!-- expand: SAMPLE_OF_SIN4_COS4 -->
 ```
 
@@ -1259,15 +1254,15 @@ point が手元にない場合は math/len4 関数を使用してください。
     (line (list pt1 pt2) :stroke :blue)
     (circle pt1 3 :fill :red :stroke :none)
     (circle pt2 3 :fill :red :stroke :none)
-    (arc  pt1     20 20 72)
-    (arc  '(40 0) 20  0 72)
+    (arc  '(40 0) 20 20 0  0 72)
+    (arc  pt1     20 20 0 25 72)
     (text (xy+ pt1 -2 10) "(x1 y1)" :align :right)
     (text (y+  pt2    15) "(x2 y2)")
     (text '( 70 70) "degree" :align :left)
     (text '( 60 20) "θ" :align :left)))
 <!-- end snippet -->
 
-```diagram
+```kaavio
 <!-- expand: SAMPLE_OF_SIN5_COS5 -->
 ```
 
@@ -1282,7 +1277,7 @@ point が手元にない場合は math/len4 関数を使用してください。
 計算して返します。すなわち、以下における `cos θ` を返します。 `degree` は [0, 360) である必要が
 あります。point が手元にある場合は math/cos3 関数を使用してください。
 
-```diagram
+```kaavio
 <!-- expand: SAMPLE_OF_SIN5_COS5 -->
 ```
 
@@ -2143,14 +2138,17 @@ entity <|-- shape
 　buffer-writer クラスを作成して返します。パラメータは取りません。
 
 
-${BLANK_PARAGRAPH}
+## 図表一覧
+<!-- embed:figure-list -->
+
+　　
+
+<!-- embed:table-list -->
+
+　　
 
 ## 索引
-
 <!-- embed:index-x -->
-
-
-${BLANK_PARAGRAPH}
 
 --------------------------------------------------------------------------------
 
