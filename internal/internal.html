@@ -79,8 +79,14 @@
 <li class='tocx'><a href='#7NkNOcI9zDh'>2.35 writer.lisp</a></li>
 </blockquote>
 </details>
-<li class='tocx'><a href='#1iQ3KRF8uJQ'>3 図表一覧</a></li>
-<li class='tocx'><a href='#1ewHzjI62xn'>4 索引</a></li>
+<details class='tocx' open>
+<summary class='tocx'><a href='#hiJ3cEwPa5K'>3 Topics</a></summary>
+<blockquote class='tocx'>
+<li class='tocx'><a href='#iI5yYQiM6ak'>3.1 円弧の端点における傾きの計算方法</a></li>
+</blockquote>
+</details>
+<li class='tocx'><a href='#1iQ3KRF8uJQ'>4 図表一覧</a></li>
+<li class='tocx'><a href='#1ewHzjI62xn'>5 索引</a></li>
 <hr>
 <p>　　</p>
 <h2><a name='iUs1vEgM0gr'></a>1 概念</h2>
@@ -1767,14 +1773,143 @@ Country: JP
 (<span class='keyword1'>defun</span> <span class='keyword5'>create-svg-writer</span> () ... )
 </pre>
 <p>　<a class='autolink' href='#lfl3LZgcQAj'>buffer-writer</a> クラスを作成して返します。パラメータは取りません。</p>
-<h2><a name='1iQ3KRF8uJQ'></a>3 図表一覧</h2>
+<h2><a name='hiJ3cEwPa5K'></a>3 Topics</h2>
+<h3><a name='iI5yYQiM6ak'></a>3.1 円弧の端点における傾きの計算方法</h3>
+<p>　arc に endmark をサポートさせることになり、arc の端点の傾きを知る必要が発生。具体的には、以下のような円弧のベースとなる楕円上における end1, end2 の接線の傾き、つまりそれら端点を通る接線が x 軸となす角度の sin 値および cos 値を知る必要がある。以下における end1 であれば 接線 L1 が x 軸となす角度 θ の sin θ および cos θ である。なお、この楕円の回転角を d1 とする。</p>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='200' height='150'>
+	
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- line -->
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 30.0,0.0 30.0,150.0' />
+	<!-- line -->
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 0.0,120.0 200.0,120.0' />
+	<!-- ellipse -->
+	<g transform='rotate(30,110,60)'>
+		<ellipse cx='110' cy='60' rx='50' ry='30' fill='none' stroke='lightgray' stroke-width='8' />
+	</g>
+	<!-- arc : arc -->
+	<path id='arc' fill='none' stroke='red' stroke-width='2' d='M 155.0 68.66025403784435 A 50 30 30 0 1 95.0 85.98076211353316' />
+	<!-- text -->
+	<text x='160.0' y='63.660255' text-anchor='start' font-size='10pt' fill='black' >end1</text>
+	<!-- text -->
+	<text x='90.0' y='100.98076' text-anchor='end' font-size='10pt' fill='black' >end2</text>
+	<!-- circle -->
+	<circle cx='110' cy='60' r='3' fill='red' stroke='none' stroke-width='1' />
+	<!-- circle -->
+	<circle cx='155.0' cy='68.660255' r='3' fill='red' stroke='none' stroke-width='1' />
+	<!-- circle -->
+	<circle cx='95.0' cy='85.98076' r='3' fill='red' stroke='none' stroke-width='1' />
+	<!-- line -->
+	<polyline fill='none' stroke='blue' stroke-width='1' stroke-dasharray='2 2 ' points=' 137.0,0.0 175.0,150.0' />
+	<!-- arc -->
+	<path fill='none' stroke='blue' stroke-width='1' d='M 177.0 120.0 A 10 10 0 1 1 163.5797985667433 110.60307379214092' />
+	<!-- text -->
+	<text x='147' y='143' text-anchor='start' font-size='12pt' fill='blue' >θ</text>
+	<!-- text -->
+	<text x='115' y='15' text-anchor='start' font-size='12pt' fill='blue' >L1</text>
+
+</svg>
+</div>
+
+<p>　計算を簡単にするために、ベースとなる楕円を「正規化」して考える。これは、楕円の回転をなくし、さらに中心を原点に持ってきたものである。この楕円の x 半径を a、y 半径を b とすると、この楕円の方程式は x<sup>2</sup>/a<sup>2</sup> + y<sup>2</sup>/b<sup>2</sup> = 1 で与えられる。</p>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='200' height='150'>
+	
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- line -->
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 100.0,0.0 100.0,150.0' />
+	<!-- line -->
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 0.0,75.0 200.0,75.0' />
+	<!-- ellipse -->
+	<g transform='rotate(0,100,75)'>
+		<ellipse cx='100' cy='75' rx='50' ry='30' fill='none' stroke='lightgray' stroke-width='8' />
+	</g>
+	<!-- arc : arc -->
+	<path id='arc' fill='none' stroke='red' stroke-width='2' d='M 143.30127018922192 59.999999999999986 A 50 30 0 0 1 100.0 105.0' />
+	<!-- text -->
+	<text x='148.30127' y='55.0' text-anchor='start' font-size='10pt' fill='black' >end1</text>
+	<!-- text -->
+	<text x='95.0' y='120.0' text-anchor='end' font-size='10pt' fill='black' >end2</text>
+	<!-- circle -->
+	<circle cx='100' cy='75' r='3' fill='red' stroke='none' stroke-width='1' />
+	<!-- circle -->
+	<circle cx='143.30127' cy='60.0' r='3' fill='red' stroke='none' stroke-width='1' />
+	<!-- circle -->
+	<circle cx='100.0' cy='105.0' r='3' fill='red' stroke='none' stroke-width='1' />
+
+</svg>
+</div>
+
+<p>　ここで、正規化後の楕円における end1 を通る接線 L2 を考える。端点 end1 の座標を (k, m) とすると、L2 は kx/a<sup>2</sup> + my/b<sup>2</sup> = 1 で与えられるらしい。</p>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='200' height='150'>
+	
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- line -->
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 100.0,0.0 100.0,150.0' />
+	<!-- line -->
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 0.0,75.0 200.0,75.0' />
+	<!-- ellipse -->
+	<g transform='rotate(0,100,75)'>
+		<ellipse cx='100' cy='75' rx='50' ry='30' fill='none' stroke='lightgray' stroke-width='8' />
+	</g>
+	<!-- arc : arc -->
+	<path id='arc' fill='none' stroke='none' stroke-width='1' d='M 143.30127018922192 59.999999999999986 A 50 30 0 0 1 100.0 105.0' />
+	<!-- circle -->
+	<circle cx='100' cy='75' r='3' fill='red' stroke='none' stroke-width='1' />
+	<!-- circle -->
+	<circle cx='143.30127' cy='60.0' r='3' fill='red' stroke='none' stroke-width='1' />
+	<!-- text -->
+	<text x='65' y='15' text-anchor='start' font-size='10pt' fill='blue' >L2</text>
+	<!-- text -->
+	<text x='148.30127' y='55.0' text-anchor='start' font-size='10pt' fill='blue' >(k, m)</text>
+	<!-- line -->
+	<polyline fill='none' stroke='blue' stroke-width='1' stroke-dasharray='2 2 ' points=' 80.0,0.0 200.0,115.0' />
+
+</svg>
+</div>
+
+<p>　ここで、L1 と L2 のなす角度は楕円の回転角 d1 に等しい。そのため、この接線が x 軸となす角 d2 の sin および cos がわかれば、あとは d1 と合成することで最終的に求めたい sin θ と cos θ が得られる。つまり、θ = d1 + d2 より、以下の計算をすれば良い。</p>
+<ul>
+<li>sin θ = (sin d1 x cos d2) + (cos d1 x cos d2) </li>
+<li>cos θ = (cos d1 x cos d2) + (sin d1 x sin d2) </li>
+</ul>
+<p>　楕円の回転角 d1 は既知であるので、sin d1 と cos d1 は問題なく計算できる。d2 については、先の接線 L2 が x 軸および y 軸と交わる点から簡単に計算できる。つまり、kx/a<sup>2</sup> + my/b<sup>2</sup> = 1 において x = 0 の場合の y と、y = 0 の場合の x を計算するのである。ただし、L2 が x 軸または y 軸の一方と交わらない、つまり並行になる場合には注意が必要である。そのため、以下の場合分けが必要になる。</p>
+<ol>
+<li>k = 0 の場合</li>
+<li>m = 0 の場合</li>
+<li>その他の場合</li>
+</ol>
+<p>　1 の場合は L2 が x 軸と平行になる場合であり、sin d2 は 0、cos d2 は ±1 である。</p>
+<p>　2 の場合は L2 が y 軸と平行になる場合であり、sin d2 は ±1、cos d2 は 0 である。</p>
+<p>　3 の場合は L2 が x,y 軸と平行にならないため、それぞれの軸と交わる点を使って計算するのが簡単である。kx/a<sup>2</sup> + my/b<sup>2</sup> = 1 に x = 0、または y = 0 を代入して整理すると、交点はそれぞれ(0, b<sup>2</sup>/m) と (a<sup>2</sup>/k, 0) であることがわかる。2 点がわかれば、あとは計算するだけである。</p>
+<h2><a name='1iQ3KRF8uJQ'></a>4 図表一覧</h2>
 <ul>
 </ul>
 <p>　　</p>
 <ul>
 </ul>
 <p>　　</p>
-<h2><a name='1ewHzjI62xn'></a>4 索引</h2>
+<h2><a name='1ewHzjI62xn'></a>5 索引</h2>
 <details class='idx_x' open>
 <summary class='idx_x'>Symbols</summary>
 <blockquote class='idx_x'>

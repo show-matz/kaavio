@@ -2138,6 +2138,112 @@ entity <|-- shape
 　buffer-writer クラスを作成して返します。パラメータは取りません。
 
 
+## Topics
+### 円弧の端点における傾きの計算方法
+
+　arc に endmark をサポートさせることになり、arc の端点の傾きを知る必要が発生。具体的には、
+以下のような円弧のベースとなる楕円上における end1, end2 の接線の傾き、つまりそれら端点を通る
+接線が x 軸となす角度の sin 値および cos 値を知る必要がある。以下における end1 であれば 
+接線 L1 が x 軸となす角度 θ の sin θ および cos θ である。なお、この楕円の回転角を d1 と
+する。
+
+```kaavio
+(diagram (200 150)
+  (grid)
+  (line '(( 30   0) ( 30 150)))
+  (line '((  0 120) (200 120)))
+  (let ((rx 50)
+		(ry 30)
+		(cc '(110 60))
+		(rotation 30))
+	(ellipse cc rx ry :rotate rotation :stroke '(:color :lightgray :width 8))
+	(arc     cc rx ry rotation  330 90 :stroke '(:color :red :width 2) :id :arc)
+    (with-options (:font 10)
+      (text (xy+ arc.end1  5 -5) "end1" :align :left)
+      (text (xy+ arc.end2 -5 15) "end2" :align :right))
+    (with-options (:stroke :none :fill :red)
+	  (circle cc       3)
+	  (circle arc.end1 3)
+	  (circle arc.end2 3))
+    (line '((137 0) (175 150)) :stroke '(:color :blue :dasharray (2 2)))
+    (arc '(167 120) 10 10 0 0 250 :stroke :blue)
+    (with-options (:font '(:fill :blue))
+      (text (xy+ $1.center -20 23) "θ")
+      (text '(115 15) "L1" :align :left))))
+```
+
+　計算を簡単にするために、ベースとなる楕円を「正規化」して考える。これは、楕円の回転をなくし、
+さらに中心を原点に持ってきたものである。この楕円の x 半径を a、y 半径を b とすると、この楕円の
+方程式は x^2^/a^2^ + y^2^/b^2^ = 1 で与えられる。
+
+```kaavio
+(diagram (200 150)
+  (grid)
+  (line '((100  0) (100 150)))
+  (line '((  0 75) (200  75)))
+  (let ((rx 50)
+		(ry 30)
+		(cc '(100 75))
+		(rotation 0))
+	(ellipse cc rx ry :rotate rotation :stroke '(:color :lightgray :width 8))
+	(arc     cc rx ry rotation  330 90 :stroke '(:color :red :width 2) :id :arc)
+    (with-options (:font 10)
+      (text (xy+ arc.end1  5 -5) "end1" :align :left)
+      (text (xy+ arc.end2 -5 15) "end2" :align :right))
+    (with-options (:stroke :none :fill :red)
+	  (circle cc       3)
+	  (circle arc.end1 3)
+	  (circle arc.end2 3))))
+```
+
+　ここで、正規化後の楕円における end1 を通る接線 L2 を考える。端点 end1 の座標を (k, m) と
+すると、L2 は kx/a^2^ + my/b^2^ = 1 で与えられるらしい。
+
+
+```kaavio
+(diagram (200 150)
+  (grid)
+  (line '((100  0) (100 150)))
+  (line '((  0 75) (200  75)))
+  (let ((rx 50)
+		(ry 30)
+		(cc '(100 75))
+		(rotation 0))
+	(ellipse cc rx ry :rotate rotation :stroke '(:color :lightgray :width 8))
+	(arc     cc rx ry rotation  330 90 :stroke :none :id :arc)
+    (with-options (:stroke :none :fill :red)
+	  (circle cc       3)
+	  (circle arc.end1 3))
+    (with-options (:font '(:size 10 :fill :blue))
+      (text '(65 15) "L2" :align :left)
+      (text (xy+ arc.end1  5 -5) "(k, m)" :align :left))
+    (line '((80 0) (200 115)) :stroke '(:color :blue :dasharray (2 2)))))
+```
+
+　ここで、L1 と L2 のなす角度は楕円の回転角 d1 に等しい。そのため、この接線が x 軸となす角 d2 の 
+sin および cos がわかれば、あとは d1 と合成することで最終的に
+求めたい sin θ と cos θ が得られる。つまり、θ = d1 + d2 より、以下の計算をすれば良い。
+
+* sin θ = (sin d1 x cos d2) + (cos d1 x cos d2) 
+* cos θ = (cos d1 x cos d2) + (sin d1 x sin d2) 
+
+　楕円の回転角 d1 は既知であるので、sin d1 と cos d1 は問題なく計算できる。d2 については、
+先の接線 L2 が x 軸および y 軸と交わる点から簡単に計算できる。つまり、kx/a^2^ + my/b^2^ = 1 に
+おいて x = 0 の場合の y と、y = 0 の場合の x を計算するのである。ただし、L2 が x 軸または y 軸の
+一方と交わらない、つまり並行になる場合には注意が必要である。そのため、以下の場合分けが必要になる。
+
+1. k = 0 の場合
+2. m = 0 の場合
+3. その他の場合
+
+　1 の場合は L2 が x 軸と平行になる場合であり、sin d2 は 0、cos d2 は ±1 である。
+
+　2 の場合は L2 が y 軸と平行になる場合であり、sin d2 は ±1、cos d2 は 0 である。
+
+　3 の場合は L2 が x,y 軸と平行にならないため、それぞれの軸と交わる点を使って計算するのが簡単である。
+kx/a^2^ + my/b^2^ = 1 に x = 0、または y = 0 を代入して整理すると、交点はそれぞれ
+(0, b^2^/m) と (a^2^/k, 0) であることがわかる。2 点がわかれば、あとは計算するだけである。
+
 ## 図表一覧
 <!-- embed:figure-list -->
 

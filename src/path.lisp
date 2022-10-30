@@ -253,7 +253,7 @@
 					  "d='" (format-path-data data) "' "
 					  (write-when filter "filter='url(#" it ")' ")
 					  "/>")
-		(pre-draw ent writer)))))
+		(post-draw ent writer)))))
 
 
 ;;------------------------------------------------------------------------------
