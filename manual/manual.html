@@ -4274,7 +4274,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </details>
 <p>　　</p>
 <p>　kaavio データの中で座標を指定する方法にはいくつかあります。以下に説明します。</p>
-<p>　具体的な数値で座標を指定する場合、 <code>'(x y)</code> の要領で指定します。つまり、 <code>'(50 100)</code> といった指定です。これは即値で座標を指定する場合の書き方ですが、Common LISP の変数に格納した数値から座標を作成したい場合は make-point 関数が使えます。これは <code>(make-point x y)</code> の要領で使用してください<sup><a name='footnote_ref7' href='#footnote7'>7</a></sup>。</p>
+<p>　具体的な数値で座標を指定する場合、 <code>'(x y)</code> の要領で指定します。つまり、 <code>'(50 100)</code> といった指定です。これは即値で座標を指定する場合の書き方ですが、Common LISP の変数に格納した数値から座標を作成したい場合は <a class='autolink' href='#cV08aR4hVCU'>make-point</a> 関数が使えます。これは <code>(make-point x y)</code> の要領で使用してください<sup><a name='footnote_ref7' href='#footnote7'>7</a></sup>。</p>
 <p>　具体的な数値を指定するのでなく、「すでに登場した要素の属性を利用して位置を指定する」こともできます。<a href='#9LLncE6hWlx'>2  章</a>の 2 つめのサンプルでは、 <code>app.center</code> や <code>in.right</code> という表記が登場しました。これは、図形要素を記述する際に指定した ID を使ってその中心座標などを参照するものです。幅や高さを持つ図形要素では９種類あり、その名前と具体的な場所は以下の通りです<sup><a name='footnote_ref8' href='#footnote8'>8</a></sup>。</p>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
@@ -5399,7 +5399,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p>　　</p>
 <p>　それぞれについて細かい説明を始める前に、 <code>:stroke :red</code> といった記述がどのように扱われるのかを説明する必要があるでしょう。 <code>:stroke</code> によるこれらの指定は、実は全て <a class='autolink' href='#ezUVhtPwl3J'>make-stroke</a> 関数に渡されます。<a class='autolink' href='#ezUVhtPwl3J'>make-stroke</a> 関数は、渡されたのが単一の値の場合には、数値なら太さ、キーワードや文字列なら色名などと解釈します。そして <code>'(:color :red :width 3)</code> などの（複数要素からなる）リストの場合、名前付きパラメータの羅列として解釈します。</p>
-<p>　<a class='autolink' href='#ezUVhtPwl3J'>make-stroke</a> 関数はその結果として「<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>情報オブジェクト」を返しますが、その<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>情報オブジェクトを <a class='autolink' href='#ezUVhtPwl3J'>make-stroke</a> 関数自身に渡した場合、そのまま返すようになっています。そのため、自分で明示的に <a class='autolink' href='#ezUVhtPwl3J'>make-stroke</a> 関数を使って<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>情報オブジェクトを作成し、Common LISP 変数に格納して複数の図形要素で使用する、ということも可能です。以下のように<sup><a name='footnote_ref11' href='#footnote11'>11</a></sup>。この関数の詳細は「<a href='#ezUVhtPwl3J'>12.1.15  make-stroke 関数</a>」を参照してください。</p>
+<p>　<a class='autolink' href='#ezUVhtPwl3J'>make-stroke</a> 関数はその結果として「<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>情報オブジェクト」を返しますが、その<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>情報オブジェクトを <a class='autolink' href='#ezUVhtPwl3J'>make-stroke</a> 関数自身に渡した場合、そのまま返すようになっています。そのため、自分で明示的に <a class='autolink' href='#ezUVhtPwl3J'>make-stroke</a> 関数を使って<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>情報オブジェクトを作成し、Common LISP 変数に格納して複数の図形要素で使用する、ということも可能です。以下のように<sup><a name='footnote_ref11' href='#footnote11'>11</a></sup>。この関数の詳細は「<a href='#ezUVhtPwl3J'>12.1.17  make-stroke 関数</a>」を参照してください。</p>
 <pre class='code'>
 (<span class='keyword1'>let</span> ((st (make-stroke <span class='keyword3'>:color</span> <span class='keyword3'>:blue</span> <span class='keyword3'>:width</span> 4 <span class='keyword3'>:opacity</span> 0.3)))
   (rect   ... <span class='keyword3'>:stroke</span> st)
@@ -5666,7 +5666,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p>　　</p>
 <p>　それぞれについて細かい説明を始める前に、 <code>:fill :white</code> といった記述がどのように扱われるのかを説明する必要があるでしょう。 <code>:fill</code> によるこれらの指定は、実は全て <a class='autolink' href='#8IkB7VinE7h'>make-fill</a> 関数に渡されます。<a class='autolink' href='#8IkB7VinE7h'>make-fill</a> 関数は、渡されたのが単一の値の場合には、キーワードや文字列なら色名と解釈します。そして <code>'(:color :red :width 3)</code> などの（複数要素からなる）リストの場合、名前付きパラメータの羅列として解釈します。</p>
-<p>　<a class='autolink' href='#8IkB7VinE7h'>make-fill</a> 関数はその結果として「<a class='autolink' href='#dBUd7L4C3dx'>フィル</a>情報オブジェクト」を返しますが、その<a class='autolink' href='#dBUd7L4C3dx'>フィル</a>情報オブジェクトを <a class='autolink' href='#8IkB7VinE7h'>make-fill</a> 関数自身に渡した場合、そのまま返すようになっています。そのため、自分で明示的に <a class='autolink' href='#8IkB7VinE7h'>make-fill</a> 関数を使って<a class='autolink' href='#dBUd7L4C3dx'>フィル</a>情報オブジェクトを作成し、Common LISP 変数に格納して複数の図形要素で使用する、ということも可能です。以下のように<sup><a name='footnote_ref13' href='#footnote13'>13</a></sup>。この関数の詳細は「<a href='#8IkB7VinE7h'>12.1.11  make-fill 関数</a>」を参照してください。</p>
+<p>　<a class='autolink' href='#8IkB7VinE7h'>make-fill</a> 関数はその結果として「<a class='autolink' href='#dBUd7L4C3dx'>フィル</a>情報オブジェクト」を返しますが、その<a class='autolink' href='#dBUd7L4C3dx'>フィル</a>情報オブジェクトを <a class='autolink' href='#8IkB7VinE7h'>make-fill</a> 関数自身に渡した場合、そのまま返すようになっています。そのため、自分で明示的に <a class='autolink' href='#8IkB7VinE7h'>make-fill</a> 関数を使って<a class='autolink' href='#dBUd7L4C3dx'>フィル</a>情報オブジェクトを作成し、Common LISP 変数に格納して複数の図形要素で使用する、ということも可能です。以下のように<sup><a name='footnote_ref13' href='#footnote13'>13</a></sup>。この関数の詳細は「<a href='#8IkB7VinE7h'>12.1.12  make-fill 関数</a>」を参照してください。</p>
 <pre class='code'>
 (<span class='keyword1'>let</span> ((fl (make-fill <span class='keyword3'>:color</span> <span class='keyword3'>:blue</span> <span class='keyword3'>:opacity</span> 0.3)))
   (rect   ... <span class='keyword3'>:fill</span> fl)
@@ -5811,7 +5811,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p>　　</p>
 <p>　それぞれについて細かい説明を始める前に、 <code>:font 24</code> といった記述がどのように扱われるのかを説明する必要があるでしょう。 <code>:font</code> によるこれらの指定は、実は全て <a class='autolink' href='#673GXF9YiIQ'>make-font</a> 関数に渡されます。<a class='autolink' href='#673GXF9YiIQ'>make-font</a> 関数は、渡されたのが単一の値の場合には、数値ならサイズ、文字列なら<a class='autolink' href='#3kZ9FkounyK'>フォント</a>ファミリ名などと解釈します。そして <code>'(:family "sans serif" :size 10)</code> などの（複数要素からなる）リストの場合、名前付きパラメータの羅列として解釈します。</p>
-<p>　<a class='autolink' href='#673GXF9YiIQ'>make-font</a> 関数はその結果として「<a class='autolink' href='#3kZ9FkounyK'>フォント</a>情報オブジェクト」を返しますが、その<a class='autolink' href='#3kZ9FkounyK'>フォント</a>情報オブジェクトを <a class='autolink' href='#673GXF9YiIQ'>make-font</a> 関数自身に渡した場合、そのまま返すようになっています。そのため、自分で明示的に <a class='autolink' href='#673GXF9YiIQ'>make-font</a> 関数を使って<a class='autolink' href='#3kZ9FkounyK'>フォント</a>情報オブジェクトを作成し、Common LISP 変数に格納して複数の図形要素で使用する、ということも可能です。以下のように。この関数の詳細は「<a href='#673GXF9YiIQ'>12.1.12  make-font 関数</a>」を参照してください。</p>
+<p>　<a class='autolink' href='#673GXF9YiIQ'>make-font</a> 関数はその結果として「<a class='autolink' href='#3kZ9FkounyK'>フォント</a>情報オブジェクト」を返しますが、その<a class='autolink' href='#3kZ9FkounyK'>フォント</a>情報オブジェクトを <a class='autolink' href='#673GXF9YiIQ'>make-font</a> 関数自身に渡した場合、そのまま返すようになっています。そのため、自分で明示的に <a class='autolink' href='#673GXF9YiIQ'>make-font</a> 関数を使って<a class='autolink' href='#3kZ9FkounyK'>フォント</a>情報オブジェクトを作成し、Common LISP 変数に格納して複数の図形要素で使用する、ということも可能です。以下のように。この関数の詳細は「<a href='#673GXF9YiIQ'>12.1.13  make-font 関数</a>」を参照してください。</p>
 <pre class='code'>
 (<span class='keyword1'>let</span> ((fnt (make-font <span class='keyword3'>:family</span> <span class='literal'>"Courier New, monospace"</span> <span class='keyword3'>:size</span> 12)))
   (text   ... <span class='keyword3'>:font</span> fnt)
@@ -6464,11 +6464,11 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p>　この例では、 <code>:link</code> に続けて文字列で<a class='autolink' href='#fbLcMRTVXac'>リンク</a>先を指定しています（本文書では SVG 図面を HTML に直接埋め込んでいるので、これは HTML 文書内へのアンカーを指定した<a class='autolink' href='#fbLcMRTVXac'>リンク</a>です）。あるいは、<code>:link '(:url "#3DDQkfdwVQl" :target :blank)</code> といった指定をする場合もあります。実はこれらは全て簡易的な指定方法で、<a class='autolink' href='#fbLcMRTVXac'>リンク</a>にはもう少し多くの情報が含まれています。以下に説明します。</p>
 <ul>
 <li><code>url</code> は<a class='autolink' href='#fbLcMRTVXac'>リンク</a>先の URL を文字列で指定します。</li>
-<li><code>target</code> はターゲット指定です。 <code>:blank</code> などを指定します（<a href='#2lTL2F1v7rP'>12.1.14  節</a>参照）。</li>
+<li><code>target</code> はターゲット指定です。 <code>:blank</code> などを指定します（<a href='#2lTL2F1v7rP'>12.1.15  節</a>参照）。</li>
 </ul>
 <p>　　</p>
 <p>　それぞれについて細かい説明を始める前に、 <code>:link "URL"</code> といった記述がどのように扱われるのかを説明する必要があるでしょう。 <code>:link</code> によるこれらの指定は、実は全て <a class='autolink' href='#2lTL2F1v7rP'>make-link</a> 関数に渡されます。<a class='autolink' href='#2lTL2F1v7rP'>make-link</a> 関数は、渡されたのが単一の値の場合には、それを URL と解釈します。そして <code>'(:url "URL" :target :blank)</code> などの（複数要素からなる）リストの場合、名前付きパラメータの羅列として解釈します。</p>
-<p>　<a class='autolink' href='#2lTL2F1v7rP'>make-link</a> 関数はその結果として「<a class='autolink' href='#fbLcMRTVXac'>リンク</a>情報オブジェクト」を返しますが、その<a class='autolink' href='#fbLcMRTVXac'>リンク</a>情報オブジェクトを <a class='autolink' href='#2lTL2F1v7rP'>make-link</a> 関数自身に渡した場合、そのまま返すようになっています。そのため、自分で明示的に <a class='autolink' href='#2lTL2F1v7rP'>make-link</a> 関数を使って<a class='autolink' href='#fbLcMRTVXac'>リンク</a>情報オブジェクトを作成し、Common LISP 変数に格納して複数の図形要素で使用する、ということも可能です。この関数の詳細は「<a href='#2lTL2F1v7rP'>12.1.14  make-link 関数</a>」を参照してください。</p>
+<p>　<a class='autolink' href='#2lTL2F1v7rP'>make-link</a> 関数はその結果として「<a class='autolink' href='#fbLcMRTVXac'>リンク</a>情報オブジェクト」を返しますが、その<a class='autolink' href='#fbLcMRTVXac'>リンク</a>情報オブジェクトを <a class='autolink' href='#2lTL2F1v7rP'>make-link</a> 関数自身に渡した場合、そのまま返すようになっています。そのため、自分で明示的に <a class='autolink' href='#2lTL2F1v7rP'>make-link</a> 関数を使って<a class='autolink' href='#fbLcMRTVXac'>リンク</a>情報オブジェクトを作成し、Common LISP 変数に格納して複数の図形要素で使用する、ということも可能です。この関数の詳細は「<a href='#2lTL2F1v7rP'>12.1.15  make-link 関数</a>」を参照してください。</p>
 <p>　　</p>
 <p>　複数の図形要素をまとめて<a class='autolink' href='#fbLcMRTVXac'>リンク</a>設定したい場合はどうすれば良いでしょうか。現状では、<a class='autolink' href='#gxb34ymFlDc'>defgroup</a> によってグループ化し、<a class='autolink' href='#klH6tZ6gdaQ'>use</a> において <code>:link</code> パラメータを使うことになります。以下の例は、<a href='#2msfXdtEc6a'>3  章</a>冒頭の一覧から抜粋したものです。</p>
 <pre class='code'>
@@ -6582,7 +6582,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p>　　</p>
 <p>　それぞれについて細かい説明を始める前に、 <code>:end1 :arrow</code> といった記述がどのように扱われるのかを説明する必要があるでしょう。 <code>:end1 / :end2</code> によるこれらの指定は、実は全て <a class='autolink' href='#eMVE1RXjuES'>make-endmark</a> 関数に渡されます。<a class='autolink' href='#eMVE1RXjuES'>make-endmark</a> 関数は、渡されたのが単一の値の場合には、キーワードなら種類、数値ならサイズなどと解釈します。そして <code>'(:type :arrow :size :small)</code> などの（複数要素からなる）リストの場合、名前付きパラメータの羅列として解釈します。</p>
-<p>　<a class='autolink' href='#eMVE1RXjuES'>make-endmark</a> 関数はその結果として「<a class='autolink' href='#9MB3lirlqL9'>終端マーク</a>情報オブジェクト」を返しますが、その<a class='autolink' href='#9MB3lirlqL9'>終端マーク</a>情報オブジェクトを <a class='autolink' href='#eMVE1RXjuES'>make-endmark</a> 関数自身に渡した場合、そのまま返すようになっています。そのため、自分で明示的に <a class='autolink' href='#eMVE1RXjuES'>make-endmark</a> 関数を使って<a class='autolink' href='#9MB3lirlqL9'>終端マーク</a>情報オブジェクトを作成し、Common LISP 変数に格納して複数の図形要素で使用する、ということも可能です。以下のように。この関数の詳細は「<a href='#eMVE1RXjuES'>12.1.10  make-endmark 関数</a>」を参照してください。</p>
+<p>　<a class='autolink' href='#eMVE1RXjuES'>make-endmark</a> 関数はその結果として「<a class='autolink' href='#9MB3lirlqL9'>終端マーク</a>情報オブジェクト」を返しますが、その<a class='autolink' href='#9MB3lirlqL9'>終端マーク</a>情報オブジェクトを <a class='autolink' href='#eMVE1RXjuES'>make-endmark</a> 関数自身に渡した場合、そのまま返すようになっています。そのため、自分で明示的に <a class='autolink' href='#eMVE1RXjuES'>make-endmark</a> 関数を使って<a class='autolink' href='#9MB3lirlqL9'>終端マーク</a>情報オブジェクトを作成し、Common LISP 変数に格納して複数の図形要素で使用する、ということも可能です。以下のように。この関数の詳細は「<a href='#eMVE1RXjuES'>12.1.11  make-endmark 関数</a>」を参照してください。</p>
 <pre class='code'>
 (<span class='keyword1'>let</span> ((em (make-endmark <span class='keyword3'>:type</span> <span class='keyword3'>:triangle</span> <span class='keyword3'>:size</span> <span class='keyword3'>:small</span>)))
   (connect  ... <span class='keyword3'>:end2</span> em)
@@ -6729,7 +6729,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p>　　</p>
 <p>　それぞれについて細かい説明を始める前に、 <code>:label "actor1"</code> といった記述がどのように扱われるのかを説明する必要があるでしょう。 <code>:label</code> によるこれらの指定は、実は全て <a class='autolink' href='#kVTylFSNyqT'>make-label</a> 関数に渡されます。<a class='autolink' href='#kVTylFSNyqT'>make-label</a> 関数は、渡されたのが単一の値の場合には、それを<a class='autolink' href='#lpCVEZ9kMoP'>ラベル</a>テキストと解釈します。そして <code>'("text" :position :above :offset (-5 10))</code> などの（複数要素からなる）リストの場合、パラメータの羅列として解釈します。</p>
-<p>　<a class='autolink' href='#kVTylFSNyqT'>make-label</a> 関数はその結果として「<a class='autolink' href='#lpCVEZ9kMoP'>ラベル</a>情報オブジェクト」を返しますが、その<a class='autolink' href='#lpCVEZ9kMoP'>ラベル</a>情報オブジェクトを <a class='autolink' href='#kVTylFSNyqT'>make-label</a> 関数自身に渡した場合、そのまま返すようになっています。そのため、自分で明示的に <a class='autolink' href='#kVTylFSNyqT'>make-label</a> 関数を使って<a class='autolink' href='#lpCVEZ9kMoP'>ラベル</a>情報オブジェクトを作成し、Common LISP 変数に格納して複数の図形要素で使用する、ということも可能です。以下のように。この関数の詳細は「<a href='#kVTylFSNyqT'>12.1.13  make-label 関数</a>」を参照してください。</p>
+<p>　<a class='autolink' href='#kVTylFSNyqT'>make-label</a> 関数はその結果として「<a class='autolink' href='#lpCVEZ9kMoP'>ラベル</a>情報オブジェクト」を返しますが、その<a class='autolink' href='#lpCVEZ9kMoP'>ラベル</a>情報オブジェクトを <a class='autolink' href='#kVTylFSNyqT'>make-label</a> 関数自身に渡した場合、そのまま返すようになっています。そのため、自分で明示的に <a class='autolink' href='#kVTylFSNyqT'>make-label</a> 関数を使って<a class='autolink' href='#lpCVEZ9kMoP'>ラベル</a>情報オブジェクトを作成し、Common LISP 変数に格納して複数の図形要素で使用する、ということも可能です。以下のように。この関数の詳細は「<a href='#kVTylFSNyqT'>12.1.14  make-label 関数</a>」を参照してください。</p>
 <pre class='code'>
 (<span class='keyword1'>let</span> ((txt (make-label <span class='literal'>"label"</span> <span class='keyword3'>:position</span> <span class='keyword3'>:above</span>)))
   (connect  ... <span class='keyword3'>:label</span> txt)
@@ -7175,7 +7175,9 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <h4><a name='7pITpDTSaVn'></a>12.1.2 *default-stroke*変数</h4>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='dNdd5AGYfnC'></a>12.1.3 defgradient マクロ</h4>
+<h4><a name='i9EtqjnJKkh'></a>12.1.3 copy-point 関数</h4>
+<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<h4><a name='dNdd5AGYfnC'></a>12.1.4 defgradient マクロ</h4>
 <p>　<a class='autolink' href='#dNdd5AGYfnC'>defgradient</a> マクロは<a class='autolink' href='#4p1J7EWjD3m'>グラデーション</a>を定義します。<a class='autolink' href='#4p1J7EWjD3m'>グラデーション</a>の詳細は「<a href='#4p1J7EWjD3m'>9.2  グラデーション</a>」を参照してください。説明不足ですが、基本的に SVG 規格に沿っていますので必要に応じて書籍や規格にあたってください。マクロシグネチャは以下の通りです。</p>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>defgradient</span> ((type id <span class='keyword2'>&amp;rest</span> params) <span class='keyword2'>&amp;rest</span> stops) ... )
@@ -7221,12 +7223,12 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <tr><td nowrap align='left'><code>radius</code></td><td align='left'>r 属性を指定する場合、数値または文字列で指定します。</td></tr>
 </table>
 <p>　　</p>
-<h4><a name='gxb34ymFlDc'></a>12.1.4 defgroup マクロ</h4>
+<h4><a name='gxb34ymFlDc'></a>12.1.5 defgroup マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>defgroup</span> ((width height id) <span class='keyword2'>&amp;rest</span> body) ... )
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='81YGnpDRA3K'></a>12.1.5 defpattern マクロ</h4>
+<h4><a name='81YGnpDRA3K'></a>12.1.6 defpattern マクロ</h4>
 <p>　<a class='autolink' href='#81YGnpDRA3K'>defpattern</a> マクロは<a class='autolink' href='#dmYFJAv81Kl'>パターン</a>を定義します。<a class='autolink' href='#dmYFJAv81Kl'>パターン</a>の詳細は「<a href='#dmYFJAv81Kl'>9.1  パターン</a>」を参照してください。説明不足ですが、基本的に SVG 規格に沿っていますので必要に応じて書籍や規格にあたってください。マクロシグネチャは以下の通りです。なお、現在、preserveAspectRatio 属性には対応していません。将来対応する可能性はありますが、未確定です。</p>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>defpattern</span> ((id <span class='keyword2'>&amp;key</span> x y width height href units
@@ -7248,9 +7250,9 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <tr><td nowrap align='left'><code>transform</code></td><td align='left'>patternTtransform 属性を指定する場合、文字列で指定します。</td></tr>
 </table>
 <p>　　</p>
-<h4><a name='2xCCaUuNLlH'></a>12.1.6 diagram マクロ</h4>
+<h4><a name='2xCCaUuNLlH'></a>12.1.7 diagram マクロ</h4>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='13cQuI9DTKo'></a>12.1.7 drop-shadow マクロ</h4>
+<h4><a name='13cQuI9DTKo'></a>12.1.8 drop-shadow マクロ</h4>
 <p>　生成画像にドロップシャドウを導入します。詳細は SVG 規格を参照してください。</p>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>drop-shadow</span> (<span class='keyword2'>&amp;key</span> id color-matrix deviation dx dy) ...)
@@ -7265,7 +7267,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <tr><td nowrap align='left'><code>dx, dy</code></td><td align='left'><code>&lt;feOffset&gt;</code> における <code>dx</code> および <code>dy</code> 値を指定します。詳細は SVG 規格を参照してください。省略した場合のデフォルト値は 4 です。</td></tr>
 </table>
 <p>　　</p>
-<h4><a name='aK4WyL00CPC'></a>12.1.8 glow-shadow マクロ</h4>
+<h4><a name='aK4WyL00CPC'></a>12.1.9 glow-shadow マクロ</h4>
 <p>　生成画像にグローシャドウを導入します。詳細は SVG 規格を参照してください。</p>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>glow-shadow</span> (<span class='keyword2'>&amp;key</span> id color-matrix deviation) ...)
@@ -7279,7 +7281,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <tr><td nowrap align='left'><code>deviation</code></td><td align='left'><code>&lt;feGaussianBlur&gt;</code> における <code>stdDeviation</code> 値を指定します。詳細は SVG 規格を参照してください。省略した場合のデフォルト値は 3 です。</td></tr>
 </table>
 <p>　　</p>
-<h4><a name='g1LCkkjN7rG'></a>12.1.9 layer 関数</h4>
+<h4><a name='g1LCkkjN7rG'></a>12.1.10 layer 関数</h4>
 <p>　<a class='autolink' href='#1ovJxG7Ie9O'>レイヤー</a>の導入を宣言します。<a class='autolink' href='#1ovJxG7Ie9O'>レイヤー</a>については「<a href='#1ovJxG7Ie9O'>10.8  レイヤー</a>」を参照してください。関数シグネチャは以下の通りです。</p>
 <pre class='code'>
 (<span class='keyword1'>defun</span> <span class='keyword5'>layer</span> (name <span class='keyword2'>&amp;optional</span> (display <span class='keyword3'>:inline</span>))
@@ -7292,7 +7294,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <tr><td nowrap align='left'><code>display</code></td><td align='left'><a class='autolink' href='#1ovJxG7Ie9O'>レイヤー</a>全体の表示を <code>:inline</code> または <code>:none</code> で指定します。省略時の<br>                  デフォルトは <code>:inline</code> で、<a class='autolink' href='#1ovJxG7Ie9O'>レイヤー</a>全体を表示します。 <code>:none</code> を指定<br>                  すると、<a class='autolink' href='#1ovJxG7Ie9O'>レイヤー</a>全体を非表示にします。</td></tr>
 </table>
 <p>　　</p>
-<h4><a name='eMVE1RXjuES'></a>12.1.10 make-endmark 関数</h4>
+<h4><a name='eMVE1RXjuES'></a>12.1.11 make-endmark 関数</h4>
 <p>　<a class='autolink' href='#eMVE1RXjuES'>make-endmark</a> 関数は<a class='autolink' href='#9MB3lirlqL9'>終端マーク</a>情報を生成します。<a class='autolink' href='#9MB3lirlqL9'>終端マーク</a>情報の詳細は「<a href='#9MB3lirlqL9'>10.10  終端マーク</a>」を参照してください。関数シグネチャは以下の通りです。</p>
 <pre class='code'>
 (<span class='keyword1'>defun</span> <span class='keyword5'>make-endmark</span> (<span class='keyword2'>&amp;rest</span> params) ...)
@@ -7336,7 +7338,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 (<span class='keyword1'>lambda</span> (points size stroke fill writer) ...)
 </pre>
 <p>　　</p>
-<h4><a name='8IkB7VinE7h'></a>12.1.11 make-fill 関数</h4>
+<h4><a name='8IkB7VinE7h'></a>12.1.12 make-fill 関数</h4>
 <p>　<a class='autolink' href='#8IkB7VinE7h'>make-fill</a> 関数は<a class='autolink' href='#dBUd7L4C3dx'>フィル</a>情報を生成します。<a class='autolink' href='#dBUd7L4C3dx'>フィル</a>情報の詳細は「<a href='#dBUd7L4C3dx'>10.3  フィル</a>」を参照してください。関数シグネチャは以下の通りです。</p>
 <pre class='code'>
 (<span class='keyword1'>defun</span> <span class='keyword5'>make-fill</span> (<span class='keyword2'>&amp;rest</span> params) ...)
@@ -7375,7 +7377,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <tr><td nowrap align='left'><code>base</code></td><td align='left'><span style='background:red;color:white;'>ToDo : まだ記述されていません</span></td></tr>
 </table>
 <p>　　</p>
-<h4><a name='673GXF9YiIQ'></a>12.1.12 make-font 関数</h4>
+<h4><a name='673GXF9YiIQ'></a>12.1.13 make-font 関数</h4>
 <p>　<a class='autolink' href='#673GXF9YiIQ'>make-font</a> 関数は<a class='autolink' href='#3kZ9FkounyK'>フォント</a>情報を生成します。<a class='autolink' href='#3kZ9FkounyK'>フォント</a>情報の詳細は「<a href='#3kZ9FkounyK'>10.4  フォント</a>」を参照してください。関数シグネチャは以下の通りです。</p>
 <pre class='code'>
 (<span class='keyword1'>defun</span> <span class='keyword5'>make-font</span> (<span class='keyword2'>&amp;rest</span> params) ...)
@@ -7423,7 +7425,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <tr><td nowrap align='left'><code>base</code></td><td align='left'><span style='background:red;color:white;'>ToDo : まだ記述されていません</span></td></tr>
 </table>
 <p>　　</p>
-<h4><a name='kVTylFSNyqT'></a>12.1.13 make-label 関数</h4>
+<h4><a name='kVTylFSNyqT'></a>12.1.14 make-label 関数</h4>
 <p>　<a class='autolink' href='#kVTylFSNyqT'>make-label</a> 関数は<a class='autolink' href='#lpCVEZ9kMoP'>ラベル</a>情報を生成します。<a class='autolink' href='#lpCVEZ9kMoP'>ラベル</a>情報の詳細は「<a href='#lpCVEZ9kMoP'>10.11  ラベル</a>」を参照してください。関数シグネチャは以下の通りです。</p>
 <pre class='code'>
 (<span class='keyword1'>defun</span> <span class='keyword5'>make-label</span> (<span class='keyword2'>&amp;rest</span> params) ...)
@@ -7462,7 +7464,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <tr><td nowrap align='left'><code>font</code></td><td align='left'><a class='autolink' href='#lpCVEZ9kMoP'>ラベル</a>の描画に使用する<a class='autolink' href='#3kZ9FkounyK'>フォント</a>を指定します。詳細は「<a href='#3kZ9FkounyK'>10.4  フォント</a>」を参照<br>してください。</td></tr>
 </table>
 <p>　　</p>
-<h4><a name='2lTL2F1v7rP'></a>12.1.14 make-link 関数</h4>
+<h4><a name='2lTL2F1v7rP'></a>12.1.15 make-link 関数</h4>
 <p>　<a class='autolink' href='#2lTL2F1v7rP'>make-link</a> 関数は<a class='autolink' href='#fbLcMRTVXac'>リンク</a>情報を生成します。<a class='autolink' href='#fbLcMRTVXac'>リンク</a>情報の詳細は「<a href='#fbLcMRTVXac'>10.9  リンク</a>」を参照してください。関数シグネチャは以下の通りです。</p>
 <pre class='code'>
 (<span class='keyword1'>defun</span> <span class='keyword5'>make-link</span> (<span class='keyword2'>&amp;rest</span> params) ...)
@@ -7499,7 +7501,9 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <tr><td nowrap align='left'><code>target</code></td><td align='left'>a タグにおける target をキーワード <code>:replace :self :parent :top :blank</code> の<br>いずれかで指定します。省略可能です。</td></tr>
 </table>
 <p>　　</p>
-<h4><a name='ezUVhtPwl3J'></a>12.1.15 make-stroke 関数</h4>
+<h4><a name='cV08aR4hVCU'></a>12.1.16 make-point 関数</h4>
+<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<h4><a name='ezUVhtPwl3J'></a>12.1.17 make-stroke 関数</h4>
 <p>　<a class='autolink' href='#ezUVhtPwl3J'>make-stroke</a> 関数は<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>情報を生成します。<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>情報の詳細は「<a href='#4HFjqmTuIU6'>10.2  ストローク</a>」を参照してください。関数シグネチャは以下の通りです。</p>
 <pre class='code'>
 (<span class='keyword1'>defun</span> <span class='keyword5'>make-stroke</span> (<span class='keyword2'>&amp;rest</span> params) ...)
@@ -7546,114 +7550,156 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <tr><td nowrap align='left'><code>base</code></td><td align='left'><span style='background:red;color:white;'>ToDo : まだ記述されていません</span></td></tr>
 </table>
 <p>　　</p>
-<h4><a name='7QraN5WNGea'></a>12.1.16 rgb 関数</h4>
+<h4><a name='k76Q8kszUmj'></a>12.1.18 point-absolute-p 関数</h4>
+<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<h4><a name='1cQLTt5yCRi'></a>12.1.19 point-distance 関数</h4>
+<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<h4><a name='eYsB94h8ozm'></a>12.1.20 point-p 関数</h4>
+<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<h4><a name='8ARSCNEXCwM'></a>12.1.21 point-relative-p 関数</h4>
+<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<h4><a name='et6gePtgg50'></a>12.1.22 point-x 関数</h4>
+<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<h4><a name='3B2wOhg6fxU'></a>12.1.23 point-y 関数</h4>
+<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<h4><a name='6mwEJ7qyOKN'></a>12.1.24 point- 関数</h4>
+<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<h4><a name='fCZ08hHsf3N'></a>12.1.25 point+ 関数</h4>
+<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<h4><a name='4KVbI0Yxvwv'></a>12.1.26 point* 関数</h4>
+<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<h4><a name='fA1G0CmvyHa'></a>12.1.27 point/ 関数</h4>
+<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<h4><a name='lEZ6oy96fUH'></a>12.1.28 point/x+ 関数</h4>
+<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<h4><a name='awgH1J8YsIC'></a>12.1.29 point/y+ 関数</h4>
+<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<h4><a name='3nSG8ftc6m8'></a>12.1.30 point/xy+ 関数</h4>
+<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<h4><a name='0PEmum7oOhN'></a>12.1.31 pt+ 関数</h4>
+<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<h4><a name='l5wQyXHeIdD'></a>12.1.32 pt- 関数</h4>
+<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<h4><a name='bKsZo5blo67'></a>12.1.33 pt* 関数</h4>
+<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<h4><a name='0VlJD9HMxWk'></a>12.1.34 pt/ 関数</h4>
+<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<h4><a name='7QraN5WNGea'></a>12.1.35 rgb 関数</h4>
 <pre class='code'>
 (rgb r g b)
 </pre>
-<h4><a name='klH6tZ6gdaQ'></a>12.1.17 use マクロ</h4>
+<h4><a name='klH6tZ6gdaQ'></a>12.1.36 use マクロ</h4>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='7WY0qIioOWV'></a>12.1.18 with-balloon-options マクロ</h4>
+<h4><a name='7WY0qIioOWV'></a>12.1.37 with-balloon-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-balloon-options</span> ((<span class='keyword2'>&amp;key</span> tab-width tab-height
                                      align valign margin
                                      font fill stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='kT3ITG7nfBI'></a>12.1.19 with-block-arrow-options マクロ</h4>
+<h4><a name='kT3ITG7nfBI'></a>12.1.38 with-block-arrow-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-block-arrow-options</span> ((<span class='keyword2'>&amp;key</span> fill stroke
                                           filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='avbLVTgRge8'></a>12.1.20 with-brace-options マクロ</h4>
+<h4><a name='avbLVTgRge8'></a>12.1.39 with-brace-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-brace-options</span> ((<span class='keyword2'>&amp;key</span> font stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='8SwZig7eicm'></a>12.1.21 with-canvas マクロ</h4>
+<h4><a name='8SwZig7eicm'></a>12.1.40 with-canvas マクロ</h4>
 <p>　<a class='autolink' href='#4RbKSY2RkFp'>with-current-canvas</a> マクロの導入に伴い、<a class='autolink' href='#8SwZig7eicm'>with-canvas</a> マクロは非推奨となりました。</p>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-canvas</span> ((sym-cc sym-width sym-height) canvas <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
-<h4><a name='gE4r2xg8b9U'></a>12.1.22 with-cross-options マクロ</h4>
+<h4><a name='gE4r2xg8b9U'></a>12.1.41 with-cross-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-cross-options</span> ((<span class='keyword2'>&amp;key</span> fill stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='dpsPduib5te'></a>12.1.23 with-cube-options マクロ</h4>
+<h4><a name='dpsPduib5te'></a>12.1.42 with-cube-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-cube-options</span> ((<span class='keyword2'>&amp;key</span> depth align valign margin
                                    font fill fill2 stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='4RbKSY2RkFp'></a>12.1.24 with-current-canvas マクロ</h4>
+<h4><a name='4RbKSY2RkFp'></a>12.1.43 with-current-canvas マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-current-canvas</span> ((<span class='keyword2'>&amp;rest</span> vars) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='6STY3Kxzonk'></a>12.1.25 with-cylinder-options マクロ</h4>
+<h4><a name='6STY3Kxzonk'></a>12.1.44 with-cylinder-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-cylinder-options</span> ((<span class='keyword2'>&amp;key</span> depth align valign margin
                                   font fill stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='0axtDA7gRzz'></a>12.1.26 with-document-options マクロ</h4>
+<h4><a name='0axtDA7gRzz'></a>12.1.45 with-document-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-document-options</span> ((<span class='keyword2'>&amp;key</span> align valign margin
                                        font fill stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='euPiyWBZQsA'></a>12.1.27 with-endmark-options マクロ</h4>
+<h4><a name='euPiyWBZQsA'></a>12.1.46 with-endmark-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-endmark-options</span> ((<span class='keyword2'>&amp;key</span> type size fill end1 end2) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='h8PWgenmp0d'></a>12.1.28 with-explosion-options マクロ</h4>
+<h4><a name='h8PWgenmp0d'></a>12.1.47 with-explosion-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-explosion-options</span> ((<span class='keyword2'>&amp;key</span> font fill
                                         stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='grfAvoJdCpJ'></a>12.1.29 with-folder-options マクロ</h4>
+<h4><a name='grfAvoJdCpJ'></a>12.1.48 with-folder-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-folder-options</span> ((<span class='keyword2'>&amp;key</span> tab-width tab-height
                                      align valign margin
                                      font fill stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='aw2yb6IRaf3'></a>12.1.30 with-label-options マクロ</h4>
+<h4><a name='aw2yb6IRaf3'></a>12.1.49 with-label-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-label-options</span> ((<span class='keyword2'>&amp;key</span> position offset font) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='0C8r7LcFb7c'></a>12.1.31 with-memo-options マクロ</h4>
+<h4><a name='0C8r7LcFb7c'></a>12.1.50 with-memo-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-memo-options</span> ((<span class='keyword2'>&amp;key</span> crease align valign margin
                                    font fill fill2 stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='5afU9yg86c0'></a>12.1.32 with-optionsマクロ</h4>
+<h4><a name='5afU9yg86c0'></a>12.1.51 with-optionsマクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-options</span> ((<span class='keyword2'>&amp;key</span> fill stroke font filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
-<h4><a name='0B9bMaXVpqW'></a>12.1.33 with-person-options マクロ</h4>
+<h4><a name='0B9bMaXVpqW'></a>12.1.52 with-person-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-person-options</span> ((<span class='keyword2'>&amp;key</span> fill stroke layer filter) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='lsGULoUqoK4'></a>12.1.34 with-subcanvasマクロ</h4>
+<h4><a name='ekClPzGH4mL'></a>12.1.53 with-point マクロ</h4>
+<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<h4><a name='lsGULoUqoK4'></a>12.1.54 with-subcanvasマクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-subcanvas</span> ((top-left width height) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
-<h4><a name='2c8duiejnaO'></a>12.1.35 with-subcanvas-ofマクロ</h4>
+<h4><a name='2c8duiejnaO'></a>12.1.55 with-subcanvas-ofマクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-subcanvas-of</span> ((id) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
-<h4><a name='2XsIFr1er3s'></a>12.1.36 with-textbox-options マクロ</h4>
+<h4><a name='2XsIFr1er3s'></a>12.1.56 with-textbox-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-textbox-options</span> ((<span class='keyword2'>&amp;key</span> rx ry align valign margin
                                       font fill stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
+<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<h4><a name='jLA9399dgMF'></a>12.1.57 x+ 関数</h4>
+<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<h4><a name='j1QjqyXsZPP'></a>12.1.58 xy+ 関数</h4>
+<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<h4><a name='8ke5i0CYRuw'></a>12.1.59 y+ 関数</h4>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <h3><a name='dR01Jh257Q6'></a>12.2 色の名前</h3>
 <p> <a href='#1rpUB3fre67'>10.1  節</a>ではいくつかの色の指定方法を紹介しています。ここでは、そのうち色の名前について使用できるものを紹介します。まず、以下は SVG 規格に記載されている色名のサンプルです<sup><a name='footnote_ref19' href='#footnote19'>19</a></sup>。</p>
@@ -10164,12 +10210,12 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <ul>
 <li><strong>INCOMPATIBLE CHANGE : defs マクロを <a class='autolink' href='#gxb34ymFlDc'>defgroup</a> マクロに改名</strong></li>
 <li>ENHANCE : 「<a href='#dmYFJAv81Kl'>9.1  パターン</a>」を追加</li>
-<li>ENHANCE : 「<a href='#8IkB7VinE7h'>12.1.11  make-fill 関数</a>」に <code>url</code> パラメータを追加</li>
+<li>ENHANCE : 「<a href='#8IkB7VinE7h'>12.1.12  make-fill 関数</a>」に <code>url</code> パラメータを追加</li>
 </ul>
 </li>
 <li><strong>2022/09/25 - version 0.005</strong>
 <ul>
-<li>ENHANCE : 「<a href='#ezUVhtPwl3J'>12.1.15  make-stroke 関数</a>」に <code>url</code> パラメータを追加</li>
+<li>ENHANCE : 「<a href='#ezUVhtPwl3J'>12.1.17  make-stroke 関数</a>」に <code>url</code> パラメータを追加</li>
 <li>ENHANCE : 「<a href='#4p1J7EWjD3m'>9.2  グラデーション</a>」を追加</li>
 </ul>
 </li>
@@ -10452,6 +10498,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <blockquote class='idx_x'>
 <li class='idx_x'><a class='autolink' href='#8UQowBxrcaE'>circle</a></li>
 <li class='idx_x'><a class='autolink' href='#eFhVs4WwYUG'>connect</a></li>
+<li class='idx_x'><a class='autolink' href='#i9EtqjnJKkh'>copy-point</a></li>
 <li class='idx_x'><a class='autolink' href='#4cZRWkwhYNO'>cross</a></li>
 <li class='idx_x'><a class='autolink' href='#hja1QJC0Ivb'>cube</a></li>
 <li class='idx_x'><a class='autolink' href='#5ME1Xv0K4sM'>cylinder</a></li>
@@ -10503,6 +10550,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li class='idx_x'><a class='autolink' href='#673GXF9YiIQ'>make-font</a></li>
 <li class='idx_x'><a class='autolink' href='#kVTylFSNyqT'>make-label</a></li>
 <li class='idx_x'><a class='autolink' href='#2lTL2F1v7rP'>make-link</a></li>
+<li class='idx_x'><a class='autolink' href='#cV08aR4hVCU'>make-point</a></li>
 <li class='idx_x'><a class='autolink' href='#ezUVhtPwl3J'>make-stroke</a></li>
 <li class='idx_x'><a class='autolink' href='#0AVJhEKnK1M'>memo</a></li>
 </blockquote>
@@ -10514,7 +10562,24 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li class='idx_x'><a class='autolink' href='#8YR8CiywoW8'>parallelogram</a></li>
 <li class='idx_x'><a class='autolink' href='#4qgt62QVDZl'>path</a></li>
 <li class='idx_x'><a class='autolink' href='#03WwbeGq0eH'>person</a></li>
+<li class='idx_x'><a class='autolink' href='#4KVbI0Yxvwv'>point*</a></li>
+<li class='idx_x'><a class='autolink' href='#fCZ08hHsf3N'>point+</a></li>
+<li class='idx_x'><a class='autolink' href='#6mwEJ7qyOKN'>point-</a></li>
+<li class='idx_x'><a class='autolink' href='#k76Q8kszUmj'>point-absolute-p</a></li>
+<li class='idx_x'><a class='autolink' href='#1cQLTt5yCRi'>point-distance</a></li>
+<li class='idx_x'><a class='autolink' href='#eYsB94h8ozm'>point-p</a></li>
+<li class='idx_x'><a class='autolink' href='#8ARSCNEXCwM'>point-relative-p</a></li>
+<li class='idx_x'><a class='autolink' href='#et6gePtgg50'>point-x</a></li>
+<li class='idx_x'><a class='autolink' href='#3B2wOhg6fxU'>point-y</a></li>
+<li class='idx_x'><a class='autolink' href='#fA1G0CmvyHa'>point/</a></li>
+<li class='idx_x'><a class='autolink' href='#lEZ6oy96fUH'>point/x+</a></li>
+<li class='idx_x'><a class='autolink' href='#3nSG8ftc6m8'>point/xy+</a></li>
+<li class='idx_x'><a class='autolink' href='#awgH1J8YsIC'>point/y+</a></li>
 <li class='idx_x'><a class='autolink' href='#5vGRm9AMypB'>polygon</a></li>
+<li class='idx_x'><a class='autolink' href='#bKsZo5blo67'>pt*</a></li>
+<li class='idx_x'><a class='autolink' href='#0PEmum7oOhN'>pt+</a></li>
+<li class='idx_x'><a class='autolink' href='#l5wQyXHeIdD'>pt-</a></li>
+<li class='idx_x'><a class='autolink' href='#0VlJD9HMxWk'>pt/</a></li>
 </blockquote>
 </details>
 <details class='idx_x' open>
@@ -10604,9 +10669,23 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li class='idx_x'><a class='autolink' href='#0C8r7LcFb7c'>with-memo-options</a></li>
 <li class='idx_x'><a class='autolink' href='#5afU9yg86c0'>with-options</a></li>
 <li class='idx_x'><a class='autolink' href='#0B9bMaXVpqW'>with-person-options</a></li>
+<li class='idx_x'><a class='autolink' href='#ekClPzGH4mL'>with-point</a></li>
 <li class='idx_x'><a class='autolink' href='#lsGULoUqoK4'>with-subcanvas</a></li>
 <li class='idx_x'><a class='autolink' href='#2c8duiejnaO'>with-subcanvas-of</a></li>
 <li class='idx_x'><a class='autolink' href='#2XsIFr1er3s'>with-textbox-options</a></li>
+</blockquote>
+</details>
+<details class='idx_x' open>
+<summary class='idx_x'>X</summary>
+<blockquote class='idx_x'>
+<li class='idx_x'><a class='autolink' href='#jLA9399dgMF'>x+</a></li>
+<li class='idx_x'><a class='autolink' href='#j1QjqyXsZPP'>xy+</a></li>
+</blockquote>
+</details>
+<details class='idx_x' open>
+<summary class='idx_x'>Y</summary>
+<blockquote class='idx_x'>
+<li class='idx_x'><a class='autolink' href='#8ke5i0CYRuw'>y+</a></li>
 </blockquote>
 </details>
 <details class='idx_x' open>

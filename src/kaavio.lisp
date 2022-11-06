@@ -322,6 +322,12 @@
 				:point-y
 				:point+
 				:point-
+				:point*
+				:point/
+				:pt+
+				:pt-
+				:pt*
+				:pt/
 				:point/x+
 				:point/y+
 				:point/xy+

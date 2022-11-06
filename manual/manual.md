@@ -5835,6 +5835,11 @@ Figure. uml-activity-partitions 要素
 
 　${{TODO}{まだ記述されていません。}}
 
+#### copy-point 関数
+<!-- autolink: [copy-point](#copy-point 関数) -->
+
+　${{TODO}{まだ記述されていません。}}
+
 #### defgradient マクロ
 <!-- autolink: [defgradient](#defgradient マクロ) -->
 
@@ -6251,6 +6256,11 @@ Table. make-link 関数のパラメータ
 
 ${BLANK_PARAGRAPH}
 
+#### make-point 関数
+<!-- autolink: [make-point](#make-point 関数) -->
+
+　${{TODO}{まだ記述されていません。}}
+
 #### make-stroke 関数
 <!-- autolink: [make-stroke](#make-stroke 関数) -->
 
@@ -6303,6 +6313,91 @@ Table. make-stroke 関数のパラメータ
 
 
 ${BLANK_PARAGRAPH}
+
+#### point-absolute-p 関数
+<!-- autolink: [point-absolute-p](#point-absolute-p 関数) -->
+
+　${{TODO}{まだ記述されていません。}}
+
+#### point-distance 関数
+<!-- autolink: [point-distance](#point-distance 関数) -->
+
+　${{TODO}{まだ記述されていません。}}
+
+#### point-p 関数
+<!-- autolink: [point-p](#point-p 関数) -->
+
+　${{TODO}{まだ記述されていません。}}
+
+#### point-relative-p 関数
+<!-- autolink: [point-relative-p](#point-relative-p 関数) -->
+
+　${{TODO}{まだ記述されていません。}}
+
+#### point-x 関数
+<!-- autolink: [point-x](#point-x 関数) -->
+
+　${{TODO}{まだ記述されていません。}}
+
+#### point-y 関数
+<!-- autolink: [point-y](#point-y 関数) -->
+
+　${{TODO}{まだ記述されていません。}}
+
+#### point- 関数
+<!-- autolink: [point-](#point- 関数) -->
+
+　${{TODO}{まだ記述されていません。}}
+
+#### point+ 関数
+<!-- autolink: [point+](#point+ 関数) -->
+
+　${{TODO}{まだ記述されていません。}}
+
+#### point* 関数
+<!-- autolink: [point*](#point* 関数) -->
+
+　${{TODO}{まだ記述されていません。}}
+
+#### point/ 関数
+<!-- autolink: [point/](#point/ 関数) -->
+
+　${{TODO}{まだ記述されていません。}}
+
+#### point/x+ 関数
+<!-- autolink: [point/x+](#point/x+ 関数) -->
+
+　${{TODO}{まだ記述されていません。}}
+
+#### point/y+ 関数
+<!-- autolink: [point/y+](#point/y+ 関数) -->
+
+　${{TODO}{まだ記述されていません。}}
+
+#### point/xy+ 関数
+<!-- autolink: [point/xy+](#point/xy+ 関数) -->
+
+　${{TODO}{まだ記述されていません。}}
+
+#### pt+ 関数
+<!-- autolink: [pt+](#pt+ 関数) -->
+
+　${{TODO}{まだ記述されていません。}}
+
+#### pt- 関数
+<!-- autolink: [pt-](#pt- 関数) -->
+
+　${{TODO}{まだ記述されていません。}}
+
+#### pt* 関数
+<!-- autolink: [pt*](#pt* 関数) -->
+
+　${{TODO}{まだ記述されていません。}}
+
+#### pt/ 関数
+<!-- autolink: [pt/](#pt/ 関数) -->
+
+　${{TODO}{まだ記述されていません。}}
 
 #### rgb 関数
 <!-- autolink: [rgb](#rgb 関数) -->
@@ -6468,6 +6563,11 @@ ${BLANK_PARAGRAPH}
 
 　${{TODO}{まだ記述されていません。}}
 
+#### with-point マクロ
+<!-- autolink: [with-point](#with-point マクロ) -->
+
+　${{TODO}{まだ記述されていません。}}
+
 #### with-subcanvasマクロ
 <!-- autolink: [with-subcanvas](#with-subcanvasマクロ) -->
 
@@ -6489,6 +6589,21 @@ ${BLANK_PARAGRAPH}
 (defmacro with-textbox-options ((&key rx ry align valign margin
                                       font fill stroke filter layer) &rest body) ...)
 ```
+
+　${{TODO}{まだ記述されていません。}}
+
+#### x+ 関数
+<!-- autolink: [x+](#x+ 関数) -->
+
+　${{TODO}{まだ記述されていません。}}
+
+#### xy+ 関数
+<!-- autolink: [xy+](#xy+ 関数) -->
+
+　${{TODO}{まだ記述されていません。}}
+
+#### y+ 関数
+<!-- autolink: [y+](#y+ 関数) -->
 
 　${{TODO}{まだ記述されていません。}}
 

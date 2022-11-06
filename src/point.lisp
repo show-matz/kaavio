@@ -53,6 +53,12 @@
 #|
 #|EXPORT|#				:point+
 #|EXPORT|#				:point-
+#|EXPORT|#				:point*
+#|EXPORT|#				:point/
+#|EXPORT|#				:pt+
+#|EXPORT|#				:pt-
+#|EXPORT|#				:pt*
+#|EXPORT|#				:pt/
 #|EXPORT|#				:point/x+
 #|EXPORT|#				:point/y+
 #|EXPORT|#				:point/xy+
@@ -60,15 +66,28 @@
 #|EXPORT|#				:y+
 #|EXPORT|#				:xy+
  |#
-(defun point+ (pt1 pt2)
+(defun pt+ (pt1 pt2)
   (make-point (+  (car  pt1) (car  pt2))
 			  (+  (cadr pt1) (cadr pt2))
 			  (or (cddr pt1) (cddr pt2))))
 
-(defun point- (pt1 pt2)
+(defun pt- (pt1 pt2)
   (make-point (-  (car  pt1) (car  pt2))
 			  (-  (cadr pt1) (cadr pt2))
 			  (or (cddr pt1) (cddr pt2))))
+
+(defun pt* (pt n)
+  (make-point (*  (car  pt) n)
+			  (*  (cadr pt) n) (cddr pt)))
+
+(defun pt/ (pt n)
+  (make-point (/  (car  pt) n)
+			  (/  (cadr pt) n) (cddr pt)))
+
+(defun point+ (pt1 pt2) (pt+ pt1 pt2))
+(defun point- (pt1 pt2) (pt- pt1 pt2))
+(defun point* (pt n)    (pt* pt  n))
+(defun point/ (pt n)    (pt/ pt  n))
 
 (defun point/x+ (pt x)
   (make-point (+ (car pt) x) (cadr pt) (cddr pt)))
