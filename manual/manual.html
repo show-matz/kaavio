@@ -3316,7 +3316,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p>　<code>with-table-cell</code> は事実上、指定した<a class='autolink' href='#g6xjP526KX7'>テーブル</a>の指定セル領域を指定した <code>with-subcanvas</code> として機能します。そのため、 <code>canvas</code> を使ってその中心座標や幅、高さ情報にアクセスできます。</p>
 <p>　　</p>
 <h2><a name='gz7soCOOkJW'></a>5 その他の図形要素</h2>
-<p>　ほしい図形要素がなければ、手間はかかりますが<a class='autolink' href='#4qgt62QVDZl'>パス</a>を使って実現できるかもしれません。図面の中に写真などのラスタ画像を含めることもできます。あるいは、kaavio がサポートしていない SVG の機能を利用したければ生の SVG コードを挿入することもできます。</p>
+<p>　ほしい図形要素がなければ、手間はかかりますが<a class='autolink' href='#4qgt62QVDZl'>パス</a>を使って実現できるかもしれません。図面の中に写真などのラスタ画像を含めることもできます。あるいは、kaavio がサポートしていない SVG の機能を利用したければ生の SVG コードを挿入することもできます<sup><a name='footnote_ref6' href='#footnote6'>6</a></sup>。</p>
 <h3><a name='4qgt62QVDZl'></a>5.1 パス</h3>
 <p>　<a class='autolink' href='#4qgt62QVDZl'>path</a> によって<a class='autolink' href='#fv4OUML78x4'>直線</a>や曲線からなる複雑な図形を描画できます。<a class='autolink' href='#5vGRm9AMypB'>polygon</a> は<a class='autolink' href='#fv4OUML78x4'>直線</a>からなる<a class='autolink' href='#5vGRm9AMypB'>多角形</a>でしたが、<a class='autolink' href='#4qgt62QVDZl'>path</a> は複雑な曲線を含む図形を描画できます。ただ、その分構文も複雑です。</p>
 <div align='center'>
@@ -3369,9 +3369,9 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <tr style="font-size: 14;"><td nowrap align='left'><code>:line-to</code></td><td align='left'>現在の点から指定した点に向かって（線を描きながら）移動します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>:h-line-to</code></td><td align='left'>現在の点から指定した x 座標に向かって水平線を描きながら移動します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>:v-line-to</code></td><td align='left'>現在の点から指定した y 座標に向かって垂<a class='autolink' href='#fv4OUML78x4'>直線</a>を描きながら移動します。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'><code>:arc-to</code></td><td align='left'><span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'><code>:2d-curve-to</code></td><td align='left'><span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'><code>:3d-curve-to</code></td><td align='left'><span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>:arc-to</code></td><td align='left'>現在の点から指定した点に向かって楕<a class='autolink' href='#cp2F91gKG7W'>円弧</a>を描きながら移動します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>:2d-curve-to</code></td><td align='left'>現在の点から指定した点に向かって二次ベジェ曲線を描きながら移動します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>:3d-curve-to</code></td><td align='left'>現在の点から指定した点に向かって三次ベジェ曲線を描きながら移動します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>:absolute</code></td><td align='left'>後続のディレクティブを、現在の<a class='autolink' href='#kgs1vf3AbTN'>キャンバス</a>に対する絶対座標として処理します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>:relative</code></td><td align='left'>後続のディレクティブを、現在の点に対する相対座標として処理します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>:close-path</code></td><td align='left'><a class='autolink' href='#4qgt62QVDZl'>パス</a>を閉じます。すなわち、現在の点から先頭の点までを結ぶ<a class='autolink' href='#fv4OUML78x4'>直線</a>を引きます。</td></tr>
@@ -3399,8 +3399,9 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
 	<!-- path -->
 	<path fill='rosybrown' stroke='black' stroke-width='1' d='M 200 10 L 230 50 L 170 50 L 200 10' />
-	<!-- text -->
-	<text x='200' y='80' text-anchor='middle' font-size='12pt' fill='black' >(:move-to (200 10) (230 50) (170 50) (200 10))</text>
+	<!-- textbox -->
+	<text x='60.800003' y='79' text-anchor='start' font-family='Courier New' font-size='12pt' fill='black' >(:move-to (200 10) (230 50)</text>
+	<text x='60.800003' y='93' text-anchor='start' font-family='Courier New' font-size='12pt' fill='black' xml:space='preserve' >          (170 50) (200 10))</text>
 
 </svg>
 </div>
@@ -3421,10 +3422,9 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
 	<!-- path -->
 	<path fill='rosybrown' stroke='black' stroke-width='1' d='M 200 10 L 230 50 L 170 50 L 200 10' />
-	<!-- text -->
-	<text x='70' y='75' text-anchor='start' font-size='12pt' fill='black' >(:move-to (200 10))</text>
-	<!-- text -->
-	<text x='70' y='95' text-anchor='start' font-size='12pt' fill='black' >(:line-to (230 50) (170 50) (200 10))</text>
+	<!-- textbox -->
+	<text x='25.700012' y='79' text-anchor='start' font-family='Courier New' font-size='12pt' fill='black' >(:move-to (200 10))</text>
+	<text x='25.700012' y='93' text-anchor='start' font-family='Courier New' font-size='12pt' fill='black' >(:line-to (230 50) (170 50) (200 10))</text>
 
 </svg>
 </div>
@@ -3432,17 +3432,10 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p class='fig_title'><a name='i7V67Cjuavz'></a>Figure.5-3 :line-to ディレクティブのサンプル</p>
 <p>　なお、<a class='autolink' href='#cUdEKyCDebd'>:line-to</a> で指定する点は <a class='autolink' href='#dakC66hrAaS'>:absolute</a> および <a class='autolink' href='#9DKrZhbLEFX'>:relative</a> の影響を受けます。</p>
 <h4><a name='4Dfw1F7JwVj'></a>5.1.3 :h-line-to ディレクティブ</h4>
-<p><span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='1B0JCoNzfxs'></a>5.1.4 :v-line-to ディレクティブ</h4>
-<p><span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='7RszlFbOHcp'></a>5.1.5 :arc-to ディレクティブ</h4>
-<p><span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<pre>
-'(arc-to rx ry x-axis-rotation large-arc-flag sweep-flag pt)
-</pre>
+<p>　<code>(:h-line-to x)</code> という記述により、現在の点から指定した x 座標まで水平線を描きながら移動します。</p>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
-<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='400' height='100'>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='150'>
 	
 	<!-- grid -->
 	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
@@ -3451,12 +3444,77 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 	</pattern>
 	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
 	<!-- path -->
-	<path fill='rosybrown' stroke='black' stroke-width='1' d='M 150 50 A 30 30 0 0 1 250 80 Z' />
+	<path fill='rosybrown' stroke='black' stroke-width='1' d='M 100 10 H 200 V 50 H 100 V 10' />
+	<!-- textbox -->
+	<text x='60' y='78' text-anchor='start' font-family='Courier New' font-size='12pt' fill='black' >(:move-to (100 10))</text>
+	<text x='60' y='92' text-anchor='start' font-family='Courier New' font-size='12pt' fill='black' >(:h-line-to 200)</text>
+	<text x='60' y='106' text-anchor='start' font-family='Courier New' font-size='12pt' fill='black' xml:space='preserve' >(:v-line-to  50)</text>
+	<text x='60' y='120' text-anchor='start' font-family='Courier New' font-size='12pt' fill='black' >(:h-line-to 100)</text>
+	<text x='60' y='134' text-anchor='start' font-family='Courier New' font-size='12pt' fill='black' xml:space='preserve' >(:v-line-to  10)</text>
 
 </svg>
 </div>
 
-<p class='fig_title'><a name='0iNBCVKyFlO'></a>Figure.5-4 :arc-to ディレクティブのサンプル</p>
+<p class='fig_title'><a name='hJ1SRWaSqTh'></a>Figure.5-4 :h-line-to ディレクティブのサンプル</p>
+<p>　なお、<a class='autolink' href='#4Dfw1F7JwVj'>:h-line-to</a> で指定する点は <a class='autolink' href='#dakC66hrAaS'>:absolute</a> および <a class='autolink' href='#9DKrZhbLEFX'>:relative</a> の影響を受けます。</p>
+<h4><a name='1B0JCoNzfxs'></a>5.1.4 :v-line-to ディレクティブ</h4>
+<p>　<code>(:v-line-to y)</code> という記述により、現在の点から指定した y 座標まで垂<a class='autolink' href='#fv4OUML78x4'>直線</a>を描きながら移動します。</p>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='150'>
+	
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- path -->
+	<path fill='rosybrown' stroke='black' stroke-width='1' d='M 100 10 H 200 V 50 H 100 V 10' />
+	<!-- textbox -->
+	<text x='60' y='78' text-anchor='start' font-family='Courier New' font-size='12pt' fill='black' >(:move-to (100 10))</text>
+	<text x='60' y='92' text-anchor='start' font-family='Courier New' font-size='12pt' fill='black' >(:h-line-to 200)</text>
+	<text x='60' y='106' text-anchor='start' font-family='Courier New' font-size='12pt' fill='black' xml:space='preserve' >(:v-line-to  50)</text>
+	<text x='60' y='120' text-anchor='start' font-family='Courier New' font-size='12pt' fill='black' >(:h-line-to 100)</text>
+	<text x='60' y='134' text-anchor='start' font-family='Courier New' font-size='12pt' fill='black' xml:space='preserve' >(:v-line-to  10)</text>
+
+</svg>
+</div>
+
+<p class='fig_title'><a name='aSaBFWoqy84'></a>Figure.5-5 :v-line-to ディレクティブのサンプル</p>
+<p>　なお、 <a class='autolink' href='#1B0JCoNzfxs'>:v-line-to</a> で指定する点は <a class='autolink' href='#dakC66hrAaS'>:absolute</a> および <a class='autolink' href='#9DKrZhbLEFX'>:relative</a> の影響を受けます。</p>
+<h4><a name='7RszlFbOHcp'></a>5.1.5 :arc-to ディレクティブ</h4>
+<p>　<a class='autolink' href='#7RszlFbOHcp'>:arc-to</a> ディレクティブにより、現在の点から楕<a class='autolink' href='#cp2F91gKG7W'>円弧</a>を描きながら指定した点 pt に移動します。</p>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='130'>
+	
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- path -->
+	<path fill='none' stroke='black' stroke-width='2' d='M 100 50 A 30 30 0 0 1 200 80' />
+	<!-- circle -->
+	<circle cx='100' cy='50' r='3' fill='red' stroke='none' stroke-width='1' />
+	<!-- circle -->
+	<circle cx='200' cy='80' r='3' fill='red' stroke='none' stroke-width='1' />
+	<!-- textbox -->
+	<text x='3.0000076' y='109' text-anchor='start' font-family='Courier New' font-size='12pt' fill='black' >(:move-to (100 50))</text>
+	<text x='3.0000076' y='123' text-anchor='start' font-family='Courier New' font-size='12pt' fill='black' >(:arc-to 30 30 0 0 1 (200 80))</text>
+
+</svg>
+</div>
+
+<p class='fig_title'><a name='0iNBCVKyFlO'></a>Figure.5-6 :arc-to ディレクティブのサンプル</p>
+<p>　<a class='autolink' href='#7RszlFbOHcp'>:arc-to</a> は<a class='autolink' href='#cp2F91gKG7W'>円弧</a>と考え方はほぼ同じですが、指定はやや複雑です。まず、パラメータ構成は以下の通りです。</p>
+<pre class='code'>
+(<span class='keyword3'>:arc-to</span> rx ry x-axis-rotation large-arc-flag sweep-flag pt)
+</pre>
+<p>　<code>rx, ry, x-axis-rotation</code> は<a class='autolink' href='#cp2F91gKG7W'>円弧</a>での指定と同じもので、ベースとなる<a class='autolink' href='#7YzIcjhyGKN'>楕円</a>の x 半径、y 半径、および x 軸に対する<a class='autolink' href='#7YzIcjhyGKN'>楕円</a>の回転角です。<a class='autolink' href='#7RszlFbOHcp'>:arc-to</a> では、この 3 つの値で決まる<a class='autolink' href='#7YzIcjhyGKN'>楕円</a>の一部を使って、「現在の点から点 <code>pt</code> に至る曲線」を描画します。</p>
+<p>　以下のように、そのような<a class='autolink' href='#7YzIcjhyGKN'>楕円</a>を使って 2 点を通る<a class='autolink' href='#cp2F91gKG7W'>円弧</a>は 4 種類描けることがわかります。</p>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='400' height='140'>
@@ -3467,23 +3525,28 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
 	</pattern>
 	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
-	<!-- ellipse -->
-	<ellipse cx='250' cy='50' rx='100' ry='40' fill='none' stroke='lightgray' stroke-width='2' />
-	<!-- ellipse -->
-	<ellipse cx='150' cy='90' rx='100' ry='40' fill='none' stroke='lightgray' stroke-width='2' />
+	<!-- path -->
+	<path fill='none' stroke='lightgray' stroke-width='2' d='M 150 50 A 80 40 10 1 1 250 90' />
+	<!-- path -->
+	<path fill='none' stroke='lightgray' stroke-width='2' d='M 150 50 A 80 40 10 0 1 250 90' />
+	<!-- path -->
+	<path fill='none' stroke='lightgray' stroke-width='2' d='M 150 50 A 80 40 10 1 0 250 90' />
+	<!-- path -->
+	<path fill='none' stroke='lightgray' stroke-width='2' d='M 150 50 A 80 40 10 0 0 250 90' />
 	<!-- circle -->
 	<circle cx='150' cy='50' r='3' fill='red' stroke='none' stroke-width='1' />
 	<!-- circle -->
 	<circle cx='250' cy='90' r='3' fill='red' stroke='none' stroke-width='1' />
 	<!-- text -->
-	<text x='145' y='45' text-anchor='end' font-size='12pt' fill='red' >pt1</text>
+	<text x='140' y='45' text-anchor='end' font-size='12pt' fill='red' >pt1</text>
 	<!-- text -->
-	<text x='255' y='105' text-anchor='start' font-size='12pt' fill='red' >pt2</text>
+	<text x='260' y='105' text-anchor='start' font-size='12pt' fill='red' >pt2</text>
 
 </svg>
 </div>
 
-<p>　上記を見ればわかる通り、指定した２つの点を通過する半径 rx, ry の<a class='autolink' href='#7YzIcjhyGKN'>楕円</a>には４種類あります。</p>
+<p class='fig_title'><a name='aNyY2PIidIC'></a>Figure.5-7 :arc-to における rx, ry, x-axis-rotation</p>
+<p>　この 4 種類の<a class='autolink' href='#cp2F91gKG7W'>円弧</a>のうち、どれを使うのかを指定するのが <code>large-arc-flag</code> と <code>sweep-flag</code> です。いずれも 0 または 1 を指定するもので、 <code>large-arc-flag</code> は「1 ならば大きい方の<a class='autolink' href='#cp2F91gKG7W'>円弧</a>、0 ならば小さい方の<a class='autolink' href='#cp2F91gKG7W'>円弧</a>」を使うという意味で、 <code>sweep-flag</code> は「1 ならば時計回り、0 ならば反時計回り」です。このイメージを以下に示します。</p>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='510' height='220'>
@@ -3544,54 +3607,559 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<div align='center'>
-<?xml version='1.0' encoding='utf-8' ?>
-<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='200' height='200'>
-	
-	<!-- grid -->
-	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
-		<rect x='0' y='0' width='10' height='10' fill='white' />
-		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
-	</pattern>
-	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
-	<!-- ellipse -->
-	<ellipse cx='100' cy='100' rx='40' ry='20' fill='none' stroke='lightgray' stroke-width='3' />
-	<!-- path -->
-	<path fill='none' stroke='red' stroke-width='1' d='M 134.64102 110.0 A 40 20 0 0 1 80.0 117.32051' />
-
-</svg>
-</div>
-
-<div align='center'>
-<?xml version='1.0' encoding='utf-8' ?>
-<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='200' height='200'>
-	
-	<!-- grid -->
-	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
-		<rect x='0' y='0' width='10' height='10' fill='white' />
-		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
-	</pattern>
-	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
-	<!-- ellipse -->
-	<g transform='rotate(45,100,100)'>
-		<ellipse cx='100' cy='100' rx='40' ry='20' fill='none' stroke='lightgray' stroke-width='3' />
-	</g>
-	<!-- path -->
-	<path fill='none' stroke='red' stroke-width='1' d='M 117.42383 131.56596 A 40 20 45 0 1 73.61041 98.105316' />
-
-</svg>
-</div>
-
+<p class='fig_title'><a name='9yTsBifBw1F'></a>Figure.5-8 :arc-to における large-arc-flag, sweep-flag</p>
+<p>　<a class='autolink' href='#4qgt62QVDZl'>パス</a>における <a class='autolink' href='#7RszlFbOHcp'>:arc-to</a> は、始点と終点が決まっている状態で指定された形状の<a class='autolink' href='#7YzIcjhyGKN'>楕円</a>を位置あわせするようなやり方なのでわかりにくいかもしれません。<a class='autolink' href='#cp2F91gKG7W'>円弧</a>のベースとなる<a class='autolink' href='#7YzIcjhyGKN'>楕円</a>の中心点や始点・終点の角度が明らかな場合は <a class='autolink' href='#cp2F91gKG7W'>arc</a> の使用を検討してください。</p>
 <h4><a name='00Vj4Quxjg3'></a>5.1.6 :2d-curve-to ディレクティブ</h4>
-<p><span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<p>　<a class='autolink' href='#00Vj4Quxjg3'>:2d-curve-to</a> ディレクティブにより、現在の点から二次ベジェ曲線を描きながら指定した点 pt に移動します。</p>
+<p>　<a class='autolink' href='#00Vj4Quxjg3'>:2d-curve-to</a> の基本形は <code>(:2d-curve-to ptC pt2)</code> です。現在の点を <code>pt1</code> とした時に、 <code>ptC</code> を制御点として <code>pt2</code> に至る二次ベジェ曲線を描きます。</p>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='100'>
+	
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- line -->
+	<polyline fill='none' stroke='slateblue' stroke-width='2' stroke-dasharray='3 3 ' points=' 50.0,80.0 230.0,10.0' />
+	<!-- line -->
+	<polyline fill='none' stroke='slateblue' stroke-width='2' stroke-dasharray='3 3 ' points=' 250.0,90.0 230.0,10.0' />
+	<!-- path -->
+	<path fill='none' stroke='black' stroke-width='2' d='M 50 80 Q 230 10 250 90' />
+	<!-- circle -->
+	<circle cx='50' cy='80' r='4' fill='red' stroke='none' stroke-width='1' />
+	<!-- circle -->
+	<circle cx='250' cy='90' r='4' fill='red' stroke='none' stroke-width='1' />
+	<!-- circle -->
+	<circle cx='230' cy='10' r='4' fill='slateblue' stroke='none' stroke-width='1' />
+	<!-- text -->
+	<text x='45' y='75' text-anchor='end' font-size='12pt' fill='black' >pt1</text>
+	<!-- text -->
+	<text x='255' y='85' text-anchor='start' font-size='12pt' fill='black' >pt2</text>
+	<!-- text -->
+	<text x='240' y='15' text-anchor='start' font-size='12pt' fill='black' >ptC</text>
+
+</svg>
+</div>
+
+<p class='fig_title'><a name='bqBMR0NsHfw'></a>Figure.5-9 :2d-curve-to ディレクティブのサンプル</p>
+<details>
+<summary>　※上記サンプルのソースはこちら。</summary>
+<pre class='code'>
+(diagram (300 100)
+  (grid)
+  (<span class='keyword1'>let</span> ((pt1 '( 50 80))
+        (pt2 '(250 90))
+        (ptC '(230 10)))
+    (with-options (<span class='keyword3'>:stroke</span> '(<span class='keyword3'>:color</span> <span class='keyword3'>:slateblue</span> <span class='keyword3'>:width</span> 2 <span class='keyword3'>:dasharray</span> (3 3)))
+      (line `(,pt1 ,ptC))
+      (line `(,pt2 ,ptC)))
+    (path `((<span class='keyword3'>:move-to</span> ,pt1)
+            (<span class='keyword3'>:2d-curve-to</span> ,ptC ,pt2)) <span class='keyword3'>:stroke</span> '(<span class='keyword3'>:color</span> <span class='keyword3'>:black</span> <span class='keyword3'>:width</span> 2))
+    (with-options (<span class='keyword3'>:fill</span> <span class='keyword3'>:red</span> <span class='keyword3'>:stroke</span> <span class='keyword3'>:none</span>)
+      (circle pt1 4)
+      (circle pt2 4)
+      (circle ptC 4 <span class='keyword3'>:fill</span> <span class='keyword3'>:slateblue</span>))
+    (text (xy+ pt1 -5 -5) <span class='literal'>"pt1"</span> <span class='keyword3'>:align</span> <span class='keyword3'>:right</span>)
+    (text (xy+ pt2  5 -5) <span class='literal'>"pt2"</span> <span class='keyword3'>:align</span> <span class='keyword3'>:left</span>)
+    (text (xy+ ptC 10  5) <span class='literal'>"ptC"</span> <span class='keyword3'>:align</span> <span class='keyword3'>:left</span>)))
+</pre>
+</details>
+<p>　<a class='autolink' href='#00Vj4Quxjg3'>:2d-curve-to</a> では、任意の数の点を追加することができます。つまり、 <code>(:2d-curve-to ptC pt2 pt3 pt4...)</code> という要領で、必要な制御点は自動的に計算されます。以下に例を示します。</p>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='400' height='200'>
+	
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- path -->
+	<path fill='none' stroke='black' stroke-width='2' d='M 30 120 Q 90 50 100 120 T 200 100 T 350 140' />
+	<!-- layer controls -->
+	<g id='controls' display='inline'>
+		<!-- line -->
+		<polyline fill='none' stroke='slateblue' stroke-width='2' stroke-dasharray='3 3 ' points=' 30.0,120.0 90.0,50.0 100.0,120.0 110.0,190.0 200.0,100.0 290.0,10.0 350.0,140.0' />
+		<!-- circle -->
+		<circle cx='30' cy='120' r='4' fill='red' stroke='none' stroke-width='1' />
+		<!-- circle -->
+		<circle cx='100' cy='120' r='4' fill='red' stroke='none' stroke-width='1' />
+		<!-- circle -->
+		<circle cx='200' cy='100' r='4' fill='red' stroke='none' stroke-width='1' />
+		<!-- circle -->
+		<circle cx='350' cy='140' r='4' fill='red' stroke='none' stroke-width='1' />
+		<!-- circle -->
+		<circle cx='90' cy='50' r='4' fill='slateblue' stroke='none' stroke-width='1' />
+		<!-- circle -->
+		<circle cx='110' cy='190' r='4' fill='slateblue' stroke='none' stroke-width='1' />
+		<!-- circle -->
+		<circle cx='290' cy='10' r='4' fill='slateblue' stroke='none' stroke-width='1' />
+		<!-- text -->
+		<text x='27' y='115' text-anchor='end' font-size='12pt' fill='black' >pt1</text>
+		<!-- text -->
+		<text x='105' y='115' text-anchor='start' font-size='12pt' fill='black' >pt2</text>
+		<!-- text -->
+		<text x='205' y='115' text-anchor='start' font-size='12pt' fill='black' >pt3</text>
+		<!-- text -->
+		<text x='355' y='145' text-anchor='start' font-size='12pt' fill='black' >pt4</text>
+		<!-- text -->
+		<text x='95' y='45' text-anchor='start' font-size='12pt' fill='black' >ptC</text>
+		<!-- text -->
+		<text x='120' y='195' text-anchor='start' font-size='12pt' fill='black' >ptC&#x27;</text>
+		<!-- text -->
+		<text x='300' y='17' text-anchor='start' font-size='12pt' fill='black' >ptC&#x27;&#x27;</text>
+	</g>
+
+</svg>
+</div>
+
+<p class='fig_title'><a name='8mWonS8i74W'></a>Figure.5-10 :2d-curve-to ディレクティブのサンプル - 2</p>
+<details>
+<summary>　※上記サンプルのソースはこちら。</summary>
+<pre class='code'>
+(diagram (400 200)
+  (grid)
+  (layer <span class='keyword3'>:controls</span>)
+  (<span class='keyword1'>let</span> ((pt1  '( 30 120))
+        (pt2  '(100 120))
+        (pt3  '(200 100))
+        (pt4  '(350 140))
+        (ptC1 '( 90  50))
+        (ptC2 '(110 190))
+        (ptC3 '(290  10)))
+    (with-options (<span class='keyword3'>:stroke</span> '(<span class='keyword3'>:color</span> <span class='keyword3'>:black</span> <span class='keyword3'>:width</span> 2))
+      (path `((<span class='keyword3'>:move-to</span> ,pt1) (<span class='keyword3'>:2d-curve-to</span> ,ptC1 ,pt2 ,pt3 ,pt4))))
+    (with-options (<span class='keyword3'>:layer</span> <span class='keyword3'>:controls</span>)
+      (line `(,pt1 ,ptC1 ,pt2 ,ptC2 ,pt3 ,ptC3 ,pt4)
+            <span class='keyword3'>:stroke</span> '(<span class='keyword3'>:color</span> <span class='keyword3'>:slateblue</span> <span class='keyword3'>:width</span> 2 <span class='keyword3'>:dasharray</span> (3 3)))
+      (with-options (<span class='keyword3'>:fill</span> <span class='keyword3'>:red</span> <span class='keyword3'>:stroke</span> <span class='keyword3'>:none</span>)
+        (mapcar (<span class='keyword1'>lambda</span> (p) (circle p 4)) `(,pt1 ,pt2 ,pt3 ,pt4))
+        (mapcar (<span class='keyword1'>lambda</span> (p) (circle p 4 <span class='keyword3'>:fill</span> <span class='keyword3'>:slateblue</span>)) `(,ptC1 ,ptC2 ,ptC3)))
+      (text (xy+ pt1  -3 -5) <span class='literal'>"pt1"</span>   <span class='keyword3'>:align</span> <span class='keyword3'>:right</span>)
+      (text (xy+ pt2   5 -5) <span class='literal'>"pt2"</span>   <span class='keyword3'>:align</span> <span class='keyword3'>:left</span>)
+      (text (xy+ pt3   5 15) <span class='literal'>"pt3"</span>   <span class='keyword3'>:align</span> <span class='keyword3'>:left</span>)
+      (text (xy+ pt4   5  5) <span class='literal'>"pt4"</span>   <span class='keyword3'>:align</span> <span class='keyword3'>:left</span>)
+      (text (xy+ ptC1  5 -5) <span class='literal'>"ptC"</span>   <span class='keyword3'>:align</span> <span class='keyword3'>:left</span>)
+      (text (xy+ ptC2 10  5) <span class='literal'>"ptC'"</span>  <span class='keyword3'>:align</span> <span class='keyword3'>:left</span>)
+      (text (xy+ ptC3 10  7) <span class='literal'>"ptC''"</span> <span class='keyword3'>:align</span> <span class='keyword3'>:left</span>))))
+</pre>
+</details>
+<p>　上の例では追加で２つの点（pt3, pt4）を指定しており、そのために必要な制御点 ptC' と ptC'' は自動的に計算されています。具体的には、「直前の制御点を、直前の点に対して鏡映した点」が次の制御点になります。上の例であれば ptC' は ptC を pt2 に対して鏡映した点です。</p>
 <h4><a name='ewUXtISm3SD'></a>5.1.7 :3d-curve-to ディレクティブ</h4>
-<p><span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<p>　<a class='autolink' href='#ewUXtISm3SD'>:3d-curve-to</a> ディレクティブにより、現在の点から三次ベジェ曲線を描きながら指定した点 pt に移動します。</p>
+<p>　<a class='autolink' href='#ewUXtISm3SD'>:3d-curve-to</a> の基本形は <code>(:3d-curve-to ptC1 ptC2 pt2)</code> です。現在の点を <code>pt1</code> とした時に、 <code>ptC1</code> および <code>ptC2</code> を制御点として <code>pt2</code> に至る三次ベジェ曲線を描きます。</p>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='160'>
+	
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- line -->
+	<polyline fill='none' stroke='slateblue' stroke-width='2' stroke-dasharray='3 3 ' points=' 50.0,80.0 100.0,10.0' />
+	<!-- line -->
+	<polyline fill='none' stroke='slateblue' stroke-width='2' stroke-dasharray='3 3 ' points=' 250.0,80.0 200.0,150.0' />
+	<!-- path -->
+	<path fill='none' stroke='black' stroke-width='2' d='M 50 80 C 100 10 200 150 250 80' />
+	<!-- circle -->
+	<circle cx='50' cy='80' r='4' fill='red' stroke='none' stroke-width='1' />
+	<!-- circle -->
+	<circle cx='250' cy='80' r='4' fill='red' stroke='none' stroke-width='1' />
+	<!-- circle -->
+	<circle cx='100' cy='10' r='4' fill='slateblue' stroke='none' stroke-width='1' />
+	<!-- circle -->
+	<circle cx='200' cy='150' r='4' fill='slateblue' stroke='none' stroke-width='1' />
+	<!-- text -->
+	<text x='45' y='75' text-anchor='end' font-size='12pt' fill='black' >pt1</text>
+	<!-- text -->
+	<text x='255' y='75' text-anchor='start' font-size='12pt' fill='black' >pt2</text>
+	<!-- text -->
+	<text x='110' y='15' text-anchor='start' font-size='12pt' fill='black' >ptC1</text>
+	<!-- text -->
+	<text x='210' y='155' text-anchor='start' font-size='12pt' fill='black' >ptC2</text>
+
+</svg>
+</div>
+
+<p class='fig_title'><a name='ce2nwKyFetY'></a>Figure.5-11 :3d-curve-to ディレクティブのサンプル</p>
+<details>
+<summary>　※上記サンプルのソースはこちら。</summary>
+<pre class='code'>
+(diagram (300 160)
+  (grid)
+  (<span class='keyword1'>let</span> ((pt1  '( 50  80))
+        (pt2  '(250  80))
+        (ptC1 '(100  10))
+        (ptC2 '(200 150)))
+    (with-options (<span class='keyword3'>:stroke</span> '(<span class='keyword3'>:color</span> <span class='keyword3'>:slateblue</span> <span class='keyword3'>:width</span> 2 <span class='keyword3'>:dasharray</span> (3 3)))
+      (line `(,pt1 ,ptC1))
+      (line `(,pt2 ,ptC2)))
+    (path `((<span class='keyword3'>:move-to</span> ,pt1)
+            (<span class='keyword3'>:3d-curve-to</span> ,ptC1 ,ptC2 ,pt2)) <span class='keyword3'>:stroke</span> '(<span class='keyword3'>:color</span> <span class='keyword3'>:black</span> <span class='keyword3'>:width</span> 2))
+    (with-options (<span class='keyword3'>:fill</span> <span class='keyword3'>:red</span> <span class='keyword3'>:stroke</span> <span class='keyword3'>:none</span>)
+      (circle pt1 4)
+      (circle pt2 4)
+      (circle ptC1 4 <span class='keyword3'>:fill</span> <span class='keyword3'>:slateblue</span>)
+      (circle ptC2 4 <span class='keyword3'>:fill</span> <span class='keyword3'>:slateblue</span>))
+    (text (xy+ pt1  -5 -5) <span class='literal'>"pt1"</span> <span class='keyword3'>:align</span> <span class='keyword3'>:right</span>)
+    (text (xy+ pt2   5 -5) <span class='literal'>"pt2"</span> <span class='keyword3'>:align</span> <span class='keyword3'>:left</span>)
+    (text (xy+ ptC1 10  5) <span class='literal'>"ptC1"</span> <span class='keyword3'>:align</span> <span class='keyword3'>:left</span>)
+    (text (xy+ ptC2 10  5) <span class='literal'>"ptC2"</span> <span class='keyword3'>:align</span> <span class='keyword3'>:left</span>)))
+</pre>
+</details>
+<p>　<a class='autolink' href='#00Vj4Quxjg3'>:2d-curve-to</a> と比較すると、<a class='autolink' href='#ewUXtISm3SD'>:3d-curve-to</a> は複雑な曲線を描くことができます。<a class='autolink' href='#l10jSaJeUDk'>SVG本</a>のサンプルと同じものを以下に示します。</p>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='450' height='200'>
+	
+	<!-- sample1 : group-definition -->
+	<defs>
+		<g id='sample1'>
+			<!-- path -->
+			<path fill='none' stroke='black' stroke-width='2' d='M 40 70 C 10 30 140 30 110 70' />
+			<!-- circle -->
+			<circle cx='40' cy='70' r='3' fill='red' stroke='none' stroke-width='1' />
+			<!-- circle -->
+			<circle cx='110' cy='70' r='3' fill='red' stroke='none' stroke-width='1' />
+			<!-- circle -->
+			<circle cx='10' cy='30' r='3' fill='slateblue' stroke='none' stroke-width='1' />
+			<!-- circle -->
+			<circle cx='140' cy='30' r='3' fill='slateblue' stroke='none' stroke-width='1' />
+			<!-- line -->
+			<polyline fill='none' stroke='slateblue' stroke-width='1' points=' 10.0,30.0 40.0,70.0' />
+			<!-- line -->
+			<polyline fill='none' stroke='slateblue' stroke-width='1' points=' 140.0,30.0 110.0,70.0' />
+			
+		</g>
+	</defs>
+	<!-- sample2 : group-definition -->
+	<defs>
+		<g id='sample2'>
+			<!-- path -->
+			<path fill='none' stroke='black' stroke-width='2' d='M 40 70 C 60 30 90 30 110 70' />
+			<!-- circle -->
+			<circle cx='40' cy='70' r='3' fill='red' stroke='none' stroke-width='1' />
+			<!-- circle -->
+			<circle cx='110' cy='70' r='3' fill='red' stroke='none' stroke-width='1' />
+			<!-- circle -->
+			<circle cx='60' cy='30' r='3' fill='slateblue' stroke='none' stroke-width='1' />
+			<!-- circle -->
+			<circle cx='90' cy='30' r='3' fill='slateblue' stroke='none' stroke-width='1' />
+			<!-- line -->
+			<polyline fill='none' stroke='slateblue' stroke-width='1' points=' 60.0,30.0 40.0,70.0' />
+			<!-- line -->
+			<polyline fill='none' stroke='slateblue' stroke-width='1' points=' 90.0,30.0 110.0,70.0' />
+			
+		</g>
+	</defs>
+	<!-- sample3 : group-definition -->
+	<defs>
+		<g id='sample3'>
+			<!-- path -->
+			<path fill='none' stroke='black' stroke-width='2' d='M 40 70 C 110 30 40 30 110 70' />
+			<!-- circle -->
+			<circle cx='40' cy='70' r='3' fill='red' stroke='none' stroke-width='1' />
+			<!-- circle -->
+			<circle cx='110' cy='70' r='3' fill='red' stroke='none' stroke-width='1' />
+			<!-- circle -->
+			<circle cx='110' cy='30' r='3' fill='slateblue' stroke='none' stroke-width='1' />
+			<!-- circle -->
+			<circle cx='40' cy='30' r='3' fill='slateblue' stroke='none' stroke-width='1' />
+			<!-- line -->
+			<polyline fill='none' stroke='slateblue' stroke-width='1' points=' 110.0,30.0 40.0,70.0' />
+			<!-- line -->
+			<polyline fill='none' stroke='slateblue' stroke-width='1' points=' 40.0,30.0 110.0,70.0' />
+			
+		</g>
+	</defs>
+	<!-- sample4 : group-definition -->
+	<defs>
+		<g id='sample4'>
+			<!-- path -->
+			<path fill='none' stroke='black' stroke-width='2' d='M 40 50 C 10 10 140 90 110 50' />
+			<!-- circle -->
+			<circle cx='40' cy='50' r='3' fill='red' stroke='none' stroke-width='1' />
+			<!-- circle -->
+			<circle cx='110' cy='50' r='3' fill='red' stroke='none' stroke-width='1' />
+			<!-- circle -->
+			<circle cx='10' cy='10' r='3' fill='slateblue' stroke='none' stroke-width='1' />
+			<!-- circle -->
+			<circle cx='140' cy='90' r='3' fill='slateblue' stroke='none' stroke-width='1' />
+			<!-- line -->
+			<polyline fill='none' stroke='slateblue' stroke-width='1' points=' 10.0,10.0 40.0,50.0' />
+			<!-- line -->
+			<polyline fill='none' stroke='slateblue' stroke-width='1' points=' 140.0,90.0 110.0,50.0' />
+			
+		</g>
+	</defs>
+	<!-- sample5 : group-definition -->
+	<defs>
+		<g id='sample5'>
+			<!-- path -->
+			<path fill='none' stroke='black' stroke-width='2' d='M 40 50 C 60 10 90 90 110 50' />
+			<!-- circle -->
+			<circle cx='40' cy='50' r='3' fill='red' stroke='none' stroke-width='1' />
+			<!-- circle -->
+			<circle cx='110' cy='50' r='3' fill='red' stroke='none' stroke-width='1' />
+			<!-- circle -->
+			<circle cx='60' cy='10' r='3' fill='slateblue' stroke='none' stroke-width='1' />
+			<!-- circle -->
+			<circle cx='90' cy='90' r='3' fill='slateblue' stroke='none' stroke-width='1' />
+			<!-- line -->
+			<polyline fill='none' stroke='slateblue' stroke-width='1' points=' 60.0,10.0 40.0,50.0' />
+			<!-- line -->
+			<polyline fill='none' stroke='slateblue' stroke-width='1' points=' 90.0,90.0 110.0,50.0' />
+			
+		</g>
+	</defs>
+	<!-- sample6 : group-definition -->
+	<defs>
+		<g id='sample6'>
+			<!-- path -->
+			<path fill='none' stroke='black' stroke-width='2' d='M 40 50 C 110 10 40 90 110 50' />
+			<!-- circle -->
+			<circle cx='40' cy='50' r='3' fill='red' stroke='none' stroke-width='1' />
+			<!-- circle -->
+			<circle cx='110' cy='50' r='3' fill='red' stroke='none' stroke-width='1' />
+			<!-- circle -->
+			<circle cx='110' cy='10' r='3' fill='slateblue' stroke='none' stroke-width='1' />
+			<!-- circle -->
+			<circle cx='40' cy='90' r='3' fill='slateblue' stroke='none' stroke-width='1' />
+			<!-- line -->
+			<polyline fill='none' stroke='slateblue' stroke-width='1' points=' 110.0,10.0 40.0,50.0' />
+			<!-- line -->
+			<polyline fill='none' stroke='slateblue' stroke-width='1' points=' 40.0,90.0 110.0,50.0' />
+			
+		</g>
+	</defs>
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- use -->
+	<use xlink:href='#sample1' x='0' y='0' />
+	<!-- use -->
+	<use xlink:href='#sample2' x='150' y='0' />
+	<!-- use -->
+	<use xlink:href='#sample3' x='300' y='0' />
+	<!-- use -->
+	<use xlink:href='#sample4' x='0' y='100' />
+	<!-- use -->
+	<use xlink:href='#sample5' x='150' y='100' />
+	<!-- use -->
+	<use xlink:href='#sample6' x='300' y='100' />
+
+</svg>
+</div>
+
+<p class='fig_title'><a name='4LyqhFSeu8o'></a>Figure.5-12 :3d-curve-to ディレクティブのサンプル -2</p>
+<details>
+<summary>　※上記サンプルのソースはこちら。</summary>
+<pre class='code'>
+(diagram (450 200)
+  (grid)
+  (<span class='keyword1'>labels</span> ((defgrp-impl (id p1 p2 c1 c2)
+             (defgroup (150 100 id)
+               (path `((<span class='keyword3'>:move-to</span> ,p1)
+                       (<span class='keyword3'>:3d-curve-to</span> ,c1 ,c2 ,p2))
+                     <span class='keyword3'>:stroke</span> '(<span class='keyword3'>:color</span> <span class='keyword3'>:black</span> <span class='keyword3'>:width</span> 2))
+               (with-options (<span class='keyword3'>:stroke</span> <span class='keyword3'>:none</span> <span class='keyword3'>:fill</span> <span class='keyword3'>:red</span>)
+                 (circle p1 3)
+                 (circle p2 3)
+                 (circle c1 3 <span class='keyword3'>:fill</span> <span class='keyword3'>:slateblue</span>)
+                 (circle c2 3 <span class='keyword3'>:fill</span> <span class='keyword3'>:slateblue</span>))
+               (line `(,c1 ,p1) <span class='keyword3'>:stroke</span> <span class='keyword3'>:slateblue</span>)
+               (line `(,c2 ,p2) <span class='keyword3'>:stroke</span> <span class='keyword3'>:slateblue</span>))))
+    (defgrp-impl <span class='keyword3'>:sample1</span> '( 40 70) '(110 70) '( 10  30) '(140 30))
+    (defgrp-impl <span class='keyword3'>:sample2</span> '( 40 70) '(110 70) '( 60  30) '( 90 30))
+    (defgrp-impl <span class='keyword3'>:sample3</span> '( 40 70) '(110 70) '(110  30) '( 40 30))
+    (defgrp-impl <span class='keyword3'>:sample4</span> '( 40 50) '(110 50) '( 10  10) '(140 90))
+    (defgrp-impl <span class='keyword3'>:sample5</span> '( 40 50) '(110 50) '( 60  10) '( 90 90))
+    (defgrp-impl <span class='keyword3'>:sample6</span> '( 40 50) '(110 50) '(110  10) '( 40 90))
+    (use <span class='keyword3'>:sample1</span> '( 75  50))
+    (use <span class='keyword3'>:sample2</span> '(225  50))
+    (use <span class='keyword3'>:sample3</span> '(375  50))
+    (use <span class='keyword3'>:sample4</span> '( 75 150))
+    (use <span class='keyword3'>:sample5</span> '(225 150))
+    (use <span class='keyword3'>:sample6</span> '(375 150))))
+</pre>
+</details>
+<p>　<a class='autolink' href='#ewUXtISm3SD'>:3d-curve-to</a> では、任意の数の制御点と移動先の組みを追加することができます。つまり、 <code>(:3d-curve-to ptC1 ptC2 pt2 ptC3 pt3 ptC4 pt4...)</code> という要領で、必要な制御点は自動的に計算されます。以下に例を示します。</p>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='250' height='150'>
+	
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- path -->
+	<path fill='none' stroke='black' stroke-width='2' d='M 10 90 C 40 20 80 40 100 90 S 200 20 230 70' />
+	<!-- layer controls -->
+	<g id='controls' display='inline'>
+		<!-- line -->
+		<polyline fill='none' stroke='slateblue' stroke-width='2' stroke-dasharray='3 3 ' points=' 10.0,90.0 40.0,20.0' />
+		<!-- line -->
+		<polyline fill='none' stroke='slateblue' stroke-width='2' stroke-dasharray='3 3 ' points=' 80.0,40.0 120.0,140.0' />
+		<!-- line -->
+		<polyline fill='none' stroke='slateblue' stroke-width='2' stroke-dasharray='3 3 ' points=' 230.0,70.0 200.0,20.0' />
+		<!-- circle -->
+		<circle cx='10' cy='90' r='4' fill='red' stroke='none' stroke-width='1' />
+		<!-- circle -->
+		<circle cx='100' cy='90' r='4' fill='red' stroke='none' stroke-width='1' />
+		<!-- circle -->
+		<circle cx='230' cy='70' r='4' fill='red' stroke='none' stroke-width='1' />
+		<!-- circle -->
+		<circle cx='40' cy='20' r='4' fill='slateblue' stroke='none' stroke-width='1' />
+		<!-- circle -->
+		<circle cx='80' cy='40' r='4' fill='slateblue' stroke='none' stroke-width='1' />
+		<!-- circle -->
+		<circle cx='120' cy='140' r='4' fill='slateblue' stroke='none' stroke-width='1' />
+		<!-- circle -->
+		<circle cx='200' cy='20' r='4' fill='slateblue' stroke='none' stroke-width='1' />
+		<!-- text -->
+		<text x='5' y='105' text-anchor='start' font-size='10pt' fill='black' >pt1</text>
+		<!-- text -->
+		<text x='105' y='85' text-anchor='start' font-size='10pt' fill='black' >pt2</text>
+		<!-- text -->
+		<text x='225' y='85' text-anchor='start' font-size='10pt' fill='black' >pt3</text>
+		<!-- text -->
+		<text x='45' y='15' text-anchor='start' font-size='10pt' fill='black' >ptC1</text>
+		<!-- text -->
+		<text x='90' y='45' text-anchor='start' font-size='10pt' fill='black' >ptC2</text>
+		<!-- text -->
+		<text x='130' y='145' text-anchor='start' font-size='10pt' fill='black' >ptC2&#x27;</text>
+		<!-- text -->
+		<text x='210' y='27' text-anchor='start' font-size='10pt' fill='black' >ptC3</text>
+	</g>
+
+</svg>
+</div>
+
+<p class='fig_title'><a name='lPPONTNSIlV'></a>Figure.5-13 :3d-curve-to ディレクティブのサンプル - 3</p>
+<details>
+<summary>　※上記サンプルのソースはこちら。</summary>
+<pre class='code'>
+(diagram (250 150)
+  (grid)
+  (layer <span class='keyword3'>:controls</span> <span class='comment'>#|:none|#</span>)
+  (<span class='keyword1'>let</span> ((pt1   '( 10  90))
+        (pt2   '(100  90))
+        (pt3   '(230  70))
+        (ptC1  '( 40  20))
+        (ptC2  '( 80  40))
+        (ptC2d '(120 140))
+        (ptC3  '(200  20)))
+    (path `((<span class='keyword3'>:move-to</span> ,pt1)
+            (<span class='keyword3'>:3d-curve-to</span> ,ptC1 ,ptC2 ,pt2 ,ptC3 ,pt3))
+          <span class='keyword3'>:stroke</span> '(<span class='keyword3'>:color</span> <span class='keyword3'>:black</span> <span class='keyword3'>:width</span> 2))
+    (with-options (<span class='keyword3'>:layer</span> <span class='keyword3'>:controls</span>)
+      (with-options (<span class='keyword3'>:stroke</span> '(<span class='keyword3'>:color</span> <span class='keyword3'>:slateblue</span> <span class='keyword3'>:width</span> 2 <span class='keyword3'>:dasharray</span> (3 3)))
+        (line `(,pt1  ,ptC1))
+        (line `(,ptC2 ,ptC2d))
+        (line `(,pt3  ,ptC3)))
+      (with-options (<span class='keyword3'>:fill</span> <span class='keyword3'>:red</span> <span class='keyword3'>:stroke</span> <span class='keyword3'>:none</span>)
+        (mapcar (<span class='keyword1'>lambda</span> (p) (circle p 4)) `(,pt1 ,pt2 ,pt3))
+        (mapcar (<span class='keyword1'>lambda</span> (p) (circle p 4 <span class='keyword3'>:fill</span> <span class='keyword3'>:slateblue</span>))
+                `(,ptC1 ,ptC2 ,ptC2d ,ptC3)))
+      (with-options (<span class='keyword3'>:font</span> 10)
+        (text (xy+ pt1   -5 15) <span class='literal'>"pt1"</span>   <span class='keyword3'>:align</span> <span class='keyword3'>:left</span>)
+        (text (xy+ pt2    5 -5) <span class='literal'>"pt2"</span>   <span class='keyword3'>:align</span> <span class='keyword3'>:left</span>)
+        (text (xy+ pt3   -5 15) <span class='literal'>"pt3"</span>   <span class='keyword3'>:align</span> <span class='keyword3'>:left</span>)
+        (text (xy+ ptC1   5 -5) <span class='literal'>"ptC1"</span>  <span class='keyword3'>:align</span> <span class='keyword3'>:left</span>)
+        (text (xy+ ptC2  10  5) <span class='literal'>"ptC2"</span>  <span class='keyword3'>:align</span> <span class='keyword3'>:left</span>)
+        (text (xy+ ptC2d 10  5) <span class='literal'>"ptC2'"</span> <span class='keyword3'>:align</span> <span class='keyword3'>:left</span>)
+        (text (xy+ ptC3  10  7) <span class='literal'>"ptC3"</span>  <span class='keyword3'>:align</span> <span class='keyword3'>:left</span>)))))
+</pre>
+</details>
+<p>　上の例では追加で制御点 ptC3 と点 pt3 を指定しており、そのために必要な制御点 pt2C' は自動的に計算されています。具体的には、「直前の制御点を、直前の点に対して鏡映した点」が次の制御点になります。上の例であれば ptC2' は ptC2 を pt2 に対して鏡映した点です。</p>
 <h4><a name='dakC66hrAaS'></a>5.1.8 :absolute ディレクティブ</h4>
-<p><span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<p>　後続のディレクティブを、現在の<a class='autolink' href='#kgs1vf3AbTN'>キャンバス</a>に対する絶対座標として処理します。以下の例では、三角形の描画を <a class='autolink' href='#dakC66hrAaS'>:absolute</a> 指定によって描画しています。同じ図形を <a class='autolink' href='#9DKrZhbLEFX'>:relative</a> で描画する <a href='#2cRykcOGGkY'>Figure.5-15</a> と比較してみてください。</p>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='150'>
+	
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- path -->
+	<path fill='rosybrown' stroke='black' stroke-width='1' d='M 120 10 H 180 L 150 50 Z' />
+	<!-- textbox -->
+	<text x='60' y='78' text-anchor='start' font-family='Courier New' font-size='12pt' fill='black' >(:move-to (120 10))</text>
+	<text x='60' y='92' text-anchor='start' font-family='Courier New' font-size='12pt' fill='black' >:absolute</text>
+	<text x='60' y='106' text-anchor='start' font-family='Courier New' font-size='12pt' fill='black' >(:h-line-to 180)</text>
+	<text x='60' y='120' text-anchor='start' font-family='Courier New' font-size='12pt' fill='black' >(:line-to (150 50))</text>
+	<text x='60' y='134' text-anchor='start' font-family='Courier New' font-size='12pt' fill='black' >:close-path</text>
+
+</svg>
+</div>
+
+<p class='fig_title'><a name='fh3ghDl4UuV'></a>Figure.5-14 :absolute ディレクティブのサンプル</p>
 <h4><a name='9DKrZhbLEFX'></a>5.1.9 :relative ディレクティブ</h4>
-<p><span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<p>　後続のディレクティブを、現在の点に対する相対座標として処理します。以下の例では、三角形の描画を <a class='autolink' href='#9DKrZhbLEFX'>:relative</a> 指定によって描画しています。同じ図形を <a class='autolink' href='#dakC66hrAaS'>:absolute</a> で描画する <a href='#fh3ghDl4UuV'>Figure.5-14</a> と比較してみてください。</p>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='150'>
+	
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- path -->
+	<path fill='rosybrown' stroke='black' stroke-width='1' d='M 120 10 h 60 l -30 40 z' />
+	<!-- textbox -->
+	<text x='60' y='78' text-anchor='start' font-family='Courier New' font-size='12pt' fill='black' >(:move-to (120 10))</text>
+	<text x='60' y='92' text-anchor='start' font-family='Courier New' font-size='12pt' fill='black' >:relative</text>
+	<text x='60' y='106' text-anchor='start' font-family='Courier New' font-size='12pt' fill='black' >(:h-line-to 60)</text>
+	<text x='60' y='120' text-anchor='start' font-family='Courier New' font-size='12pt' fill='black' >(:line-to (-30 40))</text>
+	<text x='60' y='134' text-anchor='start' font-family='Courier New' font-size='12pt' fill='black' >:close-path</text>
+
+</svg>
+</div>
+
+<p class='fig_title'><a name='2cRykcOGGkY'></a>Figure.5-15 :relative ディレクティブのサンプル</p>
 <h4><a name='eYtPrg88Qb0'></a>5.1.10 :close-path ディレクティブ</h4>
-<p><span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<p>　現在の点から現在のサブ<a class='autolink' href='#4qgt62QVDZl'>パス</a>（<a class='autolink' href='#g0Dr3NCI4V0'>:move-to</a> によって開始された一連の描画）の開始点まで<a class='autolink' href='#fv4OUML78x4'>直線</a>を描きながら移動します。以下の例では、１回の<a class='autolink' href='#4qgt62QVDZl'>パス</a>で 2 つの三角形を描画していますが、それぞれの三角形の最後の<a class='autolink' href='#fv4OUML78x4'>直線</a>を <a class='autolink' href='#eYtPrg88Qb0'>:close-path</a> で描画しています。</p>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='150'>
+	
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- path -->
+	<path fill='rosybrown' stroke='black' stroke-width='1' d='M 60 10 L 120 10 L 90 50 Z M 210 10 L 180 50 L 240 50 Z' />
+	<!-- textbox -->
+	<text x='20' y='71' text-anchor='start' font-family='Courier New' font-size='12pt' fill='black' >(:move-to ( 60 10))</text>
+	<text x='20' y='85' text-anchor='start' font-family='Courier New' font-size='12pt' fill='black' >(:line-to (120 10) ( 90 50))</text>
+	<text x='20' y='99' text-anchor='start' font-family='Courier New' font-size='12pt' fill='black' >:close-path</text>
+	<text x='20' y='113' text-anchor='start' font-family='Courier New' font-size='12pt' fill='black' >(:move-to (210 10))</text>
+	<text x='20' y='127' text-anchor='start' font-family='Courier New' font-size='12pt' fill='black' >(:line-to (180 50) (240 50))</text>
+	<text x='20' y='141' text-anchor='start' font-family='Courier New' font-size='12pt' fill='black' >:close-path</text>
+
+</svg>
+</div>
+
+<p class='fig_title'><a name='iPFjMa8UP1c'></a>Figure.5-16 :close-path ディレクティブのサンプル</p>
 <p>　　</p>
 <h3><a name='kSyxpJZzQjY'></a>5.2 画像ファイルの埋め込み</h3>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
@@ -3639,7 +4207,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='f0G61WmPR5j'></a>Figure.5-5 raw-svg のサンプル</p>
+<p class='fig_title'><a name='f0G61WmPR5j'></a>Figure.5-17 raw-svg のサンプル</p>
 <p>　　</p>
 <p>　<a class='autolink' href='#cNmjD3OiTOH'>raw-svg</a> のパラメータ構成は以下の通りです。文字列として渡す <code>svgdata</code> パラメータの他に、名前付きパラメータとして <code>layer</code> を取ります。詳細は「<a href='#1ovJxG7Ie9O'>10.8  レイヤー</a>」を参照してください。</p>
 <pre class='code'>
@@ -3679,10 +4247,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 	<!-- line -->
 	<polyline fill='none' stroke='black' stroke-width='1' points=' 100.0,60.0 140.0,130.0' />
 	<!-- arc -->
-	<path fill='none' stroke='black' stroke-width='1' d='M 130.0 60.0 A 30 30 0 0 1 119.28362829059618 82.98133329356934' />
-	<!-- line -->
-	<polyline fill='none' stroke='black' stroke-width='1' points=' 123.0,80.0 115.0,85.0' />
-	<path fill='black' stroke='black' stroke-width='1' d='M 115 85 l 9.925347 -1.2196261 l -4.479745 -7.1675916 z' />
+	<path fill='none' stroke='black' stroke-width='1' d='M 129.99543085469173 60.523572193118504 A 30 30 0 0 1 115.0 85.98076211353316' />
+	<path fill='black' stroke='black' stroke-width='1' d='M 115.0 85.98076 l 9.961947 -0.8715574 l -4.2261825 -7.319963 z' />
 	<!-- text -->
 	<text x='130' y='85' text-anchor='start' font-size='12pt' fill='black' >θ</text>
 
@@ -3702,14 +4268,14 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
     (line '(( 10 100) ( 10 130)) <span class='keyword3'>:end2</span> em) (text '( 10 145) <span class='literal'>"y"</span> <span class='keyword3'>:align</span> <span class='keyword3'>:center</span>)
     (line '((100  60) (180  60)))          (text '(185  65) <span class='literal'>"0°"</span> <span class='keyword3'>:align</span> <span class='keyword3'>:left</span>)
     (line '((100  60) (140 130)))
-    (arc   '(100  60) 30 30 0 0 50)
-    (line '((123  80) (115  85)) <span class='keyword3'>:end2</span> em) (text '(130  85) <span class='literal'>"θ"</span> <span class='keyword3'>:align</span> <span class='keyword3'>:left</span>)))
+    (arc   '(100  60) 30 30 0 1 60 <span class='keyword3'>:end2</span> em)
+    (text '(130  85) <span class='literal'>"θ"</span> <span class='keyword3'>:align</span> <span class='keyword3'>:left</span>)))
 </pre>
 </details>
 <p>　　</p>
 <p>　kaavio データの中で座標を指定する方法にはいくつかあります。以下に説明します。</p>
-<p>　具体的な数値で座標を指定する場合、 <code>'(x y)</code> の要領で指定します。つまり、 <code>'(50 100)</code> といった指定です。これは即値で座標を指定する場合の書き方ですが、Common LISP の変数に格納した数値から座標を作成したい場合は make-point 関数が使えます。これは <code>(make-point x y)</code> の要領で使用してください<sup><a name='footnote_ref6' href='#footnote6'>6</a></sup>。</p>
-<p>　具体的な数値を指定するのでなく、「すでに登場した要素の属性を利用して位置を指定する」こともできます。<a href='#9LLncE6hWlx'>2  章</a>の 2 つめのサンプルでは、 <code>app.center</code> や <code>in.right</code> という表記が登場しました。これは、図形要素を記述する際に指定した ID を使ってその中心座標などを参照するものです。幅や高さを持つ図形要素では９種類あり、その名前と具体的な場所は以下の通りです<sup><a name='footnote_ref7' href='#footnote7'>7</a></sup>。</p>
+<p>　具体的な数値で座標を指定する場合、 <code>'(x y)</code> の要領で指定します。つまり、 <code>'(50 100)</code> といった指定です。これは即値で座標を指定する場合の書き方ですが、Common LISP の変数に格納した数値から座標を作成したい場合は make-point 関数が使えます。これは <code>(make-point x y)</code> の要領で使用してください<sup><a name='footnote_ref7' href='#footnote7'>7</a></sup>。</p>
+<p>　具体的な数値を指定するのでなく、「すでに登場した要素の属性を利用して位置を指定する」こともできます。<a href='#9LLncE6hWlx'>2  章</a>の 2 つめのサンプルでは、 <code>app.center</code> や <code>in.right</code> という表記が登場しました。これは、図形要素を記述する際に指定した ID を使ってその中心座標などを参照するものです。幅や高さを持つ図形要素では９種類あり、その名前と具体的な場所は以下の通りです<sup><a name='footnote_ref8' href='#footnote8'>8</a></sup>。</p>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='150'>
@@ -3795,7 +4361,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 
 <p class='fig_title'><a name='1YSNZvyxqVa'></a>Figure.6-3 図形要素の座標参照 - 2</p>
 <p>　　</p>
-<p>　前述の <code>app.center</code> という記法は、座標を指定すべきところではたいてい使用できますが、これを <code>(attr :app :center)</code> という記法で代替することもできます<sup><a name='footnote_ref8' href='#footnote8'>8</a></sup>。</p>
+<p>　前述の <code>app.center</code> という記法は、座標を指定すべきところではたいてい使用できますが、これを <code>(attr :app :center)</code> という記法で代替することもできます<sup><a name='footnote_ref9' href='#footnote9'>9</a></sup>。</p>
 <p>　<code>app.center</code> の記法において要素名のところに <code>canvas</code> を指定することで、<a class='autolink' href='#kgs1vf3AbTN'>キャンバス</a>全体をひとつの図形要素のように扱うことができます。つまり、 <code>canvas.center</code> とすれば SVG 画像の中心点を指定できますし、 <code>canvas.width</code> と言えば SVG 画像の幅を取得することができます。実際には、この <code>canvas</code> が意味するのは「現在の<a class='autolink' href='#kgs1vf3AbTN'>キャンバス</a>」なのですが、これについては「<a href='#kgs1vf3AbTN'>7  サブキャンバス</a>」で説明します。</p>
 <p>　<code>app.center</code> などの記述は単独で使用するよりも、「app の中心から 100pt くらい右」といった指定をしたい場合の方が多いでしょう。そのような場合、 <code>(x+ app.center 100)</code> といった記述で目的を達することができます。以下の 3 つの関数が利用できます。</p>
 <pre class='code'>
@@ -3838,7 +4404,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </div>
 
 <p class='fig_title'><a name='kV8JVeAiwLR'></a>Figure.7-1 サブキャンバスのサンプル</p>
-<p>　<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>は入力データの一部分で独自の座標系を一時的に作成するもので、それ以外の効果はありません。たとえば、描画順序を制御する<a class='autolink' href='#1ovJxG7Ie9O'>レイヤー</a>とは無関係です<sup><a name='footnote_ref9' href='#footnote9'>9</a></sup>。</p>
+<p>　<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>は入力データの一部分で独自の座標系を一時的に作成するもので、それ以外の効果はありません。たとえば、描画順序を制御する<a class='autolink' href='#1ovJxG7Ie9O'>レイヤー</a>とは無関係です<sup><a name='footnote_ref10' href='#footnote10'>10</a></sup>。</p>
 <p>　<a class='autolink' href='#lsGULoUqoK4'>with-subcanvas</a> で明示的に<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>を作成するのでなく、作成した図形要素の内部を<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>とすることもできます。これには、 contents パラメータを使用します。たとえば、先程の例と同じ作図をするには以下のように書きます。この場合、先程とは違って <a class='autolink' href='#kJonRG8GtHF'>rect</a> の中に <a class='autolink' href='#8UQowBxrcaE'>circle</a> が置かれることになります（<a class='autolink' href='#kJonRG8GtHF'>rect</a> が動けば <a class='autolink' href='#8UQowBxrcaE'>circle</a> も動く）。</p>
 <pre class='code'>
 (diagram (300 150)
@@ -4833,7 +5399,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p>　　</p>
 <p>　それぞれについて細かい説明を始める前に、 <code>:stroke :red</code> といった記述がどのように扱われるのかを説明する必要があるでしょう。 <code>:stroke</code> によるこれらの指定は、実は全て <a class='autolink' href='#ezUVhtPwl3J'>make-stroke</a> 関数に渡されます。<a class='autolink' href='#ezUVhtPwl3J'>make-stroke</a> 関数は、渡されたのが単一の値の場合には、数値なら太さ、キーワードや文字列なら色名などと解釈します。そして <code>'(:color :red :width 3)</code> などの（複数要素からなる）リストの場合、名前付きパラメータの羅列として解釈します。</p>
-<p>　<a class='autolink' href='#ezUVhtPwl3J'>make-stroke</a> 関数はその結果として「<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>情報オブジェクト」を返しますが、その<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>情報オブジェクトを <a class='autolink' href='#ezUVhtPwl3J'>make-stroke</a> 関数自身に渡した場合、そのまま返すようになっています。そのため、自分で明示的に <a class='autolink' href='#ezUVhtPwl3J'>make-stroke</a> 関数を使って<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>情報オブジェクトを作成し、Common LISP 変数に格納して複数の図形要素で使用する、ということも可能です。以下のように<sup><a name='footnote_ref10' href='#footnote10'>10</a></sup>。この関数の詳細は「<a href='#ezUVhtPwl3J'>12.1.15  make-stroke 関数</a>」を参照してください。</p>
+<p>　<a class='autolink' href='#ezUVhtPwl3J'>make-stroke</a> 関数はその結果として「<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>情報オブジェクト」を返しますが、その<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>情報オブジェクトを <a class='autolink' href='#ezUVhtPwl3J'>make-stroke</a> 関数自身に渡した場合、そのまま返すようになっています。そのため、自分で明示的に <a class='autolink' href='#ezUVhtPwl3J'>make-stroke</a> 関数を使って<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>情報オブジェクトを作成し、Common LISP 変数に格納して複数の図形要素で使用する、ということも可能です。以下のように<sup><a name='footnote_ref11' href='#footnote11'>11</a></sup>。この関数の詳細は「<a href='#ezUVhtPwl3J'>12.1.15  make-stroke 関数</a>」を参照してください。</p>
 <pre class='code'>
 (<span class='keyword1'>let</span> ((st (make-stroke <span class='keyword3'>:color</span> <span class='keyword3'>:blue</span> <span class='keyword3'>:width</span> 4 <span class='keyword3'>:opacity</span> 0.3)))
   (rect   ... <span class='keyword3'>:stroke</span> st)
@@ -4841,7 +5407,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </pre>
 <p>　　</p>
 <h4><a name='ixMeyP7oEvS'></a>10.2.1 ストロークのデフォルト設定</h4>
-<p>　さて、実際のところ、作図をする上でそれぞれの要素の線がバラバラな色や太さで描かれることはないでしょう。わかりやすい図面というのは、同じ種類の図形要素は同じ種類の線で描画されているなど、統制が取れているものです。このことは、多くの作図においては「まったく同じ<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>の指定を繰り返す場合が多い」ことを意味します。前述の方法で<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>情報オブジェクトを作成して使い回すことも可能ですが、もっとよい方法があります。それは「デフォルト<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>の変更」です。もともと、<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>はデフォルトで <code>:color :black :width 1</code> とされていますが、<a class='autolink' href='#5afU9yg86c0'>with-options</a> を使えばこれを変更することができます<sup><a name='footnote_ref11' href='#footnote11'>11</a></sup>。以下の例では４種類の<a class='autolink' href='#kJonRG8GtHF'>四角形</a>を描いていますが、B, C の<a class='autolink' href='#kJonRG8GtHF'>四角形</a>ではデフォルト<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>を変更しています。</p>
+<p>　さて、実際のところ、作図をする上でそれぞれの要素の線がバラバラな色や太さで描かれることはないでしょう。わかりやすい図面というのは、同じ種類の図形要素は同じ種類の線で描画されているなど、統制が取れているものです。このことは、多くの作図においては「まったく同じ<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>の指定を繰り返す場合が多い」ことを意味します。前述の方法で<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>情報オブジェクトを作成して使い回すことも可能ですが、もっとよい方法があります。それは「デフォルト<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>の変更」です。もともと、<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>はデフォルトで <code>:color :black :width 1</code> とされていますが、<a class='autolink' href='#5afU9yg86c0'>with-options</a> を使えばこれを変更することができます<sup><a name='footnote_ref12' href='#footnote12'>12</a></sup>。以下の例では４種類の<a class='autolink' href='#kJonRG8GtHF'>四角形</a>を描いていますが、B, C の<a class='autolink' href='#kJonRG8GtHF'>四角形</a>ではデフォルト<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>を変更しています。</p>
 <pre class='code'>
 (diagram (250 100)
   (grid)
@@ -5100,7 +5666,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p>　　</p>
 <p>　それぞれについて細かい説明を始める前に、 <code>:fill :white</code> といった記述がどのように扱われるのかを説明する必要があるでしょう。 <code>:fill</code> によるこれらの指定は、実は全て <a class='autolink' href='#8IkB7VinE7h'>make-fill</a> 関数に渡されます。<a class='autolink' href='#8IkB7VinE7h'>make-fill</a> 関数は、渡されたのが単一の値の場合には、キーワードや文字列なら色名と解釈します。そして <code>'(:color :red :width 3)</code> などの（複数要素からなる）リストの場合、名前付きパラメータの羅列として解釈します。</p>
-<p>　<a class='autolink' href='#8IkB7VinE7h'>make-fill</a> 関数はその結果として「<a class='autolink' href='#dBUd7L4C3dx'>フィル</a>情報オブジェクト」を返しますが、その<a class='autolink' href='#dBUd7L4C3dx'>フィル</a>情報オブジェクトを <a class='autolink' href='#8IkB7VinE7h'>make-fill</a> 関数自身に渡した場合、そのまま返すようになっています。そのため、自分で明示的に <a class='autolink' href='#8IkB7VinE7h'>make-fill</a> 関数を使って<a class='autolink' href='#dBUd7L4C3dx'>フィル</a>情報オブジェクトを作成し、Common LISP 変数に格納して複数の図形要素で使用する、ということも可能です。以下のように<sup><a name='footnote_ref12' href='#footnote12'>12</a></sup>。この関数の詳細は「<a href='#8IkB7VinE7h'>12.1.11  make-fill 関数</a>」を参照してください。</p>
+<p>　<a class='autolink' href='#8IkB7VinE7h'>make-fill</a> 関数はその結果として「<a class='autolink' href='#dBUd7L4C3dx'>フィル</a>情報オブジェクト」を返しますが、その<a class='autolink' href='#dBUd7L4C3dx'>フィル</a>情報オブジェクトを <a class='autolink' href='#8IkB7VinE7h'>make-fill</a> 関数自身に渡した場合、そのまま返すようになっています。そのため、自分で明示的に <a class='autolink' href='#8IkB7VinE7h'>make-fill</a> 関数を使って<a class='autolink' href='#dBUd7L4C3dx'>フィル</a>情報オブジェクトを作成し、Common LISP 変数に格納して複数の図形要素で使用する、ということも可能です。以下のように<sup><a name='footnote_ref13' href='#footnote13'>13</a></sup>。この関数の詳細は「<a href='#8IkB7VinE7h'>12.1.11  make-fill 関数</a>」を参照してください。</p>
 <pre class='code'>
 (<span class='keyword1'>let</span> ((fl (make-fill <span class='keyword3'>:color</span> <span class='keyword3'>:blue</span> <span class='keyword3'>:opacity</span> 0.3)))
   (rect   ... <span class='keyword3'>:fill</span> fl)
@@ -5253,7 +5819,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </pre>
 <p>　　</p>
 <h4><a name='6ogELpgtwxO'></a>10.4.1 フォントのデフォルト設定</h4>
-<p>　実際のところ、作図をする上でそれぞれのテキストがバラバラな<a class='autolink' href='#3kZ9FkounyK'>フォント</a>で描かれることはないでしょう。わかりやすい図面というのは、同じ種類の図形要素は同じ種類の線で描画されているなど、統制が取れているものです。このことは、複数のテキストを含む作図においては「まったく同じ<a class='autolink' href='#3kZ9FkounyK'>フォント</a>の指定を繰り返す場合が多い」ことを意味します。前述の方法で<a class='autolink' href='#3kZ9FkounyK'>フォント</a>情報オブジェクトを作成して使い回すことも可能ですが、もっとよい方法があります。それは「デフォルト<a class='autolink' href='#3kZ9FkounyK'>フォント</a>の変更」です。もともと、<a class='autolink' href='#3kZ9FkounyK'>フォント</a>はデフォルトで <code>:size 12 :fill :black</code> とされています<sup><a name='footnote_ref13' href='#footnote13'>13</a></sup>が、<a class='autolink' href='#5afU9yg86c0'>with-options</a> を使えばこれを変更することができます。以下の例では４種類のテキストを描いていますが、B, C のテキストはデフォルト<a class='autolink' href='#3kZ9FkounyK'>フォント</a>を変更しています。</p>
+<p>　実際のところ、作図をする上でそれぞれのテキストがバラバラな<a class='autolink' href='#3kZ9FkounyK'>フォント</a>で描かれることはないでしょう。わかりやすい図面というのは、同じ種類の図形要素は同じ種類の線で描画されているなど、統制が取れているものです。このことは、複数のテキストを含む作図においては「まったく同じ<a class='autolink' href='#3kZ9FkounyK'>フォント</a>の指定を繰り返す場合が多い」ことを意味します。前述の方法で<a class='autolink' href='#3kZ9FkounyK'>フォント</a>情報オブジェクトを作成して使い回すことも可能ですが、もっとよい方法があります。それは「デフォルト<a class='autolink' href='#3kZ9FkounyK'>フォント</a>の変更」です。もともと、<a class='autolink' href='#3kZ9FkounyK'>フォント</a>はデフォルトで <code>:size 12 :fill :black</code> とされています<sup><a name='footnote_ref14' href='#footnote14'>14</a></sup>が、<a class='autolink' href='#5afU9yg86c0'>with-options</a> を使えばこれを変更することができます。以下の例では４種類のテキストを描いていますが、B, C のテキストはデフォルト<a class='autolink' href='#3kZ9FkounyK'>フォント</a>を変更しています。</p>
 <pre class='code'>
 (diagram (250 100)
   (grid)
@@ -5454,7 +6020,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </details>
 <p>　　</p>
 <p>　上記の結果を見る限りでは、Courier New <a class='autolink' href='#3kZ9FkounyK'>フォント</a>では 0.8 程度、serif <a class='autolink' href='#3kZ9FkounyK'>フォント</a>では 0.7 弱が spice 値としてよさそうに思えます。しかし、プロポーショナル<a class='autolink' href='#3kZ9FkounyK'>フォント</a>では（文字数が同じでも）文字列内で使われている文字の種類によって変わってしまいますし、そもそも制御できない外部環境によって描画は変わりえるのです。上記サンプルの左側は <code>:family</code> 指定で <code>Courier New, monospace</code> としていますから、Courier New <a class='autolink' href='#3kZ9FkounyK'>フォント</a>がない環境で表示すれば monospace が使用されるでしょう。それによって、テキストの実際の描画幅は大きく変化してしまいます。</p>
-<p>　width-spice は kaavio の開発初期の段階で導入されたものですが、現在ではあまり良くないアイデアとみなされています。<a class='autolink' href='#e7hkC2YUaKe'>テキストボックス</a>などでは幅を明示的に指定するのが現実的であり、その他テキストの描画幅においてもなんらかの仮定に依存するようなデザインをしないことが賢明でしょう<sup><a name='footnote_ref14' href='#footnote14'>14</a></sup>。</p>
+<p>　width-spice は kaavio の開発初期の段階で導入されたものですが、現在ではあまり良くないアイデアとみなされています。<a class='autolink' href='#e7hkC2YUaKe'>テキストボックス</a>などでは幅を明示的に指定するのが現実的であり、その他テキストの描画幅においてもなんらかの仮定に依存するようなデザインをしないことが賢明でしょう<sup><a name='footnote_ref15' href='#footnote15'>15</a></sup>。</p>
 <p>　　</p>
 <h3><a name='iu9Ovm00KHn'></a>10.5 IDと参照</h3>
 <p>　たいていの場合、図中の要素は互いに関係しています。矢印などで接続されることもありますし、それ以外の位置関係に意味があるかもしれません。kaavio では、個々の図形要素に ID を付与し、その ID を指定することで図形要素どうしを接続したり位置関係を指定したりできます。</p>
@@ -5502,7 +6068,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
   (circle (xy+ $1.center 200 50) 40 <span class='keyword3'>:fill</span> <span class='keyword3'>:moccasin</span>)
   (connect $2.id $1.id <span class='keyword3'>:end2</span> <span class='keyword3'>:arrow</span>))
 </pre>
-<p>　このコードでは、<a class='autolink' href='#eFhVs4WwYUG'>connect</a> における <code>$2.id</code> といった記述は何を返すのでしょうか？　実は、kaavio では ID 指定を省略された図形要素には、kaavio が独自の ID を付与するようになっています<sup><a name='footnote_ref15' href='#footnote15'>15</a></sup>。この自動付与される ID はコード上には現われないため直接指定することはできませんが、<a class='autolink' href='#eFhVs4WwYUG'>connect</a> での指定で $N.id とする場合には使用できます。</p>
+<p>　このコードでは、<a class='autolink' href='#eFhVs4WwYUG'>connect</a> における <code>$2.id</code> といった記述は何を返すのでしょうか？　実は、kaavio では ID 指定を省略された図形要素には、kaavio が独自の ID を付与するようになっています<sup><a name='footnote_ref16' href='#footnote16'>16</a></sup>。この自動付与される ID はコード上には現われないため直接指定することはできませんが、<a class='autolink' href='#eFhVs4WwYUG'>connect</a> での指定で $N.id とする場合には使用できます。</p>
 <p>　最後に、ID に . を続けることで参照できる属性の一覧を示しておきます。座標参照の正確な位置については <a href='#7mETQwj0yso'>Figure.6-2</a> を参照してください。</p>
 <p class='tbl_title'><a name='ju0HQrRY8oT'></a>Table.10-1 ID 指定で参照できる属性の一覧</p>
 <table align='center'>
@@ -5864,7 +6430,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li><a class='autolink' href='#1ovJxG7Ie9O'>レイヤー</a>はその宣言順で描画される</li>
 <li><a class='autolink' href='#1ovJxG7Ie9O'>レイヤー</a>指定されない図形要素は「暗黙の背景<a class='autolink' href='#1ovJxG7Ie9O'>レイヤー</a>」として最初に描画される</li>
 <li>同じ<a class='autolink' href='#1ovJxG7Ie9O'>レイヤー</a>に所属する図形要素はコード上での登場順で描画される</li>
-<li><a class='autolink' href='#g1LCkkjN7rG'>layer</a> でオプションの <code>display</code> パラメータに <code>:none</code> を指定すると<a class='autolink' href='#1ovJxG7Ie9O'>レイヤー</a>をまるごと非表示にできる<sup><a name='footnote_ref16' href='#footnote16'>16</a></sup></li>
+<li><a class='autolink' href='#g1LCkkjN7rG'>layer</a> でオプションの <code>display</code> パラメータに <code>:none</code> を指定すると<a class='autolink' href='#1ovJxG7Ie9O'>レイヤー</a>をまるごと非表示にできる<sup><a name='footnote_ref17' href='#footnote17'>17</a></sup></li>
 </ul>
 <p>　　</p>
 <h3><a name='fbLcMRTVXac'></a>10.9 リンク</h3>
@@ -6236,7 +6802,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 
 <p class='fig_title'><a name='iVJA6wcGHlP'></a>Figure.10-26 with-label-options によるラベル設定の変更</p>
 <p>　　</p>
-<p>　<a class='autolink' href='#lpCVEZ9kMoP'>ラベル</a>のテキストは通常それぞれで異なるため、<a class='autolink' href='#aw2yb6IRaf3'>with-label-options</a> で指定することはできません。指定可能なのは position, offset, font だけです<sup><a name='footnote_ref17' href='#footnote17'>17</a></sup>。</p>
+<p>　<a class='autolink' href='#lpCVEZ9kMoP'>ラベル</a>のテキストは通常それぞれで異なるため、<a class='autolink' href='#aw2yb6IRaf3'>with-label-options</a> で指定することはできません。指定可能なのは position, offset, font だけです<sup><a name='footnote_ref18' href='#footnote18'>18</a></sup>。</p>
 <p>　　</p>
 <h2><a name='2CSYEsoWlWE'></a>11 UML</h2>
 <h3><a name='8ya1jqc5cZQ'></a>11.1 アクティビティ図</h3>
@@ -7090,7 +7656,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <h3><a name='dR01Jh257Q6'></a>12.2 色の名前</h3>
-<p> <a href='#1rpUB3fre67'>10.1  節</a>ではいくつかの色の指定方法を紹介しています。ここでは、そのうち色の名前について使用できるものを紹介します。まず、以下は SVG 規格に記載されている色名のサンプルです<sup><a name='footnote_ref18' href='#footnote18'>18</a></sup>。</p>
+<p> <a href='#1rpUB3fre67'>10.1  節</a>ではいくつかの色の指定方法を紹介しています。ここでは、そのうち色の名前について使用できるものを紹介します。まず、以下は SVG 規格に記載されている色名のサンプルです<sup><a name='footnote_ref19' href='#footnote19'>19</a></sup>。</p>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='750' height='1000'>
@@ -7858,7 +8424,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </pre>
 </details>
 <p>　　</p>
-<p>　kaavio では、上記に加えて以下の名前も使用することができます。これらは規格に含まれていないため、 <code>#RRGGBB</code> 形式に変換されて出力されます<sup><a name='footnote_ref19' href='#footnote19'>19</a></sup>。</p>
+<p>　kaavio では、上記に加えて以下の名前も使用することができます。これらは規格に含まれていないため、 <code>#RRGGBB</code> 形式に変換されて出力されます<sup><a name='footnote_ref20' href='#footnote20'>20</a></sup>。</p>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='760' height='2140'>
@@ -9683,6 +10249,11 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li>ENHANCE : <a href='#cp2F91gKG7W'>円弧</a>で<a href='#9MB3lirlqL9'>終端マーク</a>を指定可能にする機能追加</li>
 </ul>
 </li>
+<li><strong>2022/11/06 - version 0.014</strong>
+<ul>
+<li>DOCUMENT : <a class='autolink' href='#4qgt62QVDZl'>パス</a>の un<a class='autolink' href='#jRjILbbJATV'>document</a>ed な未実装部分を完成させ、「<a href='#4qgt62QVDZl'>5.1  パス</a>」を執筆</li>
+</ul>
+</li>
 </ul>
 <h2><a name='1iQ3KRF8uJQ'></a>14 図表一覧</h2>
 <ul>
@@ -9742,8 +10313,20 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li><a href='#4Iv4ytJmORX'>Figure.5-1 path のサンプル</a></li>
 <li><a href='#b5nHW1IvOL5'>Figure.5-2 :move-to ディレクティブのサンプル</a></li>
 <li><a href='#i7V67Cjuavz'>Figure.5-3 :line-to ディレクティブのサンプル</a></li>
-<li><a href='#0iNBCVKyFlO'>Figure.5-4 :arc-to ディレクティブのサンプル</a></li>
-<li><a href='#f0G61WmPR5j'>Figure.5-5 raw-svg のサンプル</a></li>
+<li><a href='#hJ1SRWaSqTh'>Figure.5-4 :h-line-to ディレクティブのサンプル</a></li>
+<li><a href='#aSaBFWoqy84'>Figure.5-5 :v-line-to ディレクティブのサンプル</a></li>
+<li><a href='#0iNBCVKyFlO'>Figure.5-6 :arc-to ディレクティブのサンプル</a></li>
+<li><a href='#aNyY2PIidIC'>Figure.5-7 :arc-to における rx, ry, x-axis-rotation</a></li>
+<li><a href='#9yTsBifBw1F'>Figure.5-8 :arc-to における large-arc-flag, sweep-flag</a></li>
+<li><a href='#bqBMR0NsHfw'>Figure.5-9 :2d-curve-to ディレクティブのサンプル</a></li>
+<li><a href='#8mWonS8i74W'>Figure.5-10 :2d-curve-to ディレクティブのサンプル - 2</a></li>
+<li><a href='#ce2nwKyFetY'>Figure.5-11 :3d-curve-to ディレクティブのサンプル</a></li>
+<li><a href='#4LyqhFSeu8o'>Figure.5-12 :3d-curve-to ディレクティブのサンプル -2</a></li>
+<li><a href='#lPPONTNSIlV'>Figure.5-13 :3d-curve-to ディレクティブのサンプル - 3</a></li>
+<li><a href='#fh3ghDl4UuV'>Figure.5-14 :absolute ディレクティブのサンプル</a></li>
+<li><a href='#2cRykcOGGkY'>Figure.5-15 :relative ディレクティブのサンプル</a></li>
+<li><a href='#iPFjMa8UP1c'>Figure.5-16 :close-path ディレクティブのサンプル</a></li>
+<li><a href='#f0G61WmPR5j'>Figure.5-17 raw-svg のサンプル</a></li>
 <li><a href='#bdrJmRrH79B'>Figure.6-1 kaavio における座標系</a></li>
 <li><a href='#7mETQwj0yso'>Figure.6-2 図形要素の座標参照 - 1</a></li>
 <li><a href='#1YSNZvyxqVa'>Figure.6-3 図形要素の座標参照 - 2</a></li>
@@ -10078,19 +10661,20 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p class='footnote'><a name='footnote3' href='#footnote_ref3'>3</a> : もともと LISPer だという方で DSL の詳細を知りたい方は、申し訳ありませんがコードを直接参照してください。</p>
 <p class='footnote'><a name='footnote4' href='#footnote_ref4'>4</a> : Lisper の方へ：要するにキーワードパラメータです。</p>
 <p class='footnote'><a name='footnote5' href='#footnote_ref5'>5</a> : 不格好に見えるかもしれませんが、Microsoft Word の図形要素をトレースして作っています。そこそこの再現度のはず。</p>
-<p class='footnote'><a name='footnote6' href='#footnote_ref6'>6</a> : Lisper の方へ：ご想像通り、 <code>(list x y)</code> でも問題無いですし、バッククォートを使ってもかまいません。</p>
-<p class='footnote'><a name='footnote7' href='#footnote_ref7'>7</a> : この他に <code>width, height</code> があって、その図形要素の幅と高さを取得することもできますが、あまり使用しません。</p>
-<p class='footnote'><a name='footnote8' href='#footnote_ref8'>8</a> : Lisper の方へ： <code>app.center</code> という記法は動的に生成する symbol-macrolet によって、また <code>(attr :app :center)</code> については macrolet によって実現しています。attr は局所関数を使って同じ<a class='autolink' href='#dmYFJAv81Kl'>パターン</a>の繰り返しを共通化する場合などに便利でしょう。</p>
-<p class='footnote'><a name='footnote9' href='#footnote_ref9'>9</a> : 現状では、<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>の描画では幅と高さによって作成される矩形で内部要素の描画をクリッピングしません。つまり、実質的には<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>は原点をズラす効果しかありません。ただし、このクリッピングしないという挙動は将来変更される可能性があります。</p>
-<p class='footnote'><a name='footnote10' href='#footnote_ref10'>10</a> : これはあまり使わない方が良いテクニックかもしれません。図形要素別の「デフォルト設定」とは無関係に動作するので、慣れないと混乱するかもしれないからです。</p>
-<p class='footnote'><a name='footnote11' href='#footnote_ref11'>11</a> : Lisper の方へ。<a class='autolink' href='#5afU9yg86c0'>with-options</a> マクロは <code>*default-stroke*</code> や <code>*default-fill*</code> といったスペシャル変数を束縛するものです。非 Lisper のユーザーへの説明をわかりやすくする上でこの方法をとっています。</p>
-<p class='footnote'><a name='footnote12' href='#footnote_ref12'>12</a> : これはあまり使わない方が良いテクニックかもしれません。図形要素別の「デフォルト設定」とは無関係に動作するので、慣れないと混乱するかもしれないからです。</p>
-<p class='footnote'><a name='footnote13' href='#footnote_ref13'>13</a> : 正確には <code>:size 12 :fill :black :width-spice 0.65 :line-spacing 2</code> です。</p>
-<p class='footnote'><a name='footnote14' href='#footnote_ref14'>14</a> : SVG 規格には <code>textLength</code> 属性というものがあって、指定されたスペースにテキストを収めることができるそうです。これを今後導入するかもしれません。しかし、重箱の隅っこ的な機能は SVG レンダリングエンジン（多くの場合はブラウザのことですが）がサポートしていない可能性があるので、今後の検討次第です。</p>
-<p class='footnote'><a name='footnote15' href='#footnote_ref15'>15</a> : Lisper の方へ：要するに <code>gensym</code> を使っています。</p>
-<p class='footnote'><a name='footnote16' href='#footnote_ref16'>16</a> : ブラウザなどの SVG ビューワー上で動的に<a class='autolink' href='#1ovJxG7Ie9O'>レイヤー</a>の表示／非表示を切り替えることは可能ですが、kaavio としては現状サポートしていません。</p>
-<p class='footnote'><a name='footnote17' href='#footnote_ref17'>17</a> : position も<a class='autolink' href='#lpCVEZ9kMoP'>ラベル</a>毎に異なる場合が多いですが、きれいに整列した作図だと同じになる場合もあるので <a class='autolink' href='#aw2yb6IRaf3'>with-label-options</a> でサポートしています。</p>
-<p class='footnote'><a name='footnote18' href='#footnote_ref18'>18</a> : SVG 2 の規格において色名に関する節は削除され、CSS 規格を参照することになりました。</p>
-<p class='footnote'><a name='footnote19' href='#footnote_ref19'>19</a> : <a href='#6tYSz371NWb'>Figure.12-2</a> に記載されているのは、Emacs エディタで定義されている色名のうち、規格に含まれないものの一覧です。このうち、green(#00FF00), grey(#BEBEBE), maroon(#B03060), purple(#A020F0) については規格側にも同じ名前があるものの異なる値です。これらは「規格優先」としているため、たとえば <code>:green</code> を指定した場合は規格の #008000 が使用され、#00FF00 は使用されません。</p>
+<p class='footnote'><a name='footnote6' href='#footnote_ref6'>6</a> : 生の SVG コードを挿入したとして、そしてそれがSVG 規格に完璧に適合していたとしても、お使いの（ブラウザなどの）SVG ビューワーで「正しく」表示できるかどうかは別問題だということを常に念頭に置いて作業してください。kaavio の開発では「メジャーなブラウザでサポートされていない SVG の機能を避ける」ことに大きな注意と努力が払われています。</p>
+<p class='footnote'><a name='footnote7' href='#footnote_ref7'>7</a> : Lisper の方へ：ご想像通り、 <code>(list x y)</code> でも問題無いですし、バッククォートを使ってもかまいません。</p>
+<p class='footnote'><a name='footnote8' href='#footnote_ref8'>8</a> : この他に <code>width, height</code> があって、その図形要素の幅と高さを取得することもできますが、あまり使用しません。</p>
+<p class='footnote'><a name='footnote9' href='#footnote_ref9'>9</a> : Lisper の方へ： <code>app.center</code> という記法は動的に生成する symbol-macrolet によって、また <code>(attr :app :center)</code> については macrolet によって実現しています。attr は局所関数を使って同じ<a class='autolink' href='#dmYFJAv81Kl'>パターン</a>の繰り返しを共通化する場合などに便利でしょう。</p>
+<p class='footnote'><a name='footnote10' href='#footnote_ref10'>10</a> : 現状では、<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>の描画では幅と高さによって作成される矩形で内部要素の描画をクリッピングしません。つまり、実質的には<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>は原点をズラす効果しかありません。ただし、このクリッピングしないという挙動は将来変更される可能性があります。</p>
+<p class='footnote'><a name='footnote11' href='#footnote_ref11'>11</a> : これはあまり使わない方が良いテクニックかもしれません。図形要素別の「デフォルト設定」とは無関係に動作するので、慣れないと混乱するかもしれないからです。</p>
+<p class='footnote'><a name='footnote12' href='#footnote_ref12'>12</a> : Lisper の方へ。<a class='autolink' href='#5afU9yg86c0'>with-options</a> マクロは <code>*default-stroke*</code> や <code>*default-fill*</code> といったスペシャル変数を束縛するものです。非 Lisper のユーザーへの説明をわかりやすくする上でこの方法をとっています。</p>
+<p class='footnote'><a name='footnote13' href='#footnote_ref13'>13</a> : これはあまり使わない方が良いテクニックかもしれません。図形要素別の「デフォルト設定」とは無関係に動作するので、慣れないと混乱するかもしれないからです。</p>
+<p class='footnote'><a name='footnote14' href='#footnote_ref14'>14</a> : 正確には <code>:size 12 :fill :black :width-spice 0.65 :line-spacing 2</code> です。</p>
+<p class='footnote'><a name='footnote15' href='#footnote_ref15'>15</a> : SVG 規格には <code>textLength</code> 属性というものがあって、指定されたスペースにテキストを収めることができるそうです。これを今後導入するかもしれません。しかし、重箱の隅っこ的な機能は SVG レンダリングエンジン（多くの場合はブラウザのことですが）がサポートしていない可能性があるので、今後の検討次第です。</p>
+<p class='footnote'><a name='footnote16' href='#footnote_ref16'>16</a> : Lisper の方へ：要するに <code>gensym</code> を使っています。</p>
+<p class='footnote'><a name='footnote17' href='#footnote_ref17'>17</a> : ブラウザなどの SVG ビューワー上で動的に<a class='autolink' href='#1ovJxG7Ie9O'>レイヤー</a>の表示／非表示を切り替えることは可能ですが、kaavio としては現状サポートしていません。</p>
+<p class='footnote'><a name='footnote18' href='#footnote_ref18'>18</a> : position も<a class='autolink' href='#lpCVEZ9kMoP'>ラベル</a>毎に異なる場合が多いですが、きれいに整列した作図だと同じになる場合もあるので <a class='autolink' href='#aw2yb6IRaf3'>with-label-options</a> でサポートしています。</p>
+<p class='footnote'><a name='footnote19' href='#footnote_ref19'>19</a> : SVG 2 の規格において色名に関する節は削除され、CSS 規格を参照することになりました。</p>
+<p class='footnote'><a name='footnote20' href='#footnote_ref20'>20</a> : <a href='#6tYSz371NWb'>Figure.12-2</a> に記載されているのは、Emacs エディタで定義されている色名のうち、規格に含まれないものの一覧です。このうち、green(#00FF00), grey(#BEBEBE), maroon(#B03060), purple(#A020F0) については規格側にも同じ名前があるものの異なる値です。これらは「規格優先」としているため、たとえば <code>:green</code> を指定した場合は規格の #008000 が使用され、#00FF00 は使用されません。</p>
 </body>
 </html>

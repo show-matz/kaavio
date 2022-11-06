@@ -136,34 +136,50 @@
 	;;ToDo : 2 points の場合で、片方だけ absolute-point だった場合はどうするのか？
 	;;ToDo : 現状では、point の absolute-ness は考慮しない実装になっている。
 	(let ((len (length param)))
-	  (unless (and (<= 1 len) (<= len 2))
+	  (unless (<= 2 len)
 		(throw-exception "Invalid param for :2d-curve-to in path."))
-	  (let ((cmd (if (= len 1) "t" "q")))
-		(push-cmd cmd)
-		(dolist (pt param)
-		  (unless (kaavio:point-p pt)
-			(throw-exception "Invalid point param for :2d-curve-to in path."))
-		  (cond
-			((kaavio:point-absolute-p pt) (push-point pt))
-			((eq mode :relative) (push-point pt))
-			((eq mode :absolute) (push-point (kaavio:point+ pt (kaavio:canvas-topleft canvas))))))))
+	  (labels ((impl (pt)
+				 (unless (kaavio:point-p pt)
+				   (throw-exception "Invalid point param for :2d-curve-to in path."))
+				 (cond
+				   ((kaavio:point-absolute-p pt) (push-point pt))
+				   ((eq mode :relative) (push-point pt))
+				   ((eq mode :absolute) (push-point (kaavio:point+ pt
+														(kaavio:canvas-topleft canvas)))))))
+		(push-cmd "q")
+		(impl (car param))
+		(impl (cadr param))
+		(dolist (pt (cddr param))
+		  (push-cmd "t")
+		  (impl pt))))
 	(values mode acc))
 
   (defun __check-&-fix-3d-curve-to (param acc mode canvas)
 	;;ToDo : 2 points 以上の場合で、一部だけ absolute-point だった場合はどうするのか？
 	;;ToDo : 現状では、point の absolute-ness は考慮しない実装になっている。
 	(let ((len (length param)))
-	  (unless (and (<= 2 len) (<= len 3))
+	  ;; (:3d-curve-to c1 c2 pt [cX ptX]...)
+	  (unless (and (<= 3 len) (zerop (mod (- len 3) 2)))
 		(throw-exception "Invalid param for :3d-curve-to in path."))
-	  (let ((cmd (if (= len 2) "s" "c")))
-		(push-cmd cmd)
-		(dolist (pt param)
-		  (unless (kaavio:point-p pt)
-			(throw-exception "Invalid point param for :2d-curve-to in path."))
-		  (cond
-			((kaavio:point-absolute-p pt) (push-point pt))
-			((eq mode :relative) (push-point pt))
-			((eq mode :absolute) (push-point (kaavio:point+ pt (kaavio:canvas-topleft canvas))))))))
+	  (labels ((impl (pt)
+				 (unless (kaavio:point-p pt)
+				   (throw-exception "Invalid point param for :2d-curve-to in path."))
+				 (cond
+				   ((kaavio:point-absolute-p pt) (push-point pt))
+				   ((eq mode :relative) (push-point pt))
+				   ((eq mode :absolute) (push-point (kaavio:point+ pt
+														(kaavio:canvas-topleft canvas))))))
+			   (tail (rest)
+				 (when rest
+				   (push-cmd "s")
+				   (impl (car rest))
+				   (impl (cadr rest))
+				   (tail (cddr rest)))))
+		(push-cmd "c")
+		(impl (car param))
+		(impl (cadr param))
+		(impl (caddr param))
+		(tail (cdddr param))))
 	(values mode acc)))
 
 (defun __check-&-fix-data (lst acc mode canvas)
