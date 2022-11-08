@@ -9,6 +9,10 @@
   (:use			:common-lisp)
   (:nicknames	:kaavio)
   (:export  	;--------------- BEGIN EXPORT
+				;2d-curve.lisp
+				:2d-curve
+				;3d-curve.lisp
+				:3d-curve
 				;arc.lisp
 				:arc
 				;balloon.lisp

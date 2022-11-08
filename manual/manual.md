@@ -241,6 +241,8 @@ ${BLANK_PARAGRAPH}
 <!-- define: HASH_TEXT          = '[](#テキスト)' -->
 <!-- define: HASH_DIAMOND       = '[](#ひし形)' -->
 <!-- define: HASH_PARALLELOGRAM = '[](#平行四辺形)' -->
+<!-- define: HASH_2D_CURVE      = '[](#二次ベジェ曲線)' -->
+<!-- define: HASH_3D_CURVE      = '[](#三次ベジェ曲線)' -->
 
 ```kaavio
 (diagram (800 230)
@@ -289,6 +291,16 @@ ${BLANK_PARAGRAPH}
       (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
       (parallelogram `(,(/ w 2) ,(/ w 2)) 70 40 :h 20 :fill :lightsteelblue :stroke '(:color :darkslateblue :width 2))
 	  (text `(,(/ w 2) ,(- h 5)) "平行四辺形" :align :center))
+    (defgroup (w h :2d-curve-grp)
+      (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
+      (2d-curve '((10 60) (60 -20) (70 60)) :stroke '(:color :navy :width 3))
+	  (text `(,(/ w 2) ,(- h 20)) "二次" :align :center)
+	  (text `(,(/ w 2) ,(- h 5)) "ベジェ曲線" :align :center))
+    (defgroup (w h :3d-curve-grp)
+      (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
+      (3d-curve '((10 60) (50 -40) (30 120) (70 10)) :stroke '(:color :brown :width 3))
+	  (text `(,(/ w 2) ,(- h 20)) "三次" :align :center)
+	  (text `(,(/ w 2) ,(- h 5)) "ベジェ曲線" :align :center))
     (use :rect-grp          '(100  60) :link "${HASH_RECT}")
     (use :circle-grp        '(200  60) :link "${HASH_CIRCLE}")
     (use :ellipse-grp       '(300  60) :link "${HASH_ELLIPSE}")
@@ -297,7 +309,9 @@ ${BLANK_PARAGRAPH}
     (use :arc-grp           '(600  60) :link "${HASH_ARC}")
     (use :text-grp          '(700  60) :link "${HASH_TEXT}")
     (use :diamond-grp       '(100 170) :link "${HASH_DIAMOND}")
-    (use :parallelogram-grp '(200 170) :link "${HASH_PARALLELOGRAM}")))
+    (use :parallelogram-grp '(200 170) :link "${HASH_PARALLELOGRAM}")
+    (use :2d-curve-grp      '(300 170) :link "${HASH_2D_CURVE}")
+    (use :3d-curve-grp      '(400 170) :link "${HASH_3D_CURVE}")))
 ```
 
 ### 四角形
@@ -912,6 +926,193 @@ Figure. parallelogram における direction と offset
 　ただし、 `width / height` で指定されたサイズはあくまで赤い点線の矩形であることに注意して
 ください。また、サブキャンバスやコネクタによる接続点は現状では赤い点線の矩形ベースで計算され
 ますが、この挙動は将来変更される可能性があります。
+
+${BLANK_PARAGRAPH}
+
+### 二次ベジェ曲線
+<!-- autolink: [2d-curve](#二次ベジェ曲線) -->
+<!-- autolink: [$$](#二次ベジェ曲線) -->
+
+<!-- snippet: 2D-CURVE-SAMPLE
+(diagram (300 100)
+  (grid)
+  (let ((pt1 '( 60 90))
+        (ptC '(  0 20))
+        (pt2 '(280 20)))
+    (2d-curve `(,pt1 ,ptC ,pt2)
+              :end1 :arrow :end2 :arrow
+              :debug nil :stroke '(:color :slateblue :width 4))))
+-->
+
+　`2d-curve` によって二次ベジェ曲線を描画できます。パスにおける :2d-curve-to の機能を
+単独の図形要素にしたものです。端点に終端マークをつけることもできます。
+
+```kaavio
+<!-- expand: 2D-CURVE-SAMPLE -->
+```
+Figure. 2d-curve のサンプル
+
+
+<!-- collapse:begin -->
+　※上記サンプルのソースはこちら。
+
+```lisp
+<!-- expand: 2D-CURVE-SAMPLE -->
+```
+<!-- collapse:end -->
+
+　2d-curve のパラメータ構成は以下の通りです。
+
+```lisp
+(defmacro 2d-curve (points &key stroke end1 end2 layer filter id debug) ... )
+```
+
+${BLANK_PARAGRAPH}
+
+
+<!-- stack:push tr style="font-size: 14;" -->
+
+Table. 2d-curve のパラメータ
+| パラメータ   | 説明                                                                           |
+|:============|:--------------------------------------------------------------------------------------|
+| `points`    | 二次ベジェ曲線を構成する点のリストを指定します。最低限でも３要素のリストである必要があり、始点、制御点、終点の順で指定します。また、パスにおける :2d-curve-to 同様、任意数の点を追加することが可能です。詳細は [$@ 節](#パス)の :2d-curve-to の説明を参照してください。  |
+| `stroke`    | 描画する線を指定します。詳細は「[](#ストローク)」を参照してください。            |
+| `end1,end2` | 始端・終端に矢印などの装飾を付ける場合は指定します。詳細は「[](#終端マーク)」を参照してください。 |
+| `layer`     | レイヤーに所属させる場合、その名前をキーワードで指定します。詳細は「[](#レイヤー)」を参照してください。 |
+| `filter`    | フィルタ効果を適用したい場合、その名前を指定します。詳細は「[](#フィルタ)」を参照してください。 |
+| `id`        | ID を付与したい場合、その名前をキーワードで指定します。詳細は「[](#IDと参照)」を参照してください。 |
+| `debug`     | キーワードで色名を指定することで、節点や制御点とそれらを結ぶ線を表示します。 `t` を指定すればデフォルトの赤色を使用します。 |
+
+<!-- stack:pop tr -->
+
+${BLANK_PARAGRAPH}
+
+　`debug` パラメータについて説明します。このパラメータにキーワードで色名を与えると、二次ベジェ曲線を構成
+する点とそれらを結ぶ直線を明示します。 `:debug t` とすればデフォルトの赤色が使用されます。通常は目に見えない
+制御点も可視化されるので、調整の際に使用すると便利です。以下に例を示します。
+
+<!-- snippet: 2D-CURVE-DEBUG-SAMPLE
+(diagram (500 250)
+  (grid)
+  (let ((pt1 '( 50 150))
+        (ptC '(100  30))
+        (pt2 '(150 130))
+        (pt3 '(250 180))
+        (pt4 '(450 130)))
+    (2d-curve `(,pt1 ,ptC ,pt2 ,pt3 ,pt4)
+              :end1 :rect :end2 :triangle
+              :debug t :stroke '(:color :darkslategray :width 3))))
+-->
+
+```kaavio
+<!-- expand: 2D-CURVE-DEBUG-SAMPLE -->
+```
+Figure. 2d-curve における debug の サンプル
+
+
+<!-- collapse:begin -->
+　※上記サンプルのソースはこちら。
+
+```lisp
+<!-- expand: 2D-CURVE-DEBUG-SAMPLE -->
+```
+<!-- collapse:end -->
+
+${BLANK_PARAGRAPH}
+
+### 三次ベジェ曲線
+<!-- autolink: [3d-curve](#三次ベジェ曲線) -->
+<!-- autolink: [$$](#三次ベジェ曲線) -->
+
+<!-- snippet: 3D-CURVE-SAMPLE
+(diagram (300 100)
+  (grid)
+  (let ((p1 '( 20  90))
+        (c1 '(150 -50))
+        (c2 '(150 150))
+        (p2 '(280  10)))
+    (3d-curve `(,p1 ,c1 ,c2 ,p2)
+              :end1 :arrow :end2 :arrow
+              :debug nil :stroke '(:color :slateblue :width 4))))
+-->
+
+　`3d-curve` によって三次ベジェ曲線を描画できます。パスにおける :3d-curve-to の機能を
+単独の図形要素にしたものです。端点に終端マークをつけることもできます。
+
+```kaavio
+<!-- expand: 3D-CURVE-SAMPLE -->
+```
+Figure. 3d-curve のサンプル
+
+
+<!-- collapse:begin -->
+　※上記サンプルのソースはこちら。
+
+```lisp
+<!-- expand: 3D-CURVE-SAMPLE -->
+```
+<!-- collapse:end -->
+
+　3d-curve のパラメータ構成は以下の通りです。
+
+```lisp
+(defmacro 3d-curve (points &key stroke end1 end2 layer filter id debug) ... )
+```
+
+${BLANK_PARAGRAPH}
+
+
+<!-- stack:push tr style="font-size: 14;" -->
+
+Table. 3d-curve のパラメータ
+| パラメータ   | 説明                                                                           |
+|:============|:--------------------------------------------------------------------------------------|
+| `points`    | 三次ベジェ曲線を構成する点のリストを指定します。最低限でも４要素のリストである必要があり、始点、制御点1、制御点2、終点の順で指定します。また、パスにおける :3d-curve-to 同様、任意数の制御点と点の組を追加することが可能です。詳細は [$@ 節](#パス)の :3d-curve-to の説明を参照してください。  |
+| `stroke`    | 描画する線を指定します。詳細は「[](#ストローク)」を参照してください。            |
+| `end1,end2` | 始端・終端に矢印などの装飾を付ける場合は指定します。詳細は「[](#終端マーク)」を参照してください。 |
+| `layer`     | レイヤーに所属させる場合、その名前をキーワードで指定します。詳細は「[](#レイヤー)」を参照してください。 |
+| `filter`    | フィルタ効果を適用したい場合、その名前を指定します。詳細は「[](#フィルタ)」を参照してください。 |
+| `id`        | ID を付与したい場合、その名前をキーワードで指定します。詳細は「[](#IDと参照)」を参照してください。 |
+| `debug`     | キーワードで色名を指定することで、節点や制御点とそれらを結ぶ線を表示します。 `t` を指定すればデフォルトの赤色を使用します。 |
+
+<!-- stack:pop tr -->
+
+${BLANK_PARAGRAPH}
+
+　`debug` パラメータについて説明します。このパラメータにキーワードで色名を与えると、三次ベジェ曲線を構成
+する点とそれらを結ぶ直線を明示します。 `:debug t` とすればデフォルトの赤色が使用されます。通常は目に見えない
+制御点も可視化されるので、調整の際に使用すると便利です。以下に例を示します。
+
+<!-- snippet: 3D-CURVE-DEBUG-SAMPLE
+(diagram (400 220)
+    (grid)
+    (let ((pt1  '( 30 130))
+          (ptC1 '( 80  10))
+          (ptC2 '(130  70))
+          (pt2  '(130 110))
+          (ptC3 '(130 210))
+          (pt3  '(230 110))
+          (ptC4 '(180 130))
+          (pt4  '(380 130)))
+      (3d-curve `(,pt1 ,ptC1 ,ptC2 ,pt2 ,ptC3 ,pt3 ,ptC4 ,pt4)
+                :end1 :rect :end2 :triangle
+                :debug t :stroke '(:color :slateblue :width 4))))
+-->
+
+```kaavio
+<!-- expand: 3D-CURVE-DEBUG-SAMPLE -->
+```
+Figure. 3d-curve における debug の サンプル
+
+
+<!-- collapse:begin -->
+　※上記サンプルのソースはこちら。
+
+```lisp
+<!-- expand: 3D-CURVE-DEBUG-SAMPLE -->
+```
+<!-- collapse:end -->
+
 
 ${BLANK_PARAGRAPH}
 
@@ -7319,6 +7520,9 @@ Figure. 色の名前とサンプル - 2
 	* ENHANCE : [$$](#円弧)で[$$](#終端マーク)を指定可能にする機能追加
 * __2022/11/06 - version 0.014__
 	* DOCUMENT : パスの undocumented な未実装部分を完成させ、「[](#パス)」を執筆
+* __2022/11/09__
+	* ENHANCE : [$$](#二次ベジェ曲線)を追加
+	* ENHANCE : [$$](#三次ベジェ曲線)を追加
 
 
 ## 図表一覧

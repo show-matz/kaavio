@@ -3,6 +3,24 @@
   :version     "0.1.0"
   :depends-on  ()
   :components  (;; ---------------------------------------- BEGIN COMPONENTS
+				(:file "2d-curve"                  :depends-on ("kaavio"
+																"constants"
+																"point"
+																"mathutil"
+																"stroke-info"
+																"endmark-info"
+																"entity"
+																"filter"
+																"writer"))
+				(:file "3d-curve"                  :depends-on ("kaavio"
+																"constants"
+																"point"
+																"mathutil"
+																"stroke-info"
+																"endmark-info"
+																"entity"
+																"filter"
+																"writer"))
 				(:file "arc"                       :depends-on ("kaavio"
 																"point"
 																"canvas"

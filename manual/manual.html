@@ -44,6 +44,8 @@
 <li class='tocx'><a href='#cTdCvBeU6ZJ'>3.7 テキスト</a></li>
 <li class='tocx'><a href='#4dFMjynUMYw'>3.8 ひし形</a></li>
 <li class='tocx'><a href='#8YR8CiywoW8'>3.9 平行四辺形</a></li>
+<li class='tocx'><a href='#iTkYd8KXLYO'>3.10 二次ベジェ曲線</a></li>
+<li class='tocx'><a href='#8PFAoBpi4A9'>3.11 三次ベジェ曲線</a></li>
 </blockquote>
 </details>
 <details class='tocx' open>
@@ -336,6 +338,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <!-- define: HASH_TEXT          = '[](#テキスト)' -->
 <!-- define: HASH_DIAMOND       = '[](#ひし形)' -->
 <!-- define: HASH_PARALLELOGRAM = '[](#平行四辺形)' -->
+<!-- define: HASH_2D_CURVE      = '[](#二次ベジェ曲線)' -->
+<!-- define: HASH_3D_CURVE      = '[](#三次ベジェ曲線)' -->
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='800' height='230'>
@@ -456,6 +460,34 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 			
 		</g>
 	</defs>
+	<!-- 2d-curve-grp : group-definition -->
+	<defs>
+		<g id='2d-curve-grp'>
+			<!-- rectangle -->
+			<rect x='0' y='0' width='80' height='100' fill='white' stroke='none' stroke-width='1' />
+			<!-- 2d-curve -->
+			<path fill='none' stroke='navy' stroke-width='3' d='M 10.0 60.0Q 60.0 -20.0 70.0 60.0' />
+			<!-- text -->
+			<text x='40' y='80' text-anchor='middle' font-size='12pt' fill='black' >二次</text>
+			<!-- text -->
+			<text x='40' y='95' text-anchor='middle' font-size='12pt' fill='black' >ベジェ曲線</text>
+			
+		</g>
+	</defs>
+	<!-- 3d-curve-grp : group-definition -->
+	<defs>
+		<g id='3d-curve-grp'>
+			<!-- rectangle -->
+			<rect x='0' y='0' width='80' height='100' fill='white' stroke='none' stroke-width='1' />
+			<!-- 3d-curve -->
+			<path fill='none' stroke='brown' stroke-width='3' d='M 10.0 60.0C 50.0 -40.0 30.0 120.0 70.0 10.0' />
+			<!-- text -->
+			<text x='40' y='80' text-anchor='middle' font-size='12pt' fill='black' >三次</text>
+			<!-- text -->
+			<text x='40' y='95' text-anchor='middle' font-size='12pt' fill='black' >ベジェ曲線</text>
+			
+		</g>
+	</defs>
 	<!-- use -->
 	<a xlink:href='#kJonRG8GtHF' target='_self'>
 		<use xlink:href='#rect-grp' x='60' y='10' />
@@ -491,6 +523,14 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 	<!-- use -->
 	<a xlink:href='#8YR8CiywoW8' target='_self'>
 		<use xlink:href='#parallelogram-grp' x='160' y='120' />
+	</a>
+	<!-- use -->
+	<a xlink:href='#iTkYd8KXLYO' target='_self'>
+		<use xlink:href='#2d-curve-grp' x='260' y='120' />
+	</a>
+	<!-- use -->
+	<a xlink:href='#8PFAoBpi4A9' target='_self'>
+		<use xlink:href='#3d-curve-grp' x='360' y='120' />
 	</a>
 
 </svg>
@@ -1049,6 +1089,213 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 
 <p class='fig_title'><a name='67lJneaqrLn'></a>Figure.3-13 parallelogram における direction と offset</p>
 <p>　ただし、 <code>width / height</code> で指定されたサイズはあくまで赤い点線の矩形であることに注意してください。また、<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>や<a class='autolink' href='#eFhVs4WwYUG'>コネクタ</a>による接続点は現状では赤い点線の矩形ベースで計算されますが、この挙動は将来変更される可能性があります。</p>
+<p>　　</p>
+<h3><a name='iTkYd8KXLYO'></a>3.10 二次ベジェ曲線</h3>
+<p>　<code>2d-curve</code> によって<a class='autolink' href='#iTkYd8KXLYO'>二次ベジェ曲線</a>を描画できます。<a class='autolink' href='#4qgt62QVDZl'>パス</a>における <a class='autolink' href='#00Vj4Quxjg3'>:2d-curve-to</a> の機能を単独の図形要素にしたものです。端点に<a class='autolink' href='#9MB3lirlqL9'>終端マーク</a>をつけることもできます。</p>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='100'>
+	
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- 2d-curve -->
+	<path fill='none' stroke='slateblue' stroke-width='4' d='M 60.0 90.0Q 0.0 20.0 280.0 20.0' />
+	<polyline fill='none' stroke='slateblue' stroke-width='4' points='45.851547,85.01791 60,90 57.240395,75.256035' />
+	<polyline fill='none' stroke='slateblue' stroke-width='4' points='267.0096,27.5 280,20 267.0096,12.5' />
+
+</svg>
+</div>
+
+<p class='fig_title'><a name='9ykZFla1Nux'></a>Figure.3-14 2d-curve のサンプル</p>
+<details>
+<summary>　※上記サンプルのソースはこちら。</summary>
+<pre class='code'>
+(diagram (300 100)
+  (grid)
+  (<span class='keyword1'>let</span> ((pt1 '( 60 90))
+        (ptC '(  0 20))
+        (pt2 '(280 20)))
+    (2d-curve `(,pt1 ,ptC ,pt2)
+              <span class='keyword3'>:end1</span> <span class='keyword3'>:arrow</span> <span class='keyword3'>:end2</span> <span class='keyword3'>:arrow</span>
+              <span class='keyword3'>:debug</span> nil <span class='keyword3'>:stroke</span> '(<span class='keyword3'>:color</span> <span class='keyword3'>:slateblue</span> <span class='keyword3'>:width</span> 4))))
+</pre>
+</details>
+<p>　<a class='autolink' href='#iTkYd8KXLYO'>2d-curve</a> のパラメータ構成は以下の通りです。</p>
+<pre class='code'>
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>2d-curve</span> (points <span class='keyword2'>&amp;key</span> stroke end1 end2 layer filter id debug) ... )
+</pre>
+<p>　　</p>
+<p class='tbl_title'><a name='6JVa0DHMRGI'></a>Table.3-10 2d-curve のパラメータ</p>
+<table align='center'>
+<tr style="font-size: 14;"><th>パラメータ</th><th>説明</th></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>points</code></td><td align='left'><a class='autolink' href='#iTkYd8KXLYO'>二次ベジェ曲線</a>を構成する点のリストを指定します。最低限でも３要素のリストである必要があり、始点、制御点、終点の順で指定します。また、<a class='autolink' href='#4qgt62QVDZl'>パス</a>における <a class='autolink' href='#00Vj4Quxjg3'>:2d-curve-to</a> 同様、任意数の点を追加することが可能です。詳細は <a href='#4qgt62QVDZl'>5.1  節</a>の <a class='autolink' href='#00Vj4Quxjg3'>:2d-curve-to</a> の説明を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>stroke</code></td><td align='left'>描画する線を指定します。詳細は「<a href='#4HFjqmTuIU6'>10.2  ストローク</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>end1,end2</code></td><td align='left'>始端・終端に矢印などの装飾を付ける場合は指定します。詳細は「<a href='#9MB3lirlqL9'>10.10  終端マーク</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>layer</code></td><td align='left'><a class='autolink' href='#1ovJxG7Ie9O'>レイヤー</a>に所属させる場合、その名前をキーワードで指定します。詳細は「<a href='#1ovJxG7Ie9O'>10.8  レイヤー</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>filter</code></td><td align='left'><a class='autolink' href='#gPGlqSbIfdL'>フィルタ</a>効果を適用したい場合、その名前を指定します。詳細は「<a href='#gPGlqSbIfdL'>10.7  フィルタ</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>id</code></td><td align='left'>ID を付与したい場合、その名前をキーワードで指定します。詳細は「<a href='#iu9Ovm00KHn'>10.5  IDと参照</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>debug</code></td><td align='left'>キーワードで色名を指定することで、節点や制御点とそれらを結ぶ線を表示します。 <code>t</code> を指定すればデフォルトの赤色を使用します。</td></tr>
+</table>
+<p>　　</p>
+<p>　<code>debug</code> パラメータについて説明します。このパラメータにキーワードで色名を与えると、<a class='autolink' href='#iTkYd8KXLYO'>二次ベジェ曲線</a>を構成する点とそれらを結ぶ<a class='autolink' href='#fv4OUML78x4'>直線</a>を明示します。 <code>:debug t</code> とすればデフォルトの赤色が使用されます。通常は目に見えない制御点も可視化されるので、調整の際に使用すると便利です。以下に例を示します。</p>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='500' height='250'>
+	
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- 2d-curve -->
+	<path fill='none' stroke='darkslategray' stroke-width='3' d='M 50.0 150.0Q 100.0 30.0 150.0 130.0T 250.0 180.0T 450.0 130.0' />
+	<path fill='darkslategray' stroke='darkslategray' stroke-width='3' d='M 40.192307 154.03847 L 45.96154 140.1923 L 59.807693 145.96153 L 54.03846 159.8077 z' />
+	<path fill='darkslategray' stroke='darkslategray' stroke-width='3' d='M 450 130 l -13.594617 -6.339274 l 0.0000000000000017763568 12.678548 z' />
+	<polyline fill='none' stroke='red' stroke-width='1' stroke-dasharray='2 3 ' points='50.0,150.0 100.0,30.0' />
+	<polyline fill='none' stroke='red' stroke-width='1' stroke-dasharray='2 3 ' points='100.0,30.0 150.0,130.0' />
+	<polyline fill='none' stroke='red' stroke-width='1' stroke-dasharray='2 3 ' points='150.0,130.0 200.0,230.0' />
+	<polyline fill='none' stroke='red' stroke-width='1' stroke-dasharray='2 3 ' points='200.0,230.0 250.0,180.0' />
+	<polyline fill='none' stroke='red' stroke-width='1' stroke-dasharray='2 3 ' points='250.0,180.0 300.0,130.0' />
+	<polyline fill='none' stroke='red' stroke-width='1' stroke-dasharray='2 3 ' points='300.0,130.0 450.0,130.0' />
+	<circle cx='50' cy='150' r='3' stroke='none' fill='red' />
+	<circle cx='100' cy='30' r='3' stroke='none' fill='red' />
+	<circle cx='150' cy='130' r='3' stroke='none' fill='red' />
+	<circle cx='200' cy='230' r='3' stroke='none' fill='red' />
+	<circle cx='250' cy='180' r='3' stroke='none' fill='red' />
+	<circle cx='300' cy='130' r='3' stroke='none' fill='red' />
+	<circle cx='450' cy='130' r='3' stroke='none' fill='red' />
+
+</svg>
+</div>
+
+<p class='fig_title'><a name='g7pyyZucifJ'></a>Figure.3-15 2d-curve における debug の サンプル</p>
+<details>
+<summary>　※上記サンプルのソースはこちら。</summary>
+<pre class='code'>
+(diagram (500 250)
+  (grid)
+  (<span class='keyword1'>let</span> ((pt1 '( 50 150))
+        (ptC '(100  30))
+        (pt2 '(150 130))
+        (pt3 '(250 180))
+        (pt4 '(450 130)))
+    (2d-curve `(,pt1 ,ptC ,pt2 ,pt3 ,pt4)
+              <span class='keyword3'>:end1</span> <span class='keyword3'>:rect</span> <span class='keyword3'>:end2</span> <span class='keyword3'>:triangle</span>
+              <span class='keyword3'>:debug</span> t <span class='keyword3'>:stroke</span> '(<span class='keyword3'>:color</span> <span class='keyword3'>:darkslategray</span> <span class='keyword3'>:width</span> 3))))
+</pre>
+</details>
+<p>　　</p>
+<h3><a name='8PFAoBpi4A9'></a>3.11 三次ベジェ曲線</h3>
+<p>　<code>3d-curve</code> によって<a class='autolink' href='#8PFAoBpi4A9'>三次ベジェ曲線</a>を描画できます。<a class='autolink' href='#4qgt62QVDZl'>パス</a>における <a class='autolink' href='#ewUXtISm3SD'>:3d-curve-to</a> の機能を単独の図形要素にしたものです。端点に<a class='autolink' href='#9MB3lirlqL9'>終端マーク</a>をつけることもできます。</p>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='100'>
+	
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- 3d-curve -->
+	<path fill='none' stroke='slateblue' stroke-width='4' d='M 20.0 90.0C 150.0 -50.0 150.0 150.0 280.0 10.0' />
+	<polyline fill='none' stroke='slateblue' stroke-width='4' points='23.343369,75.37735 20,90 34.33527,85.584114' />
+	<polyline fill='none' stroke='slateblue' stroke-width='4' points='276.65665,24.62265 280,10 265.66473,14.415884' />
+
+</svg>
+</div>
+
+<p class='fig_title'><a name='ctB3IKZPSD2'></a>Figure.3-16 3d-curve のサンプル</p>
+<details>
+<summary>　※上記サンプルのソースはこちら。</summary>
+<pre class='code'>
+(diagram (300 100)
+  (grid)
+  (<span class='keyword1'>let</span> ((p1 '( 20  90))
+        (c1 '(150 -50))
+        (c2 '(150 150))
+        (p2 '(280  10)))
+    (3d-curve `(,p1 ,c1 ,c2 ,p2)
+              <span class='keyword3'>:end1</span> <span class='keyword3'>:arrow</span> <span class='keyword3'>:end2</span> <span class='keyword3'>:arrow</span>
+              <span class='keyword3'>:debug</span> nil <span class='keyword3'>:stroke</span> '(<span class='keyword3'>:color</span> <span class='keyword3'>:slateblue</span> <span class='keyword3'>:width</span> 4))))
+</pre>
+</details>
+<p>　<a class='autolink' href='#8PFAoBpi4A9'>3d-curve</a> のパラメータ構成は以下の通りです。</p>
+<pre class='code'>
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>3d-curve</span> (points <span class='keyword2'>&amp;key</span> stroke end1 end2 layer filter id debug) ... )
+</pre>
+<p>　　</p>
+<p class='tbl_title'><a name='0ikC5xwoqMr'></a>Table.3-11 3d-curve のパラメータ</p>
+<table align='center'>
+<tr style="font-size: 14;"><th>パラメータ</th><th>説明</th></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>points</code></td><td align='left'><a class='autolink' href='#8PFAoBpi4A9'>三次ベジェ曲線</a>を構成する点のリストを指定します。最低限でも４要素のリストである必要があり、始点、制御点1、制御点2、終点の順で指定します。また、<a class='autolink' href='#4qgt62QVDZl'>パス</a>における <a class='autolink' href='#ewUXtISm3SD'>:3d-curve-to</a> 同様、任意数の制御点と点の組を追加することが可能です。詳細は <a href='#4qgt62QVDZl'>5.1  節</a>の <a class='autolink' href='#ewUXtISm3SD'>:3d-curve-to</a> の説明を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>stroke</code></td><td align='left'>描画する線を指定します。詳細は「<a href='#4HFjqmTuIU6'>10.2  ストローク</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>end1,end2</code></td><td align='left'>始端・終端に矢印などの装飾を付ける場合は指定します。詳細は「<a href='#9MB3lirlqL9'>10.10  終端マーク</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>layer</code></td><td align='left'><a class='autolink' href='#1ovJxG7Ie9O'>レイヤー</a>に所属させる場合、その名前をキーワードで指定します。詳細は「<a href='#1ovJxG7Ie9O'>10.8  レイヤー</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>filter</code></td><td align='left'><a class='autolink' href='#gPGlqSbIfdL'>フィルタ</a>効果を適用したい場合、その名前を指定します。詳細は「<a href='#gPGlqSbIfdL'>10.7  フィルタ</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>id</code></td><td align='left'>ID を付与したい場合、その名前をキーワードで指定します。詳細は「<a href='#iu9Ovm00KHn'>10.5  IDと参照</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>debug</code></td><td align='left'>キーワードで色名を指定することで、節点や制御点とそれらを結ぶ線を表示します。 <code>t</code> を指定すればデフォルトの赤色を使用します。</td></tr>
+</table>
+<p>　　</p>
+<p>　<code>debug</code> パラメータについて説明します。このパラメータにキーワードで色名を与えると、<a class='autolink' href='#8PFAoBpi4A9'>三次ベジェ曲線</a>を構成する点とそれらを結ぶ<a class='autolink' href='#fv4OUML78x4'>直線</a>を明示します。 <code>:debug t</code> とすればデフォルトの赤色が使用されます。通常は目に見えない制御点も可視化されるので、調整の際に使用すると便利です。以下に例を示します。</p>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='400' height='220'>
+	
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- 3d-curve -->
+	<path fill='none' stroke='slateblue' stroke-width='4' d='M 30.0 130.0C 80.0 10.0 130.0 70.0 130.0 110.0S 130.0 210.0 230.0 110.0S 180.0 130.0 380.0 130.0' />
+	<path fill='slateblue' stroke='slateblue' stroke-width='4' d='M 20.192308 134.03847 L 25.961538 120.19231 L 39.807693 125.96154 L 34.03846 139.8077 z' />
+	<path fill='slateblue' stroke='slateblue' stroke-width='4' d='M 380 130 l -13.594617 -6.339274 l 0.0000000000000017763568 12.678548 z' />
+	<polyline fill='none' stroke='red' stroke-width='1' stroke-dasharray='2 3 ' points='30.0,130.0 80.0,10.0' />
+	<polyline fill='none' stroke='red' stroke-width='1' stroke-dasharray='2 3 ' points='130.0,70.0 130.0,110.0' />
+	<polyline fill='none' stroke='red' stroke-width='1' stroke-dasharray='2 3 ' points='130.0,110.0 130.0,150.0' />
+	<polyline fill='none' stroke='red' stroke-width='1' stroke-dasharray='2 3 ' points='130.0,210.0 230.0,110.0' />
+	<polyline fill='none' stroke='red' stroke-width='1' stroke-dasharray='2 3 ' points='230.0,110.0 330.0,10.0' />
+	<polyline fill='none' stroke='red' stroke-width='1' stroke-dasharray='2 3 ' points='180.0,130.0 380.0,130.0' />
+	<circle cx='30' cy='130' r='3' stroke='none' fill='red' />
+	<circle cx='80' cy='10' r='3' stroke='none' fill='red' />
+	<circle cx='130' cy='70' r='3' stroke='none' fill='red' />
+	<circle cx='130' cy='110' r='3' stroke='none' fill='red' />
+	<circle cx='130' cy='150' r='3' stroke='none' fill='red' />
+	<circle cx='130' cy='210' r='3' stroke='none' fill='red' />
+	<circle cx='230' cy='110' r='3' stroke='none' fill='red' />
+	<circle cx='330' cy='10' r='3' stroke='none' fill='red' />
+	<circle cx='180' cy='130' r='3' stroke='none' fill='red' />
+	<circle cx='380' cy='130' r='3' stroke='none' fill='red' />
+
+</svg>
+</div>
+
+<p class='fig_title'><a name='ddt527cxSy1'></a>Figure.3-17 3d-curve における debug の サンプル</p>
+<details>
+<summary>　※上記サンプルのソースはこちら。</summary>
+<pre class='code'>
+(diagram (400 220)
+    (grid)
+    (<span class='keyword1'>let</span> ((pt1  '( 30 130))
+          (ptC1 '( 80  10))
+          (ptC2 '(130  70))
+          (pt2  '(130 110))
+          (ptC3 '(130 210))
+          (pt3  '(230 110))
+          (ptC4 '(180 130))
+          (pt4  '(380 130)))
+      (3d-curve `(,pt1 ,ptC1 ,ptC2 ,pt2 ,ptC3 ,pt3 ,ptC4 ,pt4)
+                <span class='keyword3'>:end1</span> <span class='keyword3'>:rect</span> <span class='keyword3'>:end2</span> <span class='keyword3'>:triangle</span>
+                <span class='keyword3'>:debug</span> t <span class='keyword3'>:stroke</span> '(<span class='keyword3'>:color</span> <span class='keyword3'>:slateblue</span> <span class='keyword3'>:width</span> 4))))
+</pre>
+</details>
 <p>　　</p>
 <h2><a name='1s5LsvBYupX'></a>4 一般的な図形</h2>
 <p>　基本的な図形を組み合わせて作成される、複合的な図形を紹介します。以下のサンプルはそれぞれの説明項目への<a class='autolink' href='#fbLcMRTVXac'>リンク</a>になっています。</p>
@@ -3370,8 +3617,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <tr style="font-size: 14;"><td nowrap align='left'><code>:h-line-to</code></td><td align='left'>現在の点から指定した x 座標に向かって水平線を描きながら移動します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>:v-line-to</code></td><td align='left'>現在の点から指定した y 座標に向かって垂<a class='autolink' href='#fv4OUML78x4'>直線</a>を描きながら移動します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>:arc-to</code></td><td align='left'>現在の点から指定した点に向かって楕<a class='autolink' href='#cp2F91gKG7W'>円弧</a>を描きながら移動します。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'><code>:2d-curve-to</code></td><td align='left'>現在の点から指定した点に向かって二次ベジェ曲線を描きながら移動します。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'><code>:3d-curve-to</code></td><td align='left'>現在の点から指定した点に向かって三次ベジェ曲線を描きながら移動します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>:2d-curve-to</code></td><td align='left'>現在の点から指定した点に向かって<a class='autolink' href='#iTkYd8KXLYO'>二次ベジェ曲線</a>を描きながら移動します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>:3d-curve-to</code></td><td align='left'>現在の点から指定した点に向かって<a class='autolink' href='#8PFAoBpi4A9'>三次ベジェ曲線</a>を描きながら移動します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>:absolute</code></td><td align='left'>後続のディレクティブを、現在の<a class='autolink' href='#kgs1vf3AbTN'>キャンバス</a>に対する絶対座標として処理します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>:relative</code></td><td align='left'>後続のディレクティブを、現在の点に対する相対座標として処理します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>:close-path</code></td><td align='left'><a class='autolink' href='#4qgt62QVDZl'>パス</a>を閉じます。すなわち、現在の点から先頭の点までを結ぶ<a class='autolink' href='#fv4OUML78x4'>直線</a>を引きます。</td></tr>
@@ -3610,8 +3857,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p class='fig_title'><a name='9yTsBifBw1F'></a>Figure.5-8 :arc-to における large-arc-flag, sweep-flag</p>
 <p>　<a class='autolink' href='#4qgt62QVDZl'>パス</a>における <a class='autolink' href='#7RszlFbOHcp'>:arc-to</a> は、始点と終点が決まっている状態で指定された形状の<a class='autolink' href='#7YzIcjhyGKN'>楕円</a>を位置あわせするようなやり方なのでわかりにくいかもしれません。<a class='autolink' href='#cp2F91gKG7W'>円弧</a>のベースとなる<a class='autolink' href='#7YzIcjhyGKN'>楕円</a>の中心点や始点・終点の角度が明らかな場合は <a class='autolink' href='#cp2F91gKG7W'>arc</a> の使用を検討してください。</p>
 <h4><a name='00Vj4Quxjg3'></a>5.1.6 :2d-curve-to ディレクティブ</h4>
-<p>　<a class='autolink' href='#00Vj4Quxjg3'>:2d-curve-to</a> ディレクティブにより、現在の点から二次ベジェ曲線を描きながら指定した点 pt に移動します。</p>
-<p>　<a class='autolink' href='#00Vj4Quxjg3'>:2d-curve-to</a> の基本形は <code>(:2d-curve-to ptC pt2)</code> です。現在の点を <code>pt1</code> とした時に、 <code>ptC</code> を制御点として <code>pt2</code> に至る二次ベジェ曲線を描きます。</p>
+<p>　<a class='autolink' href='#00Vj4Quxjg3'>:2d-curve-to</a> ディレクティブにより、現在の点から<a class='autolink' href='#iTkYd8KXLYO'>二次ベジェ曲線</a>を描きながら指定した点 pt に移動します。</p>
+<p>　<a class='autolink' href='#00Vj4Quxjg3'>:2d-curve-to</a> の基本形は <code>(:2d-curve-to ptC pt2)</code> です。現在の点を <code>pt1</code> とした時に、 <code>ptC</code> を制御点として <code>pt2</code> に至る<a class='autolink' href='#iTkYd8KXLYO'>二次ベジェ曲線</a>を描きます。</p>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='100'>
@@ -3750,8 +3997,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </details>
 <p>　上の例では追加で２つの点（pt3, pt4）を指定しており、そのために必要な制御点 ptC' と ptC'' は自動的に計算されています。具体的には、「直前の制御点を、直前の点に対して鏡映した点」が次の制御点になります。上の例であれば ptC' は ptC を pt2 に対して鏡映した点です。</p>
 <h4><a name='ewUXtISm3SD'></a>5.1.7 :3d-curve-to ディレクティブ</h4>
-<p>　<a class='autolink' href='#ewUXtISm3SD'>:3d-curve-to</a> ディレクティブにより、現在の点から三次ベジェ曲線を描きながら指定した点 pt に移動します。</p>
-<p>　<a class='autolink' href='#ewUXtISm3SD'>:3d-curve-to</a> の基本形は <code>(:3d-curve-to ptC1 ptC2 pt2)</code> です。現在の点を <code>pt1</code> とした時に、 <code>ptC1</code> および <code>ptC2</code> を制御点として <code>pt2</code> に至る三次ベジェ曲線を描きます。</p>
+<p>　<a class='autolink' href='#ewUXtISm3SD'>:3d-curve-to</a> ディレクティブにより、現在の点から<a class='autolink' href='#8PFAoBpi4A9'>三次ベジェ曲線</a>を描きながら指定した点 pt に移動します。</p>
+<p>　<a class='autolink' href='#ewUXtISm3SD'>:3d-curve-to</a> の基本形は <code>(:3d-curve-to ptC1 ptC2 pt2)</code> です。現在の点を <code>pt1</code> とした時に、 <code>ptC1</code> および <code>ptC2</code> を制御点として <code>pt2</code> に至る<a class='autolink' href='#8PFAoBpi4A9'>三次ベジェ曲線</a>を描きます。</p>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='160'>
@@ -10300,6 +10547,12 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li>DOCUMENT : <a class='autolink' href='#4qgt62QVDZl'>パス</a>の un<a class='autolink' href='#jRjILbbJATV'>document</a>ed な未実装部分を完成させ、「<a href='#4qgt62QVDZl'>5.1  パス</a>」を執筆</li>
 </ul>
 </li>
+<li><strong>2022/11/09</strong>
+<ul>
+<li>ENHANCE : <a href='#iTkYd8KXLYO'>二次ベジェ曲線</a>を追加</li>
+<li>ENHANCE : <a href='#8PFAoBpi4A9'>三次ベジェ曲線</a>を追加</li>
+</ul>
+</li>
 </ul>
 <h2><a name='1iQ3KRF8uJQ'></a>14 図表一覧</h2>
 <ul>
@@ -10318,6 +10571,10 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li><a href='#2sQudXmWdXy'>Figure.3-11 diamond のサンプル</a></li>
 <li><a href='#by41YHJgt3q'>Figure.3-12 parallelogram のサンプル</a></li>
 <li><a href='#67lJneaqrLn'>Figure.3-13 parallelogram における direction と offset</a></li>
+<li><a href='#9ykZFla1Nux'>Figure.3-14 2d-curve のサンプル</a></li>
+<li><a href='#g7pyyZucifJ'>Figure.3-15 2d-curve における debug の サンプル</a></li>
+<li><a href='#ctB3IKZPSD2'>Figure.3-16 3d-curve のサンプル</a></li>
+<li><a href='#ddt527cxSy1'>Figure.3-17 3d-curve における debug の サンプル</a></li>
 <li><a href='#4gGy4q3tl7a'>Figure.4-1 コネクタのサンプル</a></li>
 <li><a href='#iS4fHSfl5nF'>Figure.4-2 コネクタにおける接続点の指定</a></li>
 <li><a href='#5cNBVVOciY7'>Figure.4-3 コネクタによる接続経路決定</a></li>
@@ -10428,6 +10685,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li><a href='#iSYTxHvOAoB'>Table.3-7 text のパラメータ</a></li>
 <li><a href='#iARD0ysYKSD'>Table.3-8 diamond のパラメータ</a></li>
 <li><a href='#7o40kH16ufr'>Table.3-9 parallelogram のパラメータ</a></li>
+<li><a href='#6JVa0DHMRGI'>Table.3-10 2d-curve のパラメータ</a></li>
+<li><a href='#0ikC5xwoqMr'>Table.3-11 3d-curve のパラメータ</a></li>
 <li><a href='#79EVRrlxEbF'>Table.4-1 connect のパラメータ</a></li>
 <li><a href='#0mFeKi0I0Lr'>Table.4-2 paragraph のパラメータ</a></li>
 <li><a href='#hOloecoUbQv'>Table.4-3 textbox のパラメータ</a></li>
@@ -10476,6 +10735,13 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li class='idx_x'><a class='autolink' href='#g0Dr3NCI4V0'>:move-to</a></li>
 <li class='idx_x'><a class='autolink' href='#9DKrZhbLEFX'>:relative</a></li>
 <li class='idx_x'><a class='autolink' href='#1B0JCoNzfxs'>:v-line-to</a></li>
+</blockquote>
+</details>
+<details class='idx_x' open>
+<summary class='idx_x'>Numbers</summary>
+<blockquote class='idx_x'>
+<li class='idx_x'><a class='autolink' href='#iTkYd8KXLYO'>2d-curve</a></li>
+<li class='idx_x'><a class='autolink' href='#8PFAoBpi4A9'>3d-curve</a></li>
 </blockquote>
 </details>
 <details class='idx_x' open>
@@ -10718,6 +10984,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li class='idx_x'><a class='autolink' href='#lpCVEZ9kMoP'>ラベル</a></li>
 <li class='idx_x'><a class='autolink' href='#fbLcMRTVXac'>リンク</a></li>
 <li class='idx_x'><a class='autolink' href='#1ovJxG7Ie9O'>レイヤー</a></li>
+<li class='idx_x'><a class='autolink' href='#8PFAoBpi4A9'>三次ベジェ曲線</a></li>
+<li class='idx_x'><a class='autolink' href='#iTkYd8KXLYO'>二次ベジェ曲線</a></li>
 <li class='idx_x'><a class='autolink' href='#03WwbeGq0eH'>人物</a></li>
 <li class='idx_x'><a class='autolink' href='#cp2F91gKG7W'>円弧</a></li>
 <li class='idx_x'><a class='autolink' href='#5ME1Xv0K4sM'>円柱</a></li>
