@@ -3459,8 +3459,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <table align='center'>
 <tr style="font-size: 14;"><th>パラメータ</th><th>説明</th></tr>
 <tr style="font-size: 14;"><td nowrap align='left'>center</td><td align='left'>中心点を指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>rows</td><td align='left'>行数と各行の高さを数値のリストで指定します。リストの長さが行数、リスト要素の数値が行の高さです。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>cols</td><td align='left'>列数と各列の幅を数値のリストで指定します。リストの長さが列数、リスト要素の数値が列の幅です。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>rows</td><td align='left'>行数と各行の高さを数値のリストで指定します。リストの長さが行数、リスト要素の数値が行の高さです。<a class='autolink' href='#9qtnEVETCcD'>repeat</a> 関数が役に立つかもしれません。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'>cols</td><td align='left'>列数と各列の幅を数値のリストで指定します。リストの長さが列数、リスト要素の数値が列の幅です。<a class='autolink' href='#9qtnEVETCcD'>repeat</a> 関数が役に立つかもしれません。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'>stroke</td><td align='left'>罫線を描画する線を指定します。詳細は「<a href='#4HFjqmTuIU6'>10.2  ストローク</a>」を参照してください。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'>fills</td><td align='left'>表、行、列、またはセル個別の塗り潰しを指定します。位置を示すキーワードと<a class='autolink' href='#dBUd7L4C3dx'>フィル</a>情報の２つの値を繰り返すリストで指定してください。位置は、表全体であれば <code>:rc</code> 、列や行全体を指定する場合は <code>:rN</code> や <code>:cM</code> を指定します。ここで、 <code>N,M</code> は行や列の番号を示す整数です（上または左から０で始まります）。単独のセルを指定する場合、同じ要領で <code>:rNcM</code> と指定してください。 <code>fills</code> パラメータ全体が省略された場合、表の背景は塗り潰されません。<a class='autolink' href='#dBUd7L4C3dx'>フィル</a>情報の詳細は「<a href='#dBUd7L4C3dx'>10.3  フィル</a>」を参照してください。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'>font</td><td align='left'>表内でテキストを描画する際に使用する<a class='autolink' href='#3kZ9FkounyK'>フォント</a>を指定します。省略した場合、 <code>*default-table-font*, *default-font*</code> の順でデフォルト<a class='autolink' href='#3kZ9FkounyK'>フォント</a>が使用されます。また、 <code>texts</code> パラメータ指定の中でセル毎に個別に<a class='autolink' href='#3kZ9FkounyK'>フォント</a>を指定することもできます。<a class='autolink' href='#3kZ9FkounyK'>フォント</a>情報の詳細は「<a href='#3kZ9FkounyK'>10.4  フォント</a>」を参照してください。</td></tr>
@@ -7483,7 +7483,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <tr><th>parameter</th><th>description</th></tr>
 <tr><td nowrap align='left'><code>href</code></td><td align='left'>他の<a class='autolink' href='#4p1J7EWjD3m'>グラデーション</a>定義を参照する場合、その ID をキーワードで指定します。</td></tr>
 <tr><td nowrap align='left'><code>units</code></td><td align='left'>patternUnits 属性を <code>:userSpaceOnUse</code> または <code>:objectBoundingBox</code> から<br>選択します。</td></tr>
-<tr><td nowrap align='left'><code>spread</code></td><td align='left'>spreadMethod 属性を指定する場合、`:pad :repeat :reflect` から選択します。</td></tr>
+<tr><td nowrap align='left'><code>spread</code></td><td align='left'>spreadMethod 属性を指定する場合、 <code>:pad :repeat :reflect</code> から選択します。</td></tr>
 <tr><td nowrap align='left'><code>transform</code></td><td align='left'>gradientTtransform 属性を指定する場合、文字列で指定します。</td></tr>
 </table>
 <p>　　</p>
@@ -7869,122 +7869,133 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <h4><a name='0VlJD9HMxWk'></a>12.1.34 pt/ 関数</h4>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='7QraN5WNGea'></a>12.1.35 rgb 関数</h4>
+<h4><a name='9qtnEVETCcD'></a>12.1.35 repeat 関数</h4>
 <pre class='code'>
-(rgb r g b)
+(<span class='keyword1'>defun</span> <span class='keyword5'>repeat</span> (source cnt <span class='keyword2'>&amp;rest</span> customs) ...)
 </pre>
-<h4><a name='klH6tZ6gdaQ'></a>12.1.36 use マクロ</h4>
+<pre class='code'>
+(repeat 50 4)          <span class='comment'>; =&gt; '(50 50 50 50)</span>
+(repeat 40 5 '(0 80))  <span class='comment'>; =&gt; '(80 40 40 40 40)</span>
+(repeat #'identity 10) <span class='comment'>; =&gt; '(0 1 2 3 4 5 6 7 8 9)</span>
+(repeat (<span class='keyword1'>lambda</span> (i)
+           (* 10 (1+ i))) 10)  <span class='comment'>; =&gt; '(10 20 30 40 50 60 70 80 90 100)</span>
+</pre>
+<h4><a name='7QraN5WNGea'></a>12.1.36 rgb 関数</h4>
+<pre class='code'>
+(<span class='keyword1'>defun</span> <span class='keyword5'>rgb</span> (r g b) ...)
+</pre>
+<h4><a name='klH6tZ6gdaQ'></a>12.1.37 use マクロ</h4>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='7WY0qIioOWV'></a>12.1.37 with-balloon-options マクロ</h4>
+<h4><a name='7WY0qIioOWV'></a>12.1.38 with-balloon-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-balloon-options</span> ((<span class='keyword2'>&amp;key</span> tab-width tab-height
                                      align valign margin
                                      font fill stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='kT3ITG7nfBI'></a>12.1.38 with-block-arrow-options マクロ</h4>
+<h4><a name='kT3ITG7nfBI'></a>12.1.39 with-block-arrow-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-block-arrow-options</span> ((<span class='keyword2'>&amp;key</span> fill stroke
                                           filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='avbLVTgRge8'></a>12.1.39 with-brace-options マクロ</h4>
+<h4><a name='avbLVTgRge8'></a>12.1.40 with-brace-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-brace-options</span> ((<span class='keyword2'>&amp;key</span> font stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='8SwZig7eicm'></a>12.1.40 with-canvas マクロ</h4>
+<h4><a name='8SwZig7eicm'></a>12.1.41 with-canvas マクロ</h4>
 <p>　<a class='autolink' href='#4RbKSY2RkFp'>with-current-canvas</a> マクロの導入に伴い、<a class='autolink' href='#8SwZig7eicm'>with-canvas</a> マクロは非推奨となりました。</p>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-canvas</span> ((sym-cc sym-width sym-height) canvas <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
-<h4><a name='gE4r2xg8b9U'></a>12.1.41 with-cross-options マクロ</h4>
+<h4><a name='gE4r2xg8b9U'></a>12.1.42 with-cross-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-cross-options</span> ((<span class='keyword2'>&amp;key</span> fill stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='dpsPduib5te'></a>12.1.42 with-cube-options マクロ</h4>
+<h4><a name='dpsPduib5te'></a>12.1.43 with-cube-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-cube-options</span> ((<span class='keyword2'>&amp;key</span> depth align valign margin
                                    font fill fill2 stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='4RbKSY2RkFp'></a>12.1.43 with-current-canvas マクロ</h4>
+<h4><a name='4RbKSY2RkFp'></a>12.1.44 with-current-canvas マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-current-canvas</span> ((<span class='keyword2'>&amp;rest</span> vars) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='6STY3Kxzonk'></a>12.1.44 with-cylinder-options マクロ</h4>
+<h4><a name='6STY3Kxzonk'></a>12.1.45 with-cylinder-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-cylinder-options</span> ((<span class='keyword2'>&amp;key</span> depth align valign margin
                                   font fill stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='0axtDA7gRzz'></a>12.1.45 with-document-options マクロ</h4>
+<h4><a name='0axtDA7gRzz'></a>12.1.46 with-document-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-document-options</span> ((<span class='keyword2'>&amp;key</span> align valign margin
                                        font fill stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='euPiyWBZQsA'></a>12.1.46 with-endmark-options マクロ</h4>
+<h4><a name='euPiyWBZQsA'></a>12.1.47 with-endmark-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-endmark-options</span> ((<span class='keyword2'>&amp;key</span> type size fill end1 end2) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='h8PWgenmp0d'></a>12.1.47 with-explosion-options マクロ</h4>
+<h4><a name='h8PWgenmp0d'></a>12.1.48 with-explosion-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-explosion-options</span> ((<span class='keyword2'>&amp;key</span> font fill
                                         stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='grfAvoJdCpJ'></a>12.1.48 with-folder-options マクロ</h4>
+<h4><a name='grfAvoJdCpJ'></a>12.1.49 with-folder-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-folder-options</span> ((<span class='keyword2'>&amp;key</span> tab-width tab-height
                                      align valign margin
                                      font fill stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='aw2yb6IRaf3'></a>12.1.49 with-label-options マクロ</h4>
+<h4><a name='aw2yb6IRaf3'></a>12.1.50 with-label-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-label-options</span> ((<span class='keyword2'>&amp;key</span> position offset font) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='0C8r7LcFb7c'></a>12.1.50 with-memo-options マクロ</h4>
+<h4><a name='0C8r7LcFb7c'></a>12.1.51 with-memo-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-memo-options</span> ((<span class='keyword2'>&amp;key</span> crease align valign margin
                                    font fill fill2 stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='5afU9yg86c0'></a>12.1.51 with-optionsマクロ</h4>
+<h4><a name='5afU9yg86c0'></a>12.1.52 with-optionsマクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-options</span> ((<span class='keyword2'>&amp;key</span> fill stroke font filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
-<h4><a name='0B9bMaXVpqW'></a>12.1.52 with-person-options マクロ</h4>
+<h4><a name='0B9bMaXVpqW'></a>12.1.53 with-person-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-person-options</span> ((<span class='keyword2'>&amp;key</span> fill stroke layer filter) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='ekClPzGH4mL'></a>12.1.53 with-point マクロ</h4>
+<h4><a name='ekClPzGH4mL'></a>12.1.54 with-point マクロ</h4>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='lsGULoUqoK4'></a>12.1.54 with-subcanvasマクロ</h4>
+<h4><a name='lsGULoUqoK4'></a>12.1.55 with-subcanvasマクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-subcanvas</span> ((top-left width height) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
-<h4><a name='2c8duiejnaO'></a>12.1.55 with-subcanvas-ofマクロ</h4>
+<h4><a name='2c8duiejnaO'></a>12.1.56 with-subcanvas-ofマクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-subcanvas-of</span> ((id) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
-<h4><a name='2XsIFr1er3s'></a>12.1.56 with-textbox-options マクロ</h4>
+<h4><a name='2XsIFr1er3s'></a>12.1.57 with-textbox-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-textbox-options</span> ((<span class='keyword2'>&amp;key</span> rx ry align valign margin
                                       font fill stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='jLA9399dgMF'></a>12.1.57 x+ 関数</h4>
+<h4><a name='jLA9399dgMF'></a>12.1.58 x+ 関数</h4>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='j1QjqyXsZPP'></a>12.1.58 xy+ 関数</h4>
+<h4><a name='j1QjqyXsZPP'></a>12.1.59 xy+ 関数</h4>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='8ke5i0CYRuw'></a>12.1.59 y+ 関数</h4>
+<h4><a name='8ke5i0CYRuw'></a>12.1.60 y+ 関数</h4>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <h3><a name='dR01Jh257Q6'></a>12.2 色の名前</h3>
 <p> <a href='#1rpUB3fre67'>10.1  節</a>ではいくつかの色の指定方法を紹介しています。ここでは、そのうち色の名前について使用できるものを紹介します。まず、以下は SVG 規格に記載されている色名のサンプルです<sup><a name='footnote_ref19' href='#footnote19'>19</a></sup>。</p>
@@ -10596,6 +10607,11 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li>ENHANCE : <a href='#cp2F91gKG7W'>円弧</a>に debug パラメータを追加</li>
 </ul>
 </li>
+<li><strong>2022/11/10</strong>
+<ul>
+<li>ENHANCE : <a class='autolink' href='#9qtnEVETCcD'>repeat</a> 関数を追加</li>
+</ul>
+</li>
 </ul>
 <h2><a name='1iQ3KRF8uJQ'></a>14 図表一覧</h2>
 <ul>
@@ -10897,6 +10913,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <blockquote class='idx_x'>
 <li class='idx_x'><a class='autolink' href='#cNmjD3OiTOH'>raw-svg</a></li>
 <li class='idx_x'><a class='autolink' href='#kJonRG8GtHF'>rect</a></li>
+<li class='idx_x'><a class='autolink' href='#9qtnEVETCcD'>repeat</a></li>
 <li class='idx_x'><a class='autolink' href='#7QraN5WNGea'>rgb</a></li>
 </blockquote>
 </details>

@@ -258,6 +258,7 @@
 				:to-style-strings
 				:check
 				:rgb
+				:repeat
 				:with-options
 				;label-info.lisp
 				:label-info
@@ -727,6 +728,23 @@
 				   0
 				   (if (< 255 n) 255 n)))))
 	(format nil "#~2,'0x~2,'0x~2,'0x" (fix r) (fix g) (fix b))))
+
+
+#|
+#|EXPORT|#				:repeat
+ |#
+(defun repeat (source cnt &rest customs)
+  (let ((gen (if (functionp source)
+				 source
+				 (constantly source))))
+	(labels ((impl (i acc)
+			   (if (= cnt i)
+				   (nreverse acc)
+				   (impl (1+ i) (push (funcall gen i) acc)))))
+	  (let ((lst (impl 0 nil)))
+		(mapcar (lambda (pair)
+				  (setf (nth (first pair) lst) (second pair))) customs)
+		lst))))
 
 
 #|
