@@ -797,22 +797,23 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p>　<a class='autolink' href='#cp2F91gKG7W'>arc</a> のパラメータ構成は以下の通りです。</p>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>arc</span> (center rx ry x-axis-rotation degree1 degree2
-                            <span class='keyword2'>&amp;key</span> stroke end1 end2 layer filter id) ... )
+                      <span class='keyword2'>&amp;key</span> stroke end1 end2 layer filter id debug) ... )
 </pre>
 <p>　各パラメータの説明を以下の表に示します。簡単に説明すると、 <code>center</code> を中心とした x 半径 <code>rx</code> 、y 半径 <code>ry</code> の<a class='autolink' href='#7YzIcjhyGKN'>楕円</a>を <code>x-axis-rotation</code> だけ回転させたものの上で、角度 <code>degree1</code> から（時計回りに） <code>degree2</code> までの部分弧を描きます。</p>
 <p class='tbl_title'><a name='gg6iCoxAfmr'></a>Table.3-6 arc のパラメータ</p>
 <table align='center'>
 <tr style="font-size: 14;"><th>パラメータ</th><th>説明</th></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>center</td><td align='left'>ベースとなる<a class='autolink' href='#7YzIcjhyGKN'>楕円</a>の中心点を指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>rx, ry</td><td align='left'>ベースとなる<a class='autolink' href='#7YzIcjhyGKN'>楕円</a>の x 軸方向の半径、および y 軸方向の半径を数値で指定します。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>x-axis-rotation</td><td align='left'>ベースとなる<a class='autolink' href='#7YzIcjhyGKN'>楕円</a>の回転角（x 軸に対してどれだけ回転させるか）を数値で指定します。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>degree1</td><td align='left'><a class='autolink' href='#cp2F91gKG7W'>円弧</a>を「時計回りに描く」場合の開始角度を数値で指定します。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>degree2</td><td align='left'><a class='autolink' href='#cp2F91gKG7W'>円弧</a>を「時計回りに描く」場合の終了角度を数値で指定します。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>stroke</td><td align='left'>描画する線を指定します。詳細は「<a href='#4HFjqmTuIU6'>10.2  ストローク</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>end1,end2</td><td align='left'>始端・終端に矢印などの装飾を付ける場合は指定します。<br>詳細は「<a href='#9MB3lirlqL9'>10.10  終端マーク</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'><a class='autolink' href='#g1LCkkjN7rG'>layer</a></td><td align='left'><a class='autolink' href='#1ovJxG7Ie9O'>レイヤー</a>に所属させる場合、その名前をキーワードで指定します。<br>詳細は「<a href='#1ovJxG7Ie9O'>10.8  レイヤー</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>filter</td><td align='left'><a class='autolink' href='#gPGlqSbIfdL'>フィルタ</a>効果を適用したい場合、その名前を指定します。<br>詳細は「<a href='#gPGlqSbIfdL'>10.7  フィルタ</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'>id</td><td align='left'>ID を付与したい場合、その名前をキーワードで指定します。<br>詳細は「<a href='#iu9Ovm00KHn'>10.5  IDと参照</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>center</code></td><td align='left'>ベースとなる<a class='autolink' href='#7YzIcjhyGKN'>楕円</a>の中心点を指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>rx, ry</code></td><td align='left'>ベースとなる<a class='autolink' href='#7YzIcjhyGKN'>楕円</a>の x 軸方向の半径、および y 軸方向の半径を数値で指定します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>x-axis-rotation</code></td><td align='left'>ベースとなる<a class='autolink' href='#7YzIcjhyGKN'>楕円</a>の回転角（x 軸に対してどれだけ回転させるか）を数値で指定します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>degree1</code></td><td align='left'><a class='autolink' href='#cp2F91gKG7W'>円弧</a>を「時計回りに描く」場合の開始角度を数値で指定します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>degree2</code></td><td align='left'><a class='autolink' href='#cp2F91gKG7W'>円弧</a>を「時計回りに描く」場合の終了角度を数値で指定します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>stroke</code></td><td align='left'>描画する線を指定します。詳細は「<a href='#4HFjqmTuIU6'>10.2  ストローク</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>end1,end2</code></td><td align='left'>始端・終端に矢印などの装飾を付ける場合は指定します。詳細は「<a href='#9MB3lirlqL9'>10.10  終端マーク</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>layer</code></td><td align='left'><a class='autolink' href='#1ovJxG7Ie9O'>レイヤー</a>に所属させる場合、その名前をキーワードで指定します。詳細は「<a href='#1ovJxG7Ie9O'>10.8  レイヤー</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>filter</code></td><td align='left'><a class='autolink' href='#gPGlqSbIfdL'>フィルタ</a>効果を適用したい場合、その名前を指定します。詳細は「<a href='#gPGlqSbIfdL'>10.7  フィルタ</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>id</code></td><td align='left'>ID を付与したい場合、その名前をキーワードで指定します。詳細は「<a href='#iu9Ovm00KHn'>10.5  IDと参照</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>debug</code></td><td align='left'>キーワードで色名を指定することで、ベースとなる<a class='autolink' href='#7YzIcjhyGKN'>楕円</a>やその中心などを明示します。 <code>t</code> を指定すればデフォルトの赤色を使用します。</td></tr>
 </table>
 <p>　　</p>
 <p>　以下に例を示します。 <code>(100 50)</code> を中心とした <code>rx=40, ry=30</code> の<a class='autolink' href='#7YzIcjhyGKN'>楕円</a>を 45 度回転させたものをベースとします。これはライトグレーの太い<a class='autolink' href='#7YzIcjhyGKN'>楕円</a>で描画されています。このうち、0 度から 90 度までの部分を<a class='autolink' href='#cp2F91gKG7W'>円弧</a>として（赤い線で）描画しています。つまり、これは <code>(arc '(100 50) 40 30 45 0 90)</code> による描画となります。</p>
@@ -845,6 +846,43 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p class='fig_title'><a name='bSd48Y8N0w0'></a>Figure.3-7 arc のサンプル - 2</p>
 <p>　<a class='autolink' href='#8UQowBxrcaE'>正円</a>をベースとした<a class='autolink' href='#cp2F91gKG7W'>円弧</a>を描画したい場合、 <code>rx</code> と <code>ry</code> を同じ値に指定します。この場合、回転させることに意味はないので、 <code>x-axis-rotation</code> は 0 にしてください。</p>
 <p>　<a class='autolink' href='#cp2F91gKG7W'>arc</a> を使用した<a class='autolink' href='#cp2F91gKG7W'>円弧</a>の描画は、「中心と角度」が明らかな場合に使用します。そうではなく、<a class='autolink' href='#cp2F91gKG7W'>円弧</a>の開始点と終了点が明らかな場合は、<a class='autolink' href='#4qgt62QVDZl'>path</a> を使用した方が良いでしょう。</p>
+<p>　<code>debug</code> パラメータについて説明します。このパラメータにキーワードで色名を与えると、<a class='autolink' href='#cp2F91gKG7W'>円弧</a>のベースとなる<a class='autolink' href='#7YzIcjhyGKN'>楕円</a>の中心と、<a class='autolink' href='#cp2F91gKG7W'>円弧</a>の始点・終点を結ぶ<a class='autolink' href='#fv4OUML78x4'>直線</a>を明示します。 <code>:debug t</code> とすればデフォルトの赤色が使用されます。調整の際に使用すると便利です。以下に例を示します。</p>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='400' height='200'>
+	
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- arc -->
+	<g transform='rotate(20,200,100)'>
+	<ellipse cx='200' cy='100' rx='150' ry='60' fill='none' stroke='red' stroke-width='1' stroke-dasharray='1 4 ' />
+	</g>
+	<path fill='none' stroke='navy' stroke-width='2' d='M 340.95389311788625 151.3030214988503 A 150 60 20 0 1 179.47879140045987 156.3815572471545' />
+	<polyline fill='none' stroke='navy' stroke-width='2' points='194.2509,153.77684 179.47879,156.38156 189.1206,167.87222' />
+	<polyline fill='none' stroke='red' stroke-width='1' stroke-dasharray='4 3 ' points='200.0,100.0 340.9539,151.30302' />
+	<polyline fill='none' stroke='red' stroke-width='1' stroke-dasharray='4 3 ' points='200.0,100.0 179.47879,156.38156' />
+	<circle cx='340.9539' cy='151.30302' r='3' stroke='none' fill='red' />
+	<circle cx='179.47879' cy='156.38156' r='3' stroke='none' fill='red' />
+	<circle cx='200' cy='100' r='3' stroke='none' fill='red' />
+
+</svg>
+</div>
+
+<p class='fig_title'><a name='5a8jCzFto2W'></a>Figure.3-8 arc における debug の サンプル</p>
+<details>
+<summary>　※上記サンプルのソースはこちら。</summary>
+<pre class='code'>
+(diagram (400 200)
+  (grid)
+  (arc canvas.center 150 60 20 0 90 <span class='keyword3'>:end2</span> <span class='keyword3'>:arrow</span>
+	   <span class='keyword3'>:stroke</span> '(<span class='keyword3'>:color</span> <span class='keyword3'>:navy</span> <span class='keyword3'>:width</span> 2) <span class='keyword3'>:debug</span> <span class='keyword3'>:red</span>))
+</pre>
+</details>
+<p>　　</p>
 <p>　最後に、<a class='autolink' href='#cp2F91gKG7W'>arc</a> で<a class='autolink' href='#9MB3lirlqL9'>終端マーク</a>を使用する場合の注意点について説明します。<a class='autolink' href='#9MB3lirlqL9'>終端マーク</a>はその端点の向きにあわせて描画されますが、<a class='autolink' href='#9MB3lirlqL9'>終端マーク</a>そのものの形状は考慮されません。その結果として、<a class='autolink' href='#cp2F91gKG7W'>arc</a> が描く曲線の端点付近のカーブが急な場合、望ましくない結果になる場合があります。以下の例では、横長の<a class='autolink' href='#7YzIcjhyGKN'>楕円</a>ベースで 0° から 90° の<a class='autolink' href='#cp2F91gKG7W'>円弧</a>を描いて :triangle 指定の<a class='autolink' href='#9MB3lirlqL9'>終端マーク</a>を付加していますが、始点側の<a class='autolink' href='#9MB3lirlqL9'>終端マーク</a>は矢印に見えない状態になってしまっています。現状では、これは注意が必要ではあるものの仕様として扱われます。<a class='autolink' href='#cp2F91gKG7W'>arc</a> で<a class='autolink' href='#9MB3lirlqL9'>終端マーク</a>を使用する場合は注意してください。</p>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
@@ -866,7 +904,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='0gIWVS7WQn6'></a>Figure.3-8 arc における終端マークの例</p>
+<p class='fig_title'><a name='0gIWVS7WQn6'></a>Figure.3-9 arc における終端マークの例</p>
 <h3><a name='cTdCvBeU6ZJ'></a>3.7 テキスト</h3>
 <p>　<code>text</code> によってテキストを描画できます。</p>
 <div align='center'>
@@ -885,7 +923,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='7uvPIQqWhZy'></a>Figure.3-9 text のサンプル</p>
+<p class='fig_title'><a name='7uvPIQqWhZy'></a>Figure.3-10 text のサンプル</p>
 <details>
 <summary>　※上記サンプルのソースはこちら。</summary>
 <pre class='code'>
@@ -940,7 +978,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='5BXk9aTPHsl'></a>Figure.3-10 テキストの position とアライメント指定の関係</p>
+<p class='fig_title'><a name='5BXk9aTPHsl'></a>Figure.3-11 テキストの position とアライメント指定の関係</p>
 <p>　　</p>
 <h3><a name='4dFMjynUMYw'></a>3.8 ひし形</h3>
 <p>　<code>diamond</code> によって<a class='autolink' href='#4dFMjynUMYw'>ひし形</a>を描画できます。</p>
@@ -960,7 +998,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='2sQudXmWdXy'></a>Figure.3-11 diamond のサンプル</p>
+<p class='fig_title'><a name='2sQudXmWdXy'></a>Figure.3-12 diamond のサンプル</p>
 <details>
 <summary>　※上記サンプルのソースはこちら。</summary>
 <pre class='code'>
@@ -1007,7 +1045,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='by41YHJgt3q'></a>Figure.3-12 parallelogram のサンプル</p>
+<p class='fig_title'><a name='by41YHJgt3q'></a>Figure.3-13 parallelogram のサンプル</p>
 <details>
 <summary>　※上記サンプルのソースはこちら。</summary>
 <pre class='code'>
@@ -1087,7 +1125,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='67lJneaqrLn'></a>Figure.3-13 parallelogram における direction と offset</p>
+<p class='fig_title'><a name='67lJneaqrLn'></a>Figure.3-14 parallelogram における direction と offset</p>
 <p>　ただし、 <code>width / height</code> で指定されたサイズはあくまで赤い点線の矩形であることに注意してください。また、<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>や<a class='autolink' href='#eFhVs4WwYUG'>コネクタ</a>による接続点は現状では赤い点線の矩形ベースで計算されますが、この挙動は将来変更される可能性があります。</p>
 <p>　　</p>
 <h3><a name='iTkYd8KXLYO'></a>3.10 二次ベジェ曲線</h3>
@@ -1110,7 +1148,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='9ykZFla1Nux'></a>Figure.3-14 2d-curve のサンプル</p>
+<p class='fig_title'><a name='9ykZFla1Nux'></a>Figure.3-15 2d-curve のサンプル</p>
 <details>
 <summary>　※上記サンプルのソースはこちら。</summary>
 <pre class='code'>
@@ -1173,7 +1211,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='g7pyyZucifJ'></a>Figure.3-15 2d-curve における debug の サンプル</p>
+<p class='fig_title'><a name='g7pyyZucifJ'></a>Figure.3-16 2d-curve における debug の サンプル</p>
 <details>
 <summary>　※上記サンプルのソースはこちら。</summary>
 <pre class='code'>
@@ -1210,7 +1248,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='ctB3IKZPSD2'></a>Figure.3-16 3d-curve のサンプル</p>
+<p class='fig_title'><a name='ctB3IKZPSD2'></a>Figure.3-17 3d-curve のサンプル</p>
 <details>
 <summary>　※上記サンプルのソースはこちら。</summary>
 <pre class='code'>
@@ -1277,7 +1315,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='ddt527cxSy1'></a>Figure.3-17 3d-curve における debug の サンプル</p>
+<p class='fig_title'><a name='ddt527cxSy1'></a>Figure.3-18 3d-curve における debug の サンプル</p>
 <details>
 <summary>　※上記サンプルのソースはこちら。</summary>
 <pre class='code'>
@@ -10547,10 +10585,15 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li>DOCUMENT : <a class='autolink' href='#4qgt62QVDZl'>パス</a>の un<a class='autolink' href='#jRjILbbJATV'>document</a>ed な未実装部分を完成させ、「<a href='#4qgt62QVDZl'>5.1  パス</a>」を執筆</li>
 </ul>
 </li>
-<li><strong>2022/11/09 - version 0.015</strong>
+<li><strong>2022/11/08 - version 0.015</strong>
 <ul>
 <li>ENHANCE : <a href='#iTkYd8KXLYO'>二次ベジェ曲線</a>を追加</li>
 <li>ENHANCE : <a href='#8PFAoBpi4A9'>三次ベジェ曲線</a>を追加</li>
+</ul>
+</li>
+<li><strong>2022/11/09</strong>
+<ul>
+<li>ENHANCE : <a href='#cp2F91gKG7W'>円弧</a>に debug パラメータを追加</li>
 </ul>
 </li>
 </ul>
@@ -10565,16 +10608,17 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li><a href='#9sslZHcYmCd'>Figure.3-5 line のサンプル</a></li>
 <li><a href='#lt4PUsUrfps'>Figure.3-6 arc のサンプル</a></li>
 <li><a href='#bSd48Y8N0w0'>Figure.3-7 arc のサンプル - 2</a></li>
-<li><a href='#0gIWVS7WQn6'>Figure.3-8 arc における終端マークの例</a></li>
-<li><a href='#7uvPIQqWhZy'>Figure.3-9 text のサンプル</a></li>
-<li><a href='#5BXk9aTPHsl'>Figure.3-10 テキストの position とアライメント指定の関係</a></li>
-<li><a href='#2sQudXmWdXy'>Figure.3-11 diamond のサンプル</a></li>
-<li><a href='#by41YHJgt3q'>Figure.3-12 parallelogram のサンプル</a></li>
-<li><a href='#67lJneaqrLn'>Figure.3-13 parallelogram における direction と offset</a></li>
-<li><a href='#9ykZFla1Nux'>Figure.3-14 2d-curve のサンプル</a></li>
-<li><a href='#g7pyyZucifJ'>Figure.3-15 2d-curve における debug の サンプル</a></li>
-<li><a href='#ctB3IKZPSD2'>Figure.3-16 3d-curve のサンプル</a></li>
-<li><a href='#ddt527cxSy1'>Figure.3-17 3d-curve における debug の サンプル</a></li>
+<li><a href='#5a8jCzFto2W'>Figure.3-8 arc における debug の サンプル</a></li>
+<li><a href='#0gIWVS7WQn6'>Figure.3-9 arc における終端マークの例</a></li>
+<li><a href='#7uvPIQqWhZy'>Figure.3-10 text のサンプル</a></li>
+<li><a href='#5BXk9aTPHsl'>Figure.3-11 テキストの position とアライメント指定の関係</a></li>
+<li><a href='#2sQudXmWdXy'>Figure.3-12 diamond のサンプル</a></li>
+<li><a href='#by41YHJgt3q'>Figure.3-13 parallelogram のサンプル</a></li>
+<li><a href='#67lJneaqrLn'>Figure.3-14 parallelogram における direction と offset</a></li>
+<li><a href='#9ykZFla1Nux'>Figure.3-15 2d-curve のサンプル</a></li>
+<li><a href='#g7pyyZucifJ'>Figure.3-16 2d-curve における debug の サンプル</a></li>
+<li><a href='#ctB3IKZPSD2'>Figure.3-17 3d-curve のサンプル</a></li>
+<li><a href='#ddt527cxSy1'>Figure.3-18 3d-curve における debug の サンプル</a></li>
 <li><a href='#4gGy4q3tl7a'>Figure.4-1 コネクタのサンプル</a></li>
 <li><a href='#iS4fHSfl5nF'>Figure.4-2 コネクタにおける接続点の指定</a></li>
 <li><a href='#5cNBVVOciY7'>Figure.4-3 コネクタによる接続経路決定</a></li>
