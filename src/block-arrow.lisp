@@ -8,18 +8,25 @@
 (in-package :kaavio)
 
 #|
+#|EXPORT|#				:*default-block-arrow-length*
+#|EXPORT|#				:*default-block-arrow-size*
+#|EXPORT|#				:*default-block-arrow-margin*
 #|EXPORT|#				:*default-block-arrow-stroke*
 #|EXPORT|#				:*default-block-arrow-fill*
 #|EXPORT|#				:*default-block-arrow-filter*
 #|EXPORT|#				:*default-block-arrow-layer*
  |#
+(defparameter *default-block-arrow-length*       nil)
+(defparameter *default-block-arrow-size*         nil)
+(defparameter *default-block-arrow-margin*       nil)
 (defparameter *default-block-arrow-stroke*       nil)
 (defparameter *default-block-arrow-fill*         nil)
 (defparameter *default-block-arrow-filter*       nil)
 (defparameter *default-block-arrow-layer*        nil)
 
-(defun make-block-arrow-points-1 (pt1 pt2 margin width l s)
-  (let* ((pt1 (xy+ pt1 (* (kaavio::math/cos2 pt1 pt2) margin)
+(defun make-block-arrow-points-1 (pt1 pt2 width l s margin)
+  (let* ((margin (or margin 0))
+		 (pt1 (xy+ pt1 (* (kaavio::math/cos2 pt1 pt2) margin)
 					   (* (kaavio::math/sin2 pt1 pt2) margin)))
 		 (pt2 (xy+ pt2 (* (kaavio::math/cos2 pt2 pt1) margin)
 					   (* (kaavio::math/sin2 pt2 pt1) margin)))
@@ -36,8 +43,9 @@
 		 (k6   (xy+ pt3 (* -1 (/ width 2) sin1) (*    (/ width 2) cos1))))
 	`(,k1 ,k2 ,k3 ,k4 ,pt2 ,k5 ,k6)))
 
-(defun make-block-arrow-points-2 (pt1 pt2 margin width l s)
-  (let* ((pt1 (xy+ pt1 (* (kaavio::math/cos2 pt1 pt2) margin)
+(defun make-block-arrow-points-2 (pt1 pt2 width l s margin)
+  (let* ((margin (or margin 0))
+		 (pt1 (xy+ pt1 (* (kaavio::math/cos2 pt1 pt2) margin)
 					   (* (kaavio::math/sin2 pt1 pt2) margin)))
 		 (pt2 (xy+ pt2 (* (kaavio::math/cos2 pt2 pt1) margin)
 					   (* (kaavio::math/sin2 pt2 pt1) margin)))
@@ -93,12 +101,16 @@
 #|EXPORT|#				:block-arrow1
  |#
 (defmacro block-arrow1 (pt1 pt2 width
-						&key length size margin fill stroke link layer filter id)
+						&key (length nil length-p)
+							 (size   nil size-p)
+							 (margin nil margin-p) fill stroke link layer filter id)
   `(register-entity (make-instance 'kaavio:block-arrow
 								   :pt1    ,pt1
 								   :pt2    ,pt2
-								   :points (kaavio::make-block-arrow-points-1
-													,pt1 ,pt2 (or ,margin 0) ,width ,length ,size)
+								   :points (kaavio::make-block-arrow-points-1 ,pt1 ,pt2 ,width
+											(if ,length-p ,length *default-block-arrow-length*)
+											(if ,size-p   ,size   *default-block-arrow-size*)
+											(if ,margin-p ,margin *default-block-arrow-margin*))
 								   :fill   (or ,fill   *default-block-arrow-fill*)
 								   :stroke (or ,stroke *default-block-arrow-stroke*)
 								   :filter (or ,filter
@@ -113,12 +125,16 @@
 #|EXPORT|#				:block-arrow2
  |#
 (defmacro block-arrow2 (pt1 pt2 width
-						&key length size margin fill stroke link layer filter id)
+						&key (length nil length-p)
+							 (size   nil size-p)
+							 (margin nil margin-p) fill stroke link layer filter id)
   `(register-entity (make-instance 'kaavio:block-arrow
 								   :pt1    ,pt1
 								   :pt2    ,pt2
-								   :points (kaavio::make-block-arrow-points-2
-													,pt1 ,pt2 (or ,margin 0) ,width ,length ,size)
+								   :points (kaavio::make-block-arrow-points-2 ,pt1 ,pt2 ,width
+											(if ,length-p ,length *default-block-arrow-length*)
+											(if ,size-p   ,size   *default-block-arrow-size*)
+											(if ,margin-p ,margin *default-block-arrow-margin*))
 								   :fill   (or ,fill   *default-block-arrow-fill*)
 								   :stroke (or ,stroke *default-block-arrow-stroke*)
 								   :filter (or ,filter
@@ -137,7 +153,8 @@
 #|
 #|EXPORT|#				:with-block-arrow-options
  |#
-(defmacro with-block-arrow-options ((&key fill stroke filter layer) &rest body)
+(defmacro with-block-arrow-options ((&key length size margin
+										  fill stroke filter layer) &rest body)
   (labels ((impl (params acc)
 			 (if (null params)
 				 acc
@@ -147,7 +164,10 @@
 						 (if (null value)
 							 acc
 							 (push (list symbol value) acc)))))))
-	(let ((lst (impl (list fill   '*default-block-arrow-fill*
+	(let ((lst (impl (list length '*default-block-arrow-length*
+						   size   '*default-block-arrow-size*
+						   margin '*default-block-arrow-margin*
+						   fill   '*default-block-arrow-fill*
 						   stroke '*default-block-arrow-stroke*
 						   filter '*default-block-arrow-filter*
 						   layer  '*default-block-arrow-layer*) nil)))

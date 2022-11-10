@@ -29,6 +29,9 @@
 				:with-balloon-options
 				;binutil.lisp
 				;block-arrow.lisp
+				:*default-block-arrow-length*
+				:*default-block-arrow-size*
+				:*default-block-arrow-margin*
 				:*default-block-arrow-stroke*
 				:*default-block-arrow-fill*
 				:*default-block-arrow-filter*

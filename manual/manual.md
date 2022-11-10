@@ -6667,8 +6667,8 @@ ${BLANK_PARAGRAPH}
 <!-- autolink: [with-block-arrow-options](#with-block-arrow-options マクロ) -->
 
 ```lisp
-(defmacro with-block-arrow-options ((&key fill stroke
-                                          filter layer) &rest body) ...)
+(defmacro with-block-arrow-options ((&key length size margin 
+                                          fill stroke filter layer) &rest body) ...)
 ```
 
 　${{TODO}{まだ記述されていません。}}
@@ -7568,6 +7568,7 @@ Figure. 色の名前とサンプル - 2
 * __2022/11/10__
 	* ENHANCE : repeat 関数を追加
 	* BUGFIX : [$$](#円弧)における[$$](#終端マーク)のバグを改修
+	* ENHANCE : with-block-arrow-options に length, size, margin パラメータを追加
 
 ## 図表一覧
 <!-- embed:figure-list -->
