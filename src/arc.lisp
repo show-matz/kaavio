@@ -106,7 +106,7 @@
 				((zerop m2) (values (if (< 0 k2) 1 -1) 0))
 				(t (let ((x (/ (* rx rx) k2))
 						 (y (/ (* ry ry) m2)))
-					 (if (< 0 (* k1 m1))
+					 (if (< 0 (* k2 m2))
 						 (values (math/sin2 `(,x 0) `(0 ,y))
 								 (math/cos2 `(,x 0) `(0 ,y)))
 						 (values (math/sin2 `(0 ,y) `(,x 0))
