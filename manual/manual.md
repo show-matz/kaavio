@@ -3486,28 +3486,28 @@ ${BLANK_PARAGRAPH}
 
 ### 画像ファイルの埋め込み
 
-　${{TODO}{まだ記述されていません。}}
+　image を使うことで、SVG 図面の中に他の画像を埋め込むことができます。以下の形式の画像
+ファイルをサポートします。
+
+* PNG ( *.png )
+* JPEG ( *.jpg, *.jpeg )
+* GIF ( *.gif )
+* BMP ( *.bmp )
+
+　典型的には、image の使用は以下のような記述になるでしょう。必須パラメータは、画像を配置
+する中心位置と画像ファイル名だけです。画像のサイズは ${APPNAME} が自分で調べるため、基本的
+には指定する必要がありません{{fn:このことは、${APPNAME} が動作する時点で指定された画像ファイルが「そこにある」必要 \
+がある、ということを意味します。 `width, height` の両方が明示的に指定された場合に限り、${APPNAME} は実際の画像 \
+サイズを調べません。}}。
 
 ```lisp
-(defmacro image (center filename
-                 &key width height label link rotate layer id filter contents) ...)
+(image '(400 400) "./foo.png")
 ```
 
-```lisp
-  ;; width, height の両方とも明示的に指定されている場合、アスペクト比の維持をしない
-  (if (and width height)
-      (setf preserve-ratio nil)
-      ;; 上記以外の場合、画像ファイルの実際のサイズを取得する。
-      (multiple-value-bind (w h) (__get-size-of-imagefile path)
-        ;; width, height の両方とも nil ならば実際のサイズを設定
-        (if (and (null width) (null height))
-            (setf width  w
-                  height h)
-            ;; 上記以外の場合、実サイズのアスペクト比にあわせて nil 側を設定
-            (if (null width)
-                (setf width  (* height (/ w h)))
-                (setf height (* width  (/ h w))))))))
-```
+　image のパラメータ詳細は [$@ 節](#image マクロ)を参照してください。オプションのパラメータ 
+`width` または `height` のどちらかを指定した場合、画像ファイルの縦横比（アスペクト比）を維持
+した状態で指定サイズで表示します。 `width` と `height` の両方を指定した場合、縦横比の維持は
+保証されず、指定されたサイズで表示します。
 
 ${BLANK_PARAGRAPH}
 
@@ -8005,6 +8005,8 @@ Figure. 色の名前とサンプル - 2
 	* ENHANCE : repeat 関数を追加
 	* BUGFIX : [$$](#円弧)における[$$](#終端マーク)のバグを改修
 	* ENHANCE : with-block-arrow-options に length, size, margin パラメータを追加
+* __2022/11/12 - version 0.016__
+	* DOCUMENT : 「[](#画像ファイルの埋め込み)」を執筆
 
 ## 図表一覧
 <!-- embed:figure-list -->

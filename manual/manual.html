@@ -4447,26 +4447,18 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p class='fig_title'><a name='iPFjMa8UP1c'></a>Figure.5-16 :close-path ディレクティブのサンプル</p>
 <p>　　</p>
 <h3><a name='kSyxpJZzQjY'></a>5.2 画像ファイルの埋め込み</h3>
-<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<p>　<a class='autolink' href='#dWoI4knhesk'>image</a> を使うことで、SVG 図面の中に他の画像を埋め込むことができます。以下の形式の画像ファイルをサポートします。</p>
+<ul>
+<li>PNG ( *.png )</li>
+<li>JPEG ( *.jpg, *.jpeg )</li>
+<li>GIF ( *.gif )</li>
+<li>BMP ( *.bmp )</li>
+</ul>
+<p>　典型的には、<a class='autolink' href='#dWoI4knhesk'>image</a> の使用は以下のような記述になるでしょう。必須パラメータは、画像を配置する中心位置と画像ファイル名だけです。画像のサイズは kaavio が自分で調べるため、基本的には指定する必要がありません<sup><a name='footnote_ref7' href='#footnote7'>7</a></sup>。</p>
 <pre class='code'>
-(<span class='keyword1'>defmacro</span> <span class='keyword5'>image</span> (center filename
-                 <span class='keyword2'>&amp;key</span> width height label link rotate layer id filter contents) ...)
+(image '(400 400) <span class='literal'>"./foo.png"</span>)
 </pre>
-<pre class='code'>
-  <span class='comment'>;; width, height の両方とも明示的に指定されている場合、アスペクト比の維持をしない</span>
-  (<span class='keyword1'>if</span> (and width height)
-      (setf preserve-ratio nil)
-      <span class='comment'>;; 上記以外の場合、画像ファイルの実際のサイズを取得する。</span>
-      (<span class='keyword1'>multiple-value-bind</span> (w h) (__get-size-of-imagefile path)
-        <span class='comment'>;; width, height の両方とも nil ならば実際のサイズを設定</span>
-        (<span class='keyword1'>if</span> (and (null width) (null height))
-            (setf width  w
-                  height h)
-            <span class='comment'>;; 上記以外の場合、実サイズのアスペクト比にあわせて nil 側を設定</span>
-            (<span class='keyword1'>if</span> (null width)
-                (setf width  (* height (/ w h)))
-                (setf height (* width  (/ h w))))))))
-</pre>
+<p>　<a class='autolink' href='#dWoI4knhesk'>image</a> のパラメータ詳細は <a href='#dWoI4knhesk'>12.1.27  節</a>を参照してください。オプションのパラメータ <code>width</code> または <code>height</code> のどちらかを指定した場合、画像ファイルの縦横比（アスペクト比）を維持した状態で指定サイズで表示します。 <code>width</code> と <code>height</code> の両方を指定した場合、縦横比の維持は保証されず、指定されたサイズで表示します。</p>
 <p>　　</p>
 <h3><a name='cNmjD3OiTOH'></a>5.3 生の SVG コード片の挿入</h3>
 <p>　<a class='autolink' href='#30xUdw0kiCz'>raw-svg</a> を使うことで、kaavio が生成する SVG 画像の中に任意の SVG コード片を挿入することができます。サンプルとしては雑ですが、以下のようにすれば、</p>
@@ -4559,8 +4551,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </details>
 <p>　　</p>
 <p>　kaavio データの中で座標を指定する方法にはいくつかあります。以下に説明します。</p>
-<p>　具体的な数値で座標を指定する場合、 <code>'(x y)</code> の要領で指定します。つまり、 <code>'(50 100)</code> といった指定です。これは即値で座標を指定する場合の書き方ですが、Common LISP の変数に格納した数値から座標を作成したい場合は <a class='autolink' href='#cV08aR4hVCU'>make-point</a> 関数が使えます。これは <code>(make-point x y)</code> の要領で使用してください<sup><a name='footnote_ref7' href='#footnote7'>7</a></sup>。</p>
-<p>　具体的な数値を指定するのでなく、「すでに登場した要素の属性を利用して位置を指定する」こともできます。<a href='#9LLncE6hWlx'>2  章</a>の 2 つめのサンプルでは、 <code>app.center</code> や <code>in.right</code> という表記が登場しました。これは、図形要素を記述する際に指定した ID を使ってその中心座標などを参照するものです。幅や高さを持つ図形要素では９種類あり、その名前と具体的な場所は以下の通りです<sup><a name='footnote_ref8' href='#footnote8'>8</a></sup>。</p>
+<p>　具体的な数値で座標を指定する場合、 <code>'(x y)</code> の要領で指定します。つまり、 <code>'(50 100)</code> といった指定です。これは即値で座標を指定する場合の書き方ですが、Common LISP の変数に格納した数値から座標を作成したい場合は <a class='autolink' href='#cV08aR4hVCU'>make-point</a> 関数が使えます。これは <code>(make-point x y)</code> の要領で使用してください<sup><a name='footnote_ref8' href='#footnote8'>8</a></sup>。</p>
+<p>　具体的な数値を指定するのでなく、「すでに登場した要素の属性を利用して位置を指定する」こともできます。<a href='#9LLncE6hWlx'>2  章</a>の 2 つめのサンプルでは、 <code>app.center</code> や <code>in.right</code> という表記が登場しました。これは、図形要素を記述する際に指定した ID を使ってその中心座標などを参照するものです。幅や高さを持つ図形要素では９種類あり、その名前と具体的な場所は以下の通りです<sup><a name='footnote_ref9' href='#footnote9'>9</a></sup>。</p>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='150'>
@@ -4646,7 +4638,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 
 <p class='fig_title'><a name='1YSNZvyxqVa'></a>Figure.6-3 図形要素の座標参照 - 2</p>
 <p>　　</p>
-<p>　前述の <code>app.center</code> という記法は、座標を指定すべきところではたいてい使用できますが、これを <code>(attr :app :center)</code> という記法で代替することもできます<sup><a name='footnote_ref9' href='#footnote9'>9</a></sup>。</p>
+<p>　前述の <code>app.center</code> という記法は、座標を指定すべきところではたいてい使用できますが、これを <code>(attr :app :center)</code> という記法で代替することもできます<sup><a name='footnote_ref10' href='#footnote10'>10</a></sup>。</p>
 <p>　<code>app.center</code> の記法において要素名のところに <code>canvas</code> を指定することで、<a class='autolink' href='#kgs1vf3AbTN'>キャンバス</a>全体をひとつの図形要素のように扱うことができます。つまり、 <code>canvas.center</code> とすれば SVG 画像の中心点を指定できますし、 <code>canvas.width</code> と言えば SVG 画像の幅を取得することができます。実際には、この <code>canvas</code> が意味するのは「現在の<a class='autolink' href='#kgs1vf3AbTN'>キャンバス</a>」なのですが、これについては「<a href='#kgs1vf3AbTN'>7  サブキャンバス</a>」で説明します。</p>
 <p>　<code>app.center</code> などの記述は単独で使用するよりも、「app の中心から 100pt くらい右」といった指定をしたい場合の方が多いでしょう。そのような場合、 <code>(x+ app.center 100)</code> といった記述で目的を達することができます。以下の 3 つの関数が利用できます。</p>
 <pre class='code'>
@@ -4689,7 +4681,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </div>
 
 <p class='fig_title'><a name='kV8JVeAiwLR'></a>Figure.7-1 サブキャンバスのサンプル</p>
-<p>　<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>は入力データの一部分で独自の座標系を一時的に作成するもので、それ以外の効果はありません。たとえば、描画順序を制御する<a class='autolink' href='#1ovJxG7Ie9O'>レイヤー</a>とは無関係です<sup><a name='footnote_ref10' href='#footnote10'>10</a></sup>。</p>
+<p>　<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>は入力データの一部分で独自の座標系を一時的に作成するもので、それ以外の効果はありません。たとえば、描画順序を制御する<a class='autolink' href='#1ovJxG7Ie9O'>レイヤー</a>とは無関係です<sup><a name='footnote_ref11' href='#footnote11'>11</a></sup>。</p>
 <p>　<a class='autolink' href='#a48ATArhBUk'>with-subcanvas</a> で明示的に<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>を作成するのでなく、作成した図形要素の内部を<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>とすることもできます。これには、 contents パラメータを使用します。たとえば、先程の例と同じ作図をするには以下のように書きます。この場合、先程とは違って <a class='autolink' href='#kfqxxboPAuR'>rect</a> の中に <a class='autolink' href='#11HosNz8eun'>circle</a> が置かれることになります（<a class='autolink' href='#kfqxxboPAuR'>rect</a> が動けば <a class='autolink' href='#11HosNz8eun'>circle</a> も動く）。</p>
 <pre class='code'>
 (diagram (300 150)
@@ -5684,7 +5676,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p>　　</p>
 <p>　それぞれについて細かい説明を始める前に、 <code>:stroke :red</code> といった記述がどのように扱われるのかを説明する必要があるでしょう。 <code>:stroke</code> によるこれらの指定は、実は全て <a class='autolink' href='#ezUVhtPwl3J'>make-stroke</a> 関数に渡されます。<a class='autolink' href='#ezUVhtPwl3J'>make-stroke</a> 関数は、渡されたのが単一の値の場合には、数値なら太さ、キーワードや文字列なら色名などと解釈します。そして <code>'(:color :red :width 3)</code> などの（複数要素からなる）リストの場合、名前付きパラメータの羅列として解釈します。</p>
-<p>　<a class='autolink' href='#ezUVhtPwl3J'>make-stroke</a> 関数はその結果として「<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>情報オブジェクト」を返しますが、その<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>情報オブジェクトを <a class='autolink' href='#ezUVhtPwl3J'>make-stroke</a> 関数自身に渡した場合、そのまま返すようになっています。そのため、自分で明示的に <a class='autolink' href='#ezUVhtPwl3J'>make-stroke</a> 関数を使って<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>情報オブジェクトを作成し、Common LISP 変数に格納して複数の図形要素で使用する、ということも可能です。以下のように<sup><a name='footnote_ref11' href='#footnote11'>11</a></sup>。この関数の詳細は「<a href='#ezUVhtPwl3J'>12.1.37  make-stroke 関数</a>」を参照してください。</p>
+<p>　<a class='autolink' href='#ezUVhtPwl3J'>make-stroke</a> 関数はその結果として「<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>情報オブジェクト」を返しますが、その<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>情報オブジェクトを <a class='autolink' href='#ezUVhtPwl3J'>make-stroke</a> 関数自身に渡した場合、そのまま返すようになっています。そのため、自分で明示的に <a class='autolink' href='#ezUVhtPwl3J'>make-stroke</a> 関数を使って<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>情報オブジェクトを作成し、Common LISP 変数に格納して複数の図形要素で使用する、ということも可能です。以下のように<sup><a name='footnote_ref12' href='#footnote12'>12</a></sup>。この関数の詳細は「<a href='#ezUVhtPwl3J'>12.1.37  make-stroke 関数</a>」を参照してください。</p>
 <pre class='code'>
 (<span class='keyword1'>let</span> ((st (make-stroke <span class='keyword3'>:color</span> <span class='keyword3'>:blue</span> <span class='keyword3'>:width</span> 4 <span class='keyword3'>:opacity</span> 0.3)))
   (rect   ... <span class='keyword3'>:stroke</span> st)
@@ -5692,7 +5684,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </pre>
 <p>　　</p>
 <h4><a name='ixMeyP7oEvS'></a>10.2.1 ストロークのデフォルト設定</h4>
-<p>　さて、実際のところ、作図をする上でそれぞれの要素の線がバラバラな色や太さで描かれることはないでしょう。わかりやすい図面というのは、同じ種類の図形要素は同じ種類の線で描画されているなど、統制が取れているものです。このことは、多くの作図においては「まったく同じ<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>の指定を繰り返す場合が多い」ことを意味します。前述の方法で<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>情報オブジェクトを作成して使い回すことも可能ですが、もっとよい方法があります。それは「デフォルト<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>の変更」です。もともと、<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>はデフォルトで <code>:color :black :width 1</code> とされていますが、<a class='autolink' href='#7J9MZS4dlwP'>with-options</a> を使えばこれを変更することができます<sup><a name='footnote_ref12' href='#footnote12'>12</a></sup>。以下の例では４種類の<a class='autolink' href='#kJonRG8GtHF'>四角形</a>を描いていますが、B, C の<a class='autolink' href='#kJonRG8GtHF'>四角形</a>ではデフォルト<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>を変更しています。</p>
+<p>　さて、実際のところ、作図をする上でそれぞれの要素の線がバラバラな色や太さで描かれることはないでしょう。わかりやすい図面というのは、同じ種類の図形要素は同じ種類の線で描画されているなど、統制が取れているものです。このことは、多くの作図においては「まったく同じ<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>の指定を繰り返す場合が多い」ことを意味します。前述の方法で<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>情報オブジェクトを作成して使い回すことも可能ですが、もっとよい方法があります。それは「デフォルト<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>の変更」です。もともと、<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>はデフォルトで <code>:color :black :width 1</code> とされていますが、<a class='autolink' href='#7J9MZS4dlwP'>with-options</a> を使えばこれを変更することができます<sup><a name='footnote_ref13' href='#footnote13'>13</a></sup>。以下の例では４種類の<a class='autolink' href='#kJonRG8GtHF'>四角形</a>を描いていますが、B, C の<a class='autolink' href='#kJonRG8GtHF'>四角形</a>ではデフォルト<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>を変更しています。</p>
 <pre class='code'>
 (diagram (250 100)
   (grid)
@@ -5951,7 +5943,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p>　　</p>
 <p>　それぞれについて細かい説明を始める前に、 <code>:fill :white</code> といった記述がどのように扱われるのかを説明する必要があるでしょう。 <code>:fill</code> によるこれらの指定は、実は全て <a class='autolink' href='#8IkB7VinE7h'>make-fill</a> 関数に渡されます。<a class='autolink' href='#8IkB7VinE7h'>make-fill</a> 関数は、渡されたのが単一の値の場合には、キーワードや文字列なら色名と解釈します。そして <code>'(:color :red :width 3)</code> などの（複数要素からなる）リストの場合、名前付きパラメータの羅列として解釈します。</p>
-<p>　<a class='autolink' href='#8IkB7VinE7h'>make-fill</a> 関数はその結果として「<a class='autolink' href='#dBUd7L4C3dx'>フィル</a>情報オブジェクト」を返しますが、その<a class='autolink' href='#dBUd7L4C3dx'>フィル</a>情報オブジェクトを <a class='autolink' href='#8IkB7VinE7h'>make-fill</a> 関数自身に渡した場合、そのまま返すようになっています。そのため、自分で明示的に <a class='autolink' href='#8IkB7VinE7h'>make-fill</a> 関数を使って<a class='autolink' href='#dBUd7L4C3dx'>フィル</a>情報オブジェクトを作成し、Common LISP 変数に格納して複数の図形要素で使用する、ということも可能です。以下のように<sup><a name='footnote_ref13' href='#footnote13'>13</a></sup>。この関数の詳細は「<a href='#8IkB7VinE7h'>12.1.31  make-fill 関数</a>」を参照してください。</p>
+<p>　<a class='autolink' href='#8IkB7VinE7h'>make-fill</a> 関数はその結果として「<a class='autolink' href='#dBUd7L4C3dx'>フィル</a>情報オブジェクト」を返しますが、その<a class='autolink' href='#dBUd7L4C3dx'>フィル</a>情報オブジェクトを <a class='autolink' href='#8IkB7VinE7h'>make-fill</a> 関数自身に渡した場合、そのまま返すようになっています。そのため、自分で明示的に <a class='autolink' href='#8IkB7VinE7h'>make-fill</a> 関数を使って<a class='autolink' href='#dBUd7L4C3dx'>フィル</a>情報オブジェクトを作成し、Common LISP 変数に格納して複数の図形要素で使用する、ということも可能です。以下のように<sup><a name='footnote_ref14' href='#footnote14'>14</a></sup>。この関数の詳細は「<a href='#8IkB7VinE7h'>12.1.31  make-fill 関数</a>」を参照してください。</p>
 <pre class='code'>
 (<span class='keyword1'>let</span> ((fl (make-fill <span class='keyword3'>:color</span> <span class='keyword3'>:blue</span> <span class='keyword3'>:opacity</span> 0.3)))
   (rect   ... <span class='keyword3'>:fill</span> fl)
@@ -6104,7 +6096,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </pre>
 <p>　　</p>
 <h4><a name='6ogELpgtwxO'></a>10.4.1 フォントのデフォルト設定</h4>
-<p>　実際のところ、作図をする上でそれぞれの<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>がバラバラな<a class='autolink' href='#3kZ9FkounyK'>フォント</a>で描かれることはないでしょう。わかりやすい図面というのは、同じ種類の図形要素は同じ種類の線で描画されているなど、統制が取れているものです。このことは、複数の<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>を含む作図においては「まったく同じ<a class='autolink' href='#3kZ9FkounyK'>フォント</a>の指定を繰り返す場合が多い」ことを意味します。前述の方法で<a class='autolink' href='#3kZ9FkounyK'>フォント</a>情報オブジェクトを作成して使い回すことも可能ですが、もっとよい方法があります。それは「デフォルト<a class='autolink' href='#3kZ9FkounyK'>フォント</a>の変更」です。もともと、<a class='autolink' href='#3kZ9FkounyK'>フォント</a>はデフォルトで <code>:size 12 :fill :black</code> とされています<sup><a name='footnote_ref14' href='#footnote14'>14</a></sup>が、<a class='autolink' href='#7J9MZS4dlwP'>with-options</a> を使えばこれを変更することができます。以下の例では４種類の<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>を描いていますが、B, C の<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>はデフォルト<a class='autolink' href='#3kZ9FkounyK'>フォント</a>を変更しています。</p>
+<p>　実際のところ、作図をする上でそれぞれの<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>がバラバラな<a class='autolink' href='#3kZ9FkounyK'>フォント</a>で描かれることはないでしょう。わかりやすい図面というのは、同じ種類の図形要素は同じ種類の線で描画されているなど、統制が取れているものです。このことは、複数の<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>を含む作図においては「まったく同じ<a class='autolink' href='#3kZ9FkounyK'>フォント</a>の指定を繰り返す場合が多い」ことを意味します。前述の方法で<a class='autolink' href='#3kZ9FkounyK'>フォント</a>情報オブジェクトを作成して使い回すことも可能ですが、もっとよい方法があります。それは「デフォルト<a class='autolink' href='#3kZ9FkounyK'>フォント</a>の変更」です。もともと、<a class='autolink' href='#3kZ9FkounyK'>フォント</a>はデフォルトで <code>:size 12 :fill :black</code> とされています<sup><a name='footnote_ref15' href='#footnote15'>15</a></sup>が、<a class='autolink' href='#7J9MZS4dlwP'>with-options</a> を使えばこれを変更することができます。以下の例では４種類の<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>を描いていますが、B, C の<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>はデフォルト<a class='autolink' href='#3kZ9FkounyK'>フォント</a>を変更しています。</p>
 <pre class='code'>
 (diagram (250 100)
   (grid)
@@ -6305,7 +6297,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </details>
 <p>　　</p>
 <p>　上記の結果を見る限りでは、Courier New <a class='autolink' href='#3kZ9FkounyK'>フォント</a>では 0.8 程度、serif <a class='autolink' href='#3kZ9FkounyK'>フォント</a>では 0.7 弱が spice 値としてよさそうに思えます。しかし、プロポーショナル<a class='autolink' href='#3kZ9FkounyK'>フォント</a>では（文字数が同じでも）文字列内で使われている文字の種類によって変わってしまいますし、そもそも制御できない外部環境によって描画は変わりえるのです。上記サンプルの左側は <code>:family</code> 指定で <code>Courier New, monospace</code> としていますから、Courier New <a class='autolink' href='#3kZ9FkounyK'>フォント</a>がない環境で表示すれば monospace が使用されるでしょう。それによって、<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>の実際の描画幅は大きく変化してしまいます。</p>
-<p>　width-spice は kaavio の開発初期の段階で導入されたものですが、現在ではあまり良くないアイデアとみなされています。<a class='autolink' href='#e7hkC2YUaKe'>テキストボックス</a>などでは幅を明示的に指定するのが現実的であり、その他<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>の描画幅においてもなんらかの仮定に依存するようなデザインをしないことが賢明でしょう<sup><a name='footnote_ref15' href='#footnote15'>15</a></sup>。</p>
+<p>　width-spice は kaavio の開発初期の段階で導入されたものですが、現在ではあまり良くないアイデアとみなされています。<a class='autolink' href='#e7hkC2YUaKe'>テキストボックス</a>などでは幅を明示的に指定するのが現実的であり、その他<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>の描画幅においてもなんらかの仮定に依存するようなデザインをしないことが賢明でしょう<sup><a name='footnote_ref16' href='#footnote16'>16</a></sup>。</p>
 <p>　　</p>
 <h3><a name='iu9Ovm00KHn'></a>10.5 IDと参照</h3>
 <p>　たいていの場合、図中の要素は互いに関係しています。矢印などで接続されることもありますし、それ以外の位置関係に意味があるかもしれません。kaavio では、個々の図形要素に ID を付与し、その ID を指定することで図形要素どうしを接続したり位置関係を指定したりできます。</p>
@@ -6353,7 +6345,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
   (circle (xy+ $1.center 200 50) 40 <span class='keyword3'>:fill</span> <span class='keyword3'>:moccasin</span>)
   (connect $2.id $1.id <span class='keyword3'>:end2</span> <span class='keyword3'>:arrow</span>))
 </pre>
-<p>　このコードでは、<a class='autolink' href='#dEQCPOyPkv0'>connect</a> における <code>$2.id</code> といった記述は何を返すのでしょうか？　実は、kaavio では ID 指定を省略された図形要素には、kaavio が独自の ID を付与するようになっています<sup><a name='footnote_ref16' href='#footnote16'>16</a></sup>。この自動付与される ID はコード上には現われないため直接指定することはできませんが、<a class='autolink' href='#dEQCPOyPkv0'>connect</a> での指定で $N.id とする場合には使用できます。</p>
+<p>　このコードでは、<a class='autolink' href='#dEQCPOyPkv0'>connect</a> における <code>$2.id</code> といった記述は何を返すのでしょうか？　実は、kaavio では ID 指定を省略された図形要素には、kaavio が独自の ID を付与するようになっています<sup><a name='footnote_ref17' href='#footnote17'>17</a></sup>。この自動付与される ID はコード上には現われないため直接指定することはできませんが、<a class='autolink' href='#dEQCPOyPkv0'>connect</a> での指定で $N.id とする場合には使用できます。</p>
 <p>　最後に、ID に . を続けることで参照できる属性の一覧を示しておきます。座標参照の正確な位置については <a href='#7mETQwj0yso'>Figure.6-2</a> を参照してください。</p>
 <p class='tbl_title'><a name='ju0HQrRY8oT'></a>Table.10-1 ID 指定で参照できる属性の一覧</p>
 <table align='center'>
@@ -6715,7 +6707,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li><a class='autolink' href='#1ovJxG7Ie9O'>レイヤー</a>はその宣言順で描画される</li>
 <li><a class='autolink' href='#1ovJxG7Ie9O'>レイヤー</a>指定されない図形要素は「暗黙の背景<a class='autolink' href='#1ovJxG7Ie9O'>レイヤー</a>」として最初に描画される</li>
 <li>同じ<a class='autolink' href='#1ovJxG7Ie9O'>レイヤー</a>に所属する図形要素はコード上での登場順で描画される</li>
-<li><a class='autolink' href='#g1LCkkjN7rG'>layer</a> でオプションの <code>display</code> パラメータに <code>:none</code> を指定すると<a class='autolink' href='#1ovJxG7Ie9O'>レイヤー</a>をまるごと非表示にできる<sup><a name='footnote_ref17' href='#footnote17'>17</a></sup></li>
+<li><a class='autolink' href='#g1LCkkjN7rG'>layer</a> でオプションの <code>display</code> パラメータに <code>:none</code> を指定すると<a class='autolink' href='#1ovJxG7Ie9O'>レイヤー</a>をまるごと非表示にできる<sup><a name='footnote_ref18' href='#footnote18'>18</a></sup></li>
 </ul>
 <p>　　</p>
 <h3><a name='fbLcMRTVXac'></a>10.9 リンク</h3>
@@ -7087,7 +7079,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 
 <p class='fig_title'><a name='iVJA6wcGHlP'></a>Figure.10-26 with-label-options によるラベル設定の変更</p>
 <p>　　</p>
-<p>　<a class='autolink' href='#lpCVEZ9kMoP'>ラベル</a>の<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>は通常それぞれで異なるため、<a class='autolink' href='#aw2yb6IRaf3'>with-label-options</a> で指定することはできません。指定可能なのは position, offset, font だけです<sup><a name='footnote_ref18' href='#footnote18'>18</a></sup>。</p>
+<p>　<a class='autolink' href='#lpCVEZ9kMoP'>ラベル</a>の<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>は通常それぞれで異なるため、<a class='autolink' href='#aw2yb6IRaf3'>with-label-options</a> で指定することはできません。指定可能なのは position, offset, font だけです<sup><a name='footnote_ref19' href='#footnote19'>19</a></sup>。</p>
 <p>　　</p>
 <h2><a name='2CSYEsoWlWE'></a>11 UML</h2>
 <h3><a name='8ya1jqc5cZQ'></a>11.1 アクティビティ図</h3>
@@ -8296,7 +8288,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <h3><a name='dR01Jh257Q6'></a>12.2 色の名前</h3>
-<p> <a href='#1rpUB3fre67'>10.1  節</a>ではいくつかの色の指定方法を紹介しています。ここでは、そのうち色の名前について使用できるものを紹介します。まず、以下は SVG 規格に記載されている色名のサンプルです<sup><a name='footnote_ref19' href='#footnote19'>19</a></sup>。</p>
+<p> <a href='#1rpUB3fre67'>10.1  節</a>ではいくつかの色の指定方法を紹介しています。ここでは、そのうち色の名前について使用できるものを紹介します。まず、以下は SVG 規格に記載されている色名のサンプルです<sup><a name='footnote_ref20' href='#footnote20'>20</a></sup>。</p>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='750' height='1000'>
@@ -9064,7 +9056,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </pre>
 </details>
 <p>　　</p>
-<p>　kaavio では、上記に加えて以下の名前も使用することができます。これらは規格に含まれていないため、 <code>#RRGGBB</code> 形式に変換されて出力されます<sup><a name='footnote_ref20' href='#footnote20'>20</a></sup>。</p>
+<p>　kaavio では、上記に加えて以下の名前も使用することができます。これらは規格に含まれていないため、 <code>#RRGGBB</code> 形式に変換されて出力されます<sup><a name='footnote_ref21' href='#footnote21'>21</a></sup>。</p>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='760' height='2140'>
@@ -10912,6 +10904,11 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li>ENHANCE : <a class='autolink' href='#kT3ITG7nfBI'>with-block-arrow-options</a> に length, size, margin パラメータを追加</li>
 </ul>
 </li>
+<li><strong>2022/11/12 - version 0.016</strong>
+<ul>
+<li>DOCUMENT : 「<a href='#kSyxpJZzQjY'>5.2  画像ファイルの埋め込み</a>」を執筆</li>
+</ul>
+</li>
 </ul>
 <h2><a name='1iQ3KRF8uJQ'></a>14 図表一覧</h2>
 <ul>
@@ -11382,19 +11379,20 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p class='footnote'><a name='footnote4' href='#footnote_ref4'>4</a> : Lisper の方へ：要するにキーワードパラメータです。</p>
 <p class='footnote'><a name='footnote5' href='#footnote_ref5'>5</a> : 不格好に見えるかもしれませんが、Microsoft Word の図形要素をトレースして作っています。そこそこの再現度のはず。</p>
 <p class='footnote'><a name='footnote6' href='#footnote_ref6'>6</a> : 生の SVG コードを挿入したとして、そしてそれがSVG 規格に完璧に適合していたとしても、お使いの（ブラウザなどの）SVG ビューワーで「正しく」表示できるかどうかは別問題だということを常に念頭に置いて作業してください。kaavio の開発では「メジャーなブラウザでサポートされていない SVG の機能を避ける」ことに大きな注意と努力が払われています。</p>
-<p class='footnote'><a name='footnote7' href='#footnote_ref7'>7</a> : Lisper の方へ：ご想像通り、 <code>(list x y)</code> でも問題無いですし、バッククォートを使ってもかまいません。</p>
-<p class='footnote'><a name='footnote8' href='#footnote_ref8'>8</a> : この他に <code>width, height</code> があって、その図形要素の幅と高さを取得することもできますが、あまり使用しません。</p>
-<p class='footnote'><a name='footnote9' href='#footnote_ref9'>9</a> : Lisper の方へ： <code>app.center</code> という記法は動的に生成する symbol-macrolet によって、また <code>(attr :app :center)</code> については macrolet によって実現しています。attr は局所関数を使って同じ<a class='autolink' href='#dmYFJAv81Kl'>パターン</a>の繰り返しを共通化する場合などに便利でしょう。</p>
-<p class='footnote'><a name='footnote10' href='#footnote_ref10'>10</a> : 現状では、<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>の描画では幅と高さによって作成される矩形で内部要素の描画をクリッピングしません。つまり、実質的には<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>は原点をズラす効果しかありません。ただし、このクリッピングしないという挙動は将来変更される可能性があります。</p>
-<p class='footnote'><a name='footnote11' href='#footnote_ref11'>11</a> : これはあまり使わない方が良いテクニックかもしれません。図形要素別の「デフォルト設定」とは無関係に動作するので、慣れないと混乱するかもしれないからです。</p>
-<p class='footnote'><a name='footnote12' href='#footnote_ref12'>12</a> : Lisper の方へ。<a class='autolink' href='#7J9MZS4dlwP'>with-options</a> マクロは <code>*default-stroke*</code> や <code>*default-fill*</code> といったスペシャル変数を束縛するものです。非 Lisper のユーザーへの説明をわかりやすくする上でこの方法をとっています。</p>
-<p class='footnote'><a name='footnote13' href='#footnote_ref13'>13</a> : これはあまり使わない方が良いテクニックかもしれません。図形要素別の「デフォルト設定」とは無関係に動作するので、慣れないと混乱するかもしれないからです。</p>
-<p class='footnote'><a name='footnote14' href='#footnote_ref14'>14</a> : 正確には <code>:size 12 :fill :black :width-spice 0.65 :line-spacing 2</code> です。</p>
-<p class='footnote'><a name='footnote15' href='#footnote_ref15'>15</a> : SVG 規格には <code>textLength</code> 属性というものがあって、指定されたスペースに<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>を収めることができるそうです。これを今後導入するかもしれません。しかし、重箱の隅っこ的な機能は SVG レンダリングエンジン（多くの場合はブラウザのことですが）がサポートしていない可能性があるので、今後の検討次第です。</p>
-<p class='footnote'><a name='footnote16' href='#footnote_ref16'>16</a> : Lisper の方へ：要するに <code>gensym</code> を使っています。</p>
-<p class='footnote'><a name='footnote17' href='#footnote_ref17'>17</a> : ブラウザなどの SVG ビューワー上で動的に<a class='autolink' href='#1ovJxG7Ie9O'>レイヤー</a>の表示／非表示を切り替えることは可能ですが、kaavio としては現状サポートしていません。</p>
-<p class='footnote'><a name='footnote18' href='#footnote_ref18'>18</a> : position も<a class='autolink' href='#lpCVEZ9kMoP'>ラベル</a>毎に異なる場合が多いですが、きれいに整列した作図だと同じになる場合もあるので <a class='autolink' href='#aw2yb6IRaf3'>with-label-options</a> でサポートしています。</p>
-<p class='footnote'><a name='footnote19' href='#footnote_ref19'>19</a> : SVG 2 の規格において色名に関する節は削除され、CSS 規格を参照することになりました。</p>
-<p class='footnote'><a name='footnote20' href='#footnote_ref20'>20</a> : <a href='#6tYSz371NWb'>Figure.12-2</a> に記載されているのは、Emacs エディタで定義されている色名のうち、規格に含まれないものの一覧です。このうち、green(#00FF00), grey(#BEBEBE), maroon(#B03060), purple(#A020F0) については規格側にも同じ名前があるものの異なる値です。これらは「規格優先」としているため、たとえば <code>:green</code> を指定した場合は規格の #008000 が使用され、#00FF00 は使用されません。</p>
+<p class='footnote'><a name='footnote7' href='#footnote_ref7'>7</a> : このことは、kaavio が動作する時点で指定された画像ファイルが「そこにある」必要がある、ということを意味します。 <code>width, height</code> の両方が明示的に指定された場合に限り、kaavio は実際の画像サイズを調べません。</p>
+<p class='footnote'><a name='footnote8' href='#footnote_ref8'>8</a> : Lisper の方へ：ご想像通り、 <code>(list x y)</code> でも問題無いですし、バッククォートを使ってもかまいません。</p>
+<p class='footnote'><a name='footnote9' href='#footnote_ref9'>9</a> : この他に <code>width, height</code> があって、その図形要素の幅と高さを取得することもできますが、あまり使用しません。</p>
+<p class='footnote'><a name='footnote10' href='#footnote_ref10'>10</a> : Lisper の方へ： <code>app.center</code> という記法は動的に生成する symbol-macrolet によって、また <code>(attr :app :center)</code> については macrolet によって実現しています。attr は局所関数を使って同じ<a class='autolink' href='#dmYFJAv81Kl'>パターン</a>の繰り返しを共通化する場合などに便利でしょう。</p>
+<p class='footnote'><a name='footnote11' href='#footnote_ref11'>11</a> : 現状では、<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>の描画では幅と高さによって作成される矩形で内部要素の描画をクリッピングしません。つまり、実質的には<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>は原点をズラす効果しかありません。ただし、このクリッピングしないという挙動は将来変更される可能性があります。</p>
+<p class='footnote'><a name='footnote12' href='#footnote_ref12'>12</a> : これはあまり使わない方が良いテクニックかもしれません。図形要素別の「デフォルト設定」とは無関係に動作するので、慣れないと混乱するかもしれないからです。</p>
+<p class='footnote'><a name='footnote13' href='#footnote_ref13'>13</a> : Lisper の方へ。<a class='autolink' href='#7J9MZS4dlwP'>with-options</a> マクロは <code>*default-stroke*</code> や <code>*default-fill*</code> といったスペシャル変数を束縛するものです。非 Lisper のユーザーへの説明をわかりやすくする上でこの方法をとっています。</p>
+<p class='footnote'><a name='footnote14' href='#footnote_ref14'>14</a> : これはあまり使わない方が良いテクニックかもしれません。図形要素別の「デフォルト設定」とは無関係に動作するので、慣れないと混乱するかもしれないからです。</p>
+<p class='footnote'><a name='footnote15' href='#footnote_ref15'>15</a> : 正確には <code>:size 12 :fill :black :width-spice 0.65 :line-spacing 2</code> です。</p>
+<p class='footnote'><a name='footnote16' href='#footnote_ref16'>16</a> : SVG 規格には <code>textLength</code> 属性というものがあって、指定されたスペースに<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>を収めることができるそうです。これを今後導入するかもしれません。しかし、重箱の隅っこ的な機能は SVG レンダリングエンジン（多くの場合はブラウザのことですが）がサポートしていない可能性があるので、今後の検討次第です。</p>
+<p class='footnote'><a name='footnote17' href='#footnote_ref17'>17</a> : Lisper の方へ：要するに <code>gensym</code> を使っています。</p>
+<p class='footnote'><a name='footnote18' href='#footnote_ref18'>18</a> : ブラウザなどの SVG ビューワー上で動的に<a class='autolink' href='#1ovJxG7Ie9O'>レイヤー</a>の表示／非表示を切り替えることは可能ですが、kaavio としては現状サポートしていません。</p>
+<p class='footnote'><a name='footnote19' href='#footnote_ref19'>19</a> : position も<a class='autolink' href='#lpCVEZ9kMoP'>ラベル</a>毎に異なる場合が多いですが、きれいに整列した作図だと同じになる場合もあるので <a class='autolink' href='#aw2yb6IRaf3'>with-label-options</a> でサポートしています。</p>
+<p class='footnote'><a name='footnote20' href='#footnote_ref20'>20</a> : SVG 2 の規格において色名に関する節は削除され、CSS 規格を参照することになりました。</p>
+<p class='footnote'><a name='footnote21' href='#footnote_ref21'>21</a> : <a href='#6tYSz371NWb'>Figure.12-2</a> に記載されているのは、Emacs エディタで定義されている色名のうち、規格に含まれないものの一覧です。このうち、green(#00FF00), grey(#BEBEBE), maroon(#B03060), purple(#A020F0) については規格側にも同じ名前があるものの異なる値です。これらは「規格優先」としているため、たとえば <code>:green</code> を指定した場合は規格の #008000 が使用され、#00FF00 は使用されません。</p>
 </body>
 </html>
