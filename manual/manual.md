@@ -6046,8 +6046,8 @@ Figure. uml-activity-partitions 要素
 <!-- autolink: [arc](#arc マクロ) -->
 
 ```lisp
-((defmacro arc (center rx ry x-axis-rotation
-                degree1 degree2 &key stroke end1 end2 layer filter id debug) ... )
+(defmacro arc (center rx ry x-axis-rotation degree1 degree2
+                      &key stroke end1 end2 layer filter id debug) ... )
 ```
 
 　${{TODO}{まだ記述されていません。}}
