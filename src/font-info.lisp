@@ -12,11 +12,13 @@
 ;; default parameter for font-info
 #|
 #|EXPORT|#				:*default-font*
+#|EXPORT|#				:*mute-font*
 #|EXPORT|#				:*default-font-fill*
 #|EXPORT|#				:*default-font-stroke*
 #|EXPORT|#				:*default-font-filter*
  |#
 (defparameter *default-font*        nil)
+(defparameter *mute-font*           nil)
 (defparameter *default-font-fill*   nil)
 (defparameter *default-font-stroke* nil)
 (defparameter *default-font-filter* nil)
@@ -81,40 +83,42 @@
   nil)
 
 (defmethod to-property-strings ((fnt font-info))
-  (macrolet ((add-when (member &rest args)
-			   `(let ((it ,member))
-				  (when it
-					(setf buf (concatenate 'string buf (format-string ,@args)))))))
-	(let ((buf ""))
-	  (with-slots (family size fill stroke
-					  style decoration weight filter) fnt
-		(add-when family          "font-family='" it "' ")
-		(add-when size              "font-size='" it "pt' ")
-		(add-when fill       (to-property-strings it))
-		(add-when stroke     (to-property-strings it))
-		(add-when style            "font-style='" it "' ")
-		(add-when decoration  "text-decoration='" it "' ")
-		(add-when weight          "font-weight='" it "' ")
-		(add-when filter          "filter='url(#" it ")' "))
-	  buf)))
+  (unless *mute-font*
+	(macrolet ((add-when (member &rest args)
+				 `(let ((it ,member))
+					(when it
+					  (setf buf (concatenate 'string buf (format-string ,@args)))))))
+	  (let ((buf ""))
+		(with-slots (family size fill stroke
+							style decoration weight filter) fnt
+		  (add-when family          "font-family='" it "' ")
+		  (add-when size              "font-size='" it "pt' ")
+		  (add-when fill       (to-property-strings it))
+		  (add-when stroke     (to-property-strings it))
+		  (add-when style            "font-style='" it "' ")
+		  (add-when decoration  "text-decoration='" it "' ")
+		  (add-when weight          "font-weight='" it "' ")
+		  (add-when filter          "filter='url(#" it ")' "))
+		buf))))
 
 (defmethod to-style-strings ((fnt font-info))
-  (macrolet ((add-when (member &rest args)
-			   `(let ((it ,member))
-				  (when it
-					(setf buf (concatenate 'string buf (format-string ,@args)))))))
-	(let ((buf ""))
-	  (with-slots (family size fill stroke
-					  style decoration weight) fnt
-		(add-when family         "font-family: " it "; ")
-		(add-when size             "font-size: " it "pt; ")
-		(add-when fill         (to-style-strings it))
-		(add-when stroke       (to-style-strings it))
-		(add-when style           "font-style: " it "; ")
-		(add-when decoration "text-decoration: " it "; ")
-		(add-when weight         "font-weight: " it "; "))
+  (unless *mute-font*
+	(macrolet ((add-when (member &rest args)
+				 `(let ((it ,member))
+					(when it
+					  (setf buf (concatenate 'string buf (format-string ,@args)))))))
+	  (let ((buf ""))
+		(with-slots (family size fill stroke
+							style decoration weight) fnt
+		  (add-when family         "font-family: " it "; ")
+		  (add-when size             "font-size: " it "pt; ")
+		  (add-when fill         (to-style-strings it))
+		  (add-when stroke       (to-style-strings it))
+		  (add-when style           "font-style: " it "; ")
+		  (add-when decoration "text-decoration: " it "; ")
+		  (add-when weight         "font-weight: " it "; "))
 ;;				(write-when filter "filter='url(#" it ")' ")	;;ToDo
-	  buf)))
+		buf))))
 
 
 #|

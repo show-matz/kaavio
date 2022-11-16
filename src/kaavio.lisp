@@ -202,6 +202,7 @@
 				:with-explosion-options
 				;fill-info.lisp
 				:*default-fill*
+				:*mute-fill*
 				:fill-info
 				:make-fill
 				;filter.lisp
@@ -223,6 +224,7 @@
 				:with-folder-options
 				;font-info.lisp
 				:*default-font*
+				:*mute-font*
 				:*default-font-fill*
 				:*default-font-stroke*
 				:*default-font-filter*
@@ -367,6 +369,7 @@
 				:load-stencil
 				;stroke-info.lisp
 				:*default-stroke*
+				:*mute-stroke*
 				:stroke-info
 				:make-stroke
 				;stylesheet.lisp

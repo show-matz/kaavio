@@ -52,27 +52,27 @@
   (let* ((pt     (attribute-top shp))
 		 (cnt    (length lines))
 		 (height (+ (* (1- cnt) font-size) (* cnt spacing))))
-	(values "middle"
+	(values :center
 			(point+ (point/y+ pt (- height)) offset))))
 
 (defun label-info-locate-text-for-below (shp offset lines font-size spacing)
   (declare (ignore lines))
   (let* ((pt (attribute-bottom shp)))
-	(values "middle"
+	(values :center
 			(point+ (point/y+ pt (+ spacing font-size)) offset))))
 
 (defun label-info-locate-text-for-left (shp offset lines font-size spacing)
   (let* ((pt     (attribute-left shp))
 		 (cnt    (length lines))
 		 (height (+ (* cnt font-size) (* (1- cnt) spacing))))
-	(values "end"
+	(values :right
 			(point+ (point/y+ pt (- font-size (/ height 2))) offset))))
 
 (defun label-info-locate-text-for-right (shp offset lines font-size spacing)
   (let* ((pt     (attribute-right shp))
 		 (cnt    (length lines))
 		 (height (+ (* cnt font-size) (* (1- cnt) spacing))))
-	(values "start"
+	(values :left
 			(point+ (point/y+ pt (- font-size (/ height 2))) offset))))
   
   
@@ -102,7 +102,7 @@
 		  (dolist (line lines)
 			(incf y font-size)
 			(write-text-tag (+ x (point-x offset))
-							(+ y (point-y offset)) "middle" line writer :font font)
+							(+ y (point-y offset)) line writer :align :center :font font)
 			(incf y spacing)))))))
 
 #|
@@ -122,10 +122,10 @@
 								  ((:left)  #'label-info-locate-text-for-left )
 								  ((:right) #'label-info-locate-text-for-right))))
 				   (funcall locater shp offset lines size spacing))))
-		(multiple-value-bind (anchor pt) (get-location-info)
+		(multiple-value-bind (align pt) (get-location-info)
 		  (dolist (line lines)
 			(write-text-tag (point-x pt)
-							(point-y pt) anchor line writer :font font)
+							(point-y pt) line writer :align align :font font)
 			(incf (point-y pt) (+ spacing size))))))))
   
   

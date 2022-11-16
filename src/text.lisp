@@ -25,11 +25,14 @@
 #|
 #|EXPORT|#				:write-text-tag
  |#
-(defun write-text-tag (x y anchor txt writer &key id font)
+(defun write-text-tag (x y txt writer &key id align font)
   (writer-write writer
 				"<text x='" x "' y='" y "' "
 				(write-when (keywordp id) "id='" id "' ")
-				"text-anchor='" anchor "' "
+				(write-when align "text-anchor='" (ecase it
+													((:left)   "start")
+													((:center) "middle")
+													((:right)  "end")) "' ")
 				(when font
 				  (if (stringp font)
 					  font
@@ -94,16 +97,12 @@
 
 (defmethod draw-entity ((txt text) writer)
   (with-slots (position align font text) txt
-	(let ((txt-anchor (ecase align
-						((:left)   "start")
-						((:center) "middle")
-						((:right)  "end")))
-		  (id  (and (not (entity-composition-p txt))
+	(let ((id  (and (not (entity-composition-p txt))
 					(slot-value txt 'id))))
 	  (pre-draw txt writer)
 	  (write-text-tag (point-x position)
 					  (point-y position)
-					  txt-anchor text writer :id id :font font)
+					  text writer :id id :align align :font font)
 	  (post-draw txt writer))))
 
 

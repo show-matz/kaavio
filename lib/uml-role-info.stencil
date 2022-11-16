@@ -35,13 +35,9 @@
   (format-string (slot-value rol 'name)))
 
 (defun uml-role-draw (rol x y align writer)
-  (let ((txt (uml-role-to-string rol))
-		(txt-anchor (ecase align
-					  ((:left)   "start")
-					  ((:center) "middle")
-					  ((:right)  "end"))))
+  (let ((txt (uml-role-to-string rol)))
 	(with-slots (font) rol
-	  (write-text-tag x y txt-anchor txt writer :font font))))
+	  (write-text-tag x y txt writer :align align :font font))))
 
 ;; type := :from|:dest
 (defun uml-role-draw-beside-line (rol line type writer)

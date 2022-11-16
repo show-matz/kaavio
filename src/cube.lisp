@@ -75,7 +75,7 @@
 ;; override of group::draw-group
 (defmethod draw-group ((cb cube) writer)
   (let ((canvas (group-get-canvas cb)))
-	(with-slots (depth contents-p font fill fill2 stroke filter) cb
+	(with-slots (depth contents-p fill fill2 stroke filter) cb
 	  (let* ((width     (canvas-width  canvas))
 			 (height    (canvas-height canvas))
 			 (x         (/ width  2))
@@ -83,8 +83,9 @@
 			 (half      (/ depth  2)))
 		(macrolet ((register-entity (entity)
 					 `(check-and-draw-local-entity ,entity canvas writer)))
-		  (let ((*default-font*   font)
-				(*default-stroke* stroke))
+		  (writer-write writer "<g " (to-property-strings stroke) ">")
+		  (writer-incr-level writer)
+		  (let ((*mute-stroke* t))
 			(polygon `((0 ,half)
 					   (,depth ,(- half))
 					   (,(+ width half) ,(- half))
@@ -93,7 +94,9 @@
 			(line `((,(+ width half) ,(- half))
 					(,(- width half) ,half)))
 			(rectangle (make-point (- x (/ half 2))
-								   (+ y (/ half 2))) (- width half) (- height half) :fill fill))))))
+								   (+ y (/ half 2))) (- width half) (- height half) :fill fill))
+		  (writer-decr-level writer)
+		  (writer-write writer "</g>")))))
   ;; draw text
   (call-next-method))
 

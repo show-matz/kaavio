@@ -45,15 +45,11 @@
 					 (format-string "/" action)))))
 
 (defun uml-flow-spec-draw (obj x y align writer)
-  (let ((txt (uml-flow-spec-to-string obj))
-		(txt-anchor (ecase align
-					  ((:left)   "start")
-					  ((:center) "middle")
-					  ((:right)  "end"))))
+  (let ((txt (uml-flow-spec-to-string obj)))
 	(with-slots (offset font) obj
 	  (write-text-tag (+ x (point-x offset))
 					  (+ y (point-y offset))
-					  txt-anchor txt writer :font font))))
+					  txt writer :align align :font font))))
 
 (defun make-uml-flow-spec (&rest params)
   (if (= 1 (length params))

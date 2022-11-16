@@ -92,7 +92,7 @@
 					"width='"  (attribute-width  rct) "' "
 					"height='" (attribute-height rct) "' "
 					(write-when rx "rx='" it "' ")
-					(write-when ry "ry='" it "' ")
+					(write-when (and ry (/= rx ry)) "ry='" ry "' ")
 					(to-property-strings fill)
 					(to-property-strings stroke)
 					(write-when filter "filter='url(#" it ")' ")

@@ -146,7 +146,7 @@
 		(writer-write writer
 					  "<polyline "
 					  (write-when (keywordp id) "id='" id "' ")
-					  "fill='none' "
+					  (write-when (not *mute-fill*) "fill='none' ")
 					  (to-property-strings stroke)
 					  "points='" (with-output-to-string (st)
 								   (format-points points st)) "' "

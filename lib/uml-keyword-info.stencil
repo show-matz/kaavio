@@ -29,13 +29,9 @@
   (format-string "<<" (slot-value kwd 'name) ">>"))
 
 (defun uml-keyword-draw (kwd x y align writer)
-  (let ((txt (uml-keyword-to-string kwd))
-		(txt-anchor (ecase align
-							((:left)   "start")
-							((:center) "middle")
-							((:right)  "end"))))
+  (let ((txt (uml-keyword-to-string kwd)))
 	(with-slots (font) kwd
-	  (write-text-tag x y txt-anchor txt writer :font font))))
+	  (write-text-tag x y txt writer :align align :font font))))
 
 
 (defun uml-keyword-draw-beside-line (kwd line writer)

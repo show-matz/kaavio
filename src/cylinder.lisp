@@ -67,14 +67,19 @@
 	(macrolet ((register-entity (entity)
 				 `(check-and-draw-local-entity ,entity canvas writer)))
 	  (with-slots (depth fill stroke filter) cyl
-		;; draw 
-		(path `((:move-to (0  0))
-				(:line-to (0 ,h))
-				(:arc-to ,(/ w 2) ,(/ depth 2) 0 0 0 (,w ,h))
-				(:line-to (,w 0))
-				(:arc-to ,(/ w 2) ,(/ depth 2) 0 0 0 (0 0))) :fill fill :stroke stroke :filter filter)
-		(path `((:move-to (0  0))
-				(:arc-to ,(/ w 2) ,(/ depth 2) 0 0 0 (,w 0))) :fill :none :stroke stroke))))
+		(writer-write writer "<g " (to-property-strings stroke) ">")
+		(writer-incr-level writer)
+		(let ((*mute-stroke* t))
+		  ;; draw 
+		  (path `((:move-to (0  0))
+				  (:line-to (0 ,h))
+				  (:arc-to ,(/ w 2) ,(/ depth 2) 0 0 0 (,w ,h))
+				  (:line-to (,w 0))
+				  (:arc-to ,(/ w 2) ,(/ depth 2) 0 0 0 (0 0))) :fill fill :filter filter)
+		  (path `((:move-to (0  0))
+				  (:arc-to ,(/ w 2) ,(/ depth 2) 0 0 0 (,w 0))) :fill :none))
+		(writer-decr-level writer)
+		(writer-write writer "</g>"))))
   ;; draw text
   (call-next-method))
 

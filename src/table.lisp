@@ -67,7 +67,7 @@
 						  (values nil nil nil)
 						  (values (list x y) w h)))))))))))
 
-(defun table-normalize-texts (texts default-font)
+(defun table-normalize-texts (texts)
   (labels ((fix-data (data)
 			 (if (null data)
 				 nil	;; nil means 'no text cell'
@@ -83,7 +83,7 @@
 				   `(,(if (stringp d)
 						  d
 						  (format nil "~A" d))
-					  ,align ,(or valign :center) ,(or font default-font)))))
+					  ,align ,(or valign :center) ,font))))
 		   (row-impl (lst acc)
 			 (if (null lst)
 				 (nreverse acc)
@@ -97,9 +97,10 @@
 	(tbl-impl texts nil)))
 		
 
-(defun table-fix-text (pt w h lst)
+(defun table-fix-text (pt w h lst default-font)
   (destructuring-bind (txt align valign font) lst
-	(let* ((fs/2 (/ (slot-value font 'size) 2))
+	(let* ((fnt  (or font default-font))
+		   (fs/2 (/ (slot-value fnt 'size) 2))
 		   (pivot (case align
 					((:center) (y+  pt fs/2))
 					((:right)  (xy+ pt (- (/ w 2) fs/2) fs/2))
@@ -168,7 +169,7 @@
 	  (chk-fills fills))
 	(check-object font      canvas dict :nullable t :class font-info)
 	(check-object stroke    canvas dict :nullable t :class stroke-info)
-	(setf texts (table-normalize-texts texts font)))
+	(setf texts (table-normalize-texts texts)))
   nil)
 
 ;; override of group::draw-group
@@ -180,38 +181,56 @@
 				   `(check-and-draw-local-entity ,entity canvas writer)))
 		(with-slots (center rows cols stroke fills font texts) tbl
 		  ;; filling ----------------------------------------------
-		  (labels ((fill-impl (lst)
-					 (when lst
-					   (let ((kwd  (car  lst))
-							 (info (cadr lst)))
-						 (multiple-value-bind (c w h)
-									 (table-get-sub-area kwd center rows cols)
-						   (when (and c w h)
-							 (rect c w h :fill info :stroke :none)))
-						 (fill-impl (cddr lst))))))
-			(fill-impl fills))
+		  ;; 「同じ色指定が連続するなら g tag でまとめたい」が、keyword とは限らないので断念
+		  ;; ToDo : fills で :r0-2c1-4 みたいな範囲指定も可能にしたい（これができるなら上記は不要かも）
+		  (writer-write writer "<g stroke='none'>")
+		  (writer-incr-level writer)
+		  (let ((*mute-stroke* t))
+			(labels ((fill-impl (lst)
+					   (when lst
+						 (let ((kwd  (car  lst))
+							   (info (cadr lst)))
+						   (multiple-value-bind (c w h)
+							   (table-get-sub-area kwd center rows cols)
+							 (when (and c w h)
+							   (rect c w h :fill info :stroke :none)))
+						   (fill-impl (cddr lst))))))
+			  (fill-impl fills)))
+		  (writer-decr-level writer)
+		  (writer-write writer "</g>")
 		  ;; draw lines -------------------------------------------
-		  (let ((y 0))
-			(line `((0 ,y) (,width ,y)) :stroke stroke)
-			(dolist (r rows)
-			  (incf y r)
-			  (line `((0 ,y) (,width ,y)) :stroke stroke)))
-		  (let ((x 0))
-			(line `((,x ,0) (,x ,height)) :stroke stroke)
-			(dolist (c cols)
-			  (incf x c)
-			  (line `((,x ,0) (,x ,height)) :stroke stroke)))
+		  ;; ToDo : lines の custom drawing をサポートしたい（これは壮大）
+		  (writer-write writer "<g " (to-property-strings stroke) " fill='none'>")
+		  (writer-incr-level writer)
+		  (let ((*mute-fill*   t)
+				(*mute-stroke* t))
+			(rect center (reduce #'+ cols)  (reduce #'+ rows) :fill :none :stroke stroke)
+			(let ((y 0))
+			  (dolist (r (cdr rows))
+				(incf y r)
+				(line `((0 ,y) (,width ,y)) :stroke stroke)))
+			(let ((x 0))
+			  (dolist (c (cdr cols))
+				(incf x c)
+				(line `((,x ,0) (,x ,height)) :stroke stroke))))
+		  (writer-decr-level writer)
+		  (writer-write writer "</g>")
 		  ;; draw texts -------------------------------------------
+		  (writer-write writer "<g " (to-property-strings font) " >")
+		  (writer-incr-level writer)
 		  (let ((r 0))
 			(dolist (row texts)
 			  (let ((c 0))
 				(dolist (data row)
 				  (when data
 					(multiple-value-bind (pt w h) (table-get-cell-area r c rows cols)
-					  (multiple-value-bind (pt txt align fnt) (table-fix-text pt w h data)
-						(text pt txt :align align :font (or fnt font)))))
+					  (multiple-value-bind (pt txt align fnt) (table-fix-text pt w h data font)
+						(let ((*mute-font* (null fnt)))
+						  (text pt txt :align align :font (or fnt font))))))
 				  (incf c)))
-			  (incf r)))))))
+			  (incf r)))
+		  (writer-decr-level writer)
+		  (writer-write writer "</g>")))))
   nil)
   
 

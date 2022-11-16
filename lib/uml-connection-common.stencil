@@ -45,6 +45,6 @@
 				(incf y name-size)
 				(write-text-tag (+ x (point-x offset))
 								(+ y (point-y offset))
-								"middle" line writer :font font-property)
+								line writer :align :center :font font-property)
 				(incf y spacing)))))))))
 

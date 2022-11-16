@@ -91,28 +91,48 @@
 	(or (< 1 (length text))
 		(call-next-method))))
   
+(defmethod pre-draw ((shp paragraph) writer)
+  (call-next-method)
+  (with-slots (text) shp
+	(when (< 1 (length text))
+	  (with-slots (align font) shp
+		(writer-write writer "<g "
+					  "text-anchor='" (ecase align
+										((:left)   "start")
+										((:center) "middle")
+										((:right)  "end")) "' "
+					  (to-property-strings font)
+					  ">"))
+	  (writer-incr-level writer))))
+
+(defmethod post-draw ((shp paragraph) writer)
+  (with-slots (text) shp
+	(when (< 1 (length text))
+	  (writer-decr-level writer)
+	  (writer-write writer "</g>")))
+  (call-next-method))
+
 ;;MEMO : use impelementation of shape...
 ;;(defmethod shape-get-subcanvas ((shp rectangle)) ...)
 
 (defmethod draw-entity ((shp paragraph) writer)
-  (with-slots (position align font text) shp
+  (with-slots (position align font text id) shp
 	(let ((x (point-x position))
 		  (y (point-y (attribute-top shp)))
 		  (txt-anchor (ecase align
 						((:left)   "start")
 						((:center) "middle")
-						((:right)  "end")))
-		  (id   (and (not (entity-composition-p shp))
-					 (slot-value shp 'id))))
-	  (with-slots ((fsize size)
-				   line-spacing) font
-		(let ((font-prop (to-property-strings font)))
-		  (pre-draw shp writer)
-		  (dolist (line text)
-			(incf y fsize)
-			(write-text-tag x y txt-anchor line writer :id id :font font-prop)
-			(incf y line-spacing))
-		  (post-draw shp writer)))))
+						((:right)  "end"))))
+	  (with-slots ((font-size size) line-spacing) font
+		(pre-draw shp writer)
+		(if (= 1 (length text))
+			(write-text-tag x (+ y font-size) (car text) writer
+							:id id :align align :font (to-property-strings font))
+			(dolist (line text)
+			  (incf y font-size)
+			  (write-text-tag x y line writer)
+			  (incf y line-spacing)))
+		(post-draw shp writer))))
   nil)
 					  
 

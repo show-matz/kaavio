@@ -44,13 +44,9 @@
 					 (format-string "/" action)))))
 
 (defun uml-transition-spec-draw (obj x y align writer)
-  (let ((txt (uml-transition-spec-to-string obj))
-		(txt-anchor (ecase align
-					  ((:left)   "start")
-					  ((:center) "middle")
-					  ((:right)  "end"))))
+  (let ((txt (uml-transition-spec-to-string obj)))
 	(with-slots (font) obj
-	  (write-text-tag x y txt-anchor txt writer :font font))))
+	  (write-text-tag x y txt writer :align align :font font))))
 
 
 ;;------------------------------------------------------------------------------
