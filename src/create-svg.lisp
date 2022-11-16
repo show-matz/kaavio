@@ -72,7 +72,6 @@
 
 	   (let ((,g-writer (create-svg-writer)))
 		 (writer-write ,g-writer "<?xml version='1.0' encoding='utf-8' ?>")
-;		 (writer-write ,g-writer "<?xml-stylesheet href='svg.css' type='text/css'?>") ;;ToDo : svg.css!!!!
 		 (writer-write ,g-writer "<svg xmlns='http://www.w3.org/2000/svg' "
 								 "xmlns:xlink='http://www.w3.org/1999/xlink' "
 								 "version='1.1' baseProfile='full' xml:space='default' "

@@ -84,30 +84,6 @@
 	  (when dashoffset (setf dashoffset (format-string "stroke-dashoffset='" dashoffset "' ")))
 	  (concatenate 'string color width opacity linecap linejoin miterlimit dasharr dashoffset))))
 
-(defmethod to-style-strings ((stroke stroke-info))
-  (unless *mute-stroke*
-	(let ((color      (slot-value stroke      'color))
-		  (width      (slot-value stroke      'width))
-		  (opacity    (slot-value stroke    'opacity))
-		  (linecap    (slot-value stroke    'linecap))
-		  (linejoin   (slot-value stroke   'linejoin))
-		  (miterlimit (slot-value stroke 'miterlimit))
-		  (dasharr    (slot-value stroke  'dasharray))
-		  (dashoffset (slot-value stroke 'dashoffset))
-		  (url        (slot-value stroke        'url)))
-	  (if url
-		  (setf color (format-string "stroke=: url(#" url "); "))
-		  (when color
-			(setf color (format-string "stroke: " color "; "))))
-	  (when width	     (setf width      (format-string "stroke-width: " width "; ")))
-	  (when opacity    (setf opacity    (format-string "stroke-opacity: " opacity "; ")))
-	  (when linecap    (setf linecap    (format-string "stroke-linecap: " linecap "; ")))
-	  (when linejoin   (setf linejoin   (format-string "stroke-linejoin: " linejoin "; ")))
-	  (when miterlimit (setf miterlimit (format-string "stroke-miterlimit: " miterlimit "; ")))
-	  (when dasharr    (setf dasharr    (format nil "stroke-dasharray: ~{~A ~}; " dasharr)))
-	  (when dashoffset (setf dashoffset (format-string "stroke-dashoffset: " dashoffset "; ")))
-	  (concatenate 'string color width opacity linecap linejoin miterlimit dasharr dashoffset))))
-
 
 #|
 #|EXPORT|#				:make-stroke

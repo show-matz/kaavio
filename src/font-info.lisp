@@ -101,26 +101,6 @@
 		  (add-when filter          "filter='url(#" it ")' "))
 		buf))))
 
-(defmethod to-style-strings ((fnt font-info))
-  (unless *mute-font*
-	(macrolet ((add-when (member &rest args)
-				 `(let ((it ,member))
-					(when it
-					  (setf buf (concatenate 'string buf (format-string ,@args)))))))
-	  (let ((buf ""))
-		(with-slots (family size fill stroke
-							style decoration weight) fnt
-		  (add-when family         "font-family: " it "; ")
-		  (add-when size             "font-size: " it "pt; ")
-		  (add-when fill         (to-style-strings it))
-		  (add-when stroke       (to-style-strings it))
-		  (add-when style           "font-style: " it "; ")
-		  (add-when decoration "text-decoration: " it "; ")
-		  (add-when weight         "font-weight: " it "; "))
-;;				(write-when filter "filter='url(#" it ")' ")	;;ToDo
-		buf))))
-
-
 #|
 #|EXPORT|#				:make-font
  |#

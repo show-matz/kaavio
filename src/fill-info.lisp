@@ -64,22 +64,6 @@
 			  (setf rule (format-string "fill-rule='" rule "' ")))
 			(concatenate 'string color opacity rule))))))
 
-(defmethod to-style-strings ((fill fill-info))
-  (unless *mute-fill*
-	(let ((url (slot-value fill 'url)))
-	  (if url
-		  (format-string "fill: url(#" url "); ")
-		  (let ((color   (slot-value fill 'color))
-				(opacity (slot-value fill 'opacity))
-				(rule    (slot-value fill 'rule)))
-			(when color
-			  (setf color (format-string "fill: " color "; ")))
-			(when opacity
-			  (setf opacity (format-string "fill-opacity: " opacity "; ")))
-			(when rule
-			  (setf rule (format-string "fill-rule: " rule "; ")))
-			(concatenate 'string color opacity rule))))))
-
 #|
 #|EXPORT|#				:make-fill
  |#

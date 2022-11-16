@@ -285,12 +285,6 @@
 																"pathutil"))
 				(:file "stroke-info"               :depends-on ("kaavio"
 																"colormap"))
-				(:file "stylesheet"                :depends-on ("kaavio"
-																"entity"
-																"stroke-info"
-																"fill-info"
-																"font-info"
-																"writer"))
 				(:file "table"                     :depends-on ("kaavio"
 																"constants"
 																"group"
