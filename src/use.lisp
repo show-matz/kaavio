@@ -19,17 +19,21 @@
 ;;-------------------------------------------------------------------------------
 (defclass use (shape)
   ((ref			:initform nil :initarg :ref)		; keyword / shape
-   (center		:initform nil :initarg :center)))	; point
+   (center		:initform nil :initarg :center)		; point
+   (debug		:initform nil :initarg :debug)))	; (or nil t keyword)
 
 
-;(defmethod initialize-instance :after ((ent use) &rest initargs)
-;  (declare (ignore initargs))
-;  ent)
+(defmethod initialize-instance :after ((ent use) &rest initargs)
+  (declare (ignore initargs))
+  (with-slots (debug) ent
+	(when debug
+	  (setf debug (if (keywordp debug) debug :red))))
+  ent)
 
 (defmethod check ((ent use) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (with-slots (ref center layer) ent
+  (with-slots (ref center layer debug) ent
 	(let ((obj (dict-get-entity dict ref)))
 	  (if (and obj (typep obj 'kaavio:group-definition))
 		  (setf ref obj)
@@ -37,7 +41,8 @@
 	(setf center (canvas-fix-point canvas center))
 	(setf layer  (if (eq layer :none)
 					 nil
-					 (or layer *default-layer*))))
+					 (or layer *default-layer*)))
+	(check-member debug  :nullable t :types keyword))
   nil)
 
 (defmethod attribute-width ((obj use))
@@ -56,13 +61,23 @@
 ;;(defmethod shape-get-subcanvas ((obj use)) ...)
 
 (defmethod draw-entity ((obj use) writer)
-  (with-slots (ref center) obj
+  (with-slots (ref center debug) obj
 	(pre-draw obj writer)
 	(with-slots (width height) ref
 	  (writer-write writer
 					"<use xlink:href='#" (slot-value ref 'id) "' "
 					"x='" (- (point-x center) (/ width  2)) "' "
-					"y='" (- (point-y center) (/ height 2)) "' />"))
+					"y='" (- (point-y center) (/ height 2)) "' />")
+	  (when debug
+		(writer-write writer
+					  "<rect "
+					  "x='" (- (point-x center) (/ width 2)) "' "
+					  "y='" (- (point-y center) (/ height 2)) "' "
+					  "width='" width "' "
+					  "height='" height "' "
+					  "fill='none' "
+					  (to-property-strings (make-stroke :color debug :dasharray '(1 4)))
+					  "/>")))
 	(post-draw obj writer))
   nil)
 
@@ -74,11 +89,11 @@
 #|
 #|EXPORT|#				:use
  |#
-(defmacro use (ref center &key link rotate layer id contents)
+(defmacro use (ref center &key link rotate layer id contents debug)
   (let ((code `(register-entity (make-instance 'kaavio:use
 											   :ref   ,ref   :center ,center
 											   :link  ,link  :rotate ,rotate
-											   :layer ,layer :id ,id))))
+											   :layer ,layer :id ,id :debug ,debug))))
 	(if (null contents)
 		code
 		(let ((g-obj (gensym "OBJ")))

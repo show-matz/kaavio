@@ -7042,7 +7042,7 @@ ${BLANK_PARAGRAPH}
 <!-- autolink: [use](#use マクロ) -->
 
 ```lisp
-(defmacro use (ref center &key link rotate layer id contents) ... )
+(defmacro use (ref center &key link rotate layer id contents debug) ... )
 ```
 
 　${{TODO}{まだ記述されていません。}}
@@ -8011,6 +8011,7 @@ Figure. 色の名前とサンプル - 2
 	* REFACTORING : 出力 SVG のサイズ低減措置
 * __2022/11/17__
 	* ENHANCE : with-subcanvas に debug パラメータを追加
+	* ENHANCE : use に debug パラメータを追加
 
 ## 図表一覧
 <!-- embed:figure-list -->
