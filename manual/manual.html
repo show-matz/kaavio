@@ -3608,7 +3608,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <tr style="font-size: 14;"><td nowrap align='left'><code>rows</code></td><td align='left'>行数と各行の高さを数値のリストで指定します。リストの長さが行数、リスト要素の数値が行の高さです。<a class='autolink' href='#9qtnEVETCcD'>repeat</a> 関数が役に立つかもしれません。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>cols</code></td><td align='left'>列数と各列の幅を数値のリストで指定します。リストの長さが列数、リスト要素の数値が列の幅です。<a class='autolink' href='#9qtnEVETCcD'>repeat</a> 関数が役に立つかもしれません。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>stroke</code></td><td align='left'>罫線を描画する線を指定します。詳細は「<a href='#4HFjqmTuIU6'>10.2  ストローク</a>」を参照してください。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'><code>fills</code></td><td align='left'>表、行、列、またはセル個別の塗り潰しを指定します。位置を示すキーワードと<a class='autolink' href='#dBUd7L4C3dx'>フィル</a>情報の２つの値を繰り返すリストで指定してください。位置は、表全体であれば <code>:rc</code> 、列や行全体を指定する場合は <code>:rN</code> や <code>:cM</code> を指定します。ここで、 <code>N,M</code> は行や列の番号を示す整数です（上または左から０で始まります）。単独のセルを指定する場合、同じ要領で <code>:rNcM</code> と指定してください。 <code>fills</code> パラメータ全体が省略された場合、表の背景は塗り潰されません。<a class='autolink' href='#dBUd7L4C3dx'>フィル</a>情報の詳細は「<a href='#dBUd7L4C3dx'>10.3  フィル</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>fills</code></td><td align='left'>表、行、列、またはセル個別の塗り潰しを指定します。位置を示すキーワードと<a class='autolink' href='#dBUd7L4C3dx'>フィル</a>情報の２つの値を繰り返すリストで指定してください。位置は、表全体であれば <code>:rc</code> 、列や行全体を指定する場合は <code>:rN</code> や <code>:cM</code> を指定します。ここで、 <code>N,M</code> は行や列の番号を示す整数です（上または左から０で始まります）。 <code>:rN-M</code> といった範囲指定も可能です。単独のセルを指定する場合、同じ要領で <code>:rNcM</code> と指定してください。 <code>:rK-LcN-M</code> 形式の範囲指定も可能です。 <code>fills</code> パラメータ全体が省略された場合、表の背景は塗り潰されません。<a class='autolink' href='#dBUd7L4C3dx'>フィル</a>情報の詳細は「<a href='#dBUd7L4C3dx'>10.3  フィル</a>」を参照してください。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>font</code></td><td align='left'>表内で<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>を描画する際に使用する<a class='autolink' href='#3kZ9FkounyK'>フォント</a>を指定します。省略した場合、 <code>*default-table-font*, *default-font*</code> の順でデフォルト<a class='autolink' href='#3kZ9FkounyK'>フォント</a>が使用されます。また、 <code>texts</code> パラメータ指定の中でセル毎に個別に<a class='autolink' href='#3kZ9FkounyK'>フォント</a>を指定することもできます。<a class='autolink' href='#3kZ9FkounyK'>フォント</a>情報の詳細は「<a href='#3kZ9FkounyK'>10.4  フォント</a>」を参照してください。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>texts</code></td><td align='left'>表内の各セルに設定する<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>をリストで指定します。正確には、行のリストを連ねたリストで指定します。<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>情報はキーワードなどのシンボル、数値、文字列を指定できますが、アライメントや<a class='autolink' href='#3kZ9FkounyK'>フォント</a>情報を指定する場合は <a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>情報自体をリストにする必要があります。詳細は後述します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>layer</code></td><td align='left'><a class='autolink' href='#1ovJxG7Ie9O'>レイヤー</a>に所属させる場合、その名前をキーワードで指定します。<br>詳細は「<a href='#1ovJxG7Ie9O'>10.8  レイヤー</a>」を参照してください。</td></tr>
@@ -3643,12 +3643,12 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 		</g>
 		<g stroke='navy' stroke-width='1'  fill='none'>
 			<rect x='10' y='10' width='460' height='220' />
-			<polyline points=' 10.0,70.0 470.0,70.0' />
-			<polyline points=' 10.0,130.0 470.0,130.0' />
-			<polyline points=' 10.0,190.0 470.0,190.0' />
-			<polyline points=' 130.0,10.0 130.0,230.0' />
-			<polyline points=' 250.0,10.0 250.0,230.0' />
-			<polyline points=' 370.0,10.0 370.0,230.0' />
+			<polyline points=' 10.0,50.0 470.0,50.0' />
+			<polyline points=' 10.0,110.0 470.0,110.0' />
+			<polyline points=' 10.0,170.0 470.0,170.0' />
+			<polyline points=' 110.0,10.0 110.0,230.0' />
+			<polyline points=' 230.0,10.0 230.0,230.0' />
+			<polyline points=' 350.0,10.0 350.0,230.0' />
 		</g>
 		<g font-size='12pt' fill='black'  >
 			<text x='170' y='36' text-anchor='middle' >:left</text>
@@ -11102,6 +11102,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <ul>
 <li>ENHANCE : <a class='autolink' href='#a48ATArhBUk'>with-subcanvas</a> に debug パラメータを追加</li>
 <li>ENHANCE : <a class='autolink' href='#klH6tZ6gdaQ'>use</a> に debug パラメータを追加</li>
+<li>ENHANCE : <a href='#g6xjP526KX7'>テーブル</a> の fills パラメータで <code>:r1-2</code> などの範囲指定をサポート</li>
 </ul>
 </li>
 </ul>
