@@ -105,10 +105,19 @@
 #|
 #|EXPORT|#				:with-subcanvas
  |#
-(defmacro with-subcanvas ((top-left width height) &rest body)
-  `(let ((canvas (make-canvas (point+ (car canvas) ,top-left) ,width ,height)))
-	 (declare (special canvas))
-	 ,@body))
+(defmacro with-subcanvas ((top-left width height &key debug) &rest body)
+  (if (not debug)
+	  `(let ((canvas (make-canvas (point+ (car canvas) ,top-left) ,width ,height)))
+		 (declare (special canvas))
+		 ,@body)
+	  (let ((clr (if (keywordp debug) debug :red)))
+		`(let ((canvas (make-canvas (point+ (car canvas) ,top-left) ,width ,height)))
+		   (declare (special canvas))
+		   (let ((*dict-mute-history* t))
+			 (rect (canvas-dict-center canvas)
+				   (canvas-width canvas) (canvas-height canvas)
+				   :stroke (list :color ,clr :width 1 :dasharray '(1 2)) :fill :none))
+		   ,@body))))
 
 
 #|

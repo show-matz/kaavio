@@ -150,6 +150,7 @@
 				:diamond-connect-point
 				:diamond
 				;dictionary.lisp
+				:*dict-mute-history*
 				:dictionary
 				;document.lisp
 				:*default-document-align*

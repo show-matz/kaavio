@@ -7215,7 +7215,7 @@ ${BLANK_PARAGRAPH}
 <!-- autolink: [with-subcanvas](#with-subcanvas マクロ) -->
 
 ```lisp
-(defmacro with-subcanvas ((top-left width height) &rest body) ... )
+(defmacro with-subcanvas ((top-left width height &key debug) &rest body) ... )
 ```
 
 　${{TODO}{まだ記述されていません。}}
@@ -8007,6 +8007,10 @@ Figure. 色の名前とサンプル - 2
 	* ENHANCE : with-block-arrow-options に length, size, margin パラメータを追加
 * __2022/11/12 - version 0.016__
 	* DOCUMENT : 「[](#画像ファイルの埋め込み)」を執筆
+* __2022/11/16__
+	* REFACTORING : 出力 SVG のサイズ低減措置
+* __2022/11/17__
+	* ENHANCE : with-subcanvas に debug パラメータを追加
 
 ## 図表一覧
 <!-- embed:figure-list -->

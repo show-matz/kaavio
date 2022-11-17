@@ -247,14 +247,18 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 	<!-- in : document -->
 	<g id='in'>
 		<path fill='skyblue' fill-opacity='0.3' stroke='navy' stroke-width='2' d='M 10 65 L 10 125 A 26.666666 20 0 0 0 50 125 A 26.666666 20 1 0 1 90 125 L 90 65 Z' filter='url(#drop-shadow)' />
-		<text x='50' y='94' text-anchor='middle' font-size='12pt' fill='black' >input</text>
-		<text x='50' y='108' text-anchor='middle' font-size='12pt' fill='black' >file</text>
+		<g text-anchor='middle' font-size='12pt' fill='black' >
+			<text x='50' y='94' >input</text>
+			<text x='50' y='108' >file</text>
+		</g>
 	</g>
 	<!-- out : document -->
 	<g id='out'>
 		<path fill='skyblue' fill-opacity='0.3' stroke='navy' stroke-width='2' d='M 360 65 L 360 125 A 26.666666 20 0 0 0 400 125 A 26.666666 20 1 0 1 440 125 L 440 65 Z' filter='url(#drop-shadow)' />
-		<text x='400' y='94' text-anchor='middle' font-size='12pt' fill='black' >svg</text>
-		<text x='400' y='108' text-anchor='middle' font-size='12pt' fill='black' >image</text>
+		<g text-anchor='middle' font-size='12pt' fill='black' >
+			<text x='400' y='94' >svg</text>
+			<text x='400' y='108' >image</text>
+		</g>
 	</g>
 	<!-- block-arrow -->
 	<polygon fill='white' stroke='black' stroke-width='1' points='100.0,102.5 100.0,87.5 151.6,87.5 151.6,80.0 181.6,95.0 151.6,110.0 151.6,102.5' filter='url(#drop-shadow)' />
@@ -549,7 +553,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 	</pattern>
 	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
 	<!-- rectangle -->
-	<rect x='75' y='20' width='150' height='60' rx='10' ry='10' fill='skyblue' stroke='navy' stroke-width='1' />
+	<rect x='75' y='20' width='150' height='60' rx='10' fill='skyblue' stroke='navy' stroke-width='1' />
 
 </svg>
 </div>
@@ -1098,29 +1102,37 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 	<!-- block-arrow -->
 	<polygon fill='red' stroke='none' stroke-width='1' points='20.0,32.5 20.0,27.5 45.0,27.5 45.0,22.5 60.0,30.0 45.0,37.5 45.0,32.5' />
 	<!-- paragraph -->
-	<text x='100' y='69' text-anchor='middle' font-size='10pt' fill='black' >direction = :H</text>
-	<text x='100' y='81' text-anchor='middle' font-size='10pt' fill='black' >0 &lt;= offset</text>
+	<g text-anchor='middle' font-size='10pt' fill='black' >
+		<text x='100' y='69' >direction = :H</text>
+		<text x='100' y='81' >0 &lt;= offset</text>
+	</g>
 	<!-- parallelogram -->
 	<polygon fill='lightcyan' stroke='navy' stroke-width='1' points='220.0,30.0 260.0,110.0 380.0,110.0 340.0,30.0' />
 	<!-- block-arrow -->
 	<polygon fill='red' stroke='none' stroke-width='1' points='380.0,27.5 380.0,32.5 355.0,32.5 355.0,37.5 340.0,30.0 355.0,22.5 355.0,27.5' />
 	<!-- paragraph -->
-	<text x='300' y='69' text-anchor='middle' font-size='10pt' fill='black' >direction = :H</text>
-	<text x='300' y='81' text-anchor='middle' font-size='10pt' fill='black' >offset &lt; 0</text>
+	<g text-anchor='middle' font-size='10pt' fill='black' >
+		<text x='300' y='69' >direction = :H</text>
+		<text x='300' y='81' >offset &lt; 0</text>
+	</g>
 	<!-- parallelogram -->
 	<polygon fill='lightcyan' stroke='navy' stroke-width='1' points='20.0,180.0 20.0,260.0 180.0,220.0 180.0,140.0' />
 	<!-- block-arrow -->
 	<polygon fill='red' stroke='none' stroke-width='1' points='17.5,140.0 22.5,140.0 22.5,165.0 27.5,165.0 20.0,180.0 12.5,165.0 17.5,165.0' />
 	<!-- paragraph -->
-	<text x='100' y='199' text-anchor='middle' font-size='10pt' fill='black' >direction = :V</text>
-	<text x='100' y='211' text-anchor='middle' font-size='10pt' fill='black' >0 &lt;= offset</text>
+	<g text-anchor='middle' font-size='10pt' fill='black' >
+		<text x='100' y='199' >direction = :V</text>
+		<text x='100' y='211' >0 &lt;= offset</text>
+	</g>
 	<!-- parallelogram -->
 	<polygon fill='lightcyan' stroke='navy' stroke-width='1' points='220.0,140.0 220.0,220.0 380.0,260.0 380.0,180.0' />
 	<!-- block-arrow -->
 	<polygon fill='red' stroke='none' stroke-width='1' points='222.5,260.0 217.5,260.0 217.5,235.0 212.5,235.0 220.0,220.0 227.5,235.0 222.5,235.0' />
 	<!-- paragraph -->
-	<text x='300' y='199' text-anchor='middle' font-size='10pt' fill='black' >direction = :V</text>
-	<text x='300' y='211' text-anchor='middle' font-size='10pt' fill='black' >offset &lt; 0</text>
+	<g text-anchor='middle' font-size='10pt' fill='black' >
+		<text x='300' y='199' >direction = :V</text>
+		<text x='300' y='211' >offset &lt; 0</text>
+	</g>
 
 </svg>
 </div>
@@ -1378,9 +1390,11 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 			<!-- rectangle -->
 			<rect x='0' y='0' width='100' height='100' fill='white' stroke='none' stroke-width='1' />
 			<!-- paragraph -->
-			<text x='50' y='31' text-anchor='middle' font-size='16pt' fill='black' >this is</text>
-			<text x='50' y='49' text-anchor='middle' font-size='16pt' fill='black' >multi line</text>
-			<text x='50' y='67' text-anchor='middle' font-size='16pt' fill='black' >text.</text>
+			<g text-anchor='middle' font-size='16pt' fill='black' >
+				<text x='50' y='31' >this is</text>
+				<text x='50' y='49' >multi line</text>
+				<text x='50' y='67' >text.</text>
+			</g>
 			<!-- text -->
 			<text x='50' y='95' text-anchor='middle' font-size='12pt' fill='black' >パラグラフ</text>
 			
@@ -1392,9 +1406,11 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 			<!-- rectangle -->
 			<rect x='0' y='0' width='100' height='100' fill='white' stroke='none' stroke-width='1' />
 			<!-- textbox -->
-			<rect x='8.800003' y='17' width='82.399994' height='46' rx='5' ry='5' fill='white' stroke='black' stroke-width='1' />
-			<text x='50.0' y='39' text-anchor='middle' font-size='12pt' fill='black' >this is</text>
-			<text x='50.0' y='53' text-anchor='middle' font-size='12pt' fill='black' >textbox.</text>
+			<rect x='8.800003' y='17' width='82.399994' height='46' rx='5' fill='white' stroke='black' stroke-width='1' />
+			<g text-anchor='middle' font-size='12pt' fill='black' >
+				<text x='50.0' y='39' >this is</text>
+				<text x='50.0' y='53' >textbox.</text>
+			</g>
 			<!-- text -->
 			<text x='50' y='95' text-anchor='middle' font-size='12pt' fill='black' >テキストボックス</text>
 			
@@ -1407,8 +1423,10 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 			<rect x='0' y='0' width='100' height='100' fill='white' stroke='none' stroke-width='1' />
 			<!-- document -->
 			<path fill='skyblue' stroke='navy' stroke-width='1' d='M 10 10 L 10 70 A 26.666666 20 0 0 0 50 70 A 26.666666 20 1 0 1 90 70 L 90 10 Z' />
-			<text x='50' y='39' text-anchor='middle' font-size='12pt' fill='black' >this is</text>
-			<text x='50' y='53' text-anchor='middle' font-size='12pt' fill='black' >document.</text>
+			<g text-anchor='middle' font-size='12pt' fill='black' >
+				<text x='50' y='39' >this is</text>
+				<text x='50' y='53' >document.</text>
+			</g>
 			<!-- text -->
 			<text x='50' y='95' text-anchor='middle' font-size='12pt' fill='black' >ドキュメント</text>
 			
@@ -1420,10 +1438,14 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 			<!-- rectangle -->
 			<rect x='0' y='0' width='100' height='100' fill='white' stroke='none' stroke-width='1' />
 			<!-- folder -->
-			<polygon fill='cornsilk' stroke='darkkhaki' stroke-width='1' points='12.700001,20.0 12.700001,70.0 87.3,70.0 87.3,30.0 77.3,20.0 62.7,20.0 52.7,10.0 22.7,10.0 12.700001,20.0' />
-			<polygon fill='cornsilk' stroke='darkkhaki' stroke-width='1' points='12.700001,20.0 22.7,30.0 52.7,30.0 62.7,20.0 52.7,10.0 22.7,10.0 12.700001,20.0' />
-			<text x='50.0' y='44' text-anchor='middle' font-size='12pt' fill='black' >this is</text>
-			<text x='50.0' y='58' text-anchor='middle' font-size='12pt' fill='black' >folder.</text>
+			<g fill='cornsilk' stroke='darkkhaki' stroke-width='1' >
+				<polygon points='12.700001,20.0 12.700001,70.0 87.3,70.0 87.3,30.0 77.3,20.0 62.7,20.0 52.7,10.0 22.7,10.0 12.700001,20.0' />
+				<polygon points='12.700001,20.0 22.7,30.0 52.7,30.0 62.7,20.0 52.7,10.0 22.7,10.0 12.700001,20.0' />
+			</g>
+			<g text-anchor='middle' font-size='12pt' fill='black' >
+				<text x='50.0' y='44' >this is</text>
+				<text x='50.0' y='58' >folder.</text>
+			</g>
 			<!-- text -->
 			<text x='50' y='95' text-anchor='middle' font-size='12pt' fill='black' >フォルダ</text>
 			
@@ -1448,8 +1470,10 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 			<rect x='0' y='0' width='100' height='100' fill='white' stroke='none' stroke-width='1' />
 			<!-- balloon -->
 			<path fill='honeydew' stroke='forestgreen' stroke-width='1' d='M 18.800003 12 L 81.2 12 A 10 10 1 0 1 91.2 22 L 91.2 48 A 10 10 1 0 1 81.2 58 L 36.26667 58 L 10.0 75 L 18.800003 58 A 10 10 1 0 1 8.800003 48 L 8.800003 22 A 10 10 1 0 1 18.800003 12 Z' />
-			<text x='50.0' y='34' text-anchor='middle' font-size='12pt' fill='black' >this is</text>
-			<text x='50.0' y='48' text-anchor='middle' font-size='12pt' fill='black' >balloon.</text>
+			<g text-anchor='middle' font-size='12pt' fill='black' >
+				<text x='50.0' y='34' >this is</text>
+				<text x='50.0' y='48' >balloon.</text>
+			</g>
 			<!-- text -->
 			<text x='50' y='95' text-anchor='middle' font-size='12pt' fill='black' >吹き出し</text>
 			
@@ -1463,8 +1487,10 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 			<!-- memo -->
 			<polygon fill='lavenderblush' stroke='red' stroke-width='1' points='10.0,5.0 10.0,65.0 70.0,65.0 90.0,55.0 90.0,5.0 10.0,5.0' />
 			<polygon fill='lightpink' stroke='red' stroke-width='1' stroke-linejoin='round' points='70.0,65.0 90.0,55.0 76.666664,51.666668 70.0,65.0' />
-			<text x='20' y='27' text-anchor='start' font-size='12pt' fill='black' >this is</text>
-			<text x='20' y='41' text-anchor='start' font-size='12pt' fill='black' >memo.</text>
+			<g text-anchor='start' font-size='12pt' fill='black' >
+				<text x='20' y='27' >this is</text>
+				<text x='20' y='41' >memo.</text>
+			</g>
 			<!-- text -->
 			<text x='50' y='95' text-anchor='middle' font-size='12pt' fill='black' >メモ</text>
 			
@@ -1476,11 +1502,15 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 			<!-- rectangle -->
 			<rect x='0' y='0' width='100' height='100' fill='white' stroke='none' stroke-width='1' />
 			<!-- cube -->
-			<polygon fill='darkgray' stroke='black' stroke-width='1' points='17.5,16.0 29.5,4.0 88.5,4.0 88.5,58.0 76.5,70.0 17.5,70.0' />
-			<polyline fill='none' stroke='black' stroke-width='1' points=' 88.5,4.0 76.5,16.0' />
-			<rect x='17.5' y='16' width='59' height='54' fill='lightgray' stroke='black' stroke-width='1' />
-			<text x='47' y='42' text-anchor='middle' font-size='12pt' fill='black' >this is</text>
-			<text x='47' y='56' text-anchor='middle' font-size='12pt' fill='black' >cube.</text>
+			<g stroke='black' stroke-width='1' >
+				<polygon fill='darkgray' points='17.5,16.0 29.5,4.0 88.5,4.0 88.5,58.0 76.5,70.0 17.5,70.0' />
+				<polyline fill='none' points=' 88.5,4.0 76.5,16.0' />
+				<rect x='17.5' y='16' width='59' height='54' fill='lightgray' />
+			</g>
+			<g text-anchor='middle' font-size='12pt' fill='black' >
+				<text x='47' y='42' >this is</text>
+				<text x='47' y='56' >cube.</text>
+			</g>
 			<!-- text -->
 			<text x='50' y='95' text-anchor='middle' font-size='12pt' fill='black' >キューブ</text>
 			
@@ -1492,10 +1522,14 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 			<!-- rectangle -->
 			<rect x='0' y='0' width='100' height='100' fill='white' stroke='none' stroke-width='1' />
 			<!-- cylinder -->
-			<path fill='lightgray' stroke='darkgray' stroke-width='1' d='M 17.5 10 L 17.5 70 A 32.5 6 0 0 0 82.5 70 L 82.5 10 A 32.5 6 0 0 0 17.5 10' />
-			<path fill='none' stroke='darkgray' stroke-width='1' d='M 17.5 10 A 32.5 6 0 0 0 82.5 10' />
-			<text x='50' y='39' text-anchor='middle' font-size='12pt' fill='black' >this is</text>
-			<text x='50' y='53' text-anchor='middle' font-size='12pt' fill='black' >cylinder.</text>
+			<g stroke='darkgray' stroke-width='1' >
+				<path fill='lightgray' d='M 17.5 10 L 17.5 70 A 32.5 6 0 0 0 82.5 70 L 82.5 10 A 32.5 6 0 0 0 17.5 10' />
+				<path fill='none' d='M 17.5 10 A 32.5 6 0 0 0 82.5 10' />
+			</g>
+			<g text-anchor='middle' font-size='12pt' fill='black' >
+				<text x='50' y='39' >this is</text>
+				<text x='50' y='53' >cylinder.</text>
+			</g>
 			<!-- text -->
 			<text x='50' y='95' text-anchor='middle' font-size='12pt' fill='black' >円柱</text>
 			
@@ -1557,18 +1591,21 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 			<!-- rectangle -->
 			<rect x='0' y='0' width='100' height='100' fill='white' stroke='none' stroke-width='1' />
 			<!-- table -->
-			<rect x='10' y='20' width='80' height='40' fill='white' stroke='none' stroke-width='1' />
-			<rect x='10' y='20' width='80' height='10' fill='skyblue' stroke='none' stroke-width='1' />
-			<polyline fill='none' stroke='navy' stroke-width='1' points=' 10.0,20.0 90.0,20.0' />
-			<polyline fill='none' stroke='navy' stroke-width='1' points=' 10.0,30.0 90.0,30.0' />
-			<polyline fill='none' stroke='navy' stroke-width='1' points=' 10.0,40.0 90.0,40.0' />
-			<polyline fill='none' stroke='navy' stroke-width='1' points=' 10.0,50.0 90.0,50.0' />
-			<polyline fill='none' stroke='navy' stroke-width='1' points=' 10.0,60.0 90.0,60.0' />
-			<polyline fill='none' stroke='navy' stroke-width='1' points=' 10.0,20.0 10.0,60.0' />
-			<polyline fill='none' stroke='navy' stroke-width='1' points=' 30.0,20.0 30.0,60.0' />
-			<polyline fill='none' stroke='navy' stroke-width='1' points=' 50.0,20.0 50.0,60.0' />
-			<polyline fill='none' stroke='navy' stroke-width='1' points=' 70.0,20.0 70.0,60.0' />
-			<polyline fill='none' stroke='navy' stroke-width='1' points=' 90.0,20.0 90.0,60.0' />
+			<g stroke='none'>
+				<rect x='10' y='20' width='80' height='40' fill='white' />
+				<rect x='10' y='20' width='80' height='10' fill='skyblue' />
+			</g>
+			<g stroke='navy' stroke-width='1'  fill='none'>
+				<rect x='10' y='20' width='80' height='40' />
+				<polyline points=' 10.0,30.0 90.0,30.0' />
+				<polyline points=' 10.0,40.0 90.0,40.0' />
+				<polyline points=' 10.0,50.0 90.0,50.0' />
+				<polyline points=' 30.0,20.0 30.0,60.0' />
+				<polyline points=' 50.0,20.0 50.0,60.0' />
+				<polyline points=' 70.0,20.0 70.0,60.0' />
+			</g>
+			<g font-size='12pt' fill='black'  >
+			</g>
 			<!-- text -->
 			<text x='50' y='95' text-anchor='middle' font-size='12pt' fill='black' >テーブル</text>
 			
@@ -1896,8 +1933,10 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 	</pattern>
 	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
 	<!-- paragraph -->
-	<text x='100' y='49' text-anchor='middle' font-size='12pt' fill='black' >This is paragraph.</text>
-	<text x='100' y='63' text-anchor='middle' font-size='12pt' fill='black' >Multi line OK.</text>
+	<g text-anchor='middle' font-size='12pt' fill='black' >
+		<text x='100' y='49' >This is paragraph.</text>
+		<text x='100' y='63' >Multi line OK.</text>
+	</g>
 
 </svg>
 </div>
@@ -1943,48 +1982,66 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 	</pattern>
 	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
 	<!-- paragraph -->
-	<text x='250' y='36' text-anchor='middle' font-size='12pt' fill='black' >align = :CENTER</text>
-	<text x='250' y='50' text-anchor='middle' font-size='12pt' fill='black' >valign = :BOTTOM</text>
+	<g text-anchor='middle' font-size='12pt' fill='black' >
+		<text x='250' y='36' >align = :CENTER</text>
+		<text x='250' y='50' >valign = :BOTTOM</text>
+	</g>
 	<!-- circle -->
 	<circle cx='250' cy='50' r='3' fill='red' stroke='none' stroke-width='1' />
 	<!-- paragraph -->
-	<text x='160' y='36' text-anchor='end' font-size='12pt' fill='black' >align = :RIGHT</text>
-	<text x='160' y='50' text-anchor='end' font-size='12pt' fill='black' >valign = :BOTTOM</text>
+	<g text-anchor='end' font-size='12pt' fill='black' >
+		<text x='160' y='36' >align = :RIGHT</text>
+		<text x='160' y='50' >valign = :BOTTOM</text>
+	</g>
 	<!-- circle -->
 	<circle cx='160' cy='50' r='3' fill='red' stroke='none' stroke-width='1' />
 	<!-- paragraph -->
-	<text x='340' y='36' text-anchor='start' font-size='12pt' fill='black' >align = :LEFT</text>
-	<text x='340' y='50' text-anchor='start' font-size='12pt' fill='black' >valign = :BOTTOM</text>
+	<g text-anchor='start' font-size='12pt' fill='black' >
+		<text x='340' y='36' >align = :LEFT</text>
+		<text x='340' y='50' >valign = :BOTTOM</text>
+	</g>
 	<!-- circle -->
 	<circle cx='340' cy='50' r='3' fill='red' stroke='none' stroke-width='1' />
 	<!-- paragraph -->
-	<text x='250' y='89' text-anchor='middle' font-size='12pt' fill='black' >align = :CENTER</text>
-	<text x='250' y='103' text-anchor='middle' font-size='12pt' fill='black' >valign = :CENTER</text>
+	<g text-anchor='middle' font-size='12pt' fill='black' >
+		<text x='250' y='89' >align = :CENTER</text>
+		<text x='250' y='103' >valign = :CENTER</text>
+	</g>
 	<!-- circle -->
 	<circle cx='250' cy='90' r='3' fill='red' stroke='none' stroke-width='1' />
 	<!-- paragraph -->
-	<text x='160' y='89' text-anchor='end' font-size='12pt' fill='black' >align = :RIGHT</text>
-	<text x='160' y='103' text-anchor='end' font-size='12pt' fill='black' >valign = :CENTER</text>
+	<g text-anchor='end' font-size='12pt' fill='black' >
+		<text x='160' y='89' >align = :RIGHT</text>
+		<text x='160' y='103' >valign = :CENTER</text>
+	</g>
 	<!-- circle -->
 	<circle cx='160' cy='90' r='3' fill='red' stroke='none' stroke-width='1' />
 	<!-- paragraph -->
-	<text x='340' y='89' text-anchor='start' font-size='12pt' fill='black' >align = :LEFT</text>
-	<text x='340' y='103' text-anchor='start' font-size='12pt' fill='black' >valign = :CENTER</text>
+	<g text-anchor='start' font-size='12pt' fill='black' >
+		<text x='340' y='89' >align = :LEFT</text>
+		<text x='340' y='103' >valign = :CENTER</text>
+	</g>
 	<!-- circle -->
 	<circle cx='340' cy='90' r='3' fill='red' stroke='none' stroke-width='1' />
 	<!-- paragraph -->
-	<text x='250' y='142' text-anchor='middle' font-size='12pt' fill='black' >align = :CENTER</text>
-	<text x='250' y='156' text-anchor='middle' font-size='12pt' fill='black' >valign = :TOP</text>
+	<g text-anchor='middle' font-size='12pt' fill='black' >
+		<text x='250' y='142' >align = :CENTER</text>
+		<text x='250' y='156' >valign = :TOP</text>
+	</g>
 	<!-- circle -->
 	<circle cx='250' cy='130' r='3' fill='red' stroke='none' stroke-width='1' />
 	<!-- paragraph -->
-	<text x='160' y='142' text-anchor='end' font-size='12pt' fill='black' >align = :RIGHT</text>
-	<text x='160' y='156' text-anchor='end' font-size='12pt' fill='black' >valign = :TOP</text>
+	<g text-anchor='end' font-size='12pt' fill='black' >
+		<text x='160' y='142' >align = :RIGHT</text>
+		<text x='160' y='156' >valign = :TOP</text>
+	</g>
 	<!-- circle -->
 	<circle cx='160' cy='130' r='3' fill='red' stroke='none' stroke-width='1' />
 	<!-- paragraph -->
-	<text x='340' y='142' text-anchor='start' font-size='12pt' fill='black' >align = :LEFT</text>
-	<text x='340' y='156' text-anchor='start' font-size='12pt' fill='black' >valign = :TOP</text>
+	<g text-anchor='start' font-size='12pt' fill='black' >
+		<text x='340' y='142' >align = :LEFT</text>
+		<text x='340' y='156' >valign = :TOP</text>
+	</g>
 	<!-- circle -->
 	<circle cx='340' cy='130' r='3' fill='red' stroke='none' stroke-width='1' />
 
@@ -2006,9 +2063,11 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 	</pattern>
 	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
 	<!-- textbox -->
-	<rect x='47.100002' y='27' width='105.799995' height='46' rx='10' ry='10' fill='white' stroke='black' stroke-width='1' />
-	<text x='100.0' y='49' text-anchor='middle' font-size='12pt' fill='black' >test text.</text>
-	<text x='100.0' y='63' text-anchor='middle' font-size='12pt' fill='black' >multi line.</text>
+	<rect x='47.100002' y='27' width='105.799995' height='46' rx='10' fill='white' stroke='black' stroke-width='1' />
+	<g text-anchor='middle' font-size='12pt' fill='black' >
+		<text x='100.0' y='49' >test text.</text>
+		<text x='100.0' y='63' >multi line.</text>
+	</g>
 
 </svg>
 </div>
@@ -2066,40 +2125,58 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
 	<!-- textbox -->
 	<rect x='190' y='10' width='170' height='60' fill='white' stroke='black' stroke-width='1' />
-	<text x='275' y='46' text-anchor='middle' font-size='12pt' fill='black' >align = :CENTER</text>
-	<text x='275' y='60' text-anchor='middle' font-size='12pt' fill='black' >valign = :BOTTOM</text>
+	<g text-anchor='middle' font-size='12pt' fill='black' >
+		<text x='275' y='46' >align = :CENTER</text>
+		<text x='275' y='60' >valign = :BOTTOM</text>
+	</g>
 	<!-- textbox -->
 	<rect x='10' y='10' width='170' height='60' fill='white' stroke='black' stroke-width='1' />
-	<text x='170' y='46' text-anchor='end' font-size='12pt' fill='black' >align = :RIGHT</text>
-	<text x='170' y='60' text-anchor='end' font-size='12pt' fill='black' >valign = :BOTTOM</text>
+	<g text-anchor='end' font-size='12pt' fill='black' >
+		<text x='170' y='46' >align = :RIGHT</text>
+		<text x='170' y='60' >valign = :BOTTOM</text>
+	</g>
 	<!-- textbox -->
 	<rect x='370' y='10' width='170' height='60' fill='white' stroke='black' stroke-width='1' />
-	<text x='380' y='46' text-anchor='start' font-size='12pt' fill='black' >align = :LEFT</text>
-	<text x='380' y='60' text-anchor='start' font-size='12pt' fill='black' >valign = :BOTTOM</text>
+	<g text-anchor='start' font-size='12pt' fill='black' >
+		<text x='380' y='46' >align = :LEFT</text>
+		<text x='380' y='60' >valign = :BOTTOM</text>
+	</g>
 	<!-- textbox -->
 	<rect x='190' y='80' width='170' height='60' fill='white' stroke='black' stroke-width='1' />
-	<text x='275' y='109' text-anchor='middle' font-size='12pt' fill='black' >align = :CENTER</text>
-	<text x='275' y='123' text-anchor='middle' font-size='12pt' fill='black' >valign = :CENTER</text>
+	<g text-anchor='middle' font-size='12pt' fill='black' >
+		<text x='275' y='109' >align = :CENTER</text>
+		<text x='275' y='123' >valign = :CENTER</text>
+	</g>
 	<!-- textbox -->
 	<rect x='10' y='80' width='170' height='60' fill='white' stroke='black' stroke-width='1' />
-	<text x='170' y='109' text-anchor='end' font-size='12pt' fill='black' >align = :RIGHT</text>
-	<text x='170' y='123' text-anchor='end' font-size='12pt' fill='black' >valign = :CENTER</text>
+	<g text-anchor='end' font-size='12pt' fill='black' >
+		<text x='170' y='109' >align = :RIGHT</text>
+		<text x='170' y='123' >valign = :CENTER</text>
+	</g>
 	<!-- textbox -->
 	<rect x='370' y='80' width='170' height='60' fill='white' stroke='black' stroke-width='1' />
-	<text x='380' y='109' text-anchor='start' font-size='12pt' fill='black' >align = :LEFT</text>
-	<text x='380' y='123' text-anchor='start' font-size='12pt' fill='black' >valign = :CENTER</text>
+	<g text-anchor='start' font-size='12pt' fill='black' >
+		<text x='380' y='109' >align = :LEFT</text>
+		<text x='380' y='123' >valign = :CENTER</text>
+	</g>
 	<!-- textbox -->
 	<rect x='190' y='150' width='170' height='60' fill='white' stroke='black' stroke-width='1' />
-	<text x='275' y='172' text-anchor='middle' font-size='12pt' fill='black' >align = :CENTER</text>
-	<text x='275' y='186' text-anchor='middle' font-size='12pt' fill='black' >valign = :TOP</text>
+	<g text-anchor='middle' font-size='12pt' fill='black' >
+		<text x='275' y='172' >align = :CENTER</text>
+		<text x='275' y='186' >valign = :TOP</text>
+	</g>
 	<!-- textbox -->
 	<rect x='10' y='150' width='170' height='60' fill='white' stroke='black' stroke-width='1' />
-	<text x='170' y='172' text-anchor='end' font-size='12pt' fill='black' >align = :RIGHT</text>
-	<text x='170' y='186' text-anchor='end' font-size='12pt' fill='black' >valign = :TOP</text>
+	<g text-anchor='end' font-size='12pt' fill='black' >
+		<text x='170' y='172' >align = :RIGHT</text>
+		<text x='170' y='186' >valign = :TOP</text>
+	</g>
 	<!-- textbox -->
 	<rect x='370' y='150' width='170' height='60' fill='white' stroke='black' stroke-width='1' />
-	<text x='380' y='172' text-anchor='start' font-size='12pt' fill='black' >align = :LEFT</text>
-	<text x='380' y='186' text-anchor='start' font-size='12pt' fill='black' >valign = :TOP</text>
+	<g text-anchor='start' font-size='12pt' fill='black' >
+		<text x='380' y='172' >align = :LEFT</text>
+		<text x='380' y='186' >valign = :TOP</text>
+	</g>
 
 </svg>
 </div>
@@ -2125,13 +2202,17 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 	</pattern>
 	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
 	<!-- textbox -->
-	<rect x='12.700001' y='27' width='74.6' height='46' rx='5' ry='5' fill='azure' stroke='navy' stroke-width='1' />
-	<text x='50.0' y='49' text-anchor='middle' font-size='12pt' fill='black' >first</text>
-	<text x='50.0' y='63' text-anchor='middle' font-size='12pt' fill='black' >textbox</text>
+	<rect x='12.700001' y='27' width='74.6' height='46' rx='5' fill='azure' stroke='navy' stroke-width='1' />
+	<g text-anchor='middle' font-size='12pt' fill='black' >
+		<text x='50.0' y='49' >first</text>
+		<text x='50.0' y='63' >textbox</text>
+	</g>
 	<!-- textbox -->
-	<rect x='112.7' y='27' width='74.6' height='46' rx='5' ry='5' fill='azure' stroke='navy' stroke-width='1' />
-	<text x='150.0' y='49' text-anchor='middle' font-size='12pt' fill='black' >second</text>
-	<text x='150.0' y='63' text-anchor='middle' font-size='12pt' fill='black' >textbox</text>
+	<rect x='112.7' y='27' width='74.6' height='46' rx='5' fill='azure' stroke='navy' stroke-width='1' />
+	<g text-anchor='middle' font-size='12pt' fill='black' >
+		<text x='150.0' y='49' >second</text>
+		<text x='150.0' y='63' >textbox</text>
+	</g>
 
 </svg>
 </div>
@@ -2151,8 +2232,10 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
 	<!-- document -->
 	<path fill='skyblue' stroke='navy' stroke-width='1' d='M 50 15 L 50 85 A 33.333332 23.333334 0 0 0 100 85 A 33.333332 23.333334 1 0 1 150 85 L 150 15 Z' />
-	<text x='100' y='49' text-anchor='middle' font-size='12pt' fill='black' >document</text>
-	<text x='100' y='63' text-anchor='middle' font-size='12pt' fill='black' >name</text>
+	<g text-anchor='middle' font-size='12pt' fill='black' >
+		<text x='100' y='49' >document</text>
+		<text x='100' y='63' >name</text>
+	</g>
 
 </svg>
 </div>
@@ -2226,12 +2309,16 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
 	<!-- document -->
 	<path fill='mintcream' stroke='darkgreen' stroke-width='1' d='M 10 15 L 10 85 A 33.333332 23.333334 0 0 0 60 85 A 33.333332 23.333334 1 0 1 110 85 L 110 15 Z' filter='url(#drop-shadow)' />
-	<text x='60' y='49' text-anchor='middle' font-size='12pt' fill='black' >first</text>
-	<text x='60' y='63' text-anchor='middle' font-size='12pt' fill='black' >document</text>
+	<g text-anchor='middle' font-size='12pt' fill='black' >
+		<text x='60' y='49' >first</text>
+		<text x='60' y='63' >document</text>
+	</g>
 	<!-- document -->
 	<path fill='mintcream' stroke='darkgreen' stroke-width='1' d='M 130 15 L 130 85 A 33.333332 23.333334 0 0 0 180 85 A 33.333332 23.333334 1 0 1 230 85 L 230 15 Z' filter='url(#drop-shadow)' />
-	<text x='180' y='49' text-anchor='middle' font-size='12pt' fill='black' >second</text>
-	<text x='180' y='63' text-anchor='middle' font-size='12pt' fill='black' >document</text>
+	<g text-anchor='middle' font-size='12pt' fill='black' >
+		<text x='180' y='49' >second</text>
+		<text x='180' y='63' >document</text>
+	</g>
 
 </svg>
 </div>
@@ -2250,10 +2337,14 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 	</pattern>
 	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
 	<!-- folder -->
-	<polygon fill='cornsilk' stroke='darkkhaki' stroke-width='1' points='50.0,20.0 50.0,80.0 150.0,80.0 150.0,30.0 140.0,20.0 100.0,20.0 90.0,10.0 60.0,10.0 50.0,20.0' />
-	<polygon fill='cornsilk' stroke='darkkhaki' stroke-width='1' points='50.0,20.0 60.0,30.0 90.0,30.0 100.0,20.0 90.0,10.0 60.0,10.0 50.0,20.0' />
-	<text x='100' y='49' text-anchor='middle' font-size='12pt' fill='black' >folder.</text>
-	<text x='100' y='63' text-anchor='middle' font-size='12pt' fill='black' >multi line.</text>
+	<g fill='cornsilk' stroke='darkkhaki' stroke-width='1' >
+		<polygon points='50.0,20.0 50.0,80.0 150.0,80.0 150.0,30.0 140.0,20.0 100.0,20.0 90.0,10.0 60.0,10.0 50.0,20.0' />
+		<polygon points='50.0,20.0 60.0,30.0 90.0,30.0 100.0,20.0 90.0,10.0 60.0,10.0 50.0,20.0' />
+	</g>
+	<g text-anchor='middle' font-size='12pt' fill='black' >
+		<text x='100' y='49' >folder.</text>
+		<text x='100' y='63' >multi line.</text>
+	</g>
 
 </svg>
 </div>
@@ -2328,15 +2419,23 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 	</pattern>
 	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
 	<!-- folder -->
-	<polygon fill='linen' stroke='maroon' stroke-width='1' points='10.0,15.0 10.0,85.0 110.0,85.0 110.0,25.0 100.0,15.0 60.0,15.0 50.0,5.0 20.0,5.0 10.0,15.0' filter='url(#drop-shadow)' />
-	<polygon fill='linen' stroke='maroon' stroke-width='1' points='10.0,15.0 20.0,25.0 50.0,25.0 60.0,15.0 50.0,5.0 20.0,5.0 10.0,15.0' />
-	<text x='60' y='49' text-anchor='middle' font-size='12pt' fill='black' >first</text>
-	<text x='60' y='63' text-anchor='middle' font-size='12pt' fill='black' >folder</text>
+	<g fill='linen' stroke='maroon' stroke-width='1' >
+		<polygon points='10.0,15.0 10.0,85.0 110.0,85.0 110.0,25.0 100.0,15.0 60.0,15.0 50.0,5.0 20.0,5.0 10.0,15.0' filter='url(#drop-shadow)' />
+		<polygon points='10.0,15.0 20.0,25.0 50.0,25.0 60.0,15.0 50.0,5.0 20.0,5.0 10.0,15.0' />
+	</g>
+	<g text-anchor='middle' font-size='12pt' fill='black' >
+		<text x='60' y='49' >first</text>
+		<text x='60' y='63' >folder</text>
+	</g>
 	<!-- folder -->
-	<polygon fill='linen' stroke='maroon' stroke-width='1' points='130.0,15.0 130.0,85.0 230.0,85.0 230.0,25.0 220.0,15.0 180.0,15.0 170.0,5.0 140.0,5.0 130.0,15.0' filter='url(#drop-shadow)' />
-	<polygon fill='linen' stroke='maroon' stroke-width='1' points='130.0,15.0 140.0,25.0 170.0,25.0 180.0,15.0 170.0,5.0 140.0,5.0 130.0,15.0' />
-	<text x='180' y='49' text-anchor='middle' font-size='12pt' fill='black' >second</text>
-	<text x='180' y='63' text-anchor='middle' font-size='12pt' fill='black' >folder</text>
+	<g fill='linen' stroke='maroon' stroke-width='1' >
+		<polygon points='130.0,15.0 130.0,85.0 230.0,85.0 230.0,25.0 220.0,15.0 180.0,15.0 170.0,5.0 140.0,5.0 130.0,15.0' filter='url(#drop-shadow)' />
+		<polygon points='130.0,15.0 140.0,25.0 170.0,25.0 180.0,15.0 170.0,5.0 140.0,5.0 130.0,15.0' />
+	</g>
+	<g text-anchor='middle' font-size='12pt' fill='black' >
+		<text x='180' y='49' >second</text>
+		<text x='180' y='63' >folder</text>
+	</g>
 
 </svg>
 </div>
@@ -2450,8 +2549,10 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 	<rect id='r' x='15' y='55' width='30' height='30' fill='gray' stroke='black' stroke-width='1' />
 	<!-- balloon -->
 	<path fill='skyblue' stroke='navy' stroke-width='1' d='M 79.3 27 L 180.7 27 A 10 10 1 0 1 190.7 37 L 190.7 63 A 10 10 1 0 1 180.7 73 L 79.3 73 A 10 10 1 0 1 69.3 63 L 45.0 70 L 69.3 50 L 69.3 37 A 10 10 1 0 1 79.3 27 Z' />
-	<text x='130.0' y='49' text-anchor='middle' font-size='12pt' fill='black' >balloon text.</text>
-	<text x='130.0' y='63' text-anchor='middle' font-size='12pt' fill='black' >multi line.</text>
+	<g text-anchor='middle' font-size='12pt' fill='black' >
+		<text x='130.0' y='49' >balloon text.</text>
+		<text x='130.0' y='63' >multi line.</text>
+	</g>
 
 </svg>
 </div>
@@ -2531,12 +2632,16 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 	<rect x='140' y='40' width='20' height='20' fill='white' stroke='black' stroke-width='1' />
 	<!-- balloon -->
 	<path fill='lemonchiffon' stroke='olive' stroke-width='1' d='M 25 37 L 95 37 A 10 10 1 0 1 105 47 L 140 50 L 105 60 L 105 73 A 10 10 1 0 1 95 83 L 25 83 A 10 10 1 0 1 15 73 L 15 47 A 10 10 1 0 1 25 37 Z' filter='url(#drop-shadow)' />
-	<text x='60' y='59' text-anchor='middle' font-size='12pt' fill='black' >first</text>
-	<text x='60' y='73' text-anchor='middle' font-size='12pt' fill='black' >balloon</text>
+	<g text-anchor='middle' font-size='12pt' fill='black' >
+		<text x='60' y='59' >first</text>
+		<text x='60' y='73' >balloon</text>
+	</g>
 	<!-- balloon -->
 	<path fill='lemonchiffon' stroke='olive' stroke-width='1' d='M 205 17 L 275 17 A 10 10 1 0 1 285 27 L 285 53 A 10 10 1 0 1 275 63 L 205 63 A 10 10 1 0 1 195 53 L 160 50 L 195 40 L 195 27 A 10 10 1 0 1 205 17 Z' filter='url(#drop-shadow)' />
-	<text x='240' y='39' text-anchor='middle' font-size='12pt' fill='black' >second</text>
-	<text x='240' y='53' text-anchor='middle' font-size='12pt' fill='black' >balloon</text>
+	<g text-anchor='middle' font-size='12pt' fill='black' >
+		<text x='240' y='39' >second</text>
+		<text x='240' y='53' >balloon</text>
+	</g>
 
 </svg>
 </div>
@@ -2557,8 +2662,10 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 	<!-- memo -->
 	<polygon fill='lavenderblush' stroke='red' stroke-width='1' points='25.0,10.0 25.0,90.0 145.0,90.0 175.0,75.0 175.0,10.0 25.0,10.0' />
 	<polygon fill='lightpink' stroke='red' stroke-width='1' stroke-linejoin='round' points='145.0,90.0 175.0,75.0 155.0,70.0 145.0,90.0' />
-	<text x='35' y='32' text-anchor='start' font-size='12pt' fill='black' >memo text.</text>
-	<text x='35' y='46' text-anchor='start' font-size='12pt' fill='black' >multi line.</text>
+	<g text-anchor='start' font-size='12pt' fill='black' >
+		<text x='35' y='32' >memo text.</text>
+		<text x='35' y='46' >multi line.</text>
+	</g>
 
 </svg>
 </div>
@@ -2637,13 +2744,17 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 	<!-- memo -->
 	<polygon fill='lavenderblush' stroke='red' stroke-width='1' points='20.0,20.0 20.0,80.0 80.0,80.0 100.0,70.0 100.0,20.0 20.0,20.0' filter='url(#drop-shadow)' />
 	<polygon fill='lightpink' stroke='red' stroke-width='1' stroke-linejoin='round' points='80.0,80.0 100.0,70.0 86.666664,66.66667 80.0,80.0' />
-	<text x='60' y='49' text-anchor='middle' font-size='12pt' fill='black' >first</text>
-	<text x='60' y='63' text-anchor='middle' font-size='12pt' fill='black' >memo</text>
+	<g text-anchor='middle' font-size='12pt' fill='black' >
+		<text x='60' y='49' >first</text>
+		<text x='60' y='63' >memo</text>
+	</g>
 	<!-- memo -->
 	<polygon fill='lavenderblush' stroke='red' stroke-width='1' points='140.0,20.0 140.0,80.0 200.0,80.0 220.0,70.0 220.0,20.0 140.0,20.0' filter='url(#drop-shadow)' />
 	<polygon fill='lightpink' stroke='red' stroke-width='1' stroke-linejoin='round' points='200.0,80.0 220.0,70.0 206.66666,66.66667 200.0,80.0' />
-	<text x='180' y='49' text-anchor='middle' font-size='12pt' fill='black' >second</text>
-	<text x='180' y='63' text-anchor='middle' font-size='12pt' fill='black' >memo</text>
+	<g text-anchor='middle' font-size='12pt' fill='black' >
+		<text x='180' y='49' >second</text>
+		<text x='180' y='63' >memo</text>
+	</g>
 
 </svg>
 </div>
@@ -2662,11 +2773,15 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 	</pattern>
 	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
 	<!-- cube -->
-	<polygon fill='darkgray' stroke='black' stroke-width='1' points='60.0,26.0 72.0,14.0 146.0,14.0 146.0,68.0 134.0,80.0 60.0,80.0' />
-	<polyline fill='none' stroke='black' stroke-width='1' points=' 146.0,14.0 134.0,26.0' />
-	<rect x='60' y='26' width='74' height='54' fill='lightgray' stroke='black' stroke-width='1' />
-	<text x='97' y='52' text-anchor='middle' font-size='12pt' fill='black' >cube</text>
-	<text x='97' y='66' text-anchor='middle' font-size='12pt' fill='black' >text</text>
+	<g stroke='black' stroke-width='1' >
+		<polygon fill='darkgray' points='60.0,26.0 72.0,14.0 146.0,14.0 146.0,68.0 134.0,80.0 60.0,80.0' />
+		<polyline fill='none' points=' 146.0,14.0 134.0,26.0' />
+		<rect x='60' y='26' width='74' height='54' fill='lightgray' />
+	</g>
+	<g text-anchor='middle' font-size='12pt' fill='black' >
+		<text x='97' y='52' >cube</text>
+		<text x='97' y='66' >text</text>
+	</g>
 
 </svg>
 </div>
@@ -2743,17 +2858,25 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 	</pattern>
 	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
 	<!-- cube -->
-	<polygon fill='#BCD2EE' stroke='#473C8B' stroke-width='1' points='20.0,26.0 32.0,14.0 106.0,14.0 106.0,68.0 94.0,80.0 20.0,80.0' filter='url(#drop-shadow)' />
-	<polyline fill='none' stroke='#473C8B' stroke-width='1' points=' 106.0,14.0 94.0,26.0' />
-	<rect x='20' y='26' width='74' height='54' fill='#CAE1FF' stroke='#473C8B' stroke-width='1' />
-	<text x='57' y='52' text-anchor='middle' font-size='12pt' fill='black' >first</text>
-	<text x='57' y='66' text-anchor='middle' font-size='12pt' fill='black' >cube</text>
+	<g stroke='#473C8B' stroke-width='1' >
+		<polygon fill='#BCD2EE' points='20.0,26.0 32.0,14.0 106.0,14.0 106.0,68.0 94.0,80.0 20.0,80.0' filter='url(#drop-shadow)' />
+		<polyline fill='none' points=' 106.0,14.0 94.0,26.0' />
+		<rect x='20' y='26' width='74' height='54' fill='#CAE1FF' />
+	</g>
+	<g text-anchor='middle' font-size='12pt' fill='black' >
+		<text x='57' y='52' >first</text>
+		<text x='57' y='66' >cube</text>
+	</g>
 	<!-- cube -->
-	<polygon fill='#BCD2EE' stroke='#473C8B' stroke-width='1' points='140.0,26.0 152.0,14.0 226.0,14.0 226.0,68.0 214.0,80.0 140.0,80.0' filter='url(#drop-shadow)' />
-	<polyline fill='none' stroke='#473C8B' stroke-width='1' points=' 226.0,14.0 214.0,26.0' />
-	<rect x='140' y='26' width='74' height='54' fill='#CAE1FF' stroke='#473C8B' stroke-width='1' />
-	<text x='177' y='52' text-anchor='middle' font-size='12pt' fill='black' >second</text>
-	<text x='177' y='66' text-anchor='middle' font-size='12pt' fill='black' >cube</text>
+	<g stroke='#473C8B' stroke-width='1' >
+		<polygon fill='#BCD2EE' points='140.0,26.0 152.0,14.0 226.0,14.0 226.0,68.0 214.0,80.0 140.0,80.0' filter='url(#drop-shadow)' />
+		<polyline fill='none' points=' 226.0,14.0 214.0,26.0' />
+		<rect x='140' y='26' width='74' height='54' fill='#CAE1FF' />
+	</g>
+	<g text-anchor='middle' font-size='12pt' fill='black' >
+		<text x='177' y='52' >second</text>
+		<text x='177' y='66' >cube</text>
+	</g>
 
 </svg>
 </div>
@@ -2772,10 +2895,14 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 	</pattern>
 	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
 	<!-- cylinder -->
-	<path fill='honeydew' stroke='forestgreen' stroke-width='1' d='M 60 20 L 60 80 A 40 6 0 0 0 140 80 L 140 20 A 40 6 0 0 0 60 20' />
-	<path fill='none' stroke='forestgreen' stroke-width='1' d='M 60 20 A 40 6 0 0 0 140 20' />
-	<text x='100' y='49' text-anchor='middle' font-size='12pt' fill='black' >cylinder</text>
-	<text x='100' y='63' text-anchor='middle' font-size='12pt' fill='black' >text</text>
+	<g stroke='forestgreen' stroke-width='1' >
+		<path fill='honeydew' d='M 60 20 L 60 80 A 40 6 0 0 0 140 80 L 140 20 A 40 6 0 0 0 60 20' />
+		<path fill='none' d='M 60 20 A 40 6 0 0 0 140 20' />
+	</g>
+	<g text-anchor='middle' font-size='12pt' fill='black' >
+		<text x='100' y='49' >cylinder</text>
+		<text x='100' y='63' >text</text>
+	</g>
 
 </svg>
 </div>
@@ -2850,15 +2977,23 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 	</pattern>
 	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
 	<!-- cylinder -->
-	<path fill='#CAE1FF' stroke='#473C8B' stroke-width='1' d='M 20 20 L 20 80 A 40 6 0 0 0 100 80 L 100 20 A 40 6 0 0 0 20 20' filter='url(#drop-shadow)' />
-	<path fill='none' stroke='#473C8B' stroke-width='1' d='M 20 20 A 40 6 0 0 0 100 20' />
-	<text x='60' y='49' text-anchor='middle' font-size='12pt' fill='black' >first</text>
-	<text x='60' y='63' text-anchor='middle' font-size='12pt' fill='black' >cylinder</text>
+	<g stroke='#473C8B' stroke-width='1' >
+		<path fill='#CAE1FF' d='M 20 20 L 20 80 A 40 6 0 0 0 100 80 L 100 20 A 40 6 0 0 0 20 20' filter='url(#drop-shadow)' />
+		<path fill='none' d='M 20 20 A 40 6 0 0 0 100 20' />
+	</g>
+	<g text-anchor='middle' font-size='12pt' fill='black' >
+		<text x='60' y='49' >first</text>
+		<text x='60' y='63' >cylinder</text>
+	</g>
 	<!-- cylinder -->
-	<path fill='#CAE1FF' stroke='#473C8B' stroke-width='1' d='M 140 20 L 140 80 A 40 6 0 0 0 220 80 L 220 20 A 40 6 0 0 0 140 20' filter='url(#drop-shadow)' />
-	<path fill='none' stroke='#473C8B' stroke-width='1' d='M 140 20 A 40 6 0 0 0 220 20' />
-	<text x='180' y='49' text-anchor='middle' font-size='12pt' fill='black' >second</text>
-	<text x='180' y='63' text-anchor='middle' font-size='12pt' fill='black' >cylinder</text>
+	<g stroke='#473C8B' stroke-width='1' >
+		<path fill='#CAE1FF' d='M 140 20 L 140 80 A 40 6 0 0 0 220 80 L 220 20 A 40 6 0 0 0 140 20' filter='url(#drop-shadow)' />
+		<path fill='none' d='M 140 20 A 40 6 0 0 0 220 20' />
+	</g>
+	<g text-anchor='middle' font-size='12pt' fill='black' >
+		<text x='180' y='49' >second</text>
+		<text x='180' y='63' >cylinder</text>
+	</g>
 
 </svg>
 </div>
@@ -2878,12 +3013,16 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
 	<!-- explosion -->
 	<polygon fill='pink' stroke='red' stroke-width='1' points='32.8,27.0 60.8,57.0 31.4,61.8 55.2,79.8 31.4,95.4 67.8,93.0 62.2,111.0 80.4,102.600006 84.6,133.8 98.6,97.8 116.8,124.200005 122.4,95.4 147.6,114.6 139.2,85.799995 168.6,88.200005 143.4,73.8 167.2,60.6 137.79999,55.8 149.0,40.199997 121.0,45.0 123.8,15.0 100.0,47.4 84.6,29.4 77.600006,49.8' />
-	<text x='100' y='74' text-anchor='middle' font-size='12pt' fill='black' >explosion</text>
-	<text x='100' y='88' text-anchor='middle' font-size='12pt' fill='black' >type1</text>
+	<g text-anchor='middle' font-size='12pt' fill='black' >
+		<text x='100' y='74' >explosion</text>
+		<text x='100' y='88' >type1</text>
+	</g>
 	<!-- explosion -->
 	<polygon fill='pink' stroke='red' stroke-width='1' points='209.4,35.4 215.0,58.2 187.0,60.6 205.2,79.8 180.0,85.799995 201.0,100.2 188.4,113.4 210.8,115.799995 212.2,135.0 229.0,114.6 236.0,124.200005 244.4,111.0 255.6,119.4 258.4,102.600006 276.6,111.0 275.2,94.200005 301.8,101.4 286.4,83.4 299.0,77.399994 289.2,67.8 320.0,52.2 286.4,51.0 296.2,31.8 273.8,47.4 275.2,15.0 254.2,39.0 243.0,25.8 236.0,51.0' />
-	<text x='250' y='74' text-anchor='middle' font-size='12pt' fill='black' >explosion</text>
-	<text x='250' y='88' text-anchor='middle' font-size='12pt' fill='black' >type2</text>
+	<g text-anchor='middle' font-size='12pt' fill='black' >
+		<text x='250' y='74' >explosion</text>
+		<text x='250' y='88' >type2</text>
+	</g>
 
 </svg>
 </div>
@@ -2957,12 +3096,16 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
 	<!-- explosion -->
 	<polygon fill='#FFE1FF' stroke='#CD3700' stroke-width='1' points='12.8,10.0 40.8,35.0 11.4,39.0 35.2,54.000004 11.4,67.0 47.800003,65.0 42.2,80.0 60.4,73.0 64.6,99.0 78.6,69.0 96.8,91.0 102.4,67.0 127.6,83.0 119.2,58.999996 148.6,61.0 123.4,49.0 147.2,38.0 117.799995,34.0 129.0,21.0 101.0,25.0 103.8,0.0 80.0,27.000002 64.6,12.0 57.600002,29.0' filter='url(#drop-shadow)' />
-	<text x='80' y='49' text-anchor='middle' font-size='12pt' fill='black' >first</text>
-	<text x='80' y='63' text-anchor='middle' font-size='12pt' fill='black' >explosion</text>
+	<g text-anchor='middle' font-size='12pt' fill='black' >
+		<text x='80' y='49' >first</text>
+		<text x='80' y='63' >explosion</text>
+	</g>
 	<!-- explosion -->
 	<polygon fill='#FFE1FF' stroke='#CD3700' stroke-width='1' points='179.4,17.0 185.0,36.0 157.0,38.0 175.2,54.000004 150.0,58.999996 171.0,71.0 158.4,82.0 180.8,84.0 182.2,100.0 199.0,83.0 206.0,91.0 214.4,80.0 225.6,87.0 228.4,73.0 246.6,80.0 245.20001,66.0 271.8,72.0 256.4,57.0 269.0,52.0 259.2,44.0 290.0,31.0 256.4,30.000002 266.2,14.0 243.8,27.000002 245.20001,0.0 224.2,20.0 213.0,9.0 206.0,30.000002' filter='url(#drop-shadow)' />
-	<text x='220' y='49' text-anchor='middle' font-size='12pt' fill='black' >second</text>
-	<text x='220' y='63' text-anchor='middle' font-size='12pt' fill='black' >explosion</text>
+	<g text-anchor='middle' font-size='12pt' fill='black' >
+		<text x='220' y='49' >second</text>
+		<text x='220' y='63' >explosion</text>
+	</g>
 
 </svg>
 </div>
@@ -3410,29 +3553,32 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='320' height='120'>
 	
 	<!-- table -->
-	<rect x='10' y='15' width='300' height='90' fill='white' stroke='none' stroke-width='1' />
-	<rect x='10' y='15' width='300' height='30' fill='skyblue' stroke='none' stroke-width='1' />
-	<polyline fill='none' stroke='black' stroke-width='1' points=' 10.0,15.0 310.0,15.0' />
-	<polyline fill='none' stroke='black' stroke-width='1' points=' 10.0,45.0 310.0,45.0' />
-	<polyline fill='none' stroke='black' stroke-width='1' points=' 10.0,75.0 310.0,75.0' />
-	<polyline fill='none' stroke='black' stroke-width='1' points=' 10.0,105.0 310.0,105.0' />
-	<polyline fill='none' stroke='black' stroke-width='1' points=' 10.0,15.0 10.0,105.0' />
-	<polyline fill='none' stroke='black' stroke-width='1' points=' 85.0,15.0 85.0,105.0' />
-	<polyline fill='none' stroke='black' stroke-width='1' points=' 160.0,15.0 160.0,105.0' />
-	<polyline fill='none' stroke='black' stroke-width='1' points=' 235.0,15.0 235.0,105.0' />
-	<polyline fill='none' stroke='black' stroke-width='1' points=' 310.0,15.0 310.0,105.0' />
-	<text x='47.5' y='36' text-anchor='middle' font-size='12pt' fill='black' >FOO</text>
-	<text x='122.5' y='36' text-anchor='middle' font-size='12pt' fill='black' >BAR</text>
-	<text x='197.5' y='36' text-anchor='middle' font-size='12pt' fill='black' >BAZ</text>
-	<text x='272.5' y='36' text-anchor='middle' font-size='12pt' fill='black' >QUUX</text>
-	<text x='79' y='66' text-anchor='end' font-size='12pt' fill='black' >5</text>
-	<text x='154' y='66' text-anchor='end' font-size='12pt' fill='black' >6</text>
-	<text x='229' y='66' text-anchor='end' font-size='12pt' fill='black' >42</text>
-	<text x='304' y='66' text-anchor='end' font-size='12pt' fill='black' >-123</text>
-	<text x='16' y='96' text-anchor='start' font-size='12pt' fill='black' >asdf</text>
-	<text x='91' y='96' text-anchor='start' font-size='12pt' fill='black' >qwer</text>
-	<text x='166' y='96' text-anchor='start' font-size='12pt' fill='black' >zxcv</text>
-	<text x='241' y='96' text-anchor='start' font-size='12pt' fill='black' >hjkl</text>
+	<g stroke='none'>
+		<rect x='10' y='15' width='300' height='90' fill='white' />
+		<rect x='10' y='15' width='300' height='30' fill='skyblue' />
+	</g>
+	<g stroke='black' stroke-width='1'  fill='none'>
+		<rect x='10' y='15' width='300' height='90' />
+		<polyline points=' 10.0,45.0 310.0,45.0' />
+		<polyline points=' 10.0,75.0 310.0,75.0' />
+		<polyline points=' 85.0,15.0 85.0,105.0' />
+		<polyline points=' 160.0,15.0 160.0,105.0' />
+		<polyline points=' 235.0,15.0 235.0,105.0' />
+	</g>
+	<g font-size='12pt' fill='black'  >
+		<text x='47.5' y='36' text-anchor='middle' >FOO</text>
+		<text x='122.5' y='36' text-anchor='middle' >BAR</text>
+		<text x='197.5' y='36' text-anchor='middle' >BAZ</text>
+		<text x='272.5' y='36' text-anchor='middle' >QUUX</text>
+		<text x='79' y='66' text-anchor='end' >5</text>
+		<text x='154' y='66' text-anchor='end' >6</text>
+		<text x='229' y='66' text-anchor='end' >42</text>
+		<text x='304' y='66' text-anchor='end' >-123</text>
+		<text x='16' y='96' text-anchor='start' >asdf</text>
+		<text x='91' y='96' text-anchor='start' >qwer</text>
+		<text x='166' y='96' text-anchor='start' >zxcv</text>
+		<text x='241' y='96' text-anchor='start' >hjkl</text>
+	</g>
 
 </svg>
 </div>
@@ -3490,34 +3636,37 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 	
 	<!-- tbl : table -->
 	<g id='tbl'>
-		<rect x='10' y='10' width='460' height='220' fill='white' stroke='none' stroke-width='1' />
-		<rect x='10' y='10' width='460' height='40' fill='skyblue' stroke='none' stroke-width='1' />
-		<rect x='10' y='10' width='100' height='220' fill='skyblue' stroke='none' stroke-width='1' />
-		<polyline fill='none' stroke='navy' stroke-width='1' points=' 10.0,10.0 470.0,10.0' />
-		<polyline fill='none' stroke='navy' stroke-width='1' points=' 10.0,50.0 470.0,50.0' />
-		<polyline fill='none' stroke='navy' stroke-width='1' points=' 10.0,110.0 470.0,110.0' />
-		<polyline fill='none' stroke='navy' stroke-width='1' points=' 10.0,170.0 470.0,170.0' />
-		<polyline fill='none' stroke='navy' stroke-width='1' points=' 10.0,230.0 470.0,230.0' />
-		<polyline fill='none' stroke='navy' stroke-width='1' points=' 10.0,10.0 10.0,230.0' />
-		<polyline fill='none' stroke='navy' stroke-width='1' points=' 110.0,10.0 110.0,230.0' />
-		<polyline fill='none' stroke='navy' stroke-width='1' points=' 230.0,10.0 230.0,230.0' />
-		<polyline fill='none' stroke='navy' stroke-width='1' points=' 350.0,10.0 350.0,230.0' />
-		<polyline fill='none' stroke='navy' stroke-width='1' points=' 470.0,10.0 470.0,230.0' />
-		<text x='170' y='36' text-anchor='middle' font-size='12pt' fill='black' >:left</text>
-		<text x='290' y='36' text-anchor='middle' font-size='12pt' fill='black' >:center</text>
-		<text x='410' y='36' text-anchor='middle' font-size='12pt' fill='black' >:right</text>
-		<text x='60' y='86' text-anchor='middle' font-size='12pt' fill='black' >:top</text>
-		<text x='116' y='68' text-anchor='start' font-size='12pt' fill='black' >top-left</text>
-		<text x='290' y='68' text-anchor='middle' font-size='12pt' fill='black' >top-center</text>
-		<text x='464' y='68' text-anchor='end' font-size='12pt' fill='black' >top-right</text>
-		<text x='60' y='146' text-anchor='middle' font-size='12pt' fill='black' >:center</text>
-		<text x='116' y='146' text-anchor='start' font-size='12pt' fill='black' >center-left</text>
-		<text x='290' y='146' text-anchor='middle' font-size='12pt' fill='black' >center-center</text>
-		<text x='464' y='146' text-anchor='end' font-size='12pt' fill='black' >center-right</text>
-		<text x='60' y='206' text-anchor='middle' font-size='12pt' fill='black' >:bottom</text>
-		<text x='116' y='224' text-anchor='start' font-size='12pt' fill='black' >botom-left</text>
-		<text x='290' y='224' text-anchor='middle' font-size='12pt' fill='black' >bottom-center</text>
-		<text x='464' y='224' text-anchor='end' font-size='12pt' fill='black' >bottom-right</text>
+		<g stroke='none'>
+			<rect x='10' y='10' width='460' height='220' fill='white' />
+			<rect x='10' y='10' width='460' height='40' fill='skyblue' />
+			<rect x='10' y='10' width='100' height='220' fill='skyblue' />
+		</g>
+		<g stroke='navy' stroke-width='1'  fill='none'>
+			<rect x='10' y='10' width='460' height='220' />
+			<polyline points=' 10.0,70.0 470.0,70.0' />
+			<polyline points=' 10.0,130.0 470.0,130.0' />
+			<polyline points=' 10.0,190.0 470.0,190.0' />
+			<polyline points=' 130.0,10.0 130.0,230.0' />
+			<polyline points=' 250.0,10.0 250.0,230.0' />
+			<polyline points=' 370.0,10.0 370.0,230.0' />
+		</g>
+		<g font-size='12pt' fill='black'  >
+			<text x='170' y='36' text-anchor='middle' >:left</text>
+			<text x='290' y='36' text-anchor='middle' >:center</text>
+			<text x='410' y='36' text-anchor='middle' >:right</text>
+			<text x='60' y='86' text-anchor='middle' >:top</text>
+			<text x='116' y='68' text-anchor='start' >top-left</text>
+			<text x='290' y='68' text-anchor='middle' >top-center</text>
+			<text x='464' y='68' text-anchor='end' >top-right</text>
+			<text x='60' y='146' text-anchor='middle' >:center</text>
+			<text x='116' y='146' text-anchor='start' >center-left</text>
+			<text x='290' y='146' text-anchor='middle' >center-center</text>
+			<text x='464' y='146' text-anchor='end' >center-right</text>
+			<text x='60' y='206' text-anchor='middle' >:bottom</text>
+			<text x='116' y='224' text-anchor='start' >botom-left</text>
+			<text x='290' y='224' text-anchor='middle' >bottom-center</text>
+			<text x='464' y='224' text-anchor='end' >bottom-right</text>
+		</g>
 	</g>
 	<!-- text -->
 	<text x='59' y='28' text-anchor='start' font-size='12pt' fill='black' >:align</text>
@@ -3569,13 +3718,16 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 	
 	<!-- tbl : table -->
 	<g id='tbl'>
-		<rect x='10' y='10' width='200' height='200' fill='white' stroke='none' stroke-width='1' />
-		<polyline fill='none' stroke='navy' stroke-width='1' points=' 10.0,10.0 210.0,10.0' />
-		<polyline fill='none' stroke='navy' stroke-width='1' points=' 10.0,110.0 210.0,110.0' />
-		<polyline fill='none' stroke='navy' stroke-width='1' points=' 10.0,210.0 210.0,210.0' />
-		<polyline fill='none' stroke='navy' stroke-width='1' points=' 10.0,10.0 10.0,210.0' />
-		<polyline fill='none' stroke='navy' stroke-width='1' points=' 110.0,10.0 110.0,210.0' />
-		<polyline fill='none' stroke='navy' stroke-width='1' points=' 210.0,10.0 210.0,210.0' />
+		<g stroke='none'>
+			<rect x='10' y='10' width='200' height='200' fill='white' />
+		</g>
+		<g stroke='navy' stroke-width='1'  fill='none'>
+			<rect x='10' y='10' width='200' height='200' />
+			<polyline points=' 10.0,110.0 210.0,110.0' />
+			<polyline points=' 110.0,10.0 110.0,210.0' />
+		</g>
+		<g font-size='12pt' fill='black'  >
+		</g>
 	</g>
 	<!-- circle -->
 	<circle cx='60' cy='160' r='30' fill='lightcyan' stroke='blue' stroke-width='1' />
@@ -3685,8 +3837,10 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 	<!-- path -->
 	<path fill='rosybrown' stroke='black' stroke-width='1' d='M 200 10 L 230 50 L 170 50 L 200 10' />
 	<!-- textbox -->
-	<text x='60.800003' y='79' text-anchor='start' font-family='Courier New' font-size='12pt' fill='black' >(:move-to (200 10) (230 50)</text>
-	<text x='60.800003' y='93' text-anchor='start' font-family='Courier New' font-size='12pt' fill='black' xml:space='preserve' >          (170 50) (200 10))</text>
+	<g text-anchor='start' font-family='Courier New' font-size='12pt' fill='black' >
+		<text x='60.800003' y='79' >(:move-to (200 10) (230 50)</text>
+		<text x='60.800003' y='93' xml:space='preserve' >          (170 50) (200 10))</text>
+	</g>
 
 </svg>
 </div>
@@ -3708,8 +3862,10 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 	<!-- path -->
 	<path fill='rosybrown' stroke='black' stroke-width='1' d='M 200 10 L 230 50 L 170 50 L 200 10' />
 	<!-- textbox -->
-	<text x='25.700012' y='79' text-anchor='start' font-family='Courier New' font-size='12pt' fill='black' >(:move-to (200 10))</text>
-	<text x='25.700012' y='93' text-anchor='start' font-family='Courier New' font-size='12pt' fill='black' >(:line-to (230 50) (170 50) (200 10))</text>
+	<g text-anchor='start' font-family='Courier New' font-size='12pt' fill='black' >
+		<text x='25.700012' y='79' >(:move-to (200 10))</text>
+		<text x='25.700012' y='93' >(:line-to (230 50) (170 50) (200 10))</text>
+	</g>
 
 </svg>
 </div>
@@ -3731,11 +3887,13 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 	<!-- path -->
 	<path fill='rosybrown' stroke='black' stroke-width='1' d='M 100 10 H 200 V 50 H 100 V 10' />
 	<!-- textbox -->
-	<text x='60' y='78' text-anchor='start' font-family='Courier New' font-size='12pt' fill='black' >(:move-to (100 10))</text>
-	<text x='60' y='92' text-anchor='start' font-family='Courier New' font-size='12pt' fill='black' >(:h-line-to 200)</text>
-	<text x='60' y='106' text-anchor='start' font-family='Courier New' font-size='12pt' fill='black' xml:space='preserve' >(:v-line-to  50)</text>
-	<text x='60' y='120' text-anchor='start' font-family='Courier New' font-size='12pt' fill='black' >(:h-line-to 100)</text>
-	<text x='60' y='134' text-anchor='start' font-family='Courier New' font-size='12pt' fill='black' xml:space='preserve' >(:v-line-to  10)</text>
+	<g text-anchor='start' font-family='Courier New' font-size='12pt' fill='black' >
+		<text x='60' y='78' >(:move-to (100 10))</text>
+		<text x='60' y='92' >(:h-line-to 200)</text>
+		<text x='60' y='106' xml:space='preserve' >(:v-line-to  50)</text>
+		<text x='60' y='120' >(:h-line-to 100)</text>
+		<text x='60' y='134' xml:space='preserve' >(:v-line-to  10)</text>
+	</g>
 
 </svg>
 </div>
@@ -3757,11 +3915,13 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 	<!-- path -->
 	<path fill='rosybrown' stroke='black' stroke-width='1' d='M 100 10 H 200 V 50 H 100 V 10' />
 	<!-- textbox -->
-	<text x='60' y='78' text-anchor='start' font-family='Courier New' font-size='12pt' fill='black' >(:move-to (100 10))</text>
-	<text x='60' y='92' text-anchor='start' font-family='Courier New' font-size='12pt' fill='black' >(:h-line-to 200)</text>
-	<text x='60' y='106' text-anchor='start' font-family='Courier New' font-size='12pt' fill='black' xml:space='preserve' >(:v-line-to  50)</text>
-	<text x='60' y='120' text-anchor='start' font-family='Courier New' font-size='12pt' fill='black' >(:h-line-to 100)</text>
-	<text x='60' y='134' text-anchor='start' font-family='Courier New' font-size='12pt' fill='black' xml:space='preserve' >(:v-line-to  10)</text>
+	<g text-anchor='start' font-family='Courier New' font-size='12pt' fill='black' >
+		<text x='60' y='78' >(:move-to (100 10))</text>
+		<text x='60' y='92' >(:h-line-to 200)</text>
+		<text x='60' y='106' xml:space='preserve' >(:v-line-to  50)</text>
+		<text x='60' y='120' >(:h-line-to 100)</text>
+		<text x='60' y='134' xml:space='preserve' >(:v-line-to  10)</text>
+	</g>
 
 </svg>
 </div>
@@ -3787,8 +3947,10 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 	<!-- circle -->
 	<circle cx='200' cy='80' r='3' fill='red' stroke='none' stroke-width='1' />
 	<!-- textbox -->
-	<text x='3.0000076' y='109' text-anchor='start' font-family='Courier New' font-size='12pt' fill='black' >(:move-to (100 50))</text>
-	<text x='3.0000076' y='123' text-anchor='start' font-family='Courier New' font-size='12pt' fill='black' >(:arc-to 30 30 0 0 1 (200 80))</text>
+	<g text-anchor='start' font-family='Courier New' font-size='12pt' fill='black' >
+		<text x='3.0000076' y='109' >(:move-to (100 50))</text>
+		<text x='3.0000076' y='123' >(:arc-to 30 30 0 0 1 (200 80))</text>
+	</g>
 
 </svg>
 </div>
@@ -4384,11 +4546,13 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 	<!-- path -->
 	<path fill='rosybrown' stroke='black' stroke-width='1' d='M 120 10 H 180 L 150 50 Z' />
 	<!-- textbox -->
-	<text x='60' y='78' text-anchor='start' font-family='Courier New' font-size='12pt' fill='black' >(:move-to (120 10))</text>
-	<text x='60' y='92' text-anchor='start' font-family='Courier New' font-size='12pt' fill='black' >:absolute</text>
-	<text x='60' y='106' text-anchor='start' font-family='Courier New' font-size='12pt' fill='black' >(:h-line-to 180)</text>
-	<text x='60' y='120' text-anchor='start' font-family='Courier New' font-size='12pt' fill='black' >(:line-to (150 50))</text>
-	<text x='60' y='134' text-anchor='start' font-family='Courier New' font-size='12pt' fill='black' >:close-path</text>
+	<g text-anchor='start' font-family='Courier New' font-size='12pt' fill='black' >
+		<text x='60' y='78' >(:move-to (120 10))</text>
+		<text x='60' y='92' >:absolute</text>
+		<text x='60' y='106' >(:h-line-to 180)</text>
+		<text x='60' y='120' >(:line-to (150 50))</text>
+		<text x='60' y='134' >:close-path</text>
+	</g>
 
 </svg>
 </div>
@@ -4409,11 +4573,13 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 	<!-- path -->
 	<path fill='rosybrown' stroke='black' stroke-width='1' d='M 120 10 h 60 l -30 40 z' />
 	<!-- textbox -->
-	<text x='60' y='78' text-anchor='start' font-family='Courier New' font-size='12pt' fill='black' >(:move-to (120 10))</text>
-	<text x='60' y='92' text-anchor='start' font-family='Courier New' font-size='12pt' fill='black' >:relative</text>
-	<text x='60' y='106' text-anchor='start' font-family='Courier New' font-size='12pt' fill='black' >(:h-line-to 60)</text>
-	<text x='60' y='120' text-anchor='start' font-family='Courier New' font-size='12pt' fill='black' >(:line-to (-30 40))</text>
-	<text x='60' y='134' text-anchor='start' font-family='Courier New' font-size='12pt' fill='black' >:close-path</text>
+	<g text-anchor='start' font-family='Courier New' font-size='12pt' fill='black' >
+		<text x='60' y='78' >(:move-to (120 10))</text>
+		<text x='60' y='92' >:relative</text>
+		<text x='60' y='106' >(:h-line-to 60)</text>
+		<text x='60' y='120' >(:line-to (-30 40))</text>
+		<text x='60' y='134' >:close-path</text>
+	</g>
 
 </svg>
 </div>
@@ -4434,12 +4600,14 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 	<!-- path -->
 	<path fill='rosybrown' stroke='black' stroke-width='1' d='M 60 10 L 120 10 L 90 50 Z M 210 10 L 180 50 L 240 50 Z' />
 	<!-- textbox -->
-	<text x='20' y='71' text-anchor='start' font-family='Courier New' font-size='12pt' fill='black' >(:move-to ( 60 10))</text>
-	<text x='20' y='85' text-anchor='start' font-family='Courier New' font-size='12pt' fill='black' >(:line-to (120 10) ( 90 50))</text>
-	<text x='20' y='99' text-anchor='start' font-family='Courier New' font-size='12pt' fill='black' >:close-path</text>
-	<text x='20' y='113' text-anchor='start' font-family='Courier New' font-size='12pt' fill='black' >(:move-to (210 10))</text>
-	<text x='20' y='127' text-anchor='start' font-family='Courier New' font-size='12pt' fill='black' >(:line-to (180 50) (240 50))</text>
-	<text x='20' y='141' text-anchor='start' font-family='Courier New' font-size='12pt' fill='black' >:close-path</text>
+	<g text-anchor='start' font-family='Courier New' font-size='12pt' fill='black' >
+		<text x='20' y='71' >(:move-to ( 60 10))</text>
+		<text x='20' y='85' >(:line-to (120 10) ( 90 50))</text>
+		<text x='20' y='99' >:close-path</text>
+		<text x='20' y='113' >(:move-to (210 10))</text>
+		<text x='20' y='127' >(:line-to (180 50) (240 50))</text>
+		<text x='20' y='141' >:close-path</text>
+	</g>
 
 </svg>
 </div>
@@ -4728,9 +4896,11 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
 	<!-- node : cube -->
 	<g id='node'>
-		<polygon fill='lightgray' stroke='black' stroke-width='1' points='20.0,54.0 48.0,26.0 274.0,26.0 274.0,152.0 246.0,180.0 20.0,180.0' />
-		<polyline fill='none' stroke='black' stroke-width='1' points=' 274.0,26.0 246.0,54.0' />
-		<rect x='20' y='54' width='226' height='126' fill='white' stroke='black' stroke-width='1' />
+		<g stroke='black' stroke-width='1' >
+			<polygon fill='lightgray' points='20.0,54.0 48.0,26.0 274.0,26.0 274.0,152.0 246.0,180.0 20.0,180.0' />
+			<polyline fill='none' points=' 274.0,26.0 246.0,54.0' />
+			<rect x='20' y='54' width='226' height='126' fill='white' />
+		</g>
 		<text x='133' y='123' text-anchor='middle' font-size='12pt' fill='black' ></text>
 	</g>
 	<!-- rectangle -->
@@ -6194,8 +6364,10 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 	</pattern>
 	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
 	<!-- paragraph -->
-	<text x='130' y='70' text-anchor='start' font-size='50pt' fill='black' >Abcdefg</text>
-	<text x='130' y='150' text-anchor='start' font-size='50pt' fill='black' >Hijklmn</text>
+	<g text-anchor='start' font-size='50pt' fill='black' >
+		<text x='130' y='70' >Abcdefg</text>
+		<text x='130' y='150' >Hijklmn</text>
+	</g>
 	<!-- line -->
 	<polyline fill='none' stroke='red' stroke-width='1' stroke-dasharray='2 2 ' points=' 130.0,0.0 130.0,160.0' />
 	<!-- line -->
@@ -7162,7 +7334,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
 	<!-- act1 : uml-action -->
 	<g id='act1'>
-		<rect x='50' y='20' width='300' height='160' rx='6' ry='6' fill='white' stroke='black' stroke-width='1' />
+		<rect x='50' y='20' width='300' height='160' rx='6' fill='white' stroke='black' stroke-width='1' />
 		<text x='200' y='37' text-anchor='middle' font-size='12pt' fill='black' >action</text>
 	</g>
 	<!-- prm1 : uml-action-param -->
@@ -7177,7 +7349,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 	</g>
 	<!-- inner-act : uml-action -->
 	<g id='inner-act'>
-		<rect x='160' y='80' width='80' height='40' rx='6' ry='6' fill='white' stroke='black' stroke-width='1' />
+		<rect x='160' y='80' width='80' height='40' rx='6' fill='white' stroke='black' stroke-width='1' />
 		<text x='200' y='106' text-anchor='middle' font-size='12pt' fill='black' >process</text>
 	</g>
 	<!-- uml-flow from prm1 to inner-act -->
@@ -7224,15 +7396,17 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 	<circle id='start' cx='30' cy='50' r='10' fill='black' stroke='none' stroke-width='1' />
 	<!-- act1 : uml-action -->
 	<g id='act1'>
-		<rect x='140' y='30' width='80' height='40' rx='6' ry='6' fill='cornsilk' stroke='black' stroke-width='1' />
+		<rect x='140' y='30' width='80' height='40' rx='6' fill='cornsilk' stroke='black' stroke-width='1' />
 		<text x='180' y='56' text-anchor='middle' font-size='12pt' fill='black' >action1</text>
 	</g>
 	<!-- act2 : uml-action -->
 	<g id='act2'>
-		<rect x='290' y='27' width='80' height='46' rx='6' ry='6' fill='cornsilk' stroke='black' stroke-width='1' />
+		<rect x='290' y='27' width='80' height='46' rx='6' fill='cornsilk' stroke='black' stroke-width='1' />
 		<path fill='none' stroke='black' stroke-width='2' d='M 361 55 l 0 14 m -5 0 l 0 -7 l 10 0 l 0 7' />
-		<text x='330' y='49' text-anchor='middle' font-size='12pt' fill='black' >action</text>
-		<text x='330' y='63' text-anchor='middle' font-size='12pt' fill='black' >2nd</text>
+		<g text-anchor='middle' font-size='12pt' fill='black' >
+			<text x='330' y='49' >action</text>
+			<text x='330' y='63' >2nd</text>
+		</g>
 	</g>
 	<!-- final : uml-activity-final -->
 	<circle id='final' cx='470' cy='50' r='15' fill='white' stroke='black' stroke-width='1' />
@@ -7292,17 +7466,21 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 	<circle id='start' cx='210' cy='62' r='10' fill='black' stroke='none' stroke-width='1' />
 	<!-- rcv-order : uml-action -->
 	<g id='rcv-order'>
-		<rect x='170' y='99' width='80' height='46' rx='6' ry='6' fill='cornsilk' stroke='black' stroke-width='1' />
-		<text x='210' y='121' text-anchor='middle' font-size='12pt' fill='black' >Receive</text>
-		<text x='210' y='135' text-anchor='middle' font-size='12pt' fill='black' >Order</text>
+		<rect x='170' y='99' width='80' height='46' rx='6' fill='cornsilk' stroke='black' stroke-width='1' />
+		<g text-anchor='middle' font-size='12pt' fill='black' >
+			<text x='210' y='121' >Receive</text>
+			<text x='210' y='135' >Order</text>
+		</g>
 	</g>
 	<!-- fork : uml-fork -->
 	<rect id='fork' x='180' y='167' width='60' height='10' fill='black' stroke='none' stroke-width='1' />
 	<!-- send-invoice : uml-action -->
 	<g id='send-invoice'>
-		<rect x='270' y='189' width='80' height='46' rx='6' ry='6' fill='cornsilk' stroke='black' stroke-width='1' />
-		<text x='310' y='211' text-anchor='middle' font-size='12pt' fill='black' >Send</text>
-		<text x='310' y='225' text-anchor='middle' font-size='12pt' fill='black' >Invoice</text>
+		<rect x='270' y='189' width='80' height='46' rx='6' fill='cornsilk' stroke='black' stroke-width='1' />
+		<g text-anchor='middle' font-size='12pt' fill='black' >
+			<text x='310' y='211' >Send</text>
+			<text x='310' y='225' >Invoice</text>
+		</g>
 	</g>
 	<!-- join : uml-join -->
 	<g id='join'>
@@ -7310,29 +7488,35 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 	</g>
 	<!-- close-order : uml-action -->
 	<g id='close-order'>
-		<rect x='170' y='379' width='80' height='46' rx='6' ry='6' fill='cornsilk' stroke='black' stroke-width='1' />
-		<text x='210' y='401' text-anchor='middle' font-size='12pt' fill='black' >Close</text>
-		<text x='210' y='415' text-anchor='middle' font-size='12pt' fill='black' >Order</text>
+		<rect x='170' y='379' width='80' height='46' rx='6' fill='cornsilk' stroke='black' stroke-width='1' />
+		<g text-anchor='middle' font-size='12pt' fill='black' >
+			<text x='210' y='401' >Close</text>
+			<text x='210' y='415' >Order</text>
+		</g>
 	</g>
 	<!-- final : uml-activity-final -->
 	<circle id='final' cx='210' cy='472' r='15' fill='white' stroke='black' stroke-width='1' />
 	<circle cx='210' cy='472' r='9.0' fill='black' stroke='none' stroke-width='1' />
 	<!-- fill-order : uml-action -->
 	<g id='fill-order'>
-		<rect x='26.0' y='192' width='88.0' height='40' rx='6' ry='6' fill='cornsilk' stroke='black' stroke-width='1' />
+		<rect x='26.0' y='192' width='88.0' height='40' rx='6' fill='cornsilk' stroke='black' stroke-width='1' />
 		<text x='70.0' y='218' text-anchor='middle' font-size='12pt' fill='black' >Fill Order</text>
 	</g>
 	<!-- deliver-order : uml-action -->
 	<g id='deliver-order'>
-		<rect x='30' y='259' width='80' height='46' rx='6' ry='6' fill='cornsilk' stroke='black' stroke-width='1' />
-		<text x='70' y='281' text-anchor='middle' font-size='12pt' fill='black' >Deliver</text>
-		<text x='70' y='295' text-anchor='middle' font-size='12pt' fill='black' >Order</text>
+		<rect x='30' y='259' width='80' height='46' rx='6' fill='cornsilk' stroke='black' stroke-width='1' />
+		<g text-anchor='middle' font-size='12pt' fill='black' >
+			<text x='70' y='281' >Deliver</text>
+			<text x='70' y='295' >Order</text>
+		</g>
 	</g>
 	<!-- rcv-payment : uml-action -->
 	<g id='rcv-payment'>
-		<rect x='410' y='259' width='80' height='46' rx='6' ry='6' fill='cornsilk' stroke='black' stroke-width='1' />
-		<text x='450' y='281' text-anchor='middle' font-size='12pt' fill='black' >Receive</text>
-		<text x='450' y='295' text-anchor='middle' font-size='12pt' fill='black' >Payment</text>
+		<rect x='410' y='259' width='80' height='46' rx='6' fill='cornsilk' stroke='black' stroke-width='1' />
+		<g text-anchor='middle' font-size='12pt' fill='black' >
+			<text x='450' y='281' >Receive</text>
+			<text x='450' y='295' >Payment</text>
+		</g>
 	</g>
 	<!-- uml-flow from start to rcv-order -->
 	<polyline fill='none' stroke='black' stroke-width='1' points=' 210.0,72.0 210.0,99.0' />
@@ -8248,7 +8432,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <h4><a name='a48ATArhBUk'></a>12.1.86 with-subcanvas マクロ</h4>
 <pre class='code'>
-(<span class='keyword1'>defmacro</span> <span class='keyword5'>with-subcanvas</span> ((top-left width height) <span class='keyword2'>&amp;rest</span> body) ... )
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>with-subcanvas</span> ((top-left width height <span class='keyword2'>&amp;key</span> debug) <span class='keyword2'>&amp;rest</span> body) ... )
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <h4><a name='el41gKN39JH'></a>12.1.87 with-subcanvas-of マクロ</h4>
@@ -10907,6 +11091,16 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li><strong>2022/11/12 - version 0.016</strong>
 <ul>
 <li>DOCUMENT : 「<a href='#kSyxpJZzQjY'>5.2  画像ファイルの埋め込み</a>」を執筆</li>
+</ul>
+</li>
+<li><strong>2022/11/16</strong>
+<ul>
+<li>REFACTORING : 出力 SVG のサイズ低減措置</li>
+</ul>
+</li>
+<li><strong>2022/11/17</strong>
+<ul>
+<li>ENHANCE : <a class='autolink' href='#a48ATArhBUk'>with-subcanvas</a> に debug パラメータを追加</li>
 </ul>
 </li>
 </ul>

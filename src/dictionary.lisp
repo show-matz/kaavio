@@ -6,6 +6,11 @@
 
 (in-package :kaavio)
 
+#|
+#|EXPORT|#				:*dict-mute-history*
+ |#
+(defparameter *dict-mute-history* nil)
+
 ;;------------------------------------------------------------------------------
 ;;
 ;; dictionary
@@ -35,11 +40,12 @@
 		(when (or (eq id :canvas) (gethash id map))
 		  (throw-exception "ID '~A' has already exist in dictionary." id))
 		(setf (gethash id map) entity)))
-	(if (= history-size history-max)
-		(setf history-top (cons entity (nbutlast history-top 1)))
-		(progn
-		  (incf history-size)
-		  (setf history-top (cons entity history-top)))))
+	(unless *dict-mute-history*
+	  (if (= history-size history-max)
+		  (setf history-top (cons entity (nbutlast history-top 1)))
+		  (progn
+			(incf history-size)
+			(setf history-top (cons entity history-top))))))
   entity)
 
 (defun dict-get-entity (dict id)
