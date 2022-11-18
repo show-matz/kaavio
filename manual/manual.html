@@ -3752,6 +3752,64 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </pre>
 <p>　<code>with-table-cell</code> は事実上、指定した<a class='autolink' href='#g6xjP526KX7'>テーブル</a>の指定セル領域を指定した <code>with-subcanvas</code> として機能します。そのため、 <code>canvas</code> を使ってその中心座標や幅、高さ情報にアクセスできます。</p>
 <p>　　</p>
+<h4><a name='2sVUYL4zgkO'></a>4.15.2 with-table-range を使った範囲取得</h4>
+<p>　<a class='autolink' href='#2SQEPg8adOn'>with-table-range</a> を使用することで、 <code>table</code> の一部の領域を<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>として取得することができます。以下のように、<a class='autolink' href='#g6xjP526KX7'>テーブル</a>の ID と範囲を指定します。範囲は、 <code>fills</code> パラメータと同じ形式のキーワードで指定します。</p>
+<pre class='code'>
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>with-table-range</span> ((id range) &amp;body body) ...)
+</pre>
+<p>　以下の例では、4 x 5 の<a class='autolink' href='#g6xjP526KX7'>テーブル</a>を作成し、その一部をマスクするために <a class='autolink' href='#2SQEPg8adOn'>with-table-range</a> を使用しています。</p>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='100'>
+	
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- tbl : table -->
+	<g id='tbl'>
+		<g stroke='none'>
+			<rect x='10' y='10' width='200' height='80' fill='white' />
+			<rect x='10' y='10' width='200' height='20' fill='skyblue' />
+		</g>
+		<g stroke='black' stroke-width='1'  fill='none'>
+			<rect x='10' y='10' width='200' height='80' />
+			<polyline points=' 10.0,30.0 210.0,30.0' />
+			<polyline points=' 10.0,50.0 210.0,50.0' />
+			<polyline points=' 10.0,70.0 210.0,70.0' />
+			<polyline points=' 50.0,10.0 50.0,90.0' />
+			<polyline points=' 90.0,10.0 90.0,90.0' />
+			<polyline points=' 130.0,10.0 130.0,90.0' />
+			<polyline points=' 170.0,10.0 170.0,90.0' />
+		</g>
+		<g font-size='12pt' fill='black'  >
+		</g>
+	</g>
+	<!-- rectangle -->
+	<rect x='90' y='50' width='120' height='40' fill='lightgray' fill-opacity='0.8' stroke='none' stroke-width='1' />
+	<!-- brace -->
+	<path fill='none' stroke='black' stroke-width='1' d='M 215 50 A 5 3 1 0 1 220 53 L 220 67 A 5 3 0 0 0 225 70 A 5 3 0 0 0 220 73 L 220 87 A 5 3 1 0 1 215 90' />
+	<text x='230' y='76' text-anchor='start' font-size='12pt' fill='black' >masked</text>
+
+</svg>
+</div>
+
+<p class='fig_title'><a name='jRS2A9pCmbY'></a>Figure.4-39 with-table-range の使用例</p>
+<p>　上記のサンプルは以下のコードで生成されています。</p>
+<pre class='code'>
+(diagram (300 100)
+  (grid)
+  (table (x+ canvas.center -40) '(20 20 20 20) '(40 40 40 40 40)
+         <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span> <span class='keyword3'>:fills</span> '(<span class='keyword3'>:rc</span> <span class='keyword3'>:white</span> <span class='keyword3'>:r0</span> <span class='keyword3'>:skyblue</span>) <span class='keyword3'>:id</span> <span class='keyword3'>:tbl</span>)
+  (with-table-range (<span class='keyword3'>:tbl</span> <span class='keyword3'>:r2-3c2-4</span>)
+    (rect canvas.center canvas.width canvas.height
+          <span class='keyword3'>:stroke</span> <span class='keyword3'>:none</span> <span class='keyword3'>:fill</span> '(<span class='keyword3'>:color</span> <span class='keyword3'>:lightgray</span> <span class='keyword3'>:opacity</span> 0.8))
+    (brace (x+ canvas.right 10) <span class='keyword3'>:left</span> 10 canvas.height <span class='keyword3'>:r</span> 3 <span class='keyword3'>:text</span> <span class='literal'>"masked"</span>)))
+</pre>
+<p>　<code>with-table-range</code> は事実上、指定した<a class='autolink' href='#g6xjP526KX7'>テーブル</a>の指定領域を指定した <code>with-subcanvas</code> として機能します。そのため、 <code>canvas</code> を使ってその中心座標や幅、高さ情報にアクセスできます。</p>
+<p>　　</p>
 <h2><a name='gz7soCOOkJW'></a>5 その他の図形要素</h2>
 <p>　ほしい図形要素がなければ、手間はかかりますが<a class='autolink' href='#4qgt62QVDZl'>パス</a>を使って実現できるかもしれません。図面の中に写真などのラスタ画像を含めることもできます。あるいは、kaavio がサポートしていない SVG の機能を利用したければ生の SVG コードを挿入することもできます<sup><a name='footnote_ref6' href='#footnote6'>6</a></sup>。</p>
 <h3><a name='4qgt62QVDZl'></a>5.1 パス</h3>
@@ -8450,23 +8508,28 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-table-options</span> ((<span class='keyword2'>&amp;key</span> font fill stroke layer) <span class='keyword2'>&amp;rest</span> body) ... )
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='2XsIFr1er3s'></a>12.1.90 with-textbox-options マクロ</h4>
+<h4><a name='2SQEPg8adOn'></a>12.1.90 with-table-range マクロ</h4>
+<pre class='code'>
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>with-table-range</span> ((id kwd) &amp;body body) ... )
+</pre>
+<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<h4><a name='2XsIFr1er3s'></a>12.1.91 with-textbox-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-textbox-options</span> ((<span class='keyword2'>&amp;key</span> rx ry align valign margin
                                       font fill stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='jLA9399dgMF'></a>12.1.91 x+ 関数</h4>
+<h4><a name='jLA9399dgMF'></a>12.1.92 x+ 関数</h4>
 <pre class='code'>
 (<span class='keyword1'>defun</span> <span class='keyword5'>x+</span> (pt x) ... )
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='j1QjqyXsZPP'></a>12.1.92 xy+ 関数</h4>
+<h4><a name='j1QjqyXsZPP'></a>12.1.93 xy+ 関数</h4>
 <pre class='code'>
 (<span class='keyword1'>defun</span> <span class='keyword5'>xy+</span> (pt x y) ... )
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='8ke5i0CYRuw'></a>12.1.93 y+ 関数</h4>
+<h4><a name='8ke5i0CYRuw'></a>12.1.94 y+ 関数</h4>
 <pre class='code'>
 (<span class='keyword1'>defun</span> <span class='keyword5'>y+</span> (pt y) ... )
 </pre>
@@ -11105,6 +11168,11 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li>ENHANCE : <a href='#g6xjP526KX7'>テーブル</a> の fills パラメータで <code>:r1-2</code> などの範囲指定をサポート</li>
 </ul>
 </li>
+<li><strong>2022/11/18</strong>
+<ul>
+<li>ENHANCE : <a class='autolink' href='#2SQEPg8adOn'>with-table-range</a> を追加</li>
+</ul>
+</li>
 </ul>
 <h2><a name='1iQ3KRF8uJQ'></a>14 図表一覧</h2>
 <ul>
@@ -11166,6 +11234,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li><a href='#4p5NTDB8bf1'>Figure.4-36 テーブルのサンプル</a></li>
 <li><a href='#0EEfXZqu18P'>Figure.4-37 テーブルにおけるテキストの align と valign パラメータ</a></li>
 <li><a href='#knawwdhRtbI'>Figure.4-38 with-table-cell の使用例</a></li>
+<li><a href='#jRS2A9pCmbY'>Figure.4-39 with-table-range の使用例</a></li>
 <li><a href='#4Iv4ytJmORX'>Figure.5-1 path のサンプル</a></li>
 <li><a href='#b5nHW1IvOL5'>Figure.5-2 :move-to ディレクティブのサンプル</a></li>
 <li><a href='#i7V67Cjuavz'>Figure.5-3 :line-to ディレクティブのサンプル</a></li>
@@ -11503,6 +11572,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li class='idx_x'><a class='autolink' href='#el41gKN39JH'>with-subcanvas-of</a></li>
 <li class='idx_x'><a class='autolink' href='#im75IlxBYJl'>with-table-cell</a></li>
 <li class='idx_x'><a class='autolink' href='#ePZ3o4pkj08'>with-table-options</a></li>
+<li class='idx_x'><a class='autolink' href='#2SQEPg8adOn'>with-table-range</a></li>
 <li class='idx_x'><a class='autolink' href='#2XsIFr1er3s'>with-textbox-options</a></li>
 </blockquote>
 </details>

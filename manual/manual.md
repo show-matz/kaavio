@@ -2881,6 +2881,47 @@ Figure. with-table-cell の使用例
 
 ${BLANK_PARAGRAPH}
 
+#### with-table-range を使った範囲取得
+
+　with-table-range を使用することで、 `table` の一部の領域をサブキャンバスとして取得することが
+できます。以下のように、テーブルの ID と範囲を指定します。範囲は、 `fills` パラメータと同じ形式の
+キーワードで指定します。
+
+```lisp
+(defmacro with-table-range ((id range) &body body) ...)
+```
+
+　以下の例では、4 x 5 のテーブルを作成し、その一部をマスクするために with-table-range を使用して
+います。
+
+<!-- snippet: WITH-TABLE-RANGE-SAMPLE
+(diagram (300 100)
+  (grid)
+  (table (x+ canvas.center -40) '(20 20 20 20) '(40 40 40 40 40)
+         :stroke :black :fills '(:rc :white :r0 :skyblue) :id :tbl)
+  (with-table-range (:tbl :r2-3c2-4)
+    (rect canvas.center canvas.width canvas.height
+          :stroke :none :fill '(:color :lightgray :opacity 0.8))
+    (brace (x+ canvas.right 10) :left 10 canvas.height :r 3 :text "masked")))
+-->
+
+```kaavio
+<!-- expand: WITH-TABLE-RANGE-SAMPLE -->
+```
+Figure. with-table-range の使用例
+
+
+　上記のサンプルは以下のコードで生成されています。
+
+```lisp
+<!-- expand: WITH-TABLE-RANGE-SAMPLE -->
+```
+
+　`with-table-range` は事実上、指定したテーブルの指定領域を指定した `with-subcanvas` として
+機能します。そのため、 `canvas` を使ってその中心座標や幅、高さ情報にアクセスできます。
+
+${BLANK_PARAGRAPH}
+
 ## その他の図形要素
 
 　ほしい図形要素がなければ、手間はかかりますがパスを使って実現できるかもしれません。図面の中に
@@ -7247,6 +7288,15 @@ ${BLANK_PARAGRAPH}
 
 　${{TODO}{まだ記述されていません。}}
 
+#### with-table-range マクロ
+<!-- autolink: [with-table-range](#with-table-range マクロ) -->
+
+```lisp
+(defmacro with-table-range ((id kwd) &body body) ... )
+```
+
+　${{TODO}{まだ記述されていません。}}
+
 #### with-textbox-options マクロ
 <!-- autolink: [with-textbox-options](#with-textbox-options マクロ) -->
 
@@ -8013,6 +8063,8 @@ Figure. 色の名前とサンプル - 2
 	* ENHANCE : with-subcanvas に debug パラメータを追加
 	* ENHANCE : use に debug パラメータを追加
 	* ENHANCE : [$$](#テーブル) の fills パラメータで `:r1-2` などの範囲指定をサポート
+* __2022/11/18__
+	* ENHANCE : with-table-range を追加
 
 ## 図表一覧
 <!-- embed:figure-list -->

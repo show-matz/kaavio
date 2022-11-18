@@ -380,6 +380,7 @@
 				:table
 				:with-table-options
 				:with-table-cell
+				:with-table-range
 				;text-shape.lisp
 				:text-shape
 				:text-shape-calc-size

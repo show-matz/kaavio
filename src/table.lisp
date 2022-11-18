@@ -324,3 +324,23 @@
 		   (declare (special canvas))
 		   ,@body)))))
 
+#|
+#|EXPORT|#				:with-table-range
+ |#
+(defmacro with-table-range ((id kwd) &body body)
+  (let ((g-tbl     (gensym "TBL"))
+		(g-center  (gensym "CENTER"))
+		(g-width   (gensym "WIDTH"))
+		(g-height  (gensym "HEIGHT"))
+		(g-topleft (gensym "TOPLEFT")))
+	`(let ((,g-tbl (kaavio::dict-get-entity (kaavio::get-dictionary) ,id)))
+	   (multiple-value-bind (,g-center ,g-width ,g-height)
+				(kaavio::table-get-sub-area ,kwd (slot-value ,g-tbl 'kaavio::center)
+												 (slot-value ,g-tbl 'kaavio::rows)
+												 (slot-value ,g-tbl 'kaavio::cols))
+		 (let* ((,g-topleft (point+ (attribute-topleft ,g-tbl)
+									(xy+ ,g-center (- (/ ,g-width 2)) (- (/ ,g-height 2)))))
+				(canvas (make-canvas ,g-topleft ,g-width ,g-height)))
+		   (declare (special canvas))
+		   ,@body)))))
+
