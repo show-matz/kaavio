@@ -8065,6 +8065,8 @@ Figure. 色の名前とサンプル - 2
 	* ENHANCE : [$$](#テーブル) の fills パラメータで `:r1-2` などの範囲指定をサポート
 * __2022/11/18__
 	* ENHANCE : with-table-range を追加
+	* ENHANCE : 出力 SVG のサイズ低減措置における table の不具合を改修
+
 
 ## 図表一覧
 <!-- embed:figure-list -->
