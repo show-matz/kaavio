@@ -1,0 +1,157 @@
+
+(in-package :kaavio-user)
+
+(defparameter *uml-frame-font*      nil)
+(defparameter *uml-frame-fill*   :white)
+(defparameter *uml-frame-stroke* :black)
+(defparameter *uml-frame-margin*      5)
+(defparameter *uml-frame-filter*    nil)
+(defparameter *uml-frame-layer*     nil)
+
+
+;;-------------------------------------------------------------------------------
+;;
+;; class uml-frame
+;;
+;;-------------------------------------------------------------------------------
+(defclass uml-frame (kaavio:shape)
+  ((center	:initform nil :initarg :center)	; point
+   (width	:initform   0 :initarg :width)		; number
+   (height	:initform   0 :initarg :height)		; number
+   (title	:initform nil :initarg :title)		; (or keyword string)
+   (margin	:initform   0 :initarg :margin)		; number
+   (font	:initform nil :initarg :font)		; (or nil font-info)
+   (fill	:initform nil :initarg :fill)		; (or nil fill-info)
+   (stroke	:initform nil :initarg :stroke)		; (or nil stroke-info)
+   (filter	:initform nil :initarg :filter)))	; (or nil keyword)
+
+(defmethod initialize-instance :after ((obj uml-frame) &rest initargs)
+  (declare (ignore initargs))
+  (with-slots (margin font fill stroke filter layer) obj
+	(setf margin (or margin   *uml-frame-margin*))
+	(setf font   (make-font   (or font   *uml-frame-font*   *default-font*)))
+	(setf fill   (make-fill   (or fill   *uml-frame-fill*   *default-fill*   :white)))
+	(setf stroke (make-stroke (or stroke *uml-frame-stroke* *default-stroke* :black)))
+	(setf filter  (if (eq filter :none)
+					  nil
+					  (or filter *uml-frame-filter* *default-filter*)))
+	(setf layer  (if (eq layer :none)
+					 nil
+					 (or layer *uml-frame-layer* *default-layer*))))
+  obj)
+
+(defmethod check ((obj uml-frame) canvas dict)
+  ;; this method must call super class' one.
+  (call-next-method)
+  (with-slots (center width height title margin font fill stroke) obj
+	(unless (point-p center)
+	  (throw-exception "center is not point."))
+	(check-member width  :nullable nil :types number)
+	(check-member height :nullable nil :types number)
+	(check-member title  :nullable nil :types (or keyword string))
+	(check-member margin :nullable nil :types number)
+	(check-object font         canvas dict :nullable   t :class font-info)
+	(check-object fill         canvas dict :nullable   t :class fill-info)
+	(check-object stroke       canvas dict :nullable   t :class stroke-info)
+	(setf center (canvas-fix-point canvas center))
+	(setf title  (fix-name title)))
+  nil)
+
+(defmethod attribute-width ((obj uml-frame))
+  (slot-value obj 'width))
+
+(defmethod attribute-height ((obj uml-frame))
+  (slot-value obj 'height))
+
+(defmethod attribute-center ((obj uml-frame))
+  (slot-value obj 'center))
+
+;;MEMO : use impelementation of shape...
+;;(defmethod shape-connect-point ((obj uml-frame) type1 type2 arg) ...)
+
+  
+;;MEMO : use impelementation of shape...
+;;(defmethod shape-get-subcanvas ((obj uml-frame)) ...)
+
+(defmethod entity-composition-p ((obj uml-frame))
+  t)
+  
+(defmethod draw-entity ((obj uml-frame) writer)
+  (pre-draw obj writer)
+  (let ((canvas (make-canvas (attribute-topleft obj)
+							 (attribute-width   obj)
+							 (attribute-height  obj))))
+	(with-slots (width height title
+					   margin font fill stroke filter) obj
+	  (macrolet ((register-entity (entity)
+				   `(check-and-draw-local-entity ,entity canvas writer)))
+		(writer-write writer "<g "
+							 (to-property-strings stroke)
+							 (write-when filter "filter='url(#" it ")' ") ">")
+		(writer-incr-level writer)
+		(let ((*mute-stroke* t))
+		  (rectangle (make-point (/ width 2) (/ height 2)) width height :fill fill)
+		  (multiple-value-bind (w h) (kaavio::caluculate-paragraph-shapesize
+									  font (kaavio::string/split title #\newline))
+			(incf w (* 2 margin))
+			(incf h (* 2 margin))
+			(line `((0 ,h)
+					(,w ,h)
+					(,(+ w margin) ,(- h margin))
+					(,(+ w margin) 0)))))
+		(writer-decr-level writer)
+		(writer-write writer "</g>")
+		(paragraph (make-point margin margin) title :align :left :valign :top :font font))))
+  (post-draw obj writer)
+  nil)
+
+
+
+;;-------------------------------------------------------------------------------
+;;
+;; macro uml-frame
+;;
+;;-------------------------------------------------------------------------------
+(defmacro uml-frame (center width height title
+							  &key margin font fill stroke link layer filter id contents)
+  (let ((code `(register-entity (make-instance 'uml-frame
+											   :center ,center
+											   :width ,width :height ,height
+											   :title ,title :margin ,margin
+											   :font ,font :fill ,fill
+											   :stroke ,stroke :link ,link
+											   :layer ,layer :filter ,filter :id ,id))))
+	(if (null contents)
+		code
+		(let ((g-obj (gensym "OBJ")))
+		  `(let* ((,g-obj ,code)
+				  (canvas (shape-get-subcanvas ,g-obj)))
+			 (declare (special canvas))
+			 ,@contents)))))
+
+
+;;------------------------------------------------------------------------------
+;;
+;; macro with-uml-frame-options
+;;
+;;------------------------------------------------------------------------------
+(defmacro with-uml-frame-options ((&key font fill stroke
+										  margin filter layer) &rest body)
+  (labels ((impl (params acc)
+			 (if (null params)
+				 acc
+				 (let ((value  (car  params))
+					   (symbol (cadr params)))
+				   (impl (cddr params)
+						 (if (null value)
+							 acc
+							 (push (list symbol value) acc)))))))
+	(let ((lst (impl (list font   '*uml-frame-font*
+						   fill   '*uml-frame-fill*
+						   stroke '*uml-frame-stroke*
+						   margin '*uml-frame-margin*
+						   filter '*uml-frame-filter*
+						   layer  '*uml-frame-layer*) nil)))
+	  `(let ,lst
+		 ,@body))))
+

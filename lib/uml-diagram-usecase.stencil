@@ -5,5 +5,5 @@
 (load-stencil :uml-usecase)
 (load-stencil :uml-association)
 (load-stencil :uml-generalization)
-(load-stencil :uml-diagram)
+(load-stencil :uml-frame)
 

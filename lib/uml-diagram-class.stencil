@@ -7,7 +7,7 @@
 (load-stencil :uml-composition)
 (load-stencil :uml-aggregation)
 (load-stencil :uml-dependency)
-(load-stencil :uml-diagram)
+(load-stencil :uml-frame)
 (load-stencil :uml-generalization)
 (load-stencil :uml-realization)
 (load-stencil :uml-note)

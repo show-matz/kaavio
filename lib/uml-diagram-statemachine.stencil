@@ -7,4 +7,4 @@
 (load-stencil :uml-transition-spec)
 (load-stencil :uml-transition)
 (load-stencil :uml-state)
-(load-stencil :uml-diagram)
+(load-stencil :uml-frame)

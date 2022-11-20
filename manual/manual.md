@@ -5771,62 +5771,62 @@ ${BLANK_PARAGRAPH}
 * [$$](#uml-flow)
 * [$$](#uml-flow-final)
 * [$$](#uml-fork-join)
+* [$$](#uml-frame)
+* [$$](#uml-note)
 * [$$](#uml-pin)
 * [$$](#uml-signal-receipt)
 * [$$](#uml-signal-sending)
 * [$$](#uml-time-event)
-* [$$](#uml-diagram)
-* [$$](#uml-note)
 
 ### クラス図
 <!-- autolink: [$$](#クラス図) -->
 
-* [$$](#uml-role-info)
-* [$$](#uml-multiplicity-info)
-* [$$](#uml-keyword-info)
-* [$$](#uml-association)
-* [$$](#uml-composition)
 * [$$](#uml-aggregation)
-* [$$](#uml-dependency)
-* [$$](#uml-diagram)
-* [$$](#uml-generalization)
-* [$$](#uml-realization)
-* [$$](#uml-note)
-* [$$](#uml-interface)
+* [$$](#uml-association)
 * [$$](#uml-class)
+* [$$](#uml-composition)
+* [$$](#uml-dependency)
+* [$$](#uml-frame)
+* [$$](#uml-generalization)
+* [$$](#uml-interface)
+* [$$](#uml-keyword-info)
+* [$$](#uml-multiplicity-info)
+* [$$](#uml-note)
 * [$$](#uml-package)
+* [$$](#uml-realization)
+* [$$](#uml-role-info)
 
 ### パッケージ図
 <!-- autolink: [$$](#パッケージ図) -->
 
 * [$$](#uml-keyword-info)
 * [$$](#uml-dependency)
+* [$$](#uml-frame)
+* [$$](#uml-note)
 * [$$](#uml-package)
 * [$$](#uml-realization)
-* [$$](#uml-diagram)
-* [$$](#uml-note)
 
 ### ステートマシーン図
 <!-- autolink: [$$](#ステートマシーン図) -->
 
+* [$$](#uml-frame)
+* [$$](#uml-note)
+* [$$](#uml-state)
 * [$$](#uml-state-begin)
 * [$$](#uml-state-end)
 * [$$](#uml-state-history)
-* [$$](#uml-transition-spec)
 * [$$](#uml-transition)
-* [$$](#uml-state)
-* [$$](#uml-diagram)
-* [$$](#uml-note)
+* [$$](#uml-transition-spec)
 
 ### ユースケース図
 <!-- autolink: [$$](#ユースケース図) -->
 
 * [$$](#uml-actor)
-* [$$](#uml-usecase)
 * [$$](#uml-association)
+* [$$](#uml-frame)
 * [$$](#uml-generalization)
-* [$$](#uml-diagram)
 * [$$](#uml-note)
+* [$$](#uml-usecase)
 
 ### UML のダイアグラム要素
 #### uml-action-param
@@ -5985,9 +5985,6 @@ Figure. uml-activity-partitions 要素
 #### uml-dependency
 <!-- autolink: [$$](#uml-dependency) -->
 
-#### uml-diagram
-<!-- autolink: [$$](#uml-diagram) -->
-
 #### uml-expansion-region
 <!-- autolink: [$$](#uml-expansion-region) -->
 
@@ -5999,6 +5996,45 @@ Figure. uml-activity-partitions 要素
 
 #### uml-fork-join
 <!-- autolink: [$$](#uml-fork-join) -->
+
+#### uml-frame
+
+　uml-frame は UML において汎用的に使用される区分要素です。ダイアグラム全体を包む場合も
+ありますし、別図面へのリンクを提示して詳細を省略したりします。
+
+<!-- snippet: UML-FRAME-SAMPLE
+(diagram (300 150)
+  (grid)
+  (drop-shadow)
+  (with-uml-frame-options (:stroke :navy
+                           :fill :azure :filter :drop-shadow)
+    (uml-frame canvas.center 260 110 "this is diagram.")
+    (with-subcanvas-of ($1.id)
+      (uml-action (y+ canvas.center 10) "action" :id :act1)
+      (uml-activity-start (x+ $1.center -100) :id :start)
+      (uml-activity-final (x+ $2.center  100) :id :final)))
+  (connector :start :act1 :end2 :arrow)
+  (connector :act1 :final :end2 :arrow))
+-->
+
+```kaavio
+<!-- expand: UML-FRAME-SAMPLE -->
+```
+Figure. uml-frame のサンプル
+
+
+　上記の作図は以下のコードで行なっています。スタイルの指定には with-uml-frame-options を
+使用しています。図面中で使用している uml-frame はひとつですが、通常は図面中で複数の 
+uml-frame を使用する場合にスタイルを統一するために使用します。
+
+```lisp
+<!-- expand: UML-FRAME-SAMPLE -->
+```
+
+　詳細は以下を参照してください。
+
+* uml-frame マクロ
+* with-uml-frame-options マクロ
 
 #### uml-generalization
 <!-- autolink: [$$](#uml-generalization) -->
@@ -7116,6 +7152,17 @@ ${BLANK_PARAGRAPH}
 
 　${{TODO}{まだ記述されていません。}}
 
+#### uml-frame マクロ
+<!-- autolink: [uml-frame](#uml-frame マクロ) -->
+
+```lisp
+(defmacro uml-frame (center width height title
+                            &key margin font fill stroke
+                                 link layer filter id contents) ... )
+```
+
+　${{TODO}{まだ記述されていません。}}
+
 #### uml-note マクロ
 <!-- autolink: [uml-note](#uml-note マクロ) -->
 
@@ -7352,6 +7399,16 @@ ${BLANK_PARAGRAPH}
 ```lisp
 (defmacro with-textbox-options ((&key rx ry align valign margin
                                       font fill stroke filter layer) &rest body) ...)
+```
+
+　${{TODO}{まだ記述されていません。}}
+
+#### with-uml-frame-options マクロ
+<!-- autolink: [with-uml-frame-options](#with-uml-frame-options マクロ) -->
+
+```lisp
+(defmacro with-uml-frame-options ((&key font fill stroke
+                                        margin filter layer) &rest body) ... )
 ```
 
 　${{TODO}{まだ記述されていません。}}
