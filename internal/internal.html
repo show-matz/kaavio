@@ -83,6 +83,7 @@
 <summary class='tocx'><a href='#hiJ3cEwPa5K'>3 Topics</a></summary>
 <blockquote class='tocx'>
 <li class='tocx'><a href='#iI5yYQiM6ak'>3.1 円弧の端点における傾きの計算方法</a></li>
+<li class='tocx'><a href='#bfXtL2279bP'>3.2 複合オブジェクトの描画方法</a></li>
 </blockquote>
 </details>
 <li class='tocx'><a href='#1iQ3KRF8uJQ'>4 図表一覧</a></li>
@@ -1902,6 +1903,205 @@ Country: JP
 <p>　1 の場合は L2 が x 軸と平行になる場合であり、sin d2 は 0、cos d2 は ±1 である。</p>
 <p>　2 の場合は L2 が y 軸と平行になる場合であり、sin d2 は ±1、cos d2 は 0 である。</p>
 <p>　3 の場合は L2 が x,y 軸と平行にならないため、それぞれの軸と交わる点を使って計算するのが簡単である。kx/a<sup>2</sup> + my/b<sup>2</sup> = 1 に x = 0、または y = 0 を代入して整理すると、交点はそれぞれ(0, b<sup>2</sup>/m) と (a<sup>2</sup>/k, 0) であることがわかる。2 点がわかれば、あとは計算するだけである。</p>
+<h3><a name='bfXtL2279bP'></a>3.2 複合オブジェクトの描画方法</h3>
+<p>　従来、複雑な図形オブジェクトは「出力サイズが最小になるように」実装する努力をしていたが、いくつかの問題が発覚して以降、複雑なオブジェクトを描画する際の原則を整理しておく必要があるという話に。以下に cube の描画を例としてまとめる。</p>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='150' height='100'>
+	
+	<filter id='drop-shadow'>
+		<feColorMatrix type='matrix' values=' 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.4 0' />
+		<feGaussianBlur stdDeviation='2' result='blur' />
+		<feOffset in='blur' dx='4' dy='4' result='offsetBlur' />
+		<feMerge>
+			<feMergeNode in='offsetBlur' />
+			<feMergeNode in='SourceGraphic'/>
+		</feMerge>
+	</filter>
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- cube -->
+	<g stroke='black' stroke-width='1' >
+		<polygon fill='gray' points='30.0,22.0 44.0,8.0 117.0,8.0 117.0,71.0 103.0,85.0 30.0,85.0' filter='url(#drop-shadow)' />
+		<polyline fill='none' points=' 117.0,8.0 103.0,22.0' />
+		<rect x='30' y='22' width='73' height='63' fill='lightgray' />
+	</g>
+	<text x='66.5' y='59.5' text-anchor='middle' font-size='12pt' fill='black' ></text>
+
+</svg>
+</div>
+
+<p>　まず、問題のある方法を以下に示す。最初のステップとして、filter 指定込みで以下の描画をする。</p>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='150' height='100'>
+	
+	<filter id='drop-shadow'>
+		<feColorMatrix type='matrix' values=' 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.4 0' />
+		<feGaussianBlur stdDeviation='2' result='blur' />
+		<feOffset in='blur' dx='4' dy='4' result='offsetBlur' />
+		<feMerge>
+			<feMergeNode in='offsetBlur' />
+			<feMergeNode in='SourceGraphic'/>
+		</feMerge>
+	</filter>
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- polygon -->
+	<polygon fill='gray' stroke='black' stroke-width='1' points='30.0,22.0 44.0,8.0 117.0,8.0 117.0,71.0 103.0,85.0 30.0,85.0' filter='url(#drop-shadow)' />
+
+</svg>
+</div>
+
+<p>　続いて、手前に向いた面の矩形を描画する。これに続いて右上の斜め線を描画すれば完成である。描画の手間も少ないし、出力 SVG も少ない。</p>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='150' height='100'>
+	
+	<filter id='drop-shadow'>
+		<feColorMatrix type='matrix' values=' 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.4 0' />
+		<feGaussianBlur stdDeviation='2' result='blur' />
+		<feOffset in='blur' dx='4' dy='4' result='offsetBlur' />
+		<feMerge>
+			<feMergeNode in='offsetBlur' />
+			<feMergeNode in='SourceGraphic'/>
+		</feMerge>
+	</filter>
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- polygon -->
+	<polygon fill='gray' stroke='black' stroke-width='1' points='30.0,22.0 44.0,8.0 117.0,8.0 117.0,71.0 103.0,85.0 30.0,85.0' filter='url(#drop-shadow)' />
+	<!-- rectangle -->
+	<rect x='30.0' y='22.0' width='73' height='63' fill='lightgray' stroke='black' stroke-width='1' />
+
+</svg>
+</div>
+
+<p>　この描画方法の何が問題か。極端な例だが、以下のようにするとわかりやすい。</p>
+<pre class='code'>
+(diagram (400 200)
+  (grid)
+  (drop-shadow)
+  (text canvas.center <span class='literal'>"This is background text."</span> <span class='keyword3'>:font</span> 24 <span class='keyword3'>:align</span> <span class='keyword3'>:center</span>)
+  (cube canvas.center 200 150 <span class='literal'>""</span>
+        <span class='keyword3'>:stroke</span> '(<span class='keyword3'>:color</span> <span class='keyword3'>:blue</span> <span class='keyword3'>:width</span> 8 <span class='keyword3'>:dasharray</span> (5 10))
+        <span class='keyword3'>:fill</span>   '(<span class='keyword3'>:color</span> <span class='keyword3'>:lightcyan</span> <span class='keyword3'>:opacity</span> 0.3)
+        <span class='keyword3'>:fill2</span>  '(<span class='keyword3'>:color</span> <span class='keyword3'>:cyan</span>      <span class='keyword3'>:opacity</span> 1.0) <span class='keyword3'>:filter</span> <span class='keyword3'>:drop-shadow</span>))
+</pre>
+<p>　このコードが生成すべき画像は以下である。</p>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='400' height='200'>
+	
+	<filter id='drop-shadow'>
+		<feColorMatrix type='matrix' values=' 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.4 0' />
+		<feGaussianBlur stdDeviation='2' result='blur' />
+		<feOffset in='blur' dx='4' dy='4' result='offsetBlur' />
+		<feMerge>
+			<feMergeNode in='offsetBlur' />
+			<feMergeNode in='SourceGraphic'/>
+		</feMerge>
+	</filter>
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- text -->
+	<text x='200' y='100' text-anchor='middle' font-size='24pt' fill='black' >This is background text.</text>
+	<!-- raw-svg -->
+	<g filter='url(#drop-shadow)'
+	<!-- polygon -->
+	<polygon fill='cyan' stroke='none' stroke-width='1' points='100.0,40.0 130.0,10.0 315.0,10.0 315.0,145.0 285.0,175.0 285.0,40.0' />
+	<!-- rectangle -->
+	<rect x='100' y='40' width='185' height='135' fill='lightcyan' fill-opacity='0.7' stroke='none' stroke-width='1' />
+	<!-- line -->
+	<polyline fill='none' stroke='blue' stroke-width='8' stroke-dasharray='5 10 ' points=' 315.0,10.0 285.0,40.0' />
+	<!-- line -->
+	<polyline fill='none' stroke='blue' stroke-width='8' stroke-dasharray='5 10 ' points=' 100.0,40.0 285.0,40.0 285.0,175.0' />
+	<!-- line -->
+	<polyline fill='none' stroke='blue' stroke-width='8' stroke-dasharray='5 10 ' points=' 100.0,40.0 130.0,10.0 315.0,10.0 315.0,145.0 285.0,175.0 100.0,175.0 100.0,40.0' />
+	<!-- raw-svg -->
+	</g>
+
+</svg>
+</div>
+
+<p>　しかし、2022年11月中旬の段階（version 0.017）では以下が生成される。</p>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='400' height='200'>
+	
+	<filter id='drop-shadow'>
+		<feColorMatrix type='matrix' values=' 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.4 0' />
+		<feGaussianBlur stdDeviation='2' result='blur' />
+		<feOffset in='blur' dx='4' dy='4' result='offsetBlur' />
+		<feMerge>
+			<feMergeNode in='offsetBlur' />
+			<feMergeNode in='SourceGraphic'/>
+		</feMerge>
+	</filter>
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- text -->
+	<text x='200' y='100' text-anchor='middle' font-size='24pt' fill='black' >This is background text.</text>
+	<!-- polygon -->
+	<polygon fill='cyan' stroke='blue' stroke-width='8' stroke-dasharray='5 10 ' points='100.0,40.0 130.0,10.0 315.0,10.0 315.0,145.0 285.0,175.0 100.0,175.0' filter='url(#drop-shadow)' />
+	<!-- line -->
+	<polyline fill='none' stroke='blue' stroke-width='8' stroke-dasharray='5 10 ' points=' 315.0,10.0 285.0,40.0' />
+	<!-- rectangle -->
+	<rect x='100' y='40' width='185' height='135' fill='lightcyan' fill-opacity='0.7' stroke='blue' stroke-width='8' stroke-dasharray='5 10 ' />
+
+</svg>
+</div>
+
+<p>　以下の問題がある。</p>
+<ul>
+<li>fill2 が下に塗られているため、fill で指定されている :opacity 0.7 が機能していない（背景の文字が透けて見えない）</li>
+<li>左端と下端の線が２回描画されているのがわかる（点線がズレているため）</li>
+</ul>
+<p>　少なくとも、正しい描画のためには以下が守られなければならない。</p>
+<ul>
+<li>塗りを重ねてはならない</li>
+<li>同じ線を複数回描画してはならない</li>
+</ul>
+<p>　上記をちゃんとやると、cube は以下の要領で描画される必要がある。すなわち、塗りを重ねることなく個別に描画し、線は全部後で描く。この方法では塗りに対して filter を指定できないので、塗りと線の描画全体を g tag で括ってフィルタを指定する。</p>
+<pre class='code'>
+(diagram (400 200)
+  (grid)
+  (drop-shadow)
+  (text canvas.center <span class='literal'>"This is background text."</span> <span class='keyword3'>:font</span> 24 <span class='keyword3'>:align</span> <span class='keyword3'>:center</span>)
+  (raw-svg <span class='literal'>"&lt;g filter='url(#drop-shadow)'"</span>)
+  <span class='comment'>;; fill2 部分の塗りつぶし ------------------------------------------</span>
+  (polygon '((100 40) (130 10) (315 10)
+             (315 145) (285 175) (285 40)) <span class='keyword3'>:stroke</span> <span class='keyword3'>:none</span> <span class='keyword3'>:fill</span> <span class='keyword3'>:cyan</span>)
+  <span class='comment'>;; fill 部分の塗りつぶし -------------------------------------------</span>
+  (rect `(,(+ 100 (/ 185 2)) ,(+ 40 (/ 135 2))) 185 135
+		<span class='keyword3'>:stroke</span> <span class='keyword3'>:none</span> <span class='keyword3'>:fill</span> '(<span class='keyword3'>:color</span> <span class='keyword3'>:lightcyan</span> <span class='keyword3'>:opacity</span> 0.7))
+  <span class='comment'>;; stroke による線の描画 -------------------------------------------</span>
+  (with-options (<span class='keyword3'>:stroke</span> '(<span class='keyword3'>:color</span> <span class='keyword3'>:blue</span> <span class='keyword3'>:width</span> 8 <span class='keyword3'>:dasharray</span> (5 10)))
+    (line '((315 10) (285 40)))
+    (line '((100 40) (285 40) (285 175)))
+    (line '((100 40) (130 10) (315 10) (315 145) (285 175) (100 175) (100 40))))
+  (raw-svg <span class='literal'>"&lt;/g&gt;"</span>))
+</pre>
 <h2><a name='1iQ3KRF8uJQ'></a>4 図表一覧</h2>
 <ul>
 </ul>

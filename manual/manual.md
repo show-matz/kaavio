@@ -8063,9 +8063,11 @@ Figure. 色の名前とサンプル - 2
 	* ENHANCE : with-subcanvas に debug パラメータを追加
 	* ENHANCE : use に debug パラメータを追加
 	* ENHANCE : [$$](#テーブル) の fills パラメータで `:r1-2` などの範囲指定をサポート
-* __2022/11/18__
+* __2022/11/18 - version 0.017__
 	* ENHANCE : with-table-range を追加
 	* ENHANCE : 出力 SVG のサイズ低減措置における table の不具合を改修
+* __2022/11/20 - version 0.018__
+	* BUGFIX : memo と cube における描画上のバグを改修
 
 
 ## 図表一覧

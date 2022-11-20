@@ -83,18 +83,31 @@
 			 (half      (/ depth  2)))
 		(macrolet ((register-entity (entity)
 					 `(check-and-draw-local-entity ,entity canvas writer)))
-		  (writer-write writer "<g " (to-property-strings stroke) ">")
+		  (writer-write writer "<g stroke='none' "
+							   (write-when filter "filter='url(#" it ")' ") ">")
 		  (writer-incr-level writer)
 		  (let ((*mute-stroke* t))
 			(polygon `((0 ,half)
 					   (,depth ,(- half))
 					   (,(+ width half) ,(- half))
 					   (,(+ width half) ,(- height depth))
-					   (,(- width half) ,height) (0 ,height)) :fill fill2 :filter filter)
-			(line `((,(+ width half) ,(- half))
-					(,(- width half) ,half)))
+					   (,(- width half) ,height)
+					   (,(- width half) ,half)) :fill fill2)
 			(rectangle (make-point (- x (/ half 2))
-								   (+ y (/ half 2))) (- width half) (- height half) :fill fill))
+								   (+ y (/ half 2)))
+					   (- width half) (- height half) :fill fill))
+		  (path `((:move-to (0 ,half))
+				  (:line-to (,(- width half) ,half)
+							(,(- width half) ,height)
+							(0               ,height)
+							(0               ,half)
+							(,depth          ,(- half))
+							(,(+ width half) ,(- half))
+							(,(+ width half) ,(- height depth))
+							(,(- width half) ,height))
+				  (:move-to (,(- width half) ,half))
+				  (:line-to (,(+ width half) ,(- half))))
+				:stroke stroke :fill :none)
 		  (writer-decr-level writer)
 		  (writer-write writer "</g>")))))
   ;; draw text
@@ -118,21 +131,23 @@
 (defmacro cube (center width height text
 					&key depth align valign margin
 						 font fill fill2 stroke link rotate layer id filter contents)
-  (let ((code `(register-entity (make-instance 'cube
-											   :center ,center :text ,text
-											   :width ,width :height ,height
- 											   :depth  (or ,depth  *default-cube-depth*)
- 											   :align  (or ,align  *default-cube-align*)
- 											   :valign (or ,valign *default-cube-valign*)
- 											   :margin (or ,margin *default-cube-margin*)
-											   :font   (or ,font   *default-cube-font*)
-											   :fill   (or ,fill   *default-cube-fill*)
-											   :fill2  (or ,fill2
-														   ,fill   *default-cube-fill2*
-																   *default-cube-fill*)
-											   :stroke (or ,stroke *default-cube-stroke*)
-											   :link ,link  :rotate ,rotate
-											   :filter ,filter :layer ,layer :id ,id))))
+  (let* ((g-fill (gensym "FILL"))
+		 (code `(let ((,g-fill ,fill))
+				  (register-entity (make-instance 'cube
+												   :center ,center :text ,text
+												   :width ,width :height ,height
+	 											   :depth  (or ,depth  *default-cube-depth*)
+	 											   :align  (or ,align  *default-cube-align*)
+	 											   :valign (or ,valign *default-cube-valign*)
+	 											   :margin (or ,margin *default-cube-margin*)
+												   :font   (or ,font   *default-cube-font*)
+												   :fill   (or ,g-fill *default-cube-fill*)
+												   :fill2  (or ,fill2
+															   ,g-fill *default-cube-fill2*
+																	   *default-cube-fill*)
+												   :stroke (or ,stroke *default-cube-stroke*)
+												   :link ,link  :rotate ,rotate
+												   :filter ,filter :layer ,layer :id ,id)))))
 	(if (null contents)
 		code
 		(let ((g-obj (gensym "OBJ")))

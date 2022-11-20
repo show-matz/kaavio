@@ -1485,8 +1485,14 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 			<!-- rectangle -->
 			<rect x='0' y='0' width='100' height='100' fill='white' stroke='none' stroke-width='1' />
 			<!-- memo -->
-			<polygon fill='lavenderblush' stroke='red' stroke-width='1' points='10.0,5.0 10.0,65.0 70.0,65.0 90.0,55.0 90.0,5.0 10.0,5.0' />
-			<polygon fill='lightpink' stroke='red' stroke-width='1' stroke-linejoin='round' points='70.0,65.0 90.0,55.0 76.666664,51.666668 70.0,65.0' />
+			<g stroke='none' >
+				<polygon fill='lavenderblush' points='10.0,5.0 10.0,65.0 70.0,65.0 76.666664,51.666668 90.0,55.0 90.0,5.0' />
+				<polygon fill='lightpink' points='70.0,65.0 90.0,55.0 76.666664,51.666668' />
+				<g fill='none' stroke='red' stroke-width='1' >
+					<polyline fill='none' points=' 10.0,35.0 10.0,5.0 90.0,5.0 90.0,55.0 70.0,65.0 10.0,65.0 10.0,35.0' />
+					<polyline fill='none' points=' 90.0,55.0 76.666664,51.666668 70.0,65.0' />
+				</g>
+			</g>
 			<g text-anchor='start' font-size='12pt' fill='black' >
 				<text x='20' y='27' >this is</text>
 				<text x='20' y='41' >memo.</text>
@@ -1502,10 +1508,10 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 			<!-- rectangle -->
 			<rect x='0' y='0' width='100' height='100' fill='white' stroke='none' stroke-width='1' />
 			<!-- cube -->
-			<g stroke='black' stroke-width='1' >
-				<polygon fill='darkgray' points='17.5,16.0 29.5,4.0 88.5,4.0 88.5,58.0 76.5,70.0 17.5,70.0' />
-				<polyline fill='none' points=' 88.5,4.0 76.5,16.0' />
+			<g stroke='none' >
+				<polygon fill='darkgray' points='17.5,16.0 29.5,4.0 88.5,4.0 88.5,58.0 76.5,70.0 76.5,16.0' />
 				<rect x='17.5' y='16' width='59' height='54' fill='lightgray' />
+				<path fill='none' stroke='black' stroke-width='1' d='M 17.5 16 L 76.5 16 L 76.5 70 L 17.5 70 L 17.5 16 L 29.5 4 L 88.5 4 L 88.5 58 L 76.5 70 M 76.5 16 L 88.5 4' />
 			</g>
 			<g text-anchor='middle' font-size='12pt' fill='black' >
 				<text x='47' y='42' >this is</text>
@@ -2658,8 +2664,14 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 	</pattern>
 	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
 	<!-- memo -->
-	<polygon fill='lavenderblush' stroke='red' stroke-width='1' points='25.0,10.0 25.0,90.0 145.0,90.0 175.0,75.0 175.0,10.0 25.0,10.0' />
-	<polygon fill='lightpink' stroke='red' stroke-width='1' stroke-linejoin='round' points='145.0,90.0 175.0,75.0 155.0,70.0 145.0,90.0' />
+	<g stroke='none' >
+		<polygon fill='lavenderblush' points='25.0,10.0 25.0,90.0 145.0,90.0 155.0,70.0 175.0,75.0 175.0,10.0' />
+		<polygon fill='lightpink' points='145.0,90.0 175.0,75.0 155.0,70.0' />
+		<g fill='none' stroke='red' stroke-width='1' >
+			<polyline fill='none' points=' 25.0,50.0 25.0,10.0 175.0,10.0 175.0,75.0 145.0,90.0 25.0,90.0 25.0,50.0' />
+			<polyline fill='none' points=' 175.0,75.0 155.0,70.0 145.0,90.0' />
+		</g>
+	</g>
 	<g text-anchor='start' font-size='12pt' fill='black' >
 		<text x='35' y='32' >memo text.</text>
 		<text x='35' y='46' >multi line.</text>
@@ -2740,15 +2752,27 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 	</pattern>
 	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
 	<!-- memo -->
-	<polygon fill='lavenderblush' stroke='red' stroke-width='1' points='20.0,20.0 20.0,80.0 80.0,80.0 100.0,70.0 100.0,20.0 20.0,20.0' filter='url(#drop-shadow)' />
-	<polygon fill='lightpink' stroke='red' stroke-width='1' stroke-linejoin='round' points='80.0,80.0 100.0,70.0 86.666664,66.66667 80.0,80.0' />
+	<g stroke='none' filter='url(#drop-shadow)' >
+		<polygon fill='lavenderblush' points='20.0,20.0 20.0,80.0 80.0,80.0 86.666664,66.66667 100.0,70.0 100.0,20.0' />
+		<polygon fill='lightpink' points='80.0,80.0 100.0,70.0 86.666664,66.66667' />
+		<g fill='none' stroke='red' stroke-width='1' >
+			<polyline fill='none' points=' 20.0,50.0 20.0,20.0 100.0,20.0 100.0,70.0 80.0,80.0 20.0,80.0 20.0,50.0' />
+			<polyline fill='none' points=' 100.0,70.0 86.666664,66.66667 80.0,80.0' />
+		</g>
+	</g>
 	<g text-anchor='middle' font-size='12pt' fill='black' >
 		<text x='60' y='49' >first</text>
 		<text x='60' y='63' >memo</text>
 	</g>
 	<!-- memo -->
-	<polygon fill='lavenderblush' stroke='red' stroke-width='1' points='140.0,20.0 140.0,80.0 200.0,80.0 220.0,70.0 220.0,20.0 140.0,20.0' filter='url(#drop-shadow)' />
-	<polygon fill='lightpink' stroke='red' stroke-width='1' stroke-linejoin='round' points='200.0,80.0 220.0,70.0 206.66666,66.66667 200.0,80.0' />
+	<g stroke='none' filter='url(#drop-shadow)' >
+		<polygon fill='lavenderblush' points='140.0,20.0 140.0,80.0 200.0,80.0 206.66666,66.66667 220.0,70.0 220.0,20.0' />
+		<polygon fill='lightpink' points='200.0,80.0 220.0,70.0 206.66666,66.66667' />
+		<g fill='none' stroke='red' stroke-width='1' >
+			<polyline fill='none' points=' 140.0,50.0 140.0,20.0 220.0,20.0 220.0,70.0 200.0,80.0 140.0,80.0 140.0,50.0' />
+			<polyline fill='none' points=' 220.0,70.0 206.66666,66.66667 200.0,80.0' />
+		</g>
+	</g>
 	<g text-anchor='middle' font-size='12pt' fill='black' >
 		<text x='180' y='49' >second</text>
 		<text x='180' y='63' >memo</text>
@@ -2771,10 +2795,10 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 	</pattern>
 	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
 	<!-- cube -->
-	<g stroke='black' stroke-width='1' >
-		<polygon fill='darkgray' points='60.0,26.0 72.0,14.0 146.0,14.0 146.0,68.0 134.0,80.0 60.0,80.0' />
-		<polyline fill='none' points=' 146.0,14.0 134.0,26.0' />
+	<g stroke='none' >
+		<polygon fill='darkgray' points='60.0,26.0 72.0,14.0 146.0,14.0 146.0,68.0 134.0,80.0 134.0,26.0' />
 		<rect x='60' y='26' width='74' height='54' fill='lightgray' />
+		<path fill='none' stroke='black' stroke-width='1' d='M 60 26 L 134 26 L 134 80 L 60 80 L 60 26 L 72 14 L 146 14 L 146 68 L 134 80 M 134 26 L 146 14' />
 	</g>
 	<g text-anchor='middle' font-size='12pt' fill='black' >
 		<text x='97' y='52' >cube</text>
@@ -2856,20 +2880,20 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 	</pattern>
 	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
 	<!-- cube -->
-	<g stroke='#473C8B' stroke-width='1' >
-		<polygon fill='#BCD2EE' points='20.0,26.0 32.0,14.0 106.0,14.0 106.0,68.0 94.0,80.0 20.0,80.0' filter='url(#drop-shadow)' />
-		<polyline fill='none' points=' 106.0,14.0 94.0,26.0' />
+	<g stroke='none' filter='url(#drop-shadow)' >
+		<polygon fill='#BCD2EE' points='20.0,26.0 32.0,14.0 106.0,14.0 106.0,68.0 94.0,80.0 94.0,26.0' />
 		<rect x='20' y='26' width='74' height='54' fill='#CAE1FF' />
+		<path fill='none' stroke='#473C8B' stroke-width='1' d='M 20 26 L 94 26 L 94 80 L 20 80 L 20 26 L 32 14 L 106 14 L 106 68 L 94 80 M 94 26 L 106 14' />
 	</g>
 	<g text-anchor='middle' font-size='12pt' fill='black' >
 		<text x='57' y='52' >first</text>
 		<text x='57' y='66' >cube</text>
 	</g>
 	<!-- cube -->
-	<g stroke='#473C8B' stroke-width='1' >
-		<polygon fill='#BCD2EE' points='140.0,26.0 152.0,14.0 226.0,14.0 226.0,68.0 214.0,80.0 140.0,80.0' filter='url(#drop-shadow)' />
-		<polyline fill='none' points=' 226.0,14.0 214.0,26.0' />
+	<g stroke='none' filter='url(#drop-shadow)' >
+		<polygon fill='#BCD2EE' points='140.0,26.0 152.0,14.0 226.0,14.0 226.0,68.0 214.0,80.0 214.0,26.0' />
 		<rect x='140' y='26' width='74' height='54' fill='#CAE1FF' />
+		<path fill='none' stroke='#473C8B' stroke-width='1' d='M 140 26 L 214 26 L 214 80 L 140 80 L 140 26 L 152 14 L 226 14 L 226 68 L 214 80 M 214 26 L 226 14' />
 	</g>
 	<g text-anchor='middle' font-size='12pt' fill='black' >
 		<text x='177' y='52' >second</text>
@@ -4948,10 +4972,10 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
 	<!-- node : cube -->
 	<g id='node'>
-		<g stroke='black' stroke-width='1' >
-			<polygon fill='lightgray' points='20.0,54.0 48.0,26.0 274.0,26.0 274.0,152.0 246.0,180.0 20.0,180.0' />
-			<polyline fill='none' points=' 274.0,26.0 246.0,54.0' />
+		<g stroke='none' >
+			<polygon fill='lightgray' points='20.0,54.0 48.0,26.0 274.0,26.0 274.0,152.0 246.0,180.0 246.0,54.0' />
 			<rect x='20' y='54' width='226' height='126' fill='white' />
+			<path fill='none' stroke='black' stroke-width='1' d='M 20 54 L 246 54 L 246 180 L 20 180 L 20 54 L 48 26 L 274 26 L 274 152 L 246 180 M 246 54 L 274 26' />
 		</g>
 		<text x='133' y='123' text-anchor='middle' font-size='12pt' fill='black' ></text>
 	</g>
@@ -11162,10 +11186,15 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li>ENHANCE : <a href='#g6xjP526KX7'>テーブル</a> の fills パラメータで <code>:r1-2</code> などの範囲指定をサポート</li>
 </ul>
 </li>
-<li><strong>2022/11/18</strong>
+<li><strong>2022/11/18 - version 0.017</strong>
 <ul>
 <li>ENHANCE : <a class='autolink' href='#2SQEPg8adOn'>with-table-range</a> を追加</li>
 <li>ENHANCE : 出力 SVG のサイズ低減措置における <a class='autolink' href='#6VXqvQ4sYyo'>table</a> の不具合を改修</li>
+</ul>
+</li>
+<li><strong>2022/11/20 - version 0.018</strong>
+<ul>
+<li>BUGFIX : <a class='autolink' href='#b88IprendZX'>memo</a> と <a class='autolink' href='#849Vc2WODHJ'>cube</a> における描画上のバグを改修</li>
 </ul>
 </li>
 </ul>

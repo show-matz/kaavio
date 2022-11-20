@@ -38,15 +38,28 @@
   `((0         0)
 	(0        ,h)
 	(,(- w c) ,h)
+	(,(- w (/ c 1.5)) ,(- h (/ c 1.5)))
 	(,w       ,(- h (/ c 2)))
-	(,w        0)
-	(0         0)))
+	(,w        0)))
 
 (defun memo-get-points2 (w h c)
   `((,(- w c)       ,h)
 	(,w             ,(- h (/ c 2)))
+	(,(- w (/ c 1.5)) ,(- h (/ c 1.5)))))
+
+(defun memo-get-stroke-points1 (w h c)
+  `((0        ,(/ h 2))
+	(0         0)
+	(,w        0)
+	(,w       ,(- h (/ c 2)))
+	(,(- w c) ,h)
+	(0        ,h)
+	(0        ,(/ h 2))))
+
+(defun memo-get-stroke-points2 (w h c)
+  `((,w       ,(- h (/ c 2)))
 	(,(- w (/ c 1.5)) ,(- h (/ c 1.5)))
-	(,(- w c)       ,h)))
+	(,(- w c) ,h)))
 
 ;;------------------------------------------------------------------------------
 ;;
@@ -90,10 +103,22 @@
 				 `(check-and-draw-local-entity ,entity canvas writer)))
 	  (with-slots (crease fill fill2 stroke filter) obj
 		;; draw
-		(polygon (memo-get-points1 width height crease)
-				 :fill fill :stroke stroke :filter filter)
-		(polygon (memo-get-points2 width height crease)
-				 :fill fill2 :stroke (make-stroke :linejoin :round :base stroke)))))
+		(writer-write writer "<g stroke='none' "
+							 (write-when filter "filter='url(#" it ")' ") ">")
+		(writer-incr-level writer)
+		(let ((*mute-stroke* t))
+		  (polygon (memo-get-points1 width height crease) :fill fill)
+		  (polygon (memo-get-points2 width height crease) :fill fill2))
+		(writer-write writer "<g fill='none' "
+							 (to-property-strings stroke) ">")
+		(writer-incr-level writer)
+		(let ((*mute-stroke* t))
+		  (line (memo-get-stroke-points1 width height crease))
+		  (line (memo-get-stroke-points2 width height crease)))
+		(writer-decr-level writer)
+		(writer-write writer "</g>")
+		(writer-decr-level writer)
+		(writer-write writer "</g>"))))
   ;; draw text
   (call-next-method))
 
@@ -115,22 +140,24 @@
  |#
 (defmacro memo (center text &key width height crease align valign margin
 								 font fill fill2 stroke link rotate layer id filter contents)
-  (let ((code `(register-entity (make-instance 'memo
-											   :crease ,crease
-											   :center ,center
-											   :width ,width :height ,height
-											   :text ,text
-											   :align  (or ,align  *default-memo-align*)
-											   :valign (or ,valign *default-memo-valign*)
-											   :margin (or ,margin *default-memo-margin*)
-											   :font   (or ,font   *default-memo-font*)
-											   :fill   (or ,fill   *default-memo-fill*)
-											   :fill2  (or ,fill2
-														   ,fill   *default-memo-fill2*
-																   *default-memo-fill*)
-											   :stroke (or ,stroke *default-memo-stroke*)
-											   :link ,link :rotate ,rotate
-											   :filter ,filter :layer ,layer :id ,id))))
+  (let* ((g-fill (gensym "FILL"))
+		 (code `(let ((,g-fill ,fill))
+				  (register-entity (make-instance 'memo
+												   :crease ,crease
+												   :center ,center
+												   :width ,width :height ,height
+												   :text ,text
+												   :align  (or ,align  *default-memo-align*)
+												   :valign (or ,valign *default-memo-valign*)
+												   :margin (or ,margin *default-memo-margin*)
+												   :font   (or ,font   *default-memo-font*)
+												   :fill   (or ,g-fill *default-memo-fill*)
+												   :fill2  (or ,fill2
+															   ,g-fill *default-memo-fill2*
+																	   *default-memo-fill*)
+												   :stroke (or ,stroke *default-memo-stroke*)
+												   :link ,link :rotate ,rotate
+												   :filter ,filter :layer ,layer :id ,id)))))
 	(if (null contents)
 		code
 		(let ((g-obj (gensym "OBJ")))

@@ -2244,6 +2244,114 @@ sin および cos がわかれば、あとは d1 と合成することで最終�
 kx/a^2^ + my/b^2^ = 1 に x = 0、または y = 0 を代入して整理すると、交点はそれぞれ
 (0, b^2^/m) と (a^2^/k, 0) であることがわかる。2 点がわかれば、あとは計算するだけである。
 
+### 複合オブジェクトの描画方法
+
+　従来、複雑な図形オブジェクトは「出力サイズが最小になるように」実装する努力をして
+いたが、いくつかの問題が発覚して以降、複雑なオブジェクトを描画する際の原則を整理して
+おく必要があるという話に。以下に cube の描画を例としてまとめる。
+
+```kaavio
+(diagram (150 100)
+  (grid)
+  (drop-shadow)
+  (cube '(70 50) 80 70 "" :fill :lightgray :fill2 :gray :filter :drop-shadow))
+```
+
+　まず、問題のある方法を以下に示す。最初のステップとして、filter 指定込みで以下の
+描画をする。
+
+```kaavio
+(diagram (150 100)
+  (grid)
+  (drop-shadow)
+  (polygon '((30 22) (44 8) (117 8) (117 71) (103 85) (30 85)) :fill :gray :filter :drop-shadow))
+```
+
+　続いて、手前に向いた面の矩形を描画する。これに続いて右上の斜め線を描画すれば完成である。
+描画の手間も少ないし、出力 SVG も少ない。
+
+```kaavio
+(diagram (150 100)
+  (grid)
+  (drop-shadow)
+  (polygon '((30 22) (44 8) (117 8) (117 71) (103 85) (30 85)) :fill :gray :filter :drop-shadow)
+  (rect '(66.5 53.5) 73 63 :fill :lightgray))
+```
+
+
+　この描画方法の何が問題か。極端な例だが、以下のようにするとわかりやすい。
+
+```lisp
+(diagram (400 200)
+  (grid)
+  (drop-shadow)
+  (text canvas.center "This is background text." :font 24 :align :center)
+  (cube canvas.center 200 150 ""
+        :stroke '(:color :blue :width 8 :dasharray (5 10))
+        :fill   '(:color :lightcyan :opacity 0.3)
+        :fill2  '(:color :cyan      :opacity 1.0) :filter :drop-shadow))
+```
+
+　このコードが生成すべき画像は以下である。
+
+<!-- snippet: CUBE-PROBLEM-SAMPLE
+(diagram (400 200)
+  (grid)
+  (drop-shadow)
+  (text canvas.center "This is background text." :font 24 :align :center)
+  (raw-svg "<g filter='url(#drop-shadow)'")
+  ;; fill2 部分の塗りつぶし ------------------------------------------
+  (polygon '((100 40) (130 10) (315 10)
+             (315 145) (285 175) (285 40)) :stroke :none :fill :cyan)
+  ;; fill 部分の塗りつぶし -------------------------------------------
+  (rect `(,(+ 100 (/ 185 2)) ,(+ 40 (/ 135 2))) 185 135
+		:stroke :none :fill '(:color :lightcyan :opacity 0.7))
+  ;; stroke による線の描画 -------------------------------------------
+  (with-options (:stroke '(:color :blue :width 8 :dasharray (5 10)))
+    (line '((315 10) (285 40)))
+    (line '((100 40) (285 40) (285 175)))
+    (line '((100 40) (130 10) (315 10) (315 145) (285 175) (100 175) (100 40))))
+  (raw-svg "</g>"))
+-->
+
+```kaavio
+<!-- expand: CUBE-PROBLEM-SAMPLE -->
+```
+
+
+　しかし、2022年11月中旬の段階（version 0.017）では以下が生成される。
+
+```kaavio
+(diagram (400 200)
+  (grid)
+  (drop-shadow)
+  (text canvas.center "This is background text." :font 24 :align :center)
+  (with-options (:stroke '(:color :blue :width 8 :dasharray (5 10)))
+    (polygon '((100 40) (130 10) (315 10)
+               (315 145) (285 175) (100 175)) :fill :cyan :filter :drop-shadow)
+    (line '((315 10) (285 40)))
+    (rect `(,(+ 100 (/ 185 2)) ,(+ 40 (/ 135 2))) 185 135
+          :fill '(:color :lightcyan :opacity 0.7))))
+```
+
+　以下の問題がある。
+
+* fill2 が下に塗られているため、fill で指定されている :opacity 0.7 が機能していない（背景の文字が透けて見えない）
+* 左端と下端の線が２回描画されているのがわかる（点線がズレているため）
+
+　少なくとも、正しい描画のためには以下が守られなければならない。
+
+* 塗りを重ねてはならない
+* 同じ線を複数回描画してはならない
+
+　上記をちゃんとやると、cube は以下の要領で描画される必要がある。すなわち、塗りを重ねる
+ことなく個別に描画し、線は全部後で描く。この方法では塗りに対して filter を指定できない
+ので、塗りと線の描画全体を g tag で括ってフィルタを指定する。
+
+```lisp
+<!-- expand: CUBE-PROBLEM-SAMPLE -->
+```
+
 ## 図表一覧
 <!-- embed:figure-list -->
 
