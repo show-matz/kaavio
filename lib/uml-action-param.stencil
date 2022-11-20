@@ -16,7 +16,7 @@
 ;;
 ;;------------------------------------------------------------------------------
 (defclass uml-action-param (kaavio:text-shape)
-  ((target		:initform nil	:initarg :target)		; (keyword . keyword)
+  ((target		:initform nil	:initarg :target)		; (symbol . keyword)
    (keyword		:initform nil	:initarg :keyword)		; (or nil uml-keyword-info)
    (kwd-height	:initform nil)))						; number
 
@@ -40,7 +40,7 @@
 	(check-member kwd-height  :nullable nil :types number)
 	(let ((target   (car target))
 		  (position (cdr target)))
-	  (check-member target   :nullable nil :types keyword)
+	  (check-member target   :nullable nil :types symbol)
 	  (check-member position :nullable nil :types keyword)
 	  (labels ((entity-and-position ()
 				 (let ((ent (kaavio::dict-get-entity dict target))

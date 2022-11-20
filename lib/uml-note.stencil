@@ -46,7 +46,7 @@
 	(check-object keyword canvas dict :nullable t :class uml-keyword-info)
 	(check-member targets :nullable   t :types list)
 	(dolist (target targets)
-	  (check-member target :nullable nil :types keyword))
+	  (check-member target :nullable nil :types symbol))
 	(check-member margin2 :nullable nil :types number)
 	(check-member crease  :nullable nil :types number)
 	(setf targets (mapcar (lambda (id)

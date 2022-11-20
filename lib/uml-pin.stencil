@@ -44,7 +44,7 @@
 	(check-object stroke canvas dict :nullable   t :class         stroke-info)
 	(let ((target   (car target))
 		  (position (cdr target)))
-	  (check-member target   :nullable nil :types keyword)
+	  (check-member target   :nullable nil :types symbol)
 	  (check-member position :nullable nil :types keyword)
 	  (labels ((entity-and-position ()
 				 (let ((ent (kaavio::dict-get-entity dict target))

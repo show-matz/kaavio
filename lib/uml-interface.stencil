@@ -80,7 +80,7 @@
 (defclass uml-interface-socket (kaavio:entity)
   ((name			:initform nil :initarg :name)	; (or nil label-inf)
    (center			:initform nil :initarg :center)	; point
-   (from			:initform nil :initarg :from)	; keyword
+   (from			:initform nil :initarg :from)	; symbol
    (style			:initform nil :initarg :style)	; keyword - :(CC|[BLRT][123]?[BLRT][123]?) ( keyword -> list )
    (spacing			:initform nil :initarg :spacing) ; list
    (stroke			:initform nil :initarg :stroke)	; (or nil stroke-info)
@@ -104,7 +104,7 @@
   (with-slots (name center from style stroke spacing
 					points canvas-cache dummy-circle #|degree|#) sock
 	(check-object name   canvas dict :nullable nil :class label-info)
-	(check-member from   :nullable nil :types keyword)
+	(check-member from   :nullable nil :types symbol)
 	(check-member style  :nullable nil :types keyword)
 	(check-object stroke canvas dict :nullable nil :class stroke-info)
 	(check-member spacing :nullable  t :types (or number list))
