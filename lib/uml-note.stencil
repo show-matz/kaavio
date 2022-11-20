@@ -3,14 +3,15 @@
 
 (load-stencil :uml-keyword-info)
 
-(defparameter *uml-note-font*         nil)
-(defparameter *uml-note-fill*      :white)
-(defparameter *uml-note-stroke*    :black)
-(defparameter *uml-note-margin*        10)
-(defparameter *uml-note-align*      :left)
-(defparameter *uml-note-valign*   :center)
-(defparameter *uml-note-crease-size*   20)
-(defparameter *uml-note-filter*       nil)
+(defparameter *uml-note-font*      nil)
+(defparameter *uml-note-fill*   :white)
+(defparameter *uml-note-stroke* :black)
+(defparameter *uml-note-margin*     10)
+(defparameter *uml-note-align*   :left)
+(defparameter *uml-note-valign*   :top)
+(defparameter *uml-note-crease*     20)
+(defparameter *uml-note-filter*    nil)
+(defparameter *uml-note-layer*     nil)
 
 ;;------------------------------------------------------------------------------
 ;;
@@ -19,15 +20,15 @@
 ;;------------------------------------------------------------------------------
 (defclass uml-note (kaavio:text-shape)
   ((keyword	:initform nil :initarg :keyword)	; (or nil uml-keyword-info)
-   (targets	:initform nil :initarg :targets)	; list of keyword symbol
+   (targets	:initform nil :initarg :targets)	; list of (or keyword symbol)
    (margin2	:initform nil :initarg :margin)		; number ( margin for keyword )
-   (crease	:initform nil :initarg :margin)		; number
+   (crease	:initform nil :initarg :crease)		; number
    (filter	:initform nil :initarg :filter)))	; (or nil keyword)
 
 
 (defmethod initialize-instance :after ((note uml-note) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (keyword targets margin2 crease filter) note
+  (with-slots (keyword targets margin2 crease filter layer) note
 	(setf keyword (and keyword (make-uml-keyword keyword)))
 	(setf targets (if (listp targets) targets (list targets)))
 	(setf margin2 (if (null keyword)
@@ -35,10 +36,13 @@
 					  (or (and *uml-note-font* (slot-value *uml-note-font* 'kaavio::size))
 						  (and *default-font*  (slot-value *default-font*  'kaavio::size))
 						  12)))	;;ToDo : これはなんとかしないと。
-	(setf crease  (or crease *uml-note-crease-size*))
+	(setf crease  (or crease *uml-note-crease*))
 	(setf filter  (if (eq filter :none)
 					  nil
-					  (or filter *uml-note-filter* *default-filter*))))
+					  (or filter *uml-note-filter* *default-filter*)))
+	(setf layer  (if (eq layer :none)
+					 nil
+					 (or layer *uml-note-layer* *default-layer*))))
   note)
 
 (defmethod check ((note uml-note) canvas dict)
@@ -70,24 +74,29 @@
 		(with-slots (keyword margin2 crease filter
 							 kaavio::fill kaavio::stroke kaavio::margin) note
 		  ;; draw note body
-		  (polygon `((0 0)
-					 (0 ,height)
-					 (,width ,height)
-					 (,width ,crease)
-					 (,(- width crease) 0))
-				   :fill kaavio::fill :stroke kaavio::stroke :filter filter)
+		  (writer-write writer "<g "
+							   (to-property-strings kaavio::stroke)
+							   (write-when filter "filter='url(#" it ")' ") ">")
+		  (writer-incr-level writer)
+		  (let ((*mute-stroke* t))
+			(polygon `((0 ,(/ height 2))
+					   (0 ,height)
+					   (,width ,height)
+					   (,width ,crease)
+					   (,(- width crease) 0)
+					   (0 0)
+					   (0 ,(/ height 2))) :fill kaavio::fill)
+			;; crease
+			(line `((,width ,crease)
+					(,(- width crease) ,crease) (,(- width crease) 0))))
+		  (writer-decr-level writer)
+		  (writer-write writer "</g>")
 		  ;; draw keyword
 		  (when keyword
 			(uml-keyword-draw keyword (+ left kaavio::margin)
-							  (+ top (/ kaavio::margin 2) margin2) :left writer))
-		  ;; draw text
-		  (call-next-method)
-		  ;; draw crease
-		  (polygon `((,width ,crease)
-					 (,(- width crease) ,crease)
-					 (,(- width crease) 0))
-				   :fill kaavio::fill :stroke kaavio::stroke)))))
-  nil)
+							  (+ top (/ kaavio::margin 2) margin2) :left writer))))))
+  ;; draw text
+  (call-next-method))
 
 ;for debug...
 ;(defmethod post-draw ((obj uml-note) writer)
@@ -104,10 +113,17 @@
 	  (with-slots (targets kaavio::stroke) note
 		;; draw connections
 		(let ((canvas (make-canvas '(0 0) width height))
-			  (*default-stroke* (make-stroke :dasharray '(3 3)
-											 :base kaavio::stroke))) ;;ToDo : fixed ?
-		  (dolist (ent targets)
-			(line (resolve-connector-points note ent :CC nil)))))))
+			  (st (make-stroke :dasharray '(3 3) :base kaavio::stroke))) ;;ToDo : fixed ?
+		  (if (= 1 (length targets))
+			  (line (resolve-connector-points note (car targets) :CC nil) :stroke st)
+			  (progn
+				(writer-write writer "<g " (to-property-strings st) ">")
+				(writer-incr-level writer)
+				(let ((*mute-stroke* t))
+				  (dolist (ent targets)
+					(line (resolve-connector-points note ent :CC nil))))
+				(writer-decr-level writer)
+				(writer-write writer "</g>")))))))
   nil)
 
 (defmethod draw-entity ((note uml-note) writer)
@@ -133,9 +149,10 @@
 ;; macro uml-note
 ;;
 ;;------------------------------------------------------------------------------
-(defmacro uml-note (center text &key keyword targets width height
-									 align valign margin
-									 font fill stroke link layer filter id contents)
+(defmacro uml-note (center width height text
+							&key keyword targets
+								 align valign margin crease font
+								 fill stroke link layer filter id contents)
   (let ((code `(register-entity (make-instance 'uml-note
 											   :center ,center
 											   :width ,width :height ,height
@@ -145,9 +162,10 @@
 											   :valign (or ,valign *uml-note-valign*)
 											   :margin (or ,margin *uml-note-margin*)
 											   :font ,font
-											   :fill   (or ,fill   *uml-note-fill*)
+											   :fill   (or ,fill *uml-note-fill*)
 											   :stroke (or ,stroke *uml-note-stroke*)
-											   :link ,link :layer ,layer :filter ,filter :id ,id))))
+											   :crease ,crease :link ,link
+											   :layer ,layer :filter ,filter :id ,id))))
 	(if (null contents)
 		code
 		(let ((g-obj (gensym "OBJ")))
@@ -157,3 +175,30 @@
 			 ,@contents)))))
 	
 
+;;------------------------------------------------------------------------------
+;;
+;; macro with-uml-note-options
+;;
+;;------------------------------------------------------------------------------
+(defmacro with-uml-note-options ((&key font fill stroke margin
+									   align valign crease filter layer) &rest body)
+  (labels ((impl (params acc)
+			 (if (null params)
+				 acc
+				 (let ((value  (car  params))
+					   (symbol (cadr params)))
+				   (impl (cddr params)
+						 (if (null value)
+							 acc
+							 (push (list symbol value) acc)))))))
+	(let ((lst (impl (list font   '*uml-note-font*
+						   fill   '*uml-note-fill*
+						   stroke '*uml-note-stroke*
+						   margin '*uml-note-margin*
+						   align  '*uml-note-align*
+						   valign '*uml-note-valign*
+						   crease '*uml-note-crease*
+						   filter '*uml-note-filter*
+						   layer  '*uml-note-layer*) nil)))
+	  `(let ,lst
+		 ,@body))))

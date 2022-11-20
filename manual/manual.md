@@ -5760,73 +5760,73 @@ ${BLANK_PARAGRAPH}
 ### アクティビティ図
 <!-- autolink: [$$](#アクティビティ図) -->
 
-* uml-action
-* uml-action-param
-* uml-activity-final
-* uml-activity-partitions
-* uml-activity-start
-* uml-connector
-* uml-decision-merge
-* uml-expansion-region
-* uml-flow
-* uml-flow-final
-* uml-fork-join
-* uml-pin
-* uml-signal-receipt
-* uml-signal-sending
-* uml-time-event
-* uml-diagram
-* uml-note
+* [$$](#uml-action)
+* [$$](#uml-action-param)
+* [$$](#uml-activity-final)
+* [$$](#uml-activity-partitions)
+* [$$](#uml-activity-start)
+* [$$](#uml-connector)
+* [$$](#uml-decision-merge)
+* [$$](#uml-expansion-region)
+* [$$](#uml-flow)
+* [$$](#uml-flow-final)
+* [$$](#uml-fork-join)
+* [$$](#uml-pin)
+* [$$](#uml-signal-receipt)
+* [$$](#uml-signal-sending)
+* [$$](#uml-time-event)
+* [$$](#uml-diagram)
+* [$$](#uml-note)
 
 ### クラス図
 <!-- autolink: [$$](#クラス図) -->
 
-* uml-role-info
-* uml-multiplicity-info
-* uml-keyword-info
-* uml-association
-* uml-composition
-* uml-aggregation
-* uml-dependency
-* uml-diagram
-* uml-generalization
-* uml-realization
-* uml-note
-* uml-interface
-* uml-class
-* uml-package
+* [$$](#uml-role-info)
+* [$$](#uml-multiplicity-info)
+* [$$](#uml-keyword-info)
+* [$$](#uml-association)
+* [$$](#uml-composition)
+* [$$](#uml-aggregation)
+* [$$](#uml-dependency)
+* [$$](#uml-diagram)
+* [$$](#uml-generalization)
+* [$$](#uml-realization)
+* [$$](#uml-note)
+* [$$](#uml-interface)
+* [$$](#uml-class)
+* [$$](#uml-package)
 
 ### パッケージ図
 <!-- autolink: [$$](#パッケージ図) -->
 
-* uml-keyword-info
-* uml-dependency
-* uml-package
-* uml-realization
-* uml-diagram
-* uml-note
+* [$$](#uml-keyword-info)
+* [$$](#uml-dependency)
+* [$$](#uml-package)
+* [$$](#uml-realization)
+* [$$](#uml-diagram)
+* [$$](#uml-note)
 
 ### ステートマシーン図
 <!-- autolink: [$$](#ステートマシーン図) -->
 
-* uml-state-begin
-* uml-state-end
-* uml-state-history
-* uml-transition-spec
-* uml-transition
-* uml-state
-* uml-diagram
-* uml-note
+* [$$](#uml-state-begin)
+* [$$](#uml-state-end)
+* [$$](#uml-state-history)
+* [$$](#uml-transition-spec)
+* [$$](#uml-transition)
+* [$$](#uml-state)
+* [$$](#uml-diagram)
+* [$$](#uml-note)
 
 ### ユースケース図
 <!-- autolink: [$$](#ユースケース図) -->
 
-* uml-actor
-* uml-usecase
-* uml-association
-* uml-generalization
-* uml-diagram
-* uml-note
+* [$$](#uml-actor)
+* [$$](#uml-usecase)
+* [$$](#uml-association)
+* [$$](#uml-generalization)
+* [$$](#uml-diagram)
+* [$$](#uml-note)
 
 ### UML のダイアグラム要素
 #### uml-action-param
@@ -6016,7 +6016,44 @@ Figure. uml-activity-partitions 要素
 <!-- autolink: [$$](#uml-node) -->
 
 #### uml-note
-<!-- autolink: [$$](#uml-note) -->
+
+　uml-note は UML において汎用的にノートを付加させる図形要素です。ほぼメモと同じように
+使えますが、targets パラメータによって複数の図形要素に接続することが可能です。
+
+<!-- snippet: UML-NOTE-SAMPLE
+(diagram (400 200)
+  (grid)
+  (drop-shadow)
+  (with-uml-note-options (:stroke :brown :fill :wheat
+                          :crease 16 :filter :drop-shadow)
+    (uml-class '( 80 60) "Foo" :id :foo)
+    (uml-class '(300 30) "Bar" :id :bar)
+    (uml-note (xy+ bar.center -10 90) 120 60
+              "test note."
+              :targets '(:foo :bar) :keyword "memo")
+    (uml-note (xy+ foo.center 20 80) 160 60
+              "this is spec memo.~%multi line is OK."
+              :targets :foo :keyword "spec")))
+-->
+
+```kaavio
+<!-- expand: UML-NOTE-SAMPLE -->
+```
+Figure. uml-note のサンプル
+
+
+　上記の作図は以下のコードで行なっています。targets パラメータは、単一の要素だけを指定する
+場合はリストである必要はありません。また、図面中で uml-note のスタイルを統一するために 
+with-uml-note-options を使用しています。
+
+```lisp
+<!-- expand: UML-NOTE-SAMPLE -->
+```
+
+　詳細は以下を参照してください。
+
+* uml-note マクロ
+* with-uml-note-options マクロ
 
 #### uml-package
 <!-- autolink: [$$](#uml-package) -->
@@ -7079,6 +7116,18 @@ ${BLANK_PARAGRAPH}
 
 　${{TODO}{まだ記述されていません。}}
 
+#### uml-note マクロ
+<!-- autolink: [uml-note](#uml-note マクロ) -->
+
+```lisp
+(defmacro uml-note (center width height text
+                           &key keyword targets align valign
+                                margin crease font fill stroke
+                                link layer filter id contents) ... )
+```
+
+　${{TODO}{まだ記述されていません。}}
+
 #### use マクロ
 <!-- autolink: [use](#use マクロ) -->
 
@@ -7303,6 +7352,17 @@ ${BLANK_PARAGRAPH}
 ```lisp
 (defmacro with-textbox-options ((&key rx ry align valign margin
                                       font fill stroke filter layer) &rest body) ...)
+```
+
+　${{TODO}{まだ記述されていません。}}
+
+#### with-uml-note-options マクロ
+<!-- autolink: [with-uml-note-options](#with-uml-note-options マクロ) -->
+
+```lisp
+(defmacro with-uml-note-options ((&key font fill stroke
+                                       margin align valign
+                                        crease filter layer) &rest body) ... )
 ```
 
 　${{TODO}{まだ記述されていません。}}
