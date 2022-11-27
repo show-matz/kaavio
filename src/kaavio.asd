@@ -311,6 +311,7 @@
 																"rectangle"
 																"filter"
 																"text-shape"))
+				(:file "theme"                     :depends-on ("kaavio"))
 				(:file "use"                       :depends-on ("kaavio"
 																"constants"
 																"defgroup"

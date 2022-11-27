@@ -401,6 +401,9 @@
 				:*default-textbox-layer*
 				:textbox
 				:with-textbox-options
+				;theme.lisp
+				:register-theme
+				:with-theme
 				;use.lisp
 				:use
 				;writer.lisp

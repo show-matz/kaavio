@@ -4421,6 +4421,163 @@ ${BLANK_PARAGRAPH}
 
 ${BLANK_PARAGRAPH}
 
+## テーマ
+<!-- autolink: [$$](#テーマ) -->
+
+　ストロークやフィルなど図形要素のスタイルを都度指定するのは面倒です。with-options の
+ようなマクロを使うこともできますが、図形要素毎の with- 系マクロを多段に書くのもやはり
+面倒です。各種図形要素に対するスタイル指定をひとまとめした設定があれば便利でしょう。
+
+　「テーマ」はそのためのものです。以下のコードは図形要素毎の個別のスタイル設定をせずに 
+[$@ 章](#一般的な図形)の図形要素を描画していますが、
+
+<!-- snippet: THEME-SAMPLE-1
+(diagram (500 300)
+  (grid)
+  (with-theme (:default)
+    (let ((cc canvas.center))
+      (document     (xy+ cc -190 -100) 70 50 "doc")
+      (folder       (xy+ cc  -65 -100) "folder" :width 80 :height 50)
+      (person       (xy+ cc   65 -100) 30 :label "person")
+      (balloon      (xy+ cc  190 -100) "balloon"
+                    (xy+ cc  160 -140) :width 80 :height 40)
+      (memo         (xy+ cc -190    0) "memo" :width 80 :height 50)
+      (cube         (xy+ cc  -65    0)  70 60 "cube")
+      (cylinder     (xy+ cc   65    0)  70 60 "cylinder")
+      (explosion1   (xy+ cc  190    0) 110 90 "explosion")
+      (cross        (xy+ cc -190  100)  70 70 20)
+      (block-arrow1 (xy+ cc -100  100) (xy+ cc -20 100) 20))))
+-->
+
+```lisp
+<!-- expand: THEME-SAMPLE-1 -->
+```
+
+${BLANK_PARAGRAPH}
+
+描画結果は以下のようなものになります。これは 3 行目の with-theme で default テーマを
+指定したことによる効果です。
+
+```kaavio
+<!-- expand: THEME-SAMPLE-1 -->
+```
+Figure. デフォルトテーマの使用例
+
+${BLANK_PARAGRAPH}
+
+
+　この 3 行目の `(with-theme (:default) ...)` というコードは、以下と等価です。テーマを
+利用することで、これらをすべて記述する手間を省くことができるわけです。なお、[$@ 章](#基本的な図形)の
+図形要素は、どちらかというと複雑な図形を組み立てるための部品のため、default テーマによる
+設定はありません。
+
+```lisp
+(with-options (:font '(:family "sans-serif"))
+ (with-textbox-options (:stroke :black :fill :white)
+  (with-document-options (:stroke :darkslategray :fill :whitesmoke)
+   (with-folder-options (:stroke :darkkhaki :fill :cornsilk)
+    (with-person-options (:stroke :maroon :fill :linen)
+     (with-balloon-options (:stroke :navy :fill :azure)
+      (with-memo-options (:stroke :darkgreen :fill :mintcream
+                          :fill2 :palegreen3 :crease 30 :align :left :valign :top)
+       (with-cube-options (:stroke :black :fill :lightgray :fill2 :darkgray)
+        (with-cylinder-options (:stroke :black :fill :white)
+         (with-explosion-options (:stroke :red :fill :pink)
+          (with-cross-options (:stroke :black :fill :white)
+           (with-block-arrow-options (:stroke :navy :fill :skyblue)
+            (locally ... )))))))))))))
+```
+
+　テーマはそのまま使用することもできますし、[部分的にカスタマイズ](#テーマのカスタマイズ)する
+こともできます。また、[イチから新しく作る](#新しいテーマの作成)ことも可能です。これらの方法に
+ついては後述します。
+
+### 利用できるテーマ
+
+　現在、以下のテーマが利用できます。
+
+* default : [$$](#一般的な図形)の図形要素を設定しています。サンプルは [$@](F#デフォルトテーマの使用例) を \
+参照してください。
+
+
+### 新しいテーマの作成
+
+　register-theme を使えば、新しいテーマを作成することができます。以下は、default テーマを
+定義している register-theme の使用例です。
+
+```lisp
+(register-theme (:default)
+  (t           :font '(:family "sans-serif"))
+  (textbox     :stroke :black         :fill :white)
+  (document    :stroke :darkslategray :fill :whitesmoke)
+  (folder      :stroke :darkkhaki     :fill :cornsilk)
+  (person      :stroke :maroon        :fill :linen)
+  (balloon     :stroke :navy          :fill :azure)
+  (memo        :stroke :darkgreen     :fill :mintcream
+               :fill2  :palegreen3    :crease 30 :align :left :valign :top)
+  (cube        :stroke :black         :fill :lightgray :fill2 :darkgray)
+  (cylinder    :stroke :black         :fill :white)
+  (explosion   :stroke :red           :fill :pink)
+  (cross       :stroke :black         :fill :white)
+  (block-arrow :stroke :navy          :fill :skyblue))
+```
+Figure. register-theme によるテーマの作成
+
+${BLANK_PARAGRAPH}
+
+
+　register-theme に続けて、括弧内にテーマ名をキーワードで指定します。続けて、各図形要素に
+指定するスタイルを指定します。このとき、
+
+* それぞれの指定は `(textbox :stroke :black :fill :white)` のようにリストで指定します
+    * その先頭要素は、 with-xxx-options マクロの xxx 部分を指定してください
+    * 後続要素は、with-xxx-options のパラメータ部分をそのまま記述してください
+* with-options に相当する指定は、 `(t  :font '(:family "sans-serif"))` のように `t` で始まるリストで指定してください
+
+### テーマのカスタマイズ
+
+　register-theme において、「ベースとする既存のテーマ」を指定することで、差分だけを指定した
+カスタムテーマを作成することができます。以下の例では、default テーマをベースとして my-theme と
+いうテーマを作成しています。
+
+```lisp
+(register-theme (:my-theme :default)
+  (t :stroke 3 :fill '(:opacity 0.4) :font '(:weight :bold))
+  (cross :stroke :purple :fill :lavender))
+```
+Figure. register-theme でベーステーマを指定する例
+
+${BLANK_PARAGRAPH}
+
+
+　上記の my-theme を使用して [$@](F#デフォルトテーマの使用例) と同じ図面を描画した結果を
+以下に示します。カスタマイズした部分（全体のストローク幅やフィルの不透明度、フォント、および
+cross のスタイル設定）が反映されていることがわかります。
+
+```kaavio
+(register-theme (:my-theme :default)
+  (t :stroke 3 :fill '(:opacity 0.4) :font '(:weight :bold))
+  (cross :stroke :purple :fill :lavender))
+
+(diagram (500 300)
+  (grid)
+  (with-theme (:my-theme)
+    (let ((cc canvas.center))
+      (document     (xy+ cc -190 -100) 70 50 "doc")
+      (folder       (xy+ cc  -65 -100) "folder" :width 80 :height 50)
+      (person       (xy+ cc   65 -100) 30 :label "person")
+      (balloon      (xy+ cc  190 -100) "balloon" (xy+ cc 160 -140) :width 80 :height 40)
+      (memo         (xy+ cc -190    0) "memo" :width 80 :height 50)
+      (cube         (xy+ cc  -65    0)  70 60 "cube")
+      (cylinder     (xy+ cc   65    0)  70 60 "cylinder")
+      (explosion1   (xy+ cc  190    0) 110 90 "explosion")
+      (cross        (xy+ cc -190  100)  70 70 20)
+      (block-arrow1 (xy+ cc -100  100) (xy+ cc -20 100) 20))))
+```
+Figure. テーマのカスタマイズ例
+
+${BLANK_PARAGRAPH}
+
 ## パラメータの詳細
 ### 色の指定
 
@@ -7096,6 +7253,15 @@ ${BLANK_PARAGRAPH}
 
 　${{TODO}{まだ記述されていません。}}
 
+#### register-theme マクロ
+<!-- autolink: [register-theme](#register-theme マクロ) -->
+
+```lisp
+(defmacro register-theme ((name &optional base) &rest settings) ...)
+```
+
+　${{TODO}{まだ記述されていません。}}
+
 #### repeat 関数
 <!-- autolink: [repeat](#repeat 関数) -->
 
@@ -7399,6 +7565,15 @@ ${BLANK_PARAGRAPH}
 ```lisp
 (defmacro with-textbox-options ((&key rx ry align valign margin
                                       font fill stroke filter layer) &rest body) ...)
+```
+
+　${{TODO}{まだ記述されていません。}}
+
+#### with-theme マクロ
+<!-- autolink: [with-theme](#with-theme マクロ) -->
+
+```lisp
+(defmacro with-theme ((name) &body body) ...)
 ```
 
 　${{TODO}{まだ記述されていません。}}
@@ -8185,6 +8360,9 @@ Figure. 色の名前とサンプル - 2
 	* ENHANCE : 出力 SVG のサイズ低減措置における table の不具合を改修
 * __2022/11/20 - version 0.018__
 	* BUGFIX : memo と cube における描画上のバグを改修
+* __2022/11/27 - version 0.019__
+	* ENHANCE : テーマ機能を追加
+
 
 
 ## 図表一覧
