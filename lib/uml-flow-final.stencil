@@ -3,6 +3,8 @@
 (defparameter *uml-flow-final-radius*       15)
 (defparameter *uml-flow-final-fill*     :white)
 (defparameter *uml-flow-final-stroke*   :black)
+(defparameter *uml-flow-final-filter*      nil)
+(defparameter *uml-flow-final-layer*       nil)
 
 ;;------------------------------------------------------------------------------
 ;;
@@ -10,6 +12,19 @@
 ;;
 ;;------------------------------------------------------------------------------
 (defclass uml-flow-final (kaavio:circle) ())
+
+
+(defmethod initialize-instance :after ((obj uml-flow-final) &rest initargs)
+  (declare (ignore initargs))
+  ;;(format t "initialize-instance :after called.~%")
+  (with-slots (filter layer) obj
+	(setf filter  (if (eq filter :none)
+					  nil
+					  (or filter *uml-flow-final-filter* *default-filter*)))
+	(setf layer  (if (eq layer :none)
+					 nil
+					 (or layer *uml-flow-final-layer* *default-layer*))))
+  obj)
 
 ;; no implementation
 ;;(defmethod check ((obj uml-flow-final) canvas dict) ...)
@@ -34,11 +49,36 @@
 ;; macro uml-flow-final
 ;;
 ;;------------------------------------------------------------------------------
-(defmacro uml-flow-final (center &key radius fill stroke layer id)
+(defmacro uml-flow-final (center &key radius fill stroke layer filter id)
   `(register-entity (make-instance 'uml-flow-final
 								   :center ,center
 								   :radius (or ,radius *uml-flow-final-radius*)
 								   :fill   (or ,fill   *uml-flow-final-fill*   *default-fill*)
 								   :stroke (or ,stroke *uml-flow-final-stroke* *default-stroke*)
-								   :link nil :layer ,layer :id ,id)))
+								   :link nil :layer ,layer :filter ,filter :id ,id)))
+
+
+;;------------------------------------------------------------------------------
+;;
+;; macro with-uml-flow-final-options
+;;
+;;------------------------------------------------------------------------------
+(defmacro with-uml-flow-final-options ((&key radius fill
+											 stroke filter layer) &rest body)
+  (labels ((impl (params acc)
+			 (if (null params)
+				 acc
+				 (let ((value  (car  params))
+					   (symbol (cadr params)))
+				   (impl (cddr params)
+						 (if (null value)
+							 acc
+							 (push (list symbol value) acc)))))))
+	(let ((lst (impl (list radius   '*uml-flow-final-radius*
+						   fill     '*uml-flow-final-fill*
+						   stroke   '*uml-flow-final-stroke*
+						   filter   '*uml-flow-final-filter*
+						   layer    '*uml-flow-final-layer*) nil)))
+	  `(let ,lst
+		 ,@body))))
 

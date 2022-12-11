@@ -4,6 +4,8 @@
 (defparameter *uml-activity-final-ratio*       0.6)
 (defparameter *uml-activity-final-fill*     :white)
 (defparameter *uml-activity-final-stroke*   :black)
+(defparameter *uml-activity-final-filter*      nil)
+(defparameter *uml-activity-final-layer*       nil)
 
 ;;------------------------------------------------------------------------------
 ;;
@@ -12,6 +14,19 @@
 ;;------------------------------------------------------------------------------
 (defclass uml-activity-final (kaavio:circle)
   ((ratio :initform 0 :initarg :ratio)))	; number
+
+
+(defmethod initialize-instance :after ((obj uml-activity-final) &rest initargs)
+  (declare (ignore initargs))
+  ;;(format t "initialize-instance :after called.~%")
+  (with-slots (filter layer) obj
+	(setf filter  (if (eq filter :none)
+					  nil
+					  (or filter *uml-activity-final-filter* *default-filter*)))
+	(setf layer  (if (eq layer :none)
+					 nil
+					 (or layer *uml-activity-final-layer* *default-layer*))))
+  obj)
 
 (defmethod check ((obj uml-activity-final) canvas dict)
   ;; this method must call super class' one.
@@ -39,12 +54,38 @@
 ;; macro uml-activity-final
 ;;
 ;;------------------------------------------------------------------------------
-(defmacro uml-activity-final (center &key radius ratio fill stroke link layer id)
+(defmacro uml-activity-final (center &key radius ratio fill stroke link layer filter id)
   `(register-entity (make-instance 'uml-activity-final
 								   :center ,center
 								   :radius (or ,radius *uml-activity-final-radius*)
 								   :ratio  (or ,ratio  *uml-activity-final-ratio*)
 								   :fill   (or ,fill   *uml-activity-final-fill*   *default-fill*)
 								   :stroke (or ,stroke *uml-activity-final-stroke* *default-stroke*)
-								   :link ,link :layer ,layer :id ,id)))
+								   :link ,link :layer ,layer :filter ,filter :id ,id)))
+
+
+;;------------------------------------------------------------------------------
+;;
+;; macro with-uml-activity-final-options
+;;
+;;------------------------------------------------------------------------------
+(defmacro with-uml-activity-final-options ((&key radius ratio
+												 fill stroke filter layer) &rest body)
+  (labels ((impl (params acc)
+			 (if (null params)
+				 acc
+				 (let ((value  (car  params))
+					   (symbol (cadr params)))
+				   (impl (cddr params)
+						 (if (null value)
+							 acc
+							 (push (list symbol value) acc)))))))
+	(let ((lst (impl (list radius   '*uml-activity-final-radius*
+						   ratio    '*uml-activity-final-ratio*
+						   fill     '*uml-activity-final-fill*
+						   stroke   '*uml-activity-final-stroke*
+						   filter   '*uml-activity-final-filter*
+						   layer    '*uml-activity-final-layer*) nil)))
+	  `(let ,lst
+		 ,@body))))
 

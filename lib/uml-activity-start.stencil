@@ -2,6 +2,8 @@
 
 (defparameter *uml-activity-start-radius*     10)
 (defparameter *uml-activity-start-fill*   :black)
+(defparameter *uml-activity-start-filter*    nil)
+(defparameter *uml-activity-start-layer*     nil)
 
 ;;------------------------------------------------------------------------------
 ;;
@@ -10,14 +12,51 @@
 ;;------------------------------------------------------------------------------
 (defclass uml-activity-start (kaavio:circle) ())
 
+
+(defmethod initialize-instance :after ((obj uml-activity-start) &rest initargs)
+  (declare (ignore initargs))
+  ;;(format t "initialize-instance :after called.~%")
+  (with-slots (filter layer) obj
+	(setf filter  (if (eq filter :none)
+					  nil
+					  (or filter *uml-activity-start-filter* *default-filter*)))
+	(setf layer  (if (eq layer :none)
+					 nil
+					 (or layer *uml-activity-start-layer* *default-layer*))))
+  obj)
+
+
 ;;------------------------------------------------------------------------------
 ;;
 ;; macro uml-activity-start
 ;;
 ;;------------------------------------------------------------------------------
-(defmacro uml-activity-start (center &key radius fill link layer id)
+(defmacro uml-activity-start (center &key radius fill link layer filter id)
   `(register-entity (make-instance 'uml-activity-start
 								   :center ,center
 								   :radius (or ,radius *uml-activity-start-radius*)
 								   :fill   (or ,fill   *uml-activity-start-fill* *default-fill*)
-								   :stroke :none :link ,link :layer ,layer :id ,id)))
+								   :stroke :none :link ,link :layer ,layer :filter ,filter :id ,id)))
+
+
+;;------------------------------------------------------------------------------
+;;
+;; macro with-uml-activity-start-options
+;;
+;;------------------------------------------------------------------------------
+(defmacro with-uml-activity-start-options ((&key radius fill filter layer) &rest body)
+  (labels ((impl (params acc)
+			 (if (null params)
+				 acc
+				 (let ((value  (car  params))
+					   (symbol (cadr params)))
+				   (impl (cddr params)
+						 (if (null value)
+							 acc
+							 (push (list symbol value) acc)))))))
+	(let ((lst (impl (list radius   '*uml-activity-start-radius*
+						   fill     '*uml-activity-start-fill*
+						   filter   '*uml-activity-start-filter*
+						   layer    '*uml-activity-start-layer*) nil)))
+	  `(let ,lst
+		 ,@body))))

@@ -72,7 +72,7 @@
 	  (macrolet ((register-entity (entity)
 				   `(check-and-draw-local-entity ,entity canvas writer)))
 		(with-slots (keyword margin2 crease filter
-							 kaavio::fill kaavio::stroke kaavio::margin) note
+							 kaavio::font kaavio::fill kaavio::stroke kaavio::margin) note
 		  ;; draw note body
 		  (writer-write writer "<g "
 							   (to-property-strings kaavio::stroke)
@@ -94,7 +94,8 @@
 		  ;; draw keyword
 		  (when keyword
 			(uml-keyword-draw keyword (+ left kaavio::margin)
-							  (+ top (/ kaavio::margin 2) margin2) :left writer))))))
+							  (+ top (/ kaavio::margin 2) margin2)
+							  :left kaavio::font writer))))))
   ;; draw text
   (call-next-method))
 

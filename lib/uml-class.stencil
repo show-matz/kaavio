@@ -479,7 +479,7 @@
 					(incf y font-size)
 					(uml-keyword-draw keyword
 									  (+ (canvas-left canvas) center)
-									  (+ (canvas-top  canvas) y) :center writer)
+									  (+ (canvas-top  canvas) y) :center font writer)
 					(incf y spacing))
 				  (dolist (name names)
 					(incf y font-size)

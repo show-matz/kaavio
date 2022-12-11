@@ -3,32 +3,28 @@
 
 (load-stencil :uml-keyword-info)
 
-(defparameter *uml-action-font*         nil)
-(defparameter *uml-action-fill*      :white)
-(defparameter *uml-action-stroke*    :black)
-(defparameter *uml-action-width*         80)
-(defparameter *uml-action-height*        40)
-(defparameter *uml-action-corner-r*       6)
-(defparameter *uml-action-margin*         5)
-(defparameter *uml-action-rake-width*    10)
-(defparameter *uml-action-rake-height*   14)
-(defparameter *uml-action-rake-margin-x*  4)
-(defparameter *uml-action-rake-margin-y*  4)
+(defparameter *uml-action-font*            nil)
+(defparameter *uml-action-fill*         :white)
+(defparameter *uml-action-stroke*       :black)
+(defparameter *uml-action-width*            80)
+(defparameter *uml-action-height*           40)
+(defparameter *uml-action-corner-r*          6)
+(defparameter *uml-action-margin*            5)
+(defparameter *uml-action-rake*   '(10 14 4 4))
+(defparameter *uml-action-filter*          nil)
+(defparameter *uml-action-layer*           nil)
 
 
 (defun uml-action-fix-rake-info (param)
   (cond
 	((null param) nil)
-	((eq t param) (list *uml-action-rake-width*
-						*uml-action-rake-height*
-						*uml-action-rake-margin-x*
-						*uml-action-rake-margin-y*))
+	((eq t param) *uml-action-rake*)
 	((not (listp param)) param)
 	(t (destructuring-bind (&optional w h x y) param
-		 (list (or w *uml-action-rake-width*)
-			   (or h *uml-action-rake-height*)
-			   (or x *uml-action-rake-margin-x*)
-			   (or y *uml-action-rake-margin-y*))))))
+		 (list (or w (first  *uml-action-rake*))
+			   (or h (second *uml-action-rake*))
+			   (or x (third  *uml-action-rake*))
+			   (or y (fourth *uml-action-rake*)))))))
 
 ;;------------------------------------------------------------------------------
 ;;
@@ -40,14 +36,21 @@
    (contents-p	:initform nil	:initarg  :contents-p)	; boolean
    (rake		:initform nil	:initarg  :rake)		; boolean
    (corner-r	:initform nil	:initarg  :corner-r)	; number
+   (filter		:initform nil	:initarg  :filter)		; (or nil keyword)
    (kwd-height	:initform nil)))						; number
 
 (defmethod initialize-instance :after ((action uml-action) &rest initargs)
   (declare (ignore initargs))
   ;;(format t "initialize-instance :after called.~%")
-  (with-slots (keyword rake kwd-height) action
+  (with-slots (keyword rake filter layer kwd-height) action
 	(setf keyword (and keyword (make-uml-keyword keyword)))
 	(setf rake    (uml-action-fix-rake-info rake))
+	(setf filter  (if (eq filter :none)
+					  nil
+					  (or filter *uml-action-filter* *default-filter*)))
+	(setf layer  (if (eq layer :none)
+					 nil
+					 (or layer *uml-action-layer* *default-layer*)))
 	(setf kwd-height (if (null keyword)
 						 0
 						 (or (and *uml-action-font* (slot-value *uml-action-font* 'kaavio::size))
@@ -90,12 +93,14 @@
 		  (height (canvas-height canvas)))
 	  (macrolet ((register-entity (entity)
 				   `(check-and-draw-local-entity ,entity canvas writer)))
-		(with-slots (keyword kwd-height corner-r rake
-						 kaavio::margin kaavio::fill kaavio::stroke) action
+		(with-slots (keyword kwd-height corner-r rake filter
+						 kaavio::font kaavio::margin kaavio::fill kaavio::stroke) action
+		  ;; draw note body
+		  (writer-write writer "<g " (write-when filter "filter='url(#" it ")' ") ">")
+		  (writer-incr-level writer)
 		  ;; draw action body
-		  (rectangle (make-point (/ width 2) (/ height 2))
-					 width height :rx corner-r :ry corner-r
-					 :fill kaavio::fill :stroke kaavio::stroke)
+		  (rectangle (make-point (/ width 2) (/ height 2)) width height
+					 :rx corner-r :stroke kaavio::stroke :fill kaavio::fill)
 		  ;; rake icon
 		  (when rake
 			(destructuring-bind (w h xm ym) rake
@@ -107,11 +112,14 @@
 						(:line-to (0 ,(- (/ h 2))))
 						(:line-to (,w 0))
 						(:line-to (0 ,(/ h 2))))))))
+		  (writer-decr-level writer)
+		  (writer-write writer "</g>")
 		  ;; draw keyword
 		  (when keyword
 			(uml-keyword-draw keyword
 							  (+ left (/ width 2))
-							  (+ top  kaavio::margin kwd-height) :center writer))
+							  (+ top  kaavio::margin kwd-height)
+							  :center kaavio::font writer))
 		  ;; draw text
 		  (call-next-method)))))
   nil)
@@ -157,15 +165,6 @@
 				(+ kwd-height (* 2 kaavio::margin) h)))))
 	canvas))
 
-(defmethod shape-get-subcanvas ((action uml-action))
-  ;;(format t "shape-get-subcanvas called.~%")
-  (with-slots (kaavio::margin) action
-	(let ((partition (+ kaavio::margin
-						(canvas-height (text-shape-paragraph-area action)))))
-	  (make-canvas (point/y+ (attribute-topleft action) partition)
-				   (attribute-width action)
-				   (- (attribute-height action) partition)))))
-
   
 ;;------------------------------------------------------------------------------
 ;;
@@ -174,7 +173,7 @@
 ;;------------------------------------------------------------------------------
 (defmacro uml-action (center text &key keyword width height
 									margin corner-r rake
-									font fill stroke link layer id contents)
+									font fill stroke link layer filter id contents)
   (let* ((contents-p (not (null contents)))
 		 (code `(register-entity
 					 (make-instance 'uml-action
@@ -189,7 +188,7 @@
 												  *default-fill*   :white)
 									:stroke   (or ,stroke *uml-action-stroke*
 												  *default-stroke* :black)
-									:link ,link :layer ,layer :id ,id))))
+									:link ,link :layer ,layer :filter ,filter :id ,id))))
 	(if (null contents)
 		code
 		(let ((g-obj (gensym "OBJ")))
@@ -198,3 +197,32 @@
 			 (declare (special canvas))
 			 ,@contents)))))
 
+
+;;------------------------------------------------------------------------------
+;;
+;; macro with-uml-action-options
+;;
+;;------------------------------------------------------------------------------
+(defmacro with-uml-action-options ((&key font fill stroke width height
+										 corner-r margin rake filter layer) &rest body)
+  (labels ((impl (params acc)
+			 (if (null params)
+				 acc
+				 (let ((value  (car  params))
+					   (symbol (cadr params)))
+				   (impl (cddr params)
+						 (if (null value)
+							 acc
+							 (push (list symbol value) acc)))))))
+	(let ((lst (impl (list font     '*uml-action-font*
+						   fill     '*uml-action-fill*
+						   stroke   '*uml-action-stroke*
+						   width    '*uml-action-width*
+						   height   '*uml-action-height*
+						   corner-r '*uml-action-corner-r*
+						   margin   '*uml-action-margin*
+						   rake     '*uml-action-rake*
+						   filter   '*uml-action-filter*
+						   layer    '*uml-action-layer*) nil)))
+	  `(let ,lst
+		 ,@body))))

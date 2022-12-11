@@ -93,7 +93,7 @@
 				(progn
 				  (uml-keyword-draw keyword
 									(+ (canvas-left canvas) x)
-									(+ (canvas-top  canvas) y) :center writer)
+									(+ (canvas-top  canvas) y) :center font writer)
 				  (incf y font-size)))
 			(text (make-point x y) name :align :center))))))
   nil)

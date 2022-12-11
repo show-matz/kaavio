@@ -1,0 +1,204 @@
+
+(in-package :kaavio-user)
+
+(load-stencil :uml-keyword-info)
+
+(defparameter *uml-signal-font*         nil)
+(defparameter *uml-signal-fill*      :white)
+(defparameter *uml-signal-stroke*    :black)
+(defparameter *uml-signal-direction* :right)
+(defparameter *uml-signal-width*         80)
+(defparameter *uml-signal-height*        40)
+(defparameter *uml-signal-depth*         15)
+(defparameter *uml-signal-margin*        10)
+(defparameter *uml-signal-filter*       nil)
+(defparameter *uml-signal-layer*        nil)
+
+;;------------------------------------------------------------------------------
+;;
+;; class uml-signal
+;;
+;;------------------------------------------------------------------------------
+(defclass uml-signal (kaavio:text-shape)
+  ((type		:initform nil :initarg :type)		; keyword - :send, :receive
+   (keyword		:initform nil :initarg :keyword)	; (or nil uml-keyword-info)
+   (direction	:initform nil :initarg :direction)	; keyword - :left, :right
+   (depth		:initform nil :initarg :depth)		; number
+   (filter		:initform nil :initarg :filter)		; (or nil keyword)
+   (margin2		:initform nil)))					; number ( margin for keyword )
+
+(defmethod initialize-instance :after ((obj uml-signal) &rest initargs)
+  (declare (ignore initargs))
+  (with-slots (keyword direction filter layer margin2) obj
+	(setf keyword (and keyword (make-uml-keyword keyword)))
+	(setf filter  (if (eq filter :none)
+					  nil
+					  (or filter *uml-signal-filter* *default-filter*)))
+	(setf layer  (if (eq layer :none)
+					 nil
+					 (or layer *uml-signal-layer* *default-layer*)))
+	(setf margin2 (if (null keyword)
+					  0
+					  (or (and *uml-signal-font*
+							   (slot-value *uml-signal-font* 'kaavio::size))
+						  (and *default-font*
+							   (slot-value *default-font* 'kaavio::size))
+						  12))))	;;ToDo : これはなんとかしないと。
+  obj)
+
+(defmethod check ((obj uml-signal) canvas dict)
+  (with-slots (type keyword direction depth margin2) obj
+	(check-member   type       :nullable nil :types keyword)
+	(check-object   keyword    canvas dict :nullable t :class uml-keyword-info)
+	(check-member   direction  :nullable nil :types keyword)
+	(check-member   depth      :nullable nil :types number)
+	(check-member   margin2    :nullable nil :types number)
+	(check-keywords type       :send :receive)
+	(check-keywords direction  :left :right))
+  ;; this method must call super class' one.
+  (call-next-method))
+
+;;ToDo : :CC の場合にちょっとマズいことになる‥‥‥
+(defmethod shape-connect-point ((obj uml-signal) type1 type2 arg)
+  (let ((pt (rectangle-connect-point (attribute-center obj)
+									 (attribute-width  obj)
+									 (attribute-height obj) type1 type2 arg)))
+	(with-slots (type direction depth) obj
+	  (with-point (x y) pt
+		(if (eq type :send)
+			(cond
+			  ((and (eq direction :right)
+					(eq type2     :right) (zerop arg)) (incf x (/ depth 2)))
+			  ((and (eq direction  :left)
+					(eq type2      :left) (zerop arg)) (decf x (/ depth 2))))
+			(cond
+			  ((and (eq direction :right)
+					(eq type2     :right) (zerop arg)) (decf x (/ depth 2)))
+			  ((and (eq direction  :left)
+					(eq type2      :left) (zerop arg)) (incf x (/ depth 2)))))))
+	pt))
+  
+;; override of group::draw-group
+(defmethod draw-group ((obj uml-signal) writer)
+  (let ((canvas (group-get-canvas obj)))
+	(let ((top    (canvas-top    canvas))
+		  (left   (canvas-left   canvas))
+		  (width  (canvas-width  canvas))
+		  (height (canvas-height canvas)))
+	  (macrolet ((register-entity (entity)
+				   `(check-and-draw-local-entity ,entity canvas writer)))
+		(with-slots (type direction keyword depth margin2 filter
+						kaavio::margin kaavio::font kaavio::fill kaavio::stroke) obj
+		  (let ((half (/ depth 2))
+				(*default-filter* filter)
+				(*default-fill*   kaavio::fill)
+				(*default-stroke* kaavio::stroke))
+			;; draw body
+			(if (eq type :send)
+				(if (eq direction :right)
+					(polygon `((0 0)
+							   (0 ,height)
+							   (,(- width half) ,height)
+							   (,(+ width half) ,(/ height 2))
+							   (,(- width half) 0)
+							   (0 0)))
+					(polygon `((,half 0)
+							   (,(- half) ,(/ height 2))
+							   (,half ,height)
+							   (,width ,height)
+							   (,width 0)
+							   (,half 0))))
+				(if (eq direction :right)
+					(polygon `((0 0)
+							   (0 ,height)
+							   (,(+ width half) ,height)
+							   (,(- width half) ,(/ height 2))
+							   (,(+ width half) 0)
+							   (0 0)))
+					(polygon `((,(- half) 0)
+							   (,half ,(/ height 2))
+							   (,(- half) ,height)
+							   (,width ,height)
+							   (,width 0)
+							   (,(- half) 0))))))
+		  ;; draw keyword
+		  (when keyword
+			(uml-keyword-draw keyword
+							  (+ left (/ width 2))
+							  (+ top  kaavio::margin margin2) :center kaavio::font writer))
+		  ;; draw text
+		  (call-next-method)))))
+  nil)
+
+;for debug...
+;(defmethod post-draw ((obj uml-signal) writer)
+;  (call-next-method)
+;  (draw-canvas-frame (shape-get-subcanvas obj) writer))
+ 
+(defmethod text-shape-calc-size ((obj uml-signal))
+  (multiple-value-bind (w h) (call-next-method)
+	(with-slots (margin2) obj
+	  (values (cl:max w             *uml-signal-width*)
+			  (cl:max (+ h margin2) *uml-signal-height*)))))
+
+(defmethod text-shape-paragraph-area ((obj uml-signal))
+  (with-slots (direction depth margin2) obj
+	(let ((canvas (call-next-method)))
+	  (incf (canvas-top    canvas) margin2)
+	  (decf (canvas-height canvas) margin2)
+	  (decf (canvas-width  canvas) (/ depth 2))
+	  (when (eq direction :left)
+		(incf (canvas-left canvas) (/ depth 2)))
+	  canvas)))
+
+;;------------------------------------------------------------------------------
+;;
+;; macro uml-signal
+;;
+;;------------------------------------------------------------------------------
+(defmacro uml-signal (center type text &key keyword width height direction depth
+											font fill stroke margin link filter layer id)
+  `(register-entity
+		(make-instance 'uml-signal
+					   :center ,center :type ,type
+					   :width ,width :height ,height
+					   :text ,text :font ,font
+					   :keyword ,keyword
+					   :direction (or ,direction *uml-signal-direction*)
+					   :depth     (or ,depth     *uml-signal-depth*)
+					   :margin   (or ,margin   *uml-signal-margin*)
+					   :fill     (or ,fill   *uml-signal-fill*   *default-fill*   :white)
+					   :stroke   (or ,stroke *uml-signal-stroke* *default-stroke* :black)
+					   :link ,link :filter ,filter :layer ,layer :id ,id)))
+
+
+;;------------------------------------------------------------------------------
+;;
+;; macro with-uml-signal-options
+;;
+;;------------------------------------------------------------------------------
+(defmacro with-uml-signal-options ((&key font fill stroke
+												 width height direction
+												 depth margin filter layer) &rest body)
+  (labels ((impl (params acc)
+			 (if (null params)
+				 acc
+				 (let ((value  (car  params))
+					   (symbol (cadr params)))
+				   (impl (cddr params)
+						 (if (null value)
+							 acc
+							 (push (list symbol value) acc)))))))
+	(let ((lst (impl (list font      '*uml-signal-font*
+						   fill      '*uml-signal-fill*
+						   stroke    '*uml-signal-stroke*
+						   width     '*uml-signal-width*
+						   height    '*uml-signal-height*
+						   direction '*uml-signal-direction*
+						   depth     '*uml-signal-depth*
+						   margin    '*uml-signal-margin*
+						   filter    '*uml-signal-filter*
+						   layer     '*uml-signal-layer*) nil)))
+	  `(let ,lst
+		 ,@body))))
+

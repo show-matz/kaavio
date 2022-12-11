@@ -24,6 +24,42 @@
   (with-open-file (st file-name :direction :output :if-exists :supersede)
 	(write-string svg st)))
 
+
+
+(save-svg
+ "~/sandbox/kaavio/tmp.svg"
+ (diagram (400 600)
+   (grid)
+   (drop-shadow)
+   (with-theme (:uml-activity-default)
+	 (with-options (:filter :drop-shadow)
+	   (uml-frame canvas.center (- canvas.width 20) (- canvas.height 20) "xxx") 
+	   (with-subcanvas-of ($1.id)
+		 (uml-activity-start '(20 60) :id :start)
+		 (uml-action (x+ start.center 150) "action1" :id :act1)
+		 (uml-fork   (y+ $1.center 80) :v :length 160 :id :fork)
+		 (uml-action (xy+ $1.center -60 70) "action2a" :id :act2a)
+		 (uml-action (xy+ $2.center  60 70) "action3a" :id :act3a)
+		 (uml-signal (y+  $2.center     80) :send "action2b" :id :act2b)
+		 (uml-signal (y+  $2.center     80) :receive "action3b" :direction :left :id :act3b)
+		 (uml-join   (y+ fork.center 250) :v :length 160 :id :join)
+		 (uml-action (y+ join.center    60) "action4" :id :act4)
+		 (uml-note (x+ act1.center 140) 100 60 "memo" :targets :act1)
+		 (uml-activity-final (x+ act4.center 140) :radius 13 :id :final)
+		 (uml-flow-final     (y+ act4.center  80) :radius 13 :id :abort)))
+	 (uml-flow :start :act1)
+	 (uml-flow :act1  :fork)
+	 (uml-flow :fork  :act2a :style :B1T)
+	 (uml-flow :fork  :act3a :style :B3T)
+	 (uml-flow :act2a  :act2b)
+	 (uml-flow :act3a  :act3b)
+	 (uml-flow :act2b  :join :style :BT1)
+	 (uml-flow :act3b  :join :style :BT3)
+	 (uml-flow :join   :act4)
+	 (uml-flow :act4  :final)
+	 (uml-flow :act4 :abort))))
+
+
 ;; single-block-arrow
 (save-svg
  "~/sandbox/kaavio/tmp.svg"

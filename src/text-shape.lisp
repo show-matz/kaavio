@@ -84,16 +84,17 @@
 	  (macrolet ((register-entity (entity)
 				   `(check-and-draw-local-entity ,entity canvas writer)))
 		(with-slots (text align valign font margin) txtshp
-		  ;; draw text
-		  (let ((x (ecase align
-					 ((:left)   margin)
-					 ((:center) (/ width 2))
-					 ((:right)  (- width margin))))
-				(y (ecase valign
-					 ((:top)     margin)
-					 ((:center) (/ height 2))
-					 ((:bottom) (- height margin)))))
-			(paragraph (list x y) text :align align :valign valign :font font))))))
+          (unless (string= "" text)
+			;; draw text
+			(let ((x (ecase align
+					   ((:left)   margin)
+					   ((:center) (/ width 2))
+					   ((:right)  (- width margin))))
+				  (y (ecase valign
+					   ((:top)     margin)
+					   ((:center) (/ height 2))
+					   ((:bottom) (- height margin)))))
+			  (paragraph (list x y) text :align align :valign valign :font font)))))))
   nil)
 
 ;for debug...

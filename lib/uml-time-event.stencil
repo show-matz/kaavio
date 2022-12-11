@@ -1,10 +1,12 @@
 
 (in-package :kaavio-user)
 
-(defparameter *uml-time-event-fill*         :white)
-(defparameter *uml-time-event-stroke*       :black)
-(defparameter *uml-time-event-width*            20)
-(defparameter *uml-time-event-height-ratio*    1.5)
+(defparameter *uml-time-event-fill*   :white)
+(defparameter *uml-time-event-stroke* :black)
+(defparameter *uml-time-event-width*      30)
+(defparameter *uml-time-event-height*     40)
+(defparameter *uml-time-event-filter*    nil)
+(defparameter *uml-time-event-layer*     nil)
 
 
 ;;------------------------------------------------------------------------------
@@ -13,55 +15,36 @@
 ;;
 ;;------------------------------------------------------------------------------
 (defclass uml-time-event (kaavio:group)
-  ((name	:initform nil :initarg :name)		; (or nil label-info)
+  ((label	:initform nil :initarg :label)		; (or nil label-info)
    (fill	:initform nil :initarg :fill)		; (or nil fill-info)
-   (stroke	:initform nil :initarg :stroke)))	; (or nil stroke-info)
+   (stroke	:initform nil :initarg :stroke)		; (or nil stroke-info)
+   (filter	:initform nil :initarg :filter)))	; (or nil keyword)
 
-(defmethod initialize-instance :after ((event uml-time-event) &rest initargs)
+(defmethod initialize-instance :after ((obj uml-time-event) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (name fill stroke) event
-	(setf name   (and name (make-label name)))
+  (with-slots (label fill stroke filter layer) obj
+	(setf label  (and label (make-label label)))
 	(setf fill   (make-fill   (or fill   *uml-time-event-fill*   *default-fill*  )))
-	(setf stroke (make-stroke (or stroke *uml-time-event-stroke* *default-stroke*))))
-  event)
+	(setf stroke (make-stroke (or stroke *uml-time-event-stroke* *default-stroke*)))
+	(setf filter (if (eq filter :none)
+					 nil
+					 (or filter *uml-time-event-filter* *default-filter*)))
+	(setf layer  (if (eq layer :none)
+					 nil
+					 (or layer *uml-time-event-layer* *default-layer*))))
+  obj)
 
-(defmethod check ((event uml-time-event) canvas dict)
-  (with-slots (name fill stroke) event
-	(check-object name   canvas dict :nullable t :class  label-info)
+(defmethod check ((obj uml-time-event) canvas dict)
+  (with-slots (label fill stroke) obj
+	(check-object label  canvas dict :nullable t :class  label-info)
 	(check-object fill   canvas dict :nullable t :class   fill-info)
 	(check-object stroke canvas dict :nullable t :class stroke-info))
   ;; this method must call super class' one.
   (call-next-method))
 
-;; override of group::draw-group
-(defmethod draw-group ((event uml-time-event) writer)
-  (with-slots (name fill stroke) event
-	(let* ((canvas (group-get-canvas event))
-		   (width  (canvas-width  canvas))
-		   (height (canvas-height canvas))
-		   (*default-fill*   fill)
-		   (*default-stroke* stroke))
-	  (macrolet ((register-entity (entity)
-				   `(check-and-draw-local-entity ,entity canvas writer)))
-		;; draw note body
-		(polygon `((0 0)
-				   (,width 0)
-				   (0 ,height)
-				   (,width ,height)
-				   (0 0)))))
-	(when name
-	  (draw-label name event writer)))
-  nil)
-
-;for debug...
-;(defmethod post-draw ((obj uml-time-event) writer)
-;  (call-next-method)
-;  (draw-canvas-frame (shape-get-subcanvas obj) writer))
- 
-
-(defmethod shape-connect-point ((event uml-time-event) type1 type2 arg)
+(defmethod shape-connect-point ((obj uml-time-event) type1 type2 arg)
   (declare (ignore type1))
-  (let* ((canvas (group-get-canvas event)))
+  (let* ((canvas (group-get-canvas obj)))
 	(with-canvas (cc width height) canvas
 		(let* ((qw      (/ width  4))
 			   (qh      (/ height 4))
@@ -74,19 +57,70 @@
 			((:right)  (point/xy+ topleft            width (* qh (+ arg 2)))))))))
 
 
+;; override of group::draw-group
+(defmethod draw-group ((obj uml-time-event) writer)
+  (with-slots (label fill stroke filter) obj
+	(let* ((canvas (group-get-canvas obj))
+		   (width  (canvas-width  canvas))
+		   (height (canvas-height canvas))
+		   (*default-filter* filter)
+		   (*default-fill*   fill)
+		   (*default-stroke* stroke))
+	  (macrolet ((register-entity (entity)
+				   `(check-and-draw-local-entity ,entity canvas writer)))
+		;; draw note body
+		(polygon `((0 0)
+				   (,width 0)
+				   (0 ,height)
+				   (,width ,height)
+				   (0 0)))))
+	(when label
+	  (draw-label label obj writer)))
+  nil)
+
+;for debug...
+;(defmethod post-draw ((obj uml-time-event) writer)
+;  (call-next-method)
+;  (draw-canvas-frame (shape-get-subcanvas obj) writer))
+ 
+
 
 ;;------------------------------------------------------------------------------
 ;;
 ;; macro uml-time-event
 ;;
 ;;------------------------------------------------------------------------------
-(defmacro uml-time-event (center name &key width height fill stroke link layer id)
+(defmacro uml-time-event (center &key label width height
+									  fill stroke link filter layer id)
   `(register-entity (make-instance 'uml-time-event
-								   :center ,center
-								   :name ,name
-								   :width  (or ,width *uml-time-event-width*)
-								   :height (or ,height
-											   (* *uml-time-event-height-ratio*
-												  (or ,width *uml-time-event-width*)))
+								   :center ,center :label ,label
+								   :width  (or ,width  *uml-time-event-width*)
+								   :height (or ,height *uml-time-event-height*)
 								   :fill ,fill :stroke ,stroke
-								   :link ,link :layer ,layer :id ,id)))
+								   :link ,link :filter ,filter :layer ,layer :id ,id)))
+
+;;------------------------------------------------------------------------------
+;;
+;; macro with-uml-time-event-options
+;;
+;;------------------------------------------------------------------------------
+(defmacro with-uml-time-event-options ((&key fill stroke width
+											 height filter layer) &rest body)
+  (labels ((impl (params acc)
+			 (if (null params)
+				 acc
+				 (let ((value  (car  params))
+					   (symbol (cadr params)))
+				   (impl (cddr params)
+						 (if (null value)
+							 acc
+							 (push (list symbol value) acc)))))))
+	(let ((lst (impl (list fill      '*uml-time-event-fill*
+						   stroke    '*uml-time-event-stroke*
+						   width     '*uml-time-event-width*
+						   height    '*uml-time-event-height*
+						   filter    '*uml-time-event-filter*
+						   layer     '*uml-time-event-layer*) nil)))
+	  `(let ,lst
+		 ,@body))))
+

@@ -1,10 +1,12 @@
 
 (in-package :kaavio-user)
 
-(defparameter *uml-connector-size*       20)
+(defparameter *uml-connector-font*	    nil)
 (defparameter *uml-connector-fill*   :white)
 (defparameter *uml-connector-stroke* :black)
-(defparameter *uml-connector-font*	    nil)
+(defparameter *uml-connector-size*       20)
+(defparameter *uml-connector-filter*    nil)
+(defparameter *uml-connector-layer*     nil)
 
 
 ;;------------------------------------------------------------------------------
@@ -18,14 +20,21 @@
    (size	:initform   0	:initarg :size)		; number
    (fill	:initform nil	:initarg :fill)		; (or nil fill-info)
    (stroke	:initform nil	:initarg :stroke)	; (or nil stroke-info)
-   (font	:initform nil	:initarg :font)))	; (or nil font-info)
+   (font	:initform nil	:initarg :font)		; (or nil font-info)
+   (filter	:initform nil	:initarg :filter)))	; (or nil keyword)
 
 (defmethod initialize-instance :after ((con uml-connector) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (fill stroke font) con
+  (with-slots (fill stroke font filter layer) con
 	(setf fill   (make-fill   (or fill   *uml-connector-fill*   *default-fill*  )))
 	(setf stroke (make-stroke (or stroke *uml-connector-stroke* *default-stroke*)))
-	(setf font   (make-font   (or font   *uml-connector-font*   *default-font*  ))))
+	(setf font   (make-font   (or font   *uml-connector-font*   *default-font*  )))
+	(setf filter  (if (eq filter :none)
+					  nil
+					  (or filter *uml-connector-filter* *default-filter*)))
+	(setf layer  (if (eq layer :none)
+					 nil
+					 (or layer *uml-connector-layer* *default-layer*))))
   con)
 
 (defmethod check ((con uml-connector) canvas dict)
@@ -61,7 +70,7 @@
 ;; override of group::draw-group
 (defmethod draw-group ((con uml-connector) writer)
   (with-slots ((center1 kaavio::center)
-			   center2 name size fill stroke font) con
+			   center2 name size fill stroke font filter) con
 	(let* ((canvas (group-get-canvas con))
 		   (diff (point- center2 center1))
 		   (x (/ size 2))
@@ -74,10 +83,17 @@
 	  (declare (special canvas))
 	  (macrolet ((register-entity (entity)
 				   `(check-and-draw-local-entity ,entity canvas writer)))
+		(when filter
+		  (writer-write writer "<g " (write-when filter "filter='url(#" it ")' ") ">")
+		  (writer-incr-level writer))
 		(circle (make-point x y) r)
 		(circle (make-point (+ x (point-x diff)) (+ y (point-y diff))) r)
-		(text   (make-point x (+ y (/ fsize 2))) name :align :center)
-		(text   (make-point (+ x (point-x diff)) (+ y (point-y diff) (/ fsize 2))) name :align :center))))
+		(when filter
+		  (writer-decr-level writer)
+		  (writer-write writer "</g>"))
+		(text (make-point x (+ y (/ fsize 2))) name :align :center)
+		(text (make-point (+ x (point-x diff))
+						  (+ y (point-y diff) (/ fsize 2))) name :align :center))))
   nil)
 
 ;for debug...
@@ -87,17 +103,42 @@
  
 
 
-
 ;;------------------------------------------------------------------------------
 ;;
 ;; macro uml-connector
 ;;
 ;;------------------------------------------------------------------------------
-(defmacro uml-connector (center1 center2 id &key name size fill stroke font layer)
+(defmacro uml-connector (center1 center2 id &key name size fill stroke font filter layer)
   `(register-entity (make-instance 'uml-connector
 								   :center ,center1 :center2 ,center2
 								   :name ,name
-								   :size (or ,size *uml-connector-size*)
-								   :fill ,fill :stroke ,stroke
-								   :font ,font :link nil :layer ,layer :id ,id)))
+								   :size	(or ,size   *uml-connector-size*)
+								   :font    (or ,font   *uml-connector-font*)
+								   :fill	(or ,fill   *uml-connector-fill*)
+								   :stroke	(or ,stroke *uml-connector-stroke*)
+								   :link nil :filter ,filter :layer ,layer :id ,id)))
 
+;;------------------------------------------------------------------------------
+;;
+;; macro with-uml-connector-options
+;;
+;;------------------------------------------------------------------------------
+(defmacro with-uml-connector-options ((&key font fill stroke
+										    size filter layer) &rest body)
+  (labels ((impl (params acc)
+			 (if (null params)
+				 acc
+				 (let ((value  (car  params))
+					   (symbol (cadr params)))
+				   (impl (cddr params)
+						 (if (null value)
+							 acc
+							 (push (list symbol value) acc)))))))
+	(let ((lst (impl (list font     '*uml-connector-font*
+						   fill     '*uml-connector-fill*
+						   stroke   '*uml-connector-stroke*
+						   size     '*uml-connector-size*
+						   filter   '*uml-connector-filter*
+						   layer    '*uml-connector-layer*) nil)))
+	  `(let ,lst
+		 ,@body))))

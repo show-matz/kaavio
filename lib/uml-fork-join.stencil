@@ -4,59 +4,41 @@
 (defparameter *uml-fork-join-width*      10)
 (defparameter *uml-fork-join-length*     40)
 (defparameter *uml-fork-join-color*  :black)
+(defparameter *uml-fork-join-filter*    nil)
+(defparameter *uml-fork-join-layer*     nil)
 
 ;;------------------------------------------------------------------------------
 ;;
-;; class uml-fork
+;; class uml-fork-join
 ;;
 ;;------------------------------------------------------------------------------
-(defclass uml-fork (kaavio:rectangle) ())
-
-(defmacro uml-fork-v (center &key width length fill link layer id)
-  `(register-entity (make-instance 'uml-fork
-								   :center ,center
-								   :width  (or ,length *uml-fork-join-length*)
-								   :height (or ,width  *uml-fork-join-width*)
-								   :rx nil :ry nil :stroke :none
-								   :fill   (or ,fill *uml-fork-join-color* *default-fill*)
-								   :link ,link :layer ,layer :id ,id)))
-
-(defmacro uml-fork-h (center &key width length fill link layer id)
-  `(register-entity (make-instance 'uml-fork
-								   :center ,center
-								   :width  (or ,width  *uml-fork-join-width*)
-								   :height (or ,length *uml-fork-join-length*)
-								   :rx nil :ry nil :stroke :none
-								   :fill   (or ,fill *uml-fork-join-color* *default-fill*)
-								   :link ,link :layer ,layer :id ,id)))
-
-
-;;------------------------------------------------------------------------------
-;;
-;; class uml-join
-;;
-;;------------------------------------------------------------------------------
-(defclass uml-join (kaavio:rectangle)
+(defclass uml-fork-join (kaavio:rectangle)
   ((spec :initform nil :initarg :spec)))	; (or nil label-info)
 
-(defmethod initialize-instance :after ((obj uml-join) &rest initargs)
+(defmethod initialize-instance :after ((obj uml-fork-join) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (spec) obj
+  (with-slots (spec filter layer) obj
 	;;ToDo : spec で :position 指定が（実質的に）なければ join-v / join-h によって調整してやる？
-	(setf spec (and spec (make-label spec))))
+	(setf spec (and spec (make-label spec)))
+	(setf filter  (if (eq filter :none)
+					  nil
+					  (or filter *uml-fork-join-filter* *default-filter*)))
+	(setf layer  (if (eq layer :none)
+					 nil
+					 (or layer *uml-fork-join-layer* *default-layer*))))
   obj)
 
-(defmethod check ((obj uml-join) canvas dict)
+(defmethod check ((obj uml-fork-join) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
   (with-slots (spec) obj
-	(check-object spec canvas dict :nullable t :class  label-info))
+	(check-object spec canvas dict :nullable t :class label-info))
   nil)
 
-(defmethod entity-composition-p ((obj uml-join))
+(defmethod entity-composition-p ((obj uml-fork-join))
   t)  
 
-(defmethod post-draw ((obj uml-join) writer)
+(defmethod post-draw ((obj uml-fork-join) writer)
   (with-slots (spec) obj
 	(when spec
 	  (draw-label spec obj writer)))
@@ -64,20 +46,60 @@
 ;  (draw-canvas-frame (shape-get-subcanvas obj) writer)	;for debug...
   nil)
 
-(defmacro uml-join-v (center &key spec width length fill link layer id)
-  `(register-entity (make-instance 'uml-join
-								   :center ,center :spec ,spec
-								   :width  (or ,length *uml-fork-join-length*)
-								   :height (or ,width  *uml-fork-join-width*)
-								   :rx nil :ry nil :stroke :none
-								   :fill   (or ,fill *uml-fork-join-color* *default-fill*)
-								   :link ,link :layer ,layer :id ,id)))
+;;------------------------------------------------------------------------------
+;;
+;; macro uml-fork & uml-join
+;;
+;;------------------------------------------------------------------------------
+(defmacro uml-fork (center direction &key width length fill link filter layer id)
+  (let ((gw (gensym "WIDTH"))
+		(gh (gensym "HEIGHT")))
+	`(let ((,gw (or ,width  *uml-fork-join-width*))
+		   (,gh (or ,length *uml-fork-join-length*)))
+	   (register-entity (make-instance 'uml-fork-join
+									   :center ,center :spec nil
+									   :width  (ecase ,direction ((:h) ,gw) ((:v) ,gh))
+									   :height (ecase ,direction ((:h) ,gh) ((:v) ,gw))
+									   :rx 0 :ry 0 :stroke :none
+									   :fill   (or ,fill *uml-fork-join-color* *default-fill*)
+									   :link ,link :filter ,filter :layer ,layer :id ,id)))))
 
-(defmacro uml-join-h (center &key spec width length fill link layer id)
-  `(register-entity (make-instance 'uml-join
-								   :center ,center :spec ,spec
-								   :width  (or ,width  *uml-fork-join-width*)
-								   :height (or ,length *uml-fork-join-length*)
-								   :rx nil :ry nil :stroke :none
-								   :fill   (or ,fill *uml-fork-join-color* *default-fill*)
-								   :link ,link :layer ,layer :id ,id)))
+
+(defmacro uml-join (center direction &key spec width length fill link filter layer id)
+  (let ((gw (gensym "WIDTH"))
+		(gh (gensym "HEIGHT")))
+	`(let ((,gw (or ,width  *uml-fork-join-width*))
+		   (,gh (or ,length *uml-fork-join-length*)))
+	   (register-entity (make-instance 'uml-fork-join
+									   :center ,center :spec ,spec
+									   :width  (ecase ,direction ((:h) ,gw) ((:v) ,gh))
+									   :height (ecase ,direction ((:h) ,gh) ((:v) ,gw))
+									   :rx 0 :ry 0 :stroke :none
+									   :fill   (or ,fill *uml-fork-join-color* *default-fill*)
+									   :link ,link :filter ,filter :layer ,layer :id ,id)))))
+
+
+;;------------------------------------------------------------------------------
+;;
+;; macro with-uml-fork-join-options
+;;
+;;------------------------------------------------------------------------------
+(defmacro with-uml-fork-join-options ((&key width length
+											color filter layer) &rest body)
+  (labels ((impl (params acc)
+			 (if (null params)
+				 acc
+				 (let ((value  (car  params))
+					   (symbol (cadr params)))
+				   (impl (cddr params)
+						 (if (null value)
+							 acc
+							 (push (list symbol value) acc)))))))
+	(let ((lst (impl (list width   '*uml-fork-join-width*
+						   length  '*uml-fork-join-length*
+						   color   '*uml-fork-join-color*
+						   filter  '*uml-fork-join-filter*
+						   layer   '*uml-fork-join-layer*) nil)))
+	  `(let ,lst
+		 ,@body))))
+

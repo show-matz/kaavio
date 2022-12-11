@@ -37,7 +37,10 @@
 		  (when keyword
 			(incf y kwd-size)
 			(uml-keyword-draw keyword (+ x (point-x offset))
-									  (+ y (point-y offset)) :center writer)
+									  (+ y (point-y offset))
+									  :center
+									  nil    ;; ToDo : font
+									  writer)
 			(incf y spacing))
 		  (when name
 			(let ((font-property (to-property-strings name-font)))

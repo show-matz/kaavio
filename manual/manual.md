@@ -5918,21 +5918,20 @@ ${BLANK_PARAGRAPH}
 <!-- autolink: [$$](#アクティビティ図) -->
 
 * [$$](#uml-action)
-* [$$](#uml-action-param)
 * [$$](#uml-activity-final)
-* [$$](#uml-activity-partitions)
 * [$$](#uml-activity-start)
 * [$$](#uml-connector)
-* [$$](#uml-decision-merge)
+* [$$](#uml-decision)
 * [$$](#uml-expansion-region)
 * [$$](#uml-flow)
 * [$$](#uml-flow-final)
-* [$$](#uml-fork-join)
+* [$$](#uml-fork)
 * [$$](#uml-frame)
+* [$$](#uml-join)
+* [$$](#uml-merge)
 * [$$](#uml-note)
 * [$$](#uml-pin)
-* [$$](#uml-signal-receipt)
-* [$$](#uml-signal-sending)
+* [$$](#uml-signal)
 * [$$](#uml-time-event)
 
 ### クラス図
@@ -5986,131 +5985,108 @@ ${BLANK_PARAGRAPH}
 * [$$](#uml-usecase)
 
 ### UML のダイアグラム要素
-#### uml-action-param
-<!-- autolink: [$$](#uml-action-param) -->
-
-<!-- snippet: UML-ACTION-PARAM-SAMPLE
-(diagram (400 200)
-  (grid)
-  (uml-action canvas.center "action" :id :act1 :width 300 :height 160
-    :contents ((uml-action-param "param" :act1 :L  :fill :cornsilk :id :prm1)
-               (uml-action-param "param" :act1 :R1 :fill :cornsilk :id :prm2)
-               (uml-action act1.center "process" :id :inner-act)))
-  (uml-flow :prm1 :inner-act)
-  (uml-flow :inner-act :prm2))
--->
-
-```kaavio
-<!-- expand: UML-ACTION-PARAM-SAMPLE -->
-```
-Figure. uml-action-param 要素
-
-<!-- collapse:close -->
-上記サンプルのコードはこちら。
-```lisp
-<!-- expand: UML-ACTION-PARAM-SAMPLE -->
-```
-<!-- collapse:end -->
-
-```lisp
-(defmacro uml-action-param (name target position
-                            &key keyword width height
-                                 margin font fill stroke link layer id) ...)
-```
-
 #### uml-action
-<!-- autolink: [$$](#uml-action) -->
+
+　uml-action は UML のアクティビティ図におけるアクションを表記するための図形要素です。
+ほぼテキストボックスと同じように使えますが、リンク明示のためのレーキアイコンなどが用意
+されています。
 
 <!-- snippet: UML-ACTION-SAMPLE
-(diagram (500 100)
+(diagram (400 300)
   (grid)
-  (uml-activity-start '( 30 50) :id :start)
-  (let ((*uml-action-fill* :cornsilk))
-    (uml-action (x+ start.center 150) "action1"             :id :act1)
-    (uml-action (x+ act1.center  150) "action~%2nd" :rake t :id :act2))
-  (uml-activity-final '(470 50) :id :final)
-  (connector :start :act1 :end2 :arrow)
-  (connector :act1  :act2 :end2 :arrow)
-  (connector :act2 :final :end2 :arrow))
+  (with-theme (:uml-activity-default)
+    (uml-activity-start '(50  50) :id :start)
+    (uml-action (x+ start.center 100) "step1" :id :step1)
+    (uml-action (x+ step1.center 150) "step2" :rake t :id :step2)
+    (uml-action (xy+ canvas.center -60 30) "step3" :id :step3 :width 250 :height 150
+        :contents
+        ((uml-action (x+ canvas.center -70) "sub-step1")
+         (uml-action (x+ canvas.center  70) "sub-step2")
+         (uml-flow $2.id $1.id)))
+    (uml-activity-final (xy+ step3.center 200 80) :id :final)
+    (uml-flow :start :step1)
+    (uml-flow :step1 :step2)
+    (uml-flow :step2 :step3 :style :BR1)
+    (uml-flow :step3 :final)))
 -->
 
 ```kaavio
 <!-- expand: UML-ACTION-SAMPLE -->
 ```
-Figure. uml-action 要素
+Figure. uml-action のサンプル
 
-<!-- collapse:close -->
-上記サンプルのコードはこちら。
+
+　上記の作図は以下のコードで行なっています。
+
 ```lisp
 <!-- expand: UML-ACTION-SAMPLE -->
 ```
-<!-- collapse:end -->
 
-```lisp
-(defmacro uml-action (center text &key keyword width height
-                                       margin corner-r rake
-                                       font fill stroke link layer id contents) ...)
-```
+　:contents パラメータと with-subcanvas-of は通常は同じように使えますが、uml-action では
+違いが存在します。:contents で内部を描画する場合、uml-action はテキストを上端付近に描画しますが、
+with-subcanvas-of では中央に描画します。これは「内容物の有無を検出できるか」の違いなので、
+uml-action では  :contents パラメータの使用をお勧めします。
+
+　詳細は以下を参照してください。
+
+* uml-action マクロ
+* with-uml-action-options マクロ
 
 #### uml-activity-final
-<!-- autolink: [$$](#uml-activity-final) -->
 
-#### uml-activity-partitions
-<!-- autolink: [$$](#uml-activity-partitions) -->
+　uml-activity-final は UML のアクティビティ図における終了状態を表記するための図形要素です。
 
-<!-- snippet: UML-ACTIVITY-PARTITIONS-SAMPLE
-(diagram (520 500)
+<!-- snippet: UML-ACTIVITY-FINAL-SAMPLE
+(diagram (200 80)
   (grid)
-  (let ((*uml-action-fill* :cornsilk))
-    (uml-activity-partitions
-      '(10 10) '(("Fullfillment" 130) ("Customer Service" 240) ("Finance" 130)) 460
-      :lines :min :fill :none :stroke :black
-      :contents
-      ((("Customer Service")
-        (uml-activity-start '(70 30) :id :start)
-        (uml-action (y+  $1.center  60) "Receive~%Order" :id :rcv-order)
-        (uml-fork-v (y+  $1.center  50) :length 60 :id :fork)
-        (uml-action (xy+ $1.center 100 40) "Send~%Invoice" :id :send-invoice)
-        (uml-join-v (y+  $2.center 180) :length 60 :id :join)
-        (uml-action (y+  $1.center 50) "Close~%Order" :id :close-order)
-        (uml-activity-final (y+ $1.center 70) :id :final))
-       (("Fullfillment")
-        (uml-action (x+ send-invoice.center -240) "Fill Order" :id :fill-order)
-        (uml-action (y+ $1.center 70) "Deliver~%Order" :id :deliver-order))
-       (("Finance")
-        (uml-action (x+ $1.center 380) "Receive~%Payment" :id :rcv-payment))))
-    (uml-flow :start         :rcv-order)
-    (uml-flow :rcv-order     :fork)
-    (uml-flow :fork          :fill-order   :style :B1R)
-    (uml-flow :fork          :send-invoice :style :B3L)
-    (uml-flow :send-invoice  :rcv-payment  :style :RT)
-    (uml-flow :fill-order    :deliver-order)
-    (uml-flow :deliver-order :join         :style :BT1)
-    (uml-flow :rcv-payment   :join         :style :BT3)
-    (uml-flow :join          :close-order)
-    (uml-flow :close-order   :final)))
+  (with-theme (:uml-activity-default)
+    (uml-action (x+ canvas.center -40) "action" :id :step)
+    (uml-activity-final (x+ $1.center 100) :id :final)
+    (uml-flow :step :final)))
 -->
 
 ```kaavio
-<!-- expand: UML-ACTIVITY-PARTITIONS-SAMPLE -->
+<!-- expand: UML-ACTIVITY-FINAL-SAMPLE -->
 ```
-Figure. uml-activity-partitions 要素
+Figure. uml-activity-final のサンプル
 
-<!-- collapse:close -->
-上記サンプルのコードはこちら。
-```lisp
-<!-- expand: UML-ACTIVITY-PARTITIONS-SAMPLE -->
-```
-<!-- collapse:end -->
+
+　上記の作図は以下のコードで行なっています。
 
 ```lisp
-(defmacro uml-activity-partitions (topleft vertical horizontal
-                                   &key lines margin font
-                                        fill stroke layer contents) ...)
+<!-- expand: UML-ACTIVITY-FINAL-SAMPLE -->
 ```
+
+* uml-activity-final マクロ
+* with-uml-activity-final-options マクロ
 
 #### uml-activity-start
-<!-- autolink: [$$](#uml-activity-start) -->
+
+　uml-activity-start は UML のアクティビティ図における開始状態を表記するための図形要素です。
+
+<!-- snippet: UML-ACTIVITY-START-SAMPLE
+(diagram (200 80)
+  (grid)
+  (with-theme (:uml-activity-default)
+    (uml-activity-start (x+ canvas.center -60) :id :start)
+    (uml-action (x+ $1.center 100) "action" :id :step)
+    (uml-flow :start :step)))
+-->
+
+```kaavio
+<!-- expand: UML-ACTIVITY-START-SAMPLE -->
+```
+Figure. uml-activity-start のサンプル
+
+
+　上記の作図は以下のコードで行なっています。
+
+```lisp
+<!-- expand: UML-ACTIVITY-START-SAMPLE -->
+```
+
+* uml-activity-start マクロ
+* with-uml-activity-start-options マクロ
 
 #### uml-actor
 <!-- autolink: [$$](#uml-actor) -->
@@ -6130,29 +6106,227 @@ Figure. uml-activity-partitions 要素
 #### uml-composition
 <!-- autolink: [$$](#uml-composition) -->
 
-#### uml-connection-common
-<!-- autolink: [$$](#uml-connection-common) -->
-
 #### uml-connector
-<!-- autolink: [$$](#uml-connector) -->
 
-#### uml-decision-merge
-<!-- autolink: [$$](#uml-decision-merge) -->
+　uml-connector は UML のアクティビティ図におけるコネクタを表記するための図形要素です。
+コネクタはあまり使用されませんが、接続線がどうしても交差してしまう場合には便利です。
+
+<!-- snippet: UML-CONNECTOR-SAMPLE
+(diagram (300 120)
+  (grid)
+  (with-theme (:uml-activity-default)
+    (uml-action (xy+ canvas.center -80 -30) "action1" :id :step1)
+    (uml-action (xy+ canvas.center  80  30) "action2" :id :step2)
+    (uml-connector (x+ step1.center  130)
+                   (x+ step2.center -130) :warp-a :name :A)
+    (uml-flow :step1  :warp-a)
+    (uml-flow :warp-a :step2)))
+-->
+
+```kaavio
+<!-- expand: UML-CONNECTOR-SAMPLE -->
+```
+Figure. uml-connector のサンプル
+
+
+　上記の作図は以下のコードで行なっています。
+
+```lisp
+<!-- expand: UML-CONNECTOR-SAMPLE -->
+```
+
+　uml-connector はかなり特殊な図形要素で、２点を指定します。指定された２ケ所に同じ円形の
+マーカーが描画され、uml-flow などのコネクタで `from` と `to` のどちらに指定されたかで
+接続先が変わります。
+
+* uml-connector マクロ
+* with-uml-connector-options マクロ
+
+#### uml-decision
+
+　uml-decision は UML のアクティビティ図における判断を表記するための図形要素です。
+以下の例では左端の check status というテキストを伴った要素が uml-decision です。
+テキストを指定しなければ uml-merge と同じようにひし形が描画されます。
+
+<!-- snippet: UML-DECISION-MERGE-SAMPLE
+(diagram (400 150)
+  (grid)
+  (drop-shadow)
+  (with-theme (:uml-activity-default)
+    (with-options (:filter :drop-shadow)
+      (uml-decision (x+ canvas.center -120)
+                    :text "check~%status" :width 80 :height 40 :id :check)
+      (uml-action   (xy+ canvas.center 40 -40) "action1" :id :act1)
+      (uml-action   (xy+ canvas.center 40  40) "action2" :id :act2)
+      (uml-merge    (x+ canvas.center  150) :id :merge))
+    (uml-flow :check :act1 :style :TL :spec '(:guard "OK"))
+    (uml-flow :check :act2 :style :BL :spec '(:guard "NG"))
+    (uml-flow :act1 :merge :style :RT)
+    (uml-flow :act2 :merge :style :RB)))
+-->
+
+```kaavio
+<!-- expand: UML-DECISION-MERGE-SAMPLE -->
+```
+Figure. uml-decision のサンプル
+
+　上記の作図は以下のコードで行なっています。
+
+```lisp
+<!-- expand: UML-DECISION-MERGE-SAMPLE -->
+```
+
+　uml-decision はテキストの有無で形状が変化します。そして、どちらの場合でも width と 
+height の指定、または with-uml-decision-merge-options マクロで指定されるそれらの
+デフォルト値のみでサイズを決定します。つまり、テキスト内容から（テキストボックスのように）
+サイズを自動決定したりはしません。このことは、width / height のデフォルト値としてテキ
+ストありの場合と無しの場合のどちらを想定した値を設定すべきか、という問題を引き起こします。
+ひとまずのところ、デフォルトとしてはテキスト無しのサイズを指定しておき、テキストを指定
+する場合は width / height を明示的に指定することをお勧めします。
+
+　詳細は以下を参照してください。
+
+* [$$](#uml-merge)
+* uml-decision マクロ
+* with-uml-decision-merge-options マクロ
 
 #### uml-dependency
 <!-- autolink: [$$](#uml-dependency) -->
 
 #### uml-expansion-region
-<!-- autolink: [$$](#uml-expansion-region) -->
+
+　uml-expansion-region は UML のアクティビティ図における拡張領域を表記するための図形要素です。
+
+<!-- snippet: UML-EXPANSION-REGION-SAMPLE
+(diagram (300 200)
+  (grid)
+  (drop-shadow)
+  (with-theme (:uml-activity-default)
+    (with-options (:filter :drop-shadow)
+      (uml-expansion-region canvas.center 260 160 :keyword :concurrent :font 10))))
+-->
+
+```kaavio
+<!-- expand: UML-EXPANSION-REGION-SAMPLE -->
+```
+Figure. uml-expansion-region のサンプル
+
+　上記の作図は以下のコードで行なっています。 `keyword` パラメータを指定した場合、デフォルトでは
+左上に表示されます。この位置は `offset` パラメータで調整することができます。
+
+```lisp
+<!-- expand: UML-EXPANSION-REGION-SAMPLE -->
+```
+
+
+　詳細は以下を参照してください。
+
+* uml-expansion-region マクロ
+* with-uml-expansion-region-options マクロ
 
 #### uml-flow-final
-<!-- autolink: [$$](#uml-flow-final) -->
+
+　uml-flow-final は UML のアクティビティ図におけるフロー終了を表記するための図形要素です。
+
+<!-- snippet: UML-FLOW-FINAL-SAMPLE
+(diagram (200 80)
+  (grid)
+  (with-theme (:uml-activity-default)
+    (uml-action (x+ canvas.center -40) "action" :id :step)
+    (uml-flow-final (x+ $1.center 100) :id :final)
+    (uml-flow :step :final)))
+-->
+
+```kaavio
+<!-- expand: UML-FLOW-FINAL-SAMPLE -->
+```
+Figure. uml-flow-final のサンプル
+
+
+　上記の作図は以下のコードで行なっています。
+
+```lisp
+<!-- expand: UML-FLOW-FINAL-SAMPLE -->
+```
+
+* uml-flow-final マクロ
+* with-uml-flow-final-options マクロ
 
 #### uml-flow
-<!-- autolink: [$$](#uml-flow) -->
 
-#### uml-fork-join
-<!-- autolink: [$$](#uml-fork-join) -->
+　uml-flow は UML のアクティビティ図におけるアクション間の遷移を表記するための図形要素です。
+ほぼコネクタと同じように使えますが、キーワードやガード、アクションなどを指定することができます。
+
+<!-- snippet: UML-FLOW-SAMPLE
+(diagram (400 100)
+  (grid)
+  (drop-shadow)
+  (with-uml-action-options (:width 80 :height 40
+                            :stroke :brown :fill :wheat :filter :drop-shadow)
+    (uml-action '( 60 50) "step1" :id :step1)
+    (uml-action '(340 50) "step2" :id :step2)
+    (uml-flow :step1 :step2 :spec '(:guard :idle :action "act()"))))
+-->
+
+```kaavio
+<!-- expand: UML-FLOW-SAMPLE -->
+```
+Figure. uml-flow のサンプル
+
+
+　上記の作図は以下のコードで行なっています。
+
+```lisp
+<!-- expand: UML-FLOW-SAMPLE -->
+```
+
+* ${{TODO}{:spec パラメータは、 guard, action, offset, font が指定できる。}}
+    * ${{TODO}{:guard は keyword or string。}}
+    * ${{TODO}{:action も keyword or string。}}
+    * ${{TODO}{:offset は point。位置調整に使用する。}}
+    * ${{TODO}{:font は font-info。}}
+
+
+　詳細は以下を参照してください。
+
+* uml-flow マクロ
+* with-uml-flow-options マクロ
+
+#### uml-fork
+
+　uml-fork は UML のアクティビティ図におけるフォークを表記するための図形要素です。
+
+<!-- snippet: UML-FORK-SAMPLE
+(diagram (340 150)
+  (grid)
+  (drop-shadow)
+  (with-theme (:uml-activity-default)
+    (with-options (:filter :drop-shadow)
+      (uml-action (x+ canvas.center -100)"step1" :id :step1)
+      (uml-fork   canvas.center :h :id :fork)
+      (uml-action (xy+ canvas.center 100 -40) "step2" :id :step2)
+      (uml-action (xy+ canvas.center 100  40) "step3" :id :step3))
+    (uml-flow :step1 :fork)
+    (uml-flow :fork  :step2)
+    (uml-flow :fork  :step3)))
+-->
+
+```kaavio
+<!-- expand: UML-FORK-SAMPLE -->
+```
+Figure. uml-fork のサンプル
+
+
+　上記の作図は以下のコードで行なっています。
+
+```lisp
+<!-- expand: UML-FORK-SAMPLE -->
+```
+
+　詳細は以下を参照してください。
+
+* uml-fork マクロ
+* with-uml-fork-join-options マクロ
 
 #### uml-frame
 
@@ -6165,7 +6339,7 @@ Figure. uml-activity-partitions 要素
   (drop-shadow)
   (with-uml-frame-options (:stroke :navy
                            :fill :azure :filter :drop-shadow)
-    (uml-frame canvas.center 260 110 "this is diagram.")
+    (uml-frame canvas.center 260 110 "this is frame.")
     (with-subcanvas-of ($1.id)
       (uml-action (y+ canvas.center 10) "action" :id :act1)
       (uml-activity-start (x+ $1.center -100) :id :start)
@@ -6199,8 +6373,69 @@ uml-frame を使用する場合にスタイルを統一するために使用し�
 #### uml-interface
 <!-- autolink: [$$](#uml-interface) -->
 
+#### uml-join
+
+　uml-join は UML のアクティビティ図におけるフォークを表記するための図形要素です。見た目は
+[$$](#uml-fork) と同じですが、ジョイン仕様を指定することができます。
+
+<!-- snippet: UML-JOIN-SAMPLE
+(diagram (340 150)
+  (grid)
+  (drop-shadow)
+  (with-theme (:uml-activity-default)
+    (with-options (:filter :drop-shadow)
+      (uml-action (xy+ canvas.center -100 -40) "step1" :id :step1)
+      (uml-action (xy+ canvas.center -100  40) "step2" :id :step2)
+      (uml-join canvas.center :h :id :join
+                :spec '("{joinSpec=blah blah}" :offset (40 5) :font 10))
+      (uml-action (x+ canvas.center 100) "step3" :id :step3))
+    (uml-flow :step1 :join :style :RL1)
+    (uml-flow :step2 :join :style :RL3)
+    (uml-flow :join  :step3)))
+-->
+
+```kaavio
+<!-- expand: UML-JOIN-SAMPLE -->
+```
+Figure. uml-join のサンプル
+
+
+　上記の作図は以下のコードで行なっています。
+
+```lisp
+<!-- expand: UML-JOIN-SAMPLE -->
+```
+
+　詳細は以下を参照してください。
+
+* uml-join マクロ
+* with-uml-fork-join-options マクロ
+
 #### uml-keyword-info
 <!-- autolink: [$$](#uml-keyword-info) -->
+
+#### uml-merge
+
+　uml-merge は UML のアクティビティ図において判断による分岐の終了を表記するための
+図形要素です。以下の例では右端のひし形の要素が uml-merge です。uml-decision とは
+異なり、テキストを指定することはできません。
+
+```kaavio
+<!-- expand: UML-DECISION-MERGE-SAMPLE -->
+```
+Figure. uml-merge のサンプル
+
+　上記の作図は以下のコードで行なっています。
+
+```lisp
+<!-- expand: UML-DECISION-MERGE-SAMPLE -->
+```
+
+　詳細は以下を参照してください。
+
+* [$$](#uml-decision)
+* uml-merge マクロ
+* with-uml-decision-merge-options マクロ
 
 #### uml-multiplicity-info
 <!-- autolink: [$$](#uml-multiplicity-info) -->
@@ -6252,7 +6487,49 @@ with-uml-note-options を使用しています。
 <!-- autolink: [$$](#uml-package) -->
 
 #### uml-pin
-<!-- autolink: [$$](#uml-pin) -->
+
+　uml-decision は UML のアクティビティ図におけるピンを表記するための図形要素です。
+
+<!-- snippet: UML-PIN-SAMPLE
+(diagram (620 120)
+  (grid)
+  (drop-shadow)
+  (with-theme (:uml-activity-default)
+    (with-options (:filter :drop-shadow)
+      (uml-action (x+ canvas.left 60) "action1" :id :act1)
+      (uml-action (x+ $1.center  200) "action2" :id :act2 :height 80)
+      (uml-action (x+ $1.center  160) "action3" :id :act3 :height 60)
+      (uml-action (x+ $1.center  140) "action4" :id :act4))
+    (uml-pin :act1 :R  "foo"  :id :foo)
+    (uml-pin :act2 :L1 "bar"  :id :bar)
+    (uml-pin :act2 :L3 "baz"  :id :baz)
+    (uml-pin :act3 :L  "quux" :id :quux1 :multi t :offset '(-10 5))
+    (uml-pin :act3 :R  nil    :id :quux2 :multi t)
+    (uml-flow :foo   :bar  :style :RL)
+    (uml-flow :foo   :baz  :style :RL)
+    (uml-flow :act2  :quux1)
+    (uml-flow :quux2 :act4)))
+-->
+
+```kaavio
+<!-- expand: UML-PIN-SAMPLE -->
+```
+Figure. uml-pin のサンプル
+
+　上記の作図は以下のコードで行なっています。ピンはフローの接続点に付けるものなので、
+対象アクションの位置とその接続点を指定します。接続点は、コネクタであれば `:RL` などと
+記述する表記の片側分なので、 `:R` や `:T3` などと記述することになります。また、通常は
+[拡張領域](#uml-expansion-region)に渡すことになる入出力コレクションは `:multi t` と
+することで表現できます。
+
+```lisp
+<!-- expand: UML-PIN-SAMPLE -->
+```
+
+　詳細は以下を参照してください。
+
+* uml-pin マクロ
+* with-uml-pin-options マクロ
 
 #### uml-realization
 <!-- autolink: [$$](#uml-realization) -->
@@ -6260,11 +6537,46 @@ with-uml-note-options を使用しています。
 #### uml-role-info
 <!-- autolink: [$$](#uml-role-info) -->
 
-#### uml-signal-receipt
-<!-- autolink: [$$](#uml-signal-receipt) -->
+#### uml-signal
 
-#### uml-signal-sending
-<!-- autolink: [$$](#uml-signal-sending) -->
+　uml-signal は UML のアクティビティ図におけるシグナル送受信を表記するための図形要素です。
+ほぼテキストボックスと同じように使えますが、少なくとも送信か受信かの区別をパラメータで与える必要
+があります。また、形状は `:direction` パラメータで `:left` か `:right` で与えます。
+
+<!-- snippet: UML-SIGNAL-SAMPLE
+(diagram (400 200)
+  (grid)
+  (drop-shadow)
+  (with-theme (:uml-activity-default)
+	(with-options (:filter :drop-shadow)
+	  (uml-activity-start '(50  50) :id :start)
+	  (uml-signal (x+ start.center 150) :send
+                  "sending~%signal"   :direction :right :id :step1)
+	  (uml-signal (y+ step1.center 100) :receive
+                  "receiving~%signal" :direction :left  :id :step2)
+	  (uml-activity-final (x+ step2.center 150) :id :final))
+	(uml-flow :start :step1)
+	(uml-flow :step1 :step2)
+	(uml-flow :step2 :final)))
+-->
+
+```kaavio
+<!-- expand: UML-SIGNAL-SAMPLE -->
+```
+Figure. uml-signal のサンプル
+
+
+　上記の作図は以下のコードで行なっています。
+
+```lisp
+<!-- expand: UML-SIGNAL-SAMPLE -->
+```
+
+　詳細は以下を参照してください。
+
+* uml-signal マクロ
+* with-uml-signal-options マクロ
+
 
 #### uml-state-begin
 <!-- autolink: [$$](#uml-state-begin) -->
@@ -6279,7 +6591,37 @@ with-uml-note-options を使用しています。
 <!-- autolink: [$$](#uml-state) -->
 
 #### uml-time-event
-<!-- autolink: [$$](#uml-time-event) -->
+
+　uml-time-event は UML のアクティビティ図における時間シグナルを表記するための図形要素です。
+
+
+<!-- snippet: UML-TIME-EVENT-SAMPLE
+(diagram (300 100)
+  (grid)
+  (drop-shadow)
+  (with-theme (:uml-activity-default)
+    (with-options (:filter :drop-shadow)
+      (uml-time-event (x+ canvas.center -80) :label "wait 20min." :id :clock)
+      (uml-action     (x+ canvas.center  60) "action" :id :next))
+    (uml-flow :clock :next)))
+-->
+
+```kaavio
+<!-- expand: UML-TIME-EVENT-SAMPLE -->
+```
+Figure. uml-time-event のサンプル
+
+
+　上記の作図は以下のコードで行なっています。
+
+```lisp
+<!-- expand: UML-TIME-EVENT-SAMPLE -->
+```
+
+　詳細は以下を参照してください。
+
+* uml-time-event マクロ
+* with-uml-time-event-options マクロ
 
 #### uml-transition-spec
 <!-- autolink: [$$](#uml-transition-spec) -->
@@ -7318,6 +7660,103 @@ ${BLANK_PARAGRAPH}
 
 　${{TODO}{まだ記述されていません。}}
 
+#### uml-action マクロ
+<!-- autolink: [uml-action](#uml-action マクロ) -->
+
+```lisp
+(defmacro uml-action (center text &key keyword width height
+                                       margin corner-r rake
+                                       font fill stroke link
+                                       layer filter id contents) ... )
+```
+
+　${{TODO}{まだ記述されていません。}}
+
+* rake は t を指定するか、または数値 4 要素のリストを指定する。`(width height x-margin y-margin)`
+
+#### uml-activity-final マクロ
+<!-- autolink: [uml-activity-final](#uml-activity-final マクロ) -->
+
+```lisp
+(defmacro uml-activity-final (center &key radius ratio fill
+                                          stroke link layer filter id) ... )
+```
+
+　${{TODO}{まだ記述されていません。}}
+
+#### uml-activity-start マクロ
+<!-- autolink: [uml-activity-start](#uml-activity-start マクロ) -->
+
+```lisp
+(defmacro uml-activity-start (center &key radius fill
+                                          link layer filter id) ... )
+```
+
+　${{TODO}{まだ記述されていません。}}
+
+#### uml-connector マクロ
+<!-- autolink: [uml-connector](#uml-connector マクロ) -->
+
+```lisp
+(defmacro uml-connector (center1 center2 id
+                                 &key name size fill
+                                      stroke font filter layer) ... )
+```
+
+　${{TODO}{まだ記述されていません。}}
+
+#### uml-decision マクロ
+<!-- autolink: [uml-decision](#uml-decision マクロ) -->
+
+```lisp
+(defmacro uml-decision (center &key text width height
+                                    margin font fill stroke
+                                    link layer filter id) ... )
+```
+
+　${{TODO}{まだ記述されていません。}}
+
+#### uml-expansion-region マクロ
+<!-- autolink: [uml-expansion-region](#uml-expansion-region マクロ) -->
+
+```lisp
+(defmacro uml-expansion-region (center width height
+                                  &key keyword font offset
+                                       corner-r fill stroke
+                                       link layer id contents) ... )
+```
+
+　${{TODO}{まだ記述されていません。}}
+
+#### uml-flow マクロ
+<!-- autolink: [uml-flow](#uml-flow マクロ) -->
+
+```lisp
+(defmacro uml-flow (from to &key keyword spec style filter layer id) ... )
+```
+
+　${{TODO}{まだ記述されていません。}}
+
+#### uml-flow-final マクロ
+<!-- autolink: [uml-flow-final](#uml-flow-final マクロ) -->
+
+```lisp
+(defmacro uml-flow-final (center &key radius fill
+                                      stroke link layer filter id) ... )
+```
+
+　${{TODO}{まだ記述されていません。}}
+
+#### uml-fork マクロ
+<!-- autolink: [uml-fork](#uml-fork マクロ) -->
+
+```lisp
+(defmacro uml-fork (center direction &key width length
+                                          fill link filter layer id) ... )
+```
+
+　${{TODO}{まだ記述されていません。}}
+
 #### uml-frame マクロ
 <!-- autolink: [uml-frame](#uml-frame マクロ) -->
 
@@ -7325,6 +7764,29 @@ ${BLANK_PARAGRAPH}
 (defmacro uml-frame (center width height title
                             &key margin font fill stroke
                                  link layer filter id contents) ... )
+```
+
+　${{TODO}{まだ記述されていません。}}
+
+#### uml-join マクロ
+<!-- autolink: [uml-join](#uml-join マクロ) -->
+
+```lisp
+(defmacro uml-join (center direction &key spec width length
+                                          fill link filter layer id) ... )
+```
+
+　${{TODO}{まだ記述されていません。}}
+
+* ${{TODO}{spec パラメータの指定は、ラベルに準拠。}}
+
+#### uml-merge マクロ
+<!-- autolink: [uml-merge](#uml-merge マクロ) -->
+
+```lisp
+(defmacro uml-merge (center &key width height
+                                 margin font fill stroke
+                                 link layer filter id) ... )
 ```
 
 　${{TODO}{まだ記述されていません。}}
@@ -7337,6 +7799,40 @@ ${BLANK_PARAGRAPH}
                            &key keyword targets align valign
                                 margin crease font fill stroke
                                 link layer filter id contents) ... )
+```
+
+　${{TODO}{まだ記述されていません。}}
+
+#### uml-pin マクロ
+<!-- autolink: [uml-pin](#uml-pin マクロ) -->
+
+```lisp
+(defmacro uml-pin (target position name
+                          &key offset multi size fill
+                               stroke font filter layer id) ... )
+```
+
+　${{TODO}{まだ記述されていません。}}
+
+#### uml-signal マクロ
+<!-- autolink: [uml-signal](#uml-signal マクロ) -->
+
+```lisp
+(defmacro uml-signal (center type text
+                             &key keyword width height direction
+                                  depth font fill stroke
+                                  margin link filter layer id) ... )
+```
+
+　${{TODO}{まだ記述されていません。}}
+
+#### uml-time-event マクロ
+<!-- autolink: [uml-time-event](#uml-time-event マクロ) -->
+
+```lisp
+(defmacro uml-time-event (center &key label width height
+                                      fill stroke
+                                      link filter layer id) ... )
 ```
 
 　${{TODO}{まだ記述されていません。}}
@@ -7578,6 +8074,101 @@ ${BLANK_PARAGRAPH}
 
 　${{TODO}{まだ記述されていません。}}
 
+#### with-uml-action-options マクロ
+<!-- autolink: [with-uml-action-options](#with-uml-action-options マクロ) -->
+
+```lisp
+(defmacro with-uml-action-options ((&key font fill stroke
+                                         width height corner-r
+                                         margin rake filter layer) &rest body) ... )
+```
+
+　${{TODO}{まだ記述されていません。}}
+
+* ここで指定する width / height はデフォルトの最低サイズとして使用される
+
+#### with-uml-activity-final-options マクロ
+<!-- autolink: [with-uml-activity-final-options](#with-uml-activity-final-options マクロ) -->
+
+```lisp
+(defmacro with-uml-activity-final-options ((&key radius ratio fill stroke 
+                                                 filter layer) &rest body) ... )
+```
+
+　${{TODO}{まだ記述されていません。}}
+
+#### with-uml-activity-start-options マクロ
+<!-- autolink: [with-uml-activity-start-options](#with-uml-activity-start-options マクロ) -->
+
+```lisp
+(defmacro with-uml-activity-start-options ((&key radius fill
+                                                 filter layer) &rest body) ... )
+```
+
+　${{TODO}{まだ記述されていません。}}
+
+#### with-uml-connector-options マクロ
+<!-- autolink: [with-uml-connector-options](#with-uml-connector-options マクロ) -->
+
+```lisp
+(defmacro with-uml-connector-options ((&key font fill stroke
+                                            size filter layer) &rest body) ... )
+```
+
+　${{TODO}{まだ記述されていません。}}
+
+#### with-uml-decision-merge-options マクロ
+<!-- autolink: [with-uml-decision-merge-options](#with-uml-decision-merge-options マクロ) -->
+
+```lisp
+(defmacro with-uml-decision-merge-options ((&key font fill stroke
+                                                 width height margin
+                                                 filter layer) &rest body) ... )
+```
+
+　${{TODO}{まだ記述されていません。}}
+
+#### with-uml-expansion-region-options マクロ
+<!-- autolink: [with-uml-expansion-region-options](#with-uml-expansion-region-options マクロ) -->
+
+```lisp
+(defmacro with-uml-expansion-region-options ((&key font fill
+                                                   stroke corner-r
+                                                   filter layer) &rest body) ... )
+```
+
+　${{TODO}{まだ記述されていません。}}
+
+#### with-uml-flow-final-options マクロ
+<!-- autolink: [with-uml-flow-final-options](#with-uml-flow-final-options マクロ) -->
+
+```lisp
+(defmacro with-uml-flow-final-options ((&key radius fill
+                                             stroke filter layer) &rest body) ... )
+```
+
+　${{TODO}{まだ記述されていません。}}
+
+#### with-uml-flow-options マクロ
+<!-- autolink: [with-uml-flow-options](#with-uml-flow-options マクロ) -->
+
+```lisp
+(defmacro with-uml-flow-options ((&key stroke arrow-size
+                                       font filter layer) &rest body) ... )
+```
+
+　${{TODO}{まだ記述されていません。}}
+
+#### with-uml-fork-join-options マクロ
+<!-- autolink: [with-uml-fork-join-options](#with-uml-fork-join-options マクロ) -->
+
+```lisp
+(defmacro with-uml-fork-join-options ((&key width length
+                                            color filter layer) &rest body) ... )
+```
+
+　${{TODO}{まだ記述されていません。}}
+
 #### with-uml-frame-options マクロ
 <!-- autolink: [with-uml-frame-options](#with-uml-frame-options マクロ) -->
 
@@ -7595,6 +8186,39 @@ ${BLANK_PARAGRAPH}
 (defmacro with-uml-note-options ((&key font fill stroke
                                        margin align valign
                                         crease filter layer) &rest body) ... )
+```
+
+　${{TODO}{まだ記述されていません。}}
+
+#### with-uml-pin-options マクロ
+<!-- autolink: [with-uml-pin-options](#with-uml-pin-options マクロ) -->
+
+```lisp
+(defmacro with-uml-pin-options ((&key font fill stroke
+                                      size filter layer) &rest body) ... )
+```
+
+　${{TODO}{まだ記述されていません。}}
+
+#### with-uml-signal-options マクロ
+<!-- autolink: [with-uml-signal-options](#with-uml-signal-options マクロ) -->
+
+```lisp
+(defmacro with-uml-signal-options ((&key font fill stroke
+                                         width height
+                                         direction depth
+                                         margin filter layer) &rest body) ... )
+```
+
+　${{TODO}{まだ記述されていません。}}
+
+#### with-uml-time-event-options マクロ
+<!-- autolink: [with-uml-time-event-options](#with-uml-time-event-options マクロ) -->
+
+```lisp
+(defmacro with-uml-time-event-options ((&key fill stroke
+                                             width height
+                                             filter layer) &rest body) ... )
 ```
 
 　${{TODO}{まだ記述されていません。}}
@@ -8362,6 +8986,8 @@ Figure. 色の名前とサンプル - 2
 	* BUGFIX : memo と cube における描画上のバグを改修
 * __2022/11/27 - version 0.019__
 	* ENHANCE : テーマ機能を追加
+* __2022/12/11 - version 0.020__
+	* ENHANCE : UML アクティビティ図を追加
 
 
 

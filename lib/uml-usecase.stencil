@@ -47,8 +47,8 @@
 		  (height (canvas-height canvas)))
 	  (macrolet ((register-entity (entity)
 				   `(check-and-draw-local-entity ,entity canvas writer)))
-		(with-slots (keyword margin2
-							 kaavio::margin kaavio::fill kaavio::stroke) usecase
+		(with-slots (keyword margin2 kaavio::margin
+							 kaavio::font kaavio::fill kaavio::stroke) usecase
 		  ;; draw usecase body
 		  (ellipse `(,(/ width 2) ,(/ height 2))
 				   (/ width 2) (/ height 2) :fill kaavio::fill :stroke kaavio::stroke)
@@ -56,7 +56,7 @@
 		  (when keyword
 			(uml-keyword-draw keyword
 							  (+ left (/ width 2))
-							  (+ top  kaavio::margin margin2) :center writer))
+							  (+ top  kaavio::margin margin2) :center kaavio::font writer))
 		  ;; draw text
 		  (call-next-method)))))
   nil)

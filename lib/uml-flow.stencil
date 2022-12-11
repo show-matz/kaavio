@@ -2,9 +2,12 @@
 
 (load-stencil :uml-keyword-info)
 
-(defparameter *uml-flow-spec-font*  nil)
 
-(defparameter *uml-flow-stroke* :black)
+(defparameter *uml-flow-stroke*      :black)
+(defparameter *uml-flow-arrow-size* :medium)
+(defparameter *uml-flow-filter*         nil)
+(defparameter *uml-flow-layer*          nil)
+(defparameter *uml-flow-font*           nil)
 
 ;;------------------------------------------------------------------------------
 ;;
@@ -64,8 +67,8 @@
 					   :guard    guard
 					   :action   action
 					   :offset   offset
-					   :font     (if font-p  font  (or *uml-flow-spec-font*
-															kaavio:*default-font*))))))
+					   :font     (if font-p  font  (or *uml-flow-font*
+													   kaavio:*default-font*))))))
 
 
 ;;------------------------------------------------------------------------------
@@ -101,20 +104,18 @@
 		(call-next-method))))
 
 
-(defun uml-flow-draw-spec (tran x y sin cos writer)
-  (with-slots (keyword spec) tran
+(defun uml-flow-draw-spec (flow x y sin cos writer)
+  (with-slots (keyword spec) flow
 	(labels ((calc-width-and-height ()
 			   (let* ((width   0)
 					  (height  0)
 					  (offset  (if spec (slot-value spec 'offset) '(0 0)))
-					  (k-font  (and keyword (slot-value keyword 'font)))
-					  (k-size  (if  k-font  (slot-value k-font  'kaavio::size) 0))
 					  (s-font  (and spec    (slot-value spec    'font)))
 					  (s-size  (if  s-font  (slot-value s-font  'kaavio::size) 0))
 					  (spacing (if  s-font  (slot-value s-font  'kaavio::line-spacing) 0)))
 				 (when keyword
 				   (multiple-value-setq (width height)
-										(font-calc-textarea k-font
+										(font-calc-textarea s-font
 												 (uml-keyword-to-string keyword))))
 				 (when spec
 				   (incf height spacing)
@@ -122,21 +123,20 @@
 					   (font-calc-textarea s-font (uml-flow-spec-to-string spec))
 					 (setf width (max width w))
 					 (incf height h)))
-				 (values width height offset k-size s-size spacing))))
-	  (multiple-value-bind (width height offset
-							kwd-size spec-size spacing) (calc-width-and-height)
+				 (values width height offset s-font s-size spacing))))
+	  (multiple-value-bind (width height offset font font-size spacing) (calc-width-and-height)
 		(let (;(x (+ x (* sin height)))
 			  (y (- y (* cos height))))
 		  (decf y (/ height 2))
 		  (when (< 0 sin) (incf x (/ width 2)))
 		  (when (< sin 0) (decf x (/ width 2)))
 		  (when keyword
-			(incf y kwd-size)
+			(incf y font-size)
 			(uml-keyword-draw keyword (+ x (point-x offset))
-									  (+ y (point-y offset)) :center writer)
+									  (+ y (point-y offset)) :center font writer)
 			(incf y spacing))
 		  (when spec
-			(incf y spec-size)
+			(incf y font-size)
 			(uml-flow-spec-draw spec x y :center writer)))))))
 		
 
@@ -145,7 +145,7 @@
 ;; macro uml-flow
 ;;
 ;;------------------------------------------------------------------------------
-(defmacro uml-flow (from to &key keyword spec style layer id)
+(defmacro uml-flow (from to &key keyword spec style filter layer id)
   (let ((g-kwd  (gensym "KWD"))
 		(g-spec (gensym "SPEC")))
 	`(let ((,g-kwd  ,keyword)
@@ -157,5 +157,31 @@
 												   #'uml-flow-draw-spec)
 									   :style ,style
 									   :stroke (or *uml-flow-stroke* *default-stroke*)
-									   :end1 nil :end2 :arrow :layer ,layer :id ,id)))))
+									   :end1 nil :end2 (list :type :arrow :size *uml-flow-arrow-size*)
+									   :filter (or ,filter *uml-flow-filter* *default-filter*)
+									   :layer  (or ,layer  *uml-flow-layer*  *default-layer*)
+									   :id ,id)))))
 
+
+;;------------------------------------------------------------------------------
+;;
+;; macro with-uml-flow-options
+;;
+;;------------------------------------------------------------------------------
+(defmacro with-uml-flow-options ((&key stroke arrow-size font filter layer) &rest body)
+  (labels ((impl (params acc)
+			 (if (null params)
+				 acc
+				 (let ((value  (car  params))
+					   (symbol (cadr params)))
+				   (impl (cddr params)
+						 (if (null value)
+							 acc
+							 (push (list symbol value) acc)))))))
+	(let ((lst (impl (list  stroke     '*uml-flow-stroke*
+						    arrow-size '*uml-flow-arrow-size*
+						    font       '*uml-flow-font*
+						    filter     '*uml-flow-filter*
+						    layer      '*uml-flow-layer*) nil)))
+	  `(let ,lst
+		 ,@body))))

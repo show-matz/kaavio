@@ -1,121 +1,194 @@
 
 (in-package :kaavio-user)
 
-(defparameter *uml-decision-fill*       :white)
-(defparameter *uml-decision-stroke*     :black)
-(defparameter *uml-decision-size*           40)
-(defparameter *uml-decision-height-ratio* 0.75)
+(load-stencil :uml-keyword-info)
 
-(defparameter *uml-merge-fill*          :white)
-(defparameter *uml-merge-stroke*        :black)
-(defparameter *uml-merge-size*              40)
-(defparameter *uml-merge-height-ratio*    0.75)
+(defparameter *uml-decision-merge-font*            nil)
+(defparameter *uml-decision-merge-fill*         :white)
+(defparameter *uml-decision-merge-stroke*       :black)
+(defparameter *uml-decision-merge-width*            40)
+(defparameter *uml-decision-merge-height*           30)
+(defparameter *uml-decision-merge-margin*            5)
+(defparameter *uml-decision-merge-filter*          nil)
+(defparameter *uml-decision-merge-layer*           nil)
 
-
-(defun uml-decision-merge-connect-point (center width height type1 type2 arg)
-  ;;ToDo : ivIbc7vn2EJ : 面倒くさいので ellipse 実装に転送して終わりにする。気が向いたらちゃんとやる。
-  (ellipse-connect-point center (/ width 2) (/ height 2) type1 type2 arg))
 
 ;;-------------------------------------------------------------------------------
 ;;
 ;; class uml-decision-merge
 ;;
 ;;-------------------------------------------------------------------------------
-(defclass uml-decision-merge (kaavio:shape)
-  ((center			:initform nil :initarg :center)			; point
-   (size			:initform   0 :initarg :size)			; number
-   (height-ratio	:initform   0 :initarg :height-ratio)	; number
-   (fill			:initform nil :initarg :fill)			; (or nil fill-info)
-   (stroke			:initform nil :initarg :stroke)))		; (or nil stroke-info)
+(defclass uml-decision-merge (kaavio:text-shape)
+  ((keyword		:initform nil	:initarg  :keyword)		; (or nil uml-keyword-info)
+   (filter		:initform nil	:initarg  :filter)		; (or nil keyword)
+   (kwd-height	:initform nil)))						; number
 
 (defmethod initialize-instance :after ((obj uml-decision-merge) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (fill stroke) obj
-	(setf fill    (make-fill   (or fill   *default-fill*  )))
-	(setf stroke  (make-stroke (or stroke *default-stroke*))))
+  (with-slots (keyword filter layer kwd-height) obj
+	(setf keyword (and keyword (make-uml-keyword keyword)))
+	(setf filter (if (eq filter :none)
+					 nil
+					 (or filter *uml-decision-merge-filter* *default-filter*)))
+	(setf layer  (if (eq layer :none)
+					 nil
+					 (or layer *uml-decision-merge-layer* *default-layer*)))
+	(setf kwd-height
+		  (if (null keyword)
+			  0
+			  (or (and *uml-decision-merge-font* (slot-value *uml-decision-merge-font* 'kaavio::size))
+				  (and *default-font*            (slot-value *default-font*            'kaavio::size))
+				  12))))	;;ToDo : これはなんとかしないと。
   obj)
 
 (defmethod check ((obj uml-decision-merge) canvas dict)
+  (with-slots (kaavio::text keyword kwd-height) obj
+	(unless kaavio::text
+	  (setf kaavio::text ""))
+	(check-object keyword  canvas dict :nullable t :class uml-keyword-info)
+	(check-member kwd-height  :nullable nil :types number))
   ;; this method must call super class' one.
-  (call-next-method)
-  (with-slots (center size height-ratio fill stroke) obj
-	(check-member size         :nullable nil :types number)
-	(check-member height-ratio :nullable nil :types number)
-	(check-object fill         canvas dict :nullable   t :class fill-info)
-	(check-object stroke       canvas dict :nullable   t :class stroke-info)
-	(setf center (canvas-fix-point canvas center)))
-  nil)
-
-(defmethod attribute-width ((obj uml-decision-merge))
-  (slot-value obj 'size))
-
-(defmethod attribute-height ((obj uml-decision-merge))
-  (* (slot-value obj 'size) (slot-value obj 'height-ratio)))
-
-(defmethod attribute-center ((obj uml-decision-merge))
-  (slot-value obj 'center))
+  (call-next-method))
 
 (defmethod shape-connect-point ((obj uml-decision-merge) type1 type2 arg)
-  (with-slots (center size height-ratio) obj
-	(uml-decision-merge-connect-point center size
-									  (* size height-ratio) type1 type2 arg)))
+  (with-slots (kaavio::center kaavio::text kaavio::width kaavio::height) obj
+    (if (string= "" kaavio::text)
+		(kaavio::diamond-connect-point   kaavio::center kaavio::width kaavio::height type1 type2 arg)
+		(kaavio::rectangle-connect-point kaavio::center kaavio::width kaavio::height type1 type2 arg))))
   
 ;;MEMO : use impelementation of shape...
 ;;(defmethod shape-get-subcanvas ((obj uml-decision-merge)) ...)
 
-(defmethod entity-composition-p ((obj uml-decision-merge))
+;; override of group::draw-group
+(defmethod draw-group ((obj uml-decision-merge) writer)
+  ;;(format t "draw-group called.~%")
+  (let ((canvas (group-get-canvas obj)))
+	(let ((top    (canvas-top    canvas))
+		  (left   (canvas-left   canvas))
+		  (width  (canvas-width  canvas))
+		  (height (canvas-height canvas)))
+	  (macrolet ((register-entity (entity)
+				   `(check-and-draw-local-entity ,entity canvas writer)))
+		(with-slots (kaavio::text keyword kwd-height filter
+						 kaavio::font kaavio::margin kaavio::fill kaavio::stroke) obj
+		  (when filter
+			(writer-write writer "<g filter='url(#" filter ")' >")
+			(writer-incr-level writer))
+		  (let ((*default-filter* filter)
+				(*default-fill*   kaavio::fill)
+				(*default-stroke* kaavio::stroke))
+			(if (or (string/= "" kaavio::text) keyword)
+				(let ((offset (/ height 3)))
+				  (polygon `((,offset 0)
+							 (0 ,(/ height 2))
+							 (,offset ,height)
+							 (,(- width offset) ,height)
+							 (,width ,(/ height 2))
+							 (,(- width offset) 0))))
+				(let ((half-w (/ width  2))
+					  (half-h (/ height 2)))
+				  (polygon `((,half-w 0)
+							 (0 ,half-h)
+							 (,half-w ,height)
+							 (,width ,half-h)
+							 (,half-w 0))))))
+		  (when filter
+			(writer-decr-level writer)
+			(writer-write writer "</g>"))
+		  ;; draw keyword
+		  (when keyword
+			(uml-keyword-draw keyword
+							  (+ left (/ width 2))
+							  (+ top  kaavio::margin kwd-height)
+							  :center kaavio::font writer))
+		  ;; draw text
+		  (call-next-method)))))
   nil)
-  
-(defmethod draw-entity ((obj uml-decision-merge) writer)
-  (pre-draw obj writer)
-  (let ((canvas (make-canvas (attribute-topleft obj)
-							 (attribute-width   obj)
-							 (attribute-height  obj))))
-	(with-slots (center size height-ratio fill stroke) obj
-	  (let* ((width  (canvas-width  canvas))
-			 (height (canvas-height canvas))
-			 (half-w (/ width  2))
-			 (half-h (/ height 2)))
-		(macrolet ((register-entity (entity)
-					 `(check-and-draw-local-entity ,entity canvas writer)))
-		  (let ((*default-fill*   fill)
-				(*default-stroke* stroke))
-			(polygon `((,half-w 0)
-					   (0 ,half-h)
-					   (,half-w ,height)
-					   (,width ,half-h)
-					   (,half-w 0))))))))
-  (post-draw obj writer)
-  nil)
 
+
+;for debug...
+;(defmethod post-draw ((obj uml-decision-merge) writer)
+;  ;;(format t "post-draw called.~%")
+;  (call-next-method)
+;  (with-slots (contents-p) obj
+;	(when contents-p
+;	  (draw-canvas-frame (shape-get-subcanvas obj) writer))))
+ 
+
+(defmethod text-shape-calc-size ((obj uml-decision-merge))
+  ;;(format t "text-shape-calc-size called.~%")
+  (multiple-value-bind (width height) (call-next-method)
+	(with-slots (keyword (margin kaavio::margin)) obj
+	  (incf height (* margin 2))
+	  ;; keyword (if exists).
+	  (when keyword
+		(with-slots (font) keyword
+		  (multiple-value-bind (w h)
+				(font-calc-textarea font (uml-keyword-to-string keyword))
+			(setf width (cl:max width (+ w (* margin 2))))
+			(incf height h)))))
+	(values (cl:max width  *uml-decision-merge-width*)
+			(cl:max height *uml-decision-merge-height*))))
+
+(defmethod text-shape-paragraph-area ((obj uml-decision-merge))
+  ;;(format t "text-shape-paragraph-area called.~%")
+  (let ((canvas (call-next-method)))
+	(with-slots (kwd-height) obj
+	  (incf (canvas-top canvas) (/ kwd-height 2)))
+	canvas))
 
 
 ;;-------------------------------------------------------------------------------
 ;;
-;; macro uml-decision
+;; macro uml-decision & uml-merge
 ;;
 ;;-------------------------------------------------------------------------------
-(defmacro uml-decision (center &key size height-ratio fill stroke layer id)
+(defmacro uml-decision (center &key text width height margin
+									font fill stroke link layer filter id)
   `(register-entity (make-instance 'uml-decision-merge
-								   :center ,center
-								   :size	(or ,size         *uml-decision-size*)
-								   :height-ratio
-											(or ,height-ratio *uml-decision-height-ratio*)
-								   :fill	(or ,fill         *uml-decision-fill*)
-								   :stroke	(or ,stroke       *uml-decision-stroke*)
-								   :link nil :layer ,layer :id ,id)))
+								   :center ,center :text ,text :keyword nil
+								   :width ,width :height ,height
+								   :margin  (or ,margin *uml-decision-merge-margin*)
+								   :font    (or ,font   *uml-decision-merge-font*)
+								   :fill	(or ,fill   *uml-decision-merge-fill*)
+								   :stroke	(or ,stroke *uml-decision-merge-stroke*)
+								   :link ,link :layer ,layer :filter ,filter :id ,id)))
 
-;;-------------------------------------------------------------------------------
-;;
-;; macro uml-merge
-;;
-;;-------------------------------------------------------------------------------
-(defmacro uml-merge (center &key size height-ratio fill stroke layer id)
+(defmacro uml-merge (center &key width height margin
+								 font fill stroke link layer filter id)
   `(register-entity (make-instance 'uml-decision-merge
-								   :center ,center
-								   :size	(or ,size         *uml-merge-size*)
-								   :height-ratio
-											(or ,height-ratio *uml-merge-height-ratio*)
-								   :fill	(or ,fill         *uml-merge-fill*)
-								   :stroke	(or ,stroke       *uml-merge-stroke*)
-								   :link nil :layer ,layer :id ,id)))
+								   :center ,center :text nil :keyword nil
+								   :width ,width :height ,height
+								   :margin  (or ,margin *uml-decision-merge-margin*)
+								   :font    (or ,font   *uml-decision-merge-font*)
+								   :fill	(or ,fill   *uml-decision-merge-fill*)
+								   :stroke	(or ,stroke *uml-decision-merge-stroke*)
+								   :link ,link :layer ,layer :filter ,filter :id ,id)))
+
+
+;;------------------------------------------------------------------------------
+;;
+;; macro with-uml-decision-merge-options
+;;
+;;------------------------------------------------------------------------------
+(defmacro with-uml-decision-merge-options ((&key font fill stroke width height
+												 margin filter layer) &rest body)
+  (labels ((impl (params acc)
+			 (if (null params)
+				 acc
+				 (let ((value  (car  params))
+					   (symbol (cadr params)))
+				   (impl (cddr params)
+						 (if (null value)
+							 acc
+							 (push (list symbol value) acc)))))))
+	(let ((lst (impl (list font     '*uml-decision-merge-font*
+						   fill     '*uml-decision-merge-fill*
+						   stroke   '*uml-decision-merge-stroke*
+						   width    '*uml-decision-merge-width*
+						   height   '*uml-decision-merge-height*
+						   margin   '*uml-decision-merge-margin*
+						   filter   '*uml-decision-merge-filter*
+						   layer    '*uml-decision-merge-layer*) nil)))
+	  `(let ,lst
+		 ,@body))))

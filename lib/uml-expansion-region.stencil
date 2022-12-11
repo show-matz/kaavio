@@ -3,10 +3,12 @@
 
 (load-stencil :uml-keyword-info)
 
+(defparameter *uml-expansion-region-font*         nil)
 (defparameter *uml-expansion-region-fill*      :white)
-(defparameter *uml-expansion-region-stroke*    :black)
+(defparameter *uml-expansion-region-stroke*    '(:color :black :dasharray (5 5)))
 (defparameter *uml-expansion-region-corner-r*      10)
-
+(defparameter *uml-expansion-region-filter*       nil)
+(defparameter *uml-expansion-region-layer*        nil)
 
 ;;------------------------------------------------------------------------------
 ;;
@@ -15,25 +17,32 @@
 ;;------------------------------------------------------------------------------
 (defclass uml-expansion-region (kaavio:rectangle)
   ((keyword	:initform nil	:initarg  :keyword)		; (or nil uml-keyword-info)
-   (offset	:initform nil	:initarg  :offset)))	; offset
+   (font	:initform nil	:initarg  :font)		; (or nil font-info)
+   (offset	:initform nil	:initarg  :offset)))	; point
 
-(defmethod initialize-instance :after ((region uml-expansion-region) &rest initargs)
+(defmethod initialize-instance :after ((obj uml-expansion-region) &rest initargs)
   (declare (ignore initargs))
   ;;(format t "initialize-instance :after called.~%")
-  (with-slots (keyword offset) region
+  (with-slots (keyword font offset filter layer) obj
 	(setf keyword (and keyword (make-uml-keyword keyword)))
 	(unless offset
-	  (setf offset (make-point 0 0))))
-  region)
+	  (setf offset (make-point 0 0)))
+	(setf filter (if (eq filter :none)
+					 nil
+					 (or filter *uml-expansion-region-filter* *default-filter*)))
+	(setf font   (make-font (or font *uml-expansion-region-font* *default-font*)))
+	(setf layer  (if (eq layer :none)
+					 nil
+					 (or layer *uml-expansion-region-layer* *default-layer*))))
+  obj)
 
-(defmethod check ((region uml-expansion-region) canvas dict)
+(defmethod check ((obj uml-expansion-region) canvas dict)
   ;;(format t "check called.~%")
-  (with-slots (keyword offset
-					   (stroke kaavio::stroke)) region
+  (with-slots (keyword font offset) obj
 	(check-object keyword  canvas dict :nullable t :class uml-keyword-info)
+	(check-object font     canvas dict :nullable t :class font-info)
 	(unless (point-p offset)
-	  (throw-exception "offset is not point object."))
-	(setf stroke (make-stroke :dasharray '(5 5) :base stroke)))
+	  (throw-exception "offset is not point object.")))
   ;; this method must call super class' one.
   (call-next-method))
 
@@ -45,20 +54,23 @@
 ;;(defmethod group-get-canvas ((region uml-expansion-region)) ...)
 
 ;; override of entity::draw-entity
-(defmethod draw-entity ((region uml-expansion-region) writer)
-  ;; draw text
+(defmethod draw-entity ((obj uml-expansion-region) writer)
+  ;; draw rectangle
   (call-next-method)
   ;; draw keyword ( if exists ).
-  (with-slots (keyword offset) region
+  (with-slots (keyword font offset) obj
 	(when keyword
-	  (let* ((canvas    (shape-get-subcanvas region))
+	  (let* ((canvas    (shape-get-subcanvas obj))
 			 (topleft   (canvas-topleft   canvas))
-			 (font-size (slot-value (slot-value keyword 'font) 'kaavio::size)))
+			 (font-size (slot-value font 'kaavio::size)))
 		(macrolet ((register-entity (entity)
 					 `(check-and-draw-local-entity ,entity canvas writer)))
 		  (uml-keyword-draw keyword
 							(+ (point-x topleft) 5 (point-x offset))
-							(+ (point-y topleft) 5 (point-y offset) font-size) :left writer)))))
+							(+ (point-y topleft) 5 (point-y offset) font-size)
+							:left
+							font
+							writer)))))
   nil)
 
 ;;------------------------------------------------------------------------------
@@ -66,13 +78,13 @@
 ;; macro uml-expansion-region
 ;;
 ;;------------------------------------------------------------------------------
-(defmacro uml-expansion-region (center width height &key keyword offset
+(defmacro uml-expansion-region (center width height &key keyword font offset
 										 corner-r fill stroke link layer id contents)
   (let* ((code `(register-entity
 					 (make-instance 'uml-expansion-region
 									:center ,center
 									:width ,width :height ,height
-									:keyword ,keyword :offset ,offset
+									:keyword ,keyword :font ,font :offset ,offset
 									:rx (or ,corner-r *uml-expansion-region-corner-r*)
 									:ry (or ,corner-r *uml-expansion-region-corner-r*)
 									:fill     (or ,fill *uml-expansion-region-fill*
@@ -87,4 +99,30 @@
 				  (canvas (shape-get-subcanvas ,g-obj)))
 			 (declare (special canvas))
 			 ,@contents)))))
+
+
+;;------------------------------------------------------------------------------
+;;
+;; macro with-uml-expansion-region-options
+;;
+;;------------------------------------------------------------------------------
+(defmacro with-uml-expansion-region-options ((&key font fill stroke
+												   corner-r filter layer) &rest body)
+  (labels ((impl (params acc)
+			 (if (null params)
+				 acc
+				 (let ((value  (car  params))
+					   (symbol (cadr params)))
+				   (impl (cddr params)
+						 (if (null value)
+							 acc
+							 (push (list symbol value) acc)))))))
+	(let ((lst (impl (list font     '*uml-expansion-region-font*
+						   fill     '*uml-expansion-region-fill*
+						   stroke   '*uml-expansion-region-stroke*
+						   corner-r '*uml-expansion-region-corner-r*
+						   filter   '*uml-expansion-region-filter*
+						   layer    '*uml-expansion-region-layer*) nil)))
+	  `(let ,lst
+		 ,@body))))
 

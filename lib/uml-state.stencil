@@ -70,7 +70,7 @@
 	  (macrolet ((register-entity (entity)
 				   `(check-and-draw-local-entity ,entity canvas writer)))
 		(with-slots (keyword kwd-height corner-r activities contents-p
-						 kaavio::margin kaavio::fill kaavio::stroke) state
+						 kaavio::margin kaavio::font kaavio::fill kaavio::stroke) state
 		  ;; draw state body
 		  (rectangle (make-point (/ width 2) (/ height 2))
 					 width height :rx corner-r :ry corner-r
@@ -79,7 +79,7 @@
 		  (when keyword
 			(uml-keyword-draw keyword
 							  (+ left (/ width 2))
-							  (+ top  kaavio::margin kwd-height) :center writer))
+							  (+ top  kaavio::margin kwd-height) :center kaavio::font writer))
 		  ;; draw text
 		  (call-next-method)
 		  ;;contents

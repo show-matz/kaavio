@@ -1,9 +1,12 @@
+
 (in-package :kaavio-user)
 
 (defparameter *uml-pin-font*      nil)
 (defparameter *uml-pin-fill*   :white)
 (defparameter *uml-pin-stroke* :black)
 (defparameter *uml-pin-size*       10)
+(defparameter *uml-pin-filter*    nil)
+(defparameter *uml-pin-layer*     nil)
 
 ;;------------------------------------------------------------------------------
 ;;
@@ -18,16 +21,23 @@
    (multi	:initform nil :initarg :multi)		; boolean
    (font	:initform nil :initarg :font)		; (or nil font-info)
    (fill	:initform nil :initarg :fill)		; (or nil fill-info)
-   (stroke	:initform nil :initarg :stroke)))	; (or nil stroke-info)
+   (stroke	:initform nil :initarg :stroke)		; (or nil stroke-info)
+   (filter	:initform nil :initarg :filter)))	; (or nil keyword)
 
 
 (defmethod initialize-instance :after ((pin uml-pin) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (offset font fill stroke) pin
+  (with-slots (offset fill stroke font filter layer) pin
 	(setf offset  (or offset (make-point 0 0)))
-	(setf font    (make-font   (or font   *uml-pin-font*   *default-font*)))
 	(setf fill    (make-fill   (or fill   *uml-pin-fill*   *default-fill*)))
-	(setf stroke  (make-stroke (or stroke *uml-pin-stroke* *default-stroke*))))
+	(setf font    (make-font   (or font   *uml-pin-font*   *default-font*)))
+	(setf stroke  (make-stroke (or stroke *uml-pin-stroke* *default-stroke*)))
+	(setf filter  (if (eq filter :none)
+					  nil
+					  (or filter *uml-pin-filter* *default-filter*)))
+	(setf layer  (if (eq layer :none)
+					 nil
+					 (or layer *uml-pin-layer* *default-layer*))))
   pin)
 
 (defmethod check ((pin uml-pin) canvas dict)
@@ -115,7 +125,7 @@
 ;; override of group::draw-group
 (defmethod draw-group ((pin uml-pin) writer)
   (let ((canvas (group-get-canvas pin)))
-	(with-slots (name size offset multi font fill stroke) pin
+	(with-slots (name size offset multi font fill stroke filter) pin
 	  (with-canvas (cc width height) canvas
 		(let* ((x (/ width  2))
 			   (y (/ height 2))
@@ -131,10 +141,9 @@
 						 ((#\R) (uml-pin-locate-text-for-right  x y size offset font-size))))))
 			(macrolet ((register-entity (entity)
 						 `(check-and-draw-local-entity ,entity canvas writer)))
-			  (let ((*default-font*   font)
-					(*default-fill*   fill)
+			  (let ((*default-fill*   fill)
 					(*default-stroke* stroke))
-				(rectangle `(,x ,y) width height)
+				(rectangle `(,x ,y) width height :filter filter)
 				(when multi
 				  (if (< width height)
 					  (path `((:move-to (0 ,(* size 1)) (,size ,(* size 1)))
@@ -142,8 +151,9 @@
 							  (:move-to (0 ,(* size 3)) (,size ,(* size 3)))))
 					  (path `((:move-to (,(* size 1) 0) (,(* size 1) ,size))
 							  (:move-to (,(* size 2) 0) (,(* size 2) ,size))
-							  (:move-to (,(* size 3) 0) (,(* size 3) ,size))))))
-				(when name
+							  (:move-to (,(* size 3) 0) (,(* size 3) ,size)))))))
+			  (when name
+				(let ((*default-font*   font))
 				  (multiple-value-bind (x y align) (locate-text)
 					(text `(,x ,y) name :align align))))))))))
   nil)
@@ -159,13 +169,38 @@
 ;; macro uml-pin
 ;;
 ;;------------------------------------------------------------------------------
-(defmacro uml-pin (name target position &key size offset multi font fill stroke layer id)
+(defmacro uml-pin (target position name &key offset multi size fill stroke font filter layer id)
   `(register-entity (make-instance 'uml-pin
-								   :name ,name
 								   :target (cons ,target ,position)
-								   :size (or ,size *uml-pin-size*)
-								   :offset ,offset :multi ,multi
-								   :font ,font
-								   :fill ,fill :stroke ,stroke
-								   :link nil :layer ,layer :id ,id)))
+								   :name ,name :offset ,offset :multi ,multi
+								   :size	(or ,size   *uml-pin-size*)
+								   :font    (or ,font   *uml-pin-font*)
+								   :fill	(or ,fill   *uml-pin-fill*)
+								   :stroke	(or ,stroke *uml-pin-stroke*)
+								   :link nil :filter ,filter :layer ,layer :id ,id)))
+
+;;------------------------------------------------------------------------------
+;;
+;; macro with-uml-pin-options
+;;
+;;------------------------------------------------------------------------------
+(defmacro with-uml-pin-options ((&key font fill stroke
+									  size filter layer) &rest body)
+  (labels ((impl (params acc)
+			 (if (null params)
+				 acc
+				 (let ((value  (car  params))
+					   (symbol (cadr params)))
+				   (impl (cddr params)
+						 (if (null value)
+							 acc
+							 (push (list symbol value) acc)))))))
+	(let ((lst (impl (list font     '*uml-pin-font*
+						   fill     '*uml-pin-fill*
+						   stroke   '*uml-pin-stroke*
+						   size     '*uml-pin-size*
+						   filter   '*uml-pin-filter*
+						   layer    '*uml-pin-layer*) nil)))
+	  `(let ,lst
+		 ,@body))))
 

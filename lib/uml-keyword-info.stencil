@@ -1,50 +1,45 @@
 
 (in-package :kaavio-user)
 
-(defparameter *uml-keyword-font*  nil)
-
 ;;------------------------------------------------------------------------------
 ;;
 ;; class uml-keyword-info
 ;;
 ;;------------------------------------------------------------------------------
 (defclass uml-keyword-info ()
-  ((name	:initform nil :initarg :name)	; (or keyword string)
-   (font	:initform nil :initarg :font)))	; (or nil font-info)
+  ((name	:initform nil :initarg :name)))	; (or keyword string)
 
 
-(defmethod initialize-instance :after ((kwd uml-keyword-info) &rest initargs)
-  (declare (ignore initargs))
-  (with-slots (font) kwd
-	(when font
-	  (setf font (make-font font)))))
+;; no implementation...
+;(defmethod initialize-instance :after ((kwd uml-keyword-info) &rest initargs)
+;  (declare (ignore initargs))
+;  )
 
 (defmethod check ((kwd uml-keyword-info) canvas dict)
-  (with-slots (name font) kwd
-	(check-member name  :nullable nil :types (or keyword string))
-	(check-object font  canvas dict :nullable t :class font-info))
+  (with-slots (name) kwd
+	(check-member name  :nullable nil :types (or keyword string)))
   nil)
 
 (defun uml-keyword-to-string (kwd)
   (format-string "<<" (slot-value kwd 'name) ">>"))
 
-(defun uml-keyword-draw (kwd x y align writer)
+(defun uml-keyword-draw (kwd x y align font writer)
   (let ((txt (uml-keyword-to-string kwd)))
-	(with-slots (font) kwd
-	  (write-text-tag x y txt writer :align align :font font))))
+	(write-text-tag x y txt writer :align align :font (make-font font))))
 
 
-(defun uml-keyword-draw-beside-line (kwd line writer)
+(defun uml-keyword-draw-beside-line (kwd line font writer)
   (multiple-value-bind (x y sin cos) (kaavio::line-get-center line)	;;ToDo : export!?
 	(declare (ignorable x y sin cos))
-	(let* ((f-size (slot-value (slot-value kwd 'font) 'kaavio::size))
+	(let* ((font (make-font font))
+		   (f-size (slot-value font 'kaavio::size))
 		   (offset f-size)
 		   (align (cond ((zerop sin) :center)
 						((<  0  sin) :left)
 						(t           :right))))
 	  (incf y (/ f-size 2))
 	  (uml-keyword-draw kwd (+ x (* sin offset))
-							(- y (* cos offset))  align writer))))
+							(- y (* cos offset)) align font writer))))
 
 
 (defun make-uml-keyword (&rest params)
@@ -54,10 +49,7 @@
 		  ((typep param 'uml-keyword-info) param)
 		  ((listp param) (apply #'make-uml-keyword param))
 		  (t             (make-uml-keyword :name param))))
-	  (destructuring-bind (&key (name  nil  name-p)
-								(font  nil  font-p)) params
+	  (destructuring-bind (&key (name  nil  name-p)) params
 		(make-instance 'uml-keyword-info
-					   :name  (if name-p  name  nil)
-					   :font  (if font-p  font  (or *uml-keyword-font*
-													kaavio:*default-font*))))))
+					   :name  (if name-p  name  nil)))))
 
