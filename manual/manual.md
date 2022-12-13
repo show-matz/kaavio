@@ -6024,8 +6024,9 @@ Figure. uml-action のサンプル
 
 　:contents パラメータと with-subcanvas-of は通常は同じように使えますが、uml-action では
 違いが存在します。:contents で内部を描画する場合、uml-action はテキストを上端付近に描画しますが、
-with-subcanvas-of では中央に描画します。これは「内容物の有無を検出できるか」の違いなので、
-uml-action では  :contents パラメータの使用をお勧めします。
+:contents を使わずに with-subcanvas-of を使用した場合、テキストは中央に描画されます。
+この問題を解決するため、uml-action では `:contents t` と指定することでテキストを上端付近に描画
+させることができます。
 
 　詳細は以下を参照してください。
 
@@ -7673,6 +7674,7 @@ ${BLANK_PARAGRAPH}
 　${{TODO}{まだ記述されていません。}}
 
 * rake は t を指定するか、または数値 4 要素のリストを指定する。`(width height x-margin y-margin)`
+* `:contents t` がサポートされる。
 
 #### uml-activity-final マクロ
 <!-- autolink: [uml-activity-final](#uml-activity-final マクロ) -->

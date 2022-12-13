@@ -191,7 +191,8 @@
 									:stroke   (or ,stroke *uml-action-stroke*
 												  *default-stroke* :black)
 									:link ,link :layer ,layer :filter ,filter :id ,id))))
-	(if (null contents)
+	(if (or (null contents)
+			(not (listp contents)))
 		code
 		(let ((g-obj (gensym "OBJ")))
 		  `(let* ((,g-obj ,code)

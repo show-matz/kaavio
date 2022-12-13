@@ -4985,7 +4985,6 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 			<rect x='20' y='54' width='226' height='126' fill='white' />
 			<path fill='none' stroke='black' stroke-width='1' d='M 20 54 L 246 54 L 246 180 L 20 180 L 20 54 L 48 26 L 274 26 L 274 152 L 246 180 M 246 54 L 274 26' />
 		</g>
-		<text x='133' y='123' text-anchor='middle' font-size='12pt' fill='black' ></text>
 	</g>
 	<!-- rectangle -->
 	<rect x='20' y='54' width='226' height='126' fill='none' stroke='red' stroke-width='3' stroke-opacity='0.5' stroke-dasharray='10 5 ' />
@@ -7699,7 +7698,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
     (uml-flow <span class='keyword3'>:step2</span> <span class='keyword3'>:step3</span> <span class='keyword3'>:style</span> <span class='keyword3'>:BR1</span>)
     (uml-flow <span class='keyword3'>:step3</span> <span class='keyword3'>:final</span>)))
 </pre>
-<p>　:contents パラメータと <a class='autolink' href='#el41gKN39JH'>with-subcanvas-of</a> は通常は同じように使えますが、<a class='autolink' href='#gyN1Duroeh7'>uml-action</a> では違いが存在します。:contents で内部を描画する場合、<a class='autolink' href='#gyN1Duroeh7'>uml-action</a> は<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>を上端付近に描画しますが、<a class='autolink' href='#el41gKN39JH'>with-subcanvas-of</a> では中央に描画します。これは「内容物の有無を検出できるか」の違いなので、<a class='autolink' href='#gyN1Duroeh7'>uml-action</a> では  :contents パラメータの使用をお勧めします。</p>
+<p>　:contents パラメータと <a class='autolink' href='#el41gKN39JH'>with-subcanvas-of</a> は通常は同じように使えますが、<a class='autolink' href='#gyN1Duroeh7'>uml-action</a> では違いが存在します。:contents で内部を描画する場合、<a class='autolink' href='#gyN1Duroeh7'>uml-action</a> は<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>を上端付近に描画しますが、:contents を使わずに <a class='autolink' href='#el41gKN39JH'>with-subcanvas-of</a> を使用した場合、<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>は中央に描画されます。この問題を解決するため、<a class='autolink' href='#gyN1Duroeh7'>uml-action</a> では <code>:contents t</code> と指定することで<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>を上端付近に描画させることができます。</p>
 <p>　詳細は以下を参照してください。</p>
 <ul>
 <li><a class='autolink' href='#gyN1Duroeh7'>uml-action</a> マクロ</li>
@@ -8137,8 +8136,10 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 		</g>
 		<text x='70' y='81' text-anchor='middle' font-family='sans-serif' font-size='12pt' fill='black' >step1</text>
 	</g>
-	<!-- fork : uml-fork -->
-	<rect id='fork' x='165' y='55' width='10' height='40' rx='0' fill='maroon' stroke='none' stroke-width='1' filter='url(#drop-shadow)' />
+	<!-- fork : uml-fork-join -->
+	<g id='fork'>
+		<rect x='165' y='55' width='10' height='40' rx='0' fill='maroon' stroke='none' stroke-width='1' filter='url(#drop-shadow)' />
+	</g>
 	<!-- step2 : uml-action -->
 	<g id='step2'>
 		<g filter='url(#drop-shadow)' >
@@ -8294,7 +8295,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 		</g>
 		<text x='70' y='121' text-anchor='middle' font-family='sans-serif' font-size='12pt' fill='black' >step2</text>
 	</g>
-	<!-- join : uml-join -->
+	<!-- join : uml-fork-join -->
 	<g id='join'>
 		<rect x='165' y='55' width='10' height='40' rx='0' fill='maroon' stroke='none' stroke-width='1' filter='url(#drop-shadow)' />
 		<text x='210' y='112' text-anchor='middle' font-family='sans-serif' font-size='10pt' fill='black' >{joinSpec=blah blah}</text>
@@ -9495,6 +9496,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <ul>
 <li>rake は t を指定するか、または数値 4 要素のリストを指定する。`(width height x-margin y-margin)`</li>
+<li><code>:contents t</code> がサポートされる。</li>
 </ul>
 <h4><a name='brfWjyj5XjU'></a>13.1.70 uml-activity-final マクロ</h4>
 <pre class='code'>
