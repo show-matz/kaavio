@@ -3,28 +3,29 @@
 
 (load-stencil :uml-keyword-info)
 
-(defparameter *uml-action-font*            nil)
-(defparameter *uml-action-fill*         :white)
-(defparameter *uml-action-stroke*       :black)
-(defparameter *uml-action-width*            80)
-(defparameter *uml-action-height*           40)
-(defparameter *uml-action-corner-r*          6)
-(defparameter *uml-action-margin*            5)
-(defparameter *uml-action-rake*   '(10 14 4 4))
-(defparameter *uml-action-filter*          nil)
-(defparameter *uml-action-layer*           nil)
+(defparameter *uml-action-font*               nil)
+(defparameter *uml-action-fill*            :white)
+(defparameter *uml-action-stroke*          :black)
+(defparameter *uml-action-width*               80)
+(defparameter *uml-action-height*              40)
+(defparameter *uml-action-corner-r*             6)
+(defparameter *uml-action-margin*               5)
+(defparameter *uml-action-rake*               nil)
+(defparameter *uml-action-rake-data* '(10 14 4 4))
+(defparameter *uml-action-filter*             nil)
+(defparameter *uml-action-layer*              nil)
 
 
 (defun uml-action-fix-rake-info (param)
   (cond
 	((null param) nil)
-	((eq t param) *uml-action-rake*)
+	((eq t param) *uml-action-rake-data*)
 	((not (listp param)) param)
 	(t (destructuring-bind (&optional w h x y) param
-		 (list (or w (first  *uml-action-rake*))
-			   (or h (second *uml-action-rake*))
-			   (or x (third  *uml-action-rake*))
-			   (or y (fourth *uml-action-rake*)))))))
+		 (list (or w (first  *uml-action-rake-data*))
+			   (or h (second *uml-action-rake-data*))
+			   (or x (third  *uml-action-rake-data*))
+			   (or y (fourth *uml-action-rake-data*)))))))
 
 ;;------------------------------------------------------------------------------
 ;;
@@ -180,7 +181,8 @@
 									:center ,center
 									:width ,width :height ,height
 									:text ,text :keyword ,keyword
-									:contents-p ,contents-p :rake ,rake
+									:contents-p ,contents-p
+									:rake     (or ,rake     *uml-action-rake*)
 									:corner-r (or ,corner-r *uml-action-corner-r*)
 									:margin   (or ,margin   *uml-action-margin*)
 									:font     ,font 
