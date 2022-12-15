@@ -15,14 +15,14 @@
 ;; macro uml-composition
 ;;
 ;;------------------------------------------------------------------------------
-(defmacro uml-composition (from to &key arrow keyword name style role1 mult1 role2 mult2 layer id)
+(defmacro uml-composition (from to &key arrow keyword name style spacing role1 mult1 role2 mult2 layer id)
   (let ((g-kwd  (gensym "KEYWORD"))
 		(g-name (gensym "NAME")))
 	`(let ((,g-kwd  ,keyword)
 		   (,g-name ,name))
 	   (register-entity (make-instance 'uml-composition
 									   :from ,from :to ,to
-									   :keyword ,g-kwd :style ,style
+									   :keyword ,g-kwd :style ,style :spacing ,spacing
 									   :name ,g-name
 									   :label (and (or ,g-kwd ,g-name)
 												   #'uml-connection-draw-label)

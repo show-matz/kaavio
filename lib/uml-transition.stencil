@@ -49,12 +49,12 @@
 ;; macro uml-transition
 ;;
 ;;------------------------------------------------------------------------------
-(defmacro uml-transition (from to &key spec style layer id)
+(defmacro uml-transition (from to &key spec style spacing layer id)
   (let ((g-spec  (gensym "SPEC")))
 	`(let ((,g-spec  ,spec))
 	   (register-entity (make-instance 'uml-transition
 									   :from ,from :to ,to
-									   :spec ,g-spec :style ,style
+									   :spec ,g-spec :style ,style :spacing ,spacing
 									   :label (and ,g-spec #'uml-transition-draw-spec)
 									   :stroke (or *uml-transition-stroke* *default-stroke*)
 									   :end1 nil :end2 :arrow :layer ,layer :id ,id)))))

@@ -145,7 +145,7 @@
 ;; macro uml-flow
 ;;
 ;;------------------------------------------------------------------------------
-(defmacro uml-flow (from to &key keyword spec style filter layer id)
+(defmacro uml-flow (from to &key keyword spec style spacing filter layer id)
   (let ((g-kwd  (gensym "KWD"))
 		(g-spec (gensym "SPEC")))
 	`(let ((,g-kwd  ,keyword)
@@ -155,7 +155,7 @@
 									   :keyword ,g-kwd :spec ,g-spec
 									   :label (and (or ,g-kwd ,g-spec)
 												   #'uml-flow-draw-spec)
-									   :style ,style
+									   :style ,style :spacing ,spacing
 									   :stroke (or *uml-flow-stroke* *default-stroke*)
 									   :end1 nil :end2 (list :type :arrow :size *uml-flow-arrow-size*)
 									   :filter (or ,filter *uml-flow-filter* *default-filter*)
@@ -169,7 +169,7 @@
 ;;
 ;;------------------------------------------------------------------------------
 (defmacro with-uml-flow-options ((&key stroke arrow-size font filter layer) &rest body)
-  (labels ((impl (params acc)
+p  (labels ((impl (params acc)
 			 (if (null params)
 				 acc
 				 (let ((value  (car  params))

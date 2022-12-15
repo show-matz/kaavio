@@ -7734,7 +7734,7 @@ ${BLANK_PARAGRAPH}
 <!-- autolink: [uml-flow](#uml-flow マクロ) -->
 
 ```lisp
-(defmacro uml-flow (from to &key keyword spec style filter layer id) ... )
+(defmacro uml-flow (from to &key keyword spec style spacing filter layer id) ... )
 ```
 
 　${{TODO}{まだ記述されていません。}}

@@ -277,10 +277,10 @@
 ;; macro uml-interface-request
 ;;
 ;;------------------------------------------------------------------------------
-(defmacro uml-interface-request (from to &key arrow-p style stroke layer id)
+(defmacro uml-interface-request (from to &key arrow-p style spacing stroke layer id)
   `(register-entity (make-instance 'uml-interface-request
 								   :from ,from :to ,to
-								   :arrow-p ,arrow-p :style ,style
+								   :arrow-p ,arrow-p :style ,style :spacing ,spacing
 								   :stroke (or ,stroke
 											   *uml-interface-request-stroke*
 											   *default-stroke* :black)
