@@ -29,5 +29,6 @@
   (uml-time-event      :fill :powderblue :stroke :darkslateblue :width 30 :height 40)
   (uml-connector       :fill :wheat      :stroke :brown :size 20 :font 10)
   (uml-pin             :fill :white      :stroke :brown :size 10 :font 10)
-  (uml-expansion-region :fill :oldlace   :stroke '(:color :brown :width 2 :dasharray (5 5))))
+  (uml-expansion-region :fill :oldlace   :stroke '(:color :brown :width 2 :dasharray (5 5)))
+  (uml-partition        :fill :white     :stroke :black))
 

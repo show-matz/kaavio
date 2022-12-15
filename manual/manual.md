@@ -5930,6 +5930,7 @@ ${BLANK_PARAGRAPH}
 * [$$](#uml-join)
 * [$$](#uml-merge)
 * [$$](#uml-note)
+* [$$](#uml-partition)
 * [$$](#uml-pin)
 * [$$](#uml-signal)
 * [$$](#uml-time-event)
@@ -6487,9 +6488,128 @@ with-uml-note-options を使用しています。
 #### uml-package
 <!-- autolink: [$$](#uml-package) -->
 
+#### uml-partition
+
+　uml-partition は UML のアクティビティ図における区画（パーティション）を表記するための
+図形要素です。
+
+<!-- snippet: UML-PARTITION-SAMPLE
+(diagram (560 300)
+  (grid)
+  (with-theme (:uml-activity-default)
+    (uml-partition canvas.center '(("FrontEnd" 140)
+                                   ("BackEnd"  140)) 540 :id :lanes)
+    (with-uml-partition-lane (:lanes "FrontEnd")
+      (uml-activity-start (x+ canvas.left 30)  :id :start)
+      (uml-action (x+ $1.center 100) "action1" :id :act1)
+      (uml-action (x+ $1.center 130) "action3" :id :act3)
+      (uml-merge  (x+ $1.center 120)           :id :merge)
+      (uml-activity-final (x+ $1.center 90)   :id :final))
+    (with-uml-partition-lane (:lanes "BackEnd")
+      (uml-action   (y+ act1.center 140)  "action2" :id :act2)
+      (uml-decision (y+ act3.center 140)            :id :decision)
+      (uml-action   (y+ merge.center 140) "action4" :id :act4))
+    (labels ((route (lst)
+               (when (and (car lst) (cadr lst))
+                 (uml-flow (car lst) (cadr lst))
+                 (route (cdr lst)))))
+      (route '(:decision :act4 :merge))
+      (route '(:start :act1 :act2 :decision :act3 :merge :final)))))
+-->
+
+```kaavio
+<!-- expand: UML-PARTITION-SAMPLE -->
+```
+Figure. uml-partition のサンプル
+
+　上記の作図は以下のコードで行なっています。
+
+```lisp
+<!-- expand: UML-PARTITION-SAMPLE -->
+```
+
+${BLANK_PARAGRAPH}
+
+　uml-partition のパラメータとして必須なのは `center rows cols` の３つで、 `rows cols` の指定
+の仕方で垂直・水平方向のスイムレーンとマトリクス状の区画を作成することができます。以下に例を示します。
+
+<!-- snippet: UML-PARTITION-SAMPLE-2
+(diagram (600 140)
+  (grid)
+  (with-uml-partition-options (:stroke :black :fill :azure :lines :mid)
+    (with-subcanvas ('( 0 0) 200 140)
+      (uml-partition canvas.center 120 '((A 60) (B 60) (C 60))))
+    (with-subcanvas ('(200 0) 200 140)
+      (uml-partition canvas.center '((X 40) (Y 40) (Z 40)) 180))
+    (with-subcanvas ('(400 0) 200 140)
+      (uml-partition canvas.center
+                     '((X 30) (Y 30) (Z 30)) '((A 50) (B 50) (C 50))))))
+-->
+
+```kaavio
+<!-- expand: UML-PARTITION-SAMPLE-2 -->
+```
+Figure. uml-partition のサンプル - 2
+
+　上記の作図は以下のコードで行なっています。左の縦方向のスイムレーンでは、 `cols` に `'((A 60) (B 60) (C 60))` を、 
+`rows` に `120` を指定しています。中央の横方向のスイムレーンでは、 `cols` に `180` を、 `rows` に 
+`'((X 40) (Y 40) (Z 40))` を指定しています。このように `rows cols` の一方を数値にして他方をリストにすると
+縦または横のスイムレーンになります。両方をリストにするとマトリクス状の区画になります。
+
+```lisp
+<!-- expand: UML-PARTITION-SAMPLE-2 -->
+```
+
+　注意が必要なのは、区画の全体サイズを決めるルールです。
+
+* スイムレーンになる場合、
+    * `rows` または `cols` に数値を指定した側は、その値がそのまま幅または高さになります
+    * レーンの名前部分の領域は、 `header` で指定されたサイズが上記の中で確保されます
+    * `rows` または `cols` にリストを指定した側はその幅の合計が幅または高さになります
+* マトリクスになる場合、
+    * `rows` または `cols` に指定したリストに含まれる幅の合計に `header` の指定値を加えたものが幅または高さになります
+
+${BLANK_PARAGRAPH}
+
+　uml-partition はテーブルをベースに作成されていますが、描画される「罫線」は `lines` パラメータに
+よってカスタマイズすることができます。指定する値は `:min :mid :max` のいずれかです。区画の形状別の
+サンプルを以下に示します。
+
+```kaavio
+(diagram (630 450)
+; (grid)
+  (with-textbox-options  (:align :center :font '(:fill :brown :size 20))
+    (textbox '(130  20) ":lines :min" :no-frame t)
+    (textbox '(330  20) ":lines :mid" :no-frame t)
+    (textbox '(530  20) ":lines :max" :no-frame t)
+    (textbox '( 20 100) "vertical"    :no-frame t :rotate -90)
+    (textbox '( 20 240) "horizontal"  :no-frame t :rotate -90)
+    (textbox '( 20 380) "matrix"      :no-frame t :rotate -90))
+  (with-uml-partition-options (:stroke :black :fill :azure)
+    (labels ((vertical (x lines)
+               (with-subcanvas (`(,x 30) 200 140)
+                 (uml-partition canvas.center 120 '((A 60) (B 60) (C 60)) :lines lines)))
+             (horizontal (x lines)
+               (with-subcanvas (`(,x 170) 200 140)
+                 (uml-partition canvas.center '((X 40) (Y 40) (Z 40)) 180 :lines lines)))
+             (matrix (x lines)
+               (with-subcanvas (`(,x 310) 200 140)
+                 (uml-partition canvas.center '((X 30) (Y 30) (Z 30))
+                                              '((A 50) (B 50) (C 50)) :lines lines))))
+      (dolist (func (list #'vertical #'horizontal #'matrix))
+        (map nil func '(30 230 430) '(:min :mid :max))))))
+```
+Figure. uml-partition における lines パラメータのサンプル
+
+　詳細は以下を参照してください。
+
+* uml-partition マクロ
+* with-uml-partition-lane マクロ
+* with-uml-partition-options マクロ
+
 #### uml-pin
 
-　uml-decision は UML のアクティビティ図におけるピンを表記するための図形要素です。
+　uml-pin は UML のアクティビティ図におけるピンを表記するための図形要素です。
 
 <!-- snippet: UML-PIN-SAMPLE
 (diagram (620 120)
@@ -7805,6 +7925,17 @@ ${BLANK_PARAGRAPH}
 
 　${{TODO}{まだ記述されていません。}}
 
+#### uml-partition マクロ
+<!-- autolink: [uml-partition](#uml-partition マクロ) -->
+
+```lisp
+(defmacro uml-partition (center rows cols
+                         &key lines header
+                              fills stroke font layer id) ... )
+```
+
+　${{TODO}{まだ記述されていません。}}
+
 #### uml-pin マクロ
 <!-- autolink: [uml-pin](#uml-pin マクロ) -->
 
@@ -8188,6 +8319,25 @@ ${BLANK_PARAGRAPH}
 (defmacro with-uml-note-options ((&key font fill stroke
                                        margin align valign
                                         crease filter layer) &rest body) ... )
+```
+
+　${{TODO}{まだ記述されていません。}}
+
+#### with-uml-partition-lane マクロ
+<!-- autolink: [with-uml-partition-lane](#with-uml-partition-lane マクロ) -->
+
+```lisp
+(defmacro with-uml-partition-lane ((id name &optional name2) &body body) ... )
+```
+
+　${{TODO}{まだ記述されていません。}}
+
+#### with-uml-partition-options マクロ
+<!-- autolink: [with-uml-partition-options](#with-uml-partition-options マクロ) -->
+
+```lisp
+(defmacro with-uml-partition-options ((&key lines header font
+                                            fill stroke layer) &rest body) ... )
 ```
 
 　${{TODO}{まだ記述されていません。}}
@@ -8990,6 +9140,11 @@ Figure. 色の名前とサンプル - 2
 	* ENHANCE : テーマ機能を追加
 * __2022/12/11 - version 0.020__
 	* ENHANCE : UML アクティビティ図を追加
+* __2022/12/15 - version 0.021__
+	* BUGFIX : uml-flow で `:spacing` パラメータを指定できない問題を改修
+	* BUGFIX : uml-action の `:rake` パラメータに関するバグを改修
+	* ENHANCE : uml-action で `:contents t` という記述をサポート
+	* ENHANCE : uml-partition を追加
 
 
 

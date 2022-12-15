@@ -7559,6 +7559,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li><a href='#eTHeBBfGtFF'>uml-join</a></li>
 <li><a href='#ikpYK2ZSZov'>uml-merge</a></li>
 <li><a href='#jFViCKeUWqC'>uml-note</a></li>
+<li><a href='#hDY1LBkmvKv'>uml-partition</a></li>
 <li><a href='#axhW9kmgXg3'>uml-pin</a></li>
 <li><a href='#9eWb5bnq5W3'>uml-signal</a></li>
 <li><a href='#dkYATTKFF3X'>uml-time-event</a></li>
@@ -8518,8 +8519,415 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li><a class='autolink' href='#6VbyjPNF8qO'>with-uml-note-options</a> マクロ</li>
 </ul>
 <h4><a name='algAxSoZB1Z'></a>12.6.26 uml-package</h4>
-<h4><a name='axhW9kmgXg3'></a>12.6.27 uml-pin</h4>
-<p>　<a class='autolink' href='#9FgHdCIu6Bg'>uml-decision</a> は UML の<a class='autolink' href='#8ya1jqc5cZQ'>アクティビティ図</a>におけるピンを表記するための図形要素です。</p>
+<h4><a name='hDY1LBkmvKv'></a>12.6.27 uml-partition</h4>
+<p>　<a class='autolink' href='#8v3714gnR8R'>uml-partition</a> は UML の<a class='autolink' href='#8ya1jqc5cZQ'>アクティビティ図</a>における区画（パーティション）を表記するための図形要素です。</p>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='560' height='300'>
+	
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- lanes : uml-partition -->
+	<g id='lanes'>
+		<g stroke='none'>
+			<rect x='10' y='10' width='540' height='280' fill='white' />
+		</g>
+		<polyline fill='none' stroke='black' stroke-width='1' points=' 10.0,150.0 550.0,150.0' />
+		<polyline fill='none' stroke='black' stroke-width='1' points=' 10.0,10.0 550.0,10.0' />
+		<polyline fill='none' stroke='black' stroke-width='1' points=' 10.0,290.0 550.0,290.0' />
+		<polyline fill='none' stroke='black' stroke-width='1' points=' 40.0,10.0 40.0,290.0' />
+		<g transform='rotate(-90,25,80)'>
+			<text x='25' y='86' text-anchor='middle' font-family='sans-serif' font-size='12pt' fill='black' >FrontEnd</text>
+		</g>
+		<g transform='rotate(-90,25,220)'>
+			<text x='25' y='226' text-anchor='middle' font-family='sans-serif' font-size='12pt' fill='black' >BackEnd</text>
+		</g>
+	</g>
+	<!-- start : uml-activity-start -->
+	<circle id='start' cx='70' cy='80' r='10' fill='maroon' stroke='none' stroke-width='1' />
+	<!-- act1 : uml-action -->
+	<g id='act1'>
+		<g >
+			<rect x='130' y='60' width='80' height='40' rx='6' fill='wheat' stroke='brown' stroke-width='1' />
+		</g>
+		<text x='170' y='86' text-anchor='middle' font-family='sans-serif' font-size='12pt' fill='black' >action1</text>
+	</g>
+	<!-- act3 : uml-action -->
+	<g id='act3'>
+		<g >
+			<rect x='260' y='60' width='80' height='40' rx='6' fill='wheat' stroke='brown' stroke-width='1' />
+		</g>
+		<text x='300' y='86' text-anchor='middle' font-family='sans-serif' font-size='12pt' fill='black' >action3</text>
+	</g>
+	<!-- merge : uml-decision-merge -->
+	<g id='merge'>
+		<polygon fill='wheat' stroke='brown' stroke-width='1' points='420.0,64.0 400.0,80.0 420.0,96.0 440.0,80.0 420.0,64.0' />
+	</g>
+	<!-- final : uml-activity-final -->
+	<circle id='final' cx='510' cy='80' r='15' fill='linen' stroke='maroon' stroke-width='1' />
+	<circle cx='510' cy='80' r='9.0' fill='maroon' stroke='none' stroke-width='1' />
+	<!-- act2 : uml-action -->
+	<g id='act2'>
+		<g >
+			<rect x='130' y='200' width='80' height='40' rx='6' fill='wheat' stroke='brown' stroke-width='1' />
+		</g>
+		<text x='170' y='226' text-anchor='middle' font-family='sans-serif' font-size='12pt' fill='black' >action2</text>
+	</g>
+	<!-- decision : uml-decision-merge -->
+	<g id='decision'>
+		<polygon fill='wheat' stroke='brown' stroke-width='1' points='300.0,204.0 280.0,220.0 300.0,236.0 320.0,220.0 300.0,204.0' />
+	</g>
+	<!-- act4 : uml-action -->
+	<g id='act4'>
+		<g >
+			<rect x='380' y='200' width='80' height='40' rx='6' fill='wheat' stroke='brown' stroke-width='1' />
+		</g>
+		<text x='420' y='226' text-anchor='middle' font-family='sans-serif' font-size='12pt' fill='black' >action4</text>
+	</g>
+	<!-- uml-flow from decision to act4 -->
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 320.0,220.0 380.0,220.0' />
+	<polyline fill='none' stroke='black' stroke-width='1' points='367.0096,227.5 380,220.0 367.0096,212.5' />
+	<!-- uml-flow from act4 to merge -->
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 420.0,200.0 420.0,96.0' />
+	<polyline fill='none' stroke='black' stroke-width='1' points='427.5,108.99038 420,96 412.5,108.99038' />
+	<!-- uml-flow from start to act1 -->
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 80.0,80.0 130.0,80.0' />
+	<polyline fill='none' stroke='black' stroke-width='1' points='117.00962,87.5 130,80.0 117.00962,72.5' />
+	<!-- uml-flow from act1 to act2 -->
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 170.0,100.0 170.0,200.0' />
+	<polyline fill='none' stroke='black' stroke-width='1' points='162.5,187.00961 170.0,200 177.5,187.00961' />
+	<!-- uml-flow from act2 to decision -->
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 210.0,220.0 280.0,220.0' />
+	<polyline fill='none' stroke='black' stroke-width='1' points='267.0096,227.5 280,220 267.0096,212.5' />
+	<!-- uml-flow from decision to act3 -->
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 300.0,204.0 300.0,100.0' />
+	<polyline fill='none' stroke='black' stroke-width='1' points='307.5,112.99038 300.0,100 292.5,112.99038' />
+	<!-- uml-flow from act3 to merge -->
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 340.0,80.0 400.0,80.0' />
+	<polyline fill='none' stroke='black' stroke-width='1' points='387.0096,87.5 400,80 387.0096,72.5' />
+	<!-- uml-flow from merge to final -->
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 440.0,80.0 495.0,80.0' />
+	<polyline fill='none' stroke='black' stroke-width='1' points='482.0096,87.5 495.0,80.0 482.0096,72.5' />
+
+</svg>
+</div>
+
+<p class='fig_title'><a name='ciTM0GPrOeW'></a>Figure.12-14 uml-partition のサンプル</p>
+<p>　上記の作図は以下のコードで行なっています。</p>
+<pre class='code'>
+(diagram (560 300)
+  (grid)
+  (with-theme (<span class='keyword3'>:uml-activity-default</span>)
+    (uml-partition canvas.center '((<span class='literal'>"FrontEnd"</span> 140)
+                                   (<span class='literal'>"BackEnd"</span>  140)) 540 <span class='keyword3'>:id</span> <span class='keyword3'>:lanes</span>)
+    (with-uml-partition-lane (<span class='keyword3'>:lanes</span> <span class='literal'>"FrontEnd"</span>)
+      (uml-activity-start (x+ canvas.left 30)  <span class='keyword3'>:id</span> <span class='keyword3'>:start</span>)
+      (uml-action (x+ $1.center 100) <span class='literal'>"action1"</span> <span class='keyword3'>:id</span> <span class='keyword3'>:act1</span>)
+      (uml-action (x+ $1.center 130) <span class='literal'>"action3"</span> <span class='keyword3'>:id</span> <span class='keyword3'>:act3</span>)
+      (uml-merge  (x+ $1.center 120)           <span class='keyword3'>:id</span> <span class='keyword3'>:merge</span>)
+      (uml-activity-final (x+ $1.center 90)   <span class='keyword3'>:id</span> <span class='keyword3'>:final</span>))
+    (with-uml-partition-lane (<span class='keyword3'>:lanes</span> <span class='literal'>"BackEnd"</span>)
+      (uml-action   (y+ act1.center 140)  <span class='literal'>"action2"</span> <span class='keyword3'>:id</span> <span class='keyword3'>:act2</span>)
+      (uml-decision (y+ act3.center 140)            <span class='keyword3'>:id</span> <span class='keyword3'>:decision</span>)
+      (uml-action   (y+ merge.center 140) <span class='literal'>"action4"</span> <span class='keyword3'>:id</span> <span class='keyword3'>:act4</span>))
+    (<span class='keyword1'>labels</span> ((route (lst)
+               (<span class='keyword1'>when</span> (and (car lst) (cadr lst))
+                 (uml-flow (car lst) (cadr lst))
+                 (route (cdr lst)))))
+      (route '(<span class='keyword3'>:decision</span> <span class='keyword3'>:act4</span> <span class='keyword3'>:merge</span>))
+      (route '(<span class='keyword3'>:start</span> <span class='keyword3'>:act1</span> <span class='keyword3'>:act2</span> <span class='keyword3'>:decision</span> <span class='keyword3'>:act3</span> <span class='keyword3'>:merge</span> <span class='keyword3'>:final</span>)))))
+</pre>
+<p>　　</p>
+<p>　<a class='autolink' href='#8v3714gnR8R'>uml-partition</a> のパラメータとして必須なのは <code>center rows cols</code> の３つで、 <code>rows cols</code> の指定の仕方で垂直・水平方向のスイムレーンとマトリクス状の区画を作成することができます。以下に例を示します。</p>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='600' height='140'>
+	
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- uml-partition -->
+	<g stroke='none'>
+		<rect x='10' y='10' width='180' height='120' fill='azure' />
+	</g>
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 70.0,10.0 70.0,130.0' />
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 130.0,10.0 130.0,130.0' />
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 10.0,10.0 10.0,130.0' />
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 190.0,10.0 190.0,130.0' />
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 10.0,40.0 190.0,40.0' />
+	<text x='40' y='31' text-anchor='middle' font-size='12pt' fill='black' >A</text>
+	<text x='100' y='31' text-anchor='middle' font-size='12pt' fill='black' >B</text>
+	<text x='160' y='31' text-anchor='middle' font-size='12pt' fill='black' >C</text>
+	<!-- uml-partition -->
+	<g stroke='none'>
+		<rect x='210' y='10' width='180' height='120' fill='azure' />
+	</g>
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 210.0,50.0 390.0,50.0' />
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 210.0,90.0 390.0,90.0' />
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 210.0,10.0 390.0,10.0' />
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 210.0,130.0 390.0,130.0' />
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 240.0,10.0 240.0,130.0' />
+	<g transform='rotate(-90,225,30)'>
+		<text x='225' y='36' text-anchor='middle' font-size='12pt' fill='black' >X</text>
+	</g>
+	<g transform='rotate(-90,225,70)'>
+		<text x='225' y='76' text-anchor='middle' font-size='12pt' fill='black' >Y</text>
+	</g>
+	<g transform='rotate(-90,225,110)'>
+		<text x='225' y='116' text-anchor='middle' font-size='12pt' fill='black' >Z</text>
+	</g>
+	<!-- uml-partition -->
+	<g stroke='none'>
+		<rect x='410' y='10' width='180' height='120' fill='azure' />
+	</g>
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 440.0,10.0 440.0,130.0' />
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 490.0,10.0 490.0,130.0' />
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 540.0,10.0 540.0,130.0' />
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 410.0,40.0 590.0,40.0' />
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 410.0,70.0 590.0,70.0' />
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 410.0,100.0 590.0,100.0' />
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 590.0,10.0 590.0,130.0' />
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 410.0,130.0 590.0,130.0' />
+	<text x='465' y='31' text-anchor='middle' font-size='12pt' fill='black' >A</text>
+	<text x='515' y='31' text-anchor='middle' font-size='12pt' fill='black' >B</text>
+	<text x='565' y='31' text-anchor='middle' font-size='12pt' fill='black' >C</text>
+	<g transform='rotate(-90,425,55)'>
+		<text x='425' y='61' text-anchor='middle' font-size='12pt' fill='black' >X</text>
+	</g>
+	<g transform='rotate(-90,425,85)'>
+		<text x='425' y='91' text-anchor='middle' font-size='12pt' fill='black' >Y</text>
+	</g>
+	<g transform='rotate(-90,425,115)'>
+		<text x='425' y='121' text-anchor='middle' font-size='12pt' fill='black' >Z</text>
+	</g>
+
+</svg>
+</div>
+
+<p class='fig_title'><a name='az9Gf58gMEB'></a>Figure.12-15 uml-partition のサンプル - 2</p>
+<p>　上記の作図は以下のコードで行なっています。左の縦方向のスイムレーンでは、 <code>cols</code> に <code>'((A 60) (B 60) (C 60))</code> を、 <code>rows</code> に <code>120</code> を指定しています。中央の横方向のスイムレーンでは、 <code>cols</code> に <code>180</code> を、 <code>rows</code> に <code>'((X 40) (Y 40) (Z 40))</code> を指定しています。このように <code>rows cols</code> の一方を数値にして他方をリストにすると縦または横のスイムレーンになります。両方をリストにするとマトリクス状の区画になります。</p>
+<pre class='code'>
+(diagram (600 140)
+  (grid)
+  (with-uml-partition-options (<span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span> <span class='keyword3'>:fill</span> <span class='keyword3'>:azure</span> <span class='keyword3'>:lines</span> <span class='keyword3'>:mid</span>)
+    (with-subcanvas ('( 0 0) 200 140)
+      (uml-partition canvas.center 120 '((A 60) (B 60) (C 60))))
+    (with-subcanvas ('(200 0) 200 140)
+      (uml-partition canvas.center '((X 40) (Y 40) (Z 40)) 180))
+    (with-subcanvas ('(400 0) 200 140)
+      (uml-partition canvas.center
+                     '((X 30) (Y 30) (Z 30)) '((A 50) (B 50) (C 50))))))
+</pre>
+<p>　注意が必要なのは、区画の全体サイズを決めるルールです。</p>
+<ul>
+<li>スイムレーンになる場合、
+<ul>
+<li><code>rows</code> または <code>cols</code> に数値を指定した側は、その値がそのまま幅または高さになります</li>
+<li>レーンの名前部分の領域は、 <code>header</code> で指定されたサイズが上記の中で確保されます</li>
+<li><code>rows</code> または <code>cols</code> にリストを指定した側はその幅の合計が幅または高さになります</li>
+</ul>
+</li>
+<li>マトリクスになる場合、
+<ul>
+<li><code>rows</code> または <code>cols</code> に指定したリストに含まれる幅の合計に <code>header</code> の指定値を加えたものが幅または高さになります</li>
+</ul>
+</li>
+</ul>
+<p>　　</p>
+<p>　<a class='autolink' href='#8v3714gnR8R'>uml-partition</a> は<a class='autolink' href='#g6xjP526KX7'>テーブル</a>をベースに作成されていますが、描画される「罫線」は <code>lines</code> パラメータによってカスタマイズすることができます。指定する値は <code>:min :mid :max</code> のいずれかです。区画の形状別のサンプルを以下に示します。</p>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='630' height='450'>
+	
+	<!-- textbox -->
+	<text x='130.0' y='30' text-anchor='middle' font-size='20pt' fill='brown' >:lines :min</text>
+	<!-- textbox -->
+	<text x='330.0' y='30' text-anchor='middle' font-size='20pt' fill='brown' >:lines :mid</text>
+	<!-- textbox -->
+	<text x='530.0' y='30' text-anchor='middle' font-size='20pt' fill='brown' >:lines :max</text>
+	<!-- textbox -->
+	<g transform='rotate(-90,20,100)'>
+		<text x='20.0' y='110' text-anchor='middle' font-size='20pt' fill='brown' >vertical</text>
+	</g>
+	<!-- textbox -->
+	<g transform='rotate(-90,20,240)'>
+		<text x='20.0' y='250' text-anchor='middle' font-size='20pt' fill='brown' >horizontal</text>
+	</g>
+	<!-- textbox -->
+	<g transform='rotate(-90,20,380)'>
+		<text x='20.0' y='390' text-anchor='middle' font-size='20pt' fill='brown' >matrix</text>
+	</g>
+	<!-- uml-partition -->
+	<g stroke='none'>
+		<rect x='40' y='40' width='180' height='120' fill='azure' />
+	</g>
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 100.0,40.0 100.0,160.0' />
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 160.0,40.0 160.0,160.0' />
+	<text x='70' y='61' text-anchor='middle' font-size='12pt' fill='black' >A</text>
+	<text x='130' y='61' text-anchor='middle' font-size='12pt' fill='black' >B</text>
+	<text x='190' y='61' text-anchor='middle' font-size='12pt' fill='black' >C</text>
+	<!-- uml-partition -->
+	<g stroke='none'>
+		<rect x='240' y='40' width='180' height='120' fill='azure' />
+	</g>
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 300.0,40.0 300.0,160.0' />
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 360.0,40.0 360.0,160.0' />
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 240.0,40.0 240.0,160.0' />
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 420.0,40.0 420.0,160.0' />
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 240.0,70.0 420.0,70.0' />
+	<text x='270' y='61' text-anchor='middle' font-size='12pt' fill='black' >A</text>
+	<text x='330' y='61' text-anchor='middle' font-size='12pt' fill='black' >B</text>
+	<text x='390' y='61' text-anchor='middle' font-size='12pt' fill='black' >C</text>
+	<!-- uml-partition -->
+	<g stroke='none'>
+		<rect x='440' y='40' width='180' height='120' fill='azure' />
+	</g>
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 500.0,40.0 500.0,160.0' />
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 560.0,40.0 560.0,160.0' />
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 440.0,70.0 620.0,70.0' />
+	<rect x='440' y='40' width='180' height='120' fill='none' stroke='black' stroke-width='1' />
+	<text x='470' y='61' text-anchor='middle' font-size='12pt' fill='black' >A</text>
+	<text x='530' y='61' text-anchor='middle' font-size='12pt' fill='black' >B</text>
+	<text x='590' y='61' text-anchor='middle' font-size='12pt' fill='black' >C</text>
+	<!-- uml-partition -->
+	<g stroke='none'>
+		<rect x='40' y='180' width='180' height='120' fill='azure' />
+	</g>
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 40.0,220.0 220.0,220.0' />
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 40.0,260.0 220.0,260.0' />
+	<g transform='rotate(-90,55,200)'>
+		<text x='55' y='206' text-anchor='middle' font-size='12pt' fill='black' >X</text>
+	</g>
+	<g transform='rotate(-90,55,240)'>
+		<text x='55' y='246' text-anchor='middle' font-size='12pt' fill='black' >Y</text>
+	</g>
+	<g transform='rotate(-90,55,280)'>
+		<text x='55' y='286' text-anchor='middle' font-size='12pt' fill='black' >Z</text>
+	</g>
+	<!-- uml-partition -->
+	<g stroke='none'>
+		<rect x='240' y='180' width='180' height='120' fill='azure' />
+	</g>
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 240.0,220.0 420.0,220.0' />
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 240.0,260.0 420.0,260.0' />
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 240.0,180.0 420.0,180.0' />
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 240.0,300.0 420.0,300.0' />
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 270.0,180.0 270.0,300.0' />
+	<g transform='rotate(-90,255,200)'>
+		<text x='255' y='206' text-anchor='middle' font-size='12pt' fill='black' >X</text>
+	</g>
+	<g transform='rotate(-90,255,240)'>
+		<text x='255' y='246' text-anchor='middle' font-size='12pt' fill='black' >Y</text>
+	</g>
+	<g transform='rotate(-90,255,280)'>
+		<text x='255' y='286' text-anchor='middle' font-size='12pt' fill='black' >Z</text>
+	</g>
+	<!-- uml-partition -->
+	<g stroke='none'>
+		<rect x='440' y='180' width='180' height='120' fill='azure' />
+	</g>
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 440.0,220.0 620.0,220.0' />
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 440.0,260.0 620.0,260.0' />
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 470.0,180.0 470.0,300.0' />
+	<rect x='440' y='180' width='180' height='120' fill='none' stroke='black' stroke-width='1' />
+	<g transform='rotate(-90,455,200)'>
+		<text x='455' y='206' text-anchor='middle' font-size='12pt' fill='black' >X</text>
+	</g>
+	<g transform='rotate(-90,455,240)'>
+		<text x='455' y='246' text-anchor='middle' font-size='12pt' fill='black' >Y</text>
+	</g>
+	<g transform='rotate(-90,455,280)'>
+		<text x='455' y='286' text-anchor='middle' font-size='12pt' fill='black' >Z</text>
+	</g>
+	<!-- uml-partition -->
+	<g stroke='none'>
+		<rect x='40' y='320' width='180' height='120' fill='azure' />
+	</g>
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 70.0,320.0 70.0,440.0' />
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 120.0,320.0 120.0,440.0' />
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 170.0,320.0 170.0,440.0' />
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 40.0,350.0 220.0,350.0' />
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 40.0,380.0 220.0,380.0' />
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 40.0,410.0 220.0,410.0' />
+	<text x='95' y='341' text-anchor='middle' font-size='12pt' fill='black' >A</text>
+	<text x='145' y='341' text-anchor='middle' font-size='12pt' fill='black' >B</text>
+	<text x='195' y='341' text-anchor='middle' font-size='12pt' fill='black' >C</text>
+	<g transform='rotate(-90,55,365)'>
+		<text x='55' y='371' text-anchor='middle' font-size='12pt' fill='black' >X</text>
+	</g>
+	<g transform='rotate(-90,55,395)'>
+		<text x='55' y='401' text-anchor='middle' font-size='12pt' fill='black' >Y</text>
+	</g>
+	<g transform='rotate(-90,55,425)'>
+		<text x='55' y='431' text-anchor='middle' font-size='12pt' fill='black' >Z</text>
+	</g>
+	<!-- uml-partition -->
+	<g stroke='none'>
+		<rect x='240' y='320' width='180' height='120' fill='azure' />
+	</g>
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 270.0,320.0 270.0,440.0' />
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 320.0,320.0 320.0,440.0' />
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 370.0,320.0 370.0,440.0' />
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 240.0,350.0 420.0,350.0' />
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 240.0,380.0 420.0,380.0' />
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 240.0,410.0 420.0,410.0' />
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 420.0,320.0 420.0,440.0' />
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 240.0,440.0 420.0,440.0' />
+	<text x='295' y='341' text-anchor='middle' font-size='12pt' fill='black' >A</text>
+	<text x='345' y='341' text-anchor='middle' font-size='12pt' fill='black' >B</text>
+	<text x='395' y='341' text-anchor='middle' font-size='12pt' fill='black' >C</text>
+	<g transform='rotate(-90,255,365)'>
+		<text x='255' y='371' text-anchor='middle' font-size='12pt' fill='black' >X</text>
+	</g>
+	<g transform='rotate(-90,255,395)'>
+		<text x='255' y='401' text-anchor='middle' font-size='12pt' fill='black' >Y</text>
+	</g>
+	<g transform='rotate(-90,255,425)'>
+		<text x='255' y='431' text-anchor='middle' font-size='12pt' fill='black' >Z</text>
+	</g>
+	<!-- uml-partition -->
+	<g stroke='none'>
+		<rect x='440' y='320' width='180' height='120' fill='azure' />
+	</g>
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 470.0,320.0 470.0,440.0' />
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 520.0,320.0 520.0,440.0' />
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 570.0,320.0 570.0,440.0' />
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 440.0,350.0 620.0,350.0' />
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 440.0,380.0 620.0,380.0' />
+	<polyline fill='none' stroke='black' stroke-width='1' points=' 440.0,410.0 620.0,410.0' />
+	<rect x='440' y='320' width='180' height='120' fill='none' stroke='black' stroke-width='1' />
+	<text x='495' y='341' text-anchor='middle' font-size='12pt' fill='black' >A</text>
+	<text x='545' y='341' text-anchor='middle' font-size='12pt' fill='black' >B</text>
+	<text x='595' y='341' text-anchor='middle' font-size='12pt' fill='black' >C</text>
+	<g transform='rotate(-90,455,365)'>
+		<text x='455' y='371' text-anchor='middle' font-size='12pt' fill='black' >X</text>
+	</g>
+	<g transform='rotate(-90,455,395)'>
+		<text x='455' y='401' text-anchor='middle' font-size='12pt' fill='black' >Y</text>
+	</g>
+	<g transform='rotate(-90,455,425)'>
+		<text x='455' y='431' text-anchor='middle' font-size='12pt' fill='black' >Z</text>
+	</g>
+
+</svg>
+</div>
+
+<p class='fig_title'><a name='52lWmm72SQc'></a>Figure.12-16 uml-partition における lines パラメータのサンプル</p>
+<p>　詳細は以下を参照してください。</p>
+<ul>
+<li><a class='autolink' href='#8v3714gnR8R'>uml-partition</a> マクロ</li>
+<li><a class='autolink' href='#2yNV3qF8KJ1'>with-uml-partition-lane</a> マクロ</li>
+<li><a class='autolink' href='#bU9Et9Bfb4W'>with-uml-partition-options</a> マクロ</li>
+</ul>
+<h4><a name='axhW9kmgXg3'></a>12.6.28 uml-pin</h4>
+<p>　<a class='autolink' href='#lzDKQT1EUVh'>uml-pin</a> は UML の<a class='autolink' href='#8ya1jqc5cZQ'>アクティビティ図</a>におけるピンを表記するための図形要素です。</p>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='620' height='120'>
@@ -8609,7 +9017,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='2vEaeqb4vdx'></a>Figure.12-14 uml-pin のサンプル</p>
+<p class='fig_title'><a name='2vEaeqb4vdx'></a>Figure.12-17 uml-pin のサンプル</p>
 <p>　上記の作図は以下のコードで行なっています。ピンはフローの接続点に付けるものなので、対象アクションの位置とその接続点を指定します。接続点は、<a class='autolink' href='#eFhVs4WwYUG'>コネクタ</a>であれば <code>:RL</code> などと記述する表記の片側分なので、 <code>:R</code> や <code>:T3</code> などと記述することになります。また、通常は<a href='#gbfzFbCEQb7'>拡張領域</a>に渡すことになる入出力コレクションは <code>:multi t</code> とすることで表現できます。</p>
 <pre class='code'>
 (diagram (620 120)
@@ -8636,9 +9044,9 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li><a class='autolink' href='#lzDKQT1EUVh'>uml-pin</a> マクロ</li>
 <li><a class='autolink' href='#bdQb93hcTPw'>with-uml-pin-options</a> マクロ</li>
 </ul>
-<h4><a name='bn5BLn6Qb3Y'></a>12.6.28 uml-realization</h4>
-<h4><a name='9ugZNtgVL4J'></a>12.6.29 uml-role-info</h4>
-<h4><a name='9eWb5bnq5W3'></a>12.6.30 uml-signal</h4>
+<h4><a name='bn5BLn6Qb3Y'></a>12.6.29 uml-realization</h4>
+<h4><a name='9ugZNtgVL4J'></a>12.6.30 uml-role-info</h4>
+<h4><a name='9eWb5bnq5W3'></a>12.6.31 uml-signal</h4>
 <p>　<a class='autolink' href='#ateAaGjT845'>uml-signal</a> は UML の<a class='autolink' href='#8ya1jqc5cZQ'>アクティビティ図</a>におけるシグナル送受信を表記するための図形要素です。ほぼ<a class='autolink' href='#e7hkC2YUaKe'>テキストボックス</a>と同じように使えますが、少なくとも送信か受信かの区別をパラメータで与える必要があります。また、形状は <code>:direction</code> パラメータで <code>:left</code> か <code>:right</code> で与えます。</p>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
@@ -8693,7 +9101,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='eIatijW5Ws3'></a>Figure.12-15 uml-signal のサンプル</p>
+<p class='fig_title'><a name='eIatijW5Ws3'></a>Figure.12-18 uml-signal のサンプル</p>
 <p>　上記の作図は以下のコードで行なっています。</p>
 <pre class='code'>
 (diagram (400 200)
@@ -8716,11 +9124,11 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li><a class='autolink' href='#ateAaGjT845'>uml-signal</a> マクロ</li>
 <li><a class='autolink' href='#ckMWbd0DRfk'>with-uml-signal-options</a> マクロ</li>
 </ul>
-<h4><a name='4Fe1V46854v'></a>12.6.31 uml-state-begin</h4>
-<h4><a name='6dfRecys5K7'></a>12.6.32 uml-state-end</h4>
-<h4><a name='dZcuFEPgREn'></a>12.6.33 uml-state-history</h4>
-<h4><a name='a7K2CBytplo'></a>12.6.34 uml-state</h4>
-<h4><a name='dkYATTKFF3X'></a>12.6.35 uml-time-event</h4>
+<h4><a name='4Fe1V46854v'></a>12.6.32 uml-state-begin</h4>
+<h4><a name='6dfRecys5K7'></a>12.6.33 uml-state-end</h4>
+<h4><a name='dZcuFEPgREn'></a>12.6.34 uml-state-history</h4>
+<h4><a name='a7K2CBytplo'></a>12.6.35 uml-state</h4>
+<h4><a name='dkYATTKFF3X'></a>12.6.36 uml-time-event</h4>
 <p>　<a class='autolink' href='#d504TySky4c'>uml-time-event</a> は UML の<a class='autolink' href='#8ya1jqc5cZQ'>アクティビティ図</a>における時間シグナルを表記するための図形要素です。</p>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
@@ -8760,7 +9168,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='fBmyddlzNhV'></a>Figure.12-16 uml-time-event のサンプル</p>
+<p class='fig_title'><a name='fBmyddlzNhV'></a>Figure.12-19 uml-time-event のサンプル</p>
 <p>　上記の作図は以下のコードで行なっています。</p>
 <pre class='code'>
 (diagram (300 100)
@@ -8777,9 +9185,9 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li><a class='autolink' href='#d504TySky4c'>uml-time-event</a> マクロ</li>
 <li><a class='autolink' href='#d7OQZnRfKQ5'>with-uml-time-event-options</a> マクロ</li>
 </ul>
-<h4><a name='aiNf7xsL8zY'></a>12.6.36 uml-transition-spec</h4>
-<h4><a name='8h222SLEnVx'></a>12.6.37 uml-transition</h4>
-<h4><a name='44mEhv2hQcS'></a>12.6.38 uml-usecase</h4>
+<h4><a name='aiNf7xsL8zY'></a>12.6.37 uml-transition-spec</h4>
+<h4><a name='8h222SLEnVx'></a>12.6.38 uml-transition</h4>
+<h4><a name='44mEhv2hQcS'></a>12.6.39 uml-usecase</h4>
 <h2><a name='7TyOD7TaDM2'></a>13 リファレンス</h2>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <h3><a name='gKJ1gWcMPT8'></a>13.1 関数とマクロ</h3>
@@ -9534,7 +9942,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <h4><a name='aiQ1ZUFkSiZ'></a>13.1.75 uml-flow マクロ</h4>
 <pre class='code'>
-(<span class='keyword1'>defmacro</span> <span class='keyword5'>uml-flow</span> (from to <span class='keyword2'>&amp;key</span> keyword spec style filter layer id) ... )
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>uml-flow</span> (from to <span class='keyword2'>&amp;key</span> keyword spec style spacing filter layer id) ... )
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <h4><a name='6GRd3E1gnW0'></a>13.1.76 uml-flow-final マクロ</h4>
@@ -9580,14 +9988,21 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
                                 link layer filter id contents) ... )
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='lzDKQT1EUVh'></a>13.1.82 uml-pin マクロ</h4>
+<h4><a name='8v3714gnR8R'></a>13.1.82 uml-partition マクロ</h4>
+<pre class='code'>
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>uml-partition</span> (center rows cols
+                         <span class='keyword2'>&amp;key</span> lines header
+                              fills stroke font layer id) ... )
+</pre>
+<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<h4><a name='lzDKQT1EUVh'></a>13.1.83 uml-pin マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>uml-pin</span> (target position name
                           <span class='keyword2'>&amp;key</span> offset multi size fill
                                stroke font filter layer id) ... )
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='ateAaGjT845'></a>13.1.83 uml-signal マクロ</h4>
+<h4><a name='ateAaGjT845'></a>13.1.84 uml-signal マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>uml-signal</span> (center type text
                              <span class='keyword2'>&amp;key</span> keyword width height direction
@@ -9595,150 +10010,150 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
                                   margin link filter layer id) ... )
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='d504TySky4c'></a>13.1.84 uml-time-event マクロ</h4>
+<h4><a name='d504TySky4c'></a>13.1.85 uml-time-event マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>uml-time-event</span> (center <span class='keyword2'>&amp;key</span> label width height
                                       fill stroke
                                       link filter layer id) ... )
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='klH6tZ6gdaQ'></a>13.1.85 use マクロ</h4>
+<h4><a name='klH6tZ6gdaQ'></a>13.1.86 use マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>use</span> (ref center <span class='keyword2'>&amp;key</span> link rotate layer id contents debug) ... )
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='7WY0qIioOWV'></a>13.1.86 with-balloon-options マクロ</h4>
+<h4><a name='7WY0qIioOWV'></a>13.1.87 with-balloon-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-balloon-options</span> ((<span class='keyword2'>&amp;key</span> round align valign margin
                                       font fill stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ... )
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='kT3ITG7nfBI'></a>13.1.87 with-block-arrow-options マクロ</h4>
+<h4><a name='kT3ITG7nfBI'></a>13.1.88 with-block-arrow-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-block-arrow-options</span> ((<span class='keyword2'>&amp;key</span> length size margin
                                           fill stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ... )
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='avbLVTgRge8'></a>13.1.88 with-brace-options マクロ</h4>
+<h4><a name='avbLVTgRge8'></a>13.1.89 with-brace-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-brace-options</span> ((<span class='keyword2'>&amp;key</span> font stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ... )
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='8SwZig7eicm'></a>13.1.89 with-canvas マクロ</h4>
+<h4><a name='8SwZig7eicm'></a>13.1.90 with-canvas マクロ</h4>
 <p>　<a class='autolink' href='#4RbKSY2RkFp'>with-current-canvas</a> マクロの導入に伴い、<a class='autolink' href='#8SwZig7eicm'>with-canvas</a> マクロは非推奨となりました。</p>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-canvas</span> ((sym-center sym-width sym-height) canvas <span class='keyword2'>&amp;rest</span> body) ... )
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='gE4r2xg8b9U'></a>13.1.90 with-cross-options マクロ</h4>
+<h4><a name='gE4r2xg8b9U'></a>13.1.91 with-cross-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-cross-options</span> ((<span class='keyword2'>&amp;key</span> fill stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='dpsPduib5te'></a>13.1.91 with-cube-options マクロ</h4>
+<h4><a name='dpsPduib5te'></a>13.1.92 with-cube-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-cube-options</span> ((<span class='keyword2'>&amp;key</span> depth align valign margin
                                    font fill fill2 stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='4RbKSY2RkFp'></a>13.1.92 with-current-canvas マクロ</h4>
+<h4><a name='4RbKSY2RkFp'></a>13.1.93 with-current-canvas マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-current-canvas</span> ((<span class='keyword2'>&amp;rest</span> vars) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='6STY3Kxzonk'></a>13.1.93 with-cylinder-options マクロ</h4>
+<h4><a name='6STY3Kxzonk'></a>13.1.94 with-cylinder-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-cylinder-options</span> ((<span class='keyword2'>&amp;key</span> depth align valign margin
                                   font fill stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='0axtDA7gRzz'></a>13.1.94 with-document-options マクロ</h4>
+<h4><a name='0axtDA7gRzz'></a>13.1.95 with-document-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-document-options</span> ((<span class='keyword2'>&amp;key</span> align valign margin
                                        font fill stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='euPiyWBZQsA'></a>13.1.95 with-endmark-options マクロ</h4>
+<h4><a name='euPiyWBZQsA'></a>13.1.96 with-endmark-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-endmark-options</span> ((<span class='keyword2'>&amp;key</span> type size fill end1 end2) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='h8PWgenmp0d'></a>13.1.96 with-explosion-options マクロ</h4>
+<h4><a name='h8PWgenmp0d'></a>13.1.97 with-explosion-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-explosion-options</span> ((<span class='keyword2'>&amp;key</span> font fill
                                         stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='grfAvoJdCpJ'></a>13.1.97 with-folder-options マクロ</h4>
+<h4><a name='grfAvoJdCpJ'></a>13.1.98 with-folder-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-folder-options</span> ((<span class='keyword2'>&amp;key</span> tab-width tab-height
                                      align valign margin
                                      font fill stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='aw2yb6IRaf3'></a>13.1.98 with-label-options マクロ</h4>
+<h4><a name='aw2yb6IRaf3'></a>13.1.99 with-label-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-label-options</span> ((<span class='keyword2'>&amp;key</span> position offset font) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='0C8r7LcFb7c'></a>13.1.99 with-memo-options マクロ</h4>
+<h4><a name='0C8r7LcFb7c'></a>13.1.100 with-memo-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-memo-options</span> ((<span class='keyword2'>&amp;key</span> crease align valign margin
                                    font fill fill2 stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='7J9MZS4dlwP'></a>13.1.100 with-options マクロ</h4>
+<h4><a name='7J9MZS4dlwP'></a>13.1.101 with-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-options</span> ((<span class='keyword2'>&amp;key</span> fill stroke font filter layer) <span class='keyword2'>&amp;rest</span> body) ... )
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='0B9bMaXVpqW'></a>13.1.101 with-person-options マクロ</h4>
+<h4><a name='0B9bMaXVpqW'></a>13.1.102 with-person-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-person-options</span> ((<span class='keyword2'>&amp;key</span> fill stroke layer filter) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='ekClPzGH4mL'></a>13.1.102 with-point マクロ</h4>
+<h4><a name='ekClPzGH4mL'></a>13.1.103 with-point マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-point</span> ((sym-x sym-y) pt <span class='keyword2'>&amp;rest</span> body) ... )
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='a48ATArhBUk'></a>13.1.103 with-subcanvas マクロ</h4>
+<h4><a name='a48ATArhBUk'></a>13.1.104 with-subcanvas マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-subcanvas</span> ((top-left width height <span class='keyword2'>&amp;key</span> debug) <span class='keyword2'>&amp;rest</span> body) ... )
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='el41gKN39JH'></a>13.1.104 with-subcanvas-of マクロ</h4>
+<h4><a name='el41gKN39JH'></a>13.1.105 with-subcanvas-of マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-subcanvas-of</span> ((id) &amp;body body) ... )
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='im75IlxBYJl'></a>13.1.105 with-table-cell マクロ</h4>
+<h4><a name='im75IlxBYJl'></a>13.1.106 with-table-cell マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-table-cell</span> ((id r c) &amp;body body) ... )
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='ePZ3o4pkj08'></a>13.1.106 with-table-options マクロ</h4>
+<h4><a name='ePZ3o4pkj08'></a>13.1.107 with-table-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-table-options</span> ((<span class='keyword2'>&amp;key</span> font fill stroke layer) <span class='keyword2'>&amp;rest</span> body) ... )
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='2SQEPg8adOn'></a>13.1.107 with-table-range マクロ</h4>
+<h4><a name='2SQEPg8adOn'></a>13.1.108 with-table-range マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-table-range</span> ((id kwd) &amp;body body) ... )
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='2XsIFr1er3s'></a>13.1.108 with-textbox-options マクロ</h4>
+<h4><a name='2XsIFr1er3s'></a>13.1.109 with-textbox-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-textbox-options</span> ((<span class='keyword2'>&amp;key</span> rx ry align valign margin
                                       font fill stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='5OAlsMtWLDZ'></a>13.1.109 with-theme マクロ</h4>
+<h4><a name='5OAlsMtWLDZ'></a>13.1.110 with-theme マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-theme</span> ((name) &amp;body body) ...)
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='liPxS9Y3TXf'></a>13.1.110 with-uml-action-options マクロ</h4>
+<h4><a name='liPxS9Y3TXf'></a>13.1.111 with-uml-action-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-uml-action-options</span> ((<span class='keyword2'>&amp;key</span> font fill stroke
                                          width height corner-r
@@ -9748,76 +10163,87 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <ul>
 <li>ここで指定する width / height はデフォルトの最低サイズとして使用される</li>
 </ul>
-<h4><a name='6IcYBkn6OQO'></a>13.1.111 with-uml-activity-final-options マクロ</h4>
+<h4><a name='6IcYBkn6OQO'></a>13.1.112 with-uml-activity-final-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-uml-activity-final-options</span> ((<span class='keyword2'>&amp;key</span> radius ratio fill stroke 
                                                  filter layer) <span class='keyword2'>&amp;rest</span> body) ... )
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='i2gFqE2pPK0'></a>13.1.112 with-uml-activity-start-options マクロ</h4>
+<h4><a name='i2gFqE2pPK0'></a>13.1.113 with-uml-activity-start-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-uml-activity-start-options</span> ((<span class='keyword2'>&amp;key</span> radius fill
                                                  filter layer) <span class='keyword2'>&amp;rest</span> body) ... )
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='gTbB9jJt4q1'></a>13.1.113 with-uml-connector-options マクロ</h4>
+<h4><a name='gTbB9jJt4q1'></a>13.1.114 with-uml-connector-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-uml-connector-options</span> ((<span class='keyword2'>&amp;key</span> font fill stroke
                                             size filter layer) <span class='keyword2'>&amp;rest</span> body) ... )
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='liwbMs8jd4q'></a>13.1.114 with-uml-decision-merge-options マクロ</h4>
+<h4><a name='liwbMs8jd4q'></a>13.1.115 with-uml-decision-merge-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-uml-decision-merge-options</span> ((<span class='keyword2'>&amp;key</span> font fill stroke
                                                  width height margin
                                                  filter layer) <span class='keyword2'>&amp;rest</span> body) ... )
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='24iZtM1xv5N'></a>13.1.115 with-uml-expansion-region-options マクロ</h4>
+<h4><a name='24iZtM1xv5N'></a>13.1.116 with-uml-expansion-region-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-uml-expansion-region-options</span> ((<span class='keyword2'>&amp;key</span> font fill
                                                    stroke corner-r
                                                    filter layer) <span class='keyword2'>&amp;rest</span> body) ... )
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='ihNukn4rig3'></a>13.1.116 with-uml-flow-final-options マクロ</h4>
+<h4><a name='ihNukn4rig3'></a>13.1.117 with-uml-flow-final-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-uml-flow-final-options</span> ((<span class='keyword2'>&amp;key</span> radius fill
                                              stroke filter layer) <span class='keyword2'>&amp;rest</span> body) ... )
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='5djE1JjepNQ'></a>13.1.117 with-uml-flow-options マクロ</h4>
+<h4><a name='5djE1JjepNQ'></a>13.1.118 with-uml-flow-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-uml-flow-options</span> ((<span class='keyword2'>&amp;key</span> stroke arrow-size
                                        font filter layer) <span class='keyword2'>&amp;rest</span> body) ... )
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='7V5c7xVwr5f'></a>13.1.118 with-uml-fork-join-options マクロ</h4>
+<h4><a name='7V5c7xVwr5f'></a>13.1.119 with-uml-fork-join-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-uml-fork-join-options</span> ((<span class='keyword2'>&amp;key</span> width length
                                             color filter layer) <span class='keyword2'>&amp;rest</span> body) ... )
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='5aZocCje3vz'></a>13.1.119 with-uml-frame-options マクロ</h4>
+<h4><a name='5aZocCje3vz'></a>13.1.120 with-uml-frame-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-uml-frame-options</span> ((<span class='keyword2'>&amp;key</span> font fill stroke
                                         margin filter layer) <span class='keyword2'>&amp;rest</span> body) ... )
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='6VbyjPNF8qO'></a>13.1.120 with-uml-note-options マクロ</h4>
+<h4><a name='6VbyjPNF8qO'></a>13.1.121 with-uml-note-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-uml-note-options</span> ((<span class='keyword2'>&amp;key</span> font fill stroke
                                        margin align valign
                                         crease filter layer) <span class='keyword2'>&amp;rest</span> body) ... )
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='bdQb93hcTPw'></a>13.1.121 with-uml-pin-options マクロ</h4>
+<h4><a name='2yNV3qF8KJ1'></a>13.1.122 with-uml-partition-lane マクロ</h4>
+<pre class='code'>
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>with-uml-partition-lane</span> ((id name <span class='keyword2'>&amp;optional</span> name2) &amp;body body) ... )
+</pre>
+<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<h4><a name='bU9Et9Bfb4W'></a>13.1.123 with-uml-partition-options マクロ</h4>
+<pre class='code'>
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>with-uml-partition-options</span> ((<span class='keyword2'>&amp;key</span> lines header font
+                                            fill stroke layer) <span class='keyword2'>&amp;rest</span> body) ... )
+</pre>
+<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<h4><a name='bdQb93hcTPw'></a>13.1.124 with-uml-pin-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-uml-pin-options</span> ((<span class='keyword2'>&amp;key</span> font fill stroke
                                       size filter layer) <span class='keyword2'>&amp;rest</span> body) ... )
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='ckMWbd0DRfk'></a>13.1.122 with-uml-signal-options マクロ</h4>
+<h4><a name='ckMWbd0DRfk'></a>13.1.125 with-uml-signal-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-uml-signal-options</span> ((<span class='keyword2'>&amp;key</span> font fill stroke
                                          width height
@@ -9825,24 +10251,24 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
                                          margin filter layer) <span class='keyword2'>&amp;rest</span> body) ... )
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='d7OQZnRfKQ5'></a>13.1.123 with-uml-time-event-options マクロ</h4>
+<h4><a name='d7OQZnRfKQ5'></a>13.1.126 with-uml-time-event-options マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>with-uml-time-event-options</span> ((<span class='keyword2'>&amp;key</span> fill stroke
                                              width height
                                              filter layer) <span class='keyword2'>&amp;rest</span> body) ... )
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='jLA9399dgMF'></a>13.1.124 x+ 関数</h4>
+<h4><a name='jLA9399dgMF'></a>13.1.127 x+ 関数</h4>
 <pre class='code'>
 (<span class='keyword1'>defun</span> <span class='keyword5'>x+</span> (pt x) ... )
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='j1QjqyXsZPP'></a>13.1.125 xy+ 関数</h4>
+<h4><a name='j1QjqyXsZPP'></a>13.1.128 xy+ 関数</h4>
 <pre class='code'>
 (<span class='keyword1'>defun</span> <span class='keyword5'>xy+</span> (pt x y) ... )
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<h4><a name='8ke5i0CYRuw'></a>13.1.126 y+ 関数</h4>
+<h4><a name='8ke5i0CYRuw'></a>13.1.129 y+ 関数</h4>
 <pre class='code'>
 (<span class='keyword1'>defun</span> <span class='keyword5'>y+</span> (pt y) ... )
 </pre>
@@ -12502,6 +12928,14 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li>ENHANCE : UML <a class='autolink' href='#8ya1jqc5cZQ'>アクティビティ図</a>を追加</li>
 </ul>
 </li>
+<li><strong>2022/12/15 - version 0.021</strong>
+<ul>
+<li>BUGFIX : <a class='autolink' href='#aiQ1ZUFkSiZ'>uml-flow</a> で <code>:spacing</code> パラメータを指定できない問題を改修</li>
+<li>BUGFIX : <a class='autolink' href='#gyN1Duroeh7'>uml-action</a> の <code>:rake</code> パラメータに関するバグを改修</li>
+<li>ENHANCE : <a class='autolink' href='#gyN1Duroeh7'>uml-action</a> で <code>:contents t</code> という記述をサポート</li>
+<li>ENHANCE : <a class='autolink' href='#8v3714gnR8R'>uml-partition</a> を追加</li>
+</ul>
+</li>
 </ul>
 <h2><a name='1iQ3KRF8uJQ'></a>15 図表一覧</h2>
 <ul>
@@ -12636,9 +13070,12 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li><a href='#ctRzvw94nYe'>Figure.12-11 uml-join のサンプル</a></li>
 <li><a href='#6yptTOoW7np'>Figure.12-12 uml-merge のサンプル</a></li>
 <li><a href='#i2gBN2RhnHw'>Figure.12-13 uml-note のサンプル</a></li>
-<li><a href='#2vEaeqb4vdx'>Figure.12-14 uml-pin のサンプル</a></li>
-<li><a href='#eIatijW5Ws3'>Figure.12-15 uml-signal のサンプル</a></li>
-<li><a href='#fBmyddlzNhV'>Figure.12-16 uml-time-event のサンプル</a></li>
+<li><a href='#ciTM0GPrOeW'>Figure.12-14 uml-partition のサンプル</a></li>
+<li><a href='#az9Gf58gMEB'>Figure.12-15 uml-partition のサンプル - 2</a></li>
+<li><a href='#52lWmm72SQc'>Figure.12-16 uml-partition における lines パラメータのサンプル</a></li>
+<li><a href='#2vEaeqb4vdx'>Figure.12-17 uml-pin のサンプル</a></li>
+<li><a href='#eIatijW5Ws3'>Figure.12-18 uml-signal のサンプル</a></li>
+<li><a href='#fBmyddlzNhV'>Figure.12-19 uml-time-event のサンプル</a></li>
 <li><a href='#2sDmAkevog1'>Figure.13-1 色の名前とサンプル</a></li>
 <li><a href='#6tYSz371NWb'>Figure.13-2 色の名前とサンプル - 2</a></li>
 </ul>
@@ -12878,6 +13315,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li class='idx_x'><a class='autolink' href='#jOvc70hxXQE'>uml-node</a></li>
 <li class='idx_x'><a class='autolink' href='#59HuKyYY17e'>uml-note</a></li>
 <li class='idx_x'><a class='autolink' href='#algAxSoZB1Z'>uml-package</a></li>
+<li class='idx_x'><a class='autolink' href='#8v3714gnR8R'>uml-partition</a></li>
 <li class='idx_x'><a class='autolink' href='#lzDKQT1EUVh'>uml-pin</a></li>
 <li class='idx_x'><a class='autolink' href='#bn5BLn6Qb3Y'>uml-realization</a></li>
 <li class='idx_x'><a class='autolink' href='#9ugZNtgVL4J'>uml-role-info</a></li>
@@ -12931,6 +13369,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li class='idx_x'><a class='autolink' href='#7V5c7xVwr5f'>with-uml-fork-join-options</a></li>
 <li class='idx_x'><a class='autolink' href='#5aZocCje3vz'>with-uml-frame-options</a></li>
 <li class='idx_x'><a class='autolink' href='#6VbyjPNF8qO'>with-uml-note-options</a></li>
+<li class='idx_x'><a class='autolink' href='#2yNV3qF8KJ1'>with-uml-partition-lane</a></li>
+<li class='idx_x'><a class='autolink' href='#bU9Et9Bfb4W'>with-uml-partition-options</a></li>
 <li class='idx_x'><a class='autolink' href='#bdQb93hcTPw'>with-uml-pin-options</a></li>
 <li class='idx_x'><a class='autolink' href='#ckMWbd0DRfk'>with-uml-signal-options</a></li>
 <li class='idx_x'><a class='autolink' href='#d7OQZnRfKQ5'>with-uml-time-event-options</a></li>
