@@ -169,7 +169,7 @@
 ;;
 ;;------------------------------------------------------------------------------
 (defmacro with-uml-flow-options ((&key stroke arrow-size font filter layer) &rest body)
-p  (labels ((impl (params acc)
+  (labels ((impl (params acc)
 			 (if (null params)
 				 acc
 				 (let ((value  (car  params))
