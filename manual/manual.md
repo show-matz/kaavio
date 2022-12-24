@@ -3631,29 +3631,34 @@ ${BLANK_PARAGRAPH}
 いう表記が登場しました。これは、図形要素を記述する際に指定した ID を使ってその中心座標などを
 参照するものです。幅や高さを持つ図形要素では９種類あり、その名前と具体的な場所は以下の通りです
 {{fn:この他に `width, height` があって、その図形要素の幅と高さを取得することもできますが、あまり \
-使用しません。}}。
+使用しません。}}。図では `topleft(tl)` などの記載がありますが、括弧内の `tl` は簡略記法で、 
+`foo.topleft` を `foo.tl` と書くこともできることを意味しています。
 
 ```kaavio
-(diagram (300 150)
+(diagram (400 150)
   (grid)
-  (rect canvas.center 100 100 :stroke :gray :fill :white :id :rct)
+  (rect canvas.center 140 100 :stroke :gray :fill :white :id :rct)
   (with-options (:stroke :none :fill :red :font '(:fill :red))
-    (circle rct.topleft     3) (text (y+ $1.topleft   -3)    "topleft"     :align :right)
-    (circle rct.top         3) (text (y+ $1.top       -3)    "top"         :align :center)
-    (circle rct.topright    3) (text (y+ $1.topright  -3)    "topright"    :align :left)
-    (circle rct.left        3) (text (xy+ $1.left  -5  5)    "left"        :align :right)
-    (circle rct.center      3) (text (y+  $1.top      -3)    "center"      :align :center)
-    (circle rct.right       3) (text (xy+ $1.right  5  5)    "right"       :align :left)
-    (circle rct.bottomleft  3) (text (y+  $1.bottomleft  13) "bottomleft"  :align :right)
-    (circle rct.bottom      3) (text (y+  $1.bottom      13) "bottom"      :align :center)
-    (circle rct.bottomright 3) (text (y+  $1.bottomright 13) "bottomright" :align :left)))
+    (circle rct.topleft     3) (text (y+ $1.topleft   -3)    "topleft(tl)"     :align :right)
+    (circle rct.top         3) (text (y+ $1.top       -3)    "top(tc)"         :align :center)
+    (circle rct.topright    3) (text (y+ $1.topright  -3)    "topright(tr)"    :align :left)
+    (circle rct.left        3) (text (xy+ $1.left  -5  5)    "left(cl)"        :align :right)
+    (circle rct.center      3) (text (y+  $1.top      -3)    "center(cc)"      :align :center)
+    (circle rct.right       3) (text (xy+ $1.right  5  5)    "right(cr)"       :align :left)
+    (circle rct.bottomleft  3) (text (y+  $1.bottomleft  13) "bottomleft(bl)"  :align :right)
+    (circle rct.bottom      3) (text (y+  $1.bottom      13) "bottom(bc)"      :align :center)
+    (circle rct.bottomright 3) (text (y+  $1.bottomright 13) "bottomright(br)" :align :left)))
 ```
 Figure. 図形要素の座標参照 - 1
 
 ${BLANK_PARAGRAPH}
 
+　上記の記法は全て座標値を返しますが、これらにさらに `.x` や `.y` をつけて x 軸や y 軸の座標値を
+取得することができます。これを利用すると、 `(rect (make-point obj1.cc.x obj2.cc.y) ...)`　などの
+記述によって「縦方向を obj1 にあわせ、横方向を obj2 にあわせる」といったことができます。
+
 　直線や円弧、コネクタ、およびブロック矢印では、 `center` および線の端点として `end1, end2` が
-利用できます。以下のように、この場合の `center` は線の総延長のちょうど半分になる位置になります
+利用できます。以下のように、この場合の `center` は線の総延長のちょうど半分にあたる位置になります
 （円弧の場合はベースとなる楕円の中心です）。
 
 ```kaavio
@@ -3665,9 +3670,9 @@ ${BLANK_PARAGRAPH}
 	(circle line.center 3)
 	(circle line.end2   3))
   (with-options (:font '(:fill :red))
-	(text (xy+ line.end1   0 -10) "end1"   :align :center)
-	(text (xy+ line.center 0 -10) "center" :align :left)
-	(text (xy+ line.end2   0 -10) "end2"   :align :center)))
+	(text (xy+ line.end1   0 -10) "end1"       :align :center)
+	(text (xy+ line.center 0 -10) "center(cc)" :align :left)
+	(text (xy+ line.end2   0 -10) "end2"       :align :center)))
 ```
 Figure. 図形要素の座標参照 - 2
 
@@ -3679,13 +3684,13 @@ ${BLANK_PARAGRAPH}
 attr は局所関数を使って同じパターンの繰り返しを共通化する場合などに便利でしょう。}}。
 
 　`app.center` の記法において要素名のところに `canvas` を指定することで、キャンバス全体を
-ひとつの図形要素のように扱うことができます。つまり、 `canvas.center` とすれば SVG 画像の
+ひとつの図形要素のように扱うことができます。つまり、 `canvas.cc` とすれば SVG 画像の
 中心点を指定できますし、 `canvas.width` と言えば SVG 画像の幅を取得することができます。
 実際には、この `canvas` が意味するのは「現在のキャンバス」なのですが、これについては
 「[](#サブキャンバス)」で説明します。
 
-　`app.center` などの記述は単独で使用するよりも、「app の中心から 100pt くらい右」といった
-指定をしたい場合の方が多いでしょう。そのような場合、 `(x+ app.center 100)` といった記述で
+　`app.cc` などの記述は単独で使用するよりも、「app の中心から 100pt くらい右」といった
+指定をしたい場合の方が多いでしょう。そのような場合、 `(x+ app.cc 100)` といった記述で
 目的を達することができます。以下の 3 つの関数が利用できます。
 
 ```lisp
@@ -3694,7 +3699,7 @@ attr は局所関数を使って同じパターンの繰り返しを共通化す
 (defun xy+ (pt x y) ...)
 ```
 
-　なお、 `(x- app.center 100)` とは書けません。 `(x+ app.center -100)` としてください。
+　なお、 `(x- app.cc 100)` とは書けません。 `(x+ app.cc -100)` としてください。
 
 ${BLANK_PARAGRAPH}
 
@@ -9145,8 +9150,8 @@ Figure. 色の名前とサンプル - 2
 	* BUGFIX : uml-action の `:rake` パラメータに関するバグを改修
 	* ENHANCE : uml-action で `:contents t` という記述をサポート
 	* ENHANCE : uml-partition を追加
-
-
+* __2022/12/25 - version 0.022__
+	* ENHANCE : `obj.center` に対する `obj.cc` などの簡略記法を導入（[$@ 章](#座標と位置)参照）
 
 ## 図表一覧
 <!-- embed:figure-list -->

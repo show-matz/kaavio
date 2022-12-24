@@ -153,6 +153,7 @@
 																"writer"))
 				(:file "entity"                    :depends-on ("kaavio"
 																"canvas"
+																"point"
 																"writer"))
 				(:file "explosion"                 :depends-on ("kaavio"
 																"constants"

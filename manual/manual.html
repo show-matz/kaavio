@@ -4804,10 +4804,10 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p>　　</p>
 <p>　kaavio データの中で座標を指定する方法にはいくつかあります。以下に説明します。</p>
 <p>　具体的な数値で座標を指定する場合、 <code>'(x y)</code> の要領で指定します。つまり、 <code>'(50 100)</code> といった指定です。これは即値で座標を指定する場合の書き方ですが、Common LISP の変数に格納した数値から座標を作成したい場合は <a class='autolink' href='#cV08aR4hVCU'>make-point</a> 関数が使えます。これは <code>(make-point x y)</code> の要領で使用してください<sup><a name='footnote_ref8' href='#footnote8'>8</a></sup>。</p>
-<p>　具体的な数値を指定するのでなく、「すでに登場した要素の属性を利用して位置を指定する」こともできます。<a href='#9LLncE6hWlx'>2  章</a>の 2 つめのサンプルでは、 <code>app.center</code> や <code>in.right</code> という表記が登場しました。これは、図形要素を記述する際に指定した ID を使ってその中心座標などを参照するものです。幅や高さを持つ図形要素では９種類あり、その名前と具体的な場所は以下の通りです<sup><a name='footnote_ref9' href='#footnote9'>9</a></sup>。</p>
+<p>　具体的な数値を指定するのでなく、「すでに登場した要素の属性を利用して位置を指定する」こともできます。<a href='#9LLncE6hWlx'>2  章</a>の 2 つめのサンプルでは、 <code>app.center</code> や <code>in.right</code> という表記が登場しました。これは、図形要素を記述する際に指定した ID を使ってその中心座標などを参照するものです。幅や高さを持つ図形要素では９種類あり、その名前と具体的な場所は以下の通りです<sup><a name='footnote_ref9' href='#footnote9'>9</a></sup>。図では <code>topleft(tl)</code> などの記載がありますが、括弧内の <code>tl</code> は簡略記法で、 <code>foo.topleft</code> を <code>foo.tl</code> と書くこともできることを意味しています。</p>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
-<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='150'>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='400' height='150'>
 	
 	<!-- grid -->
 	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
@@ -4816,50 +4816,51 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 	</pattern>
 	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
 	<!-- rct : rectangle -->
-	<rect id='rct' x='100' y='25' width='100' height='100' fill='white' stroke='gray' stroke-width='1' />
+	<rect id='rct' x='130' y='25' width='140' height='100' fill='white' stroke='gray' stroke-width='1' />
 	<!-- circle -->
-	<circle cx='100' cy='25' r='3' fill='red' stroke='none' stroke-width='1' />
+	<circle cx='130' cy='25' r='3' fill='red' stroke='none' stroke-width='1' />
 	<!-- text -->
-	<text x='97' y='19' text-anchor='end' font-size='12pt' fill='red' >topleft</text>
-	<!-- circle -->
-	<circle cx='150' cy='25' r='3' fill='red' stroke='none' stroke-width='1' />
-	<!-- text -->
-	<text x='150' y='19' text-anchor='middle' font-size='12pt' fill='red' >top</text>
+	<text x='127' y='19' text-anchor='end' font-size='12pt' fill='red' >topleft(tl)</text>
 	<!-- circle -->
 	<circle cx='200' cy='25' r='3' fill='red' stroke='none' stroke-width='1' />
 	<!-- text -->
-	<text x='203' y='19' text-anchor='start' font-size='12pt' fill='red' >topright</text>
+	<text x='200' y='19' text-anchor='middle' font-size='12pt' fill='red' >top(tc)</text>
 	<!-- circle -->
-	<circle cx='100' cy='75' r='3' fill='red' stroke='none' stroke-width='1' />
+	<circle cx='270' cy='25' r='3' fill='red' stroke='none' stroke-width='1' />
 	<!-- text -->
-	<text x='92' y='80' text-anchor='end' font-size='12pt' fill='red' >left</text>
+	<text x='273' y='19' text-anchor='start' font-size='12pt' fill='red' >topright(tr)</text>
 	<!-- circle -->
-	<circle cx='150' cy='75' r='3' fill='red' stroke='none' stroke-width='1' />
+	<circle cx='130' cy='75' r='3' fill='red' stroke='none' stroke-width='1' />
 	<!-- text -->
-	<text x='150' y='69' text-anchor='middle' font-size='12pt' fill='red' >center</text>
+	<text x='122' y='80' text-anchor='end' font-size='12pt' fill='red' >left(cl)</text>
 	<!-- circle -->
 	<circle cx='200' cy='75' r='3' fill='red' stroke='none' stroke-width='1' />
 	<!-- text -->
-	<text x='208' y='80' text-anchor='start' font-size='12pt' fill='red' >right</text>
+	<text x='200' y='69' text-anchor='middle' font-size='12pt' fill='red' >center(cc)</text>
 	<!-- circle -->
-	<circle cx='100' cy='125' r='3' fill='red' stroke='none' stroke-width='1' />
+	<circle cx='270' cy='75' r='3' fill='red' stroke='none' stroke-width='1' />
 	<!-- text -->
-	<text x='97' y='141' text-anchor='end' font-size='12pt' fill='red' >bottomleft</text>
+	<text x='278' y='80' text-anchor='start' font-size='12pt' fill='red' >right(cr)</text>
 	<!-- circle -->
-	<circle cx='150' cy='125' r='3' fill='red' stroke='none' stroke-width='1' />
+	<circle cx='130' cy='125' r='3' fill='red' stroke='none' stroke-width='1' />
 	<!-- text -->
-	<text x='150' y='141' text-anchor='middle' font-size='12pt' fill='red' >bottom</text>
+	<text x='127' y='141' text-anchor='end' font-size='12pt' fill='red' >bottomleft(bl)</text>
 	<!-- circle -->
 	<circle cx='200' cy='125' r='3' fill='red' stroke='none' stroke-width='1' />
 	<!-- text -->
-	<text x='203' y='141' text-anchor='start' font-size='12pt' fill='red' >bottomright</text>
+	<text x='200' y='141' text-anchor='middle' font-size='12pt' fill='red' >bottom(bc)</text>
+	<!-- circle -->
+	<circle cx='270' cy='125' r='3' fill='red' stroke='none' stroke-width='1' />
+	<!-- text -->
+	<text x='273' y='141' text-anchor='start' font-size='12pt' fill='red' >bottomright(br)</text>
 
 </svg>
 </div>
 
 <p class='fig_title'><a name='7mETQwj0yso'></a>Figure.6-2 図形要素の座標参照 - 1</p>
 <p>　　</p>
-<p>　<a class='autolink' href='#fv4OUML78x4'>直線</a>や<a class='autolink' href='#cp2F91gKG7W'>円弧</a>、<a class='autolink' href='#eFhVs4WwYUG'>コネクタ</a>、および<a class='autolink' href='#49KKf97828b'>ブロック矢印</a>では、 <code>center</code> および線の端点として <code>end1, end2</code> が利用できます。以下のように、この場合の <code>center</code> は線の総延長のちょうど半分になる位置になります（<a class='autolink' href='#cp2F91gKG7W'>円弧</a>の場合はベースとなる<a class='autolink' href='#7YzIcjhyGKN'>楕円</a>の中心です）。</p>
+<p>　上記の記法は全て座標値を返しますが、これらにさらに <code>.x</code> や <code>.y</code> をつけて x 軸や y 軸の座標値を取得することができます。これを利用すると、 <code>(rect (make-point obj1.cc.x obj2.cc.y) ...)</code>　などの記述によって「縦方向を obj1 にあわせ、横方向を obj2 にあわせる」といったことができます。</p>
+<p>　<a class='autolink' href='#fv4OUML78x4'>直線</a>や<a class='autolink' href='#cp2F91gKG7W'>円弧</a>、<a class='autolink' href='#eFhVs4WwYUG'>コネクタ</a>、および<a class='autolink' href='#49KKf97828b'>ブロック矢印</a>では、 <code>center</code> および線の端点として <code>end1, end2</code> が利用できます。以下のように、この場合の <code>center</code> は線の総延長のちょうど半分にあたる位置になります（<a class='autolink' href='#cp2F91gKG7W'>円弧</a>の場合はベースとなる<a class='autolink' href='#7YzIcjhyGKN'>楕円</a>の中心です）。</p>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='110'>
@@ -4881,7 +4882,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 	<!-- text -->
 	<text x='50' y='30' text-anchor='middle' font-size='12pt' fill='red' >end1</text>
 	<!-- text -->
-	<text x='130.0' y='70.0' text-anchor='start' font-size='12pt' fill='red' >center</text>
+	<text x='130.0' y='70.0' text-anchor='start' font-size='12pt' fill='red' >center(cc)</text>
 	<!-- text -->
 	<text x='250' y='70' text-anchor='middle' font-size='12pt' fill='red' >end2</text>
 
@@ -4891,14 +4892,14 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p class='fig_title'><a name='1YSNZvyxqVa'></a>Figure.6-3 図形要素の座標参照 - 2</p>
 <p>　　</p>
 <p>　前述の <code>app.center</code> という記法は、座標を指定すべきところではたいてい使用できますが、これを <code>(attr :app :center)</code> という記法で代替することもできます<sup><a name='footnote_ref10' href='#footnote10'>10</a></sup>。</p>
-<p>　<code>app.center</code> の記法において要素名のところに <code>canvas</code> を指定することで、<a class='autolink' href='#kgs1vf3AbTN'>キャンバス</a>全体をひとつの図形要素のように扱うことができます。つまり、 <code>canvas.center</code> とすれば SVG 画像の中心点を指定できますし、 <code>canvas.width</code> と言えば SVG 画像の幅を取得することができます。実際には、この <code>canvas</code> が意味するのは「現在の<a class='autolink' href='#kgs1vf3AbTN'>キャンバス</a>」なのですが、これについては「<a href='#kgs1vf3AbTN'>7  サブキャンバス</a>」で説明します。</p>
-<p>　<code>app.center</code> などの記述は単独で使用するよりも、「app の中心から 100pt くらい右」といった指定をしたい場合の方が多いでしょう。そのような場合、 <code>(x+ app.center 100)</code> といった記述で目的を達することができます。以下の 3 つの関数が利用できます。</p>
+<p>　<code>app.center</code> の記法において要素名のところに <code>canvas</code> を指定することで、<a class='autolink' href='#kgs1vf3AbTN'>キャンバス</a>全体をひとつの図形要素のように扱うことができます。つまり、 <code>canvas.cc</code> とすれば SVG 画像の中心点を指定できますし、 <code>canvas.width</code> と言えば SVG 画像の幅を取得することができます。実際には、この <code>canvas</code> が意味するのは「現在の<a class='autolink' href='#kgs1vf3AbTN'>キャンバス</a>」なのですが、これについては「<a href='#kgs1vf3AbTN'>7  サブキャンバス</a>」で説明します。</p>
+<p>　<code>app.cc</code> などの記述は単独で使用するよりも、「app の中心から 100pt くらい右」といった指定をしたい場合の方が多いでしょう。そのような場合、 <code>(x+ app.cc 100)</code> といった記述で目的を達することができます。以下の 3 つの関数が利用できます。</p>
 <pre class='code'>
 (<span class='keyword1'>defun</span> <span class='keyword5'>x+</span> (pt x) ...)
 (<span class='keyword1'>defun</span> <span class='keyword5'>y+</span> (pt y) ...)
 (<span class='keyword1'>defun</span> <span class='keyword5'>xy+</span> (pt x y) ...)
 </pre>
-<p>　なお、 <code>(x- app.center 100)</code> とは書けません。 <code>(x+ app.center -100)</code> としてください。</p>
+<p>　なお、 <code>(x- app.cc 100)</code> とは書けません。 <code>(x+ app.cc -100)</code> としてください。</p>
 <p>　　</p>
 <h2><a name='kgs1vf3AbTN'></a>7 サブキャンバス</h2>
 <p>　<a href='#h1RNMQY1C0b'>前節</a>では、座標指定のための ID 名として <code>canvas</code> を指定すると作成中の図全体の領域を指定できると説明しました。kaavio では、これを<a class='autolink' href='#kgs1vf3AbTN'>キャンバス</a>と読んでいますが、その一部を独立した<a class='autolink' href='#kgs1vf3AbTN'>キャンバス</a>として描画を行うことができます。これを<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>と呼びます。</p>
@@ -12934,6 +12935,11 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li>BUGFIX : <a class='autolink' href='#gyN1Duroeh7'>uml-action</a> の <code>:rake</code> パラメータに関するバグを改修</li>
 <li>ENHANCE : <a class='autolink' href='#gyN1Duroeh7'>uml-action</a> で <code>:contents t</code> という記述をサポート</li>
 <li>ENHANCE : <a class='autolink' href='#8v3714gnR8R'>uml-partition</a> を追加</li>
+</ul>
+</li>
+<li><strong>2022/12/25 - version 0.022</strong>
+<ul>
+<li>ENHANCE : <code>obj.center</code> に対する <code>obj.cc</code> などの簡略記法を導入（<a href='#h1RNMQY1C0b'>6  章</a>参照）</li>
 </ul>
 </li>
 </ul>

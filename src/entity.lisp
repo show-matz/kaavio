@@ -1,6 +1,7 @@
 #|
 #|ASD|#				(:file "entity"                    :depends-on ("kaavio"
 #|ASD|#																"canvas"
+#|ASD|#																"point"
 #|ASD|#																"writer"))
 #|EXPORT|#				;entity.lisp
  |#
@@ -38,6 +39,61 @@
 (defgeneric attribute-bottomright (shp))	;; returns point object.
 (defgeneric attribute-end1        (shp))	;; returns point object.
 (defgeneric attribute-end2        (shp))	;; returns point object.
+
+(defun attribute-topleft.X     (shp) (point-x (attribute-topleft     shp)))
+(defun attribute-topleft.Y     (shp) (point-y (attribute-topleft     shp)))
+(defun attribute-top.X         (shp) (point-x (attribute-top         shp)))
+(defun attribute-top.Y         (shp) (point-y (attribute-top         shp)))
+(defun attribute-topright.X    (shp) (point-x (attribute-topright    shp)))
+(defun attribute-topright.Y    (shp) (point-y (attribute-topright    shp)))
+(defun attribute-left.X        (shp) (point-x (attribute-left        shp)))
+(defun attribute-left.Y        (shp) (point-y (attribute-left        shp)))
+(defun attribute-center.X      (shp) (point-x (attribute-center      shp)))
+(defun attribute-center.Y      (shp) (point-y (attribute-center      shp)))
+(defun attribute-right.X       (shp) (point-x (attribute-right       shp)))
+(defun attribute-right.Y       (shp) (point-y (attribute-right       shp)))
+(defun attribute-bottomleft.X  (shp) (point-x (attribute-bottomleft  shp)))
+(defun attribute-bottomleft.Y  (shp) (point-y (attribute-bottomleft  shp)))
+(defun attribute-bottom.X      (shp) (point-x (attribute-bottom      shp)))
+(defun attribute-bottom.Y      (shp) (point-y (attribute-bottom      shp)))
+(defun attribute-bottomright.X (shp) (point-x (attribute-bottomright shp)))
+(defun attribute-bottomright.Y (shp) (point-y (attribute-bottomright shp)))
+(defun attribute-end1.X        (shp) (point-x (attribute-end1        shp)))
+(defun attribute-end1.Y        (shp) (point-y (attribute-end1        shp)))
+(defun attribute-end2.X        (shp) (point-x (attribute-end2        shp)))
+(defun attribute-end2.Y        (shp) (point-y (attribute-end2        shp)))
+
+(defun attribute-W   (shp) (attribute-width       shp))
+(defun attribute-H   (shp) (attribute-height      shp))
+(defun attribute-TL  (shp) (attribute-topleft     shp))
+(defun attribute-TC  (shp) (attribute-top         shp))
+(defun attribute-TR  (shp) (attribute-topright    shp))
+(defun attribute-CL  (shp) (attribute-left        shp))
+(defun attribute-CC  (shp) (attribute-center      shp))
+(defun attribute-CR  (shp) (attribute-right       shp))
+(defun attribute-BL  (shp) (attribute-bottomleft  shp))
+(defun attribute-BC  (shp) (attribute-bottom      shp))
+(defun attribute-BR  (shp) (attribute-bottomright shp))
+
+(defun attribute-TL.X (shp) (point-x (attribute-topleft     shp)))
+(defun attribute-TL.Y (shp) (point-y (attribute-topleft     shp)))
+(defun attribute-TC.X (shp) (point-x (attribute-top         shp)))
+(defun attribute-TC.Y (shp) (point-y (attribute-top         shp)))
+(defun attribute-TR.X (shp) (point-x (attribute-topright    shp)))
+(defun attribute-TR.Y (shp) (point-y (attribute-topright    shp)))
+(defun attribute-CL.X (shp) (point-x (attribute-left        shp)))
+(defun attribute-CL.Y (shp) (point-y (attribute-left        shp)))
+(defun attribute-CC.X (shp) (point-x (attribute-center      shp)))
+(defun attribute-CC.Y (shp) (point-y (attribute-center      shp)))
+(defun attribute-CR.X (shp) (point-x (attribute-right       shp)))
+(defun attribute-CR.Y (shp) (point-y (attribute-right       shp)))
+(defun attribute-BL.X (shp) (point-x (attribute-bottomleft  shp)))
+(defun attribute-BL.Y (shp) (point-y (attribute-bottomleft  shp)))
+(defun attribute-BC.X (shp) (point-x (attribute-bottom      shp)))
+(defun attribute-BC.Y (shp) (point-y (attribute-bottom      shp)))
+(defun attribute-BR.X (shp) (point-x (attribute-bottomright shp)))
+(defun attribute-BR.Y (shp) (point-y (attribute-bottomright shp)))
+
 
 ;;------------------------------------------------------------------------------
 ;;
