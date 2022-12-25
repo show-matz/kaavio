@@ -77,6 +77,7 @@
 (defparameter *uml-interface-socket-stroke*   :black)
 (defparameter *uml-interface-socket-degree*      150)
 
+;;ToDo : from を id symbol だけでなく point も許可する？（97ogiFiiJrB で uml-note にした対応参照）
 (defclass uml-interface-socket (kaavio:entity)
   ((name			:initform nil :initarg :name)	; (or nil label-inf)
    (center			:initform nil :initarg :center)	; point

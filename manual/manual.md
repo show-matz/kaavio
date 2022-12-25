@@ -6485,6 +6485,11 @@ with-uml-note-options を使用しています。
 <!-- expand: UML-NOTE-SAMPLE -->
 ```
 
+　version 0.022 より、targets パラメータに指定する接続先として、図形要素の ID だけでなく
+座標の直接指定も可能になりました。図形要素の ID を指定した場合はコネクタで `:style :CC` を
+指定したイメージで接続されますが、座標の直接指定では任意の位置に接続線をひくことが可能になり
+ます。
+
 　詳細は以下を参照してください。
 
 * uml-note マクロ
@@ -7930,6 +7935,13 @@ ${BLANK_PARAGRAPH}
 
 　${{TODO}{まだ記述されていません。}}
 
+* ${{TODO}{targets は接続先を複数指定する場合はリスト、単一ならリストでなくてもよい。}}
+* ${{TODO}{targets で指定する接続先は、図形要素の ID または point 値}}
+
+　以下も参照してください。
+
+* [](#uml-note)
+
 #### uml-partition マクロ
 <!-- autolink: [uml-partition](#uml-partition マクロ) -->
 
@@ -9152,6 +9164,7 @@ Figure. 色の名前とサンプル - 2
 	* ENHANCE : uml-partition を追加
 * __2022/12/25 - version 0.022__
 	* ENHANCE : `obj.center` に対する `obj.cc` などの簡略記法を導入（[$@ 章](#座標と位置)参照）
+	* ENHANCE : ml-note の接続先として point 値を指定可能にする機能追加
 
 ## 図表一覧
 <!-- embed:figure-list -->

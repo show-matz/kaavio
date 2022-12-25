@@ -8514,6 +8514,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
               <span class='literal'>"this is spec memo.~%multi line is OK."</span>
               <span class='keyword3'>:targets</span> <span class='keyword3'>:foo</span> <span class='keyword3'>:keyword</span> <span class='literal'>"spec"</span>)))
 </pre>
+<p>　version 0.022 より、targets パラメータに指定する接続先として、図形要素の ID だけでなく座標の直接指定も可能になりました。図形要素の ID を指定した場合は<a class='autolink' href='#eFhVs4WwYUG'>コネクタ</a>で <code>:style :CC</code> を指定したイメージで接続されますが、座標の直接指定では任意の位置に接続線をひくことが可能になります。</p>
 <p>　詳細は以下を参照してください。</p>
 <ul>
 <li><a class='autolink' href='#59HuKyYY17e'>uml-note</a> マクロ</li>
@@ -9989,6 +9990,14 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
                                 link layer filter id contents) ... )
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<ul>
+<li><span style='background:red;color:white;'>ToDo : targets は接続先を複数指定する場合はリスト、単一ならリストでなくてもよい。</span></li>
+<li><span style='background:red;color:white;'>ToDo : targets で指定する接続先は、図形要素の ID または point 値</span></li>
+</ul>
+<p>　以下も参照してください。</p>
+<ul>
+<li><a href='#jFViCKeUWqC'>12.6.25  uml-note</a></li>
+</ul>
 <h4><a name='8v3714gnR8R'></a>13.1.82 uml-partition マクロ</h4>
 <pre class='code'>
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>uml-partition</span> (center rows cols
@@ -12940,6 +12949,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li><strong>2022/12/25 - version 0.022</strong>
 <ul>
 <li>ENHANCE : <code>obj.center</code> に対する <code>obj.cc</code> などの簡略記法を導入（<a href='#h1RNMQY1C0b'>6  章</a>参照）</li>
+<li>ENHANCE : ml-note の接続先として point 値を指定可能にする機能追加</li>
 </ul>
 </li>
 </ul>

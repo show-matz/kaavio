@@ -562,15 +562,21 @@
 #|EXPORT|#				:resolve-connector-points
  |#
 (defun resolve-connector-points (from dest style spacing)
-  (labels ((get-dummy-rect-when-line (entity)
-			 (if (not (typep entity 'line))
-				 entity
-				 (multiple-value-bind (x y) (line-get-center entity)
-				   (make-instance 'kaavio:rectangle
-								  :center (make-point x y :absolute)
-								  :width 0.01 :height 0.01 :rx 0 :ry 0)))))    ; 0.01 ... OK?
-	(setf from (get-dummy-rect-when-line from))
-	(setf dest (get-dummy-rect-when-line dest)))
+  (labels ((create-dummy-rect (x y)
+			 (make-instance 'kaavio:rectangle
+							:center (make-point x y :absolute)
+							:width 0.01 :height 0.01 :rx 0 :ry 0))    ; 0.01 ... OK?
+		   (fix-target (target)
+			 (cond
+			   ((point-p target)
+				(with-point (x y) target
+				  (create-dummy-rect x y)))
+			   ((typep target 'line)
+				(multiple-value-bind (x y) (line-get-center target)
+				  (create-dummy-rect x y)))
+			   (t target))))
+	(setf from (fix-target from))
+	(setf dest (fix-target dest)))
   (when (keywordp style)
 	(setf style (check-and-fix-connector-style style)))
   (type-assert style list)
@@ -618,6 +624,7 @@
 	(setf style (or style *default-connector-style* :CC)))
   ent)
 
+;;ToDo : from/to を id symbol だけでなく point も許可する？（97ogiFiiJrB で uml-note にした対応参照）
 (defmethod check ((ent connector) canvas dict)
   (with-slots (from to spacing style) ent
 	(check-member from    :nullable nil :types symbol)

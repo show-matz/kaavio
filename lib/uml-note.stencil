@@ -20,7 +20,7 @@
 ;;------------------------------------------------------------------------------
 (defclass uml-note (kaavio:text-shape)
   ((keyword	:initform nil :initarg :keyword)	; (or nil uml-keyword-info)
-   (targets	:initform nil :initarg :targets)	; list of (or keyword symbol)
+   (targets	:initform nil :initarg :targets)	; list of (or keyword symbol point)
    (margin2	:initform nil :initarg :margin)		; number ( margin for keyword )
    (crease	:initform nil :initarg :crease)		; number
    (filter	:initform nil :initarg :filter)))	; (or nil keyword)
@@ -30,7 +30,10 @@
   (declare (ignore initargs))
   (with-slots (keyword targets margin2 crease filter layer) note
 	(setf keyword (and keyword (make-uml-keyword keyword)))
-	(setf targets (if (listp targets) targets (list targets)))
+	(setf targets (cond
+					((point-p targets) (list targets))
+					((listp   targets) targets)
+					(t                 (list targets))))
 	(setf margin2 (if (null keyword)
 					  0
 					  (or (and *uml-note-font* (slot-value *uml-note-font* 'kaavio::size))
@@ -50,14 +53,18 @@
 	(check-object keyword canvas dict :nullable t :class uml-keyword-info)
 	(check-member targets :nullable   t :types list)
 	(dolist (target targets)
-	  (check-member target :nullable nil :types symbol))
+	  (unless (point-p target)
+		(check-member target :nullable nil :types symbol)))
 	(check-member margin2 :nullable nil :types number)
 	(check-member crease  :nullable nil :types number)
-	(setf targets (mapcar (lambda (id)
-							(let ((ent (kaavio::dict-get-entity dict id)))
-							  (unless ent
-								(throw-exception "ERROR : entity '~A' not found in dictionary." id))
-							  ent)) targets)))
+	(setf targets
+		  (mapcar (lambda (target)
+					(if (point-p target)
+						target
+						(let ((ent (kaavio::dict-get-entity dict target)))
+						  (unless ent
+							(throw-exception "ERROR : entity '~A' not found in dictionary." target))
+						  ent))) targets)))
   ;; this method must call super class' one.
   (call-next-method))
 
