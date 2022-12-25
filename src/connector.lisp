@@ -624,30 +624,32 @@
 	(setf style (or style *default-connector-style* :CC)))
   ent)
 
-;;ToDo : from/to を id symbol だけでなく point も許可する？（97ogiFiiJrB で uml-note にした対応参照）
 (defmethod check ((ent connector) canvas dict)
   (with-slots (from to spacing style) ent
-	(check-member from    :nullable nil :types symbol)
-	(check-member to      :nullable nil :types symbol)
+	(unless (point-p from)
+	  (check-member from  :nullable nil :types symbol))
+	(unless (point-p to)
+	  (check-member to    :nullable nil :types symbol))
 	(check-member spacing :nullable   t :types (or number list))
 	(check-member style   :nullable nil :types keyword)
 	(setf spacing (if (numberp spacing) (list spacing) spacing))
 	(when (remove-if #'numberp spacing)
 	  (throw-exception "Invalid spacing : '~A'." spacing))
 	(setf style (check-and-fix-connector-style style))
-	(let ((from-entity (dict-get-entity dict from))
-		  (dest-entity (dict-get-entity dict   to)))
-	  (unless from-entity
-		(throw-exception "Entity '~A' not found in dictionary." from))
-	  (unless dest-entity
-		(throw-exception "Entity '~A' not found in dictionary."   to))
-	  (unless (or (typep from-entity 'shape) (typep from-entity 'line))
-		(throw-exception "Entity '~A' is not shape nor line object." from))
-	  (unless (or (typep dest-entity 'shape) (typep dest-entity 'line))
-		(throw-exception "Entity '~A' is not shape nor line object."   to))
-	  (setf (slot-value ent 'points)
-			(resolve-connector-points from-entity dest-entity style spacing))
-	  (call-next-method))))
+	(labels ((get-target (target)
+			   (if (point-p target)
+				   target
+				   (let ((entity (dict-get-entity dict target)))
+					 (unless entity
+					   (throw-exception "Entity '~A' not found in dictionary." target))
+					 (unless (or (typep entity 'shape) (typep entity 'line))
+					   (throw-exception "Entity '~A' is not shape nor line object." target))
+					 entity))))
+	  (let ((from-target (get-target from))
+			(dest-target (get-target   to)))
+		(setf (slot-value ent 'points)
+			  (resolve-connector-points from-target dest-target style spacing))
+		(call-next-method)))))
 
 (defmethod write-header ((ent connector) writer)
   (with-slots (id from to) ent

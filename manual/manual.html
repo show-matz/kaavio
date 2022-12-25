@@ -1747,12 +1747,12 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 (<span class='keyword1'>defmacro</span> <span class='keyword5'>connect</span> (from to <span class='keyword2'>&amp;key</span> style spacing label
                                 stroke end1 end2 layer filter id) ... )
 </pre>
-<p>　基本的には from / to で接続する図形要素を指定し、style で接続の仕方を指定します。</p>
+<p>　基本的には from / to で接続対象を指定し、style で接続の仕方を指定します。</p>
 <p class='tbl_title'><a name='79EVRrlxEbF'></a>Table.4-1 connect のパラメータ</p>
 <table align='center'>
 <tr style="font-size: 14;"><th>パラメータ</th><th>説明</th></tr>
-<tr style="font-size: 14;"><td nowrap align='left'><code>from</code></td><td align='left'>接続元となる要素の ID をキーワードで指定します。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'><code>to</code></td><td align='left'>接続先となる要素の ID をキーワードで指定します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>from</code></td><td align='left'>接続元となる要素の ID をキーワードで指定します。point 値を指定することもできます。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>to</code></td><td align='left'>接続先となる要素の ID をキーワードで指定します。point 値を指定することもできます。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>style</code></td><td align='left'>接続線の引き方を指定します。省略した場合のデフォルト値は :CC です。<br>これは「中心から中心を<a class='autolink' href='#fv4OUML78x4'>直線</a>で結ぶ」引き方になります。それ以外の<br>指定方法については後述します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>spacing</code></td><td align='left'>2 回以上折れ曲がる接続線について、「自由な線分」の位置を調整するための<br>パラメータです。詳細は後述します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>label</code></td><td align='left'><a class='autolink' href='#lpCVEZ9kMoP'>ラベル</a>をつける場合に指定します。詳細は「<a href='#lpCVEZ9kMoP'>11.11  ラベル</a>」を参照してください。</td></tr>
@@ -1831,7 +1831,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </div>
 
 <p class='fig_title'><a name='iS4fHSfl5nF'></a>Figure.4-2 コネクタにおける接続点の指定</p>
-<p>　style パラメータを使って :CC 以外の接続を指定すると、<a class='autolink' href='#eFhVs4WwYUG'>コネクタ</a>は接続対象の図形要素の位置関係を調べて適切な折線を描画します。たとえば、以下は <code>:style :LR</code> で接続しています。</p>
+<p>　なお、上記は接続対象として図形要素の ID を指定した場合の話です。ID でなく point 値を指定した場合、指定位置に「大きさが（ほぼ）ゼロの<a class='autolink' href='#kJonRG8GtHF'>四角形</a>」があるかのように処理されます。</p>
+<p>　style パラメータを使って :CC 以外の接続を指定すると、<a class='autolink' href='#eFhVs4WwYUG'>コネクタ</a>は接続対象の図形要素の位置関係を調べて適切な折れ線を描画します。たとえば、以下は <code>:style :LR</code> で接続しています。</p>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='120'>
@@ -1931,7 +1932,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </div>
 
 <p class='fig_title'><a name='23eQZDKkLDn'></a>Figure.4-6 spacing パラメータによるコネクタ接続経路の調整</p>
-<p>　spacing パラメータは、１番目の自由な線分を指定するだけの場合にはリストでなくてもかまいません。その場合は、 <code>:spacing 30</code> のように数値で指定できます。なお、spacing パラメータは「<a class='autolink' href='#eFhVs4WwYUG'>コネクタ</a>による自動的な経路の決定結果を調整する」ものなので、たとえば接続対象の位置関係が大きく変化した場合などには、都度再調整が必要になることに注意してください。</p>
+<p>　spacing パラメータは、最初の自由な線分を指定するだけの場合にはリストでなくてもかまいません。その場合は、 <code>:spacing 30</code> のように数値で指定できます。なお、spacing パラメータは「<a class='autolink' href='#eFhVs4WwYUG'>コネクタ</a>による自動的な経路の決定結果を調整する」ものなので、たとえば接続対象の位置関係が大きく変化した場合などには、都度再調整が必要になることに注意してください。</p>
 <h3><a name='4WyMTv59pvw'></a>4.2 パラグラフ</h3>
 <p>　<code>paragraph</code> は、複数行に渡る<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>です。</p>
 <div align='center'>
@@ -12950,6 +12951,11 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <ul>
 <li>ENHANCE : <code>obj.center</code> に対する <code>obj.cc</code> などの簡略記法を導入（<a href='#h1RNMQY1C0b'>6  章</a>参照）</li>
 <li>ENHANCE : ml-note の接続先として point 値を指定可能にする機能追加</li>
+</ul>
+</li>
+<li><strong>2022/12/26 - version 0.023</strong>
+<ul>
+<li>ENHANCE : <a class='autolink' href='#eFhVs4WwYUG'>コネクタ</a>で接続先として point 値を指定可能にする機能追加</li>
 </ul>
 </li>
 </ul>
