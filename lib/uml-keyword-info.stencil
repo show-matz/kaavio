@@ -21,7 +21,7 @@
   nil)
 
 (defun uml-keyword-to-string (kwd)
-  (format-string "<<" (slot-value kwd 'name) ">>"))
+  (format-string "«" (slot-value kwd 'name) "»"))
 
 (defun uml-keyword-draw (kwd x y align font writer)
   (let ((txt (uml-keyword-to-string kwd)))
