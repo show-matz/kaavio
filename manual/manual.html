@@ -1,10 +1,10 @@
 <html>
-<header>
+<head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<meta http-equiv="Content-Style-Type" content="text/css">
 	<title>kaavio readme</title>
 	<link rel=stylesheet href="./default.css">
-</header>
+</head>
 <body>
 <div class='toc_button_top'><a href='#3DDQkfdwVQl'>
 <svg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 200 200'>
@@ -6549,7 +6549,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li><code>width-spice</code> は、「<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>が実際に描画される幅」を計算するための目安となる係数を指定します。詳細は後述します。</li>
 </ul>
 <p>　　</p>
-<p>　それぞれについて細かい説明を始める前に、 <code>:font 24</code> といった記述がどのように扱われるのかを説明する必要があるでしょう。 <code>:font</code> によるこれらの指定は、実は全て <a class='autolink' href='#673GXF9YiIQ'>make-font</a> 関数に渡されます。<a class='autolink' href='#673GXF9YiIQ'>make-font</a> 関数は、渡されたのが単一の値の場合には、数値ならサイズ、文字列なら<a class='autolink' href='#3kZ9FkounyK'>フォント</a>ファミリ名などと解釈します。そして <code>'(:family "sans serif" :size 10)</code> などの（複数要素からなる）リストの場合、名前付きパラメータの羅列として解釈します。</p>
+<p>　それぞれについて細かい説明を始める前に、 <code>:font 24</code> といった記述がどのように扱われるのかを説明する必要があるでしょう。 <code>:font</code> によるこれらの指定は、実は全て <a class='autolink' href='#673GXF9YiIQ'>make-font</a> 関数に渡されます。<a class='autolink' href='#673GXF9YiIQ'>make-font</a> 関数は、渡されたのが単一の値の場合には、数値ならサイズ、キーワードなら色名、文字列なら<a class='autolink' href='#3kZ9FkounyK'>フォント</a>ファミリ名などと解釈します。そして <code>'(:family "sans serif" :size 10)</code> などの（複数要素からなる）リストの場合、名前付きパラメータの羅列として解釈します。</p>
 <p>　<a class='autolink' href='#673GXF9YiIQ'>make-font</a> 関数はその結果として「<a class='autolink' href='#3kZ9FkounyK'>フォント</a>情報オブジェクト」を返しますが、その<a class='autolink' href='#3kZ9FkounyK'>フォント</a>情報オブジェクトを <a class='autolink' href='#673GXF9YiIQ'>make-font</a> 関数自身に渡した場合、そのまま返すようになっています。そのため、自分で明示的に <a class='autolink' href='#673GXF9YiIQ'>make-font</a> 関数を使って<a class='autolink' href='#3kZ9FkounyK'>フォント</a>情報オブジェクトを作成し、Common LISP 変数に格納して複数の図形要素で使用する、ということも可能です。以下のように。この関数の詳細は「<a href='#673GXF9YiIQ'>13.1.32  make-font 関数</a>」を参照してください。</p>
 <pre class='code'>
 (<span class='keyword1'>let</span> ((fnt (make-font <span class='keyword3'>:family</span> <span class='literal'>"Courier New, monospace"</span> <span class='keyword3'>:size</span> 12)))
@@ -9555,6 +9555,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <ul>
 <li><a class='autolink' href='#3kZ9FkounyK'>フォント</a>情報が渡された場合、それをそのまま返します</li>
 <li>数値 N が渡された場合、 <code>(make-font :size N)</code> を返します</li>
+<li>キーワードシンボル CLR が渡された場合、 <code>(make-font :fill CLR)</code> を返します</li>
 <li>リスト lst が渡された場合、 <code>(apply #'make-font lst)</code> を返します</li>
 <li>上記のいずれでもない prm の場合、 <code>(make-font :family prm)</code> を返します</li>
 </ul>
@@ -12953,9 +12954,11 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li>ENHANCE : ml-note の接続先として point 値を指定可能にする機能追加</li>
 </ul>
 </li>
-<li><strong>2022/12/26 - version 0.023</strong>
+<li><strong>2023/03/12 - version 0.023</strong>
 <ul>
 <li>ENHANCE : <a class='autolink' href='#eFhVs4WwYUG'>コネクタ</a>で接続先として point 値を指定可能にする機能追加</li>
+<li>ENHANCE : </li>
+<li><strong>MINOR INCOMPATIBLE CHANGE : <a class='autolink' href='#673GXF9YiIQ'>make-font</a> 関数に単一パラメータとしてキーワードパラメータを与えた場合の扱いを（:fill に）変更</strong></li>
 </ul>
 </li>
 </ul>
