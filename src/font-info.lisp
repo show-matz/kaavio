@@ -110,6 +110,7 @@
 		(cond
 		  ((typep param 'font-info) param)
 		  ((numberp param) (make-font :size   param))
+		  ((keywordp param) (make-font :fill  param))
 		  ((listp   param) (apply #'make-font param))
 		  (t               (make-font :family param))))
 	  (if (and (null params) *default-font*)
