@@ -203,62 +203,63 @@
 		  (height (canvas-height canvas)))
 	  (macrolet ((register-entity (entity)
 				   `(check-and-draw-local-entity ,entity canvas writer)))
-		(with-slots (center rows cols stroke fills font texts) tbl
-		  ;; filling ----------------------------------------------
-		  ;; 「同じ色指定が連続するなら g tag でまとめたい」が、keyword とは限らないので断念
-		  (unless (and (= 2 (length fills))
-					   (eq :none (slot-value (cadr fills) 'kaavio::color)))
-			(writer-write writer "<g stroke='none'>")
-			(writer-incr-level writer)
-			(let ((*mute-stroke* t))
-			  (labels ((fill-impl (lst)
-						 (when lst
-						   (let ((kwd  (car  lst))
-								 (info (cadr lst)))
-							 (multiple-value-bind (c w h)
-								 (table-get-sub-area kwd center
-													 rows cols (canvas-topleft canvas))
-							   (when (and c w h)
-								 (rect c w h :fill info :stroke :none)))
-							 (fill-impl (cddr lst))))))
-				(fill-impl fills)))
-			(writer-decr-level writer)
-			(writer-write writer "</g>"))
-		  ;; draw lines -------------------------------------------
-		  ;; ToDo : lines の custom drawing をサポートしたい（これは壮大）
-		  (unless (eq :none (slot-value stroke 'color))
-			(writer-write writer "<g " (to-property-strings stroke) " fill='none'>")
-			(writer-incr-level writer)
-			(let ((*mute-fill*   t)
-				  (*mute-stroke* t))
-			  (rect center (reduce #'+ cols)  (reduce #'+ rows) :fill :none :stroke stroke)
-			  (let ((y 0))
-				(dolist (r (butlast rows))
-				  (incf y r)
-				  (line `((0 ,y) (,width ,y)) :stroke stroke)))
-			  (let ((x 0))
-				(dolist (c (butlast cols))
-				  (incf x c)
-				  (line `((,x ,0) (,x ,height)) :stroke stroke))))
-			(writer-decr-level writer)
-			(writer-write writer "</g>"))
-		  ;; draw texts -------------------------------------------
-		  (when texts
-			(writer-write writer "<g " (to-property-strings font) " >")
-			(writer-incr-level writer)
-			(let ((r 0))
-			  (dolist (row texts)
-				(let ((c 0))
-				  (dolist (data row)
-					(when data
-					  (multiple-value-bind (pt w h) (table-get-cell-area r c rows cols)
-						(multiple-value-bind (pt txt align fnt) (table-fix-text pt w h data font)
-						  (let ((*mute-font* (null fnt)))
-							(text pt txt :align align :font (or fnt font))))))
-					(incf c)))
-				(incf r)))
-			(writer-decr-level writer)
-			(writer-write writer "</g>"))))))
+		(with-slots (rows cols stroke fills font texts) tbl
+		  (let ((center (attribute-center tbl)))
+			;; filling ----------------------------------------------
+			;; 「同じ色指定が連続するなら g tag でまとめたい」が、keyword とは限らないので断念
+			(unless (and (= 2 (length fills))
+						 (eq :none (slot-value (cadr fills) 'kaavio::color)))
+			  (writer-write writer "<g stroke='none'>")
+			  (writer-incr-level writer)
+			  (let ((*mute-stroke* t))
+				(labels ((fill-impl (lst)
+						   (when lst
+							 (let ((kwd  (car  lst))
+								   (info (cadr lst)))
+							   (multiple-value-bind (c w h)
+								   (table-get-sub-area kwd center
+													   rows cols (canvas-topleft canvas))
+								 (when (and c w h)
+								   (rect c w h :fill info :stroke :none)))
+							   (fill-impl (cddr lst))))))
+				  (fill-impl fills)))
+			  (writer-decr-level writer)
+			  (writer-write writer "</g>"))
+			;; draw lines -------------------------------------------
+			;; ToDo : lines の custom drawing をサポートしたい（これは壮大）
+			(unless (eq :none (slot-value stroke 'color))
+			  (writer-write writer "<g " (to-property-strings stroke) " fill='none'>")
+			  (writer-incr-level writer)
+			  (let ((*mute-fill*   t)
+					(*mute-stroke* t))
+				(rect center (reduce #'+ cols)  (reduce #'+ rows) :fill :none :stroke stroke)
+				(let ((y 0))
+				  (dolist (r (butlast rows))
+					(incf y r)
+					(line `((0 ,y) (,width ,y)) :stroke stroke)))
+				(let ((x 0))
+				  (dolist (c (butlast cols))
+					(incf x c)
+					(line `((,x ,0) (,x ,height)) :stroke stroke))))
+			  (writer-decr-level writer)
+			  (writer-write writer "</g>"))
+			;; draw texts -------------------------------------------
+			(when texts
+			  (writer-write writer "<g " (to-property-strings font) " >")
+			  (writer-incr-level writer)
+			  (let ((r 0))
+				(dolist (row texts)
+				  (let ((c 0))
+					(dolist (data row)
+					  (when data
+						(multiple-value-bind (pt w h) (table-get-cell-area r c rows cols)
+						  (multiple-value-bind (pt txt align fnt) (table-fix-text pt w h data font)
+							(let ((*mute-font* (null fnt)))
+							  (text pt txt :align align :font (or fnt font))))))
+					  (incf c)))
+				  (incf r)))
+			  (writer-decr-level writer)
+			  (writer-write writer "</g>")))))))
   nil)
   
 
@@ -270,9 +271,9 @@
 #|
 #|EXPORT|#				:table
  |#
-(defmacro table (center rows cols &key font fills stroke texts layer id)
+(defmacro table (position rows cols &key pivot font fills stroke texts layer id)
   `(register-entity (make-instance 'kaavio:table
-								   :center ,center
+								   :position ,position :pivot ,pivot
 								   :width  (apply #'+ ,cols)
 								   :height (apply #'+ ,rows)
 								   :rows ,rows :cols ,cols
@@ -341,7 +342,7 @@
 		(g-topleft (gensym "TOPLEFT")))
 	`(let ((,g-tbl (kaavio::dict-get-entity (kaavio::get-dictionary) ,id)))
 	   (multiple-value-bind (,g-center ,g-width ,g-height)
-				(kaavio::table-get-sub-area ,kwd (slot-value ,g-tbl 'kaavio::center)
+				(kaavio::table-get-sub-area ,kwd (kaavio:attribute-center ,g-tbl)
 												 (slot-value ,g-tbl 'kaavio::rows)
 												 (slot-value ,g-tbl 'kaavio::cols)
 												 (attribute-topleft ,g-tbl))

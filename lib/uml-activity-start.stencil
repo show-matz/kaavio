@@ -31,9 +31,9 @@
 ;; macro uml-activity-start
 ;;
 ;;------------------------------------------------------------------------------
-(defmacro uml-activity-start (center &key radius fill link layer filter id)
+(defmacro uml-activity-start (position &key radius pivot fill link layer filter id)
   `(register-entity (make-instance 'uml-activity-start
-								   :center ,center
+								   :position ,position :pivot ,pivot
 								   :radius (or ,radius *uml-activity-start-radius*)
 								   :fill   (or ,fill   *uml-activity-start-fill* *default-fill*)
 								   :stroke :none :link ,link :layer ,layer :filter ,filter :id ,id)))

@@ -59,9 +59,9 @@
 ;; macro uml-interface
 ;;
 ;;------------------------------------------------------------------------------
-(defmacro uml-interface (center name &key fill stroke link layer id)
+(defmacro uml-interface (position name &key pivot fill stroke link layer id)
   `(register-entity (make-instance 'uml-interface
-								   :center ,center
+								   :position ,position :pivot ,pivot
 								   :radius *uml-interface-radius*
 								   :name ,name
 								   :fill   (or ,fill   *uml-interface-fill*)
@@ -79,7 +79,7 @@
 
 (defclass uml-interface-socket (kaavio:entity)
   ((name			:initform nil :initarg :name)	; (or nil label-inf)
-   (center			:initform nil :initarg :center)	; point
+   (position		:initform nil :initarg :position) ; point
    (from			:initform nil :initarg :from)	; (or symbol point)
    (style			:initform nil :initarg :style)	; keyword - :(CC|[BLRT][123]?[BLRT][123]?) ( keyword -> list )
    (spacing			:initform nil :initarg :spacing) ; list
@@ -101,7 +101,7 @@
 (defmethod check ((sock uml-interface-socket) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (with-slots (name center from style stroke spacing
+  (with-slots (name position from style stroke spacing
 					points canvas-cache dummy-circle #|degree|#) sock
 	(check-object name   canvas dict :nullable nil :class label-info)
 	(unless (point-p from)
@@ -112,7 +112,7 @@
 	(setf spacing (if (numberp spacing) (list spacing) spacing))
 	(when (remove-if #'numberp spacing)
 	  (throw-exception "Invalid spacing : '~A'." spacing))
-	(setf center (canvas-fix-point canvas center))
+	(setf position (canvas-fix-point canvas position))
 	(setf style (kaavio::check-and-fix-connector-style style))
 	(setf canvas-cache (copy-canvas canvas))
 	(let ((from-target (if (point-p from)
@@ -124,7 +124,7 @@
 							   (throw-exception "Entity '~A' is not shape object." from))
 							 entity))))
 	  (setf dummy-circle (make-instance 'kaavio:circle
-										:center center
+										:position position
 										:radius *uml-interface-radius*))
 	  (setf points (resolve-connector-points from-target dummy-circle style spacing))))
   nil)
@@ -136,7 +136,7 @@
 
 (defmethod draw-entity ((sock uml-interface-socket) writer)
   (pre-draw sock writer)
-  (with-slots (name center stroke
+  (with-slots (name position stroke
 				canvas-cache dummy-circle points degree) sock
 	(let ((canvas canvas-cache))
 	  (declare (special canvas))
@@ -145,11 +145,11 @@
 		(let ((*default-stroke* stroke))
 		  (line points)
 		  (multiple-value-bind (deg1 deg2)
-			  (calculate-degrees (slot-value dummy-circle 'kaavio::center) points degree)
+			  (calculate-degrees (slot-value dummy-circle 'kaavio::position) points degree)
 			(when (<= 360 deg1) (decf deg1 360))
 			(when (<= 360 deg2) (decf deg2 360))
 			(let ((radius  (slot-value dummy-circle 'kaavio::radius)))
-			  (arc center radius radius 0 deg1 deg2)))
+			  (arc position radius radius 0 deg1 deg2)))
 		  (when name
 			(draw-label name dummy-circle writer))))))    ;;ToDo : font OK...?
   (post-draw sock writer)
@@ -162,9 +162,9 @@
 ;; macro uml-interface-socket
 ;;
 ;;------------------------------------------------------------------------------
-(defmacro uml-interface-socket (center from name &key style spacing stroke layer id)
+(defmacro uml-interface-socket (position from name &key style spacing stroke layer id)
   `(register-entity (make-instance 'uml-interface-socket
-								   :name ,name :center ,center :from ,from
+								   :name ,name :position ,position :from ,from
 								   :style ,style :spacing ,spacing
 								   :stroke ,stroke :layer ,layer :id ,id)))
 

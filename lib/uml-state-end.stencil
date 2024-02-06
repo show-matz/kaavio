@@ -39,9 +39,9 @@
 ;; macro uml-state-end
 ;;
 ;;------------------------------------------------------------------------------
-(defmacro uml-state-end (center &key radius ratio fill stroke link layer id)
+(defmacro uml-state-end (position &key pivot radius ratio fill stroke link layer id)
   `(register-entity (make-instance 'uml-state-end
-								   :center ,center
+								   :position ,position :pivot ,pivot
 								   :radius (or ,radius *uml-state-end-radius*)
 								   :ratio  (or ,ratio  *uml-state-end-ratio*)
 								   :fill   (or ,fill   *uml-state-end-fill*   *default-fill*)

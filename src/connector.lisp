@@ -564,7 +564,7 @@
 (defun resolve-connector-points (from dest style spacing)
   (labels ((create-dummy-rect (x y)
 			 (make-instance 'kaavio:rectangle
-							:center (make-point x y :absolute)
+							:pivot (make-point x y :absolute)
 							:width 0.01 :height 0.01 :rx 0 :ry 0))    ; 0.01 ... OK?
 		   (fix-target (target)
 			 (cond

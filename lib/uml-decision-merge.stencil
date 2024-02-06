@@ -51,10 +51,11 @@
   (call-next-method))
 
 (defmethod shape-connect-point ((obj uml-decision-merge) type1 type2 arg)
-  (with-slots (kaavio::center kaavio::text kaavio::width kaavio::height) obj
-    (if (string= "" kaavio::text)
-		(kaavio::diamond-connect-point   kaavio::center kaavio::width kaavio::height type1 type2 arg)
-		(kaavio::rectangle-connect-point kaavio::center kaavio::width kaavio::height type1 type2 arg))))
+  (with-slots (kaavio::text kaavio::width kaavio::height) obj
+	(let ((center (attribute-center obj)))
+      (if (string= "" kaavio::text)
+		  (kaavio::diamond-connect-point   center kaavio::width kaavio::height type1 type2 arg)
+		  (kaavio::rectangle-connect-point center kaavio::width kaavio::height type1 type2 arg)))))
   
 ;;MEMO : use impelementation of shape...
 ;;(defmethod shape-get-subcanvas ((obj uml-decision-merge)) ...)
@@ -143,10 +144,11 @@
 ;; macro uml-decision & uml-merge
 ;;
 ;;-------------------------------------------------------------------------------
-(defmacro uml-decision (center &key text width height margin
+(defmacro uml-decision (position &key pivot text width height margin
 									font fill stroke link layer filter id)
   `(register-entity (make-instance 'uml-decision-merge
-								   :center ,center :text ,text :keyword nil
+								   :position ,position :pivot ,pivot
+								   :text ,text :keyword nil
 								   :width ,width :height ,height
 								   :margin  (or ,margin *uml-decision-merge-margin*)
 								   :font    (or ,font   *uml-decision-merge-font*)
@@ -154,10 +156,11 @@
 								   :stroke	(or ,stroke *uml-decision-merge-stroke*)
 								   :link ,link :layer ,layer :filter ,filter :id ,id)))
 
-(defmacro uml-merge (center &key width height margin
+(defmacro uml-merge (position &key pivot width height margin
 								 font fill stroke link layer filter id)
   `(register-entity (make-instance 'uml-decision-merge
-								   :center ,center :text nil :keyword nil
+								   :position ,position :pivot ,pivot
+								   :text nil :keyword nil
 								   :width ,width :height ,height
 								   :margin  (or ,margin *uml-decision-merge-margin*)
 								   :font    (or ,font   *uml-decision-merge-font*)

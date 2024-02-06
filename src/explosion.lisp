@@ -139,10 +139,10 @@
 #|
 #|EXPORT|#				:explosion1
  |#
-(defmacro explosion1 (center width height text
-						 &key font fill stroke link rotate layer id filter contents)
+(defmacro explosion1 (position width height text
+						 &key pivot font fill stroke link rotate layer id filter contents)
   (let ((code `(register-entity (make-instance 'explosion
-											   :pattern 1 :center ,center
+											   :pattern 1 :position ,position :pivot ,pivot
 											   :width ,width :height ,height
 											   :text ,text
 											   :align  :center :valign :center
@@ -162,10 +162,10 @@
 #|
 #|EXPORT|#				:explosion2
  |#
-(defmacro explosion2 (center width height text
-						 &key font fill stroke link rotate layer id filter contents)
+(defmacro explosion2 (position width height text
+						 &key pivot font fill stroke link rotate layer id filter contents)
   (let ((code `(register-entity (make-instance 'explosion
-											   :pattern 2 :center ,center
+											   :pattern 2 :position ,position :pivot ,pivot
 											   :width ,width :height ,height
 											   :text ,text
 											   :align  :center :valign :center

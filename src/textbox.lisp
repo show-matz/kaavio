@@ -86,12 +86,12 @@
 #|
 #|EXPORT|#				:textbox
  |#
-(defmacro textbox (center text &key width height no-frame rx ry
+(defmacro textbox (position text &key pivot width height no-frame rx ry
 									align valign margin font fill stroke
 									link rotate layer id filter contents)
   (let ((code `(register-entity (make-instance 'textbox
 											   :no-frame ,no-frame
-											   :center ,center
+											   :position ,position :pivot ,pivot
 											   :width ,width :height ,height
 											   :text ,text
 											   :rx     (or ,rx     *default-textbox-rx*)

@@ -15,9 +15,9 @@
 ;; macro uml-state-begin
 ;;
 ;;------------------------------------------------------------------------------
-(defmacro uml-state-begin (center &key radius fill link layer id)
+(defmacro uml-state-begin (position &key pivot radius fill link layer id)
   `(register-entity (make-instance 'uml-state-begin
-								   :center ,center
+								   :position ,position :pivot ,pivot
 								   :radius (or ,radius *uml-state-begin-radius*)
 								   :fill (or ,fill *uml-state-begin-fill* *default-fill*)
 								   :stroke :none :link ,link :layer ,layer :id ,id)))

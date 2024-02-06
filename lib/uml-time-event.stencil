@@ -90,10 +90,10 @@
 ;; macro uml-time-event
 ;;
 ;;------------------------------------------------------------------------------
-(defmacro uml-time-event (center &key label width height
+(defmacro uml-time-event (position &key label pivot width height
 									  fill stroke link filter layer id)
   `(register-entity (make-instance 'uml-time-event
-								   :center ,center :label ,label
+								   :position ,position :pivot ,pivot :label ,label
 								   :width  (or ,width  *uml-time-event-width*)
 								   :height (or ,height *uml-time-event-height*)
 								   :fill ,fill :stroke ,stroke

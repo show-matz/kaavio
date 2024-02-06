@@ -98,7 +98,8 @@
 ;;
 ;;------------------------------------------------------------------------------
 (defclass ellipse (shape)
-  ((center		:initform   0 :initarg :center)		; point
+  ((position	:initform nil :initarg :position)	; point
+   (pivot		:initform :CC :initarg :pivot)		; keyword
    (radius-x	:initform   0 :initarg :radius-x)	; number
    (radius-y	:initform   0 :initarg :radius-y)	; number
    (fill		:initform nil :initarg :fill)		; (or nil fill-info)
@@ -107,7 +108,8 @@
 
 (defmethod initialize-instance :after ((ent ellipse) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (fill stroke filter layer) ent
+  (with-slots (pivot fill stroke filter layer) ent
+	(setf pivot  (or pivot :CC))
 	(setf fill   (make-fill   (or fill   *default-fill*   :none)))
 	(setf stroke (make-stroke (or stroke *default-stroke* :none)))
 	(setf filter (if (eq filter :none)
@@ -122,13 +124,14 @@
   (declare (ignorable dict))
   ;; this method must call super class' one.
   (call-next-method)
-  (with-slots (center radius-x radius-y fill stroke filter) shp
+  (with-slots (position pivot radius-x radius-y fill stroke filter) shp
+	(check-member pivot     :nullable nil :types keyword)
 	(check-member radius-x  :nullable nil :types number)
 	(check-member radius-y  :nullable nil :types number)
 	(check-object fill      canvas dict :nullable nil :class   fill-info)
 	(check-object stroke    canvas dict :nullable nil :class stroke-info)
 	(check-member filter    :nullable   t :types keyword)
-	(setf center (canvas-fix-point canvas center)))
+	(setf position (canvas-fix-point canvas position)))
   nil)
 
 (defmethod attribute-width ((shp ellipse))
@@ -138,7 +141,8 @@
   (* 2 (slot-value shp 'radius-y)))
 
 (defmethod attribute-center ((shp ellipse))
-  (slot-value shp 'center))
+  (with-slots (position pivot radius-x radius-y) shp
+	(shape-calc-center-using-pivot position pivot (* 2 radius-x) (* 2 radius-y))))
 
 
 (defmethod shape-connect-point ((shp ellipse) type1 type2 arg)
@@ -153,9 +157,10 @@
 ;;(defmethod entity-composition-p ((shp ellipse)) ...)
   
 (defmethod draw-entity ((shp ellipse) writer)
-  (with-slots (center radius-x radius-y fill stroke filter) shp
+  (with-slots (radius-x radius-y fill stroke filter) shp
 	(let ((id (and (not (entity-composition-p shp))
-				   (slot-value shp 'id))))
+				   (slot-value shp 'id)))
+		  (center (attribute-center shp)))
 	  (pre-draw shp writer)
 	  (writer-write writer
 					"<ellipse "
@@ -180,10 +185,11 @@
 #|
 #|EXPORT|#				:ellipse
  |#
-(defmacro ellipse (center rx ry
-				   &key fill stroke rotate link layer id filter contents)
+(defmacro ellipse (position rx ry
+				   &key pivot fill stroke rotate link layer id filter contents)
   (let ((code `(register-entity (make-instance 'kaavio:ellipse
-											   :center ,center :rotate ,rotate
+											   :position ,position
+											   :pivot ,pivot :rotate ,rotate
 											   :radius-x ,rx :radius-y ,ry
 											   :fill ,fill :stroke ,stroke
 											   :filter ,filter :link ,link

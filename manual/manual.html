@@ -195,13 +195,13 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <ul>
 <li><code>diagram</code> で「幅 300、高さ 150」の画像を作成</li>
 <li><code>grid</code> で背景にグリッド線を描画</li>
-<li><code>rect</code> で<a class='autolink' href='#kJonRG8GtHF'>四角形</a>を作成 - 中心位置は左上から (50, 50)、大きさは幅 80、高さ 60
+<li><code>rect</code> で<a class='autolink' href='#kJonRG8GtHF'>四角形</a>を作成 - 位置は左上から (50, 50)、大きさは幅 80、高さ 60
 <ul>
 <li><code>:fill</code> で塗り潰しの色を powderblue に指定</li>
 <li><code>:id</code> でこれに x という ID を設定</li>
 </ul>
 </li>
-<li><code>circle</code> で円を作成 - 中心位置は左上から (250, 100)、半径は 40
+<li><code>circle</code> で円を作成 - 位置は左上から (250, 100)、半径は 40
 <ul>
 <li><code>:fill</code> で塗り潰しの色を moccasin に指定</li>
 <li><code>:id</code> でこれに y という ID を設定</li>
@@ -222,10 +222,11 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p>　その後ろに続く <code>:fill :powderblue</code> や <code>:id :x</code> といったものは、全て「名前付きパラメータ<sup><a name='footnote_ref4' href='#footnote4'>4</a></sup>」です。kaavio では多くのパラメータが省略可能で、それらの省略可能パラメータを指定する場合はパラメータ名も書いてあげる必要があります。なお、 <code>:fill</code> のようにコロンで始まる名前は「キーワード」と呼ばれるもので、省略可能パラメータの名前はキーワードで指定します。</p>
 <p>　では、この <a class='autolink' href='#kfqxxboPAuR'>rect</a> の省略可能なパラメータにはどんなものがあるのでしょうか。以下に <a class='autolink' href='#kfqxxboPAuR'>rect</a> の全体を示します。</p>
 <pre class='code'>
-(<span class='keyword1'>defmacro</span> <span class='keyword5'>rect</span> (center width height
-                <span class='keyword2'>&amp;key</span> rx ry fill stroke rotate link layer id filter contents) ...)
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>rect</span> (position width height
+                         <span class='keyword2'>&amp;key</span> pivot rx ry fill stroke rotate
+                              link layer id filter contents) ...)
 </pre>
-<p>　先頭の <code>defmacro</code> はひとまず気にしないでください。<a class='autolink' href='#kfqxxboPAuR'>rect</a> に続く括弧の中がパラメータの全体で、 <code>center width height</code> が必須パラメータ、 <code>&amp;key</code> 以降の全てが省略可能なパラメータです。 <code>:fill</code> と <code>:id</code> はもう使いました。その他のパラメータについてはまた別のところで説明します。</p>
+<p>　先頭の <code>defmacro</code> はひとまず気にしないでください。<a class='autolink' href='#kfqxxboPAuR'>rect</a> に続く括弧の中がパラメータの全体で、 <code>position width height</code> が必須パラメータ、 <code>&amp;key</code> 以降の全てが省略可能なパラメータです。 <code>:fill</code> と <code>:id</code> はもう使いました。その他のパラメータについてはまた別のところで説明します。</p>
 <p>　　</p>
 <p>　次のサンプルはもう少し複雑です。</p>
 <div align='center'>
@@ -577,15 +578,17 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </details>
 <p>　<a class='autolink' href='#kfqxxboPAuR'>rect</a> のパラメータ構成は以下の通りです。</p>
 <pre class='code'>
-(<span class='keyword1'>defmacro</span> <span class='keyword5'>rect</span> (center width height
-                <span class='keyword2'>&amp;key</span> rx ry fill stroke rotate link layer id filter contents) ... )
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>rect</span> (position width height
+                <span class='keyword2'>&amp;key</span> pivot rx ry fill stroke
+                     rotate link layer id filter contents) ... )
 </pre>
 <p class='tbl_title'><a name='iamyehuk48Q'></a>Table.3-1 rect のパラメータ</p>
 <table align='center'>
 <tr style="font-size: 14;"><th>パラメータ</th><th>説明</th></tr>
-<tr style="font-size: 14;"><td nowrap align='left'><code>center</code></td><td align='left'>中心点を指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>position</code></td><td align='left'>描画の基準点を指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>width</code></td><td align='left'>幅を数値で指定します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>height</code></td><td align='left'>高さを数値で指定します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>pivot</code></td><td align='left'>基準点が<a class='autolink' href='#kJonRG8GtHF'>四角形</a>のどこにくるように描画するかを指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>rx, ry</code></td><td align='left'>角を丸くしたい場合に、角の x 半径（rx）と y 半径（ry）を数値で指定します。<br>rx と ry のどちらかだけを指定すると、もう一方も同じであると見なされます。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>fill</code></td><td align='left'>内部の塗り潰しを指定します。詳細は「<a href='#dBUd7L4C3dx'>11.3  フィル</a>」を参照してください。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>stroke</code></td><td align='left'>外枠を描画する線を指定します。詳細は「<a href='#4HFjqmTuIU6'>11.2  ストローク</a>」を参照してください。</td></tr>
@@ -625,14 +628,15 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </details>
 <p>　<a class='autolink' href='#11HosNz8eun'>circle</a> のパラメータ構成は以下の通りです。</p>
 <pre class='code'>
-(<span class='keyword1'>defmacro</span> <span class='keyword5'>circle</span> (center radius
-                  <span class='keyword2'>&amp;key</span> fill stroke link layer id filter contents) ... )
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>circle</span> (position radius
+                  <span class='keyword2'>&amp;key</span> pivot fill stroke link layer id filter contents) ... )
 </pre>
 <p class='tbl_title'><a name='loDSbBHFyGi'></a>Table.3-2 circle のパラメータ</p>
 <table align='center'>
 <tr style="font-size: 14;"><th>パラメータ</th><th>説明</th></tr>
-<tr style="font-size: 14;"><td nowrap align='left'><code>center</code></td><td align='left'>中心点を指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>position</code></td><td align='left'>描画の基準点を指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>radius</code></td><td align='left'>半径を数値で指定します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>pivot</code></td><td align='left'>基準点が<a class='autolink' href='#8UQowBxrcaE'>正円</a>のどこにくるように描画するかを指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>fill</code></td><td align='left'>内部の塗り潰しを指定します。詳細は「<a href='#dBUd7L4C3dx'>11.3  フィル</a>」を参照してください。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>stroke</code></td><td align='left'>線を指定します。詳細は「<a href='#4HFjqmTuIU6'>11.2  ストローク</a>」を参照してください。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>link</code></td><td align='left'><a class='autolink' href='#fbLcMRTVXac'>リンク</a>にする場合、<a class='autolink' href='#fbLcMRTVXac'>リンク</a>先を指定します。詳細は「<a href='#fbLcMRTVXac'>11.9  リンク</a>」を参照してください。</td></tr>
@@ -670,15 +674,16 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </details>
 <p>　<a class='autolink' href='#apm48rnJRU4'>ellipse</a> のパラメータ構成は以下の通りです。</p>
 <pre class='code'>
-(<span class='keyword1'>defmacro</span> <span class='keyword5'>ellipse</span> (center rx ry
-                   <span class='keyword2'>&amp;key</span> fill stroke link layer id filter contents) ... )
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>ellipse</span> (position rx ry
+                   <span class='keyword2'>&amp;key</span> pivot fill stroke link layer id filter contents) ... )
 </pre>
 <p class='tbl_title'><a name='7ouMctHfRGP'></a>Table.3-3 ellipse のパラメータ</p>
 <table align='center'>
 <tr style="font-size: 14;"><th>パラメータ</th><th>説明</th></tr>
-<tr style="font-size: 14;"><td nowrap align='left'><code>center</code></td><td align='left'>中心点を指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>position</code></td><td align='left'>描画の基準点を指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>rx</code></td><td align='left'>x 軸方向の半径を数値で指定します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>ry</code></td><td align='left'>y 軸方向の半径を数値で指定します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>pivot</code></td><td align='left'>基準点が<a class='autolink' href='#7YzIcjhyGKN'>楕円</a>のどこにくるように描画するかを指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>fill</code></td><td align='left'>内部の塗り潰しを指定します。詳細は「<a href='#dBUd7L4C3dx'>11.3  フィル</a>」を参照してください。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>stroke</code></td><td align='left'>線を指定します。詳細は「<a href='#4HFjqmTuIU6'>11.2  ストローク</a>」を参照してください。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>rotate</code></td><td align='left'>回転させる場合、その角度を指定します。詳細は「<a href='#heEi5Lc5BX9'>11.6  回転</a>」を参照してください。</td></tr>
@@ -1021,15 +1026,16 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </details>
 <p>　<a class='autolink' href='#8Rdvc2A2vQV'>diamond</a> のパラメータ構成は以下の通りです。</p>
 <pre class='code'>
-(<span class='keyword1'>defmacro</span> <span class='keyword5'>diamond</span> (center width height
-                   <span class='keyword2'>&amp;key</span> fill stroke rotate link layer id filter contents) ... )
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>diamond</span> (position width height
+                   <span class='keyword2'>&amp;key</span> pivot fill stroke rotate link layer id filter contents) ... )
 </pre>
 <p class='tbl_title'><a name='iARD0ysYKSD'></a>Table.3-8 diamond のパラメータ</p>
 <table align='center'>
 <tr style="font-size: 14;"><th>パラメータ</th><th>説明</th></tr>
-<tr style="font-size: 14;"><td nowrap align='left'><code>center</code></td><td align='left'>中心点を指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>position</code></td><td align='left'>描画の基準点を指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>width</code></td><td align='left'>幅を数値で指定します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>height</code></td><td align='left'>高さを数値で指定します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>pivot</code></td><td align='left'>基準点が<a class='autolink' href='#4dFMjynUMYw'>ひし形</a>のどこにくるように描画するかを指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>fill</code></td><td align='left'>内部の塗り潰しを指定します。詳細は「<a href='#dBUd7L4C3dx'>11.3  フィル</a>」を参照してください。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>stroke</code></td><td align='left'>外枠を描画する線を指定します。詳細は「<a href='#4HFjqmTuIU6'>11.2  ストローク</a>」を参照してください。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>rotate</code></td><td align='left'>回転させる場合、その角度を指定します。詳細は「<a href='#heEi5Lc5BX9'>11.6  回転</a>」を参照してください。</td></tr>
@@ -1070,17 +1076,18 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </details>
 <p>　<a class='autolink' href='#3nsv9QwrjWc'>parallelogram</a> のパラメータ構成は以下の通りです。</p>
 <pre class='code'>
-(<span class='keyword1'>defmacro</span> <span class='keyword5'>parallelogram</span> (center width height direction offset
-                         <span class='keyword2'>&amp;key</span> fill stroke rotate link layer id filter contents) ... )
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>parallelogram</span> (position width height direction offset
+                         <span class='keyword2'>&amp;key</span> pivot fill stroke rotate link layer id filter contents) ... )
 </pre>
 <p class='tbl_title'><a name='7o40kH16ufr'></a>Table.3-9 parallelogram のパラメータ</p>
 <table align='center'>
 <tr style="font-size: 14;"><th>パラメータ</th><th>説明</th></tr>
-<tr style="font-size: 14;"><td nowrap align='left'><code>center</code></td><td align='left'>中心点を指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>position</code></td><td align='left'>描画の基準点を指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>width</code></td><td align='left'>幅を数値で指定します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>height</code></td><td align='left'>高さを数値で指定します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>direction</code></td><td align='left'><a class='autolink' href='#8YR8CiywoW8'>平行四辺形</a>の「向き」を <code>:h</code> または <code>:v</code> で指定します。詳細は後述します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>offset</code></td><td align='left'><a class='autolink' href='#8YR8CiywoW8'>平行四辺形</a>の形状に関するオフセット値を数値で指定します。詳細は後述します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>pivot</code></td><td align='left'>基準点が<a class='autolink' href='#8YR8CiywoW8'>平行四辺形</a>のどこにくるように描画するかを指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>fill</code></td><td align='left'>内部の塗り潰しを指定します。詳細は「<a href='#dBUd7L4C3dx'>11.3  フィル</a>」を参照してください。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>stroke</code></td><td align='left'>外枠を描画する線を指定します。詳細は「<a href='#4HFjqmTuIU6'>11.2  ストローク</a>」を参照してください。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>rotate</code></td><td align='left'>回転させる場合、その角度を指定します。詳細は「<a href='#heEi5Lc5BX9'>11.6  回転</a>」を参照してください。</td></tr>
@@ -2097,16 +2104,17 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </details>
 <p>　<a class='autolink' href='#bDoLjzlcymv'>textbox</a> のパラメータ構成は以下の通りです。</p>
 <pre class='code'>
-(<span class='keyword1'>defmacro</span> <span class='keyword5'>textbox</span> (center text <span class='keyword2'>&amp;key</span> width height no-frame rx ry
-                                    align valign margin font fill stroke
-                                    link rotate layer id filter contents) ...)
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>textbox</span> (position text <span class='keyword2'>&amp;key</span> pivot width height no-frame rx ry
+                                      align valign margin font fill stroke
+                                      link rotate layer id filter contents) ...)
 </pre>
 <p>　　</p>
 <p class='tbl_title'><a name='hOloecoUbQv'></a>Table.4-3 textbox のパラメータ</p>
 <table align='center'>
 <tr style="font-size: 14;"><th>パラメータ</th><th>説明</th></tr>
-<tr style="font-size: 14;"><td nowrap align='left'><code>center</code></td><td align='left'>中心点を指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>position</code></td><td align='left'>描画の基準点を指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>text</code></td><td align='left'>内部に描画する<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>を文字列で指定します。改行は "~%" で表現します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>pivot</code></td><td align='left'>基準点が<a class='autolink' href='#e7hkC2YUaKe'>テキストボックス</a>のどこにくるように描画するかを指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>width</code></td><td align='left'>幅を自動決定せず、明示的に指定したい場合に数値で指定します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>height</code></td><td align='left'>高さを自動決定せず、明示的に指定したい場合に数値で指定します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>no-frame</code></td><td align='left'>ボックスを描画せず、<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>のみにしたい場合には <code>:no-frame t</code> と指定してください。<br>stroke や fill パラメータを無視して<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>のみを描画します。</td></tr>
@@ -2265,18 +2273,19 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </details>
 <p>　<a class='autolink' href='#90RLMmGxC1E'>document</a> のパラメータ構成は以下の通りです。</p>
 <pre class='code'>
-(<span class='keyword1'>defmacro</span> <span class='keyword5'>document</span> (center width height text
-                    <span class='keyword2'>&amp;key</span> depth align valign margin
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>document</span> (position width height text
+                    <span class='keyword2'>&amp;key</span> pivot depth align valign margin
                          font fill stroke link rotate layer id filter contents) ...)
 </pre>
 <p>　　</p>
 <p class='tbl_title'><a name='ig97hVZRe7F'></a>Table.4-4 document のパラメータ</p>
 <table align='center'>
 <tr style="font-size: 14;"><th>パラメータ</th><th>説明</th></tr>
-<tr style="font-size: 14;"><td nowrap align='left'><code>center</code></td><td align='left'>中心点を指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>position</code></td><td align='left'>描画の基準点を指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>width</code></td><td align='left'>幅を数値で指定します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>height</code></td><td align='left'>高さを数値で指定します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>text</code></td><td align='left'>内部に描画する<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>を文字列で指定します。改行は "~%" で表現します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>pivot</code></td><td align='left'>基準点が<a class='autolink' href='#jRjILbbJATV'>ドキュメント</a>のどこにくるように描画するかを指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>depth</code></td><td align='left'>下部の曲線の深さを指定します。省略した場合のデフォルト値は height の 1/3 です。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>align</code></td><td align='left'><a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>の水平方向のアライメントを <code>:left :center :right</code> のいずれかで指定します。<br>省略した場合のデフォルト値は <code>:center</code> です。詳細は後述します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>valign</code></td><td align='left'><a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>の垂直方向のアライメントを <code>:top :center :bottom</code> のいずれかで指定します。<br>省略した場合のデフォルト値は <code>:center</code> です。詳細は後述します。</td></tr>
@@ -2375,16 +2384,17 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </details>
 <p>　<a class='autolink' href='#ibcpYdwdMgr'>folder</a> のパラメータ構成は以下の通りです。</p>
 <pre class='code'>
-(<span class='keyword1'>defmacro</span> <span class='keyword5'>folder</span> (center text <span class='keyword2'>&amp;key</span> width height tab-width tab-height
-                                   align valign font fill stroke
-                                   margin link rotate layer filter id contents) ...)
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>folder</span> (position text <span class='keyword2'>&amp;key</span> pivot width height tab-width tab-height
+                                     align valign font fill stroke
+                                     margin link rotate layer filter id contents) ...)
 </pre>
 <p>　　</p>
 <p class='tbl_title'><a name='kkE7bE1pYOq'></a>Table.4-5 folder のパラメータ</p>
 <table align='center'>
 <tr style="font-size: 14;"><th>パラメータ</th><th>説明</th></tr>
-<tr style="font-size: 14;"><td nowrap align='left'><code>center</code></td><td align='left'>中心点を指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>position</code></td><td align='left'>描画の基準点を指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>text</code></td><td align='left'>内部に描画する<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>を文字列で指定します。改行は "~%" で表現します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>pivot</code></td><td align='left'>基準点が<a class='autolink' href='#5ZT843xJDiq'>フォルダ</a>のどこにくるように描画するかを指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>width</code></td><td align='left'>幅を自動決定せず、明示的に指定したい場合に数値で指定します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>height</code></td><td align='left'>高さを自動決定せず、明示的に指定したい場合に数値で指定します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>tab-width</code></td><td align='left'>左上に描画されるタブ部分の幅を指定します。省略した場合のデフォルト値は 50 です。</td></tr>
@@ -2488,15 +2498,16 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </details>
 <p>　<a class='autolink' href='#fHvMIHhbhwj'>person</a> のパラメータ構成は以下の通りです。</p>
 <pre class='code'>
-(<span class='keyword1'>defmacro</span> <span class='keyword5'>person</span> (center size <span class='keyword2'>&amp;key</span> fill stroke label
-                                   link rotate layer filter id) ...)
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>person</span> (position size <span class='keyword2'>&amp;key</span> pivot fill stroke label
+                                     link rotate layer filter id) ...)
 </pre>
 <p>　　</p>
 <p class='tbl_title'><a name='8zip6mgb4Ep'></a>Table.4-6 person のパラメータ</p>
 <table align='center'>
 <tr style="font-size: 14;"><th>パラメータ</th><th>説明</th></tr>
-<tr style="font-size: 14;"><td nowrap align='left'><code>center</code></td><td align='left'>中心点を指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>position</code></td><td align='left'>描画の基準点を指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>size</code></td><td align='left'>幅を数値で指定します。高さは自動的にこの 2 倍になります。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>pivot</code></td><td align='left'>基準点が<a class='autolink' href='#03WwbeGq0eH'>人物</a>のどこにくるように描画するかを指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>fill</code></td><td align='left'>内部の塗り潰しを指定します。詳細は「<a href='#dBUd7L4C3dx'>11.3  フィル</a>」を参照してください。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>stroke</code></td><td align='left'>外枠を描画する線を指定します。詳細は「<a href='#4HFjqmTuIU6'>11.2  ストローク</a>」を参照してください。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>label</code></td><td align='left'><a class='autolink' href='#lpCVEZ9kMoP'>ラベル</a>を付ける場合は指定します。詳細は「<a href='#lpCVEZ9kMoP'>11.11  ラベル</a>」を参照してください。</td></tr>
@@ -2583,18 +2594,19 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </details>
 <p>　<a class='autolink' href='#gciCjNOFE9t'>balloon</a> のパラメータ構成は以下の通りです。</p>
 <pre class='code'>
-(<span class='keyword1'>defmacro</span> <span class='keyword5'>balloon</span> (center text anchor <span class='keyword2'>&amp;key</span> width height round
-                                           align valign margin
-                                           font fill stroke link
-                                           rotate layer id filter contents) ...)
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>balloon</span> (position text anchor <span class='keyword2'>&amp;key</span> pivot width height round
+                                             align valign margin
+                                             font fill stroke link
+                                             rotate layer id filter contents) ...)
 </pre>
 <p>　　</p>
 <p class='tbl_title'><a name='g0CYyIsKwua'></a>Table.4-7 balloon のパラメータ</p>
 <table align='center'>
 <tr style="font-size: 14;"><th>パラメータ</th><th>説明</th></tr>
-<tr style="font-size: 14;"><td nowrap align='left'><code>center</code></td><td align='left'>中心点を指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>position</code></td><td align='left'>描画の基準点を指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>text</code></td><td align='left'>内部に描画する<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>を文字列で指定します。改行は "~%" で表現します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>anchor</code></td><td align='left'>引き出し線の位置を指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>pivot</code></td><td align='left'>基準点が<a class='autolink' href='#5IHcv4bxjLU'>吹き出し</a>のどこにくるように描画するかを指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>width</code></td><td align='left'>幅を自動決定せず、明示的に指定したい場合に数値で指定します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>height</code></td><td align='left'>高さを自動決定せず、明示的に指定したい場合に数値で指定します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>round</code></td><td align='left'>角を丸くしたい場合に、角の半径を数値で指定します。<br>省略した場合のデフォルト値は 0（つまり角を丸くしない）です。</td></tr>
@@ -2702,17 +2714,18 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </details>
 <p>　<a class='autolink' href='#b88IprendZX'>memo</a> のパラメータ構成は以下の通りです。</p>
 <pre class='code'>
-(<span class='keyword1'>defmacro</span> <span class='keyword5'>memo</span> (center text <span class='keyword2'>&amp;key</span> width height crease
-                                 align valign margin
-                                 font fill fill2 stroke link
-                                 rotate layer id filter contents) ...)
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>memo</span> (position text <span class='keyword2'>&amp;key</span> pivot width height crease
+                                   align valign margin
+                                   font fill fill2 stroke link
+                                   rotate layer id filter contents) ...)
 </pre>
 <p>　　</p>
 <p class='tbl_title'><a name='3XY7LS565dW'></a>Table.4-8 memo のパラメータ</p>
 <table align='center'>
 <tr style="font-size: 14;"><th>パラメータ</th><th>説明</th></tr>
-<tr style="font-size: 14;"><td nowrap align='left'><code>center</code></td><td align='left'>中心点を指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>position</code></td><td align='left'>描画の基準点を指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>text</code></td><td align='left'>内部に描画する<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>を文字列で指定します。改行は "~%" で表現します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>pivot</code></td><td align='left'>基準点が<a class='autolink' href='#0AVJhEKnK1M'>メモ</a>のどこにくるように描画するかを指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>width</code></td><td align='left'>幅を自動決定せず、明示的に指定したい場合に数値で指定します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>height</code></td><td align='left'>高さを自動決定せず、明示的に指定したい場合に数値で指定します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>crease</code></td><td align='left'>右下の折り目のサイズを数値で指定します。省略した場合のデフォルト値は 20 です。</td></tr>
@@ -2829,8 +2842,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </details>
 <p>　<a class='autolink' href='#849Vc2WODHJ'>cube</a> のパラメータ構成は以下の通りです。</p>
 <pre class='code'>
-(<span class='keyword1'>defmacro</span> <span class='keyword5'>cube</span> (center width height text
-                           <span class='keyword2'>&amp;key</span> depth align valign margin
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>cube</span> (position width height text
+                           <span class='keyword2'>&amp;key</span> pivot depth align valign margin
                                 font fill fill2 stroke link
                                 rotate layer id filter contents) ...)
 </pre>
@@ -2838,10 +2851,11 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p class='tbl_title'><a name='9OD0uLVcOgy'></a>Table.4-9 cube のパラメータ</p>
 <table align='center'>
 <tr style="font-size: 14;"><th>パラメータ</th><th>説明</th></tr>
-<tr style="font-size: 14;"><td nowrap align='left'><code>center</code></td><td align='left'>中心点を指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>position</code></td><td align='left'>描画の基準点を指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>width</code></td><td align='left'>幅を数値で指定します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>height</code></td><td align='left'>高さを数値で指定します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>text</code></td><td align='left'>内部に描画する<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>を文字列で指定します。改行は "~%" で表現します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>pivot</code></td><td align='left'>基準点が<a class='autolink' href='#hja1QJC0Ivb'>キューブ</a>のどこにくるように描画するかを指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>depth</code></td><td align='left'>上面および側面の大きさを数値で指定します。省略した場合のデフォルト値は height の 1/5 です。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>align</code></td><td align='left'><a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>の水平方向のアライメントを <code>:left :center :right</code> のいずれかで指定します。<br>省略した場合のデフォルト値は <code>:center</code> です。詳細は後述します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>valign</code></td><td align='left'><a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>の垂直方向のアライメントを <code>:top :center :bottom</code> のいずれかで指定します。<br>省略した場合のデフォルト値は <code>:center</code> です。詳細は後述します。</td></tr>
@@ -2950,19 +2964,20 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </details>
 <p>　<a class='autolink' href='#6uhS5DFbLU6'>cylinder</a> のパラメータ構成は以下の通りです。</p>
 <pre class='code'>
-(<span class='keyword1'>defmacro</span> <span class='keyword5'>cylinder</span> (center width height text
-                           <span class='keyword2'>&amp;key</span> depth align valign margin
-                                font fill stroke link
-                                rotate layer id filter contents) ...)
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>cylinder</span> (position width height text
+                             <span class='keyword2'>&amp;key</span> pivot depth align valign
+                                  margin font fill stroke link
+                                  rotate layer id filter contents) ...)
 </pre>
 <p>　　</p>
 <p class='tbl_title'><a name='lR2lSmJgEMn'></a>Table.4-10 cylinder のパラメータ</p>
 <table align='center'>
 <tr style="font-size: 14;"><th>パラメータ</th><th>説明</th></tr>
-<tr style="font-size: 14;"><td nowrap align='left'><code>center</code></td><td align='left'>中心点を指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>position</code></td><td align='left'>描画の基準点を指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>width</code></td><td align='left'>幅を数値で指定します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>height</code></td><td align='left'>高さを数値で指定します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>text</code></td><td align='left'>内部に描画する<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>を文字列で指定します。改行は "~%" で表現します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>pivot</code></td><td align='left'>基準点が<a class='autolink' href='#5ME1Xv0K4sM'>円柱</a>のどこにくるように描画するかを指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>depth</code></td><td align='left'>下部の曲線の深さを指定します。省略した場合のデフォルト値は height の 1/5 です。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>align</code></td><td align='left'><a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>の水平方向のアライメントを <code>:left :center :right</code> のいずれかで指定します。<br>省略した場合のデフォルト値は <code>:center</code> です。詳細は後述します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>valign</code></td><td align='left'><a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>の垂直方向のアライメントを <code>:top :center :bottom</code> のいずれかで指定します。<br>省略した場合のデフォルト値は <code>:center</code> です。詳細は後述します。</td></tr>
@@ -3070,21 +3085,22 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </details>
 <p>　<a class='autolink' href='#gFsIt1LJbur'>explosion1</a>, <a class='autolink' href='#gppbcywt6ie'>explosion2</a> のパラメータ構成は以下の通りです。</p>
 <pre class='code'>
-(<span class='keyword1'>defmacro</span> <span class='keyword5'>explosion1</span> (center width height text
-                         <span class='keyword2'>&amp;key</span> font fill stroke
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>explosion1</span> (position width height text
+                         <span class='keyword2'>&amp;key</span> pivot font fill stroke
                               link rotate layer id filter contents) ...)
-(<span class='keyword1'>defmacro</span> <span class='keyword5'>explosion2</span> (center width height text
-                         <span class='keyword2'>&amp;key</span> font fill stroke
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>explosion2</span> (position width height text
+                         <span class='keyword2'>&amp;key</span> pivot font fill stroke
                               link rotate layer id filter contents) ...)
 </pre>
 <p>　　</p>
 <p class='tbl_title'><a name='gP4bMhLxslv'></a>Table.4-11 explosion1, explosion2 のパラメータ</p>
 <table align='center'>
 <tr style="font-size: 14;"><th>パラメータ</th><th>説明</th></tr>
-<tr style="font-size: 14;"><td nowrap align='left'><code>center</code></td><td align='left'>中心点を指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>position</code></td><td align='left'>描画の基準点を指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>width</code></td><td align='left'>幅を数値で指定します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>height</code></td><td align='left'>高さを数値で指定します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>text</code></td><td align='left'>内部に描画する<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>を文字列で指定します。改行は "~%" で表現します。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>pivot</code></td><td align='left'>基準点が<a class='autolink' href='#hjZ26isLw42'>爆発</a>のどこにくるように描画するかを指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>font</code></td><td align='left'><a class='autolink' href='#3kZ9FkounyK'>フォント</a>を指定します。詳細は「<a href='#3kZ9FkounyK'>11.4  フォント</a>」を参照してください。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>fill</code></td><td align='left'>内部の塗り潰しを指定します。詳細は「<a href='#dBUd7L4C3dx'>11.3  フィル</a>」を参照してください。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>stroke</code></td><td align='left'>外枠を描画する線を指定します。詳細は「<a href='#4HFjqmTuIU6'>11.2  ストローク</a>」を参照してください。</td></tr>
@@ -3174,25 +3190,26 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
   (grid)
   (cross '( 80 50) 80 80 20 <span class='keyword3'>:fill</span> <span class='keyword3'>:pink</span> <span class='keyword3'>:stroke</span> <span class='keyword3'>:red</span>)
   (cross '(200 50) 80 80 20 <span class='keyword3'>:fill</span> <span class='keyword3'>:pink</span> <span class='keyword3'>:stroke</span> <span class='keyword3'>:red</span> <span class='keyword3'>:rotate</span> 45)
-  (cross '(320 50) 80 80 10 <span class='keyword3'>:fill</span> <span class='keyword3'>:pink</span> <span class='keyword3'>:stroke</span> <span class='keyword3'>:red</span> <span class='keyword3'>:pivot</span> '(-10 -15) <span class='keyword3'>:size-v</span> 15))
+  (cross '(320 50) 80 80 10 <span class='keyword3'>:fill</span> <span class='keyword3'>:pink</span> <span class='keyword3'>:stroke</span> <span class='keyword3'>:red</span> <span class='keyword3'>:intersection</span> '(-10 -15) <span class='keyword3'>:size-v</span> 15))
 </pre>
 </details>
 <p>　<a class='autolink' href='#iZ8ez2eJ62G'>cross</a> のパラメータ構成は以下の通りです。</p>
 <pre class='code'>
-(<span class='keyword1'>defmacro</span> <span class='keyword5'>cross</span> (center width height size
-                        <span class='keyword2'>&amp;key</span> size-v pivot fill stroke 
-                             rotate link layer id filter) ...)
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>cross</span> (position width height size
+                        <span class='keyword2'>&amp;key</span> pivot size-v intersection
+                             fill stroke  rotate link layer id filter) ...)
 </pre>
 <p>　　</p>
 <p class='tbl_title'><a name='l28V5sm9qL4'></a>Table.4-12 cross のパラメータ</p>
 <table align='center'>
 <tr style="font-size: 14;"><th>パラメータ</th><th>説明</th></tr>
-<tr style="font-size: 14;"><td nowrap align='left'><code>center</code></td><td align='left'>中心点を指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>position</code></td><td align='left'>描画の基準点を指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>width</code></td><td align='left'>幅を数値で指定します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>height</code></td><td align='left'>高さを数値で指定します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>size</code></td><td align='left'>太さを指定します。size-v を指定しない限り、縦横両方の太さになります。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>pivot</code></td><td align='left'>基準点が<a class='autolink' href='#4cZRWkwhYNO'>十字</a>のどこにくるように描画するかを指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>size-v</code></td><td align='left'>縦棒の太さを指定します。省略した場合、size と同じになります。</td></tr>
-<tr style="font-size: 14;"><td nowrap align='left'><code>pivot</code></td><td align='left'>縦横の棒が交差する点を center からどれだけズラすかを <code>'(x y)</code> の要領で指定します。<br>省略すると <code>'(0 0)</code> として扱われます。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>intersection</code></td><td align='left'>縦横の棒が交差する点を center からどれだけズラすかを <code>'(x y)</code> の要領で指定します。<br>省略すると <code>'(0 0)</code> として扱われます。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>fill</code></td><td align='left'>内部の塗り潰しを指定します。詳細は「<a href='#dBUd7L4C3dx'>11.3  フィル</a>」を参照してください。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>stroke</code></td><td align='left'>外枠を描画する線を指定します。詳細は「<a href='#4HFjqmTuIU6'>11.2  ストローク</a>」を参照してください。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>link</code></td><td align='left'><a class='autolink' href='#fbLcMRTVXac'>リンク</a>にする場合、<a class='autolink' href='#fbLcMRTVXac'>リンク</a>先を指定します。詳細は「<a href='#fbLcMRTVXac'>11.9  リンク</a>」を参照してください。</td></tr>
@@ -3458,17 +3475,18 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </details>
 <p>　<a class='autolink' href='#5Pxe86WDrBD'>brace</a> のパラメータ構成は以下の通りです。</p>
 <pre class='code'>
-(<span class='keyword1'>defmacro</span> <span class='keyword5'>brace</span> (center direction width height
-                        <span class='keyword2'>&amp;key</span> r point text font stroke layer filter id) ...)
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>brace</span> (position direction width height
+                        <span class='keyword2'>&amp;key</span> pivot r point text font stroke layer filter id) ...)
 </pre>
 <p>　　</p>
 <p class='tbl_title'><a name='kt8n5zzXY1P'></a>Table.4-14 brace のパラメータ</p>
 <table align='center'>
 <tr style="font-size: 14;"><th>パラメータ</th><th>説明</th></tr>
-<tr style="font-size: 14;"><td nowrap align='left'><code>center</code></td><td align='left'>中心点を指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>position</code></td><td align='left'>描画の基準点を指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>direction</code></td><td align='left'><a class='autolink' href='#lBS33hNe32a'>波括弧</a>の向きを <code>:upper,:bottom,:left,:right</code> のいずれかで指定します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>width</code></td><td align='left'>幅を数値で指定します（後述）。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>height</code></td><td align='left'>高さを数値で指定します（後述）。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>pivot</code></td><td align='left'>基準点が<a class='autolink' href='#lBS33hNe32a'>波括弧</a>のどこにくるように描画するかを指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>r</code></td><td align='left'>曲線部分の半径を数値で指定します（後述）。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>point</code></td><td align='left'>中央の「つまみ」の曲線部分の端からの距離を数値で指定します。<br>これは水平の<a class='autolink' href='#lBS33hNe32a'>波括弧</a>の場合は左から、垂直の<a class='autolink' href='#lBS33hNe32a'>波括弧</a>の場合は上からの距離です。（後述）。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>text</code></td><td align='left'>描画する<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>を文字列で指定します。改行は "~%" で表現します。</td></tr>
@@ -3628,16 +3646,17 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </details>
 <p>　<a class='autolink' href='#6VXqvQ4sYyo'>table</a> のパラメータ構成は以下の通りです。</p>
 <pre class='code'>
-(<span class='keyword1'>defmacro</span> <span class='keyword5'>table</span> (center rows cols
-                        <span class='keyword2'>&amp;key</span> stroke fills font texts layer id) ...)
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>table</span> (position rows cols
+                        <span class='keyword2'>&amp;key</span> pivot stroke fills font texts layer id) ...)
 </pre>
 <p>　　</p>
 <p class='tbl_title'><a name='46vpyWYCtdw'></a>Table.4-15 table のパラメータ</p>
 <table align='center'>
 <tr style="font-size: 14;"><th>パラメータ</th><th>説明</th></tr>
-<tr style="font-size: 14;"><td nowrap align='left'><code>center</code></td><td align='left'>中心点を指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>position</code></td><td align='left'>描画の基準点を指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>rows</code></td><td align='left'>行数と各行の高さを数値のリストで指定します。リストの長さが行数、リスト要素の数値が行の高さです。<a class='autolink' href='#9qtnEVETCcD'>repeat</a> 関数が役に立つかもしれません。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>cols</code></td><td align='left'>列数と各列の幅を数値のリストで指定します。リストの長さが列数、リスト要素の数値が列の幅です。<a class='autolink' href='#9qtnEVETCcD'>repeat</a> 関数が役に立つかもしれません。</td></tr>
+<tr style="font-size: 14;"><td nowrap align='left'><code>pivot</code></td><td align='left'>基準点が<a class='autolink' href='#g6xjP526KX7'>テーブル</a>のどこにくるように描画するかを指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>stroke</code></td><td align='left'>罫線を描画する線を指定します。詳細は「<a href='#4HFjqmTuIU6'>11.2  ストローク</a>」を参照してください。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>fills</code></td><td align='left'>表、行、列、またはセル個別の塗り潰しを指定します。位置を示すキーワードと<a class='autolink' href='#dBUd7L4C3dx'>フィル</a>情報の２つの値を繰り返すリストで指定してください。位置は、表全体であれば <code>:rc</code> 、列や行全体を指定する場合は <code>:rN</code> や <code>:cM</code> を指定します。ここで、 <code>N,M</code> は行や列の番号を示す整数です（上または左から０で始まります）。 <code>:rN-M</code> といった範囲指定も可能です。単独のセルを指定する場合、同じ要領で <code>:rNcM</code> と指定してください。 <code>:rK-LcN-M</code> 形式の範囲指定も可能です。 <code>fills</code> パラメータ全体が省略された場合、表の背景は塗り潰されません。<a class='autolink' href='#dBUd7L4C3dx'>フィル</a>情報の詳細は「<a href='#dBUd7L4C3dx'>11.3  フィル</a>」を参照してください。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>font</code></td><td align='left'>表内で<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>を描画する際に使用する<a class='autolink' href='#3kZ9FkounyK'>フォント</a>を指定します。省略した場合、 <code>*default-table-font*, *default-font*</code> の順でデフォルト<a class='autolink' href='#3kZ9FkounyK'>フォント</a>が使用されます。また、 <code>texts</code> パラメータ指定の中でセル毎に個別に<a class='autolink' href='#3kZ9FkounyK'>フォント</a>を指定することもできます。<a class='autolink' href='#3kZ9FkounyK'>フォント</a>情報の詳細は「<a href='#3kZ9FkounyK'>11.4  フォント</a>」を参照してください。</td></tr>
@@ -4861,6 +4880,28 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p class='fig_title'><a name='7mETQwj0yso'></a>Figure.6-2 図形要素の座標参照 - 1</p>
 <p>　　</p>
 <p>　上記の記法は全て座標値を返しますが、これらにさらに <code>.x</code> や <code>.y</code> をつけて x 軸や y 軸の座標値を取得することができます。これを利用すると、 <code>(rect (make-point obj1.cc.x obj2.cc.y) ...)</code>　などの記述によって「縦方向を obj1 にあわせ、横方向を obj2 にあわせる」といったことができます。</p>
+<p>　このようにして指定する座標を使う局面としてもっとも一般的なのは図形要素の位置指定です。たとえば<a class='autolink' href='#kJonRG8GtHF'>四角形</a> <a class='autolink' href='#kfqxxboPAuR'>rect</a> などは <code>position</code> パラメータで座標値を取ります。これは通常「その図形要素の中心点」として使用されますが、 <code>pivot</code> パラメータがある場合はこれを中心点以外で使用することができます。<code>pivot</code> に指定できるのは <code>:TL :TC :TR :CL :CC :CR :BL :BC :BR</code> のいずれかで、デフォルト値は <code>:CC</code> です。この指定により、 <code>position</code> で指定した座標が図形要素のどこに来るように描画されるかを制御できます。以下の例では、<a class='autolink' href='#kJonRG8GtHF'>四角形</a> <code>rct</code> に対して <code>(diamond rct.cr 60 40 :pivot :CL)</code> とすることで「<a class='autolink' href='#4dFMjynUMYw'>ひし形</a>の左端が<a class='autolink' href='#kJonRG8GtHF'>四角形</a>の右端にくるように位置指定」しています。</p>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='200' height='100'>
+	
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- rct : rectangle -->
+	<rect id='rct' x='45' y='25' width='50' height='50' fill='none' stroke='black' stroke-width='1' />
+	<!-- diamond -->
+	<polygon fill='none' stroke='black' stroke-width='1' points='125.0,30.0 95.0,50.0 125.0,70.0 155.0,50.0 125.0,30.0' />
+	<!-- circle -->
+	<circle cx='95' cy='50' r='3' fill='red' stroke='none' stroke-width='1' />
+
+</svg>
+</div>
+
+<p class='fig_title'><a name='a8bQ0cphetD'></a>Figure.6-3 pivot パラメータの利用例</p>
 <p>　<a class='autolink' href='#fv4OUML78x4'>直線</a>や<a class='autolink' href='#cp2F91gKG7W'>円弧</a>、<a class='autolink' href='#eFhVs4WwYUG'>コネクタ</a>、および<a class='autolink' href='#49KKf97828b'>ブロック矢印</a>では、 <code>center</code> および線の端点として <code>end1, end2</code> が利用できます。以下のように、この場合の <code>center</code> は線の総延長のちょうど半分にあたる位置になります（<a class='autolink' href='#cp2F91gKG7W'>円弧</a>の場合はベースとなる<a class='autolink' href='#7YzIcjhyGKN'>楕円</a>の中心です）。</p>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
@@ -4890,7 +4931,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='1YSNZvyxqVa'></a>Figure.6-3 図形要素の座標参照 - 2</p>
+<p class='fig_title'><a name='1YSNZvyxqVa'></a>Figure.6-4 図形要素の座標参照 - 2</p>
 <p>　　</p>
 <p>　前述の <code>app.center</code> という記法は、座標を指定すべきところではたいてい使用できますが、これを <code>(attr :app :center)</code> という記法で代替することもできます<sup><a name='footnote_ref10' href='#footnote10'>10</a></sup>。</p>
 <p>　<code>app.center</code> の記法において要素名のところに <code>canvas</code> を指定することで、<a class='autolink' href='#kgs1vf3AbTN'>キャンバス</a>全体をひとつの図形要素のように扱うことができます。つまり、 <code>canvas.cc</code> とすれば SVG 画像の中心点を指定できますし、 <code>canvas.width</code> と言えば SVG 画像の幅を取得することができます。実際には、この <code>canvas</code> が意味するのは「現在の<a class='autolink' href='#kgs1vf3AbTN'>キャンバス</a>」なのですが、これについては「<a href='#kgs1vf3AbTN'>7  サブキャンバス</a>」で説明します。</p>
@@ -5103,13 +5144,13 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
   (defgroup (40 40 <span class='keyword3'>:icon</span>)
     (rect canvas.center canvas.width canvas.height <span class='keyword3'>:fill</span> <span class='keyword3'>:white</span> <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span>
           <span class='keyword3'>:contents</span>
-          ((line `((0 10) (,w 10)) <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span>)
-           (line `((10 0) (10 ,h)) <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span>))))
+          ((line `((0 10) (40 10)) <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span>)
+           (line `((10 0) (10 40)) <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span>))))
   (use <span class='keyword3'>:icon</span> '( 50 50))
   (use <span class='keyword3'>:icon</span> '(100 50))
   (use <span class='keyword3'>:icon</span> '(150 50)))
 </pre>
-<p>　上記のコードでは、 <code>(defgroup (40 40 :icon) ...)</code> によって icon という名前の定義を作成しています。幅と高さはそれぞれ 40 です。これによって独立した<a class='autolink' href='#kgs1vf3AbTN'>キャンバス</a>が確立され、その中で作図を行うことができます。ここではその<a class='autolink' href='#kgs1vf3AbTN'>キャンバス</a>いっぱいに <a class='autolink' href='#kfqxxboPAuR'>rect</a> を描き、さらにその中で <a class='autolink' href='#gZq2hDm3DBR'>line</a> を 2 本描いています。しかしこれは <a class='autolink' href='#gxb34ymFlDc'>defgroup</a> の中でのこと（つまり定義を作成しただけ）なので、これだけでは描画は行なわれません。<a class='autolink' href='#gxb34ymFlDc'>defgroup</a> で定義した図形を実際に描画するには、<a class='autolink' href='#klH6tZ6gdaQ'>use</a> を使います。上記の例では、 <code>(use :icon '( 50 50))</code> といった記述を 3 回行なっています。パラメータは、定義名と描画する中心の座標です。</p>
+<p>　上記のコードでは、 <code>(defgroup (40 40 :icon) ...)</code> によって icon という名前の定義を作成しています。幅と高さはそれぞれ 40 です。これによって独立した<a class='autolink' href='#kgs1vf3AbTN'>キャンバス</a>が確立され、その中で作図を行うことができます。ここではその<a class='autolink' href='#kgs1vf3AbTN'>キャンバス</a>いっぱいに <a class='autolink' href='#kfqxxboPAuR'>rect</a> を描き、さらにその中で <a class='autolink' href='#gZq2hDm3DBR'>line</a> を 2 本描いています。しかしこれは <a class='autolink' href='#gxb34ymFlDc'>defgroup</a> の中でのこと（つまり定義を作成しただけ）なので、これだけでは描画は行なわれません。<a class='autolink' href='#gxb34ymFlDc'>defgroup</a> で定義した図形を実際に描画するには、<a class='autolink' href='#klH6tZ6gdaQ'>use</a> を使います。上記の例では、 <code>(use :icon '( 50 50))</code> といった記述を 3 回行なっています。パラメータは、定義名と描画する基準座標です。</p>
 <p>　上記のコードによって生成される SVG 画像は以下のようになります。入力データとの対応がわかると思います。定義（<a class='autolink' href='#gxb34ymFlDc'>defgroup</a>）は一度だけで、それを参照（<a class='autolink' href='#klH6tZ6gdaQ'>use</a>）するタグが複数登場しています。</p>
 <pre>
 &lt;svg xmlns='http://www.w3.org/2000/svg' ...&gt;
@@ -7977,7 +8018,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
 	<!-- uml-expansion-region -->
 	<rect x='20' y='20' width='260' height='160' rx='10' fill='oldlace' stroke='brown' stroke-width='2' stroke-dasharray='5 5 ' filter='url(#drop-shadow)' />
-	<text x='25' y='35' text-anchor='start' font-family='sans-serif' font-size='10pt' fill='black' >&lt;&lt;concurrent&gt;&gt;</text>
+	<text x='25' y='35' text-anchor='start' font-family='sans-serif' font-size='10pt' fill='black' >«concurrent»</text>
 
 </svg>
 </div>
@@ -8477,7 +8518,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 		<polygon fill='wheat' points='230.0,120.0 230.0,150.0 350.0,150.0 350.0,106.0 334.0,90.0 230.0,90.0 230.0,120.0' />
 		<polyline fill='none' points=' 350.0,106.0 334.0,106.0 334.0,90.0' />
 	</g>
-	<text x='240' y='107' text-anchor='start' font-size='12pt' fill='black' >&lt;&lt;memo&gt;&gt;</text>
+	<text x='240' y='107' text-anchor='start' font-size='12pt' fill='black' >«memo»</text>
 	<text x='240' y='124' text-anchor='start' font-size='12pt' fill='black' >test note.</text>
 	<g stroke='brown' stroke-width='1' stroke-dasharray='3 3 ' >
 		<polyline fill='none' points=' 230.0,102.85714 115.0,70.0' />
@@ -8488,7 +8529,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 		<polygon fill='wheat' points='20.0,140.0 20.0,170.0 180.0,170.0 180.0,126.0 164.0,110.0 20.0,110.0 20.0,140.0' />
 		<polyline fill='none' points=' 180.0,126.0 164.0,126.0 164.0,110.0' />
 	</g>
-	<text x='30' y='127' text-anchor='start' font-size='12pt' fill='black' >&lt;&lt;spec&gt;&gt;</text>
+	<text x='30' y='127' text-anchor='start' font-size='12pt' fill='black' >«spec»</text>
 	<g text-anchor='start' font-size='12pt' fill='black' >
 		<text x='30' y='144' >this is spec memo.</text>
 		<text x='30' y='158' >multi line is OK.</text>
@@ -9212,8 +9253,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <h4><a name='gciCjNOFE9t'></a>13.1.4 balloon マクロ</h4>
 <pre class='code'>
-(<span class='keyword1'>defmacro</span> <span class='keyword5'>balloon</span> (center text anchor
-                   <span class='keyword2'>&amp;key</span> width height round align valign margin
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>balloon</span> (position text anchor
+                   <span class='keyword2'>&amp;key</span> pivot width height round align valign margin
                         font fill stroke link rotate layer id filter contents) ... )
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
@@ -9237,14 +9278,14 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <h4><a name='5Pxe86WDrBD'></a>13.1.7 brace マクロ</h4>
 <pre class='code'>
-(<span class='keyword1'>defmacro</span> <span class='keyword5'>brace</span> (center direction width height
-                    <span class='keyword2'>&amp;key</span> r point text font stroke layer filter id) ... )
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>brace</span> (position direction width height
+                    <span class='keyword2'>&amp;key</span> pivot r point text font stroke layer filter id) ... )
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <h4><a name='11HosNz8eun'></a>13.1.8 circle マクロ</h4>
 <pre class='code'>
-(<span class='keyword1'>defmacro</span> <span class='keyword5'>circle</span> (center radius
-                    <span class='keyword2'>&amp;key</span> fill stroke link layer id filter contents) ... )
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>circle</span> (position radius
+                    <span class='keyword2'>&amp;key</span> pivot fill stroke link layer id filter contents) ... )
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <h4><a name='dEQCPOyPkv0'></a>13.1.9 connect マクロ</h4>
@@ -9260,22 +9301,23 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <h4><a name='iZ8ez2eJ62G'></a>13.1.11 cross マクロ</h4>
 <pre class='code'>
-(<span class='keyword1'>defmacro</span> <span class='keyword5'>cross</span> (center width height size
-                        <span class='keyword2'>&amp;key</span> size-v pivot fill stroke
-                             filter rotate link layer id) ... )
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>cross</span> (position width height size
+                        <span class='keyword2'>&amp;key</span> pivot size-v intersection
+                             fill stroke filter rotate link layer id) ... )
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <h4><a name='849Vc2WODHJ'></a>13.1.12 cube マクロ</h4>
 <pre class='code'>
-(<span class='keyword1'>defmacro</span> <span class='keyword5'>cube</span> (center width height text
-                       <span class='keyword2'>&amp;key</span> depth align valign margin font fill fill2 
-                            stroke link rotate layer id filter contents) ... )
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>cube</span> (position width height text
+                       <span class='keyword2'>&amp;key</span> pivot depth align valign margin
+                            font fill fill2 stroke link
+                            rotate layer id filter contents) ... )
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <h4><a name='6uhS5DFbLU6'></a>13.1.13 cylinder マクロ</h4>
 <pre class='code'>
-(<span class='keyword1'>defmacro</span> <span class='keyword5'>cylinder</span> (center width height text
-                           <span class='keyword2'>&amp;key</span> depth align valign margin font fill
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>cylinder</span> (position width height text
+                           <span class='keyword2'>&amp;key</span> pivot depth align valign margin font fill
                                 stroke link rotate layer id filter contents) ... )
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
@@ -9359,15 +9401,15 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <h4><a name='8Rdvc2A2vQV'></a>13.1.18 diamond マクロ</h4>
 <pre class='code'>
-(<span class='keyword1'>defmacro</span> <span class='keyword5'>diamond</span> (center width height
-                          <span class='keyword2'>&amp;key</span> fill stroke rotate link
-                               layer id filter contents) ... )
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>diamond</span> (position width height
+                          <span class='keyword2'>&amp;key</span> pivot fill stroke rotate
+                               link layer id filter contents) ... )
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <h4><a name='90RLMmGxC1E'></a>13.1.19 document マクロ</h4>
 <pre class='code'>
-(<span class='keyword1'>defmacro</span> <span class='keyword5'>document</span> (center width height text
-                           <span class='keyword2'>&amp;key</span> depth align valign margin font fill
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>document</span> (position width height text
+                           <span class='keyword2'>&amp;key</span> pivot depth align valign margin font fill
                                 stroke link rotate layer id filter contents) ... )
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
@@ -9388,29 +9430,29 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p>　　</p>
 <h4><a name='apm48rnJRU4'></a>13.1.21 ellipse マクロ</h4>
 <pre class='code'>
-(<span class='keyword1'>defmacro</span> <span class='keyword5'>ellipse</span> (center rx ry <span class='keyword2'>&amp;key</span> fill stroke rotate
-                                     link layer id filter contents) ... )
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>ellipse</span> (position rx ry <span class='keyword2'>&amp;key</span> pivot fill stroke rotate
+                                       link layer id filter contents) ... )
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <h4><a name='gFsIt1LJbur'></a>13.1.22 explosion1 マクロ</h4>
 <pre class='code'>
-(<span class='keyword1'>defmacro</span> <span class='keyword5'>explosion1</span> (center width height text
-                             <span class='keyword2'>&amp;key</span> font fill stroke link
-                                  rotate layer id filter contents) ... )
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>explosion1</span> (position width height text
+                               <span class='keyword2'>&amp;key</span> pivot font fill stroke link
+                                    rotate layer id filter contents) ... )
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <h4><a name='gppbcywt6ie'></a>13.1.23 explosion2 マクロ</h4>
 <pre class='code'>
-(<span class='keyword1'>defmacro</span> <span class='keyword5'>explosion2</span> (center width height text
-                             <span class='keyword2'>&amp;key</span> font fill stroke link
-                                  rotate layer id filter contents) ... )
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>explosion2</span> (position width height text
+                               <span class='keyword2'>&amp;key</span> pivot font fill stroke link
+                                    rotate layer id filter contents) ... )
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <h4><a name='ibcpYdwdMgr'></a>13.1.24 folder マクロ</h4>
 <pre class='code'>
-(<span class='keyword1'>defmacro</span> <span class='keyword5'>folder</span> (center text <span class='keyword2'>&amp;key</span> width height tab-width tab-height
-                                   align valign font fill stroke
-                                   margin link rotate layer filter id contents) ... )
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>folder</span> (position text <span class='keyword2'>&amp;key</span> pivot width height tab-width tab-height
+                                     align valign font fill stroke
+                                     margin link rotate layer filter id contents) ... )
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <h4><a name='aK4WyL00CPC'></a>13.1.25 glow-shadow マクロ</h4>
@@ -9434,8 +9476,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <h4><a name='dWoI4knhesk'></a>13.1.27 image マクロ</h4>
 <pre class='code'>
-(<span class='keyword1'>defmacro</span> <span class='keyword5'>image</span> (center filename <span class='keyword2'>&amp;key</span> width height label link
-                                      rotate layer id filter contents) ... )
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>image</span> (position filename <span class='keyword2'>&amp;key</span> pivot width height label link
+                                        rotate layer id filter contents) ... )
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <h4><a name='g1LCkkjN7rG'></a>13.1.28 layer 関数</h4>
@@ -9723,9 +9765,9 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p>　　</p>
 <h4><a name='b88IprendZX'></a>13.1.38 memo マクロ</h4>
 <pre class='code'>
-(<span class='keyword1'>defmacro</span> <span class='keyword5'>memo</span> (center text <span class='keyword2'>&amp;key</span> width height crease
-                                 align valign margin font fill fill2
-                                 stroke link rotate layer id filter contents) ... )
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>memo</span> (position text <span class='keyword2'>&amp;key</span> pivot width height crease
+                                   align valign margin font fill fill2
+                                   stroke link rotate layer id filter contents) ... )
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <h4><a name='g9cLnMZDnmv'></a>13.1.39 paragraph マクロ</h4>
@@ -9736,8 +9778,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <h4><a name='3nsv9QwrjWc'></a>13.1.40 parallelogram マクロ</h4>
 <pre class='code'>
-(<span class='keyword1'>defmacro</span> <span class='keyword5'>parallelogram</span> (center width height direction offset
-                                <span class='keyword2'>&amp;key</span> fill stroke rotate
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>parallelogram</span> (position width height direction offset
+                                <span class='keyword2'>&amp;key</span> pivot fill stroke rotate
                                      link layer id filter contents) ... )
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
@@ -9748,8 +9790,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <h4><a name='fHvMIHhbhwj'></a>13.1.42 person マクロ</h4>
 <pre class='code'>
-(<span class='keyword1'>defmacro</span> <span class='keyword5'>person</span> (center size <span class='keyword2'>&amp;key</span> fill stroke label
-                                   link rotate layer filter id) ... )
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>person</span> (position size <span class='keyword2'>&amp;key</span> pivot fill stroke label
+                                     link rotate layer filter id) ... )
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <h4><a name='4KVbI0Yxvwv'></a>13.1.43 point* 関数</h4>
@@ -9854,8 +9896,9 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <h4><a name='kfqxxboPAuR'></a>13.1.62 rect マクロ</h4>
 <pre class='code'>
-(<span class='keyword1'>defmacro</span> <span class='keyword5'>rect</span> (center width height <span class='keyword2'>&amp;key</span> rx ry fill stroke rotate
-                                         link layer id filter contents) ... )
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>rect</span> (position width height
+                         <span class='keyword2'>&amp;key</span> pivot rx ry fill stroke
+                              rotate link layer id filter contents) ... )
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <h4><a name='5Hl2enutHP7'></a>13.1.63 register-theme マクロ</h4>
@@ -9882,8 +9925,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <h4><a name='6VXqvQ4sYyo'></a>13.1.66 table マクロ</h4>
 <pre class='code'>
-(<span class='keyword1'>defmacro</span> <span class='keyword5'>table</span> (center rows cols <span class='keyword2'>&amp;key</span> font fills
-                                       stroke texts layer id) ... )
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>table</span> (position rows cols <span class='keyword2'>&amp;key</span> pivot font fills
+                                         stroke texts layer id) ... )
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <h4><a name='avghDbLt6pZ'></a>13.1.67 text マクロ</h4>
@@ -9893,17 +9936,17 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <h4><a name='bDoLjzlcymv'></a>13.1.68 textbox マクロ</h4>
 <pre class='code'>
-(<span class='keyword1'>defmacro</span> <span class='keyword5'>textbox</span> (center text <span class='keyword2'>&amp;key</span> width height no-frame rx ry
-                                    align valign margin font fill stroke
-                                    link rotate layer id filter contents) ... )
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>textbox</span> (position text <span class='keyword2'>&amp;key</span> pivot width height no-frame rx ry
+                                      align valign margin font fill stroke
+                                      link rotate layer id filter contents) ... )
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <h4><a name='gyN1Duroeh7'></a>13.1.69 uml-action マクロ</h4>
 <pre class='code'>
-(<span class='keyword1'>defmacro</span> <span class='keyword5'>uml-action</span> (center text <span class='keyword2'>&amp;key</span> keyword width height
-                                       margin corner-r rake
-                                       font fill stroke link
-                                       layer filter id contents) ... )
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>uml-action</span> (position text <span class='keyword2'>&amp;key</span> keyword pivot width height
+                                         margin corner-r rake
+                                         font fill stroke link
+                                         layer filter id contents) ... )
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <ul>
@@ -9912,34 +9955,34 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <h4><a name='brfWjyj5XjU'></a>13.1.70 uml-activity-final マクロ</h4>
 <pre class='code'>
-(<span class='keyword1'>defmacro</span> <span class='keyword5'>uml-activity-final</span> (center <span class='keyword2'>&amp;key</span> radius ratio fill
-                                          stroke link layer filter id) ... )
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>uml-activity-final</span> (position <span class='keyword2'>&amp;key</span> radius ratio pivot fill
+                                            stroke link layer filter id) ... )
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <h4><a name='6xjpZr5W4RS'></a>13.1.71 uml-activity-start マクロ</h4>
 <pre class='code'>
-(<span class='keyword1'>defmacro</span> <span class='keyword5'>uml-activity-start</span> (center <span class='keyword2'>&amp;key</span> radius fill
-                                          link layer filter id) ... )
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>uml-activity-start</span> (position <span class='keyword2'>&amp;key</span> radius pivot fill
+                                            link layer filter id) ... )
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <h4><a name='2MCSfMa2zL8'></a>13.1.72 uml-connector マクロ</h4>
 <pre class='code'>
-(<span class='keyword1'>defmacro</span> <span class='keyword5'>uml-connector</span> (center1 center2 id
-                                 <span class='keyword2'>&amp;key</span> name size fill
-                                      stroke font filter layer) ... )
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>uml-connector</span> (position1 position2 id
+                                 <span class='keyword2'>&amp;key</span> pivot1 pivot2 name size 
+                                      fill stroke font filter layer) ... )
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <h4><a name='9FgHdCIu6Bg'></a>13.1.73 uml-decision マクロ</h4>
 <pre class='code'>
-(<span class='keyword1'>defmacro</span> <span class='keyword5'>uml-decision</span> (center <span class='keyword2'>&amp;key</span> text width height
-                                    margin font fill stroke
-                                    link layer filter id) ... )
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>uml-decision</span> (position <span class='keyword2'>&amp;key</span> pivot text width height
+                                      margin font fill stroke
+                                      link layer filter id) ... )
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <h4><a name='bd9DoKLQSOJ'></a>13.1.74 uml-expansion-region マクロ</h4>
 <pre class='code'>
-(<span class='keyword1'>defmacro</span> <span class='keyword5'>uml-expansion-region</span> (center width height
-                                  <span class='keyword2'>&amp;key</span> keyword font offset
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>uml-expansion-region</span> (position width height
+                                  <span class='keyword2'>&amp;key</span> pivot keyword font offset
                                        corner-r fill stroke
                                        link layer id contents) ... )
 </pre>
@@ -9951,27 +9994,27 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <h4><a name='6GRd3E1gnW0'></a>13.1.76 uml-flow-final マクロ</h4>
 <pre class='code'>
-(<span class='keyword1'>defmacro</span> <span class='keyword5'>uml-flow-final</span> (center <span class='keyword2'>&amp;key</span> radius fill
-                                      stroke link layer filter id) ... )
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>uml-flow-final</span> (position <span class='keyword2'>&amp;key</span> pivot radius fill
+                                        stroke link layer filter id) ... )
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <h4><a name='1yjbUSzJXz6'></a>13.1.77 uml-fork マクロ</h4>
 <pre class='code'>
-(<span class='keyword1'>defmacro</span> <span class='keyword5'>uml-fork</span> (center direction <span class='keyword2'>&amp;key</span> width length
-                                          fill link filter layer id) ... )
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>uml-fork</span> (position direction <span class='keyword2'>&amp;key</span> pivot width length
+                                            fill link filter layer id) ... )
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <h4><a name='aBFvGOSTd4G'></a>13.1.78 uml-frame マクロ</h4>
 <pre class='code'>
-(<span class='keyword1'>defmacro</span> <span class='keyword5'>uml-frame</span> (center width height title
-                            <span class='keyword2'>&amp;key</span> margin font fill stroke
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>uml-frame</span> (position width height title
+                            <span class='keyword2'>&amp;key</span> pivot margin font fill stroke
                                  link layer filter id contents) ... )
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <h4><a name='fqVWgXFgGDu'></a>13.1.79 uml-join マクロ</h4>
 <pre class='code'>
-(<span class='keyword1'>defmacro</span> <span class='keyword5'>uml-join</span> (center direction <span class='keyword2'>&amp;key</span> spec width length
-                                          fill link filter layer id) ... )
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>uml-join</span> (position direction <span class='keyword2'>&amp;key</span> pivot spec width length
+                                            fill link filter layer id) ... )
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <ul>
@@ -9979,15 +10022,15 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <h4><a name='93QbgbSY7ah'></a>13.1.80 uml-merge マクロ</h4>
 <pre class='code'>
-(<span class='keyword1'>defmacro</span> <span class='keyword5'>uml-merge</span> (center <span class='keyword2'>&amp;key</span> width height
-                                 margin font fill stroke
-                                 link layer filter id) ... )
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>uml-merge</span> (position <span class='keyword2'>&amp;key</span> pivot width height
+                                   margin font fill stroke
+                                   link layer filter id) ... )
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <h4><a name='59HuKyYY17e'></a>13.1.81 uml-note マクロ</h4>
 <pre class='code'>
-(<span class='keyword1'>defmacro</span> <span class='keyword5'>uml-note</span> (center width height text
-                           <span class='keyword2'>&amp;key</span> keyword targets align valign
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>uml-note</span> (position width height text
+                           <span class='keyword2'>&amp;key</span> pivot keyword targets align valign
                                 margin crease font fill stroke
                                 link layer filter id contents) ... )
 </pre>
@@ -10002,8 +10045,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <h4><a name='8v3714gnR8R'></a>13.1.82 uml-partition マクロ</h4>
 <pre class='code'>
-(<span class='keyword1'>defmacro</span> <span class='keyword5'>uml-partition</span> (center rows cols
-                         <span class='keyword2'>&amp;key</span> lines header
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>uml-partition</span> (position rows cols
+                         <span class='keyword2'>&amp;key</span> pivot lines header
                               fills stroke font layer id) ... )
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
@@ -10016,22 +10059,22 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <h4><a name='ateAaGjT845'></a>13.1.84 uml-signal マクロ</h4>
 <pre class='code'>
-(<span class='keyword1'>defmacro</span> <span class='keyword5'>uml-signal</span> (center type text
-                             <span class='keyword2'>&amp;key</span> keyword width height direction
-                                  depth font fill stroke
-                                  margin link filter layer id) ... )
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>uml-signal</span> (position type text
+                               <span class='keyword2'>&amp;key</span> pivot keyword width height
+                                    direction depth font fill
+                                    stroke margin link filter layer id) ... )
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <h4><a name='d504TySky4c'></a>13.1.85 uml-time-event マクロ</h4>
 <pre class='code'>
-(<span class='keyword1'>defmacro</span> <span class='keyword5'>uml-time-event</span> (center <span class='keyword2'>&amp;key</span> label width height
-                                      fill stroke
-                                      link filter layer id) ... )
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>uml-time-event</span> (position <span class='keyword2'>&amp;key</span> label pivot width height
+                                        fill stroke
+                                        link filter layer id) ... )
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <h4><a name='klH6tZ6gdaQ'></a>13.1.86 use マクロ</h4>
 <pre class='code'>
-(<span class='keyword1'>defmacro</span> <span class='keyword5'>use</span> (ref center <span class='keyword2'>&amp;key</span> link rotate layer id contents debug) ... )
+(<span class='keyword1'>defmacro</span> <span class='keyword5'>use</span> (ref position <span class='keyword2'>&amp;key</span> pivot link rotate layer id contents debug) ... )
 </pre>
 <p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
 <h4><a name='7WY0qIioOWV'></a>13.1.87 with-balloon-options マクロ</h4>
@@ -12957,8 +13000,13 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li><strong>2023/03/12 - version 0.023</strong>
 <ul>
 <li>ENHANCE : <a class='autolink' href='#eFhVs4WwYUG'>コネクタ</a>で接続先として point 値を指定可能にする機能追加</li>
-<li>ENHANCE : </li>
 <li><strong>MINOR INCOMPATIBLE CHANGE : <a class='autolink' href='#673GXF9YiIQ'>make-font</a> 関数に単一パラメータとしてキーワードパラメータを与えた場合の扱いを（:fill に）変更</strong></li>
+</ul>
+</li>
+<li><strong>2024/02/07 - version 0.024</strong>
+<ul>
+<li>ENHANCE : 多くの shape において center パラメータを position に変更し、新規追加の pivot パラメータで position に対する描画位置を調整可能とする変更</li>
+<li><strong>INCOMPATIBLE CHANGE : 上記変更に伴い、 <code>cross</code> における既存の <code>pivot</code> パラメータを <code>intersection</code> に名称変更</strong></li>
 </ul>
 </li>
 </ul>
@@ -13042,7 +13090,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li><a href='#f0G61WmPR5j'>Figure.5-17 raw-svg のサンプル</a></li>
 <li><a href='#bdrJmRrH79B'>Figure.6-1 kaavio における座標系</a></li>
 <li><a href='#7mETQwj0yso'>Figure.6-2 図形要素の座標参照 - 1</a></li>
-<li><a href='#1YSNZvyxqVa'>Figure.6-3 図形要素の座標参照 - 2</a></li>
+<li><a href='#a8bQ0cphetD'>Figure.6-3 pivot パラメータの利用例</a></li>
+<li><a href='#1YSNZvyxqVa'>Figure.6-4 図形要素の座標参照 - 2</a></li>
 <li><a href='#kV8JVeAiwLR'>Figure.7-1 サブキャンバスのサンプル</a></li>
 <li><a href='#5maEWPLcbWX'>Figure.7-2 contents パラメータを使ったサブキャンバス</a></li>
 <li><a href='#04Bhkv1vkfw'>Figure.7-3 with-subcanvas-of を使ったサブキャンバス</a></li>

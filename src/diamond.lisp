@@ -78,7 +78,8 @@
 ;;
 ;;-------------------------------------------------------------------------------
 (defclass diamond (shape)
-  ((center		:initform nil :initarg :center)		; point
+  ((position	:initform nil :initarg :position)	; point
+   (pivot		:initform :CC :initarg :pivot)		; keyword
    (width		:initform   0 :initarg :width)		; number
    (height		:initform   0 :initarg :height)		; number
    (fill		:initform nil :initarg :fill)		; (or nil fill-info)
@@ -88,7 +89,8 @@
 
 (defmethod initialize-instance :after ((rct diamond) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (fill stroke filter layer) rct
+  (with-slots (pivot fill stroke filter layer) rct
+	(setf pivot  (or pivot :CC))
 	(setf fill   (make-fill   (or fill   *default-fill*   :none)))
 	(setf stroke (make-stroke (or stroke *default-stroke* :none)))
 	(setf filter (if (eq filter :none)
@@ -102,13 +104,14 @@
 (defmethod check ((rct diamond) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (with-slots (center width height fill stroke filter) rct
+  (with-slots (position pivot width height fill stroke filter) rct
+	(check-member pivot     :nullable nil :types keyword)
 	(check-member width     :nullable nil :types number)
 	(check-member height    :nullable nil :types number)
 	(check-object fill      canvas dict :nullable nil :class   fill-info)
 	(check-object stroke    canvas dict :nullable nil :class stroke-info)
 	(check-member filter    :nullable   t :types keyword)
-	(setf center (canvas-fix-point canvas center)))
+	(setf position (canvas-fix-point canvas position)))
   nil)
 
 (defmethod attribute-width ((rct diamond))
@@ -118,7 +121,8 @@
   (slot-value rct 'height))
 
 (defmethod attribute-center ((rct diamond))
-  (slot-value rct 'center))
+  (with-slots (position pivot width height) rct
+	(shape-calc-center-using-pivot position pivot width height)))
 
 (defmethod shape-connect-point ((shp diamond) type1 type2 arg)
   (diamond-connect-point (attribute-center   shp)
@@ -139,15 +143,16 @@
 						 (coerce (point-x (car pts)) 'single-float)
 						 (coerce (point-y (car pts)) 'single-float))
 				 (setf pts (cdr pts))))))
-	(with-slots (center width height fill stroke filter) rct
-	  (let ((id (and (not (entity-composition-p rct))
-					 (slot-value rct 'id)))
-			;(topleft (attribute-topleft rct))
-			(points  (list (y+ center (- (/ height 2)))
-						   (x+ center (- (/ width  2)))
-						   (y+ center (+ (/ height 2)))
-						   (x+ center (+ (/ width  2)))
-						   (y+ center (- (/ height 2))))))
+	(with-slots (width height fill stroke filter) rct
+	  (let* ((center (attribute-center rct))
+			 (id (and (not (entity-composition-p rct))
+					  (slot-value rct 'id)))
+			 ;(topleft (attribute-topleft rct))
+			 (points  (list (y+ center (- (/ height 2)))
+							(x+ center (- (/ width  2)))
+							(y+ center (+ (/ height 2)))
+							(x+ center (+ (/ width  2)))
+							(y+ center (- (/ height 2))))))
 		(pre-draw rct writer)
 		(writer-write writer
 					  "<polygon "
@@ -169,10 +174,10 @@
 #|
 #|EXPORT|#				:diamond
  |#
-(defmacro diamond (center width height
-					 &key fill stroke rotate link layer id filter contents)
+(defmacro diamond (position width height
+					 &key pivot fill stroke rotate link layer id filter contents)
   (let ((code `(register-entity (make-instance 'kaavio:diamond
-											   :center ,center
+											   :position ,position :pivot ,pivot
 											   :width ,width :height ,height
 											   :fill ,fill :stroke ,stroke
 											   :rotate ,rotate :link ,link

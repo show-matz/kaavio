@@ -172,13 +172,13 @@
 ;; macro uml-action
 ;;
 ;;------------------------------------------------------------------------------
-(defmacro uml-action (center text &key keyword width height
-									margin corner-r rake
-									font fill stroke link layer filter id contents)
+(defmacro uml-action (position text &key keyword pivot width height
+										 margin corner-r rake
+										 font fill stroke link layer filter id contents)
   (let* ((contents-p (not (null contents)))
 		 (code `(register-entity
 					 (make-instance 'uml-action
-									:center ,center
+									:position ,position :pivot ,pivot 
 									:width ,width :height ,height
 									:text ,text :keyword ,keyword
 									:contents-p ,contents-p

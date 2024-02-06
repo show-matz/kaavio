@@ -168,12 +168,12 @@
 #|
 #|EXPORT|#				:balloon
  |#
-(defmacro balloon (center text anchor &key width height round align valign margin
+(defmacro balloon (position text anchor &key pivot width height round align valign margin
 										   font fill stroke link rotate layer id filter contents)
   (let ((code `(register-entity (make-instance 'balloon
 											   :anchor ,anchor
 											   :round  (or ,round  *default-balloon-round*)
-											   :center ,center
+											   :position ,position :pivot ,pivot
 											   :width ,width :height ,height
 											   :text ,text
 											   :align  (or ,align  *default-balloon-align*)

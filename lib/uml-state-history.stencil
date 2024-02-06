@@ -32,9 +32,9 @@
 ;; macro uml-state-history
 ;;
 ;;------------------------------------------------------------------------------
-(defmacro uml-state-history (center &key radius fill stroke link layer id)
+(defmacro uml-state-history (position &key pivot radius fill stroke link layer id)
   `(register-entity (make-instance 'uml-state-history
-								   :center ,center
+								   :position ,position :pivot ,pivot
 								   :radius (or ,radius *uml-state-history-radius*)
 								   :fill   (or ,fill   *uml-state-history-fill*   *default-fill*)
 								   :stroke (or ,stroke *uml-state-history-stroke* *default-stroke*)

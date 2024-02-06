@@ -78,11 +78,11 @@
 ;; macro uml-expansion-region
 ;;
 ;;------------------------------------------------------------------------------
-(defmacro uml-expansion-region (center width height &key keyword font offset
+(defmacro uml-expansion-region (position width height &key pivot keyword font offset
 										 corner-r fill stroke link layer id contents)
   (let* ((code `(register-entity
 					 (make-instance 'uml-expansion-region
-									:center ,center
+									:position ,position :pivot ,pivot
 									:width ,width :height ,height
 									:keyword ,keyword :font ,font :offset ,offset
 									:rx (or ,corner-r *uml-expansion-region-corner-r*)

@@ -85,12 +85,12 @@
 #|
 #|EXPORT|#				:person
  |#
-(defmacro person (center size
-						&key fill stroke label link rotate layer filter id)
+(defmacro person (position size
+						&key pivot fill stroke label link rotate layer filter id)
   `(register-entity (make-instance 'kaavio:person
 								   :label ,label :fill ,fill
 								   :stroke ,stroke :filter ,filter
-					#| group  |#   :center ,center :width ,size :height ,(* 2 size)
+					#| group  |#   :position ,position :pivot ,pivot :width ,size :height ,(* 2 size)
 					#| shape  |#   :link ,link :rotate ,rotate
 					#| entity |#   :id ,id :layer ,layer)))
 

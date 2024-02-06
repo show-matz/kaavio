@@ -92,7 +92,7 @@
 
 ;; override of group::draw-group
 (defmethod draw-group ((obj uml-partition) writer)
-  (with-slots (type lines center row-headers col-headers
+  (with-slots (type lines row-headers col-headers
 			   (rows kaavio::rows) (cols kaavio::cols)
 			   (stroke kaavio::stroke) (font kaavio::font)) obj
 	;; draw table without stroke
@@ -169,8 +169,8 @@
 ;; macro uml-partition
 ;;
 ;;------------------------------------------------------------------------------
-(defmacro uml-partition (center rows cols
-						 &key lines header fills stroke font layer id)
+(defmacro uml-partition (position rows cols
+						 &key pivot lines header fills stroke font layer id)
   (let ((g-rc     (gensym "RC"))
 		(g-rows   (gensym "ROWS"))
 		(g-cols   (gensym "COLS"))
@@ -185,7 +185,7 @@
 									   :lines  (or ,lines *uml-partition-lines*)
 									   :row-headers  (first  ,g-names)
 									   :col-headers  (second ,g-names)
-									   :center ,center
+									   :position ,position :pivot ,pivot
 									   :width  (reduce #'+ (third  ,g-rc) :initial-value 0)
 									   :height (reduce #'+ (second ,g-rc) :initial-value 0)
 									   :rows   (second ,g-rc)

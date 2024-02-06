@@ -15,7 +15,8 @@
 ;;
 ;;-------------------------------------------------------------------------------
 (defclass uml-frame (kaavio:shape)
-  ((center	:initform nil :initarg :center)	; point
+  ((position :initform nil :initarg :position)	; point
+   (pivot	:initform :CC :initarg :pivot)		; keyword
    (width	:initform   0 :initarg :width)		; number
    (height	:initform   0 :initarg :height)		; number
    (title	:initform nil :initarg :title)		; (or keyword string)
@@ -27,7 +28,8 @@
 
 (defmethod initialize-instance :after ((obj uml-frame) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (margin font fill stroke filter layer) obj
+  (with-slots (pivot margin font fill stroke filter layer) obj
+	(setf pivot  (or pivot :CC))
 	(setf margin (or margin   *uml-frame-margin*))
 	(setf font   (make-font   (or font   *uml-frame-font*   *default-font*)))
 	(setf fill   (make-fill   (or fill   *uml-frame-fill*   *default-fill*   :white)))
@@ -43,9 +45,10 @@
 (defmethod check ((obj uml-frame) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (with-slots (center width height title margin font fill stroke) obj
-	(unless (point-p center)
-	  (throw-exception "center is not point."))
+  (with-slots (position pivot width height title margin font fill stroke) obj
+	(unless (point-p position)
+	  (throw-exception "position is not point."))
+	(check-member pivot  :nullable nil :types keyword)
 	(check-member width  :nullable nil :types number)
 	(check-member height :nullable nil :types number)
 	(check-member title  :nullable nil :types (or keyword string))
@@ -53,7 +56,7 @@
 	(check-object font         canvas dict :nullable   t :class font-info)
 	(check-object fill         canvas dict :nullable   t :class fill-info)
 	(check-object stroke       canvas dict :nullable   t :class stroke-info)
-	(setf center (canvas-fix-point canvas center))
+	(setf position (canvas-fix-point canvas position))
 	(setf title  (fix-name title)))
   nil)
 
@@ -64,7 +67,8 @@
   (slot-value obj 'height))
 
 (defmethod attribute-center ((obj uml-frame))
-  (slot-value obj 'center))
+  (with-slots (position pivot width height) obj
+	(kaavio::shape-calc-center-using-pivot position pivot width height)))
 
 ;;MEMO : use impelementation of shape...
 ;;(defmethod shape-connect-point ((obj uml-frame) type1 type2 arg) ...)
@@ -112,10 +116,10 @@
 ;; macro uml-frame
 ;;
 ;;-------------------------------------------------------------------------------
-(defmacro uml-frame (center width height title
-							  &key margin font fill stroke link layer filter id contents)
+(defmacro uml-frame (position width height title
+							  &key pivot margin font fill stroke link layer filter id contents)
   (let ((code `(register-entity (make-instance 'uml-frame
-											   :center ,center
+											   :position ,position :pivot ,pivot
 											   :width ,width :height ,height
 											   :title ,title :margin ,margin
 											   :font ,font :fill ,fill

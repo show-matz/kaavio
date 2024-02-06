@@ -54,9 +54,9 @@
 ;; macro uml-activity-final
 ;;
 ;;------------------------------------------------------------------------------
-(defmacro uml-activity-final (center &key radius ratio fill stroke link layer filter id)
+(defmacro uml-activity-final (position &key radius ratio pivot fill stroke link layer filter id)
   `(register-entity (make-instance 'uml-activity-final
-								   :center ,center
+								   :position ,position :pivot ,pivot
 								   :radius (or ,radius *uml-activity-final-radius*)
 								   :ratio  (or ,ratio  *uml-activity-final-ratio*)
 								   :fill   (or ,fill   *uml-activity-final-fill*   *default-fill*)

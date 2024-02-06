@@ -112,10 +112,10 @@ cat ./input.digram | ${APPNAME} | gzip > ./output.svgz
 
 * `diagram` で「幅 300、高さ 150」の画像を作成
 * `grid` で背景にグリッド線を描画
-* `rect` で四角形を作成 - 中心位置は左上から (50, 50)、大きさは幅 80、高さ 60
+* `rect` で四角形を作成 - 位置は左上から (50, 50)、大きさは幅 80、高さ 60
 	* `:fill` で塗り潰しの色を powderblue に指定
 	* `:id` でこれに x という ID を設定
-* `circle` で円を作成 - 中心位置は左上から (250, 100)、半径は 40
+* `circle` で円を作成 - 位置は左上から (250, 100)、半径は 40
 	* `:fill` で塗り潰しの色を moccasin に指定
 	* `:id` でこれに y という ID を設定
 * `connect` で、x から y に向かって接続線を描画
@@ -145,12 +145,13 @@ ${BLANK_PARAGRAPH}
 全体を示します。
 
 ```lisp
-(defmacro rect (center width height
-                &key rx ry fill stroke rotate link layer id filter contents) ...)
+(defmacro rect (position width height
+                         &key pivot rx ry fill stroke rotate
+                              link layer id filter contents) ...)
 ```
 
 　先頭の `defmacro` はひとまず気にしないでください。rect に続く括弧の中がパラメータの
-全体で、 `center width height` が必須パラメータ、 `&key` 以降の全てが省略可能なパラメータ
+全体で、 `position width height` が必須パラメータ、 `&key` 以降の全てが省略可能なパラメータ
 です。 `:fill` と `:id` はもう使いました。その他のパラメータについてはまた別のところで説明
 します。
 
@@ -342,8 +343,9 @@ Figure. rect のサンプル
 　rect のパラメータ構成は以下の通りです。
 
 ```lisp
-(defmacro rect (center width height
-                &key rx ry fill stroke rotate link layer id filter contents) ... )
+(defmacro rect (position width height
+                &key pivot rx ry fill stroke
+                     rotate link layer id filter contents) ... )
 ```
 
 <!-- stack:push tr style="font-size: 14;" -->
@@ -351,9 +353,10 @@ Figure. rect のサンプル
 Table. rect のパラメータ
 | パラメータ   | 説明                                                                           |
 |:============|:--------------------------------------------------------------------------------------|
-| `center`    | 中心点を指定します。詳細は「[](#座標と位置)」を参照してください。                 |
+| `position`  | 描画の基準点を指定します。詳細は「[](#座標と位置)」を参照してください。                   |
 | `width`     | 幅を数値で指定します。                                                        |
 | `height`    | 高さを数値で指定します。                                                      |
+| `pivot`     | 基準点が四角形のどこにくるように描画するかを指定します。詳細は「[](#座標と位置)」を参照してください。 |
 | `rx, ry`    | 角を丸くしたい場合に、角の x 半径（rx）と y 半径（ry）を数値で指定します。<br> \
 rx と ry のどちらかだけを指定すると、もう一方も同じであると見なされます。 |
 | `fill`      | 内部の塗り潰しを指定します。詳細は「[](#フィル)」を参照してください。           |
@@ -399,8 +402,8 @@ Figure. circle のサンプル
 　circle のパラメータ構成は以下の通りです。
 
 ```lisp
-(defmacro circle (center radius
-                  &key fill stroke link layer id filter contents) ... )
+(defmacro circle (position radius
+                  &key pivot fill stroke link layer id filter contents) ... )
 ```
 
 <!-- stack:push tr style="font-size: 14;" -->
@@ -408,8 +411,9 @@ Figure. circle のサンプル
 Table. circle のパラメータ
 | パラメータ   | 説明                                                                           |
 |:============|:--------------------------------------------------------------------------------------|
-| `center`    | 中心点を指定します。詳細は「[](#座標と位置)」を参照してください。                 |
+| `position`  | 描画の基準点を指定します。詳細は「[](#座標と位置)」を参照してください。                   |
 | `radius`    | 半径を数値で指定します。                                                        |
+| `pivot`     | 基準点が正円のどこにくるように描画するかを指定します。詳細は「[](#座標と位置)」を参照してください。 |
 | `fill`      | 内部の塗り潰しを指定します。詳細は「[](#フィル)」を参照してください。           |
 | `stroke`    | 線を指定します。詳細は「[](#ストローク)」を参照してください。         |
 | `link`      | リンクにする場合、リンク先を指定します。詳細は「[](#リンク)」を参照してください。 |
@@ -452,8 +456,8 @@ Figure. ellipse のサンプル
 　ellipse のパラメータ構成は以下の通りです。
 
 ```lisp
-(defmacro ellipse (center rx ry
-                   &key fill stroke link layer id filter contents) ... )
+(defmacro ellipse (position rx ry
+                   &key pivot fill stroke link layer id filter contents) ... )
 ```
 
 <!-- stack:push tr style="font-size: 14;" -->
@@ -461,9 +465,10 @@ Figure. ellipse のサンプル
 Table. ellipse のパラメータ
 | パラメータ   | 説明                                                                           |
 |:============|:--------------------------------------------------------------------------------------|
-| `center`    | 中心点を指定します。詳細は「[](#座標と位置)」を参照してください。                 |
+| `position`  | 描画の基準点を指定します。詳細は「[](#座標と位置)」を参照してください。                   |
 | `rx`        | x 軸方向の半径を数値で指定します。                                             |
 | `ry`        | y 軸方向の半径を数値で指定します。                                             |
+| `pivot`     | 基準点が楕円のどこにくるように描画するかを指定します。詳細は「[](#座標と位置)」を参照してください。 |
 | `fill`      | 内部の塗り潰しを指定します。詳細は「[](#フィル)」を参照してください。           |
 | `stroke`    | 線を指定します。詳細は「[](#ストローク)」を参照してください。         |
 | `rotate`    | 回転させる場合、その角度を指定します。詳細は「[](#回転)」を参照してください。 |
@@ -819,8 +824,8 @@ Figure. diamond のサンプル
 　diamond のパラメータ構成は以下の通りです。
 
 ```lisp
-(defmacro diamond (center width height
-                   &key fill stroke rotate link layer id filter contents) ... )
+(defmacro diamond (position width height
+                   &key pivot fill stroke rotate link layer id filter contents) ... )
 ```
 
 <!-- stack:push tr style="font-size: 14;" -->
@@ -828,9 +833,10 @@ Figure. diamond のサンプル
 Table. diamond のパラメータ
 | パラメータ   | 説明                                                                           |
 |:============|:--------------------------------------------------------------------------------------|
-| `center`    | 中心点を指定します。詳細は「[](#座標と位置)」を参照してください。                 |
+| `position`  | 描画の基準点を指定します。詳細は「[](#座標と位置)」を参照してください。                   |
 | `width`     | 幅を数値で指定します。                                                        |
 | `height`    | 高さを数値で指定します。                                                      |
+| `pivot`     | 基準点がひし形のどこにくるように描画するかを指定します。詳細は「[](#座標と位置)」を参照してください。 |
 | `fill`      | 内部の塗り潰しを指定します。詳細は「[](#フィル)」を参照してください。           |
 | `stroke`    | 外枠を描画する線を指定します。詳細は「[](#ストローク)」を参照してください。         |
 | `rotate`    | 回転させる場合、その角度を指定します。詳細は「[](#回転)」を参照してください。 |
@@ -876,8 +882,8 @@ Figure. parallelogram のサンプル
 　parallelogram のパラメータ構成は以下の通りです。
 
 ```lisp
-(defmacro parallelogram (center width height direction offset
-                         &key fill stroke rotate link layer id filter contents) ... )
+(defmacro parallelogram (position width height direction offset
+                         &key pivot fill stroke rotate link layer id filter contents) ... )
 ```
 
 <!-- stack:push tr style="font-size: 14;" -->
@@ -885,11 +891,12 @@ Figure. parallelogram のサンプル
 Table. parallelogram のパラメータ
 | パラメータ   | 説明                                                                           |
 |:============|:--------------------------------------------------------------------------------------|
-| `center`    | 中心点を指定します。詳細は「[](#座標と位置)」を参照してください。                 |
+| `position`  | 描画の基準点を指定します。詳細は「[](#座標と位置)」を参照してください。                   |
 | `width`     | 幅を数値で指定します。                                                        |
 | `height`    | 高さを数値で指定します。                                                      |
 | `direction` | 平行四辺形の「向き」を `:h` または `:v` で指定します。詳細は後述します。        |
 | `offset`    | 平行四辺形の形状に関するオフセット値を数値で指定します。詳細は後述します。        |
+| `pivot`     | 基準点が平行四辺形のどこにくるように描画するかを指定します。詳細は「[](#座標と位置)」を参照してください。 |
 | `fill`      | 内部の塗り潰しを指定します。詳細は「[](#フィル)」を参照してください。           |
 | `stroke`    | 外枠を描画する線を指定します。詳細は「[](#ストローク)」を参照してください。         |
 | `rotate`    | 回転させる場合、その角度を指定します。詳細は「[](#回転)」を参照してください。 |
@@ -1531,9 +1538,9 @@ Figure. テキストボックスのサンプル
 　textbox のパラメータ構成は以下の通りです。
 
 ```lisp
-(defmacro textbox (center text &key width height no-frame rx ry
-                                    align valign margin font fill stroke
-                                    link rotate layer id filter contents) ...)
+(defmacro textbox (position text &key pivot width height no-frame rx ry
+                                      align valign margin font fill stroke
+                                      link rotate layer id filter contents) ...)
 ```
 
 ${BLANK_PARAGRAPH}
@@ -1543,8 +1550,9 @@ ${BLANK_PARAGRAPH}
 Table. textbox のパラメータ
 | パラメータ   | 説明                                                                           |
 |:============|:--------------------------------------------------------------------------------------|
-| `center`    | 中心点を指定します。詳細は「[](#座標と位置)」を参照してください。 |
+| `position`  | 描画の基準点を指定します。詳細は「[](#座標と位置)」を参照してください。                   |
 | `text`      | 内部に描画するテキストを文字列で指定します。改行は "~%" で表現します。      |
+| `pivot`     | 基準点がテキストボックスのどこにくるように描画するかを指定します。詳細は「[](#座標と位置)」を参照してください。 |
 | `width`     | 幅を自動決定せず、明示的に指定したい場合に数値で指定します。 |
 | `height`    | 高さを自動決定せず、明示的に指定したい場合に数値で指定します。 |
 | `no-frame`  | ボックスを描画せず、テキストのみにしたい場合には `:no-frame t` と指定してください。<br> \
@@ -1653,8 +1661,8 @@ Figure. ドキュメントのサンプル
 　document のパラメータ構成は以下の通りです。
 
 ```lisp
-(defmacro document (center width height text
-                    &key depth align valign margin
+(defmacro document (position width height text
+                    &key pivot depth align valign margin
                          font fill stroke link rotate layer id filter contents) ...)
 ```
 
@@ -1665,10 +1673,11 @@ ${BLANK_PARAGRAPH}
 Table. document のパラメータ
 | パラメータ   | 説明                                                                           |
 |:============|:--------------------------------------------------------------------------------------|
-| `center`    | 中心点を指定します。詳細は「[](#座標と位置)」を参照してください。 |
+| `position`  | 描画の基準点を指定します。詳細は「[](#座標と位置)」を参照してください。                   |
 | `width`     | 幅を数値で指定します。 |
 | `height`    | 高さを数値で指定します。 |
 | `text`      | 内部に描画するテキストを文字列で指定します。改行は "~%" で表現します。      |
+| `pivot`     | 基準点がドキュメントのどこにくるように描画するかを指定します。詳細は「[](#座標と位置)」を参照してください。 |
 | `depth`     | 下部の曲線の深さを指定します。省略した場合のデフォルト値は height の 1/3 です。 |
 | `align`     | テキストの水平方向のアライメントを `:left :center :right` のいずれかで指定します。<br> \
 省略した場合のデフォルト値は `:center` です。詳細は後述します。 |
@@ -1746,9 +1755,9 @@ Figure. フォルダのサンプル
 　folder のパラメータ構成は以下の通りです。
 
 ```lisp
-(defmacro folder (center text &key width height tab-width tab-height
-                                   align valign font fill stroke
-                                   margin link rotate layer filter id contents) ...)
+(defmacro folder (position text &key pivot width height tab-width tab-height
+                                     align valign font fill stroke
+                                     margin link rotate layer filter id contents) ...)
 ```
 
 ${BLANK_PARAGRAPH}
@@ -1758,8 +1767,9 @@ ${BLANK_PARAGRAPH}
 Table. folder のパラメータ
 | パラメータ    | 説明                                                                           |
 |:=============|:--------------------------------------------------------------------------------------|
-| `center`     | 中心点を指定します。詳細は「[](#座標と位置)」を参照してください。 |
+| `position`  | 描画の基準点を指定します。詳細は「[](#座標と位置)」を参照してください。                   |
 | `text`       | 内部に描画するテキストを文字列で指定します。改行は "~%" で表現します。      |
+| `pivot`      | 基準点がフォルダのどこにくるように描画するかを指定します。詳細は「[](#座標と位置)」を参照してください。 |
 | `width`      | 幅を自動決定せず、明示的に指定したい場合に数値で指定します。 |
 | `height`     | 高さを自動決定せず、明示的に指定したい場合に数値で指定します。 |
 | `tab-width`  | 左上に描画されるタブ部分の幅を指定します。省略した場合のデフォルト値は 50 です。 |
@@ -1839,8 +1849,8 @@ Figure. 人物のサンプル
 　person のパラメータ構成は以下の通りです。
 
 ```lisp
-(defmacro person (center size &key fill stroke label
-                                   link rotate layer filter id) ...)
+(defmacro person (position size &key pivot fill stroke label
+                                     link rotate layer filter id) ...)
 ```
 
 ${BLANK_PARAGRAPH}
@@ -1850,8 +1860,9 @@ ${BLANK_PARAGRAPH}
 Table. person のパラメータ
 | パラメータ    | 説明                                                                           |
 |:=============|:--------------------------------------------------------------------------------------|
-| `center`     | 中心点を指定します。詳細は「[](#座標と位置)」を参照してください。 |
+| `position`   | 描画の基準点を指定します。詳細は「[](#座標と位置)」を参照してください。                   |
 | `size`       | 幅を数値で指定します。高さは自動的にこの 2 倍になります。 |
+| `pivot`      | 基準点が人物のどこにくるように描画するかを指定します。詳細は「[](#座標と位置)」を参照してください。 |
 | `fill`       | 内部の塗り潰しを指定します。詳細は「[](#フィル)」を参照してください。 |
 | `stroke`     | 外枠を描画する線を指定します。詳細は「[](#ストローク)」を参照してください。 |
 | `label`      | ラベルを付ける場合は指定します。詳細は「[](#ラベル)」を参照してください。 |
@@ -1922,10 +1933,10 @@ Figure. 吹き出しのサンプル
 　balloon のパラメータ構成は以下の通りです。
 
 ```lisp
-(defmacro balloon (center text anchor &key width height round
-                                           align valign margin
-                                           font fill stroke link
-                                           rotate layer id filter contents) ...)
+(defmacro balloon (position text anchor &key pivot width height round
+                                             align valign margin
+                                             font fill stroke link
+                                             rotate layer id filter contents) ...)
 ```
 
 ${BLANK_PARAGRAPH}
@@ -1935,9 +1946,10 @@ ${BLANK_PARAGRAPH}
 Table. balloon のパラメータ
 | パラメータ    | 説明                                                                           |
 |:=============|:--------------------------------------------------------------------------------------|
-| `center`     | 中心点を指定します。詳細は「[](#座標と位置)」を参照してください。 |
+| `position`   | 描画の基準点を指定します。詳細は「[](#座標と位置)」を参照してください。                   |
 | `text`       | 内部に描画するテキストを文字列で指定します。改行は "~%" で表現します。      |
 | `anchor`     | 引き出し線の位置を指定します。詳細は「[](#座標と位置)」を参照してください。 |
+| `pivot`      | 基準点が吹き出しのどこにくるように描画するかを指定します。詳細は「[](#座標と位置)」を参照してください。 |
 | `width`      | 幅を自動決定せず、明示的に指定したい場合に数値で指定します。 |
 | `height`     | 高さを自動決定せず、明示的に指定したい場合に数値で指定します。 |
 | `round`      | 角を丸くしたい場合に、角の半径を数値で指定します。<br> \
@@ -2018,10 +2030,10 @@ Figure. メモのサンプル
 　memo のパラメータ構成は以下の通りです。
 
 ```lisp
-(defmacro memo (center text &key width height crease
-                                 align valign margin
-                                 font fill fill2 stroke link
-                                 rotate layer id filter contents) ...)
+(defmacro memo (position text &key pivot width height crease
+                                   align valign margin
+                                   font fill fill2 stroke link
+                                   rotate layer id filter contents) ...)
 ```
 
 ${BLANK_PARAGRAPH}
@@ -2031,8 +2043,9 @@ ${BLANK_PARAGRAPH}
 Table. memo のパラメータ
 | パラメータ    | 説明                                                                           |
 |:=============|:--------------------------------------------------------------------------------------|
-| `center`     | 中心点を指定します。詳細は「[](#座標と位置)」を参照してください。 |
+| `position`   | 描画の基準点を指定します。詳細は「[](#座標と位置)」を参照してください。                   |
 | `text`       | 内部に描画するテキストを文字列で指定します。改行は "~%" で表現します。      |
+| `pivot`      | 基準点がメモのどこにくるように描画するかを指定します。詳細は「[](#座標と位置)」を参照してください。 |
 | `width`      | 幅を自動決定せず、明示的に指定したい場合に数値で指定します。 |
 | `height`     | 高さを自動決定せず、明示的に指定したい場合に数値で指定します。 |
 | `crease`     | 右下の折り目のサイズを数値で指定します。省略した場合のデフォルト値は 20 です。  |
@@ -2113,8 +2126,8 @@ Figure. キューブのサンプル
 　cube のパラメータ構成は以下の通りです。
 
 ```lisp
-(defmacro cube (center width height text
-                           &key depth align valign margin
+(defmacro cube (position width height text
+                           &key pivot depth align valign margin
                                 font fill fill2 stroke link
                                 rotate layer id filter contents) ...)
 ```
@@ -2126,10 +2139,11 @@ ${BLANK_PARAGRAPH}
 Table. cube のパラメータ
 | パラメータ    | 説明                                                                           |
 |:=============|:--------------------------------------------------------------------------------------|
-| `center`     | 中心点を指定します。詳細は「[](#座標と位置)」を参照してください。 |
+| `position`   | 描画の基準点を指定します。詳細は「[](#座標と位置)」を参照してください。                   |
 | `width`      | 幅を数値で指定します。 |
 | `height`     | 高さを数値で指定します。 |
 | `text`       | 内部に描画するテキストを文字列で指定します。改行は "~%" で表現します。      |
+| `pivot`      | 基準点がキューブのどこにくるように描画するかを指定します。詳細は「[](#座標と位置)」を参照してください。 |
 | `depth`      | 上面および側面の大きさを数値で指定します。省略した場合のデフォルト値は height の 1/5 です。  |
 | `align`      | テキストの水平方向のアライメントを `:left :center :right` のいずれかで指定します。<br> \
 省略した場合のデフォルト値は `:center` です。詳細は後述します。 |
@@ -2209,10 +2223,10 @@ Figure. 円柱のサンプル
 　cylinder のパラメータ構成は以下の通りです。
 
 ```lisp
-(defmacro cylinder (center width height text
-                           &key depth align valign margin
-                                font fill stroke link
-                                rotate layer id filter contents) ...)
+(defmacro cylinder (position width height text
+                             &key pivot depth align valign
+                                  margin font fill stroke link
+                                  rotate layer id filter contents) ...)
 ```
 
 ${BLANK_PARAGRAPH}
@@ -2222,10 +2236,11 @@ ${BLANK_PARAGRAPH}
 Table. cylinder のパラメータ
 | パラメータ    | 説明                                                                           |
 |:=============|:--------------------------------------------------------------------------------------|
-| `center`     | 中心点を指定します。詳細は「[](#座標と位置)」を参照してください。 |
+| `position`   | 描画の基準点を指定します。詳細は「[](#座標と位置)」を参照してください。                   |
 | `width`      | 幅を数値で指定します。 |
 | `height`     | 高さを数値で指定します。 |
 | `text`       | 内部に描画するテキストを文字列で指定します。改行は "~%" で表現します。      |
+| `pivot`      | 基準点が円柱のどこにくるように描画するかを指定します。詳細は「[](#座標と位置)」を参照してください。 |
 | `depth`      | 下部の曲線の深さを指定します。省略した場合のデフォルト値は height の 1/5 です。  |
 | `align`      | テキストの水平方向のアライメントを `:left :center :right` のいずれかで指定します。<br> \
 省略した場合のデフォルト値は `:center` です。詳細は後述します。 |
@@ -2305,11 +2320,11 @@ Figure. 爆発のサンプル
 　explosion1, explosion2 のパラメータ構成は以下の通りです。
 
 ```lisp
-(defmacro explosion1 (center width height text
-                         &key font fill stroke
+(defmacro explosion1 (position width height text
+                         &key pivot font fill stroke
                               link rotate layer id filter contents) ...)
-(defmacro explosion2 (center width height text
-                         &key font fill stroke
+(defmacro explosion2 (position width height text
+                         &key pivot font fill stroke
                               link rotate layer id filter contents) ...)
 ```
 
@@ -2320,10 +2335,11 @@ ${BLANK_PARAGRAPH}
 Table. explosion1, explosion2 のパラメータ
 | パラメータ    | 説明                                                                           |
 |:=============|:--------------------------------------------------------------------------------------|
-| `center`     | 中心点を指定します。詳細は「[](#座標と位置)」を参照してください。 |
+| `position`   | 描画の基準点を指定します。詳細は「[](#座標と位置)」を参照してください。                   |
 | `width`      | 幅を数値で指定します。 |
 | `height`     | 高さを数値で指定します。 |
 | `text`       | 内部に描画するテキストを文字列で指定します。改行は "~%" で表現します。      |
+| `pivot`      | 基準点が爆発のどこにくるように描画するかを指定します。詳細は「[](#座標と位置)」を参照してください。 |
 | `font`       | フォントを指定します。詳細は「[](#フォント)」を参照してください。         |
 | `fill`       | 内部の塗り潰しを指定します。詳細は「[](#フィル)」を参照してください。 |
 | `stroke`     | 外枠を描画する線を指定します。詳細は「[](#ストローク)」を参照してください。 |
@@ -2377,7 +2393,7 @@ Figure. with-explosion-options のサンプル
   (grid)
   (cross '( 80 50) 80 80 20 :fill :pink :stroke :red)
   (cross '(200 50) 80 80 20 :fill :pink :stroke :red :rotate 45)
-  (cross '(320 50) 80 80 10 :fill :pink :stroke :red :pivot '(-10 -15) :size-v 15))
+  (cross '(320 50) 80 80 10 :fill :pink :stroke :red :intersection '(-10 -15) :size-v 15))
 -->
 
 ```kaavio
@@ -2396,9 +2412,9 @@ Figure. 十字のサンプル
 　cross のパラメータ構成は以下の通りです。
 
 ```lisp
-(defmacro cross (center width height size
-                        &key size-v pivot fill stroke 
-                             rotate link layer id filter) ...)
+(defmacro cross (position width height size
+                        &key pivot size-v intersection
+                             fill stroke  rotate link layer id filter) ...)
 ```
 
 ${BLANK_PARAGRAPH}
@@ -2408,12 +2424,13 @@ ${BLANK_PARAGRAPH}
 Table. cross のパラメータ
 | パラメータ    | 説明                                                                           |
 |:=============|:--------------------------------------------------------------------------------------|
-| `center`     | 中心点を指定します。詳細は「[](#座標と位置)」を参照してください。 |
+| `position`   | 描画の基準点を指定します。詳細は「[](#座標と位置)」を参照してください。                   |
 | `width`      | 幅を数値で指定します。 |
 | `height`     | 高さを数値で指定します。 |
 | `size`       | 太さを指定します。size-v を指定しない限り、縦横両方の太さになります。 |
+| `pivot`      | 基準点が十字のどこにくるように描画するかを指定します。詳細は「[](#座標と位置)」を参照してください。 |
 | `size-v`     | 縦棒の太さを指定します。省略した場合、size と同じになります。 |
-| `pivot`      | 縦横の棒が交差する点を center からどれだけズラすかを `'(x y)` の要領で指定します。<br> \
+| `intersection` | 縦横の棒が交差する点を center からどれだけズラすかを `'(x y)` の要領で指定します。<br> \
 省略すると `'(0 0)` として扱われます。 |
 | `fill`       | 内部の塗り潰しを指定します。詳細は「[](#フィル)」を参照してください。 |
 | `stroke`     | 外枠を描画する線を指定します。詳細は「[](#ストローク)」を参照してください。 |
@@ -2618,8 +2635,8 @@ Figure. 波括弧のサンプル
 　brace のパラメータ構成は以下の通りです。
 
 ```lisp
-(defmacro brace (center direction width height
-                        &key r point text font stroke layer filter id) ...)
+(defmacro brace (position direction width height
+                        &key pivot r point text font stroke layer filter id) ...)
 ```
 
 ${BLANK_PARAGRAPH}
@@ -2629,10 +2646,11 @@ ${BLANK_PARAGRAPH}
 Table. brace のパラメータ
 | パラメータ    | 説明                                                                           |
 |:=============|:--------------------------------------------------------------------------------------|
-| `center`     | 中心点を指定します。詳細は「[](#座標と位置)」を参照してください。 |
+| `position`   | 描画の基準点を指定します。詳細は「[](#座標と位置)」を参照してください。                   |
 | `direction`  | 波括弧の向きを `:upper,:bottom,:left,:right` のいずれかで指定します。 |
 | `width`      | 幅を数値で指定します（後述）。 |
 | `height`     | 高さを数値で指定します（後述）。 |
+| `pivot`      | 基準点が波括弧のどこにくるように描画するかを指定します。詳細は「[](#座標と位置)」を参照してください。 |
 | `r`          | 曲線部分の半径を数値で指定します（後述）。|
 | `point`      | 中央の「つまみ」の曲線部分の端からの距離を数値で指定します。<br> \
 これは水平の波括弧の場合は左から、垂直の波括弧の場合は上からの距離です。（後述）。|
@@ -2741,8 +2759,8 @@ Figure. テーブルのサンプル
 
 
 ```lisp
-(defmacro table (center rows cols
-                        &key stroke fills font texts layer id) ...)
+(defmacro table (position rows cols
+                        &key pivot stroke fills font texts layer id) ...)
 ```
 
 ${BLANK_PARAGRAPH}
@@ -2752,9 +2770,10 @@ ${BLANK_PARAGRAPH}
 Table. table のパラメータ
 | パラメータ    | 説明                                                                     |
 |:=============|:--------------------------------------------------------------------------|
-| `center`     | 中心点を指定します。詳細は「[](#座標と位置)」を参照してください。 |
+| `position`   | 描画の基準点を指定します。詳細は「[](#座標と位置)」を参照してください。                   |
 | `rows`      | 行数と各行の高さを数値のリストで指定します。リストの長さが行数、リスト要素の数値が行の高さです。repeat 関数が役に立つかもしれません。 |
 | `cols`      | 列数と各列の幅を数値のリストで指定します。リストの長さが列数、リスト要素の数値が列の幅です。repeat 関数が役に立つかもしれません。 |
+| `pivot`      | 基準点がテーブルのどこにくるように描画するかを指定します。詳細は「[](#座標と位置)」を参照してください。 |
 | `stroke`    | 罫線を描画する線を指定します。詳細は「[](#ストローク)」を参照してください。 |
 | `fills`     | 表、行、列、またはセル個別の塗り潰しを指定します。位置を示すキーワードとフィル情報の２つの値を繰り返す \
 リストで指定してください。位置は、表全体であれば `:rc` 、列や行全体を指定する場合は `:rN` や `:cM` を指定します。 \
@@ -3660,6 +3679,24 @@ ${BLANK_PARAGRAPH}
 取得することができます。これを利用すると、 `(rect (make-point obj1.cc.x obj2.cc.y) ...)`　などの
 記述によって「縦方向を obj1 にあわせ、横方向を obj2 にあわせる」といったことができます。
 
+　このようにして指定する座標を使う局面としてもっとも一般的なのは図形要素の位置指定です。たとえば
+四角形 rect などは `position` パラメータで座標値を取ります。これは通常「その図形要素の中心点」
+として使用されますが、 `pivot` パラメータがある場合はこれを中心点以外で使用することができます。
+`pivot` に指定できるのは `:TL :TC :TR :CL :CC :CR :BL :BC :BR` のいずれかで、デフォルト値は 
+`:CC` です。この指定により、 `position` で指定した座標が図形要素のどこに来るように描画されるか
+を制御できます。以下の例では、四角形 `rct` に対して `(diamond rct.cr 60 40 :pivot :CL)` と
+することで「ひし形の左端が四角形の右端にくるように位置指定」しています。
+
+```kaavio
+(diagram (200 100)
+  (grid)
+  (rect '(70 50) 50 50 :id :rct)
+  (diamond rct.cr  60 40 :pivot :CL)
+  (circle rct.cr 3 :stroke :none :fill :red))
+```
+Figure. pivot パラメータの利用例
+
+
 　直線や円弧、コネクタ、およびブロック矢印では、 `center` および線の端点として `end1, end2` が
 利用できます。以下のように、この場合の `center` は線の総延長のちょうど半分にあたる位置になります
 （円弧の場合はベースとなる楕円の中心です）。
@@ -3906,8 +3943,8 @@ ${BLANK_PARAGRAPH}
   (defgroup (40 40 :icon)
     (rect canvas.center canvas.width canvas.height :fill :white :stroke :black
           :contents
-          ((line `((0 10) (,w 10)) :stroke :black)
-           (line `((10 0) (10 ,h)) :stroke :black))))
+          ((line `((0 10) (40 10)) :stroke :black)
+           (line `((10 0) (10 40)) :stroke :black))))
   (use :icon '( 50 50))
   (use :icon '(100 50))
   (use :icon '(150 50)))
@@ -3918,7 +3955,7 @@ ${BLANK_PARAGRAPH}
 できます。ここではそのキャンバスいっぱいに rect を描き、さらにその中で line を 2 本描いています。
 しかしこれは defgroup の中でのこと（つまり定義を作成しただけ）なので、これだけでは描画は行なわれません。
 defgroup で定義した図形を実際に描画するには、use を使います。上記の例では、 `(use :icon '( 50 50))` と
-いった記述を 3 回行なっています。パラメータは、定義名と描画する中心の座標です。
+いった記述を 3 回行なっています。パラメータは、定義名と描画する基準座標です。
 
 　上記のコードによって生成される SVG 画像は以下のようになります。入力データとの対応がわかると
 思います。定義（defgroup）は一度だけで、それを参照（use）するタグが複数登場しています。
@@ -6803,8 +6840,8 @@ Figure. uml-time-event のサンプル
 <!-- autolink: [balloon](#balloon マクロ) -->
 
 ```lisp
-(defmacro balloon (center text anchor
-                   &key width height round align valign margin
+(defmacro balloon (position text anchor
+                   &key pivot width height round align valign margin
                         font fill stroke link rotate layer id filter contents) ... )
 ```
 
@@ -6840,8 +6877,8 @@ Figure. uml-time-event のサンプル
 <!-- autolink: [brace](#brace マクロ) -->
 
 ```lisp
-(defmacro brace (center direction width height
-                    &key r point text font stroke layer filter id) ... )
+(defmacro brace (position direction width height
+                    &key pivot r point text font stroke layer filter id) ... )
 ```
 
 　${{TODO}{まだ記述されていません。}}
@@ -6850,8 +6887,8 @@ Figure. uml-time-event のサンプル
 <!-- autolink: [circle](#circle マクロ) -->
 
 ```lisp
-(defmacro circle (center radius
-                    &key fill stroke link layer id filter contents) ... )
+(defmacro circle (position radius
+                    &key pivot fill stroke link layer id filter contents) ... )
 ```
 
 　${{TODO}{まだ記述されていません。}}
@@ -6879,9 +6916,9 @@ Figure. uml-time-event のサンプル
 <!-- autolink: [cross](#cross マクロ) -->
 
 ```lisp
-(defmacro cross (center width height size
-                        &key size-v pivot fill stroke
-                             filter rotate link layer id) ... )
+(defmacro cross (position width height size
+                        &key pivot size-v intersection
+                             fill stroke filter rotate link layer id) ... )
 ```
 
 　${{TODO}{まだ記述されていません。}}
@@ -6890,9 +6927,10 @@ Figure. uml-time-event のサンプル
 <!-- autolink: [cube](#cube マクロ) -->
 
 ```lisp
-(defmacro cube (center width height text
-                       &key depth align valign margin font fill fill2 
-                            stroke link rotate layer id filter contents) ... )
+(defmacro cube (position width height text
+                       &key pivot depth align valign margin
+                            font fill fill2 stroke link
+                            rotate layer id filter contents) ... )
 ```
 
 　${{TODO}{まだ記述されていません。}}
@@ -6901,8 +6939,8 @@ Figure. uml-time-event のサンプル
 <!-- autolink: [cylinder](#cylinder マクロ) -->
 
 ```lisp
-(defmacro cylinder (center width height text
-                           &key depth align valign margin font fill
+(defmacro cylinder (position width height text
+                           &key pivot depth align valign margin font fill
                                 stroke link rotate layer id filter contents) ... )
 ```
 
@@ -7033,9 +7071,9 @@ ${BLANK_PARAGRAPH}
 <!-- autolink: [diamond](#diamond マクロ) -->
 
 ```lisp
-(defmacro diamond (center width height
-                          &key fill stroke rotate link
-                               layer id filter contents) ... )
+(defmacro diamond (position width height
+                          &key pivot fill stroke rotate
+                               link layer id filter contents) ... )
 ```
 
 　${{TODO}{まだ記述されていません。}}
@@ -7044,8 +7082,8 @@ ${BLANK_PARAGRAPH}
 <!-- autolink: [document](#document マクロ) -->
 
 ```lisp
-(defmacro document (center width height text
-                           &key depth align valign margin font fill
+(defmacro document (position width height text
+                           &key pivot depth align valign margin font fill
                                 stroke link rotate layer id filter contents) ... )
 ```
 
@@ -7080,8 +7118,8 @@ ${BLANK_PARAGRAPH}
 <!-- autolink: [ellipse](#ellipse マクロ) -->
 
 ```lisp
-(defmacro ellipse (center rx ry &key fill stroke rotate
-                                     link layer id filter contents) ... )
+(defmacro ellipse (position rx ry &key pivot fill stroke rotate
+                                       link layer id filter contents) ... )
 ```
 
 　${{TODO}{まだ記述されていません。}}
@@ -7090,9 +7128,9 @@ ${BLANK_PARAGRAPH}
 <!-- autolink: [explosion1](#explosion1 マクロ) -->
 
 ```lisp
-(defmacro explosion1 (center width height text
-                             &key font fill stroke link
-                                  rotate layer id filter contents) ... )
+(defmacro explosion1 (position width height text
+                               &key pivot font fill stroke link
+                                    rotate layer id filter contents) ... )
 ```
 
 　${{TODO}{まだ記述されていません。}}
@@ -7101,9 +7139,9 @@ ${BLANK_PARAGRAPH}
 <!-- autolink: [explosion2](#explosion2 マクロ) -->
 
 ```lisp
-(defmacro explosion2 (center width height text
-                             &key font fill stroke link
-                                  rotate layer id filter contents) ... )
+(defmacro explosion2 (position width height text
+                               &key pivot font fill stroke link
+                                    rotate layer id filter contents) ... )
 ```
 
 　${{TODO}{まだ記述されていません。}}
@@ -7112,9 +7150,9 @@ ${BLANK_PARAGRAPH}
 <!-- autolink: [folder](#folder マクロ) -->
 
 ```lisp
-(defmacro folder (center text &key width height tab-width tab-height
-                                   align valign font fill stroke
-                                   margin link rotate layer filter id contents) ... )
+(defmacro folder (position text &key pivot width height tab-width tab-height
+                                     align valign font fill stroke
+                                     margin link rotate layer filter id contents) ... )
 ```
 
 　${{TODO}{まだ記述されていません。}}
@@ -7155,8 +7193,8 @@ ${BLANK_PARAGRAPH}
 <!-- autolink: [image](#image マクロ) -->
 
 ```lisp
-(defmacro image (center filename &key width height label link
-                                      rotate layer id filter contents) ... )
+(defmacro image (position filename &key pivot width height label link
+                                        rotate layer id filter contents) ... )
 ```
 
 　${{TODO}{まだ記述されていません。}}
@@ -7498,9 +7536,9 @@ ${BLANK_PARAGRAPH}
 <!-- autolink: [memo](#memo マクロ) -->
 
 ```lisp
-(defmacro memo (center text &key width height crease
-                                 align valign margin font fill fill2
-                                 stroke link rotate layer id filter contents) ... )
+(defmacro memo (position text &key pivot width height crease
+                                   align valign margin font fill fill2
+                                   stroke link rotate layer id filter contents) ... )
 ```
 
 　${{TODO}{まだ記述されていません。}}
@@ -7519,8 +7557,8 @@ ${BLANK_PARAGRAPH}
 <!-- autolink: [parallelogram](#parallelogram マクロ) -->
 
 ```lisp
-(defmacro parallelogram (center width height direction offset
-                                &key fill stroke rotate
+(defmacro parallelogram (position width height direction offset
+                                &key pivot fill stroke rotate
                                      link layer id filter contents) ... )
 ```
 
@@ -7539,8 +7577,8 @@ ${BLANK_PARAGRAPH}
 <!-- autolink: [person](#person マクロ) -->
 
 ```lisp
-(defmacro person (center size &key fill stroke label
-                                   link rotate layer filter id) ... )
+(defmacro person (position size &key pivot fill stroke label
+                                     link rotate layer filter id) ... )
 ```
 
 　${{TODO}{まだ記述されていません。}}
@@ -7724,8 +7762,9 @@ ${BLANK_PARAGRAPH}
 <!-- autolink: [rect](#rect マクロ) -->
 
 ```lisp
-(defmacro rect (center width height &key rx ry fill stroke rotate
-                                         link layer id filter contents) ... )
+(defmacro rect (position width height
+                         &key pivot rx ry fill stroke
+                              rotate link layer id filter contents) ... )
 ```
 
 　${{TODO}{まだ記述されていません。}}
@@ -7769,8 +7808,8 @@ ${BLANK_PARAGRAPH}
 <!-- autolink: [table](#table マクロ) -->
 
 ```lisp
-(defmacro table (center rows cols &key font fills
-                                       stroke texts layer id) ... )
+(defmacro table (position rows cols &key pivot font fills
+                                         stroke texts layer id) ... )
 ```
 
 　${{TODO}{まだ記述されていません。}}
@@ -7788,9 +7827,9 @@ ${BLANK_PARAGRAPH}
 <!-- autolink: [textbox](#textbox マクロ) -->
 
 ```lisp
-(defmacro textbox (center text &key width height no-frame rx ry
-                                    align valign margin font fill stroke
-                                    link rotate layer id filter contents) ... )
+(defmacro textbox (position text &key pivot width height no-frame rx ry
+                                      align valign margin font fill stroke
+                                      link rotate layer id filter contents) ... )
 ```
 
 　${{TODO}{まだ記述されていません。}}
@@ -7799,10 +7838,10 @@ ${BLANK_PARAGRAPH}
 <!-- autolink: [uml-action](#uml-action マクロ) -->
 
 ```lisp
-(defmacro uml-action (center text &key keyword width height
-                                       margin corner-r rake
-                                       font fill stroke link
-                                       layer filter id contents) ... )
+(defmacro uml-action (position text &key keyword pivot width height
+                                         margin corner-r rake
+                                         font fill stroke link
+                                         layer filter id contents) ... )
 ```
 
 　${{TODO}{まだ記述されていません。}}
@@ -7814,8 +7853,8 @@ ${BLANK_PARAGRAPH}
 <!-- autolink: [uml-activity-final](#uml-activity-final マクロ) -->
 
 ```lisp
-(defmacro uml-activity-final (center &key radius ratio fill
-                                          stroke link layer filter id) ... )
+(defmacro uml-activity-final (position &key radius ratio pivot fill
+                                            stroke link layer filter id) ... )
 ```
 
 　${{TODO}{まだ記述されていません。}}
@@ -7824,8 +7863,8 @@ ${BLANK_PARAGRAPH}
 <!-- autolink: [uml-activity-start](#uml-activity-start マクロ) -->
 
 ```lisp
-(defmacro uml-activity-start (center &key radius fill
-                                          link layer filter id) ... )
+(defmacro uml-activity-start (position &key radius pivot fill
+                                            link layer filter id) ... )
 ```
 
 　${{TODO}{まだ記述されていません。}}
@@ -7834,9 +7873,9 @@ ${BLANK_PARAGRAPH}
 <!-- autolink: [uml-connector](#uml-connector マクロ) -->
 
 ```lisp
-(defmacro uml-connector (center1 center2 id
-                                 &key name size fill
-                                      stroke font filter layer) ... )
+(defmacro uml-connector (position1 position2 id
+                                 &key pivot1 pivot2 name size 
+                                      fill stroke font filter layer) ... )
 ```
 
 　${{TODO}{まだ記述されていません。}}
@@ -7845,9 +7884,9 @@ ${BLANK_PARAGRAPH}
 <!-- autolink: [uml-decision](#uml-decision マクロ) -->
 
 ```lisp
-(defmacro uml-decision (center &key text width height
-                                    margin font fill stroke
-                                    link layer filter id) ... )
+(defmacro uml-decision (position &key pivot text width height
+                                      margin font fill stroke
+                                      link layer filter id) ... )
 ```
 
 　${{TODO}{まだ記述されていません。}}
@@ -7856,8 +7895,8 @@ ${BLANK_PARAGRAPH}
 <!-- autolink: [uml-expansion-region](#uml-expansion-region マクロ) -->
 
 ```lisp
-(defmacro uml-expansion-region (center width height
-                                  &key keyword font offset
+(defmacro uml-expansion-region (position width height
+                                  &key pivot keyword font offset
                                        corner-r fill stroke
                                        link layer id contents) ... )
 ```
@@ -7877,8 +7916,8 @@ ${BLANK_PARAGRAPH}
 <!-- autolink: [uml-flow-final](#uml-flow-final マクロ) -->
 
 ```lisp
-(defmacro uml-flow-final (center &key radius fill
-                                      stroke link layer filter id) ... )
+(defmacro uml-flow-final (position &key pivot radius fill
+                                        stroke link layer filter id) ... )
 ```
 
 　${{TODO}{まだ記述されていません。}}
@@ -7887,8 +7926,8 @@ ${BLANK_PARAGRAPH}
 <!-- autolink: [uml-fork](#uml-fork マクロ) -->
 
 ```lisp
-(defmacro uml-fork (center direction &key width length
-                                          fill link filter layer id) ... )
+(defmacro uml-fork (position direction &key pivot width length
+                                            fill link filter layer id) ... )
 ```
 
 　${{TODO}{まだ記述されていません。}}
@@ -7897,8 +7936,8 @@ ${BLANK_PARAGRAPH}
 <!-- autolink: [uml-frame](#uml-frame マクロ) -->
 
 ```lisp
-(defmacro uml-frame (center width height title
-                            &key margin font fill stroke
+(defmacro uml-frame (position width height title
+                            &key pivot margin font fill stroke
                                  link layer filter id contents) ... )
 ```
 
@@ -7908,8 +7947,8 @@ ${BLANK_PARAGRAPH}
 <!-- autolink: [uml-join](#uml-join マクロ) -->
 
 ```lisp
-(defmacro uml-join (center direction &key spec width length
-                                          fill link filter layer id) ... )
+(defmacro uml-join (position direction &key pivot spec width length
+                                            fill link filter layer id) ... )
 ```
 
 　${{TODO}{まだ記述されていません。}}
@@ -7920,9 +7959,9 @@ ${BLANK_PARAGRAPH}
 <!-- autolink: [uml-merge](#uml-merge マクロ) -->
 
 ```lisp
-(defmacro uml-merge (center &key width height
-                                 margin font fill stroke
-                                 link layer filter id) ... )
+(defmacro uml-merge (position &key pivot width height
+                                   margin font fill stroke
+                                   link layer filter id) ... )
 ```
 
 　${{TODO}{まだ記述されていません。}}
@@ -7931,8 +7970,8 @@ ${BLANK_PARAGRAPH}
 <!-- autolink: [uml-note](#uml-note マクロ) -->
 
 ```lisp
-(defmacro uml-note (center width height text
-                           &key keyword targets align valign
+(defmacro uml-note (position width height text
+                           &key pivot keyword targets align valign
                                 margin crease font fill stroke
                                 link layer filter id contents) ... )
 ```
@@ -7950,8 +7989,8 @@ ${BLANK_PARAGRAPH}
 <!-- autolink: [uml-partition](#uml-partition マクロ) -->
 
 ```lisp
-(defmacro uml-partition (center rows cols
-                         &key lines header
+(defmacro uml-partition (position rows cols
+                         &key pivot lines header
                               fills stroke font layer id) ... )
 ```
 
@@ -7972,10 +8011,10 @@ ${BLANK_PARAGRAPH}
 <!-- autolink: [uml-signal](#uml-signal マクロ) -->
 
 ```lisp
-(defmacro uml-signal (center type text
-                             &key keyword width height direction
-                                  depth font fill stroke
-                                  margin link filter layer id) ... )
+(defmacro uml-signal (position type text
+                               &key pivot keyword width height
+                                    direction depth font fill
+                                    stroke margin link filter layer id) ... )
 ```
 
 　${{TODO}{まだ記述されていません。}}
@@ -7984,9 +8023,9 @@ ${BLANK_PARAGRAPH}
 <!-- autolink: [uml-time-event](#uml-time-event マクロ) -->
 
 ```lisp
-(defmacro uml-time-event (center &key label width height
-                                      fill stroke
-                                      link filter layer id) ... )
+(defmacro uml-time-event (position &key label pivot width height
+                                        fill stroke
+                                        link filter layer id) ... )
 ```
 
 　${{TODO}{まだ記述されていません。}}
@@ -7995,7 +8034,7 @@ ${BLANK_PARAGRAPH}
 <!-- autolink: [use](#use マクロ) -->
 
 ```lisp
-(defmacro use (ref center &key link rotate layer id contents debug) ... )
+(defmacro use (ref position &key pivot link rotate layer id contents debug) ... )
 ```
 
 　${{TODO}{まだ記述されていません。}}
@@ -9171,8 +9210,10 @@ Figure. 色の名前とサンプル - 2
 	* ENHANCE : ml-note の接続先として point 値を指定可能にする機能追加
 * __2023/03/12 - version 0.023__
 	* ENHANCE : コネクタで接続先として point 値を指定可能にする機能追加
-	* ENHANCE : 
 	* __MINOR INCOMPATIBLE CHANGE : make-font 関数に単一パラメータとしてキーワードパラメータを与えた場合の扱いを（:fill に）変更__
+* __2024/02/07 - version 0.024__
+	* ENHANCE : 多くの shape において center パラメータを position に変更し、新規追加の pivot パラメータで position に対する描画位置を調整可能とする変更
+	* __INCOMPATIBLE CHANGE : 上記変更に伴い、 `cross` における既存の `pivot` パラメータを `intersection` に名称変更__
 
 ## 図表一覧
 <!-- embed:figure-list -->

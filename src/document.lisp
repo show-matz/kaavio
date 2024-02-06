@@ -91,11 +91,11 @@
 #|
 #|EXPORT|#				:document
  |#
-(defmacro document (center width height text
-						 &key depth align valign margin
+(defmacro document (position width height text
+						 &key pivot depth align valign margin
 							  font fill stroke link rotate layer id filter contents)
   (let ((code `(register-entity (make-instance 'document
-											   :center ,center :depth ,depth
+											   :position ,position :pivot ,pivot :depth ,depth
 											   :width ,width :height ,height
 											   :text ,text
 											   :align  (or ,align  *default-document-align*)

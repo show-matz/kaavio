@@ -128,13 +128,13 @@
 #|
 #|EXPORT|#				:cube
  |#
-(defmacro cube (center width height text
-					&key depth align valign margin
+(defmacro cube (position width height text
+					&key pivot depth align valign margin
 						 font fill fill2 stroke link rotate layer id filter contents)
   (let* ((g-fill (gensym "FILL"))
 		 (code `(let ((,g-fill ,fill))
 				  (register-entity (make-instance 'cube
-												   :center ,center :text ,text
+												   :position ,position :pivot ,pivot :text ,text
 												   :width ,width :height ,height
 	 											   :depth  (or ,depth  *default-cube-depth*)
 	 											   :align  (or ,align  *default-cube-align*)

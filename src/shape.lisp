@@ -55,6 +55,19 @@
 	  ((:left)   (make-point (- cx (/ width 2)) (+ cy (* (/ height 4) arg)) :absolute))
 	  ((:right)  (make-point (+ cx (/ width 2)) (+ cy (* (/ height 4) arg)) :absolute)))))
 
+(defun shape-calc-center-using-pivot (pos pivot width height)
+  (let ((w/2 (/  width 2))
+		(h/2 (/ height 2)))
+	(ecase pivot
+	  ((:TL) (xy+ pos    w/2     h/2 ))
+	  ((:TC) (xy+ pos      0     h/2 ))
+	  ((:TR) (xy+ pos (- w/2)    h/2 ))
+	  ((:CL) (xy+ pos    w/2       0 ))
+	  ((:CC) (xy+ pos      0       0 ))
+	  ((:CR) (xy+ pos (- w/2)      0 ))
+	  ((:BL) (xy+ pos    w/2  (- h/2)))
+	  ((:BC) (xy+ pos      0  (- h/2)))
+	  ((:BR) (xy+ pos (- w/2) (- h/2))))))
 
 ;;------------------------------------------------------------------------------
 ;;

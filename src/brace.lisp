@@ -153,11 +153,11 @@
 #|
 #|EXPORT|#				:brace
  |#
-(defmacro brace (center direction width height
-						&key r point text font stroke layer filter id)
+(defmacro brace (position direction width height
+						&key pivot r point text font stroke layer filter id)
   `(register-entity (make-instance 'kaavio:brace
-								   :center ,center :direction ,direction
-								   :width ,width :height ,height
+								   :position ,position :pivot ,pivot
+								   :direction ,direction :width ,width :height ,height
 								   :r ,r :point ,point
 								   :text ,text :font ,font :stroke ,stroke
 								   :link nil :layer ,layer :filter ,filter :id ,id)))

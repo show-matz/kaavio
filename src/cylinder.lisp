@@ -99,11 +99,11 @@
 #|
 #|EXPORT|#				:cylinder
  |#
-(defmacro cylinder (center width height text
-						 &key depth align valign margin
+(defmacro cylinder (position width height text
+						 &key pivot depth align valign margin
 							  font fill stroke link rotate layer id filter contents)
   (let ((code `(register-entity (make-instance 'cylinder
-											   :center ,center :text ,text
+											   :position ,position :pivot ,pivot :text ,text
 											   :width ,width :height ,height
  											   :depth  (or ,depth  *default-cylinder-depth*)
  											   :align  (or ,align  *default-cylinder-align*)

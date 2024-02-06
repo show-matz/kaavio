@@ -135,11 +135,11 @@
 ;; macro uml-package
 ;;
 ;;------------------------------------------------------------------------------
-(defmacro uml-package (center name &key keyword width height
-										font fill stroke link layer id contents)
+(defmacro uml-package (position name &key pivot keyword width height
+										  font fill stroke link layer id contents)
   (let* ((contents-p (not (null contents)))
 		 (code `(register-entity (make-instance 'uml-package
-											   :center ,center
+											   :position ,position :pivot ,pivot
 											   :width  (or ,width  *uml-package-width*)
 											   :height (or ,height *uml-package-height*)
 											   :name ,name :keyword ,keyword

@@ -50,7 +50,8 @@
 ;;
 ;;------------------------------------------------------------------------------
 (defclass circle (shape)
-  ((center		:initform nil :initarg :center)		; point
+  ((position	:initform nil :initarg :position)	; point
+   (pivot		:initform :CC :initarg :pivot)		; keyword
    (radius		:initform   0 :initarg :radius)		; number
    (fill		:initform nil :initarg :fill)		; (or nil fill-info)
    (stroke		:initform nil :initarg :stroke)		; (or nil stroke-info)
@@ -58,7 +59,8 @@
 
 (defmethod initialize-instance :after ((ent circle) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (fill stroke filter) ent
+  (with-slots (pivot fill stroke filter) ent
+	(setf pivot  (or pivot :CC))
 	(setf fill   (make-fill   (or fill   *default-fill*   :none)))
 	(setf stroke (make-stroke (or stroke *default-stroke* :none)))
 	(setf filter (if (eq filter :none)
@@ -69,13 +71,14 @@
 (defmethod check ((shp circle) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (with-slots (center radius fill stroke filter layer) shp
+  (with-slots (position pivot radius fill stroke filter layer) shp
+	(check-member pivot    :nullable nil :types keyword)
 	(check-member radius   :nullable nil :types number)
 	(check-object fill      canvas dict :nullable nil :class   fill-info)
 	(check-object stroke    canvas dict :nullable nil :class stroke-info)
 	(check-member filter   :nullable   t :types keyword)
 	(setf filter (if (eq filter :none) nil filter))
-	(setf center (canvas-fix-point canvas center))
+	(setf position (canvas-fix-point canvas position))
 	(setf layer  (if (eq layer :none)
 					 nil
 					 (or layer *default-layer*))))
@@ -88,7 +91,8 @@
   (* 2 (slot-value shp 'radius)))
 
 (defmethod attribute-center ((shp circle))
-  (slot-value shp 'center))
+  (with-slots (position pivot radius) shp
+	(shape-calc-center-using-pivot position pivot (* 2 radius) (* 2 radius))))
 
 
 (defmethod shape-connect-point ((shp circle) type1 type2 arg)
@@ -102,9 +106,10 @@
 ;;(defmethod entity-composition-p ((shp circle)) ...)
   
 (defmethod draw-entity ((shp circle) writer)
-  (with-slots (center radius fill stroke filter) shp
+  (with-slots (radius fill stroke filter) shp
 	(let ((id (and (not (entity-composition-p shp))
-				   (slot-value shp 'id))))
+				   (slot-value shp 'id)))
+		  (center (attribute-center shp)))
 	  (pre-draw shp writer)
 	  (writer-write writer
 					"<circle "
@@ -128,10 +133,11 @@
 #|
 #|EXPORT|#				:circle
  |#
-(defmacro circle (center radius
-				  &key fill stroke link layer id filter contents)
+(defmacro circle (position radius
+				  &key pivot fill stroke link layer id filter contents)
   (let ((code `(register-entity (make-instance 'kaavio:circle
-											   :center ,center :radius ,radius
+											   :position ,position
+											   :pivot ,pivot :radius ,radius
 											   :fill ,fill :stroke ,stroke :link ,link
 											   :filter ,filter :layer ,layer :id ,id))))
 	(if (null contents)

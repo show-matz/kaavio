@@ -88,10 +88,10 @@
 ;; macro uml-usecase
 ;;
 ;;------------------------------------------------------------------------------
-(defmacro uml-usecase (center text &key keyword width height
-								  font fill stroke margin link layer id)
+(defmacro uml-usecase (position text &key pivot keyword width height
+										  font fill stroke margin link layer id)
   `(register-entity (make-instance 'uml-usecase
-								   :center ,center
+								   :position ,position :pivot ,pivot
 								   :width ,width :height ,height
 								   :text ,text :font ,font
 								   :keyword ,keyword

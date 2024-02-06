@@ -20,7 +20,8 @@
 ;;
 ;;-------------------------------------------------------------------------------
 (defclass rectangle (shape)
-  ((center		:initform nil :initarg :center)		; point
+  ((position	:initform nil :initarg :position)	; point
+   (pivot		:initform :CC :initarg :pivot)		; keyword
    (width		:initform   0 :initarg :width)		; number
    (height		:initform   0 :initarg :height)		; number
    (rx			:initform nil :initarg :rx)			; number
@@ -32,7 +33,8 @@
 
 (defmethod initialize-instance :after ((rct rectangle) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (rx ry fill stroke filter layer) rct
+  (with-slots (pivot rx ry fill stroke filter layer) rct
+	(setf pivot  (or pivot :CC))
 	(setf rx     (or rx *default-rectangle-rx*))
 	(setf ry     (or ry *default-rectangle-ry*))
 	(when (and (null rx) ry)
@@ -52,7 +54,8 @@
 (defmethod check ((rct rectangle) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (with-slots (center width height rx ry fill stroke filter) rct
+  (with-slots (position pivot width height rx ry fill stroke filter) rct
+	(check-member pivot     :nullable nil :types keyword)
 	(check-member width     :nullable nil :types number)
 	(check-member height    :nullable nil :types number)
 	(check-member rx        :nullable   t :types number)
@@ -60,7 +63,7 @@
 	(check-object fill      canvas dict :nullable nil :class   fill-info)
 	(check-object stroke    canvas dict :nullable nil :class stroke-info)
 	(check-member filter    :nullable   t :types keyword)
-	(setf center (canvas-fix-point canvas center)))
+	(setf position (canvas-fix-point canvas position)))
   nil)
 
 (defmethod attribute-width ((rct rectangle))
@@ -70,7 +73,9 @@
   (slot-value rct 'height))
 
 (defmethod attribute-center ((rct rectangle))
-  (slot-value rct 'center))
+  (with-slots (position pivot width height) rct
+	(shape-calc-center-using-pivot position pivot width height)))
+
 
 ;;MEMO : use impelementation of shape...
 ;;(defmethod shape-connect-point ((shp rectangle) type1 type2 arg) ...)
@@ -109,10 +114,10 @@
 #|
 #|EXPORT|#				:rectangle
  |#
-(defmacro rectangle (center width height
-					 &key rx ry fill stroke rotate link layer id filter contents)
+(defmacro rectangle (position width height
+					 &key pivot rx ry fill stroke rotate link layer id filter contents)
   (let ((code `(register-entity (make-instance 'kaavio:rectangle
-											   :center ,center
+											   :position ,position :pivot ,pivot
 											   :width ,width :height ,height
 											   :rx ,rx :ry ,ry
 											   :fill ,fill :stroke ,stroke
@@ -129,10 +134,10 @@
 #|
 #|EXPORT|#				:rect
  |#
-(defmacro rect (center width height
-				&key rx ry fill stroke rotate link layer id filter contents)
+(defmacro rect (position width height
+				&key pivot rx ry fill stroke rotate link layer id filter contents)
   (let ((code `(register-entity (make-instance 'kaavio:rectangle
-											   :center ,center
+											   :position ,position :pivot ,pivot
 											   :width ,width :height ,height
 											   :rx ,rx :ry ,ry
 											   :fill ,fill :stroke ,stroke

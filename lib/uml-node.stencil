@@ -112,11 +112,11 @@
 ;; macro uml-node
 ;;
 ;;------------------------------------------------------------------------------
-(defmacro uml-node (center name &key keyword width height
-									 font fill1 fill2 stroke link layer id contents)
+(defmacro uml-node (position name &key pivot keyword width height font
+									   fill1 fill2 stroke link layer id contents)
   (let* ((contents-p (not (null contents)))
 		 (code `(register-entity (make-instance 'uml-node
-											   :center ,center
+											   :position ,position :pivot ,pivot
 											   :width  (or ,width  *uml-node-width*)
 											   :height (or ,height *uml-node-height*)
 											   :name ,name :keyword ,keyword

@@ -49,9 +49,9 @@
 ;; macro uml-flow-final
 ;;
 ;;------------------------------------------------------------------------------
-(defmacro uml-flow-final (center &key radius fill stroke layer filter id)
+(defmacro uml-flow-final (position &key pivot radius fill stroke layer filter id)
   `(register-entity (make-instance 'uml-flow-final
-								   :center ,center
+								   :position ,position :pivot ,pivot
 								   :radius (or ,radius *uml-flow-final-radius*)
 								   :fill   (or ,fill   *uml-flow-final-fill*   *default-fill*)
 								   :stroke (or ,stroke *uml-flow-final-stroke* *default-stroke*)

@@ -157,12 +157,12 @@
 ;; macro uml-note
 ;;
 ;;------------------------------------------------------------------------------
-(defmacro uml-note (center width height text
-							&key keyword targets
+(defmacro uml-note (position width height text
+							&key pivot keyword targets
 								 align valign margin crease font
 								 fill stroke link layer filter id contents)
   (let ((code `(register-entity (make-instance 'uml-note
-											   :center ,center
+											   :position ,position :pivot ,pivot
 											   :width ,width :height ,height
 											   :text ,text :keyword ,keyword
 											   :targets ,targets

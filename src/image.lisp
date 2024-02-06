@@ -75,7 +75,8 @@
   ((filename		:initform nil :initarg :filename)	; (or string pathname)
    (width			:initform   0 :initarg :width)		; number
    (height			:initform   0 :initarg :height)		; number
-   (center			:initform nil :initarg :center)		; point
+   (position		:initform nil :initarg :position)	; point
+   (pivot			:initform :CC :initarg :pivot)		; keyword
    (label			:initform nil :initarg :label)		; (or nil label-info)
    (preserve-ratio	:initform nil)						; boolean
    (filter			:initform nil :initarg :filter)))	; (or nil keyword)
@@ -83,7 +84,8 @@
 
 (defmethod initialize-instance :after ((img image) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (label filter layer) img
+  (with-slots (pivot label filter layer) img
+	(setf pivot  (or pivot :CC))
 	(when label
 	  (setf label (make-label label)))
 	(setf filter (if (eq filter :none)
@@ -98,10 +100,11 @@
 (defmethod check ((img image) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (with-slots (center filename width height label preserve-ratio filter) img
+  (with-slots (position pivot filename width height label preserve-ratio filter) img
 	(check-member filename :nullable nil :types (or pathname string))
 	(check-member width    :nullable   t :types number)
 	(check-member height   :nullable   t :types number)
+	(check-member pivot    :nullable nil :types keyword)
 	(check-object label    canvas dict :nullable t :class label-info)
 	(check-member filter   :nullable   t :types keyword)
 	(let ((path (merge-pathnames filename (path/get-current-directory))))
@@ -123,7 +126,7 @@
 					(setf height (* width  (/ h w))))))))
 	(check-member width  :nullable nil :types number)
 	(check-member height :nullable nil :types number)
-	(setf center (canvas-fix-point canvas center)))
+	(setf position (canvas-fix-point canvas position)))
   nil)
 
 
@@ -134,7 +137,8 @@
   (slot-value img 'height))
 
 (defmethod attribute-center ((img image))
-  (slot-value img 'center))
+  (with-slots (position pivot width height) img
+	(shape-calc-center-using-pivot position pivot width height)))
 
 ;;MEMO : use impelementation of shape...
 ;;(defmethod shape-connect-point ((img image) type1 type2 arg) ...)
@@ -180,12 +184,12 @@
 #|
 #|EXPORT|#				:image
  |#
-(defmacro image (center filename
-				 &key width height label link rotate layer id filter contents)
+(defmacro image (position filename
+				 &key pivot width height label link rotate layer id filter contents)
   (let ((code `(register-entity (make-instance 'kaavio:image
-											   :center ,center
 											   :filename ,filename
 											   :width ,width :height ,height
+											   :position ,position :pivot ,pivot
 											   :label ,label
 											   :link ,link :rotate ,rotate
 											   :filter ,filter :layer ,layer :id ,id))))

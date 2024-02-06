@@ -166,12 +166,12 @@
 ;; macro uml-state
 ;;
 ;;------------------------------------------------------------------------------
-(defmacro uml-state (center text &key keyword width height
-									  activities margin corner-r
-									  font fill stroke link layer id contents)
+(defmacro uml-state (position text &key pivot keyword width height
+										activities margin corner-r
+										font fill stroke link layer id contents)
   (let* ((contents-p (not (null contents)))
 		 (code `(register-entity (make-instance 'uml-state
-												:center ,center
+												:position ,position :pivot ,pivot
 												:width ,width :height ,height
 												:text ,text :keyword ,keyword
 												:contents-p ,contents-p

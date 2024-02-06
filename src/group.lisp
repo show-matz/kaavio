@@ -21,9 +21,10 @@
 #|EXPORT|#				:draw-group
  |#
 (defclass group (shape)
-  ((center	:initform 0 :initarg :center)	; number
-   (width	:initform 0 :initarg :width)	; number
-   (height	:initform 0 :initarg :height)))	; number
+  ((position	:initform nil :initarg :position)	; point
+   (pivot		:initform :CC :initarg :pivot)		; keyword
+   (width		:initform 0   :initarg :width)		; number
+   (height		:initform 0   :initarg :height)))	; number
 
 (defgeneric group-get-canvas (grp))
 (defgeneric draw-group (grp writer))
@@ -32,16 +33,18 @@
 
 (defmethod initialize-instance :after ((grp group) &rest initargs)
   (declare (ignore initargs))
-  ;; currently do nothing...
+  (with-slots (pivot) grp
+	(setf pivot  (or pivot :CC)))
   grp)
 
 (defmethod check ((grp group) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (with-slots (center width height) grp
+  (with-slots (position pivot width height) grp
+	(check-member pivot  :nullable nil :types keyword)
 	(check-member width  :nullable nil :types number)
 	(check-member height :nullable nil :types number)
-	(setf center (canvas-fix-point canvas center)))
+	(setf position (canvas-fix-point canvas position)))
   nil)
 
 (defmethod attribute-width ((grp group))
@@ -51,7 +54,8 @@
   (slot-value grp 'height))
 
 (defmethod attribute-center ((grp group))
-  (slot-value grp 'center))
+  (with-slots (position pivot width height) grp
+	(shape-calc-center-using-pivot position pivot width height)))
 
 ;;MEMO : use impelementation of shape...
 ;;(defmethod shape-connect-point ((grp group) type1 type2 arg) ...)

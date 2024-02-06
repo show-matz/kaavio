@@ -51,13 +51,13 @@
 ;; macro uml-fork & uml-join
 ;;
 ;;------------------------------------------------------------------------------
-(defmacro uml-fork (center direction &key width length fill link filter layer id)
+(defmacro uml-fork (position direction &key pivot width length fill link filter layer id)
   (let ((gw (gensym "WIDTH"))
 		(gh (gensym "HEIGHT")))
 	`(let ((,gw (or ,width  *uml-fork-join-width*))
 		   (,gh (or ,length *uml-fork-join-length*)))
 	   (register-entity (make-instance 'uml-fork-join
-									   :center ,center :spec nil
+									   :position ,position :pivot ,pivot :spec nil
 									   :width  (ecase ,direction ((:h) ,gw) ((:v) ,gh))
 									   :height (ecase ,direction ((:h) ,gh) ((:v) ,gw))
 									   :rx 0 :ry 0 :stroke :none
@@ -65,13 +65,13 @@
 									   :link ,link :filter ,filter :layer ,layer :id ,id)))))
 
 
-(defmacro uml-join (center direction &key spec width length fill link filter layer id)
+(defmacro uml-join (position direction &key pivot spec width length fill link filter layer id)
   (let ((gw (gensym "WIDTH"))
 		(gh (gensym "HEIGHT")))
 	`(let ((,gw (or ,width  *uml-fork-join-width*))
 		   (,gh (or ,length *uml-fork-join-length*)))
 	   (register-entity (make-instance 'uml-fork-join
-									   :center ,center :spec ,spec
+									   :position ,position :pivot ,pivot :spec ,spec
 									   :width  (ecase ,direction ((:h) ,gw) ((:v) ,gh))
 									   :height (ecase ,direction ((:h) ,gh) ((:v) ,gw))
 									   :rx 0 :ry 0 :stroke :none

@@ -87,9 +87,9 @@
 					((:bottom) (incf y half))
 					((:left)   (decf x half))
 					((:right)  (incf x half))))
-				(setf (slot-value pin 'kaavio::center) (make-point x y :absolute))
-				(setf (slot-value pin 'kaavio::width)  (* half 2 (if w4 4 1)))
-				(setf (slot-value pin 'kaavio::height) (* half 2 (if h4 4 1)))))))))
+				(setf (slot-value pin 'kaavio::position) (make-point x y :absolute))
+				(setf (slot-value pin 'kaavio::width)    (* half 2 (if w4 4 1)))
+				(setf (slot-value pin 'kaavio::height)   (* half 2 (if h4 4 1)))))))))
 	;; this method must call super class' one.
 	(call-next-method))
 

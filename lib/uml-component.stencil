@@ -111,11 +111,11 @@
 ;; macro uml-component
 ;;
 ;;------------------------------------------------------------------------------
-(defmacro uml-component (center name &key keyword width height
+(defmacro uml-component (position name &key pivot keyword width height
 									 font fill stroke link layer id contents)
   (let* ((contents-p (not (null contents)))
 		 (code `(register-entity (make-instance 'uml-component
-											   :center ,center
+											   :position ,position :pivot ,pivot
 											   :width  (or ,width  *uml-component-width*)
 											   :height (or ,height *uml-component-height*)
 											   :name ,name :keyword ,keyword

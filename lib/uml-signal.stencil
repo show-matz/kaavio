@@ -156,11 +156,11 @@
 ;; macro uml-signal
 ;;
 ;;------------------------------------------------------------------------------
-(defmacro uml-signal (center type text &key keyword width height direction depth
-											font fill stroke margin link filter layer id)
+(defmacro uml-signal (position type text &key pivot keyword width height direction depth
+											  font fill stroke margin link filter layer id)
   `(register-entity
 		(make-instance 'uml-signal
-					   :center ,center :type ,type
+					   :position ,position :pivot ,pivot :type ,type
 					   :width ,width :height ,height
 					   :text ,text :font ,font
 					   :keyword ,keyword

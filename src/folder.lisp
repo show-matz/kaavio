@@ -112,10 +112,10 @@
 #|
 #|EXPORT|#				:folder
  |#
-(defmacro folder (center text &key width height tab-width tab-height align
+(defmacro folder (position text &key pivot width height tab-width tab-height align
 								   valign font fill stroke margin link rotate layer filter id contents)
   (let ((code `(register-entity (make-instance 'folder
-											   :center ,center
+											   :position ,position :pivot ,pivot
 											   :width ,width :height ,height
 											   :text ,text
 											   :tab-width  (or ,tab-width   *default-folder-tabwidth*)

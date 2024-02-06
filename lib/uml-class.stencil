@@ -549,13 +549,13 @@
 ;; macro uml-class
 ;;
 ;;------------------------------------------------------------------------------
-(defmacro uml-class (center name &key width height keyword
+(defmacro uml-class (position name &key pivot width height keyword
 									  multiplicity abstract active template
 									  attributes operations responsibilities
 									  (emptybox nil emptybox-p)
 									  font fill stroke link layer id)
   `(register-entity (make-instance 'uml-class
-								   :center ,center :name ,name
+								   :position ,position :pivot ,pivot :name ,name
 								   :width  (or ,width  *uml-class-width*)
 								   :height (or ,height *uml-class-height*)
 								   :multiplicity ,multiplicity

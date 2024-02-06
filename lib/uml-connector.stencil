@@ -15,7 +15,8 @@
 ;;
 ;;------------------------------------------------------------------------------
 (defclass uml-connector (kaavio:group)
-  ((center2	:initform nil	:initarg :center2)	; point
+  ((position2 :initform nil :initarg :position2) ; point
+   (pivot2	  :initform :CC :initarg :pivot2)	 ; keyword
    (name	:initform nil	:initarg :name)		; (or nil keyword)
    (size	:initform   0	:initarg :size)		; number
    (fill	:initform nil	:initarg :fill)		; (or nil fill-info)
@@ -25,7 +26,8 @@
 
 (defmethod initialize-instance :after ((con uml-connector) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (fill stroke font filter layer) con
+  (with-slots (pivot2 fill stroke font filter layer) con
+	(setf pivot2 (or pivot2 :CC))
 	(setf fill   (make-fill   (or fill   *uml-connector-fill*   *default-fill*  )))
 	(setf stroke (make-stroke (or stroke *uml-connector-stroke* *default-stroke*)))
 	(setf font   (make-font   (or font   *uml-connector-font*   *default-font*  )))
@@ -38,7 +40,8 @@
   con)
 
 (defmethod check ((con uml-connector) canvas dict)
-  (with-slots (center2 name fill stroke font) con
+  (with-slots (position2 pivot2 name fill stroke font) con
+	(check-member pivot2             :nullable nil :types keyword)
 	(check-member name               :nullable t :types     keyword)
 	(check-object fill   canvas dict :nullable t :class   fill-info)
 	(check-object stroke canvas dict :nullable t :class stroke-info)
@@ -48,7 +51,7 @@
 		(let* ((tmp (symbol-name (slot-value con 'kaavio::id)))
 			   (len (length tmp)))
 		  (setf name (subseq tmp (1- len) len))))
-	(setf center2 (canvas-fix-point canvas center2)))
+	(setf position2 (canvas-fix-point canvas position2)))
   (with-slots (size kaavio::width kaavio::height) con
 	(setf kaavio::width  size)
 	(setf kaavio::height size))
@@ -56,22 +59,27 @@
   (call-next-method))
 
 (defmethod shape-cc-center ((con uml-connector) type)
-  (if (eq type :from)
-	  (slot-value con 'center2)
-	  (slot-value con 'kaavio::center)))
+  (with-slots ((position1 kaavio::position)
+			   (pivot1 kaavio::pivot)
+			   position2 pivot2
+			   (width kaavio::width) (height kaavio::height)) con
+	(if (eq type :from)
+		(kaavio::shape-calc-center-using-pivot position2 pivot2 width height)
+		(kaavio::shape-calc-center-using-pivot position1 pivot1 width height))))
 
 (defmethod shape-connect-point ((con uml-connector) type1 type2 arg)
   (if (eq type1 :from)
-	  (circle-connect-point (slot-value con 'center2)
+	  (circle-connect-point (shape-cc-center con :from)
 							(/ (slot-value con 'size) 2) :from type2 arg)
-	  (circle-connect-point (slot-value con 'kaavio::center)
+	  (circle-connect-point (shape-cc-center con :dest)
 							(/ (slot-value con 'size) 2) :dest type2 arg)))
 
 ;; override of group::draw-group
 (defmethod draw-group ((con uml-connector) writer)
-  (with-slots ((center1 kaavio::center)
-			   center2 name size fill stroke font filter) con
-	(let* ((canvas (group-get-canvas con))
+  (with-slots (name size fill stroke font filter) con
+	(let* ((center1 (shape-cc-center con :dest))
+		   (center2 (shape-cc-center con :from))
+		   (canvas (group-get-canvas con))
 		   (diff (point- center2 center1))
 		   (x (/ size 2))
 		   (y (/ size 2))
@@ -108,9 +116,11 @@
 ;; macro uml-connector
 ;;
 ;;------------------------------------------------------------------------------
-(defmacro uml-connector (center1 center2 id &key name size fill stroke font filter layer)
+(defmacro uml-connector (position1 position2 id &key pivot1 pivot2 name
+												  size fill stroke font filter layer)
   `(register-entity (make-instance 'uml-connector
-								   :center ,center1 :center2 ,center2
+								   :position  ,position1 :pivot  ,pivot1
+								   :position2 ,position2 :pivot2 ,pivot2
 								   :name ,name
 								   :size	(or ,size   *uml-connector-size*)
 								   :font    (or ,font   *uml-connector-font*)

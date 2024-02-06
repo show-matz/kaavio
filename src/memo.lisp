@@ -138,13 +138,13 @@
 #|
 #|EXPORT|#				:memo
  |#
-(defmacro memo (center text &key width height crease align valign margin
+(defmacro memo (position text &key pivot width height crease align valign margin
 								 font fill fill2 stroke link rotate layer id filter contents)
   (let* ((g-fill (gensym "FILL"))
 		 (code `(let ((,g-fill ,fill))
 				  (register-entity (make-instance 'memo
 												   :crease ,crease
-												   :center ,center
+												   :position ,position :pivot ,pivot
 												   :width ,width :height ,height
 												   :text ,text
 												   :align  (or ,align  *default-memo-align*)

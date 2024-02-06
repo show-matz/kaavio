@@ -80,9 +80,9 @@
 ;; macro uml-actor
 ;;
 ;;------------------------------------------------------------------------------
-(defmacro uml-actor (center name &key width fill stroke link layer id)
+(defmacro uml-actor (position name &key pivot width fill stroke link layer id)
   `(register-entity (make-instance 'uml-actor
-								   :center ,center
+								   :position ,position :pivot ,pivot
 								   :name ,name
 								   :width  (or ,width *uml-actor-width*)
 								   :height (* *uml-actor-height-ratio*

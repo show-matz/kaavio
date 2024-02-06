@@ -160,7 +160,8 @@
 ;;
 ;;-------------------------------------------------------------------------------
 (defclass parallelogram (shape)
-  ((center		:initform nil :initarg :center)		; point
+  ((position	:initform nil :initarg :position)	; point
+   (pivot		:initform :CC :initarg :pivot)		; keyword
    (width		:initform   0 :initarg :width)		; number
    (height		:initform   0 :initarg :height)		; number
    (direction	:initform   0 :initarg :direction)	; keyword :v :h
@@ -172,7 +173,8 @@
 
 (defmethod initialize-instance :after ((obj parallelogram) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (fill stroke filter layer) obj
+  (with-slots (pivot fill stroke filter layer) obj
+	(setf pivot  (or pivot :CC))
 	(setf fill   (make-fill   (or fill   *default-fill*   :none)))
 	(setf stroke (make-stroke (or stroke *default-stroke* :none)))
 	(setf filter (if (eq filter :none)
@@ -186,8 +188,9 @@
 (defmethod check ((obj parallelogram) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (with-slots (center width height
+  (with-slots (position pivot width height
 					  direction offset fill stroke filter) obj
+	(check-member pivot     :nullable nil :types keyword)
 	(check-member width     :nullable nil :types number)
 	(check-member height    :nullable nil :types number)
 	(check-member direction :nullable nil :types keyword)
@@ -196,7 +199,7 @@
 	(check-object fill      canvas dict :nullable nil :class   fill-info)
 	(check-object stroke    canvas dict :nullable nil :class stroke-info)
 	(check-member filter    :nullable   t :types keyword)
-	(setf center (canvas-fix-point canvas center)))
+	(setf position (canvas-fix-point canvas position)))
   nil)
 
 (defmethod attribute-width ((obj parallelogram))
@@ -206,54 +209,56 @@
   (slot-value obj 'height))
 
 (defmethod attribute-center ((obj parallelogram))
-  (slot-value obj 'center))
+  (with-slots (position pivot width height) obj
+	(shape-calc-center-using-pivot position pivot width height)))
 
 (defmethod shape-connect-point ((shp parallelogram) type1 type2 arg)
-  (with-slots (center width height direction offset) shp
-	(parallelogram-connect-point center width height
-								 direction offset type1 type2 arg)))
+  (with-slots (width height direction offset) shp
+	(parallelogram-connect-point (attribute-center shp)
+								 width height direction offset type1 type2 arg)))
   
 ;;MEMO : use impelementation of shape...
 ;;(defmethod shape-get-subcanvas ((shp parallelogram)) ...)
 
 (defmethod draw-entity ((obj parallelogram) writer)
-  (with-slots (center width height
-					  direction offset fill stroke filter) obj
-	(labels ((make-points ()
-			   (let ((tl (xy+ center (- (/ width 2)) (- (/ height 2))))
-					 (tr (xy+ center (+ (/ width 2)) (- (/ height 2))))
-					 (bl (xy+ center (- (/ width 2)) (+ (/ height 2))))
-					 (br (xy+ center (+ (/ width 2)) (+ (/ height 2)))))
-				 (if (eq direction :h)
-					 (if (<= 0 offset)
-						 `(,(x+ tl offset) ,bl ,(x+ br (- offset)) ,tr)
-						 `(,tl ,(x+ bl (- offset)) ,br ,(x+ tr offset)))
-					 (if (<= 0 offset)
-						 `(,(y+ tl offset) ,bl ,(y+ br (- offset)) ,tr)
-						 `(,tl ,(y+ bl offset) ,br ,(y+ tr (- offset)))))))
-			 (format-points (pts)
-			   (with-output-to-string (stream)
-				 (do ((idx 0 (incf idx)))
-					 ((null pts) nil)
-				   (unless (zerop idx)
-					 (princ #\space stream))
-				   (format stream "~A,~A"
-						   (coerce (point-x (car pts)) 'single-float)
-						   (coerce (point-y (car pts)) 'single-float))
-				   (setf pts (cdr pts))))))
-	  (let ((id (and (not (entity-composition-p obj))
-					 (slot-value obj 'id))))
-		(pre-draw obj writer)
-		(writer-write writer
-					  "<polygon "
-					  (write-when (keywordp id) "id='" id "' ")
-					  (to-property-strings fill)
-					  (to-property-strings stroke)
-					  "points='" (format-points (make-points)) "' "
-					  (write-when filter "filter='url(#" it ")' ")
-					  "/>")
-		(post-draw obj writer))))
-  nil)
+  (let ((center (attribute-center obj)))
+	(with-slots (width height
+				 direction offset fill stroke filter) obj
+	  (labels ((make-points ()
+				 (let ((tl (xy+ center (- (/ width 2)) (- (/ height 2))))
+					   (tr (xy+ center (+ (/ width 2)) (- (/ height 2))))
+					   (bl (xy+ center (- (/ width 2)) (+ (/ height 2))))
+					   (br (xy+ center (+ (/ width 2)) (+ (/ height 2)))))
+				   (if (eq direction :h)
+					   (if (<= 0 offset)
+						   `(,(x+ tl offset) ,bl ,(x+ br (- offset)) ,tr)
+						   `(,tl ,(x+ bl (- offset)) ,br ,(x+ tr offset)))
+					   (if (<= 0 offset)
+						   `(,(y+ tl offset) ,bl ,(y+ br (- offset)) ,tr)
+						   `(,tl ,(y+ bl offset) ,br ,(y+ tr (- offset)))))))
+			   (format-points (pts)
+				 (with-output-to-string (stream)
+				   (do ((idx 0 (incf idx)))
+					   ((null pts) nil)
+					 (unless (zerop idx)
+					   (princ #\space stream))
+					 (format stream "~A,~A"
+							 (coerce (point-x (car pts)) 'single-float)
+							 (coerce (point-y (car pts)) 'single-float))
+					 (setf pts (cdr pts))))))
+		(let ((id (and (not (entity-composition-p obj))
+					   (slot-value obj 'id))))
+		  (pre-draw obj writer)
+		  (writer-write writer
+						"<polygon "
+						(write-when (keywordp id) "id='" id "' ")
+						(to-property-strings fill)
+						(to-property-strings stroke)
+						"points='" (format-points (make-points)) "' "
+						(write-when filter "filter='url(#" it ")' ")
+						"/>")
+		  (post-draw obj writer))))
+	nil))
   
 
 ;;-------------------------------------------------------------------------------
@@ -264,10 +269,10 @@
 #|
 #|EXPORT|#				:parallelogram
  |#
-(defmacro parallelogram (center width height direction offset
-						 &key fill stroke rotate link layer id filter contents)
+(defmacro parallelogram (position width height direction offset
+						 &key pivot fill stroke rotate link layer id filter contents)
   (let ((code `(register-entity (make-instance 'kaavio:parallelogram
-											   :center ,center
+											   :position ,position :pivot ,pivot
 											   :width ,width :height ,height
 											   :direction ,direction :offset ,offset
 											   :fill ,fill :stroke ,stroke
