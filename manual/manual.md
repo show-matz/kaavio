@@ -9214,6 +9214,8 @@ Figure. 色の名前とサンプル - 2
 * __2024/02/07 - version 0.024__
 	* ENHANCE : 多くの shape において center パラメータを position に変更し、新規追加の pivot パラメータで position に対する描画位置を調整可能とする変更
 	* __INCOMPATIBLE CHANGE : 上記変更に伴い、 `cross` における既存の `pivot` パラメータを `intersection` に名称変更__
+* __2024/05/11 - version 0.025__
+	* BUGFIX : version 0.024 における connector のバグを改修
 
 ## 図表一覧
 <!-- embed:figure-list -->
