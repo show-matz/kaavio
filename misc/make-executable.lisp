@@ -17,7 +17,16 @@
   (setf sb-alien::*default-c-string-external-format* :utf-8)
   (let ((self (car *posix-argv*))
 		(args (cdr *posix-argv*)))
-	(kaavio::kaavio-main self args)))
+	(cond
+	  ((string= (car args) "--help")
+	   (progn
+		 (format t "usage : ~A --help~%" self)
+		 (format t "usage : ~A --sandbox [-IPATH]... INFILE OUTFILE~%" self)
+		 (format t "usage : ~A [-IPATH]... [INFILE]~%" self)))
+	  ((string= (car args) "--sandbox")
+	   (kaavio::sandbox-main (cdr args)))
+	  (t
+	   (kaavio::kaavio-main args)))))
 		
 
 ;; load application packages ---------------------------------
