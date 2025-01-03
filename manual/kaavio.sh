@@ -5,13 +5,13 @@ OUT=$2
 CACHE=.cache
 
 if [ ! -e ./${CACHE} ]; then
-	mkdir ${CACHE}
+    mkdir ${CACHE}
 fi
 
 if [ -e ./${CACHE}/${OUT}.svg ]; then
-	touch ./${CACHE}/${OUT}.svg
+    touch ./${CACHE}/${OUT}.svg
 else
-	kaavio ${IN} > ./${CACHE}/${OUT}.svg
+    kaavio ${IN} > ./${CACHE}/${OUT}.svg
 fi
 
 echo "<div align='center'>"  > ./${OUT}

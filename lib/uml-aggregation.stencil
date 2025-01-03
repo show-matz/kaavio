@@ -17,18 +17,18 @@
 ;;------------------------------------------------------------------------------
 (defmacro uml-aggregation (from to &key arrow keyword name style spacing role1 mult1 role2 mult2 layer id)
   (let ((g-kwd  (gensym "KEYWORD"))
-		(g-name (gensym "NAME")))
-	`(let ((,g-kwd  ,keyword)
-		   (,g-name ,name))
-	   (register-entity (make-instance 'uml-aggregation
-									   :from ,from :to ,to
-									   :keyword ,g-kwd :style ,style :spacing ,spacing
-									   :name ,g-name
-									   :label (and (or ,g-kwd ,g-name)
-												   #'uml-connection-draw-label)
-									   :stroke (make-stroke :dasharray nil :base *default-stroke*)
-									   :end1 '(:type :diamond :fill :white)
-									   :end2 (and ,arrow :arrow)
-									   :role1 ,role1 :role2 ,role2
-									   :mult1 ,mult1 :mult2 ,mult2 :layer ,layer :id ,id)))))
+        (g-name (gensym "NAME")))
+    `(let ((,g-kwd  ,keyword)
+           (,g-name ,name))
+       (register-entity (make-instance 'uml-aggregation
+                                       :from ,from :to ,to
+                                       :keyword ,g-kwd :style ,style :spacing ,spacing
+                                       :name ,g-name
+                                       :label (and (or ,g-kwd ,g-name)
+                                                   #'uml-connection-draw-label)
+                                       :stroke (make-stroke :dasharray nil :base *default-stroke*)
+                                       :end1 '(:type :diamond :fill :white)
+                                       :end2 (and ,arrow :arrow)
+                                       :role1 ,role1 :role2 ,role2
+                                       :mult1 ,mult1 :mult2 ,mult2 :layer ,layer :id ,id)))))
 

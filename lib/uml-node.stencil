@@ -18,36 +18,36 @@
 ;;
 ;;------------------------------------------------------------------------------
 (defclass uml-node (kaavio:group)
-  ((name		:initform nil :initarg :name)		; (or string keyword)
-   (keyword		:initform nil :initarg :keyword)	; (or nil uml-keyword-info)
-   (depth		:initform   0 :initarg :depth)		; number
-   (contents-p	:initform nil :initarg :contents-p)	; boolean
-   (font		:initform nil :initarg :font)		; (or nil font-info)
-   (fill1		:initform nil :initarg :fill1)		; (or nil fill-info)
-   (fill2		:initform nil :initarg :fill2)		; (or nil fill-info)
-   (stroke		:initform nil :initarg :stroke)))	; (or nil stroke-info)
+  ((name        :initform nil :initarg :name)       ; (or string keyword)
+   (keyword     :initform nil :initarg :keyword)    ; (or nil uml-keyword-info)
+   (depth       :initform   0 :initarg :depth)      ; number
+   (contents-p  :initform nil :initarg :contents-p) ; boolean
+   (font        :initform nil :initarg :font)       ; (or nil font-info)
+   (fill1       :initform nil :initarg :fill1)      ; (or nil fill-info)
+   (fill2       :initform nil :initarg :fill2)      ; (or nil fill-info)
+   (stroke      :initform nil :initarg :stroke)))   ; (or nil stroke-info)
 
 (defmethod initialize-instance :after ((node uml-node) &rest initargs)
   (declare (ignore initargs))
   (with-slots (keyword font fill1 fill2 stroke #|tab-width tab-height tab-margin|#) node
-	(setf keyword (and keyword (make-uml-keyword keyword)))
-	(setf font    (make-font   (or font   *uml-node-font*   *default-font*  )))
-	(setf fill1   (make-fill   (or fill1  *uml-node-fill1*  *default-fill*  )))
-	(setf fill2   (make-fill   (or fill2  *uml-node-fill2*  *default-fill*  )))
-	(setf stroke  (make-stroke (or stroke *uml-node-stroke* *default-stroke*))))
+    (setf keyword (and keyword (make-uml-keyword keyword)))
+    (setf font    (make-font   (or font   *uml-node-font*   *default-font*  )))
+    (setf fill1   (make-fill   (or fill1  *uml-node-fill1*  *default-fill*  )))
+    (setf fill2   (make-fill   (or fill2  *uml-node-fill2*  *default-fill*  )))
+    (setf stroke  (make-stroke (or stroke *uml-node-stroke* *default-stroke*))))
   node)
 
 (defmethod check ((node uml-node) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
   (with-slots (name keyword depth font fill1 fill2 stroke) node
-	(check-member name    :nullable nil :types (or string keyword))
-	(check-object keyword canvas dict :nullable t :class uml-keyword-info)
-	(check-member depth   :nullable nil :types number)
-	(check-object font    canvas dict :nullable t :class   font-info)
-	(check-object fill1   canvas dict :nullable t :class   fill-info)
-	(check-object fill2   canvas dict :nullable t :class   fill-info)
-	(check-object stroke  canvas dict :nullable t :class stroke-info))
+    (check-member name    :nullable nil :types (or string keyword))
+    (check-object keyword canvas dict :nullable t :class uml-keyword-info)
+    (check-member depth   :nullable nil :types number)
+    (check-object font    canvas dict :nullable t :class   font-info)
+    (check-object fill1   canvas dict :nullable t :class   fill-info)
+    (check-object fill2   canvas dict :nullable t :class   fill-info)
+    (check-object stroke  canvas dict :nullable t :class stroke-info))
   nil)
 
 ;;MEMO : use impelementation of group...
@@ -55,49 +55,49 @@
 
 (defmethod shape-get-subcanvas ((node uml-node))
   (with-slots (depth) node
-	(let ((half (/ depth 2)))
-	  (make-canvas (point/y+ (attribute-topleft node) half)
-				   (- (attribute-width  node) half)
-				   (- (attribute-height node) half)))))
+    (let ((half (/ depth 2)))
+      (make-canvas (point/y+ (attribute-topleft node) half)
+                   (- (attribute-width  node) half)
+                   (- (attribute-height node) half)))))
 
 ;; override of group::draw-group
 (defmethod draw-group ((node uml-node) writer)
   (let ((canvas (group-get-canvas node)))
-	(with-slots (name keyword depth contents-p
-							  font fill1 fill2 stroke) node
-	  (let* ((width     (canvas-width  canvas))
-			 (height    (canvas-height canvas))
-			 (x         (/ width  2))
-			 (y         (/ height 2))
-			 (half      (/ depth  2))
-			 (font-size (slot-value font 'kaavio::size))
-			 (spacing   (slot-value font 'kaavio::line-spacing)))
-		(macrolet ((register-entity (entity)
-					 `(check-and-draw-local-entity ,entity canvas writer)))
-		  (let ((*default-font*   font)
-				(*default-stroke* stroke))
-			(polygon `((0 ,half)
-					   (,depth ,(- half))
-					   (,(+ width half) ,(- half))
-					   (,(+ width half) ,(- height depth))
-					   (,(- width half) ,height)) :fill fill2)
-			(line `((,(+ width half) ,(- half))
-					(,(- width half) ,half)))
-			(rectangle (make-point (- x (/ half 2))
-								   (+ y (/ half 2))) (- width half) (- height half) :fill fill1))
-		  (let ((name (fix-name name t))
-				(x    (/ (- width half) 2))
-				(y    (if contents-p
-						  (+ half spacing font-size)
-						  (/ (+ height half) 2))))
-			(if (null keyword)
-				(incf y (/ font-size 2))
-				(progn
-				  (uml-keyword-draw keyword
-									(+ (canvas-left canvas) x)
-									(+ (canvas-top  canvas) y) :center font writer)
-				  (incf y font-size)))
-			(text (make-point x y) name :align :center))))))
+    (with-slots (name keyword depth contents-p
+                              font fill1 fill2 stroke) node
+      (let* ((width     (canvas-width  canvas))
+             (height    (canvas-height canvas))
+             (x         (/ width  2))
+             (y         (/ height 2))
+             (half      (/ depth  2))
+             (font-size (slot-value font 'kaavio::size))
+             (spacing   (slot-value font 'kaavio::line-spacing)))
+        (macrolet ((register-entity (entity)
+                     `(check-and-draw-local-entity ,entity canvas writer)))
+          (let ((*default-font*   font)
+                (*default-stroke* stroke))
+            (polygon `((0 ,half)
+                       (,depth ,(- half))
+                       (,(+ width half) ,(- half))
+                       (,(+ width half) ,(- height depth))
+                       (,(- width half) ,height)) :fill fill2)
+            (line `((,(+ width half) ,(- half))
+                    (,(- width half) ,half)))
+            (rectangle (make-point (- x (/ half 2))
+                                   (+ y (/ half 2))) (- width half) (- height half) :fill fill1))
+          (let ((name (fix-name name t))
+                (x    (/ (- width half) 2))
+                (y    (if contents-p
+                          (+ half spacing font-size)
+                          (/ (+ height half) 2))))
+            (if (null keyword)
+                (incf y (/ font-size 2))
+                (progn
+                  (uml-keyword-draw keyword
+                                    (+ (canvas-left canvas) x)
+                                    (+ (canvas-top  canvas) y) :center font writer)
+                  (incf y font-size)))
+            (text (make-point x y) name :align :center))))))
   nil)
 
 ;;for debug...
@@ -113,23 +113,23 @@
 ;;
 ;;------------------------------------------------------------------------------
 (defmacro uml-node (position name &key pivot keyword width height font
-									   fill1 fill2 stroke link layer id contents)
+                                       fill1 fill2 stroke link layer id contents)
   (let* ((contents-p (not (null contents)))
-		 (code `(register-entity (make-instance 'uml-node
-											   :position ,position :pivot ,pivot
-											   :width  (or ,width  *uml-node-width*)
-											   :height (or ,height *uml-node-height*)
-											   :name ,name :keyword ,keyword
-											   :depth *uml-node-depth*
-											   :contents-p ,contents-p
-											   :font ,font :stroke ,stroke
-											   :fill1 ,fill1 :fill2 ,fill2
-											   :link ,link :layer ,layer :id ,id))))
-	(if (null contents)
-		code
-		(let ((g-obj (gensym "OBJ")))
-		  `(let* ((,g-obj ,code)
-				  (canvas (shape-get-subcanvas ,g-obj)))
-			 (declare (special canvas))
-			 ,@contents)))))
+         (code `(register-entity (make-instance 'uml-node
+                                               :position ,position :pivot ,pivot
+                                               :width  (or ,width  *uml-node-width*)
+                                               :height (or ,height *uml-node-height*)
+                                               :name ,name :keyword ,keyword
+                                               :depth *uml-node-depth*
+                                               :contents-p ,contents-p
+                                               :font ,font :stroke ,stroke
+                                               :fill1 ,fill1 :fill2 ,fill2
+                                               :link ,link :layer ,layer :id ,id))))
+    (if (null contents)
+        code
+        (let ((g-obj (gensym "OBJ")))
+          `(let* ((,g-obj ,code)
+                  (canvas (shape-get-subcanvas ,g-obj)))
+             (declare (special canvas))
+             ,@contents)))))
 

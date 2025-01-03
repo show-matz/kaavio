@@ -1,6 +1,6 @@
 #|
-#|ASD|#				(:file "colormap"                  :depends-on ("kaavio"))
-#|EXPORT|#				;colormap.lisp
+#|ASD|#             (:file "colormap"                  :depends-on ("kaavio"))
+#|EXPORT|#              ;colormap.lisp
  |#
 
 (in-package :kaavio)
@@ -255,12 +255,12 @@
     (:goldenrod2            :emacs "#EEB422" 238 180  34)
     (:goldenrod3            :emacs "#CD9B1D" 205 155  29)
     (:goldenrod4            :emacs "#8B6914" 139 105  20)
-    (:green                 :emacs "#00FF00"   0 255   0)	; duplicated
+    (:green                 :emacs "#00FF00"   0 255   0)    ; duplicated
     (:green1                :emacs "#00FF00"   0 255   0)
     (:green2                :emacs "#00EE00"   0 238   0)
     (:green3                :emacs "#00CD00"   0 205   0)
     (:green4                :emacs "#008B00"   0 139   0)
-    (:grey                  :emacs "#BEBEBE" 190 190 190)	; duplicated
+    (:grey                  :emacs "#BEBEBE" 190 190 190)    ; duplicated
     (:grey0                 :emacs "#000000"   0   0   0)
     (:grey1                 :emacs "#030303"   3   3   3)
     (:grey2                 :emacs "#050505"   5   5   5)
@@ -428,7 +428,7 @@
     (:magenta2              :emacs "#EE00EE" 238   0 238)
     (:magenta3              :emacs "#CD00CD" 205   0 205)
     (:magenta4              :emacs "#8B008B" 139   0 139)
-    (:maroon                :emacs "#B03060" 176  48  96)	; duplicated
+    (:maroon                :emacs "#B03060" 176  48  96)    ; duplicated
     (:maroon1               :emacs "#FF34B3" 255  52 179)
     (:maroon2               :emacs "#EE30A7" 238  48 167)
     (:maroon3               :emacs "#CD2990" 205  41 144)
@@ -490,7 +490,7 @@
     (:plum2                 :emacs "#EEAEEE" 238 174 238)
     (:plum3                 :emacs "#CD96CD" 205 150 205)
     (:plum4                 :emacs "#8B668B" 139 102 139)
-    (:purple                :emacs "#A020F0" 160  32 240)	; duplicated
+    (:purple                :emacs "#A020F0" 160  32 240)    ; duplicated
     (:purple1               :emacs "#9B30FF" 155  48 255)
     (:purple2               :emacs "#912CEE" 145  44 238)
     (:purple3               :emacs "#7D26CD" 125  38 205)
@@ -580,14 +580,14 @@
 
 
 #|
-#|EXPORT|#				:colormap-fix
+#|EXPORT|#              :colormap-fix
  |#
 ;; 色情報を処理（外部エントリなら #RRGGBB 文字列に変換）する
 (defun colormap-fix (kwd)
   (let ((entry (find-if (lambda (lst)
-						  (eq (first lst) kwd)) +color-map+)))
-	(if (or (null entry)
-			(null (second entry)))
-		kwd
-		(third entry))))
+                          (eq (first lst) kwd)) +color-map+)))
+    (if (or (null entry)
+            (null (second entry)))
+        kwd
+        (third entry))))
 

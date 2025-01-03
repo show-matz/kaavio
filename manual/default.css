@@ -1,19 +1,19 @@
 html {
-	font-size: 100%;
-	overflow-y: scroll;
-	-webkit-text-size-adjust: 100%;
-	-ms-text-size-adjust: 100%;
+    font-size: 100%;
+    overflow-y: scroll;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
 }
 
 body{
-	color:#444;
-	font-family:'Meiryo UI', Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman', serif;
-	font-size:12px;
-	line-height:1.5em;
-	padding:1em;
-	margin:auto;
-	max-width:50em;
-	background:#fefefe;
+    color:#444;
+    font-family:'Meiryo UI', Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman', serif;
+    font-size:12px;
+    line-height:1.5em;
+    padding:1em;
+    margin:auto;
+    max-width:50em;
+    background:#fefefe;
 }
 
 /* floating toc link button */
@@ -37,7 +37,7 @@ a::-moz-selection{background:rgba(255,255,0,0.3);color:#0645ad}
 a::selection{background:rgba(255,255,0,0.3);color:#0645ad}
 
 p{
-	margin:1em 0;
+    margin:1em 0;
 }
 
 p.footnote{  font-size: 80%; line-height: 1.1em; }
@@ -46,14 +46,14 @@ p.tbl_title{ text-align: center; font-weight: bold; line-height: 0.6em; padding-
 p.pagebreak{ page-break-after: always; }
 
 img{
-	max-width:100%;
+    max-width:100%;
 }
 
 h1,h2,h3,h4,h5,h6{
-	padding-top: 0.5em;
-	font-weight:normal;
-	color:#111;
-	line-height:1em;
+    padding-top: 0.5em;
+    font-weight:normal;
+    color:#111;
+    line-height:1em;
 }
 h4,h5,h6{ font-weight: bold; }
 h1{ margin-top:1.5em; font-size:2.5em; }
@@ -64,40 +64,40 @@ h5{ margin-top:1.5em; font-size:1em; }
 h6{ margin-top:1.5em; font-size:0.9em; }
 
 blockquote{
-	color:#666666;
-	margin:0;
-	padding-left: 1.5em;
-	border-left: 0.5em #EEE solid;
+    color:#666666;
+    margin:0;
+    padding-left: 1.5em;
+    border-left: 0.5em #EEE solid;
 }
 hr { display: block; height: 2px; border: 0; border-top: 1px solid #aaa;
-	 border-bottom: 1px solid #eee; margin: 1em 0; padding: 0; }
+     border-bottom: 1px solid #eee; margin: 1em 0; padding: 0; }
 
 kbd, samp { color: #000; background:#eee;
-				 line-height:1.2em;
-				 _font-family: monospace, monospace;
-				 font-family: 'Courier New', monospace; font-size: 0.98em; }
+                 line-height:1.2em;
+                 _font-family: monospace, monospace;
+                 font-family: 'Courier New', monospace; font-size: 0.98em; }
 code { color: #000;
-	   line-height:1.2em;
-	   _font-family: monospace, monospace;
-	   font-family: 'Courier New', monospace; font-size: 0.98em; }
+       line-height:1.2em;
+       _font-family: monospace, monospace;
+       font-family: 'Courier New', monospace; font-size: 0.98em; }
 
 /* normal pre block */
 pre {
-	background:	#eee;
-	color:		#000;
-	font-size:	0.98em;
-	border:			1px solid #ccc;
-	border-radius:	8px;
-	margin-left:	2em;
-	margin-right:	2em;
-	padding:		.5em;
+    background:    #eee;
+    color:         #000;
+    font-size:     0.98em;
+    border:        1px solid #ccc;
+    border-radius: 8px;
+    margin-left:   2em;
+    margin-right:  2em;
+    padding:       .5em;
 
-	white-space: pre;
-	white-space: pre-wrap;
-	word-wrap: break-word;
-	line-height:1.2em;
-	_font-family: monospace, monospace;
-	font-family: 'Courier New', monospace;
+    white-space: pre;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    line-height:1.2em;
+    _font-family: monospace, monospace;
+    font-family: 'Courier New', monospace;
 }
 
 b, strong { font-weight: bold; }
@@ -128,14 +128,14 @@ td { vertical-align: top; padding: 3px; border: 1px solid black;}
 
 /* for filters */
 pre.diff {
-	background:		#334;
-	color:			#fff;
-	font-size:		14px;
-	border:			1px solid #000;
-	border-radius:	8px;
-	margin-left:	2em;
-	margin-right:	2em;
-	padding:		.5em;
+    background:      #334;
+    color:           #fff;
+    font-size:       14px;
+    border:          1px solid #000;
+    border-radius:   8px;
+    margin-left:     2em;
+    margin-right:    2em;
+    padding:        .5em;
 }
 span.diff_head { color: #FF88FF; background: #550055; font-weight: bold; }
 span.diff_line { color: #CCCCFF; background: #000077; font-weight: bold; }
@@ -143,23 +143,23 @@ span.diff_add  { color: #DCFBDC; background: #004400; font-weight: bold; }
 span.diff_del  { color: #FBDCDC; background: #550000; font-weight: bold; }
 
 pre.code {
-	background:		#334;
-	color:			#fff;
-	font-size:		14px;
-	border:			1px solid #000;
-	border-radius:	8px;
-	margin-left:	2em;
-	margin-right:	2em;
-	padding:		.5em;
+    background:      #334;
+    color:           #fff;
+    font-size:       14px;
+    border:          1px solid #000;
+    border-radius:   8px;
+    margin-left:     2em;
+    margin-right:    2em;
+    padding:        .5em;
 }
 span.comment  { color: darkorange; }
 span.keyword1 { color: cyan; }
 span.keyword2 { color: lime; }
-span.keyword3 { color: aquamarine; }
+span.keyword3 { color: slateblue; }
 span.keyword4 { color: yellow; }
 span.keyword5 { color: skyblue; }
 span.keyword6 { color: lightgray; }
-span.literal  { color: salmon; }
+span.literal  { color: pink; }
 
 
 /* for collapse */
@@ -183,10 +183,10 @@ details[open] summary {
 
 /* for toc-x */
 blockquote.tocx {
-	color:#666666;
-	margin:0;
-	padding-left: 1.5em;
-	border-left: 0.5em white solid;
+    color:#666666;
+    margin:0;
+    padding-left: 1.5em;
+    border-left: 0.5em white solid;
 }
 li.tocx {
 }
@@ -211,10 +211,10 @@ details.tocx[open] summary.tocx {
 
 /* for index-x */
 blockquote.idx_x {
-	color:#666666;
-	margin:0;
-	padding-left: 1.5em;
-	border-left: 0.5em white solid;
+    color:#666666;
+    margin:0;
+    padding-left: 1.5em;
+    border-left: 0.5em white solid;
 }
 li.idx_x {
 }

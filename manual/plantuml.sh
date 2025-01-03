@@ -9,13 +9,13 @@ CFG=
 #CFG=-config uml.theme
 
 if [ ! -e ./${CACHE} ]; then
-	mkdir ${CACHE}
+    mkdir ${CACHE}
 fi
 
 if [ -e ./${CACHE}/${OUT}.svg ]; then
-	touch ./${CACHE}/${OUT}.svg
+    touch ./${CACHE}/${OUT}.svg
 else
-	cat ${IN} | java ${OPT} -jar ${JAR} ${CFG} -pipe -tsvg >> ./${CACHE}/${OUT}.svg
+    cat ${IN} | java ${OPT} -jar ${JAR} ${CFG} -pipe -tsvg >> ./${CACHE}/${OUT}.svg
 fi
 
 echo "<div align='center'>"  > ./${OUT}

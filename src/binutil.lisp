@@ -1,6 +1,6 @@
 #|
-#|ASD|#				(:file "binutil"                   :depends-on ("kaavio"))
-#|EXPORT|#				;binutil.lisp
+#|ASD|#             (:file "binutil"                   :depends-on ("kaavio"))
+#|EXPORT|#              ;binutil.lisp
  |#
 
 (in-package :kaavio)
@@ -34,22 +34,22 @@
 ;;------------------------------------------------------------------------------
 (defclass bin/file-read-stream (bin/read-stream)
   ((handle :initform nil
-		   :initarg  :handle
-		   :accessor __file-read-stream-handle)))
+           :initarg  :handle
+           :accessor __file-read-stream-handle)))
 
 
 (defmethod bin/create-read-stream ((source string))
   (make-instance 'bin/file-read-stream
-				 :handle (open (pathname source)
-							   :direction :input
-							   :element-type '(unsigned-byte 8))))
+                 :handle (open (pathname source)
+                               :direction :input
+                               :element-type '(unsigned-byte 8))))
 
 
 (defmethod bin/create-read-stream ((source pathname))
   (make-instance 'bin/file-read-stream
-				 :handle (open source
-							   :direction :input
-							   :element-type '(unsigned-byte 8))))
+                 :handle (open source
+                               :direction :input
+                               :element-type '(unsigned-byte 8))))
 
 ; return byte
 (defmethod bin/get-byte ((frs bin/file-read-stream))
@@ -58,8 +58,8 @@
 ; integer value
 (defmethod bin/seek-relative ((frs bin/file-read-stream) offset)
   (let* ((handle (__file-read-stream-handle frs))
-		 (pos    (file-position handle)))
-	(cl:file-position handle (+ pos offset))))
+         (pos    (file-position handle)))
+    (cl:file-position handle (+ pos offset))))
 
 ; :start|:end|integer value
 (defmethod bin/seek-absolute ((frs bin/file-read-stream) pos)
@@ -84,10 +84,10 @@
 ;;------------------------------------------------------------------------------
 (defmacro bin/with-read-stream ((stream source) &rest body)
   `(let ((,stream (bin/create-read-stream ,source)))
-	 (unwind-protect
-		  (progn
-			,@body)
-	   (bin/close-stream ,stream))))
+     (unwind-protect
+          (progn
+            ,@body)
+       (bin/close-stream ,stream))))
 
 
 
@@ -102,54 +102,54 @@
   (bin/get-byte stream))
 
 (defmethod bin/read-value ((type (eql :uint16))
-						   (stream bin/read-stream) &key (endian *default-endian*))
+                           (stream bin/read-stream) &key (endian *default-endian*))
   (let ((value 0))
-	(ecase endian
-	  ((:little)
-	   (setf (ldb (byte 8  0) value) (bin/get-byte stream))
-	   (setf (ldb (byte 8  8) value) (bin/get-byte stream)))
-	  ((:big)
-	   (setf (ldb (byte 8  8) value) (bin/get-byte stream))
-	   (setf (ldb (byte 8  0) value) (bin/get-byte stream))))
-	value))
+    (ecase endian
+      ((:little)
+       (setf (ldb (byte 8  0) value) (bin/get-byte stream))
+       (setf (ldb (byte 8  8) value) (bin/get-byte stream)))
+      ((:big)
+       (setf (ldb (byte 8  8) value) (bin/get-byte stream))
+       (setf (ldb (byte 8  0) value) (bin/get-byte stream))))
+    value))
 
 (defmethod bin/read-value ((type (eql :uint32))
-						   (stream bin/read-stream) &key (endian *default-endian*))
+                           (stream bin/read-stream) &key (endian *default-endian*))
   (let ((value 0))
-	(ecase endian
-	  ((:little)
-	   (setf (ldb (byte 8  0) value) (bin/get-byte stream))
-	   (setf (ldb (byte 8  8) value) (bin/get-byte stream))
-	   (setf (ldb (byte 8 16) value) (bin/get-byte stream))
-	   (setf (ldb (byte 8 24) value) (bin/get-byte stream)))
-	  ((:big)
-	   (setf (ldb (byte 8 24) value) (bin/get-byte stream))
-	   (setf (ldb (byte 8 16) value) (bin/get-byte stream))
-	   (setf (ldb (byte 8  8) value) (bin/get-byte stream))
-	   (setf (ldb (byte 8  0) value) (bin/get-byte stream))))
-	value))
+    (ecase endian
+      ((:little)
+       (setf (ldb (byte 8  0) value) (bin/get-byte stream))
+       (setf (ldb (byte 8  8) value) (bin/get-byte stream))
+       (setf (ldb (byte 8 16) value) (bin/get-byte stream))
+       (setf (ldb (byte 8 24) value) (bin/get-byte stream)))
+      ((:big)
+       (setf (ldb (byte 8 24) value) (bin/get-byte stream))
+       (setf (ldb (byte 8 16) value) (bin/get-byte stream))
+       (setf (ldb (byte 8  8) value) (bin/get-byte stream))
+       (setf (ldb (byte 8  0) value) (bin/get-byte stream))))
+    value))
 
 (defmethod bin/read-value ((type (eql :uint64))
-						   (stream bin/read-stream) &key (endian *default-endian*))
+                           (stream bin/read-stream) &key (endian *default-endian*))
   (let ((value 0))
-	(ecase endian
-	  ((:little)
-	   (setf (ldb (byte 8  0) value) (bin/get-byte stream))
-	   (setf (ldb (byte 8  8) value) (bin/get-byte stream))
-	   (setf (ldb (byte 8 16) value) (bin/get-byte stream))
-	   (setf (ldb (byte 8 24) value) (bin/get-byte stream))
-	   (setf (ldb (byte 8 32) value) (bin/get-byte stream))
-	   (setf (ldb (byte 8 40) value) (bin/get-byte stream))
-	   (setf (ldb (byte 8 48) value) (bin/get-byte stream))
-	   (setf (ldb (byte 8 56) value) (bin/get-byte stream)))
-	  ((:big)
-	   (setf (ldb (byte 8 56) value) (bin/get-byte stream))
-	   (setf (ldb (byte 8 48) value) (bin/get-byte stream))
-	   (setf (ldb (byte 8 40) value) (bin/get-byte stream))
-	   (setf (ldb (byte 8 32) value) (bin/get-byte stream))
-	   (setf (ldb (byte 8 24) value) (bin/get-byte stream))
-	   (setf (ldb (byte 8 16) value) (bin/get-byte stream))
-	   (setf (ldb (byte 8  8) value) (bin/get-byte stream))
-	   (setf (ldb (byte 8  0) value) (bin/get-byte stream))))
-	value))
+    (ecase endian
+      ((:little)
+       (setf (ldb (byte 8  0) value) (bin/get-byte stream))
+       (setf (ldb (byte 8  8) value) (bin/get-byte stream))
+       (setf (ldb (byte 8 16) value) (bin/get-byte stream))
+       (setf (ldb (byte 8 24) value) (bin/get-byte stream))
+       (setf (ldb (byte 8 32) value) (bin/get-byte stream))
+       (setf (ldb (byte 8 40) value) (bin/get-byte stream))
+       (setf (ldb (byte 8 48) value) (bin/get-byte stream))
+       (setf (ldb (byte 8 56) value) (bin/get-byte stream)))
+      ((:big)
+       (setf (ldb (byte 8 56) value) (bin/get-byte stream))
+       (setf (ldb (byte 8 48) value) (bin/get-byte stream))
+       (setf (ldb (byte 8 40) value) (bin/get-byte stream))
+       (setf (ldb (byte 8 32) value) (bin/get-byte stream))
+       (setf (ldb (byte 8 24) value) (bin/get-byte stream))
+       (setf (ldb (byte 8 16) value) (bin/get-byte stream))
+       (setf (ldb (byte 8  8) value) (bin/get-byte stream))
+       (setf (ldb (byte 8  0) value) (bin/get-byte stream))))
+    value))
 

@@ -15,12 +15,12 @@
 
 (defun uml-package-calc-namearea-size (pkg)
   (with-slots (keyword name font
-					   tab-width tab-height tab-margin) pkg
-	(let ((txt (with-output-to-string (s)
-				 (when keyword
-				   (format s "~A~%" (uml-keyword-to-string keyword)))
-				 (princ (fix-name name) s))))
-	  (kaavio:font-calc-textarea font txt))))
+                       tab-width tab-height tab-margin) pkg
+    (let ((txt (with-output-to-string (s)
+                 (when keyword
+                   (format s "~A~%" (uml-keyword-to-string keyword)))
+                 (princ (fix-name name) s))))
+      (kaavio:font-calc-textarea font txt))))
 
 
 ;;------------------------------------------------------------------------------
@@ -29,98 +29,98 @@
 ;;
 ;;------------------------------------------------------------------------------
 (defclass uml-package (kaavio:group)
-  ((name		:initform nil :initarg :name)		; (or string keyword)
-   (keyword		:initform nil :initarg :keyword)	; (or nil uml-keyword-info)
-   (contents-p	:initform nil :initarg :contents-p)	; boolean
-   (font		:initform nil :initarg :font)		; (or nil font-info)
-   (fill		:initform nil :initarg :fill)		; (or nil fill-info)
-   (stroke		:initform nil :initarg :stroke)		; (or nil stroke-info)
-   (tab-width	:initform   0)						; number
-   (tab-height	:initform   0)						; number
-   (tab-margin	:initform   0)))					; number
+  ((name        :initform nil :initarg :name)        ; (or string keyword)
+   (keyword     :initform nil :initarg :keyword)     ; (or nil uml-keyword-info)
+   (contents-p  :initform nil :initarg :contents-p)  ; boolean
+   (font        :initform nil :initarg :font)        ; (or nil font-info)
+   (fill        :initform nil :initarg :fill)        ; (or nil fill-info)
+   (stroke      :initform nil :initarg :stroke)      ; (or nil stroke-info)
+   (tab-width   :initform   0)                       ; number
+   (tab-height  :initform   0)                       ; number
+   (tab-margin  :initform   0)))                     ; number
 
 (defmethod initialize-instance :after ((pkg uml-package) &rest initargs)
   (declare (ignore initargs))
   (with-slots (keyword font fill stroke tab-width tab-height tab-margin) pkg
-	(setf keyword (and keyword (make-uml-keyword keyword)))
-	(setf font    (make-font   (or font   *uml-package-font*   *default-font*  )))
-	(setf fill    (make-fill   (or fill   *uml-package-fill*   *default-fill*  )))
-	(setf stroke  (make-stroke (or stroke *uml-package-stroke* *default-stroke*)))
-	(setf tab-width  *uml-package-tab-width*)
-	(setf tab-height *uml-package-tab-height*)
-	(setf tab-margin *uml-package-tab-margin*))
+    (setf keyword (and keyword (make-uml-keyword keyword)))
+    (setf font    (make-font   (or font   *uml-package-font*   *default-font*  )))
+    (setf fill    (make-fill   (or fill   *uml-package-fill*   *default-fill*  )))
+    (setf stroke  (make-stroke (or stroke *uml-package-stroke* *default-stroke*)))
+    (setf tab-width  *uml-package-tab-width*)
+    (setf tab-height *uml-package-tab-height*)
+    (setf tab-margin *uml-package-tab-margin*))
   pkg)
 
 (defmethod check ((pkg uml-package) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
   (with-slots (name keyword font fill stroke
-					contents-p tab-width tab-height tab-margin) pkg
-	(check-member name       :nullable nil :types (or string keyword))
-	(check-object keyword    canvas dict :nullable t :class uml-keyword-info)
-	(check-object font       canvas dict :nullable t :class   font-info)
-	(check-object fill       canvas dict :nullable t :class   fill-info)
-	(check-object stroke     canvas dict :nullable t :class stroke-info)
-	(check-member tab-width   :nullable nil :types number)
-	(check-member tab-height  :nullable nil :types number)
-	(check-member tab-margin  :nullable nil :types number)
-	(multiple-value-bind (name-area-width name-area-height)
-								(uml-package-calc-namearea-size pkg)
-	  (if contents-p
-		  (progn
-			(setf tab-width  (max tab-width  (+ name-area-width  (* 2 tab-margin))))
-			(setf tab-height (max tab-height (+ name-area-height (* 2 tab-margin))))))))
+                    contents-p tab-width tab-height tab-margin) pkg
+    (check-member name       :nullable nil :types (or string keyword))
+    (check-object keyword    canvas dict :nullable t :class uml-keyword-info)
+    (check-object font       canvas dict :nullable t :class   font-info)
+    (check-object fill       canvas dict :nullable t :class   fill-info)
+    (check-object stroke     canvas dict :nullable t :class stroke-info)
+    (check-member tab-width   :nullable nil :types number)
+    (check-member tab-height  :nullable nil :types number)
+    (check-member tab-margin  :nullable nil :types number)
+    (multiple-value-bind (name-area-width name-area-height)
+                                (uml-package-calc-namearea-size pkg)
+      (if contents-p
+          (progn
+            (setf tab-width  (max tab-width  (+ name-area-width  (* 2 tab-margin))))
+            (setf tab-height (max tab-height (+ name-area-height (* 2 tab-margin))))))))
   nil)
 
 (defmethod shape-connect-point ((pkg uml-package) type1 type2 arg)
   ;;ToDo : 95KvWqh6oVU : タブ部分と交差する場合の考慮ができてない（まともにやると難しそう）
   (with-slots (tab-height) pkg
-	(rectangle-connect-point (point/y+ (attribute-center pkg) (/ tab-height 2))
-							 (attribute-width     pkg)
-							 (- (attribute-height pkg) tab-height) type1 type2 arg)))
+    (rectangle-connect-point (point/y+ (attribute-center pkg) (/ tab-height 2))
+                             (attribute-width     pkg)
+                             (- (attribute-height pkg) tab-height) type1 type2 arg)))
   
 ;;MEMO : use impelementation of group...
 ;;(defmethod group-get-canvas ((pkg uml-package)) ...)
 
 (defmethod shape-get-subcanvas ((pkg uml-package))
   (with-slots (tab-height) pkg
-	;;(format t "tab-height is ~A~%" tab-height)
-	(make-canvas (point/y+ (attribute-topleft pkg) tab-height)
-				 (attribute-width pkg)
-				 (- (attribute-height pkg) tab-height))))
+    ;;(format t "tab-height is ~A~%" tab-height)
+    (make-canvas (point/y+ (attribute-topleft pkg) tab-height)
+                 (attribute-width pkg)
+                 (- (attribute-height pkg) tab-height))))
 
 ;; override of group::draw-group
 (defmethod draw-group ((pkg uml-package) writer)
   (let ((canvas (group-get-canvas pkg)))
-	(with-slots (name keyword contents-p font
-					  fill stroke tab-width tab-height tab-margin) pkg
-	  (let* ((width     (canvas-width  canvas))
-			 (height    (canvas-height canvas))
-			 (font-size (slot-value font 'kaavio::size))
-			 (spacing   (slot-value font 'kaavio::line-spacing)))
-		(macrolet ((register-entity (entity)
-					 `(check-and-draw-local-entity ,entity canvas writer)))
-		  (let ((*default-fill*   fill)
-				(*default-stroke* stroke))
-			(rectangle `(,(/ width 2) ,(/ (+ height tab-height) 2)) width (- height tab-height))
-			(rectangle `(,(/ tab-width 2) ,(/ tab-height 2)) tab-width tab-height))
-		  (let ((names (kaavio::string/split (fix-name name) #\newline)))
-			(let ((x (if contents-p (/ tab-width 2) (/ width 2)))
-				  (y (if contents-p
-						 tab-margin
-						 (multiple-value-bind (w h) (uml-package-calc-namearea-size pkg)
-						   (declare (ignore w))
-						   (+ tab-height (/ (- height tab-height h) 2))))))
-			  (when keyword
-				(incf y font-size)
-				(uml-keyword-draw keyword
-								  (+ (canvas-left canvas) x)
-								  (+ (canvas-top  canvas) y) :center font writer)
-				(incf y spacing))
-			  (dolist (name names)
-				(incf y font-size)
-				(text `(,x ,y) name :align :center :font font)
-				(incf y spacing))))))))
+    (with-slots (name keyword contents-p font
+                      fill stroke tab-width tab-height tab-margin) pkg
+      (let* ((width     (canvas-width  canvas))
+             (height    (canvas-height canvas))
+             (font-size (slot-value font 'kaavio::size))
+             (spacing   (slot-value font 'kaavio::line-spacing)))
+        (macrolet ((register-entity (entity)
+                     `(check-and-draw-local-entity ,entity canvas writer)))
+          (let ((*default-fill*   fill)
+                (*default-stroke* stroke))
+            (rectangle `(,(/ width 2) ,(/ (+ height tab-height) 2)) width (- height tab-height))
+            (rectangle `(,(/ tab-width 2) ,(/ tab-height 2)) tab-width tab-height))
+          (let ((names (kaavio::string/split (fix-name name) #\newline)))
+            (let ((x (if contents-p (/ tab-width 2) (/ width 2)))
+                  (y (if contents-p
+                         tab-margin
+                         (multiple-value-bind (w h) (uml-package-calc-namearea-size pkg)
+                           (declare (ignore w))
+                           (+ tab-height (/ (- height tab-height h) 2))))))
+              (when keyword
+                (incf y font-size)
+                (uml-keyword-draw keyword
+                                  (+ (canvas-left canvas) x)
+                                  (+ (canvas-top  canvas) y) :center font writer)
+                (incf y spacing))
+              (dolist (name names)
+                (incf y font-size)
+                (text `(,x ,y) name :align :center :font font)
+                (incf y spacing))))))))
   nil)
 
 ;;for debug...
@@ -136,22 +136,22 @@
 ;;
 ;;------------------------------------------------------------------------------
 (defmacro uml-package (position name &key pivot keyword width height
-										  font fill stroke link layer id contents)
+                                          font fill stroke link layer id contents)
   (let* ((contents-p (not (null contents)))
-		 (code `(register-entity (make-instance 'uml-package
-											   :position ,position :pivot ,pivot
-											   :width  (or ,width  *uml-package-width*)
-											   :height (or ,height *uml-package-height*)
-											   :name ,name :keyword ,keyword
-											   :contents-p ,contents-p
-											   :font ,font :fill ,fill :stroke ,stroke
-											   :link ,link :layer ,layer :id ,id))))
-	(if (null contents)
-		code
-		(let ((g-obj (gensym "OBJ")))
-		  `(let* ((,g-obj ,code)
-				  (canvas (shape-get-subcanvas ,g-obj)))
-			 (declare (special canvas))
-			 ,@contents)))))
+         (code `(register-entity (make-instance 'uml-package
+                                               :position ,position :pivot ,pivot
+                                               :width  (or ,width  *uml-package-width*)
+                                               :height (or ,height *uml-package-height*)
+                                               :name ,name :keyword ,keyword
+                                               :contents-p ,contents-p
+                                               :font ,font :fill ,fill :stroke ,stroke
+                                               :link ,link :layer ,layer :id ,id))))
+    (if (null contents)
+        code
+        (let ((g-obj (gensym "OBJ")))
+          `(let* ((,g-obj ,code)
+                  (canvas (shape-get-subcanvas ,g-obj)))
+             (declare (special canvas))
+             ,@contents)))))
 
 

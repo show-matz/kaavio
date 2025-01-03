@@ -16,55 +16,55 @@
 ;;
 ;;------------------------------------------------------------------------------
 (defclass uml-actor (kaavio:group)
-  ((name		:initform nil	:initarg  :name)	; (or nil label-info)
-   (fill		:initform nil	:initarg  :fill)	; (or nil fill-info)
-   (stroke		:initform nil	:initarg  :stroke)	; (or nil stroke-info)
-   (head		:initform 0)						; number
-   (shoulder	:initform 0)						; number
-   (thigh		:initform 0)))						; number
+  ((name      :initform nil  :initarg  :name)   ; (or nil label-info)
+   (fill      :initform nil  :initarg  :fill)   ; (or nil fill-info)
+   (stroke    :initform nil  :initarg  :stroke) ; (or nil stroke-info)
+   (head      :initform 0)                      ; number
+   (shoulder  :initform 0)                      ; number
+   (thigh     :initform 0)))                    ; number
 
 (defmethod initialize-instance :after ((actor uml-actor) &rest initargs)
   (declare (ignore initargs))
   (with-slots (name fill stroke head shoulder thigh) actor
-	(setf name   (and name (make-label name)))
-	(setf fill   (make-fill   (or fill   *uml-actor-fill*   *default-fill*  )))
-	(setf stroke (make-stroke (or stroke *uml-actor-stroke* *default-stroke*)))
-	(let ((height (slot-value actor 'kaavio::height)))
-	  (setf head  (/ (* height *uml-actor-head-ratio*) 2))
-	  (setf thigh    (* height *uml-actor-thigh-position*))
-	  (setf shoulder (* height *uml-actor-shoulder-position*))))
+    (setf name   (and name (make-label name)))
+    (setf fill   (make-fill   (or fill   *uml-actor-fill*   *default-fill*  )))
+    (setf stroke (make-stroke (or stroke *uml-actor-stroke* *default-stroke*)))
+    (let ((height (slot-value actor 'kaavio::height)))
+      (setf head  (/ (* height *uml-actor-head-ratio*) 2))
+      (setf thigh    (* height *uml-actor-thigh-position*))
+      (setf shoulder (* height *uml-actor-shoulder-position*))))
   actor)
 
 (defmethod check ((actor uml-actor) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
   (with-slots (name fill stroke head shoulder thigh) actor
-	(check-object name     canvas dict :nullable t :class  label-info)
-	(check-object fill     canvas dict :nullable t :class   fill-info)
-	(check-object stroke   canvas dict :nullable t :class stroke-info)
-	(check-member head     :nullable nil :types number)
-	(check-member shoulder :nullable nil :types number)
-	(check-member thigh    :nullable nil :types number))
+    (check-object name     canvas dict :nullable t :class  label-info)
+    (check-object fill     canvas dict :nullable t :class   fill-info)
+    (check-object stroke   canvas dict :nullable t :class stroke-info)
+    (check-member head     :nullable nil :types number)
+    (check-member shoulder :nullable nil :types number)
+    (check-member thigh    :nullable nil :types number))
   nil)
 
 ;; override of group::draw-group
 (defmethod draw-group ((actor uml-actor) writer)
   (with-slots (name fill stroke head shoulder thigh) actor
-	(let* ((canvas (group-get-canvas actor))
-		   (width  (canvas-width  canvas))
-		   (height (canvas-height canvas))
-		   (center (/ width 2))
-		   (neck   (* head 2))
-		   (*default-fill*   fill)
-		   (*default-stroke* stroke))
-	  (macrolet ((register-entity (entity)
-				   `(check-and-draw-local-entity ,entity canvas writer)))
-		(circle `(,center ,head) head)
-		(line `((,center ,neck) (,center ,thigh)))
-		(line `((0 ,shoulder) (,width ,shoulder)))
-		(line `((0 ,height) (,center ,thigh) (,width ,height)))))
-	(when name
-	  (draw-label name actor writer)))
+    (let* ((canvas (group-get-canvas actor))
+           (width  (canvas-width  canvas))
+           (height (canvas-height canvas))
+           (center (/ width 2))
+           (neck   (* head 2))
+           (*default-fill*   fill)
+           (*default-stroke* stroke))
+      (macrolet ((register-entity (entity)
+                   `(check-and-draw-local-entity ,entity canvas writer)))
+        (circle `(,center ,head) head)
+        (line `((,center ,neck) (,center ,thigh)))
+        (line `((0 ,shoulder) (,width ,shoulder)))
+        (line `((0 ,height) (,center ,thigh) (,width ,height)))))
+    (when name
+      (draw-label name actor writer)))
   nil)
 
 ;for debug...
@@ -82,11 +82,11 @@
 ;;------------------------------------------------------------------------------
 (defmacro uml-actor (position name &key pivot width fill stroke link layer id)
   `(register-entity (make-instance 'uml-actor
-								   :position ,position :pivot ,pivot
-								   :name ,name
-								   :width  (or ,width *uml-actor-width*)
-								   :height (* *uml-actor-height-ratio*
-											  (or ,width *uml-actor-width*))
-								   :fill ,fill :stroke ,stroke
-								   :link ,link :layer ,layer :id ,id)))
+                                   :position ,position :pivot ,pivot
+                                   :name ,name
+                                   :width  (or ,width *uml-actor-width*)
+                                   :height (* *uml-actor-height-ratio*
+                                              (or ,width *uml-actor-width*))
+                                   :fill ,fill :stroke ,stroke
+                                   :link ,link :layer ,layer :id ,id)))
 

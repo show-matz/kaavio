@@ -18,12 +18,12 @@
   (declare (ignore initargs))
   ;;(format t "initialize-instance :after called.~%")
   (with-slots (filter layer) obj
-	(setf filter  (if (eq filter :none)
-					  nil
-					  (or filter *uml-flow-final-filter* *default-filter*)))
-	(setf layer  (if (eq layer :none)
-					 nil
-					 (or layer *uml-flow-final-layer* *default-layer*))))
+    (setf filter  (if (eq filter :none)
+                      nil
+                      (or filter *uml-flow-final-filter* *default-filter*)))
+    (setf layer  (if (eq layer :none)
+                     nil
+                     (or layer *uml-flow-final-layer* *default-layer*))))
   obj)
 
 ;; no implementation
@@ -31,16 +31,16 @@
 
 (defmethod post-draw ((obj uml-flow-final) writer)
   (let* ((canvas (shape-get-subcanvas obj))
-		 (radius (/ (canvas-width canvas) 2))
-		 (c      radius)
-		 (len    (/ radius (sqrt 2))))
-	(macrolet ((register-entity (entity)
-				 `(check-and-draw-local-entity ,entity canvas writer)))
-	  (let ((*default-stroke* (slot-value obj 'kaavio::stroke)))
-		(line `((,(- c len) ,(- c len)) (,(+ c len) ,(+ c len))))
-		(line `((,(+ c len) ,(- c len)) (,(- c len) ,(+ c len)))))))
+         (radius (/ (canvas-width canvas) 2))
+         (c      radius)
+         (len    (/ radius (sqrt 2))))
+    (macrolet ((register-entity (entity)
+                 `(check-and-draw-local-entity ,entity canvas writer)))
+      (let ((*default-stroke* (slot-value obj 'kaavio::stroke)))
+        (line `((,(- c len) ,(- c len)) (,(+ c len) ,(+ c len))))
+        (line `((,(+ c len) ,(- c len)) (,(- c len) ,(+ c len)))))))
   (call-next-method)
-;  (draw-canvas-frame (shape-get-subcanvas obj) writer)	;for debug...
+; (draw-canvas-frame (shape-get-subcanvas obj) writer)  ;for debug...
   nil)
 
 
@@ -51,11 +51,11 @@
 ;;------------------------------------------------------------------------------
 (defmacro uml-flow-final (position &key pivot radius fill stroke layer filter id)
   `(register-entity (make-instance 'uml-flow-final
-								   :position ,position :pivot ,pivot
-								   :radius (or ,radius *uml-flow-final-radius*)
-								   :fill   (or ,fill   *uml-flow-final-fill*   *default-fill*)
-								   :stroke (or ,stroke *uml-flow-final-stroke* *default-stroke*)
-								   :link nil :layer ,layer :filter ,filter :id ,id)))
+                                   :position ,position :pivot ,pivot
+                                   :radius (or ,radius *uml-flow-final-radius*)
+                                   :fill   (or ,fill   *uml-flow-final-fill*   *default-fill*)
+                                   :stroke (or ,stroke *uml-flow-final-stroke* *default-stroke*)
+                                   :link nil :layer ,layer :filter ,filter :id ,id)))
 
 
 ;;------------------------------------------------------------------------------
@@ -64,21 +64,21 @@
 ;;
 ;;------------------------------------------------------------------------------
 (defmacro with-uml-flow-final-options ((&key radius fill
-											 stroke filter layer) &rest body)
+                                             stroke filter layer) &rest body)
   (labels ((impl (params acc)
-			 (if (null params)
-				 acc
-				 (let ((value  (car  params))
-					   (symbol (cadr params)))
-				   (impl (cddr params)
-						 (if (null value)
-							 acc
-							 (push (list symbol value) acc)))))))
-	(let ((lst (impl (list radius   '*uml-flow-final-radius*
-						   fill     '*uml-flow-final-fill*
-						   stroke   '*uml-flow-final-stroke*
-						   filter   '*uml-flow-final-filter*
-						   layer    '*uml-flow-final-layer*) nil)))
-	  `(let ,lst
-		 ,@body))))
+             (if (null params)
+                 acc
+                 (let ((value  (car  params))
+                       (symbol (cadr params)))
+                   (impl (cddr params)
+                         (if (null value)
+                             acc
+                             (push (list symbol value) acc)))))))
+    (let ((lst (impl (list radius   '*uml-flow-final-radius*
+                           fill     '*uml-flow-final-fill*
+                           stroke   '*uml-flow-final-stroke*
+                           filter   '*uml-flow-final-filter*
+                           layer    '*uml-flow-final-layer*) nil)))
+      `(let ,lst
+         ,@body))))
 

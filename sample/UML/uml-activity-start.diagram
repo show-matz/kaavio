@@ -1,9 +1,0 @@
-(load-stencil :grid)
-(load-stencil :uml-activity-start)
-
-(create-svg (:width 300 :height 150 :desc "test of uml-activity-start" :encoding :utf8)
-	(grid) ; :size 10 :bgcolor "#F0F0FF" :stroke '(:color :blue :width 0.2))
-	(uml-activity-start '(60 75))
-	(uml-activity-start (point/x+ $1.center 60) :fill :navy)
-	(uml-activity-start (point/x+ $1.center 60) :radius 20)
-	(uml-activity-start (point/x+ $1.center 60) :fill :brown :radius 15))

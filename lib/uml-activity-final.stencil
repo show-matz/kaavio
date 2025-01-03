@@ -13,39 +13,39 @@
 ;;
 ;;------------------------------------------------------------------------------
 (defclass uml-activity-final (kaavio:circle)
-  ((ratio :initform 0 :initarg :ratio)))	; number
+  ((ratio :initform 0 :initarg :ratio)))    ; number
 
 
 (defmethod initialize-instance :after ((obj uml-activity-final) &rest initargs)
   (declare (ignore initargs))
   ;;(format t "initialize-instance :after called.~%")
   (with-slots (filter layer) obj
-	(setf filter  (if (eq filter :none)
-					  nil
-					  (or filter *uml-activity-final-filter* *default-filter*)))
-	(setf layer  (if (eq layer :none)
-					 nil
-					 (or layer *uml-activity-final-layer* *default-layer*))))
+    (setf filter  (if (eq filter :none)
+                      nil
+                      (or filter *uml-activity-final-filter* *default-filter*)))
+    (setf layer  (if (eq layer :none)
+                     nil
+                     (or layer *uml-activity-final-layer* *default-layer*))))
   obj)
 
 (defmethod check ((obj uml-activity-final) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
   (with-slots (ratio) obj
-	(check-member ratio :nullable nil :types number))
+    (check-member ratio :nullable nil :types number))
   nil)
 
 (defmethod post-draw ((obj uml-activity-final) writer)
   (with-slots (ratio) obj
-	(let* ((canvas (shape-get-subcanvas obj))
-		   (center (/ (canvas-width canvas) 2))
-		   (radius (* center ratio))
-		   (fill   (slot-value (slot-value obj 'kaavio::stroke) 'kaavio::color)))
-	  (macrolet ((register-entity (entity)
-				   `(check-and-draw-local-entity ,entity canvas writer)))
-		(circle (make-point center center) radius :fill fill :stroke :none))))
+    (let* ((canvas (shape-get-subcanvas obj))
+           (center (/ (canvas-width canvas) 2))
+           (radius (* center ratio))
+           (fill   (slot-value (slot-value obj 'kaavio::stroke) 'kaavio::color)))
+      (macrolet ((register-entity (entity)
+                   `(check-and-draw-local-entity ,entity canvas writer)))
+        (circle (make-point center center) radius :fill fill :stroke :none))))
   (call-next-method)
-;  (draw-canvas-frame (shape-get-subcanvas obj) writer)	;for debug...
+;  (draw-canvas-frame (shape-get-subcanvas obj) writer)    ;for debug...
   nil)
 
 
@@ -56,12 +56,12 @@
 ;;------------------------------------------------------------------------------
 (defmacro uml-activity-final (position &key radius ratio pivot fill stroke link layer filter id)
   `(register-entity (make-instance 'uml-activity-final
-								   :position ,position :pivot ,pivot
-								   :radius (or ,radius *uml-activity-final-radius*)
-								   :ratio  (or ,ratio  *uml-activity-final-ratio*)
-								   :fill   (or ,fill   *uml-activity-final-fill*   *default-fill*)
-								   :stroke (or ,stroke *uml-activity-final-stroke* *default-stroke*)
-								   :link ,link :layer ,layer :filter ,filter :id ,id)))
+                                   :position ,position :pivot ,pivot
+                                   :radius (or ,radius *uml-activity-final-radius*)
+                                   :ratio  (or ,ratio  *uml-activity-final-ratio*)
+                                   :fill   (or ,fill   *uml-activity-final-fill*   *default-fill*)
+                                   :stroke (or ,stroke *uml-activity-final-stroke* *default-stroke*)
+                                   :link ,link :layer ,layer :filter ,filter :id ,id)))
 
 
 ;;------------------------------------------------------------------------------
@@ -70,22 +70,22 @@
 ;;
 ;;------------------------------------------------------------------------------
 (defmacro with-uml-activity-final-options ((&key radius ratio
-												 fill stroke filter layer) &rest body)
+                                                 fill stroke filter layer) &rest body)
   (labels ((impl (params acc)
-			 (if (null params)
-				 acc
-				 (let ((value  (car  params))
-					   (symbol (cadr params)))
-				   (impl (cddr params)
-						 (if (null value)
-							 acc
-							 (push (list symbol value) acc)))))))
-	(let ((lst (impl (list radius   '*uml-activity-final-radius*
-						   ratio    '*uml-activity-final-ratio*
-						   fill     '*uml-activity-final-fill*
-						   stroke   '*uml-activity-final-stroke*
-						   filter   '*uml-activity-final-filter*
-						   layer    '*uml-activity-final-layer*) nil)))
-	  `(let ,lst
-		 ,@body))))
+             (if (null params)
+                 acc
+                 (let ((value  (car  params))
+                       (symbol (cadr params)))
+                   (impl (cddr params)
+                         (if (null value)
+                             acc
+                             (push (list symbol value) acc)))))))
+    (let ((lst (impl (list radius   '*uml-activity-final-radius*
+                           ratio    '*uml-activity-final-ratio*
+                           fill     '*uml-activity-final-fill*
+                           stroke   '*uml-activity-final-stroke*
+                           filter   '*uml-activity-final-filter*
+                           layer    '*uml-activity-final-layer*) nil)))
+      `(let ,lst
+         ,@body))))
 

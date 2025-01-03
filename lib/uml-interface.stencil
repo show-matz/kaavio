@@ -2,20 +2,20 @@
 
 (defun calculate-degrees (center points degree)
   (labels ((reverse-degree (sin cos)
-			 (when (< 1 (abs cos))
-			   (setf cos (round cos)))
-			 (let* ((RADIAN-UNIT (/ pi 180))
-					(acos        (/ (cl:acos cos) RADIAN-UNIT)))
-			   (round (if (<= 0 sin)
-						  acos
-						  (- 360 acos))))))
-	(let ((pt (do ((pt points (cdr pt)))
-				  ((null (cdr pt)) (car pt))))
-		  (half (/ degree 2)))
-	  (values (reverse-degree (math/sin3 center pt (- 360 half))
-							  (math/cos3 center pt (- 360 half)))
-			  (reverse-degree (math/sin3 center pt half)
-							  (math/cos3 center pt half))))))
+             (when (< 1 (abs cos))
+               (setf cos (round cos)))
+             (let* ((RADIAN-UNIT (/ pi 180))
+                    (acos        (/ (cl:acos cos) RADIAN-UNIT)))
+               (round (if (<= 0 sin)
+                          acos
+                          (- 360 acos))))))
+    (let ((pt (do ((pt points (cdr pt)))
+                  ((null (cdr pt)) (car pt))))
+          (half (/ degree 2)))
+      (values (reverse-degree (math/sin3 center pt (- 360 half))
+                              (math/cos3 center pt (- 360 half)))
+              (reverse-degree (math/sin3 center pt half)
+                              (math/cos3 center pt half))))))
 
 
 ;;------------------------------------------------------------------------------
@@ -28,19 +28,19 @@
 (defparameter *uml-interface-stroke* :black)
 
 (defclass uml-interface (kaavio:circle)
-  ((name :initform nil :initarg :name)))	; (or nil label-info)
+  ((name :initform nil :initarg :name)))    ; (or nil label-info)
 
 (defmethod initialize-instance :after ((obj uml-interface) &rest initargs)
   (declare (ignore initargs))
   (with-slots (name) obj
-	(setf name   (and name (make-label name))))
+    (setf name   (and name (make-label name))))
   obj)
 
 (defmethod check ((obj uml-interface) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
   (with-slots (name) obj
-	(check-object name canvas dict :nullable nil :class label-info))
+    (check-object name canvas dict :nullable nil :class label-info))
   nil)
 
 (defmethod entity-composition-p ((obj uml-interface))
@@ -48,10 +48,10 @@
 
 (defmethod post-draw ((obj uml-interface) writer)
   (with-slots (name) obj
-	(when name
-	  (draw-label name obj writer)))
+    (when name
+      (draw-label name obj writer)))
   (call-next-method)
-;  (draw-canvas-frame (shape-get-subcanvas obj) writer)	;for debug...
+;  (draw-canvas-frame (shape-get-subcanvas obj) writer)    ;for debug...
   nil)
 
 ;;------------------------------------------------------------------------------
@@ -61,12 +61,12 @@
 ;;------------------------------------------------------------------------------
 (defmacro uml-interface (position name &key pivot fill stroke link layer id)
   `(register-entity (make-instance 'uml-interface
-								   :position ,position :pivot ,pivot
-								   :radius *uml-interface-radius*
-								   :name ,name
-								   :fill   (or ,fill   *uml-interface-fill*)
-								   :stroke (or ,stroke *uml-interface-stroke*)
-								   :link ,link :layer ,layer :id ,id)))
+                                   :position ,position :pivot ,pivot
+                                   :radius *uml-interface-radius*
+                                   :name ,name
+                                   :fill   (or ,fill   *uml-interface-fill*)
+                                   :stroke (or ,stroke *uml-interface-stroke*)
+                                   :link ,link :layer ,layer :id ,id)))
 
 
 ;;------------------------------------------------------------------------------
@@ -78,55 +78,55 @@
 (defparameter *uml-interface-socket-degree*      150)
 
 (defclass uml-interface-socket (kaavio:entity)
-  ((name			:initform nil :initarg :name)	; (or nil label-inf)
-   (position		:initform nil :initarg :position) ; point
-   (from			:initform nil :initarg :from)	; (or symbol point)
-   (style			:initform nil :initarg :style)	; keyword - :(CC|[BLRT][123]?[BLRT][123]?) ( keyword -> list )
-   (spacing			:initform nil :initarg :spacing) ; list
-   (stroke			:initform nil :initarg :stroke)	; (or nil stroke-info)
-   (points			:initform nil)					; list
-   (canvas-cache	:initform nil)					; (or nil canvas)
-   (dummy-circle	:initform nil)					; (or nil circle)
-   (degree			:initform nil)))				; number
+  ((name            :initform nil :initarg :name)     ; (or nil label-inf)
+   (position        :initform nil :initarg :position) ; point
+   (from            :initform nil :initarg :from)     ; (or symbol point)
+   (style           :initform nil :initarg :style)    ; keyword - :(CC|[BLRT][123]?[BLRT][123]?) ( keyword -> list )
+   (spacing         :initform nil :initarg :spacing)  ; list
+   (stroke          :initform nil :initarg :stroke)   ; (or nil stroke-info)
+   (points          :initform nil)                    ; list
+   (canvas-cache    :initform nil)                    ; (or nil canvas)
+   (dummy-circle    :initform nil)                    ; (or nil circle)
+   (degree          :initform nil)))                  ; number
 
 (defmethod initialize-instance :after ((sock uml-interface-socket) &rest initargs)
   (declare (ignore initargs))
   (with-slots (name style stroke degree) sock
-	(setf name   (and name (make-label name)))
-	(setf style  (or style *default-connector-style* :CC))
-	(setf stroke (make-stroke (or stroke *uml-interface-socket-stroke* *default-stroke*)))
-	(setf degree *uml-interface-socket-degree*))
+    (setf name   (and name (make-label name)))
+    (setf style  (or style *default-connector-style* :CC))
+    (setf stroke (make-stroke (or stroke *uml-interface-socket-stroke* *default-stroke*)))
+    (setf degree *uml-interface-socket-degree*))
   sock)
 
 (defmethod check ((sock uml-interface-socket) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
   (with-slots (name position from style stroke spacing
-					points canvas-cache dummy-circle #|degree|#) sock
-	(check-object name   canvas dict :nullable nil :class label-info)
-	(unless (point-p from)
-	  (check-member from   :nullable nil :types symbol))
-	(check-member style  :nullable nil :types keyword)
-	(check-object stroke canvas dict :nullable nil :class stroke-info)
-	(check-member spacing :nullable  t :types (or number list))
-	(setf spacing (if (numberp spacing) (list spacing) spacing))
-	(when (remove-if #'numberp spacing)
-	  (throw-exception "Invalid spacing : '~A'." spacing))
-	(setf position (canvas-fix-point canvas position))
-	(setf style (kaavio::check-and-fix-connector-style style))
-	(setf canvas-cache (copy-canvas canvas))
-	(let ((from-target (if (point-p from)
-						   from
-						   (let ((entity (kaavio::dict-get-entity dict from)))
-							 (unless entity
-							   (throw-exception "Entity '~A' not found in dictionary." from))
-							 (unless (typep entity 'shape)
-							   (throw-exception "Entity '~A' is not shape object." from))
-							 entity))))
-	  (setf dummy-circle (make-instance 'kaavio:circle
-										:position position
-										:radius *uml-interface-radius*))
-	  (setf points (resolve-connector-points from-target dummy-circle style spacing))))
+                    points canvas-cache dummy-circle #|degree|#) sock
+    (check-object name   canvas dict :nullable nil :class label-info)
+    (unless (point-p from)
+      (check-member from   :nullable nil :types symbol))
+    (check-member style  :nullable nil :types keyword)
+    (check-object stroke canvas dict :nullable nil :class stroke-info)
+    (check-member spacing :nullable  t :types (or number list))
+    (setf spacing (if (numberp spacing) (list spacing) spacing))
+    (when (remove-if #'numberp spacing)
+      (throw-exception "Invalid spacing : '~A'." spacing))
+    (setf position (canvas-fix-point canvas position))
+    (setf style (kaavio::check-and-fix-connector-style style))
+    (setf canvas-cache (copy-canvas canvas))
+    (let ((from-target (if (point-p from)
+                           from
+                           (let ((entity (kaavio::dict-get-entity dict from)))
+                             (unless entity
+                               (throw-exception "Entity '~A' not found in dictionary." from))
+                             (unless (typep entity 'shape)
+                               (throw-exception "Entity '~A' is not shape object." from))
+                             entity))))
+      (setf dummy-circle (make-instance 'kaavio:circle
+                                        :position position
+                                        :radius *uml-interface-radius*))
+      (setf points (resolve-connector-points from-target dummy-circle style spacing))))
   nil)
 
 
@@ -137,24 +137,24 @@
 (defmethod draw-entity ((sock uml-interface-socket) writer)
   (pre-draw sock writer)
   (with-slots (name position stroke
-				canvas-cache dummy-circle points degree) sock
-	(let ((canvas canvas-cache))
-	  (declare (special canvas))
-	  (macrolet ((register-entity (entity)
-				   `(check-and-draw-local-entity ,entity canvas writer)))
-		(let ((*default-stroke* stroke))
-		  (line points)
-		  (multiple-value-bind (deg1 deg2)
-			  (calculate-degrees (slot-value dummy-circle 'kaavio::position) points degree)
-			(when (<= 360 deg1) (decf deg1 360))
-			(when (<= 360 deg2) (decf deg2 360))
-			(let ((radius  (slot-value dummy-circle 'kaavio::radius)))
-			  (arc position radius radius 0 deg1 deg2)))
-		  (when name
-			(draw-label name dummy-circle writer))))))    ;;ToDo : font OK...?
+                canvas-cache dummy-circle points degree) sock
+    (let ((canvas canvas-cache))
+      (declare (special canvas))
+      (macrolet ((register-entity (entity)
+                   `(check-and-draw-local-entity ,entity canvas writer)))
+        (let ((*default-stroke* stroke))
+          (line points)
+          (multiple-value-bind (deg1 deg2)
+              (calculate-degrees (slot-value dummy-circle 'kaavio::position) points degree)
+            (when (<= 360 deg1) (decf deg1 360))
+            (when (<= 360 deg2) (decf deg2 360))
+            (let ((radius  (slot-value dummy-circle 'kaavio::radius)))
+              (arc position radius radius 0 deg1 deg2)))
+          (when name
+            (draw-label name dummy-circle writer))))))    ;;ToDo : font OK...?
   (post-draw sock writer)
   nil)
-		  
+          
 
 
 ;;------------------------------------------------------------------------------
@@ -164,9 +164,9 @@
 ;;------------------------------------------------------------------------------
 (defmacro uml-interface-socket (position from name &key style spacing stroke layer id)
   `(register-entity (make-instance 'uml-interface-socket
-								   :name ,name :position ,position :from ,from
-								   :style ,style :spacing ,spacing
-								   :stroke ,stroke :layer ,layer :id ,id)))
+                                   :name ,name :position ,position :from ,from
+                                   :style ,style :spacing ,spacing
+                                   :stroke ,stroke :layer ,layer :id ,id)))
 
 
 ;;------------------------------------------------------------------------------
@@ -184,53 +184,53 @@
 ;; ((0 1) (2 3) (4 5) (6 7)) ->  tail (6 7) & copied ((4 5) (6 7)).
 (defun get-last-2-points (points &optional (cnt nil))
   (if (null cnt)
-	  (let ((cnt (length points)))
-		(unless (<= 2 cnt)
-		  (error "Invalid points list."))
-		(get-last-2-points points cnt))
-	  (if (= cnt 2)
-		  (values (second points) (copy-tree points))
-		  (get-last-2-points (cdr points) (1- cnt)))))
+      (let ((cnt (length points)))
+        (unless (<= 2 cnt)
+          (error "Invalid points list."))
+        (get-last-2-points points cnt))
+      (if (= cnt 2)
+          (values (second points) (copy-tree points))
+          (get-last-2-points (cdr points) (1- cnt)))))
 
 ;;returns 3 values
 (defun fix-points (arrow-p radius points)
   (multiple-value-bind (tail last2) (get-last-2-points points)
-	(let ((x   (point-x tail))
-		  (y   (point-y tail))
-		  (sin (apply #'math/sin2 last2))
-		  (cos (apply #'math/cos2 last2))
-		  (len (apply #'math/len2 last2)))
-	  (if (or (not arrow-p)
-			  (< len *uml-interface-request-length-threshold*))
-		  (progn
-			(decf (point-x tail) (* radius cos))
-			(decf (point-y tail) (* radius sin))
-			(setf last2 nil))
-		  (let ((half (/ len 2)))
-			(when (< *uml-interface-request-maximum-dependency* half)
-			  (setf half (- len *uml-interface-request-maximum-dependency*)))
-			(setf x (+ (point-x (car last2)) (* half cos)))
-			(setf y (+ (point-y (car last2)) (* half sin)))
-			(setf (point-x tail) (- x (* radius cos)))
-			(setf (point-y tail) (- y (* radius sin)))
-			(setf (point-x (car last2)) (- x (* radius cos)))
-			(setf (point-y (car last2)) (- y (* radius sin)))))
-	  (values points last2 (make-point x y :absolute)))))
+    (let ((x   (point-x tail))
+          (y   (point-y tail))
+          (sin (apply #'math/sin2 last2))
+          (cos (apply #'math/cos2 last2))
+          (len (apply #'math/len2 last2)))
+      (if (or (not arrow-p)
+              (< len *uml-interface-request-length-threshold*))
+          (progn
+            (decf (point-x tail) (* radius cos))
+            (decf (point-y tail) (* radius sin))
+            (setf last2 nil))
+          (let ((half (/ len 2)))
+            (when (< *uml-interface-request-maximum-dependency* half)
+              (setf half (- len *uml-interface-request-maximum-dependency*)))
+            (setf x (+ (point-x (car last2)) (* half cos)))
+            (setf y (+ (point-y (car last2)) (* half sin)))
+            (setf (point-x tail) (- x (* radius cos)))
+            (setf (point-y tail) (- y (* radius sin)))
+            (setf (point-x (car last2)) (- x (* radius cos)))
+            (setf (point-y (car last2)) (- y (* radius sin)))))
+      (values points last2 (make-point x y :absolute)))))
 
 
 (defclass uml-interface-request (kaavio:connector)
-  ((arrow-p			:initform nil :initarg :arrow-p)	; boolean value
-   (pt-cache		:initform nil)						; point
-   (canvas-cache	:initform nil)						; (or nil canvas)
-   (points-cache	:initform nil)						; list
-   (radius-cache	:initform nil)						; number
-   (degree-cache	:initform nil)))					; number
+  ((arrow-p       :initform nil :initarg :arrow-p)    ; boolean value
+   (pt-cache      :initform nil)                      ; point
+   (canvas-cache  :initform nil)                      ; (or nil canvas)
+   (points-cache  :initform nil)                      ; list
+   (radius-cache  :initform nil)                      ; number
+   (degree-cache  :initform nil)))                    ; number
 
 (defmethod initialize-instance :after ((req uml-interface-request) &rest initargs)
   (declare (ignore initargs))
   (with-slots (radius-cache degree-cache) req
-	(setf radius-cache *uml-interface-radius*)
-	(setf degree-cache *uml-interface-request-degree*))
+    (setf radius-cache *uml-interface-radius*)
+    (setf degree-cache *uml-interface-request-degree*))
   req)
 
 
@@ -238,18 +238,18 @@
   ;; this method must call super class' one.
   (call-next-method)
   (with-slots (arrow-p pt-cache
-				canvas-cache points-cache radius-cache) req
-	(setf canvas-cache (copy-canvas canvas))
-	(let ((new-points nil))
-	  (multiple-value-setq (new-points points-cache pt-cache)
-								(fix-points arrow-p radius-cache
-									(copy-list (slot-value req 'kaavio::points))))
-	  (let ((topleft (canvas-topleft canvas)))
-		(setf pt-cache (point- pt-cache topleft))
-		(when points-cache
-		  (setf (first  points-cache) (point- (first  points-cache) topleft))
-		  (setf (second points-cache) (point- (second points-cache) topleft))))
-	  (setf (slot-value req 'kaavio::points) new-points)))
+                canvas-cache points-cache radius-cache) req
+    (setf canvas-cache (copy-canvas canvas))
+    (let ((new-points nil))
+      (multiple-value-setq (new-points points-cache pt-cache)
+                                (fix-points arrow-p radius-cache
+                                    (copy-list (slot-value req 'kaavio::points))))
+      (let ((topleft (canvas-topleft canvas)))
+        (setf pt-cache (point- pt-cache topleft))
+        (when points-cache
+          (setf (first  points-cache) (point- (first  points-cache) topleft))
+          (setf (second points-cache) (point- (second points-cache) topleft))))
+      (setf (slot-value req 'kaavio::points) new-points)))
   nil)
 
 (defmethod entity-composition-p ((req uml-interface-request))
@@ -258,21 +258,21 @@
 
 (defmethod post-draw ((req uml-interface-request) writer)
   (with-slots (canvas-cache points-cache pt-cache
-				degree-cache radius-cache kaavio::stroke) req
-	(let ((canvas canvas-cache))
-	  (declare (special canvas))
-	  (macrolet ((register-entity (entity)
-				   `(check-and-draw-local-entity ,entity canvas writer)))
-		(let ((*default-stroke* kaavio::stroke))
-		  (when points-cache
-			(line points-cache :end1 nil :end2 :arrow
-							   :stroke '(:dasharray (3 3)))) ; ToDo : fix ?
-			  (multiple-value-bind (deg1 deg2)
-				  (calculate-degrees (point+ (canvas-topleft canvas) pt-cache)
-									 (copy-list (slot-value req 'kaavio::points)) degree-cache)
-				(when (<= 360 deg1) (decf deg1 360))
-				(when (<= 360 deg2) (decf deg2 360))
-				(arc pt-cache radius-cache radius-cache 0 deg1 deg2))))))
+                degree-cache radius-cache kaavio::stroke) req
+    (let ((canvas canvas-cache))
+      (declare (special canvas))
+      (macrolet ((register-entity (entity)
+                   `(check-and-draw-local-entity ,entity canvas writer)))
+        (let ((*default-stroke* kaavio::stroke))
+          (when points-cache
+            (line points-cache :end1 nil :end2 :arrow
+                               :stroke '(:dasharray (3 3)))) ; ToDo : fix ?
+              (multiple-value-bind (deg1 deg2)
+                  (calculate-degrees (point+ (canvas-topleft canvas) pt-cache)
+                                     (copy-list (slot-value req 'kaavio::points)) degree-cache)
+                (when (<= 360 deg1) (decf deg1 360))
+                (when (<= 360 deg2) (decf deg2 360))
+                (arc pt-cache radius-cache radius-cache 0 deg1 deg2))))))
   (call-next-method))
 
 
@@ -283,10 +283,10 @@
 ;;------------------------------------------------------------------------------
 (defmacro uml-interface-request (from to &key arrow-p style spacing stroke layer id)
   `(register-entity (make-instance 'uml-interface-request
-								   :from ,from :to ,to
-								   :arrow-p ,arrow-p :style ,style :spacing ,spacing
-								   :stroke (or ,stroke
-											   *uml-interface-request-stroke*
-											   *default-stroke* :black)
-								   :end1 nil :end2 nil :layer ,layer :id ,id)))
+                                   :from ,from :to ,to
+                                   :arrow-p ,arrow-p :style ,style :spacing ,spacing
+                                   :stroke (or ,stroke
+                                               *uml-interface-request-stroke*
+                                               *default-stroke* :black)
+                                   :end1 nil :end2 nil :layer ,layer :id ,id)))
 

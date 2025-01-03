@@ -2,10 +2,10 @@
 <!-- define: BLANK_PARAGRAPH = '　　' -->
 <!-- define: TODO = '@((background:red;color:white;)(ToDo : %1))' -->
 
-<!-- title:${APPNAME} readme -->    
-<!-- style:./default.css -->			
+<!-- title:${APPNAME} readme -->
+<!-- style:./default.css -->
 
-<!-- config:write-comment -->			
+<!-- config:write-comment -->
 <!-- config:header-numbering 2 4 -->
 <!-- config:entity-numbering-depth 1 -->
 <!-- <!-- config:term-link-in-header -->
@@ -113,13 +113,13 @@ cat ./input.digram | ${APPNAME} | gzip > ./output.svgz
 * `diagram` で「幅 300、高さ 150」の画像を作成
 * `grid` で背景にグリッド線を描画
 * `rect` で四角形を作成 - 位置は左上から (50, 50)、大きさは幅 80、高さ 60
-	* `:fill` で塗り潰しの色を powderblue に指定
-	* `:id` でこれに x という ID を設定
+    * `:fill` で塗り潰しの色を powderblue に指定
+    * `:id` でこれに x という ID を設定
 * `circle` で円を作成 - 位置は左上から (250, 100)、半径は 40
-	* `:fill` で塗り潰しの色を moccasin に指定
-	* `:id` でこれに y という ID を設定
+    * `:fill` で塗り潰しの色を moccasin に指定
+    * `:id` でこれに y という ID を設定
 * `connect` で、x から y に向かって接続線を描画
-	* `:end2` で終端の形状を arrow に設定
+    * `:end2` で終端の形状を arrow に設定
 
 ${BLANK_PARAGRAPH}
 
@@ -192,16 +192,16 @@ Figure. 簡単なサンプル-2
 * diagram と grid は先程と同じなので省略
 * drop-shadow という種類の「フィルタ」の使用を宣言
 * with-options でデフォルトのフィルタを drop-shadow に設定
-	* textbox でテキストボックスを描画 : 場所は画像の中心（canvas.center）から y 軸方向に 20、 \
+    * textbox でテキストボックスを描画 : 場所は画像の中心（canvas.center）から y 軸方向に 20、 \
 テキストは "${APPNAME}"、これに app という ID を設定
-	* with-options で、デフォルトの線を太さ 2 の `navy` に、デフォルトの塗りつぶしを不透明度 0.3 の `skyblue` にそれぞれ設定
-		* document でドキュメントを描画 : 場所は app の中心（app.center）から x 軸方向に -175、 \
+    * with-options で、デフォルトの線を太さ 2 の `navy` に、デフォルトの塗りつぶしを不透明度 0.3 の `skyblue` にそれぞれ設定
+        * document でドキュメントを描画 : 場所は app の中心（app.center）から x 軸方向に -175、 \
 幅と高さは 80 60、テキストは "input~%file"、これに in という ID を設定
-		* 上記と同じ要領で out という ID のドキュメントを描画
-	* with-options で、デフォルトの塗りつぶしを `white` に設定
-		* block-arrow1 で in と app の間にブロック矢印を描画
-		* 上記と同じ要領で app と out の間にブロック矢印を描画
-		* balloon で app の右上付近に吹き出しを描画 : テキストは "Made with LISP."、接続点は app の \
+        * 上記と同じ要領で out という ID のドキュメントを描画
+    * with-options で、デフォルトの塗りつぶしを `white` に設定
+        * block-arrow1 で in と app の間にブロック矢印を描画
+        * 上記と同じ要領で app と out の間にブロック矢印を描画
+        * balloon で app の右上付近に吹き出しを描画 : テキストは "Made with LISP."、接続点は app の \
 右上端（app.topright）
 
 
@@ -213,14 +213,14 @@ ${BLANK_PARAGRAPH}
 四角形や円に表示されている影が drop shadow です。
 * `with-options` を使って、デフォルトの塗り潰しや線を指定しています。 `:stroke` や `:fill` を \
 毎回指定する必要がなくなります。
-	* `:stroke` では線の色 `navy` の他に `:width` で線の太さを指定しています。
-	* `:fill` では塗り潰しの色 `skyblue` の他に `:opacity` で不透明度を指定しています。これは、0（完全に透明）から 1  \
+    * `:stroke` では線の色 `navy` の他に `:width` で線の太さを指定しています。
+    * `:fill` では塗り潰しの色 `skyblue` の他に `:opacity` で不透明度を指定しています。これは、0（完全に透明）から 1  \
 （完全に不透明）までを指定します。ドキュメントの塗り潰しが少し透けているのがわかると思います。
 * `:id` を使って付与した ID を使って `app.center` などと書くことで既出の要素の「中心座標」を指定できます。 \
 これは `'(50 50)` といった即値表記の代わりになります。
-	* `canvas` は特別な ID で、現在描画中の「キャンバス」を意味します。今の時点では、生成する画像の四角形全体だと \
+    * `canvas` は特別な ID で、現在描画中の「キャンバス」を意味します。今の時点では、生成する画像の四角形全体だと \
 理解しておいてください。
-	* `(y+ canvas.center 20)` といった表記によってある位置から x 軸や y 軸に指定されただけ移動した座標を計算する \
+    * `(y+ canvas.center 20)` といった表記によってある位置から x 軸や y 軸に指定されただけ移動した座標を計算する \
 ことができます。
 * 複数行のテキスト扱うことができる要素では、 `"input~%file"` のように ~% を使って改行を表します。
 
@@ -255,53 +255,53 @@ ${BLANK_PARAGRAPH}
     (defgroup (w h :rect-grp)
       (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
       (rect `(,(/ w 2) ,(/ w 2)) 50 50 :fill :skyblue :stroke :blue)
-	  (text `(,(/ w 2) ,(- h 5)) "四角形" :align :center))
+      (text `(,(/ w 2) ,(- h 5)) "四角形" :align :center))
     (defgroup (w h :circle-grp)
       (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
       (circle `(,(/ w 2) ,(/ w 2)) 25 :fill :bisque :stroke :brown)
-	  (text `(,(/ w 2) ,(- h 5)) "円" :align :center))
+      (text `(,(/ w 2) ,(- h 5)) "円" :align :center))
     (defgroup (w h :ellipse-grp)
       (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
       (ellipse `(,(/ w 2) ,(/ w 2)) 30 20 :fill :beige :stroke :olive)
-	  (text `(,(/ w 2) ,(- h 5)) "楕円" :align :center))
+      (text `(,(/ w 2) ,(- h 5)) "楕円" :align :center))
     (defgroup (w h :polygon-grp)
       (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
       (polygon '((40.00 10.00) (32.75 31.50) (10.25 31.50)
                  (28.25 45.00) (21.75 66.50) (40.00 53.75)
                  (58.25 66.50) (51.75 45.00) (69.75 31.50)
                  (47.25 31.50)) :stroke :red :fill :lightpink)
-	  (text `(,(/ w 2) ,(- h 5)) "多角形" :align :center))
-	(defgroup (w h :line-grp)
+      (text `(,(/ w 2) ,(- h 5)) "多角形" :align :center))
+    (defgroup (w h :line-grp)
       (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
       (line '((20 20) (60 20) (20 65) (60 65)) :stroke :black)
-	  (text `(,(/ w 2) ,(- h 5)) "線" :align :center))
+      (text `(,(/ w 2) ,(- h 5)) "線" :align :center))
     (defgroup (w h :arc-grp)
       (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
       (arc `(,(/ w 2) ,(+ 5 (/ w 2))) 25 25 0 120 60 :stroke '(:color :navy :width 8))
-	  (text `(,(/ w 2) ,(- h 5)) "円弧" :align :center))
+      (text `(,(/ w 2) ,(- h 5)) "円弧" :align :center))
     (defgroup (w h :text-grp)
       (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
       (text `(,(/ w 2) 55) "Text" :align :center
             :font '(:family "Times New Roman" :size 30 :style :italic :filter :foo-filter))
-	  (text `(,(/ w 2) ,(- h 5)) "テキスト" :align :center))
+      (text `(,(/ w 2) ,(- h 5)) "テキスト" :align :center))
     (defgroup (w h :diamond-grp)
       (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
       (diamond `(,(/ w 2) ,(/ w 2)) 60 60 :fill :plum3 :stroke '(:color :red3 :width 2))
-	  (text `(,(/ w 2) ,(- h 5)) "ひし形" :align :center))
+      (text `(,(/ w 2) ,(- h 5)) "ひし形" :align :center))
     (defgroup (w h :parallelogram-grp)
       (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
       (parallelogram `(,(/ w 2) ,(/ w 2)) 70 40 :h 20 :fill :lightsteelblue :stroke '(:color :darkslateblue :width 2))
-	  (text `(,(/ w 2) ,(- h 5)) "平行四辺形" :align :center))
+      (text `(,(/ w 2) ,(- h 5)) "平行四辺形" :align :center))
     (defgroup (w h :2d-curve-grp)
       (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
       (2d-curve '((10 60) (60 -20) (70 60)) :stroke '(:color :navy :width 3))
-	  (text `(,(/ w 2) ,(- h 20)) "二次" :align :center)
-	  (text `(,(/ w 2) ,(- h 5)) "ベジェ曲線" :align :center))
+      (text `(,(/ w 2) ,(- h 20)) "二次" :align :center)
+      (text `(,(/ w 2) ,(- h 5)) "ベジェ曲線" :align :center))
     (defgroup (w h :3d-curve-grp)
       (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
       (3d-curve '((10 60) (50 -40) (30 120) (70 10)) :stroke '(:color :brown :width 3))
-	  (text `(,(/ w 2) ,(- h 20)) "三次" :align :center)
-	  (text `(,(/ w 2) ,(- h 5)) "ベジェ曲線" :align :center))
+      (text `(,(/ w 2) ,(- h 20)) "三次" :align :center)
+      (text `(,(/ w 2) ,(- h 5)) "ベジェ曲線" :align :center))
     (use :rect-grp          '(100  60) :link "${HASH_RECT}")
     (use :circle-grp        '(200  60) :link "${HASH_CIRCLE}")
     (use :ellipse-grp       '(300  60) :link "${HASH_ELLIPSE}")
@@ -686,7 +686,7 @@ Figure. arc のサンプル - 2
 (diagram (400 200)
   (grid)
   (arc canvas.center 150 60 20 0 90 :end2 :arrow
-	   :stroke '(:color :navy :width 2) :debug :red))
+       :stroke '(:color :navy :width 2) :debug :red))
 -->
 
 ```kaavio
@@ -719,7 +719,7 @@ ${BLANK_PARAGRAPH}
   (grid)
   (ellipse canvas.center 80 30 :stroke '(:color :lightgray :width 8))
   (let ((em (make-endmark :type :triangle :size :small)))
-	(arc canvas.center 80 30 0 0 90 :stroke :red :end1 em :end2 em)))
+    (arc canvas.center 80 30 0 0 90 :stroke :red :end1 em :end2 em)))
 ```
 Figure. arc における終端マークの例
 
@@ -1165,77 +1165,77 @@ ${BLANK_PARAGRAPH}
   (let ((w 100)
         (h 100)
         (bgclr :white)) ;; (make-fill :color :lightgray :opacity 0.4 )));; 
-	(defgroup (w h :connect-grp)
+    (defgroup (w h :connect-grp)
       (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
       (rect   '(20 20) 20 20 :fill :white :stroke :black :id :r1)
       (circle '(80 60) 10    :fill :white :stroke :black :id :r2)
       (connect :r1 :r2 :stroke :black)
-	  (text `(,(/ w 2) ,(- h 5)) "コネクタ" :align :center))
-	(defgroup (w h :paragraph-grp)
+      (text `(,(/ w 2) ,(- h 5)) "コネクタ" :align :center))
+    (defgroup (w h :paragraph-grp)
       (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
-	  (paragraph (y+ canvas.center -35) "this is~%multi line~%text." :align :center :font 16)
-	  (text `(,(/ w 2) ,(- h 5)) "パラグラフ" :align :center))
-	(defgroup (w h :textbox-grp)
+      (paragraph (y+ canvas.center -35) "this is~%multi line~%text." :align :center :font 16)
+      (text `(,(/ w 2) ,(- h 5)) "パラグラフ" :align :center))
+    (defgroup (w h :textbox-grp)
       (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
-	  (textbox (y+ canvas.center -10) "this is~%textbox." :rx 5 :ry 5 :align :center :fill :white)
-	  (text `(,(/ w 2) ,(- h 5)) "テキストボックス" :align :center))
-	(defgroup (w h :document-grp)
+      (textbox (y+ canvas.center -10) "this is~%textbox." :rx 5 :ry 5 :align :center :fill :white)
+      (text `(,(/ w 2) ,(- h 5)) "テキストボックス" :align :center))
+    (defgroup (w h :document-grp)
       (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
-	  (document (y+ canvas.center -10) 80 60 "this is~%document."
+      (document (y+ canvas.center -10) 80 60 "this is~%document."
                                        :align :center :stroke :navy :fill :skyblue)
-	  (text `(,(/ w 2) ,(- h 5)) "ドキュメント" :align :center))
-	(defgroup (w h :folder-grp)
+      (text `(,(/ w 2) ,(- h 5)) "ドキュメント" :align :center))
+    (defgroup (w h :folder-grp)
       (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
-	  (folder (y+ canvas.center -5) "this is~%folder."
+      (folder (y+ canvas.center -5) "this is~%folder."
                                    :align :center :height 50 :stroke :darkkhaki :fill :cornsilk)
-	  (text `(,(/ w 2) ,(- h 5)) "フォルダ" :align :center))
-	(defgroup (w h :person-grp)
+      (text `(,(/ w 2) ,(- h 5)) "フォルダ" :align :center))
+    (defgroup (w h :person-grp)
       (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
-	  (person (y+ canvas.center -10) 35 :fill :oldlace :stroke :brown)
-	  (text `(,(/ w 2) ,(- h 5)) "人物" :align :center))
-	(defgroup (w h :balloon-grp)
+      (person (y+ canvas.center -10) 35 :fill :oldlace :stroke :brown)
+      (text `(,(/ w 2) ,(- h 5)) "人物" :align :center))
+    (defgroup (w h :balloon-grp)
       (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
-	  (balloon (y+ canvas.center -15) "this is~%balloon." '(10 75)
+      (balloon (y+ canvas.center -15) "this is~%balloon." '(10 75)
                                                     :fill :honeydew :stroke :forestgreen)
-	  (text `(,(/ w 2) ,(- h 5)) "吹き出し" :align :center))
-	(defgroup (w h :memo-grp)
+      (text `(,(/ w 2) ,(- h 5)) "吹き出し" :align :center))
+    (defgroup (w h :memo-grp)
       (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
-	  (memo (y+ canvas.center -15) "this is~%memo." :width 80 :height 60
+      (memo (y+ canvas.center -15) "this is~%memo." :width 80 :height 60
                        :valign :top :align :left
                        :stroke :red :fill :lavenderblush :fill2 :lightpink)
-	  (text `(,(/ w 2) ,(- h 5)) "メモ" :align :center))
-	(defgroup (w h :cube-grp)
+      (text `(,(/ w 2) ,(- h 5)) "メモ" :align :center))
+    (defgroup (w h :cube-grp)
       (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
-	  (cube (y+ canvas.center -10) 65 60 "this is~%cube." 
+      (cube (y+ canvas.center -10) 65 60 "this is~%cube." 
                                        :stroke :black :fill :lightgray :fill2 :darkgray)
-	  (text `(,(/ w 2) ,(- h 5)) "キューブ" :align :center))
-	(defgroup (w h :cylinder-grp)
+      (text `(,(/ w 2) ,(- h 5)) "キューブ" :align :center))
+    (defgroup (w h :cylinder-grp)
       (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
-	  (cylinder (y+ canvas.center -10) 65 60 "this is~%cylinder." 
+      (cylinder (y+ canvas.center -10) 65 60 "this is~%cylinder." 
                                        :stroke :darkgray :fill :lightgray)
-	  (text `(,(/ w 2) ,(- h 5)) "円柱" :align :center))
-	(defgroup (w h :explosion-grp)
+      (text `(,(/ w 2) ,(- h 5)) "円柱" :align :center))
+    (defgroup (w h :explosion-grp)
       (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
-	  (explosion1 (y+ canvas.center -10) 90 80 "bomb!!" 
+      (explosion1 (y+ canvas.center -10) 90 80 "bomb!!" 
                                        :stroke :red :fill :lightpink)
-	  (text `(,(/ w 2) ,(- h 5)) "爆発" :align :center))
-	(defgroup (w h :cross-grp)
+      (text `(,(/ w 2) ,(- h 5)) "爆発" :align :center))
+    (defgroup (w h :cross-grp)
       (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
-	  (cross (y+ canvas.center -10) (- canvas.width 30) (- canvas.height 30) 20 
+      (cross (y+ canvas.center -10) (- canvas.width 30) (- canvas.height 30) 20 
                                        :stroke :purple :fill :plum)
-	  (text `(,(/ w 2) ,(- h 5)) "十字" :align :center))
-	(defgroup (w h :blockarrow-grp)
+      (text `(,(/ w 2) ,(- h 5)) "十字" :align :center))
+    (defgroup (w h :blockarrow-grp)
       (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
-	  (block-arrow1 '(0 40) '(100 40) 20 :margin 5 :stroke :brown :fill :burlywood)
-	  (text `(,(/ w 2) ,(- h 5)) "ブロック矢印" :align :center))
-	(defgroup (w h :brace-grp)
+      (block-arrow1 '(0 40) '(100 40) 20 :margin 5 :stroke :brown :fill :burlywood)
+      (text `(,(/ w 2) ,(- h 5)) "ブロック矢印" :align :center))
+    (defgroup (w h :brace-grp)
       (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
-	  (brace (y+ canvas.center -20) :upper 80 30 :r 10 :text "this is brace." :stroke :navy)
-	  (text `(,(/ w 2) ,(- h 5)) "波括弧" :align :center))
-	(defgroup (w h :table-grp)
+      (brace (y+ canvas.center -20) :upper 80 30 :r 10 :text "this is brace." :stroke :navy)
+      (text `(,(/ w 2) ,(- h 5)) "波括弧" :align :center))
+    (defgroup (w h :table-grp)
       (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
-	  (table (y+ canvas.center -10) '(10 10 10 10) '(20 20 20 20) :fills '(:rc :white :r0 :skyblue) :stroke :navy)
-	  (text `(,(/ w 2) ,(- h 5)) "テーブル" :align :center))
+      (table (y+ canvas.center -10) '(10 10 10 10) '(20 20 20 20) :fills '(:rc :white :r0 :skyblue) :stroke :navy)
+      (text `(,(/ w 2) ,(- h 5)) "テーブル" :align :center))
     (use :connect-grp    '( 70  60) :link "${HASH_CONNECTOR}")
     (use :paragraph-grp  '(200  60) :link "${HASH_PARAGRAPH}")
     (use :textbox-grp    '(330  60) :link "${HASH_TEXTBOX}")
@@ -2538,38 +2538,38 @@ ${BLANK_PARAGRAPH}
 
 ```kaavio
 (diagram (400 120)
-	(grid)
-	(let ((pt1 '( 50 50))
-		  (pt2 '(350 50)))
-	  (circle pt1 4 :stroke :none :fill :red)
-	  (circle pt2 4 :stroke :none :fill :red)
-	  (with-options (:font '(:fill :red :size 10))
-		(text (y+ $2.center 15) "pt1" :align :center)
-		(text (y+ $2.center 15) "pt2" :align :center))
-	  (line `(,pt1 ,pt2) :stroke '(:color :red :width 0.5 :dasharray (4 4)))
-	  (block-arrow1 pt1 pt2 30 :margin 30 :length 70 :size 60
-					:stroke :navy :fill '(:color :skyblue :opacity 0.3))
-	  (with-options (:stroke '(:color :gray :dasharray '(3 3)))
-		(line `(,pt1 ,(y+ pt1 -30)))
-		(line `(,pt2 ,(y+ pt2 -30)))
-		(line `(,(x+ pt2 -30) ,(xy+ pt2 -30 -30)))
-		(line '((250 20) (220  20)))
-		(line '((250 80) (220  80)))
-		(line '((250 80) (250 100)))
-		(line '((320 50) (320 100))))
-	  (with-options (:stroke :brown)
-		(let ((em (make-endmark :type :arrow :size :small)))
-		  (line '((230  20) (230  80)) :end1 em :end2 em)
-		  (line '((150  35) (150  65)) :end1 em :end2 em)
-		  (line '((250  90) (320  90)) :end1 em :end2 em)
-		  (line `(,(y+  pt1     -15) ,(xy+ pt1 30 -15)) :end1 em :end2 em)
-		  (line `(,(xy+ pt2 -30 -20) ,(y+  pt2    -20)) :end1 em :end2 em)))
-	  (with-options (:font '(:fill :brown :size 10))
-		(text '(150  30) "width"  :align :center)
-		(text '(230  95) "size"   :align :right)
-		(text '(325 100) "length" :align :left)
-		(text '( 60  25) "margin" :align :left)
-		(text '(330  25) "margin" :align :left))))
+    (grid)
+    (let ((pt1 '( 50 50))
+          (pt2 '(350 50)))
+      (circle pt1 4 :stroke :none :fill :red)
+      (circle pt2 4 :stroke :none :fill :red)
+      (with-options (:font '(:fill :red :size 10))
+        (text (y+ $2.center 15) "pt1" :align :center)
+        (text (y+ $2.center 15) "pt2" :align :center))
+      (line `(,pt1 ,pt2) :stroke '(:color :red :width 0.5 :dasharray (4 4)))
+      (block-arrow1 pt1 pt2 30 :margin 30 :length 70 :size 60
+                    :stroke :navy :fill '(:color :skyblue :opacity 0.3))
+      (with-options (:stroke '(:color :gray :dasharray '(3 3)))
+        (line `(,pt1 ,(y+ pt1 -30)))
+        (line `(,pt2 ,(y+ pt2 -30)))
+        (line `(,(x+ pt2 -30) ,(xy+ pt2 -30 -30)))
+        (line '((250 20) (220  20)))
+        (line '((250 80) (220  80)))
+        (line '((250 80) (250 100)))
+        (line '((320 50) (320 100))))
+      (with-options (:stroke :brown)
+        (let ((em (make-endmark :type :arrow :size :small)))
+          (line '((230  20) (230  80)) :end1 em :end2 em)
+          (line '((150  35) (150  65)) :end1 em :end2 em)
+          (line '((250  90) (320  90)) :end1 em :end2 em)
+          (line `(,(y+  pt1     -15) ,(xy+ pt1 30 -15)) :end1 em :end2 em)
+          (line `(,(xy+ pt2 -30 -20) ,(y+  pt2    -20)) :end1 em :end2 em)))
+      (with-options (:font '(:fill :brown :size 10))
+        (text '(150  30) "width"  :align :center)
+        (text '(230  95) "size"   :align :right)
+        (text '(325 100) "length" :align :left)
+        (text '( 60  25) "margin" :align :left)
+        (text '(330  25) "margin" :align :left))))
 ```
 Figure. ブロック矢印のパラメータ
 
@@ -3169,18 +3169,18 @@ Figure. :arc-to ディレクティブのサンプル
 (diagram (400 140)
   (grid)
   (let ((pt1 '(150 50))
-		(pt2 '(250 90)))
-	(with-options (:fill :none :stroke '(:color :lightgray :width 2))
-	  (path `((:move-to ,pt1) (:arc-to 80 40 10 1 1 ,pt2)))
-	  (path `((:move-to ,pt1) (:arc-to 80 40 10 0 1 ,pt2)))
-	  (path `((:move-to ,pt1) (:arc-to 80 40 10 1 0 ,pt2)))
-	  (path `((:move-to ,pt1) (:arc-to 80 40 10 0 0 ,pt2))))
-	(with-options (:fill :red :stroke :none)
-	  (circle pt1 3)
-	  (circle pt2 3))
-	(with-options (:font '(:fill :red))
-	  (text (xy+ pt1 -10 -5) "pt1" :align :right)
-	  (text (xy+ pt2  10 15) "pt2" :align :left))))
+        (pt2 '(250 90)))
+    (with-options (:fill :none :stroke '(:color :lightgray :width 2))
+      (path `((:move-to ,pt1) (:arc-to 80 40 10 1 1 ,pt2)))
+      (path `((:move-to ,pt1) (:arc-to 80 40 10 0 1 ,pt2)))
+      (path `((:move-to ,pt1) (:arc-to 80 40 10 1 0 ,pt2)))
+      (path `((:move-to ,pt1) (:arc-to 80 40 10 0 0 ,pt2))))
+    (with-options (:fill :red :stroke :none)
+      (circle pt1 3)
+      (circle pt2 3))
+    (with-options (:font '(:fill :red))
+      (text (xy+ pt1 -10 -5) "pt1" :align :right)
+      (text (xy+ pt2  10 15) "pt2" :align :left))))
 ```
 Figure. :arc-to における rx, ry, x-axis-rotation
 
@@ -3531,7 +3531,7 @@ Figure. :relative ディレクティブのサンプル
           (:line-to (120 10) ( 90 50))
           :close-path
           (:move-to (210 10))
-		  (:line-to (180 50) (240 50))
+          (:line-to (180 50) (240 50))
           :close-path)
           :stroke :black :fill :rosybrown)
   (textbox '(150 100)
@@ -3706,13 +3706,13 @@ Figure. pivot パラメータの利用例
   (grid)
   (line '((50 40) (100 40) (100 80) (250 80)) :stroke 1 :id :line)
   (with-options (:stroke :none :fill :red)
-	(circle line.end1   3)
-	(circle line.center 3)
-	(circle line.end2   3))
+    (circle line.end1   3)
+    (circle line.center 3)
+    (circle line.end2   3))
   (with-options (:font '(:fill :red))
-	(text (xy+ line.end1   0 -10) "end1"       :align :center)
-	(text (xy+ line.center 0 -10) "center(cc)" :align :left)
-	(text (xy+ line.end2   0 -10) "end2"       :align :center)))
+    (text (xy+ line.end1   0 -10) "end1"       :align :center)
+    (text (xy+ line.center 0 -10) "center(cc)" :align :left)
+    (text (xy+ line.end2   0 -10) "end2"       :align :center)))
 ```
 Figure. 図形要素の座標参照 - 2
 
@@ -5474,7 +5474,7 @@ ${BLANK_PARAGRAPH}
 Figure. フィルタのサンプル
 
 
-	
+
 ${BLANK_PARAGRAPH}
 
 　これらのシャドウは通常図面内で１種類しか使用しないため、ID もデフォルト値を使用可能になっています。
@@ -6719,16 +6719,16 @@ Figure. uml-pin のサンプル
   (grid)
   (drop-shadow)
   (with-theme (:uml-activity-default)
-	(with-options (:filter :drop-shadow)
-	  (uml-activity-start '(50  50) :id :start)
-	  (uml-signal (x+ start.center 150) :send
+    (with-options (:filter :drop-shadow)
+      (uml-activity-start '(50  50) :id :start)
+      (uml-signal (x+ start.center 150) :send
                   "sending~%signal"   :direction :right :id :step1)
-	  (uml-signal (y+ step1.center 100) :receive
+      (uml-signal (y+ step1.center 100) :receive
                   "receiving~%signal" :direction :left  :id :step2)
-	  (uml-activity-final (x+ step2.center 150) :id :final))
-	(uml-flow :start :step1)
-	(uml-flow :step1 :step2)
-	(uml-flow :step2 :final)))
+      (uml-activity-final (x+ step2.center 150) :id :final))
+    (uml-flow :start :step1)
+    (uml-flow :step1 :step2)
+    (uml-flow :step2 :final)))
 -->
 
 ```kaavio
@@ -7245,14 +7245,14 @@ ${BLANK_PARAGRAPH}
 パラメータ数に応じて以下のことをします。
 
 * パラメータ数が 0 の場合
-	* nil を返します
+    * nil を返します
 * パラメータ数が 1 の場合
-	* 終端マーク情報が渡された場合、それをそのまま返します
-	* 数値 N が渡された場合、 `(make-endmark :size N)` を返します
-	* リスト lst が渡された場合、 `(apply #'make-endmark lst)` を返します
-	* 上記のいずれでもない prm の場合、 `(make-endmark :type prm)` を返します
+    * 終端マーク情報が渡された場合、それをそのまま返します
+    * 数値 N が渡された場合、 `(make-endmark :size N)` を返します
+    * リスト lst が渡された場合、 `(apply #'make-endmark lst)` を返します
+    * 上記のいずれでもない prm の場合、 `(make-endmark :type prm)` を返します
 * パラメータ数が 2 以上の場合
-	* 後述します
+    * 後述します
 
 　パラメータ数が 2 以上の場合、make-endmark 関数は実質的に以下の関数であるかのように振舞います。
 
@@ -7299,13 +7299,13 @@ ${BLANK_PARAGRAPH}
 パラメータ数に応じて以下のことをします。
 
 * パラメータ数が 0 の場合
-	* デフォルトのフィル情報を返します
+    * デフォルトのフィル情報を返します
 * パラメータ数が 1 の場合
-	* フィル情報が渡された場合、それをそのまま返します
-	* リスト lst が渡された場合、 `(apply #'make-fill lst)` を返します
-	* 上記のいずれでもない prm の場合、 `(make-fill :color prm)` を返します
+    * フィル情報が渡された場合、それをそのまま返します
+    * リスト lst が渡された場合、 `(apply #'make-fill lst)` を返します
+    * 上記のいずれでもない prm の場合、 `(make-fill :color prm)` を返します
 * パラメータ数が 2 以上の場合
-	* 後述します
+    * 後述します
 
 　パラメータ数が 2 以上の場合、make-fill 関数は実質的に以下の関数であるかのように振舞います。
 
@@ -7340,15 +7340,15 @@ ${BLANK_PARAGRAPH}
 パラメータ数に応じて以下のことをします。
 
 * パラメータ数が 0 の場合
-	* デフォルトのフォント情報を返します
+    * デフォルトのフォント情報を返します
 * パラメータ数が 1 の場合
-	* フォント情報が渡された場合、それをそのまま返します
-	* 数値 N が渡された場合、 `(make-font :size N)` を返します
-	* キーワードシンボル CLR が渡された場合、 `(make-font :fill CLR)` を返します
-	* リスト lst が渡された場合、 `(apply #'make-font lst)` を返します
-	* 上記のいずれでもない prm の場合、 `(make-font :family prm)` を返します
+    * フォント情報が渡された場合、それをそのまま返します
+    * 数値 N が渡された場合、 `(make-font :size N)` を返します
+    * キーワードシンボル CLR が渡された場合、 `(make-font :fill CLR)` を返します
+    * リスト lst が渡された場合、 `(apply #'make-font lst)` を返します
+    * 上記のいずれでもない prm の場合、 `(make-font :family prm)` を返します
 * パラメータ数が 2 以上の場合
-	* 後述します
+    * 後述します
 
 　パラメータ数が 2 以上の場合、make-font 関数は実質的に以下の関数であるかのように振舞います。
 
@@ -7402,13 +7402,13 @@ ${BLANK_PARAGRAPH}
 パラメータ数に応じて以下のことをします。
 
 * パラメータ数が 0 の場合
-	* nil を返します
+    * nil を返します
 * パラメータ数が 1 の場合
-	* ラベル情報が渡された場合、それをそのまま返します
-	* リスト lst が渡された場合、 `(apply #'make-label lst)` を返します
-	* 上記のいずれでもない prm の場合、 `(make-label prm :offset nil)` を返します
+    * ラベル情報が渡された場合、それをそのまま返します
+    * リスト lst が渡された場合、 `(apply #'make-label lst)` を返します
+    * 上記のいずれでもない prm の場合、 `(make-label prm :offset nil)` を返します
 * パラメータ数が 2 以上の場合
-	* 後述します
+    * 後述します
 
 　パラメータ数が 2 以上の場合、make-label 関数は実質的に以下の関数であるかのように振舞います。
 
@@ -7444,13 +7444,13 @@ ${BLANK_PARAGRAPH}
 パラメータ数に応じて以下のことをします。
 
 * パラメータ数が 0 の場合
-	* nil を返します
+    * nil を返します
 * パラメータ数が 1 の場合
-	* リンク情報が渡された場合、それをそのまま返します
-	* リスト lst が渡された場合、 `(apply #'make-link lst)` を返します
-	* 上記のいずれでもない prm の場合、 `(make-link :url prm)` を返します
+    * リンク情報が渡された場合、それをそのまま返します
+    * リスト lst が渡された場合、 `(apply #'make-link lst)` を返します
+    * 上記のいずれでもない prm の場合、 `(make-link :url prm)` を返します
 * パラメータ数が 2 以上の場合
-	* 後述します
+    * 後述します
 
 　パラメータ数が 2 以上の場合、make-link 関数は実質的に以下の関数であるかのように振舞います。
 
@@ -7493,14 +7493,14 @@ ${BLANK_PARAGRAPH}
 パラメータ数に応じて以下のことをします。
 
 * パラメータ数が 0 の場合
-	* デフォルトのストローク情報を返します
+    * デフォルトのストローク情報を返します
 * パラメータ数が 1 の場合
-	* ストローク情報が渡された場合、それをそのまま返します
-	* 数値 N が渡された場合、 `(make-stroke :width N)` を返します
-	* リスト lst が渡された場合、 `(apply #'make-stroke lst)` を返します
-	* 上記のいずれでもない prm の場合、 `(make-stroke :color prm)` を返します
+    * ストローク情報が渡された場合、それをそのまま返します
+    * 数値 N が渡された場合、 `(make-stroke :width N)` を返します
+    * リスト lst が渡された場合、 `(apply #'make-stroke lst)` を返します
+    * 上記のいずれでもない prm の場合、 `(make-stroke :color prm)` を返します
 * パラメータ数が 2 以上の場合
-	* 後述します
+    * 後述します
 
 　パラメータ数が 2 以上の場合、make-stroke 関数は実質的に以下の関数であるかのように振舞います。
 
@@ -8775,12 +8775,12 @@ maroon(#B03060), purple(#A020F0) については規格側にも同じ名前が�
                           (238 180  34 "goldenrod2"      )
                           (205 155  29 "goldenrod3"      )
                           (139 105  20 "goldenrod4"      )
-                          (  0 255   0 "green"           )	; duplicated
+                          (  0 255   0 "green"           )    ; duplicated
                           (  0 255   0 "green1"          )
                           (  0 238   0 "green2"          )
                           (  0 205   0 "green3"          )
                           (  0 139   0 "green4"          )
-                          (190 190 190 "grey"            )	; duplicated
+                          (190 190 190 "grey"            )    ; duplicated
                           (  0   0   0 "grey0"           )
                           (  3   3   3 "grey1"           )
                           (  5   5   5 "grey2"           )
@@ -8948,7 +8948,7 @@ maroon(#B03060), purple(#A020F0) については規格側にも同じ名前が�
                           (238   0 238 "magenta2"        )
                           (205   0 205 "magenta3"        )
                           (139   0 139 "magenta4"        )
-                          (176  48  96 "maroon"          )	; duplicated
+                          (176  48  96 "maroon"          )    ; duplicated
                           (255  52 179 "maroon1"         )
                           (238  48 167 "maroon2"         )
                           (205  41 144 "maroon3"         )
@@ -9010,7 +9010,7 @@ maroon(#B03060), purple(#A020F0) については規格側にも同じ名前が�
                           (238 174 238 "plum2"           )
                           (205 150 205 "plum3"           )
                           (139 102 139 "plum4"           )
-                          (160  32 240 "purple"          )	; duplicated
+                          (160  32 240 "purple"          )    ; duplicated
                           (155  48 255 "purple1"         )
                           (145  44 238 "purple2"         )
                           (125  38 205 "purple3"         )
@@ -9108,114 +9108,114 @@ Figure. 色の名前とサンプル - 2
 　更新履歴です。
 
 * __2022/08/21 - version 0.001__
-	* とりあえず使えそうになったのでリリース
+    * とりあえず使えそうになったのでリリース
 * __2022/08/31 - version 0.002__
-	* ENHANCE : with-subcanvas-ofマクロを追加
-	* DOCUMENT : 「[](#座標と位置)」、および「[](#サブキャンバス)」を執筆
+    * ENHANCE : with-subcanvas-ofマクロを追加
+    * DOCUMENT : 「[](#座標と位置)」、および「[](#サブキャンバス)」を執筆
 * __2022/09/04 - version 0.003__
-	* __INCOMPATIBLE CHANGE : with-canvas マクロの第１パラメータを topleft から center に変更__
-	* DOCUMENT : 「[](#定義と再使用)」を執筆
-	* ENHANCE : 「[](#キューブ)」を追加
-	* ENHANCE : 「[](#十字)」を追加
-	* ENHANCE : 「[](#人物)」を追加
+    * __INCOMPATIBLE CHANGE : with-canvas マクロの第１パラメータを topleft から center に変更__
+    * DOCUMENT : 「[](#定義と再使用)」を執筆
+    * ENHANCE : 「[](#キューブ)」を追加
+    * ENHANCE : 「[](#十字)」を追加
+    * ENHANCE : 「[](#人物)」を追加
 * __2022/09/11__
-	* DOCUMENT : 「[](#ストローク)」を執筆
-	* DOCUMENT : 「[](#フィル)」を執筆
+    * DOCUMENT : 「[](#ストローク)」を執筆
+    * DOCUMENT : 「[](#フィル)」を執筆
 * __2022/09/19__
-	* プロダクト名を diagram から kaavio に変更
-	* DOCUMENT : 「[](#フォント)」を執筆
+    * プロダクト名を diagram から kaavio に変更
+    * DOCUMENT : 「[](#フォント)」を執筆
 * __2022/09/20__
-	* DOCUMENT : 「[](#生の SVG コード片の挿入)」を執筆
-	* ENHANCE : 「[](#テキストボックス)」と「[](#爆発)」に contents パラメータを追加
+    * DOCUMENT : 「[](#生の SVG コード片の挿入)」を執筆
+    * ENHANCE : 「[](#テキストボックス)」と「[](#爆発)」に contents パラメータを追加
 * __2022/09/22 - version 0.004__
-	* __INCOMPATIBLE CHANGE : defs マクロを defgroup マクロに改名__
-	* ENHANCE : 「[](#パターン)」を追加
-	* ENHANCE : 「[](#make-fill 関数)」に `url` パラメータを追加
+    * __INCOMPATIBLE CHANGE : defs マクロを defgroup マクロに改名__
+    * ENHANCE : 「[](#パターン)」を追加
+    * ENHANCE : 「[](#make-fill 関数)」に `url` パラメータを追加
 * __2022/09/25 - version 0.005__
-	* ENHANCE : 「[](#make-stroke 関数)」に `url` パラメータを追加
-	* ENHANCE : 「[](#グラデーション)」を追加
+    * ENHANCE : 「[](#make-stroke 関数)」に `url` パラメータを追加
+    * ENHANCE : 「[](#グラデーション)」を追加
 * __2022/09/27__
-	* ENHANCE : 「[](#ひし形)」を追加
-	* ENHANCE : 「[](#平行四辺形)」を追加
+    * ENHANCE : 「[](#ひし形)」を追加
+    * ENHANCE : 「[](#平行四辺形)」を追加
 * __2022/10/01 - version 0.006__
-	* ENHANCE : ID 指定のない要素に gensym ID を付与し、 `$N.id` で参照を可能とする修正
+    * ENHANCE : ID 指定のない要素に gensym ID を付与し、 `$N.id` で参照を可能とする修正
 * __2022/10/03__
-	* __MINOR INCOMPATIBLE CHANGE : [$$](#パターン)と[$$](#グラデーション)の追加に伴い、fill 指定から別の色を \
+    * __MINOR INCOMPATIBLE CHANGE : [$$](#パターン)と[$$](#グラデーション)の追加に伴い、fill 指定から別の色を \
 導出する機能を廃止__
-	* ENHANCE : 上記の対応として「[](#メモ)」に `:fill2` パラメータを追加
+    * ENHANCE : 上記の対応として「[](#メモ)」に `:fill2` パラメータを追加
 * __2022/10/10 - version 0.007__
-	* DOCUMENT : 「[](#IDと参照)」を執筆
+    * DOCUMENT : 「[](#IDと参照)」を執筆
 * __2022/10/11__
-	* DOCUMENT : 「[](#回転)」を執筆
+    * DOCUMENT : 「[](#回転)」を執筆
 * __2022/10/14 - version 0.008__
-	* __INCOMPATIBLE CHANGE : フィルタのデフォルトを line / shape で区別する仕様を廃止__
-	* ENHANCE : with-options でデフォルトフィルタを指定できるようにする修正
-	* DOCUMENT : 「[](#フィルタ)」を執筆
+    * __INCOMPATIBLE CHANGE : フィルタのデフォルトを line / shape で区別する仕様を廃止__
+    * ENHANCE : with-options でデフォルトフィルタを指定できるようにする修正
+    * DOCUMENT : 「[](#フィルタ)」を執筆
 * __2022/10/16 - version 0.009__
-	* __MINOR INCOMPATIBLE CHANGE : レイヤー機能においてレイヤー非所属の図形要素が描画される順序を変更__
-	* DOCUMENT : 「[](#レイヤー)」を執筆
+    * __MINOR INCOMPATIBLE CHANGE : レイヤー機能においてレイヤー非所属の図形要素が描画される順序を変更__
+    * DOCUMENT : 「[](#レイヤー)」を執筆
 * __2022/10/17__
-	* DOCUMENT : 「[](#リンク)」を執筆
+    * DOCUMENT : 「[](#リンク)」を執筆
 * __2022/10/22 - version 0.010__
-	* ENHANCE : [$$](#終端マーク)で stroke や fill を指定しなかった場合の挙動を改善
-	* DOCUMENT : 「[](#終端マーク)」を執筆
+    * ENHANCE : [$$](#終端マーク)で stroke や fill を指定しなかった場合の挙動を改善
+    * DOCUMENT : 「[](#終端マーク)」を執筆
 * __2022/10/23 - version 0.011__
-	* ENHANCE : [$$](#ラベル)に関するデフォルト設定周辺の仕様を確定
-	* DOCUMENT : 「[](#ラベル)」を執筆
+    * ENHANCE : [$$](#ラベル)に関するデフォルト設定周辺の仕様を確定
+    * DOCUMENT : 「[](#ラベル)」を執筆
 * __2022/10/24__
-	* BUGFIX : [$$](#ラベル)描画時の文字エスケープに関するバグを修正
-	* BUGFIX : 直線やコネクタの端点、および中点座標に ID.end1 などの記法でアクセスできるようにする機能追加
-	* ENHANCE : with-current-canvas を追加
-	* __INCOMPATIBLE CHANGE : 上記に伴い、with-canvas マクロを非推奨に変更__
+    * BUGFIX : [$$](#ラベル)描画時の文字エスケープに関するバグを修正
+    * BUGFIX : 直線やコネクタの端点、および中点座標に ID.end1 などの記法でアクセスできるようにする機能追加
+    * ENHANCE : with-current-canvas を追加
+    * __INCOMPATIBLE CHANGE : 上記に伴い、with-canvas マクロを非推奨に変更__
 * __2022/10/25 - version 0.012__
-	* ENHANCE : [$$](#ブロック矢印)でコネクタ同様に center, end1, end2 をサポートする機能追加
+    * ENHANCE : [$$](#ブロック矢印)でコネクタ同様に center, end1, end2 をサポートする機能追加
 * __2022/10/26 - version 0.013__
-	* ENHANCE : [$$](#円弧)でコネクタ同様に center, end1, end2 をサポートする機能追加
-	* ENHANCE : [$$](#円弧)で[$$](#終端マーク)を指定可能にする機能追加
+    * ENHANCE : [$$](#円弧)でコネクタ同様に center, end1, end2 をサポートする機能追加
+    * ENHANCE : [$$](#円弧)で[$$](#終端マーク)を指定可能にする機能追加
 * __2022/11/06 - version 0.014__
-	* DOCUMENT : パスの undocumented な未実装部分を完成させ、「[](#パス)」を執筆
+    * DOCUMENT : パスの undocumented な未実装部分を完成させ、「[](#パス)」を執筆
 * __2022/11/08 - version 0.015__
-	* ENHANCE : [$$](#二次ベジェ曲線)を追加
-	* ENHANCE : [$$](#三次ベジェ曲線)を追加
+    * ENHANCE : [$$](#二次ベジェ曲線)を追加
+    * ENHANCE : [$$](#三次ベジェ曲線)を追加
 * __2022/11/09__
-	* ENHANCE : [$$](#円弧)に debug パラメータを追加
+    * ENHANCE : [$$](#円弧)に debug パラメータを追加
 * __2022/11/10__
-	* ENHANCE : repeat 関数を追加
-	* BUGFIX : [$$](#円弧)における[$$](#終端マーク)のバグを改修
-	* ENHANCE : with-block-arrow-options に length, size, margin パラメータを追加
+    * ENHANCE : repeat 関数を追加
+    * BUGFIX : [$$](#円弧)における[$$](#終端マーク)のバグを改修
+    * ENHANCE : with-block-arrow-options に length, size, margin パラメータを追加
 * __2022/11/12 - version 0.016__
-	* DOCUMENT : 「[](#画像ファイルの埋め込み)」を執筆
+    * DOCUMENT : 「[](#画像ファイルの埋め込み)」を執筆
 * __2022/11/16__
-	* REFACTORING : 出力 SVG のサイズ低減措置
+    * REFACTORING : 出力 SVG のサイズ低減措置
 * __2022/11/17__
-	* ENHANCE : with-subcanvas に debug パラメータを追加
-	* ENHANCE : use に debug パラメータを追加
-	* ENHANCE : [$$](#テーブル) の fills パラメータで `:r1-2` などの範囲指定をサポート
+    * ENHANCE : with-subcanvas に debug パラメータを追加
+    * ENHANCE : use に debug パラメータを追加
+    * ENHANCE : [$$](#テーブル) の fills パラメータで `:r1-2` などの範囲指定をサポート
 * __2022/11/18 - version 0.017__
-	* ENHANCE : with-table-range を追加
-	* ENHANCE : 出力 SVG のサイズ低減措置における table の不具合を改修
+    * ENHANCE : with-table-range を追加
+    * ENHANCE : 出力 SVG のサイズ低減措置における table の不具合を改修
 * __2022/11/20 - version 0.018__
-	* BUGFIX : memo と cube における描画上のバグを改修
+    * BUGFIX : memo と cube における描画上のバグを改修
 * __2022/11/27 - version 0.019__
-	* ENHANCE : テーマ機能を追加
+    * ENHANCE : テーマ機能を追加
 * __2022/12/11 - version 0.020__
-	* ENHANCE : UML アクティビティ図を追加
+    * ENHANCE : UML アクティビティ図を追加
 * __2022/12/15 - version 0.021__
-	* BUGFIX : uml-flow で `:spacing` パラメータを指定できない問題を改修
-	* BUGFIX : uml-action の `:rake` パラメータに関するバグを改修
-	* ENHANCE : uml-action で `:contents t` という記述をサポート
-	* ENHANCE : uml-partition を追加
+    * BUGFIX : uml-flow で `:spacing` パラメータを指定できない問題を改修
+    * BUGFIX : uml-action の `:rake` パラメータに関するバグを改修
+    * ENHANCE : uml-action で `:contents t` という記述をサポート
+    * ENHANCE : uml-partition を追加
 * __2022/12/25 - version 0.022__
-	* ENHANCE : `obj.center` に対する `obj.cc` などの簡略記法を導入（[$@ 章](#座標と位置)参照）
-	* ENHANCE : ml-note の接続先として point 値を指定可能にする機能追加
+    * ENHANCE : `obj.center` に対する `obj.cc` などの簡略記法を導入（[$@ 章](#座標と位置)参照）
+    * ENHANCE : ml-note の接続先として point 値を指定可能にする機能追加
 * __2023/03/12 - version 0.023__
-	* ENHANCE : コネクタで接続先として point 値を指定可能にする機能追加
-	* __MINOR INCOMPATIBLE CHANGE : make-font 関数に単一パラメータとしてキーワードパラメータを与えた場合の扱いを（:fill に）変更__
+    * ENHANCE : コネクタで接続先として point 値を指定可能にする機能追加
+    * __MINOR INCOMPATIBLE CHANGE : make-font 関数に単一パラメータとしてキーワードパラメータを与えた場合の扱いを（:fill に）変更__
 * __2024/02/07 - version 0.024__
-	* ENHANCE : 多くの shape において center パラメータを position に変更し、新規追加の pivot パラメータで position に対する描画位置を調整可能とする変更
-	* __INCOMPATIBLE CHANGE : 上記変更に伴い、 `cross` における既存の `pivot` パラメータを `intersection` に名称変更__
+    * ENHANCE : 多くの shape において center パラメータを position に変更し、新規追加の pivot パラメータで position に対する描画位置を調整可能とする変更
+    * __INCOMPATIBLE CHANGE : 上記変更に伴い、 `cross` における既存の `pivot` パラメータを `intersection` に名称変更__
 * __2024/05/11 - version 0.025__
-	* BUGFIX : version 0.024 における connector のバグを改修
+    * BUGFIX : version 0.024 における connector のバグを改修
 
 ## 図表一覧
 <!-- embed:figure-list -->

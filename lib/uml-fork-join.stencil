@@ -13,26 +13,26 @@
 ;;
 ;;------------------------------------------------------------------------------
 (defclass uml-fork-join (kaavio:rectangle)
-  ((spec :initform nil :initarg :spec)))	; (or nil label-info)
+  ((spec :initform nil :initarg :spec)))    ; (or nil label-info)
 
 (defmethod initialize-instance :after ((obj uml-fork-join) &rest initargs)
   (declare (ignore initargs))
   (with-slots (spec filter layer) obj
-	;;ToDo : spec で :position 指定が（実質的に）なければ join-v / join-h によって調整してやる？
-	(setf spec (and spec (make-label spec)))
-	(setf filter  (if (eq filter :none)
-					  nil
-					  (or filter *uml-fork-join-filter* *default-filter*)))
-	(setf layer  (if (eq layer :none)
-					 nil
-					 (or layer *uml-fork-join-layer* *default-layer*))))
+    ;;ToDo : spec で :position 指定が（実質的に）なければ join-v / join-h によって調整してやる？
+    (setf spec (and spec (make-label spec)))
+    (setf filter  (if (eq filter :none)
+                      nil
+                      (or filter *uml-fork-join-filter* *default-filter*)))
+    (setf layer  (if (eq layer :none)
+                     nil
+                     (or layer *uml-fork-join-layer* *default-layer*))))
   obj)
 
 (defmethod check ((obj uml-fork-join) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
   (with-slots (spec) obj
-	(check-object spec canvas dict :nullable t :class label-info))
+    (check-object spec canvas dict :nullable t :class label-info))
   nil)
 
 (defmethod entity-composition-p ((obj uml-fork-join))
@@ -40,10 +40,10 @@
 
 (defmethod post-draw ((obj uml-fork-join) writer)
   (with-slots (spec) obj
-	(when spec
-	  (draw-label spec obj writer)))
+    (when spec
+      (draw-label spec obj writer)))
   (call-next-method)
-;  (draw-canvas-frame (shape-get-subcanvas obj) writer)	;for debug...
+;  (draw-canvas-frame (shape-get-subcanvas obj) writer)    ;for debug...
   nil)
 
 ;;------------------------------------------------------------------------------
@@ -53,30 +53,30 @@
 ;;------------------------------------------------------------------------------
 (defmacro uml-fork (position direction &key pivot width length fill link filter layer id)
   (let ((gw (gensym "WIDTH"))
-		(gh (gensym "HEIGHT")))
-	`(let ((,gw (or ,width  *uml-fork-join-width*))
-		   (,gh (or ,length *uml-fork-join-length*)))
-	   (register-entity (make-instance 'uml-fork-join
-									   :position ,position :pivot ,pivot :spec nil
-									   :width  (ecase ,direction ((:h) ,gw) ((:v) ,gh))
-									   :height (ecase ,direction ((:h) ,gh) ((:v) ,gw))
-									   :rx 0 :ry 0 :stroke :none
-									   :fill   (or ,fill *uml-fork-join-color* *default-fill*)
-									   :link ,link :filter ,filter :layer ,layer :id ,id)))))
+        (gh (gensym "HEIGHT")))
+    `(let ((,gw (or ,width  *uml-fork-join-width*))
+           (,gh (or ,length *uml-fork-join-length*)))
+       (register-entity (make-instance 'uml-fork-join
+                                       :position ,position :pivot ,pivot :spec nil
+                                       :width  (ecase ,direction ((:h) ,gw) ((:v) ,gh))
+                                       :height (ecase ,direction ((:h) ,gh) ((:v) ,gw))
+                                       :rx 0 :ry 0 :stroke :none
+                                       :fill   (or ,fill *uml-fork-join-color* *default-fill*)
+                                       :link ,link :filter ,filter :layer ,layer :id ,id)))))
 
 
 (defmacro uml-join (position direction &key pivot spec width length fill link filter layer id)
   (let ((gw (gensym "WIDTH"))
-		(gh (gensym "HEIGHT")))
-	`(let ((,gw (or ,width  *uml-fork-join-width*))
-		   (,gh (or ,length *uml-fork-join-length*)))
-	   (register-entity (make-instance 'uml-fork-join
-									   :position ,position :pivot ,pivot :spec ,spec
-									   :width  (ecase ,direction ((:h) ,gw) ((:v) ,gh))
-									   :height (ecase ,direction ((:h) ,gh) ((:v) ,gw))
-									   :rx 0 :ry 0 :stroke :none
-									   :fill   (or ,fill *uml-fork-join-color* *default-fill*)
-									   :link ,link :filter ,filter :layer ,layer :id ,id)))))
+        (gh (gensym "HEIGHT")))
+    `(let ((,gw (or ,width  *uml-fork-join-width*))
+           (,gh (or ,length *uml-fork-join-length*)))
+       (register-entity (make-instance 'uml-fork-join
+                                       :position ,position :pivot ,pivot :spec ,spec
+                                       :width  (ecase ,direction ((:h) ,gw) ((:v) ,gh))
+                                       :height (ecase ,direction ((:h) ,gh) ((:v) ,gw))
+                                       :rx 0 :ry 0 :stroke :none
+                                       :fill   (or ,fill *uml-fork-join-color* *default-fill*)
+                                       :link ,link :filter ,filter :layer ,layer :id ,id)))))
 
 
 ;;------------------------------------------------------------------------------
@@ -85,21 +85,21 @@
 ;;
 ;;------------------------------------------------------------------------------
 (defmacro with-uml-fork-join-options ((&key width length
-											color filter layer) &rest body)
+                                            color filter layer) &rest body)
   (labels ((impl (params acc)
-			 (if (null params)
-				 acc
-				 (let ((value  (car  params))
-					   (symbol (cadr params)))
-				   (impl (cddr params)
-						 (if (null value)
-							 acc
-							 (push (list symbol value) acc)))))))
-	(let ((lst (impl (list width   '*uml-fork-join-width*
-						   length  '*uml-fork-join-length*
-						   color   '*uml-fork-join-color*
-						   filter  '*uml-fork-join-filter*
-						   layer   '*uml-fork-join-layer*) nil)))
-	  `(let ,lst
-		 ,@body))))
+             (if (null params)
+                 acc
+                 (let ((value  (car  params))
+                       (symbol (cadr params)))
+                   (impl (cddr params)
+                         (if (null value)
+                             acc
+                             (push (list symbol value) acc)))))))
+    (let ((lst (impl (list width   '*uml-fork-join-width*
+                           length  '*uml-fork-join-length*
+                           color   '*uml-fork-join-color*
+                           filter  '*uml-fork-join-filter*
+                           layer   '*uml-fork-join-layer*) nil)))
+      `(let ,lst
+         ,@body))))
 

@@ -13,18 +13,18 @@
 
 (defmethod post-draw ((obj uml-state-history) writer)
   (with-slots (kaavio::stroke) obj
-	(let* ((canvas (shape-get-subcanvas obj))
-		   (x (/ (canvas-width canvas) 2))
-		   (y x)
-		   (r x))
-	  (macrolet ((register-entity (entity)
-				   `(check-and-draw-local-entity ,entity canvas writer)))
-		(let ((*default-stroke* kaavio::stroke))
-		  (path `((:move-to (,(- x (/ r 3)) ,y) (,(+ x (/ r 3)) ,y))
-				  (:move-to (,(- x (/ r 3)) ,(- y (/ r 2))) (,(- x (/ r 3)) ,(+ y (/ r 2))))
-				  (:move-to (,(+ x (/ r 3)) ,(- y (/ r 2))) (,(+ x (/ r 3)) ,(+ y (/ r 2))))))))))
+    (let* ((canvas (shape-get-subcanvas obj))
+           (x (/ (canvas-width canvas) 2))
+           (y x)
+           (r x))
+      (macrolet ((register-entity (entity)
+                   `(check-and-draw-local-entity ,entity canvas writer)))
+        (let ((*default-stroke* kaavio::stroke))
+          (path `((:move-to (,(- x (/ r 3)) ,y) (,(+ x (/ r 3)) ,y))
+                  (:move-to (,(- x (/ r 3)) ,(- y (/ r 2))) (,(- x (/ r 3)) ,(+ y (/ r 2))))
+                  (:move-to (,(+ x (/ r 3)) ,(- y (/ r 2))) (,(+ x (/ r 3)) ,(+ y (/ r 2))))))))))
   (call-next-method)
-;  (draw-canvas-frame (shape-get-subcanvas obj) writer)	;for debug...
+; (draw-canvas-frame (shape-get-subcanvas obj) writer)  ;for debug...
   nil)
 
 ;;------------------------------------------------------------------------------
@@ -34,10 +34,10 @@
 ;;------------------------------------------------------------------------------
 (defmacro uml-state-history (position &key pivot radius fill stroke link layer id)
   `(register-entity (make-instance 'uml-state-history
-								   :position ,position :pivot ,pivot
-								   :radius (or ,radius *uml-state-history-radius*)
-								   :fill   (or ,fill   *uml-state-history-fill*   *default-fill*)
-								   :stroke (or ,stroke *uml-state-history-stroke* *default-stroke*)
-								   :link ,link :layer ,layer :id ,id)))
+                                   :position ,position :pivot ,pivot
+                                   :radius (or ,radius *uml-state-history-radius*)
+                                   :fill   (or ,fill   *uml-state-history-fill*   *default-fill*)
+                                   :stroke (or ,stroke *uml-state-history-stroke* *default-stroke*)
+                                   :link ,link :layer ,layer :id ,id)))
 
 

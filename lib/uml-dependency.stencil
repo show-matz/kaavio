@@ -12,15 +12,15 @@
 ;;
 ;;------------------------------------------------------------------------------
 (defclass uml-dependency (kaavio:connector)
-  ((name	:initform nil :initarg :name)		; (or nil kaavio::label-info)
-   (keyword :initform nil :initarg :keyword)))	; (or nil uml-keyword-info)
+  ((name    :initform nil :initarg :name)        ; (or nil kaavio::label-info)
+   (keyword :initform nil :initarg :keyword)))   ; (or nil uml-keyword-info)
 
 (defmethod initialize-instance :after ((dep uml-dependency) &rest initargs)
   (declare (ignore initargs))
   (with-slots (name keyword) dep
-	(when name
-	  (setf name (make-label name)))
-	(setf keyword (and keyword (make-uml-keyword keyword))))
+    (when name
+      (setf name (make-label name)))
+    (setf keyword (and keyword (make-uml-keyword keyword))))
   dep)
 
 
@@ -28,14 +28,14 @@
   ;; this method must call super class' one.
   (call-next-method)
   (with-slots (name keyword) dep 
-	(check-object name    canvas dict :nullable t :class label-info)
-	(check-object keyword canvas dict :nullable t :class uml-keyword-info))
+    (check-object name    canvas dict :nullable t :class label-info)
+    (check-object keyword canvas dict :nullable t :class uml-keyword-info))
   nil)
 
 (defmethod entity-composition-p ((dep uml-dependency))
   (with-slots (name keyword) dep
-	(or name keyword
-		(call-next-method))))
+    (or name keyword
+        (call-next-method))))
 
 ;;no implementation...
 ;;(defmethod post-draw ((dep uml-dependency) writer)
@@ -48,17 +48,17 @@
 ;;------------------------------------------------------------------------------
 (defmacro uml-dependency (from to &key keyword name style spacing layer id)
   (let ((g-kwd  (gensym "KEYWORD"))
-		(g-name (gensym "NAME")))
-	`(let ((,g-kwd  ,keyword)
-		   (,g-name ,name))
-	   (register-entity (make-instance 'uml-dependency
-									   :from ,from :to ,to
-									   :keyword ,g-kwd :style ,style :spacing ,spacing
-									   :name ,g-name
-									   :label (and (or ,g-kwd ,g-name)
-												   #'uml-connection-draw-label)
-									   :stroke (make-stroke
-												:dasharray (or *uml-dependency-dasharray* '(4 2))
-												:base *default-stroke*)
-									   :end1 nil :end2 :arrow :layer ,layer :id ,id)))))
+        (g-name (gensym "NAME")))
+    `(let ((,g-kwd  ,keyword)
+           (,g-name ,name))
+       (register-entity (make-instance 'uml-dependency
+                                       :from ,from :to ,to
+                                       :keyword ,g-kwd :style ,style :spacing ,spacing
+                                       :name ,g-name
+                                       :label (and (or ,g-kwd ,g-name)
+                                                   #'uml-connection-draw-label)
+                                       :stroke (make-stroke
+                                                :dasharray (or *uml-dependency-dasharray* '(4 2))
+                                                :base *default-stroke*)
+                                       :end1 nil :end2 :arrow :layer ,layer :id ,id)))))
 

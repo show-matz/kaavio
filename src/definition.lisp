@@ -1,7 +1,7 @@
 #|
-#|ASD|#				(:file "definition"                :depends-on ("kaavio"
-#|ASD|#																"entity"))
-#|EXPORT|#				;definition.lisp
+#|ASD|#             (:file "definition"                :depends-on ("kaavio"
+#|ASD|#                                                             "entity"))
+#|EXPORT|#              ;definition.lisp
  |#
 
 (in-package :kaavio)
@@ -13,7 +13,7 @@
 ;;
 ;;-------------------------------------------------------------------------------
 #|
-#|EXPORT|#				:definition
+#|EXPORT|#              :definition
  |#
 (defclass definition (entity) ())
 

@@ -14,26 +14,26 @@
 ;;
 ;;------------------------------------------------------------------------------
 (defclass uml-usecase (kaavio:text-shape)
-  ((text	:initform nil :initarg :text)		; (or keyword string)
-   (keyword	:initform nil :initarg :keyword)	; (or nil uml-keyword-info)
-   (margin2	:initform nil)))					; number ( margin for keyword )
+  ((text     :initform nil :initarg :text)       ; (or keyword string)
+   (keyword  :initform nil :initarg :keyword)    ; (or nil uml-keyword-info)
+   (margin2  :initform nil)))                    ; number ( margin for keyword )
 
 (defmethod initialize-instance :after ((usecase uml-usecase) &rest initargs)
   (declare (ignore initargs))
   (with-slots (keyword margin2) usecase
-	(setf keyword (and keyword (make-uml-keyword keyword)))
-	(setf margin2 (if (null keyword)
-					  0
-					  (or (and *uml-usecase-font* (slot-value *uml-usecase-font* 'kaavio::size))
-						  (and *default-font*     (slot-value *default-font*     'kaavio::size))
-						  12))))	;;ToDo : これはなんとかしないと。
+    (setf keyword (and keyword (make-uml-keyword keyword)))
+    (setf margin2 (if (null keyword)
+                      0
+                      (or (and *uml-usecase-font* (slot-value *uml-usecase-font* 'kaavio::size))
+                          (and *default-font*     (slot-value *default-font*     'kaavio::size))
+                          12))))    ;;ToDo : これはなんとかしないと。
   usecase)
 
 (defmethod check ((usecase uml-usecase) canvas dict)
   (with-slots (text keyword margin2) usecase
-	(check-member text    :nullable nil :types (or keyword string))
-	(check-object keyword canvas dict :nullable t :class uml-keyword-info)
-	(check-member margin2 :nullable nil :types number))
+    (check-member text    :nullable nil :types (or keyword string))
+    (check-object keyword canvas dict :nullable t :class uml-keyword-info)
+    (check-member margin2 :nullable nil :types number))
   ;; this method must call super class' one.
   (call-next-method))
 
@@ -41,24 +41,24 @@
 ;; override of group::draw-group
 (defmethod draw-group ((usecase uml-usecase) writer)
   (let ((canvas (group-get-canvas usecase)))
-	(let ((top    (canvas-top    canvas))
-		  (left   (canvas-left   canvas))
-		  (width  (canvas-width  canvas))
-		  (height (canvas-height canvas)))
-	  (macrolet ((register-entity (entity)
-				   `(check-and-draw-local-entity ,entity canvas writer)))
-		(with-slots (keyword margin2 kaavio::margin
-							 kaavio::font kaavio::fill kaavio::stroke) usecase
-		  ;; draw usecase body
-		  (ellipse `(,(/ width 2) ,(/ height 2))
-				   (/ width 2) (/ height 2) :fill kaavio::fill :stroke kaavio::stroke)
-		  ;; draw keyword
-		  (when keyword
-			(uml-keyword-draw keyword
-							  (+ left (/ width 2))
-							  (+ top  kaavio::margin margin2) :center kaavio::font writer))
-		  ;; draw text
-		  (call-next-method)))))
+    (let ((top    (canvas-top    canvas))
+          (left   (canvas-left   canvas))
+          (width  (canvas-width  canvas))
+          (height (canvas-height canvas)))
+      (macrolet ((register-entity (entity)
+                   `(check-and-draw-local-entity ,entity canvas writer)))
+        (with-slots (keyword margin2 kaavio::margin
+                             kaavio::font kaavio::fill kaavio::stroke) usecase
+          ;; draw usecase body
+          (ellipse `(,(/ width 2) ,(/ height 2))
+                   (/ width 2) (/ height 2) :fill kaavio::fill :stroke kaavio::stroke)
+          ;; draw keyword
+          (when keyword
+            (uml-keyword-draw keyword
+                              (+ left (/ width 2))
+                              (+ top  kaavio::margin margin2) :center kaavio::font writer))
+          ;; draw text
+          (call-next-method)))))
   nil)
 
 ;for debug...
@@ -69,19 +69,19 @@
 
 (defmethod text-shape-calc-size ((usecase uml-usecase))
   (multiple-value-bind (w h) (call-next-method)
-	(values w (+ h (slot-value usecase 'margin2)))))
+    (values w (+ h (slot-value usecase 'margin2)))))
 
 (defmethod text-shape-paragraph-area ((usecase uml-usecase))
   (let ((canvas (call-next-method)))
-	(with-slots (margin2) usecase
-	  (incf (canvas-top    canvas) margin2)
-	  (decf (canvas-height canvas) margin2))
-	canvas))
+    (with-slots (margin2) usecase
+      (incf (canvas-top    canvas) margin2)
+      (decf (canvas-height canvas) margin2))
+    canvas))
 
 (defmethod shape-connect-point ((usecase uml-usecase) type1 type2 arg)
   (ellipse-connect-point (attribute-center usecase)
-						 (/ (attribute-width  usecase) 2)
-						 (/ (attribute-height usecase) 2) type1 type2 arg))
+                         (/ (attribute-width  usecase) 2)
+                         (/ (attribute-height usecase) 2) type1 type2 arg))
   
 ;;------------------------------------------------------------------------------
 ;;
@@ -89,13 +89,13 @@
 ;;
 ;;------------------------------------------------------------------------------
 (defmacro uml-usecase (position text &key pivot keyword width height
-										  font fill stroke margin link layer id)
+                                          font fill stroke margin link layer id)
   `(register-entity (make-instance 'uml-usecase
-								   :position ,position :pivot ,pivot
-								   :width ,width :height ,height
-								   :text ,text :font ,font
-								   :keyword ,keyword
-								   :margin (or ,margin *uml-usecase-margin*)
-								   :fill     (or ,fill   *uml-usecase-fill*   *default-fill*   :white)
-								   :stroke   (or ,stroke *uml-usecase-stroke* *default-stroke* :black)
-								   :link ,link :layer ,layer :id ,id)))
+                                   :position ,position :pivot ,pivot
+                                   :width ,width :height ,height
+                                   :text ,text :font ,font
+                                   :keyword ,keyword
+                                   :margin (or ,margin *uml-usecase-margin*)
+                                   :fill     (or ,fill   *uml-usecase-fill*   *default-fill*   :white)
+                                   :stroke   (or ,stroke *uml-usecase-stroke* *default-stroke* :black)
+                                   :link ,link :layer ,layer :id ,id)))

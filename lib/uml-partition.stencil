@@ -11,64 +11,64 @@
 
 (defun uml-partition-make-rows-cols (rows cols header)
   (cond
-	((and (integerp rows) (listp cols))
-	 (list :vertical
-		   (list header (- rows header))
-		   (mapcar #'second cols)))
-	((and (listp rows) (integerp cols))
-	 (list :horizontal
-		   (mapcar #'second rows)
-		   (list header (- cols header))))
-	((and (listp rows) (listp cols))
-	 (list :matrix
-		   (cons header (mapcar #'second rows))
-		   (cons header (mapcar #'second cols))))
-	((and (integerp rows) (integerp cols))
-	 (throw-exception "rows and cols are both integer."))
-	(t (throw-exception "rows or cols is invalid."))))
+    ((and (integerp rows) (listp cols))
+     (list :vertical
+           (list header (- rows header))
+           (mapcar #'second cols)))
+    ((and (listp rows) (integerp cols))
+     (list :horizontal
+           (mapcar #'second rows)
+           (list header (- cols header))))
+    ((and (listp rows) (listp cols))
+     (list :matrix
+           (cons header (mapcar #'second rows))
+           (cons header (mapcar #'second cols))))
+    ((and (integerp rows) (integerp cols))
+     (throw-exception "rows and cols are both integer."))
+    (t (throw-exception "rows or cols is invalid."))))
 
 (defun uml-partition-extract-header (rows cols)
   ;;For matches in with-lane, NO conversion to string at this point.
   (labels ((convert (lst)
-			 (let ((data (first lst)))
-			   (cond
-				 ((keywordp data) data)
-				 ((symbolp  data) data)
-				 ((stringp  data) data)
-				 (t nil)))))
-	(cond
-	  ((and (integerp rows) (listp cols))
-	   (list nil (mapcar #'convert cols)))
-	  ((and (listp rows) (integerp cols))
-	   (list (mapcar #'convert rows) nil))
-	  ((and (listp rows) (listp cols))
-	   (list (cons nil (mapcar #'convert rows))
-			 (cons nil (mapcar #'convert cols))))
-	  ((and (integerp rows) (integerp cols))
-	   (throw-exception "rows and cols are both integer."))
-	  (t (throw-exception "rows or cols is invalid.")))))
+             (let ((data (first lst)))
+               (cond
+                 ((keywordp data) data)
+                 ((symbolp  data) data)
+                 ((stringp  data) data)
+                 (t nil)))))
+    (cond
+      ((and (integerp rows) (listp cols))
+       (list nil (mapcar #'convert cols)))
+      ((and (listp rows) (integerp cols))
+       (list (mapcar #'convert rows) nil))
+      ((and (listp rows) (listp cols))
+       (list (cons nil (mapcar #'convert rows))
+             (cons nil (mapcar #'convert cols))))
+      ((and (integerp rows) (integerp cols))
+       (throw-exception "rows and cols are both integer."))
+      (t (throw-exception "rows or cols is invalid.")))))
 
 (defun uml-partition-get-cell (obj name1 name2)
   (labels ((find-lane (name lst idx)
-			 (when lst
-			   (if (equal name (car lst))
-				   idx
-				   (find-lane name (cdr lst) (1+ idx))))))
-	(with-slots (row-headers col-headers) obj
-	  (if name2
-		  (let ((row (find-lane name1 row-headers 0))
-				(col (find-lane name2 col-headers 0)))
-			(if (and row col)
-				(cons row col)
-				(throw-exception "ERROR : invalid lane name")))
-		  (let ((row (find-lane name1 row-headers 0)))
-			(if row
-				(cons row 1)
-				(let ((col (find-lane name1 col-headers 0)))
-				  (if col
-					  (cons 1 col)
-					  (throw-exception "ERROR : invalid lane name")))))))))
-	  
+             (when lst
+               (if (equal name (car lst))
+                   idx
+                   (find-lane name (cdr lst) (1+ idx))))))
+    (with-slots (row-headers col-headers) obj
+      (if name2
+          (let ((row (find-lane name1 row-headers 0))
+                (col (find-lane name2 col-headers 0)))
+            (if (and row col)
+                (cons row col)
+                (throw-exception "ERROR : invalid lane name")))
+          (let ((row (find-lane name1 row-headers 0)))
+            (if row
+                (cons row 1)
+                (let ((col (find-lane name1 col-headers 0)))
+                  (if col
+                      (cons 1 col)
+                      (throw-exception "ERROR : invalid lane name")))))))))
+      
 ;;------------------------------------------------------------------------------
 ;;
 ;; class uml-partition
@@ -77,92 +77,92 @@
 (defclass uml-partition (kaavio:table)
   ((type         :initform nil :initarg :type)          ; keyword (:vertical :horizontal :matrix)
    (lines        :initform nil :initarg :lines)         ; keyword (:min :mid :max)
-   (row-headers  :initform nil :initarg :row-headers)	; list of string
-   (col-headers  :initform nil :initarg :col-headers)))	; list of string
+   (row-headers  :initform nil :initarg :row-headers)   ; list of string
+   (col-headers  :initform nil :initarg :col-headers))) ; list of string
 
 
 (defmethod initialize-instance :after ((obj uml-partition) &rest initargs)
   (declare (ignore initargs))
   ;;(format t "initialize-instance :after called.~%")
   (with-slots (layer) obj
-	(setf layer  (if (eq layer :none)
-					 nil
-					 (or layer *uml-partition-layer* *default-layer*))))
+    (setf layer  (if (eq layer :none)
+                     nil
+                     (or layer *uml-partition-layer* *default-layer*))))
   obj)
 
 ;; override of group::draw-group
 (defmethod draw-group ((obj uml-partition) writer)
   (with-slots (type lines row-headers col-headers
-			   (rows kaavio::rows) (cols kaavio::cols)
-			   (stroke kaavio::stroke) (font kaavio::font)) obj
-	;; draw table without stroke
-	(let ((stroke-bkup stroke))
-	  (setf stroke (make-stroke :none))
-	  (call-next-method)
-	  (setf stroke stroke-bkup))
-	(let* ((canvas (group-get-canvas obj))
-		   (width  (canvas-width  canvas))
-		   (height (canvas-height canvas)))
-	  (macrolet ((register-entity (entity)
-				   `(check-and-draw-local-entity ,entity canvas writer)))
-		;; draw stroke
-		(when (or (eq type :vertical) (eq type :matrix))
-		  (let ((x 0))
-			(dolist (w (butlast cols))
-			  (incf x w)
-			  (line `((,x 0) (,x ,height)) :stroke stroke))))
-		(when (or (eq type :horizontal) (eq type :matrix))
-		  (let ((y 0))
-			(dolist (h (butlast rows))
-			  (incf y h)
-			  (line `((0 ,y) (,width ,y)) :stroke stroke))))
-		(when (eq lines :mid)
-		  (ecase type
-			((:vertical)
-			 (line `((0 0) (0 ,height)))
-			 (line `((,width 0) (,width ,height))))
-			((:horizontal)
-			 (line `((0 0) (,width 0)))
-			 (line `((0 ,height) (,width ,height))))
-			((:matrix)
-			 (line `((,width  0) (,width ,height)))
-			 (line `((0 ,height) (,width ,height))))))
-		(when (or (eq lines :mid) (eq lines :max))
-		  (when (eq type :vertical)
-			(let ((header (car rows)))
-			  (line `((0 ,header) (,width ,header)))))
-		  (when (eq type :horizontal)
-			(let ((header (car cols)))
-			  (line `((,header 0) (,header ,height))))))
-		(when (eq lines :max)
-		  (rect (kaavio::canvas-dict-center canvas) width height :stroke stroke :fill :none))
-		;; draw headers
-		(labels ((textize (data)
-				   (cond
-					 ((null     data) nil)
-					 ((keywordp data) (string-downcase (symbol-name data)))
-					 ((symbolp  data) (symbol-name data))
-					 (t data)))
-				 (impl (widths headers x funcs)
-				   (when (and widths headers)
-					 (let ((w   (car widths))
-						   (txt (textize (car headers))))
-					   (funcall funcs x w txt)
-					   (impl (cdr widths) (cdr headers) (+ x w) funcs)))))
-		  (when col-headers
-			(let ((height (first rows)))
-			  (impl cols col-headers 0
-					(lambda (x w txt)
-					  (when txt
-						(paragraph (make-point (+ x (/ w 2)) (/ height 2))
-								   txt :align :center :valign :center :font font))))))
-		  (when row-headers
-			(let ((width (first cols)))
-			  (impl rows row-headers 0
-					(lambda (y h txt)
-					  (when txt
-						(paragraph (make-point (/ width 2) (+ y (/ h 2)))
-								   txt :align :center :valign :center :rotate -90 :font font)))))))))))
+               (rows kaavio::rows) (cols kaavio::cols)
+               (stroke kaavio::stroke) (font kaavio::font)) obj
+    ;; draw table without stroke
+    (let ((stroke-bkup stroke))
+      (setf stroke (make-stroke :none))
+      (call-next-method)
+      (setf stroke stroke-bkup))
+    (let* ((canvas (group-get-canvas obj))
+           (width  (canvas-width  canvas))
+           (height (canvas-height canvas)))
+      (macrolet ((register-entity (entity)
+                   `(check-and-draw-local-entity ,entity canvas writer)))
+        ;; draw stroke
+        (when (or (eq type :vertical) (eq type :matrix))
+          (let ((x 0))
+            (dolist (w (butlast cols))
+              (incf x w)
+              (line `((,x 0) (,x ,height)) :stroke stroke))))
+        (when (or (eq type :horizontal) (eq type :matrix))
+          (let ((y 0))
+            (dolist (h (butlast rows))
+              (incf y h)
+              (line `((0 ,y) (,width ,y)) :stroke stroke))))
+        (when (eq lines :mid)
+          (ecase type
+            ((:vertical)
+             (line `((0 0) (0 ,height)))
+             (line `((,width 0) (,width ,height))))
+            ((:horizontal)
+             (line `((0 0) (,width 0)))
+             (line `((0 ,height) (,width ,height))))
+            ((:matrix)
+             (line `((,width  0) (,width ,height)))
+             (line `((0 ,height) (,width ,height))))))
+        (when (or (eq lines :mid) (eq lines :max))
+          (when (eq type :vertical)
+            (let ((header (car rows)))
+              (line `((0 ,header) (,width ,header)))))
+          (when (eq type :horizontal)
+            (let ((header (car cols)))
+              (line `((,header 0) (,header ,height))))))
+        (when (eq lines :max)
+          (rect (kaavio::canvas-dict-center canvas) width height :stroke stroke :fill :none))
+        ;; draw headers
+        (labels ((textize (data)
+                   (cond
+                     ((null     data) nil)
+                     ((keywordp data) (string-downcase (symbol-name data)))
+                     ((symbolp  data) (symbol-name data))
+                     (t data)))
+                 (impl (widths headers x funcs)
+                   (when (and widths headers)
+                     (let ((w   (car widths))
+                           (txt (textize (car headers))))
+                       (funcall funcs x w txt)
+                       (impl (cdr widths) (cdr headers) (+ x w) funcs)))))
+          (when col-headers
+            (let ((height (first rows)))
+              (impl cols col-headers 0
+                    (lambda (x w txt)
+                      (when txt
+                        (paragraph (make-point (+ x (/ w 2)) (/ height 2))
+                                   txt :align :center :valign :center :font font))))))
+          (when row-headers
+            (let ((width (first cols)))
+              (impl rows row-headers 0
+                    (lambda (y h txt)
+                      (when txt
+                        (paragraph (make-point (/ width 2) (+ y (/ h 2)))
+                                   txt :align :center :valign :center :rotate -90 :font font)))))))))))
 
 ;;------------------------------------------------------------------------------
 ;;
@@ -170,31 +170,31 @@
 ;;
 ;;------------------------------------------------------------------------------
 (defmacro uml-partition (position rows cols
-						 &key pivot lines header fills stroke font layer id)
+                         &key pivot lines header fills stroke font layer id)
   (let ((g-rc     (gensym "RC"))
-		(g-rows   (gensym "ROWS"))
-		(g-cols   (gensym "COLS"))
-		(g-names  (gensym "NAMES")))
-	`(let* ((,g-rows   ,rows)
-			(,g-cols   ,cols)
-			(,g-rc     (uml-partition-make-rows-cols ,g-rows ,g-cols
-													 (or ,header *uml-partition-header*)))
-			(,g-names  (uml-partition-extract-header ,g-rows ,g-cols)))
-	   (register-entity (make-instance 'uml-partition
-									   :type   (first ,g-rc)
-									   :lines  (or ,lines *uml-partition-lines*)
-									   :row-headers  (first  ,g-names)
-									   :col-headers  (second ,g-names)
-									   :position ,position :pivot ,pivot
-									   :width  (reduce #'+ (third  ,g-rc) :initial-value 0)
-									   :height (reduce #'+ (second ,g-rc) :initial-value 0)
-									   :rows   (second ,g-rc)
-									   :cols   (third  ,g-rc)
-									   :texts  nil
-									   :fills  (or ,fills (list :rc *uml-partition-fill*))
-									   :stroke (or ,stroke *uml-partition-stroke* *default-stroke*)
-									   :font   (or ,font   *uml-partition-font*   *default-font*)
-									   :layer ,layer :id ,id)))))
+        (g-rows   (gensym "ROWS"))
+        (g-cols   (gensym "COLS"))
+        (g-names  (gensym "NAMES")))
+    `(let* ((,g-rows   ,rows)
+            (,g-cols   ,cols)
+            (,g-rc     (uml-partition-make-rows-cols ,g-rows ,g-cols
+                                                     (or ,header *uml-partition-header*)))
+            (,g-names  (uml-partition-extract-header ,g-rows ,g-cols)))
+       (register-entity (make-instance 'uml-partition
+                                       :type   (first ,g-rc)
+                                       :lines  (or ,lines *uml-partition-lines*)
+                                       :row-headers  (first  ,g-names)
+                                       :col-headers  (second ,g-names)
+                                       :position ,position :pivot ,pivot
+                                       :width  (reduce #'+ (third  ,g-rc) :initial-value 0)
+                                       :height (reduce #'+ (second ,g-rc) :initial-value 0)
+                                       :rows   (second ,g-rc)
+                                       :cols   (third  ,g-rc)
+                                       :texts  nil
+                                       :fills  (or ,fills (list :rc *uml-partition-fill*))
+                                       :stroke (or ,stroke *uml-partition-stroke* *default-stroke*)
+                                       :font   (or ,font   *uml-partition-font*   *default-font*)
+                                       :layer ,layer :id ,id)))))
 
 ;;------------------------------------------------------------------------------
 ;;
@@ -203,12 +203,12 @@
 ;;------------------------------------------------------------------------------
 (defmacro with-uml-partition-lane ((id name &optional name2) &body body)
   (let ((g-id (gensym "ID"))
-		(g-rc (gensym "RC")))
-	`(let* ((,g-id ,id)
-			(,g-rc (uml-partition-get-cell
-						(kaavio::dict-get-entity (kaavio::get-dictionary) ,g-id) ,name ,name2)))
-	   (with-table-cell (,g-id (car ,g-rc) (cdr ,g-rc))
-		 ,@body))))
+        (g-rc (gensym "RC")))
+    `(let* ((,g-id ,id)
+            (,g-rc (uml-partition-get-cell
+                        (kaavio::dict-get-entity (kaavio::get-dictionary) ,g-id) ,name ,name2)))
+       (with-table-cell (,g-id (car ,g-rc) (cdr ,g-rc))
+         ,@body))))
   
 
 ;;------------------------------------------------------------------------------
@@ -217,21 +217,21 @@
 ;;
 ;;------------------------------------------------------------------------------
 (defmacro with-uml-partition-options ((&key lines header
-											font fill stroke layer) &rest body)
+                                            font fill stroke layer) &rest body)
   (labels ((impl (params acc)
-			 (if (null params)
-				 acc
-				 (let ((value  (car  params))
-					   (symbol (cadr params)))
-				   (impl (cddr params)
-						 (if (null value)
-							 acc
-							 (push (list symbol value) acc)))))))
-	(let ((lst (impl (list lines    '*uml-partition-lines*
-						   header   '*uml-partition-header*
-						   font     '*uml-partition-font*
-						   fill     '*uml-partition-fill*
-						   stroke   '*uml-partition-stroke*
-						   layer    '*uml-partition-layer*) nil)))
-	  `(let ,lst
-		 ,@body))))
+             (if (null params)
+                 acc
+                 (let ((value  (car  params))
+                       (symbol (cadr params)))
+                   (impl (cddr params)
+                         (if (null value)
+                             acc
+                             (push (list symbol value) acc)))))))
+    (let ((lst (impl (list lines    '*uml-partition-lines*
+                           header   '*uml-partition-header*
+                           font     '*uml-partition-font*
+                           fill     '*uml-partition-fill*
+                           stroke   '*uml-partition-stroke*
+                           layer    '*uml-partition-layer*) nil)))
+      `(let ,lst
+         ,@body))))

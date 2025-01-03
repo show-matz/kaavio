@@ -1,7 +1,7 @@
 #|
-#|ASD|#				(:file "canvas"                    :depends-on ("kaavio"
-#|ASD|#																"point"))
-#|EXPORT|#				;canvas.lisp
+#|ASD|#             (:file "canvas"                    :depends-on ("kaavio"
+#|ASD|#                                                             "point"))
+#|EXPORT|#              ;canvas.lisp
  |#
 
 (in-package :kaavio)
@@ -12,10 +12,10 @@
 ;;
 ;;------------------------------------------------------------------------------
 #|
-#|EXPORT|#				:canvas
-#|EXPORT|#				:make-canvas
-#|EXPORT|#				:copy-canvas
-#|EXPORT|#				:canvas-p
+#|EXPORT|#              :canvas
+#|EXPORT|#              :make-canvas
+#|EXPORT|#              :copy-canvas
+#|EXPORT|#              :canvas-p
  |#
 (defun make-canvas (top-left width height)
   (cons top-left (cons width height)))
@@ -25,16 +25,16 @@
 
 (defun canvas-p (canvas)
   (and (consp         canvas)
-	   (point-p (car  canvas))
-	   (numberp (cadr canvas))
-	   (numberp (cddr canvas))))
+       (point-p (car  canvas))
+       (numberp (cadr canvas))
+       (numberp (cddr canvas))))
 
 #|
-#|EXPORT|#				:canvas-topleft
-#|EXPORT|#				:canvas-left
-#|EXPORT|#				:canvas-top
-#|EXPORT|#				:canvas-right
-#|EXPORT|#				:canvas-bottom
+#|EXPORT|#              :canvas-topleft
+#|EXPORT|#              :canvas-left
+#|EXPORT|#              :canvas-top
+#|EXPORT|#              :canvas-right
+#|EXPORT|#              :canvas-bottom
  |#
 (defun canvas-topleft (canvas) (car canvas))
 (defun canvas-left    (canvas) (point-x (car canvas)))
@@ -45,8 +45,8 @@
 (defun canvas-bottom  (canvas) (+ (point-y (car canvas)) (cddr canvas)))
 
 #|
-#|EXPORT|#				:canvas-width
-#|EXPORT|#				:canvas-height
+#|EXPORT|#              :canvas-width
+#|EXPORT|#              :canvas-height
  |#
 (defun canvas-width  (canvas) (cadr canvas))
 (defun canvas-height (canvas) (cddr canvas))
@@ -54,12 +54,12 @@
 (defun (setf canvas-height) (val canvas) (setf (cddr canvas) val))
 
 #|
-#|EXPORT|#				:canvas-fix-point
+#|EXPORT|#              :canvas-fix-point
  |#
 (defun canvas-fix-point (canvas pt)
   (if (point-absolute-p pt)
-	  pt
-	  (point+ (canvas-topleft canvas) pt)))
+      pt
+      (point+ (canvas-topleft canvas) pt)))
 
 
 ;; for expansion in 'with-dictionary'
@@ -128,58 +128,58 @@
 
 
 #|
-#|EXPORT|#				:with-canvas
+#|EXPORT|#              :with-canvas
  |#
 (defmacro with-canvas ((sym-center sym-width sym-height) canvas &rest body)
   (let ((g-canvas (gensym "CANVAS")))
-	`(let ((,g-canvas ,canvas))
-	   (declare (ignorable ,g-canvas))
-	   (symbol-macrolet ((,sym-center (canvas-dict-center ,g-canvas))
-						 (,sym-width  (cadr ,g-canvas))
-						 (,sym-height (cddr ,g-canvas)))
-		 ,@body))))
+    `(let ((,g-canvas ,canvas))
+       (declare (ignorable ,g-canvas))
+       (symbol-macrolet ((,sym-center (canvas-dict-center ,g-canvas))
+                         (,sym-width  (cadr ,g-canvas))
+                         (,sym-height (cddr ,g-canvas)))
+         ,@body))))
 
 #|
-#|EXPORT|#				:with-current-canvas
+#|EXPORT|#              :with-current-canvas
  |#
 (defmacro with-current-canvas ((&rest vars) &rest body)
   (labels ((fix-let-vars (e)
-			 (when (symbolp e)
-			   (setf e (list e e)))
-			 (let ((method-sym (onlisp/symb
-								(onlisp/mkstr "CANVAS-DICT-" (cadr e)))))
-			   `(,(car e) (,method-sym canvas)))))
-	`(let ,(mapcar #'fix-let-vars vars)
-	   ,@body)))
+             (when (symbolp e)
+               (setf e (list e e)))
+             (let ((method-sym (onlisp/symb
+                                (onlisp/mkstr "CANVAS-DICT-" (cadr e)))))
+               `(,(car e) (,method-sym canvas)))))
+    `(let ,(mapcar #'fix-let-vars vars)
+       ,@body)))
 
 
 #|
-#|EXPORT|#				:with-subcanvas
+#|EXPORT|#              :with-subcanvas
  |#
 (defmacro with-subcanvas ((top-left width height &key debug) &rest body)
   (if (not debug)
-	  `(let ((canvas (make-canvas (point+ (car canvas) ,top-left) ,width ,height)))
-		 (declare (special canvas))
-		 ,@body)
-	  (let ((clr (if (keywordp debug) debug :red)))
-		`(let ((canvas (make-canvas (point+ (car canvas) ,top-left) ,width ,height)))
-		   (declare (special canvas))
-		   (let ((*dict-mute-history* t))
-			 (rect (canvas-dict-center canvas)
-				   (canvas-width canvas) (canvas-height canvas)
-				   :stroke (list :color ,clr :width 1 :dasharray '(1 2)) :fill :none))
-		   ,@body))))
+      `(let ((canvas (make-canvas (point+ (car canvas) ,top-left) ,width ,height)))
+         (declare (special canvas))
+         ,@body)
+      (let ((clr (if (keywordp debug) debug :red)))
+        `(let ((canvas (make-canvas (point+ (car canvas) ,top-left) ,width ,height)))
+           (declare (special canvas))
+           (let ((*dict-mute-history* t))
+             (rect (canvas-dict-center canvas)
+                   (canvas-width canvas) (canvas-height canvas)
+                   :stroke (list :color ,clr :width 1 :dasharray '(1 2)) :fill :none))
+           ,@body))))
 
 
 #|
-#|EXPORT|#				:with-subcanvas-of
+#|EXPORT|#              :with-subcanvas-of
  |#
 (defmacro with-subcanvas-of ((id) &body body)
   (let ((g-obj (gensym "TBL")))
-	`(let* ((,g-obj (kaavio::dict-get-entity (kaavio::get-dictionary) ,id))
-			(canvas (kaavio:shape-get-subcanvas ,g-obj)))
-	   (declare (special canvas))
-	   ,@body)))
+    `(let* ((,g-obj (kaavio::dict-get-entity (kaavio::get-dictionary) ,id))
+            (canvas (kaavio:shape-get-subcanvas ,g-obj)))
+       (declare (special canvas))
+       ,@body)))
 
 
 

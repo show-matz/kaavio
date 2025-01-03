@@ -1,6 +1,6 @@
 #|
-#|ASD|#				(:file "pathutil"                  :depends-on ("kaavio"))
-#|EXPORT|#				;pathutil.lisp
+#|ASD|#             (:file "pathutil"                  :depends-on ("kaavio"))
+#|EXPORT|#              ;pathutil.lisp
  |#
 
 
@@ -38,45 +38,6 @@ form'."
 
 (defun path/is-file-name (p)
   (unless (path/is-directory-name p) p))
-
-;;(defun get-as-directory-name (name)
-;;  "Return a pathname reperesenting the given pathname in
-;;`directory normal form', i.e. with all the name elements in the
-;;directory component and NIL in the name and type components. Can
-;;not be used on wild pathnames because there's not portable way to
-;;convert wildcards in the name and type into a single directory
-;;component. Returns its argument if name and type are both nil or
-;;:unspecific."
-;;  (let ((pathname (pathname name)))
-;;    (when (wild-pathname-p pathname)
-;;      (error "Can't reliably convert wild pathnames."))
-;;    (if (not (path/is-directory-name name))
-;;      (make-pathname 
-;;       :directory (append (or (pathname-directory pathname) (list :relative))
-;;                          (list (file-namestring pathname)))
-;;       :name      nil
-;;       :type      nil
-;;       :defaults pathname)
-;;      pathname)))
-;;
-;;(defun get-as-file-name (name)
-;;  "Return a pathname reperesenting the given pathname in `file form',
-;;i.e. with the name elements in the name and type component. Can't
-;;convert wild pathnames because of problems mapping wild directory
-;;component into name and type components. Returns its argument if
-;;it is already in file form."
-;;  (let ((pathname (pathname name)))
-;;    (when (wild-pathname-p pathname)
-;;      (error "Can't reliably convert wild pathnames."))
-;;    (if (path/is-directory-name name)
-;;      (let* ((directory (pathname-directory pathname))
-;;             (name-and-type (pathname (first (last directory)))))
-;;        (make-pathname 
-;;         :directory (butlast directory)
-;;         :name (pathname-name name-and-type)
-;;         :type (pathname-type name-and-type)
-;;         :defaults pathname))
-;;      pathname)))
 
 (defun path/is-exists (pathname)
   "Similar to CL:PROBE-FILE except it always returns directory names
@@ -129,85 +90,10 @@ in `directory normal form'. Returns truename which will be in
     #-(or sbcl cmu lispworks openmcl allegro clisp)
     (error "list-directory not implemented"))
 
-;;(defun is-existing-directory (name)
-;;  "Is `name' the name of an existing directory."
-;;  (let ((truename (path/is-exists name)))
-;;    (and truename (path/is-directory-name name))))
-
 (defun path/is-existing-file (name)
   "Is `name' the name of an existing file, i.e. not a directory."
   (let ((truename (path/is-exists name)))
     (and truename (path/is-file-name name))))
-
-;;(defun add-wildcard-to-directory (dirname)
-;;  (make-pathname :name :wild
-;;				 :type #-clisp :wild #+clisp nil
-;;				 :defaults (get-as-directory-name dirname)))
-;;
-;;(defun list-directory (dirname)
-;;  "Return a list of the contents of the directory named by dirname.
-;;Names of subdirectories will be returned in `directory normal
-;;form'. Unlike CL:DIRECTORY, LIST-DIRECTORY does not accept
-;;wildcard pathnames; `dirname' should simply be a pathname that
-;;names a directory. It can be in either file or directory form."
-;;  (when (wild-pathname-p dirname)
-;;    (error "Can only list concrete directory names."))
-;;
-;;  (let ((wildcard (add-wildcard-to-directory dirname)))
-;;
-;;    #+(or sbcl cmu lispworks)
-;;    ;; SBCL, CMUCL, and Lispworks return subdirectories in directory
-;;    ;; form just the way we want.
-;;    (directory wildcard)
-;;    
-;;    #+openmcl
-;;    ;; OpenMCl by default doesn't return subdirectories at all. But
-;;    ;; when prodded to do so with the special argument :directories,
-;;    ;; it returns them in directory form.
-;;    (directory wildcard :directories t)
-;;            
-;;    #+allegro
-;;    ;; Allegro normally return directories in file form but we can
-;;    ;; change that with the :directories-are-files argument.
-;;    (directory wildcard :directories-are-files nil)
-;;            
-;;    #+clisp
-;;    ;; CLISP has a particularly idiosyncratic view of things. But we
-;;    ;; can bludgeon even it into doing what we want.
-;;    (nconc 
-;;     ;; CLISP won't list files without an extension when :type is
-;;     ;; wild so we make a special wildcard for it.
-;;     (directory wildcard)
-;;     ;; And CLISP doesn't consider subdirectories to match unless
-;;     ;; there is a :wild in the directory component.
-;;     (directory (clisp-subdirectories-wildcard wildcard)))
-;;
-;;    #-(or sbcl cmu lispworks openmcl allegro clisp)
-;;    (error "list-directory not implemented")))
-;;
-;;; in Visual Basic...
-;;;Public Function OnNotifyEnumFile(pathName As String, _
-;;;                                 fileName As String, _
-;;;                                 ByRef opaque As Variant) As Boolean
-;;;End Function
-;;
-;;(defun walk-directories (dirname notify-fnc &key directories (depth -1) (pred-fnc (constantly t)))
-;;  "Walk a directory invoking `notify-fnc' on each pathname found.
-;;If `pred-fnc' is supplied notify-fnc is invoked only on pathnames
-;;for which `pred-fnc' returns true. If `directories' is t invokes 
-;;`pred-fnc' and `notify-fnc' on directory pathnames as well."
-;;  (labels ((imp (name level)
-;;			 (if (and (<= 0 depth) (< depth level))
-;;				 t
-;;				 (if (not (path/is-directory-name name))
-;;					 (if (funcall pred-fnc name)
-;;						 (funcall notify-fnc name))
-;;					 (progn
-;;					   (when (and directories (funcall pred-fnc name))
-;;						 (funcall notify-fnc name))
-;;					   (dolist (x (list-directory name))
-;;						 (imp x (1+ level))))))))
-;;    (imp (get-as-directory-name dirname) -1)))
 
 
 ; example (path/get-time "foo.txt")         => "2012/11/14 18:34:35"
@@ -217,34 +103,34 @@ in `directory normal form'. Returns truename which will be in
 ; example (path/get-time "foo.txt" '(:year :month ...) => '(2012 11 ...)
 (defun path/get-time (pathname &optional (type :string))
   (let ((file-time (file-write-date pathname)))
-	(if (eq type :value)
-		file-time
-		(multiple-value-bind (second minute hour date month year day daylight-p zone)
-			(decode-universal-time file-time)
-		  (if (eq type :string)
-			  (format nil
-					  "~4,'0D/~2,'0D/~2,'0D ~2,'0D:~2,'0D:~2,'0D"
-					  year month date hour minute second)
-			  (if (eq type :values)
-				  (values second minute hour date month year day daylight-p zone)
-				  (if (not (listp type))
-					  file-time
-					  (labels ((imp (lst acc)
-								 (if (null lst)
-									 (nreverse acc)
-									 (progn
-									   (case (car lst)
-										 ((:second)		(push second acc))
-										 ((:minute)		(push minute acc))
-										 ((:hour)		(push hour acc))
-										 ((:date)		(push date acc))
-										 ((:month)		(push month acc))
-										 ((:year)		(push year acc))
-										 ((:day)		(push day acc))
-										 ((:daylight-p)	(push daylight-p acc))
-										 ((:zone)		(push zone acc)))
-									   (imp (cdr lst) acc)))))
-						(imp type nil)))))))))
+    (if (eq type :value)
+        file-time
+        (multiple-value-bind (second minute hour date month year day daylight-p zone)
+            (decode-universal-time file-time)
+          (if (eq type :string)
+              (format nil
+                      "~4,'0D/~2,'0D/~2,'0D ~2,'0D:~2,'0D:~2,'0D"
+                      year month date hour minute second)
+              (if (eq type :values)
+                  (values second minute hour date month year day daylight-p zone)
+                  (if (not (listp type))
+                      file-time
+                      (labels ((imp (lst acc)
+                                 (if (null lst)
+                                     (nreverse acc)
+                                     (progn
+                                       (case (car lst)
+                                         ((:second)     (push second acc))
+                                         ((:minute)     (push minute acc))
+                                         ((:hour)       (push hour acc))
+                                         ((:date)       (push date acc))
+                                         ((:month)      (push month acc))
+                                         ((:year)       (push year acc))
+                                         ((:day)        (push day acc))
+                                         ((:daylight-p) (push daylight-p acc))
+                                         ((:zone)       (push zone acc)))
+                                       (imp (cdr lst) acc)))))
+                        (imp type nil)))))))))
 
 
 (defun path/get-current-directory ()
@@ -269,38 +155,3 @@ in `directory normal form'. Returns truename which will be in
   #-(or sbcl clisp)
   (error "set-current-directory not implemented."))
 
-
-  
-
-;;;(let ((sb-impl::*default-external-format* :sjis)
-;;;	  (sb-alien::*default-c-string-external-format* :sjis))
-;;;	(walk-directories "D:/workspace/scrapbook"
-;;;					(lambda (path) (format t "~A~%" path))
-;;;					:directories t))
-;;
-;;;(let ((sb-impl::*default-external-format* :utf-8)
-;;;	  (sb-alien::*default-c-string-external-format* :utf-8))
-;;;	(load "./test.lisp"))
-;;
-;;;(walk-directories "D:/workspace/scrapbook"
-;;;				(lambda (path) (format t "~A~%" path))
-;;;				:directories t))
-;;
-;;
-;;(defun copy-file (from to &key overwrite)
-;;  (let ((element-type '(unsigned-byte 8)))
-;;	(with-open-file (in from :element-type element-type)
-;;	  (with-open-file (out to :element-type element-type
-;;							  :direction :output
-;;							  :if-exists (if overwrite :supersede :error))
-;;		(let* ((buffer-size 8192)
-;;			   (buf (make-array buffer-size :element-type element-type)))
-;;		  (loop
-;;			(let ((pos #-(or :clisp :cmu) (read-sequence buf in)
-;;					   #+:clisp           (ext:read-byte-sequence buf in :no-hang nil)
-;;					   #+:cmu             (sys:read-n-bytes in buf 0 buffer-size nil)))
-;;			  (when (zerop pos)
-;;				(return))
-;;			  (write-sequence buf out :end pos)))))))
-;;  (values))
-;;
