@@ -21,7 +21,7 @@
 <!-- define: APPNAME = kaavio -->
 <!-- define: BLANK_PARAGRAPH = '　　' -->
 <!-- define: TODO = '@((background:red;color:white;)(ToDo : %1))' -->
-<!-- config:write-comment -->			
+<!-- config:write-comment -->
 <!-- config:header-numbering 2 4 -->
 <!-- config:entity-numbering-depth 1 -->
 <!-- <!-- config:term-link-in-header -->
@@ -896,7 +896,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 (diagram (400 200)
   (grid)
   (arc canvas.center 150 60 20 0 90 <span class='keyword3'>:end2</span> <span class='keyword3'>:arrow</span>
-	   <span class='keyword3'>:stroke</span> '(<span class='keyword3'>:color</span> <span class='keyword3'>:navy</span> <span class='keyword3'>:width</span> 2) <span class='keyword3'>:debug</span> <span class='keyword3'>:red</span>))
+       <span class='keyword3'>:stroke</span> '(<span class='keyword3'>:color</span> <span class='keyword3'>:navy</span> <span class='keyword3'>:width</span> 2) <span class='keyword3'>:debug</span> <span class='keyword3'>:red</span>))
 </pre>
 </details>
 <p>　　</p>
@@ -9152,16 +9152,16 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
   (grid)
   (drop-shadow)
   (with-theme (<span class='keyword3'>:uml-activity-default</span>)
-	(with-options (<span class='keyword3'>:filter</span> <span class='keyword3'>:drop-shadow</span>)
-	  (uml-activity-start '(50  50) <span class='keyword3'>:id</span> <span class='keyword3'>:start</span>)
-	  (uml-signal (x+ start.center 150) <span class='keyword3'>:send</span>
+    (with-options (<span class='keyword3'>:filter</span> <span class='keyword3'>:drop-shadow</span>)
+      (uml-activity-start '(50  50) <span class='keyword3'>:id</span> <span class='keyword3'>:start</span>)
+      (uml-signal (x+ start.center 150) <span class='keyword3'>:send</span>
                   <span class='literal'>"sending~%signal"</span>   <span class='keyword3'>:direction</span> <span class='keyword3'>:right</span> <span class='keyword3'>:id</span> <span class='keyword3'>:step1</span>)
-	  (uml-signal (y+ step1.center 100) <span class='keyword3'>:receive</span>
+      (uml-signal (y+ step1.center 100) <span class='keyword3'>:receive</span>
                   <span class='literal'>"receiving~%signal"</span> <span class='keyword3'>:direction</span> <span class='keyword3'>:left</span>  <span class='keyword3'>:id</span> <span class='keyword3'>:step2</span>)
-	  (uml-activity-final (x+ step2.center 150) <span class='keyword3'>:id</span> <span class='keyword3'>:final</span>))
-	(uml-flow <span class='keyword3'>:start</span> <span class='keyword3'>:step1</span>)
-	(uml-flow <span class='keyword3'>:step1</span> <span class='keyword3'>:step2</span>)
-	(uml-flow <span class='keyword3'>:step2</span> <span class='keyword3'>:final</span>)))
+      (uml-activity-final (x+ step2.center 150) <span class='keyword3'>:id</span> <span class='keyword3'>:final</span>))
+    (uml-flow <span class='keyword3'>:start</span> <span class='keyword3'>:step1</span>)
+    (uml-flow <span class='keyword3'>:step1</span> <span class='keyword3'>:step2</span>)
+    (uml-flow <span class='keyword3'>:step2</span> <span class='keyword3'>:final</span>)))
 </pre>
 <p>　詳細は以下を参照してください。</p>
 <ul>

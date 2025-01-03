@@ -1,5 +1,3 @@
-(defconstant +SBCL-COMPRESSION+ t)
-
 (require :sb-posix)
 (require :kaavio)
 
@@ -13,8 +11,9 @@
 
 ;; application entry ------------------------------------------
 (defun application-entry ()
-  (setf sb-impl::*default-external-format* :utf-8)
-  (setf sb-alien::*default-c-string-external-format* :utf-8)
+  #+sbcl
+  (setf sb-impl::*default-external-format*           :utf-8
+        sb-alien::*default-c-string-external-format* :utf-8)
   (let ((self (car *posix-argv*))
         (args (cdr *posix-argv*)))
     (cond
@@ -30,8 +29,7 @@
         
 
 ;; load application packages ---------------------------------
-(sb-ext:save-lisp-and-die +OUTPUT-FILENAME+
-                          :toplevel #'application-entry
-                          :compression +SBCL-COMPRESSION+
-                          :executable t
-                          :save-runtime-options t)
+(setf uiop:*image-entry-point* #'application-entry)
+(uiop:dump-image +OUTPUT-FILENAME+
+                 #+(and sbcl sb-core-compression) :compression #+(and sbcl sb-core-compression) t
+                 :executable t)
