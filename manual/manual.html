@@ -30,7 +30,14 @@
 <p>　この文書は、 <strong>kaavio</strong> のマニュアル文書です。</p>
 <a name='3DDQkfdwVQl'></a>
 <h2>Table of contents</h2>
-<li class='tocx'><a href='#cWuZL5pQm2F'>1 kaavio とは</a></li>
+<details class='tocx' open>
+<summary class='tocx'><a href='#cWuZL5pQm2F'>1 kaavio とは</a></summary>
+<blockquote class='tocx'>
+<li class='tocx'><a href='#jmXRzUWYW1r'>1.1 インストール</a></li>
+<li class='tocx'><a href='#5drwLE4mm0i'>1.2 実行可能バイナリの作成</a></li>
+<li class='tocx'><a href='#iUKFrISKmaN'>1.3 sandbox mode</a></li>
+</blockquote>
+</details>
 <li class='tocx'><a href='#9LLncE6hWlx'>2 簡単なサンプル</a></li>
 <details class='tocx' open>
 <summary class='tocx'><a href='#2msfXdtEc6a'>3 基本的な図形</a></summary>
@@ -138,6 +145,20 @@
 <p>　kaavio の入力データの記述方法には違和感を感じるかもしれません。これは、kaavio が Common LISP 言語で実装されており、入力データも Common LISP 上に作成された DSL(domain specific language) で記述するためです。しかし、このツールを使ってみたいからといって、知りもしない言語のお勉強から始めたいとは思わないでしょう。そのため、このマニュアルではサンプルをたくさん提示し、Common LISP の詳細には極力立ち入らないようにします<sup><a name='footnote_ref3' href='#footnote3'>3</a></sup>。</p>
 <a name='l10jSaJeUDk'></a>
 <p>　kaavio は、O'Reilly の「<a href='https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwjxstvtvKL6AhUNUd4KHbdhCmAQFnoECA0QAQ&url=https%3A%2F%2Fwww.oreilly.co.jp%2Fbooks%2F9784873117973%2F&usg=AOvVaw0qe65qVh3tZyCnBnhoaC-V'>SVG エッセンシャルズ 第二版</a>」を読んで作られています（この書籍に言及する時は「<a class='autolink' href='#l10jSaJeUDk'>SVG本</a>」と呼ぶことにします）。SVG 規格にあたることも時々ありますが、基本的にほとんどの情報はこの書籍から得ています。電子版もありますので興味のある方は手に取ってみてください。</p>
+<h3><a name='jmXRzUWYW1r'></a>1.1 インストール</h3>
+<p>　kaavio プロジェクトを git clone して、ASDF から <code>src/kaavio.asd</code> を利用できるように設定してください。kaavio をロードすれば、あとは <code>kaavio:diagram</code> マクロで始まる図面データを実行することで SVG 図面を生成することができます。図面データ作成の詳細については後述します。</p>
+<h3><a name='5drwLE4mm0i'></a>1.2 実行可能バイナリの作成</h3>
+<p>　kaavio は実行可能バイナリの作成を想定して作られています。kaavio が Common Lisp 処理系で使えるように設定されている環境であれば、 <code>misc/</code> ディレクトリ配下で <code>make</code> と言うだけで実行可能バイナリを作成できます。ただし、現状では SBCL でしか試しておらず、他の処理系では <code>misc/</code> 配下のファイルを少し変更する必要があると思います。</p>
+<h3><a name='iUKFrISKmaN'></a>1.3 sandbox mode</h3>
+<p>　<code>--sandbox</code> を指定して 実行可能バイナリを起動すれば、sandbox mode を利用することができます。</p>
+<pre>
+$ kaavio --sandbox
+IN  : ./sandbox.lisp
+OUT : ./sandbox.html
+
+</pre>
+<p>　sandbox mode では、kaavio は 0.1 杪間隔で入力ファイル（上記の例では <code>sandbox.lisp</code> ）を監視し続け、ファイルが更新されたらそれを入力として SVG 画像を生成して出力ファイル（上記の例では <code>sandbox.html</code> ）に保存します。この出力ファイルは SVG データを埋め込んだ HTML 形式ファイルで、ブラウザで開くと 2 杪間隔で自身をリロードするようになっています。kaavio を sandbox mode で起動し、入力ファイルを<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>エディタで、出力ファイルをブラウザで開いて並べることで、出力を（ほぼ）リアルタイムで確認しながらkaavio のデータを編集することができます。</p>
+<p>　なお、sandbox mode を終了する場合は Ctrl+C を押下してください。</p>
 <h2><a name='9LLncE6hWlx'></a>2 簡単なサンプル</h2>
 <p>　簡単なサンプルから始めましょう。以下のような入力を kaavio に与えると、</p>
 <pre class='code'>
