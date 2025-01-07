@@ -1,17 +1,17 @@
 #|
-#|ASD|#             (:file "stencil"                   :depends-on ("kaavio"
-#|ASD|#                                                             "pathutil"))
-#|EXPORT|#              ;stencil.lisp
+#|ASD|#                (:file "stencil"                   :depends-on ("kaavio"
+#|ASD|#                                                                "pathutil"))
+#|EXPORT|#                ;stencil.lisp
  |#
 
 
 (in-package :kaavio)
 
 #|
-#|EXPORT|#              :*include-paths*
-#|EXPORT|#              :*stencil-suffix*
-#|EXPORT|#              :reset-stencil-load-cache
-#|EXPORT|#              :load-stencil
+#|EXPORT|#                :*include-paths*
+#|EXPORT|#                :*stencil-suffix*
+#|EXPORT|#                :reset-stencil-load-cache
+#|EXPORT|#                :load-stencil
  |#
 (defparameter *include-paths*  nil)
 (defparameter *stencil-suffix* "stencil")

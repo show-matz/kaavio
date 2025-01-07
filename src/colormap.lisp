@@ -1,6 +1,6 @@
 #|
-#|ASD|#             (:file "colormap"                  :depends-on ("kaavio"))
-#|EXPORT|#              ;colormap.lisp
+#|ASD|#                (:file "colormap"                  :depends-on ("kaavio"))
+#|EXPORT|#                ;colormap.lisp
  |#
 
 (in-package :kaavio)
@@ -580,7 +580,7 @@
 
 
 #|
-#|EXPORT|#              :colormap-fix
+#|EXPORT|#                :colormap-fix
  |#
 ;; 色情報を処理（外部エントリなら #RRGGBB 文字列に変換）する
 (defun colormap-fix (kwd)

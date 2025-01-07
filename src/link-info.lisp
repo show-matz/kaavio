@@ -1,8 +1,8 @@
 #|
-#|ASD|#             (:file "link-info"                 :depends-on ("kaavio"
-#|ASD|#                                                             "constants"
-#|ASD|#                                                             "writer"))
-#|EXPORT|#              ;link-info.lisp
+#|ASD|#                (:file "link-info"                 :depends-on ("kaavio"
+#|ASD|#                                                                "constants"
+#|ASD|#                                                                "writer"))
+#|EXPORT|#                ;link-info.lisp
  |#
 
 (in-package :kaavio)
@@ -13,7 +13,7 @@
 ;;
 ;;------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :link-info
+#|EXPORT|#                :link-info
  |#
 (defclass link-info ()
   ((url     :initform nil :initarg :url)        ; string
@@ -35,7 +35,7 @@
   nil)
 
 #|
-#|EXPORT|#              :write-link-open
+#|EXPORT|#                :write-link-open
  |#
 (defun write-link-open (link writer)
   (when link
@@ -45,7 +45,7 @@
     (writer-incr-level writer)))
 
 #|
-#|EXPORT|#              :write-link-close
+#|EXPORT|#                :write-link-close
  |#
 (defun write-link-close (link writer)
   (when link
@@ -53,7 +53,7 @@
     (writer-write writer "</a>")))
 
 #|
-#|EXPORT|#              :make-link
+#|EXPORT|#                :make-link
  |#
 (defun make-link (&rest params)
   (if (= 1 (length params))

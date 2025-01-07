@@ -1,14 +1,14 @@
 #|
-#|ASD|#             (:file "ellipse"                   :depends-on ("kaavio"
-#|ASD|#                                                             "constants"
-#|ASD|#                                                             "canvas"
-#|ASD|#                                                             "point"
-#|ASD|#                                                             "shape"
-#|ASD|#                                                             "stroke-info"
-#|ASD|#                                                             "link-info"
-#|ASD|#                                                             "filter"
-#|ASD|#                                                             "writer"))
-#|EXPORT|#              ;ellipse.lisp
+#|ASD|#                (:file "ellipse"                   :depends-on ("kaavio"
+#|ASD|#                                                                "constants"
+#|ASD|#                                                                "canvas"
+#|ASD|#                                                                "point"
+#|ASD|#                                                                "shape"
+#|ASD|#                                                                "stroke-info"
+#|ASD|#                                                                "link-info"
+#|ASD|#                                                                "filter"
+#|ASD|#                                                                "writer"))
+#|EXPORT|#                ;ellipse.lisp
  |#
 
 
@@ -20,7 +20,7 @@
 ;;
 ;;------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :ellipse-connect-point
+#|EXPORT|#                :ellipse-connect-point
  |#
 (defun ellipse-connect-point-C (cx cy rx ry pt)
   (with-point (pt-x pt-y) pt
@@ -183,7 +183,7 @@
 ;;
 ;;------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :ellipse
+#|EXPORT|#                :ellipse
  |#
 (defmacro ellipse (position rx ry
                    &key pivot fill stroke rotate link layer id filter contents)

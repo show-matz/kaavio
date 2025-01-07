@@ -1,15 +1,15 @@
 #|
-#|ASD|#             (:file "circle"                    :depends-on ("kaavio"
-#|ASD|#                                                             "constants"
-#|ASD|#                                                             "mathutil"
-#|ASD|#                                                             "canvas"
-#|ASD|#                                                             "point"
-#|ASD|#                                                             "shape"
-#|ASD|#                                                             "stroke-info"
-#|ASD|#                                                             "link-info"
-#|ASD|#                                                             "filter"
-#|ASD|#                                                             "writer"))
-#|EXPORT|#              ;circle.lisp
+#|ASD|#                (:file "circle"                    :depends-on ("kaavio"
+#|ASD|#                                                                "constants"
+#|ASD|#                                                                "mathutil"
+#|ASD|#                                                                "canvas"
+#|ASD|#                                                                "point"
+#|ASD|#                                                                "shape"
+#|ASD|#                                                                "stroke-info"
+#|ASD|#                                                                "link-info"
+#|ASD|#                                                                "filter"
+#|ASD|#                                                                "writer"))
+#|EXPORT|#                ;circle.lisp
  |#
 
 
@@ -21,7 +21,7 @@
 ;;
 ;;------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :circle-connect-point
+#|EXPORT|#                :circle-connect-point
  |#
 (defun circle-connect-point (center radius type1 type2 arg)
   (declare (ignore type1))
@@ -131,7 +131,7 @@
 ;;
 ;;------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :circle
+#|EXPORT|#                :circle
  |#
 (defmacro circle (position radius
                   &key pivot fill stroke link layer id filter contents)

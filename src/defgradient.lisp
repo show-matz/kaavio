@@ -1,9 +1,9 @@
 #|
-#|ASD|#             (:file "defgradient"               :depends-on ("kaavio"
-#|ASD|#                                                             "definition"
-#|ASD|#                                                             "colormap"
-#|ASD|#                                                             "writer"))
-#|EXPORT|#              ;defgradient.lisp
+#|ASD|#                (:file "defgradient"               :depends-on ("kaavio"
+#|ASD|#                                                                "definition"
+#|ASD|#                                                                "colormap"
+#|ASD|#                                                                "writer"))
+#|EXPORT|#                ;defgradient.lisp
  |#
 
 (in-package :kaavio)
@@ -15,7 +15,7 @@
 ;;
 ;;-------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :gradient-stop
+#|EXPORT|#                :gradient-stop
  |#
 (defclass gradient-stop ()
   ((offset  :initform nil :initarg :offset)    ; "N%" or 0.0 ~ 1.0
@@ -50,7 +50,7 @@
 ;;
 ;;-------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :gradient-definition
+#|EXPORT|#                :gradient-definition
  |#
 (defclass gradient-definition (definition)
   ((id        :initform nil :initarg :id)          ; keyword
@@ -109,7 +109,7 @@
 ;;
 ;;-------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :linear-gradient-definition
+#|EXPORT|#                :linear-gradient-definition
  |#
 (defclass linear-gradient-definition (gradient-definition)
   ((x1     :initform nil :initarg :x1)
@@ -156,7 +156,7 @@
 ;;
 ;;-------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :radial-gradient-definition
+#|EXPORT|#                :radial-gradient-definition
  |#
 (defclass radial-gradient-definition (gradient-definition)
   ((cx     :initform nil :initarg :cx)    
@@ -206,7 +206,7 @@
 ;;
 ;;------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :defgradient
+#|EXPORT|#                :defgradient
  |#
 (defmacro defgradient ((type id &rest params) &rest stops)
   (ecase type

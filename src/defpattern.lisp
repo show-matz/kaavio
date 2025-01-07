@@ -1,15 +1,15 @@
 #|
-#|ASD|#             (:file "defpattern"                :depends-on ("kaavio"
-#|ASD|#                                                             "constants"
-#|ASD|#                                                             "definition"
-#|ASD|#                                                             "layer-manager"
-#|ASD|#                                                             "dictionary"
-#|ASD|#                                                             "point"
-#|ASD|#                                                             "canvas"
-#|ASD|#                                                             "font-info"
-#|ASD|#                                                             "stroke-info"
-#|ASD|#                                                             "writer"))
-#|EXPORT|#              ;defpattern.lisp
+#|ASD|#                (:file "defpattern"                :depends-on ("kaavio"
+#|ASD|#                                                                "constants"
+#|ASD|#                                                                "definition"
+#|ASD|#                                                                "layer-manager"
+#|ASD|#                                                                "dictionary"
+#|ASD|#                                                                "point"
+#|ASD|#                                                                "canvas"
+#|ASD|#                                                                "font-info"
+#|ASD|#                                                                "stroke-info"
+#|ASD|#                                                                "writer"))
+#|EXPORT|#                ;defpattern.lisp
  |#
 
 (in-package :kaavio)
@@ -21,7 +21,7 @@
 ;;
 ;;-------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :pattern-definition
+#|EXPORT|#                :pattern-definition
  |#
 (defclass pattern-definition (definition)
   ((data           :initform  "" :initarg :data)            ; string
@@ -115,7 +115,7 @@
 ;;
 ;;------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :defpattern
+#|EXPORT|#                :defpattern
  |#
 (defmacro defpattern ((id &key x y width height href units
                           content-units view-box transform) &rest body)

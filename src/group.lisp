@@ -1,10 +1,10 @@
 #|
-#|ASD|#             (:file "group"                     :depends-on ("kaavio"
-#|ASD|#                                                             "canvas"
-#|ASD|#                                                             "shape"
-#|ASD|#                                                             "rectangle"
-#|ASD|#                                                             "writer"))
-#|EXPORT|#              ;group.lisp
+#|ASD|#                (:file "group"                     :depends-on ("kaavio"
+#|ASD|#                                                                "canvas"
+#|ASD|#                                                                "shape"
+#|ASD|#                                                                "rectangle"
+#|ASD|#                                                                "writer"))
+#|EXPORT|#                ;group.lisp
  |#
 
 
@@ -16,9 +16,9 @@
 ;;
 ;;------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :group
-#|EXPORT|#              :group-get-canvas
-#|EXPORT|#              :draw-group
+#|EXPORT|#                :group
+#|EXPORT|#                :group-get-canvas
+#|EXPORT|#                :draw-group
  |#
 (defclass group (shape)
   ((position    :initform nil :initarg :position)    ; point
@@ -80,7 +80,7 @@
 
 
 #|
-#|EXPORT|#              :draw-canvas-frame
+#|EXPORT|#                :draw-canvas-frame
  |#
 (defun draw-canvas-frame (canvas writer &key (color :blue))
   (let ((*default-fill*   (make-fill   :color color :opacity 0.2))

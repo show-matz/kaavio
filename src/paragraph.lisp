@@ -1,13 +1,13 @@
 #|
-#|ASD|#             (:file "paragraph"                 :depends-on ("kaavio"
-#|ASD|#                                                             "constants"
-#|ASD|#                                                             "text"
-#|ASD|#                                                             "shape"
-#|ASD|#                                                             "font-info"
-#|ASD|#                                                             "link-info"
-#|ASD|#                                                             "point"
-#|ASD|#                                                             "writer"))
-#|EXPORT|#              ;paragraph.lisp
+#|ASD|#                (:file "paragraph"                 :depends-on ("kaavio"
+#|ASD|#                                                                "constants"
+#|ASD|#                                                                "text"
+#|ASD|#                                                                "shape"
+#|ASD|#                                                                "font-info"
+#|ASD|#                                                                "link-info"
+#|ASD|#                                                                "point"
+#|ASD|#                                                                "writer"))
+#|EXPORT|#                ;paragraph.lisp
  |#
 
 
@@ -143,7 +143,7 @@
 ;;
 ;;------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :paragraph
+#|EXPORT|#                :paragraph
  |#
 (defmacro paragraph (position text
                      &key align valign rotate font link layer id)

@@ -1,20 +1,20 @@
 #|
-#|ASD|#             (:file "block-arrow"               :depends-on ("kaavio"
-#|ASD|#                                                             "constants"
-#|ASD|#                                                             "polygon"))
-#|EXPORT|#              ;block-arrow.lisp
+#|ASD|#                (:file "block-arrow"               :depends-on ("kaavio"
+#|ASD|#                                                                "constants"
+#|ASD|#                                                                "polygon"))
+#|EXPORT|#                ;block-arrow.lisp
  |#
 
 (in-package :kaavio)
 
 #|
-#|EXPORT|#              :*default-block-arrow-length*
-#|EXPORT|#              :*default-block-arrow-size*
-#|EXPORT|#              :*default-block-arrow-margin*
-#|EXPORT|#              :*default-block-arrow-stroke*
-#|EXPORT|#              :*default-block-arrow-fill*
-#|EXPORT|#              :*default-block-arrow-filter*
-#|EXPORT|#              :*default-block-arrow-layer*
+#|EXPORT|#                :*default-block-arrow-length*
+#|EXPORT|#                :*default-block-arrow-size*
+#|EXPORT|#                :*default-block-arrow-margin*
+#|EXPORT|#                :*default-block-arrow-stroke*
+#|EXPORT|#                :*default-block-arrow-fill*
+#|EXPORT|#                :*default-block-arrow-filter*
+#|EXPORT|#                :*default-block-arrow-layer*
  |#
 (defparameter *default-block-arrow-length*       nil)
 (defparameter *default-block-arrow-size*         nil)
@@ -72,7 +72,7 @@
 ;;
 ;;------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :block-arrow
+#|EXPORT|#                :block-arrow
  |#
 (defclass block-arrow (polygon)
   ((pt1 :initform nil :initarg :pt1)    ; point
@@ -98,7 +98,7 @@
 ;;
 ;;------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :block-arrow1
+#|EXPORT|#                :block-arrow1
  |#
 (defmacro block-arrow1 (pt1 pt2 width
                         &key (length nil length-p)
@@ -122,7 +122,7 @@
                                    :link ,link :id ,id)))
 
 #|
-#|EXPORT|#              :block-arrow2
+#|EXPORT|#                :block-arrow2
  |#
 (defmacro block-arrow2 (pt1 pt2 width
                         &key (length nil length-p)
@@ -151,7 +151,7 @@
 ;;
 ;;------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :with-block-arrow-options
+#|EXPORT|#                :with-block-arrow-options
  |#
 (defmacro with-block-arrow-options ((&key length size margin
                                           fill stroke filter layer) &rest body)

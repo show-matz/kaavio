@@ -1,9 +1,9 @@
 #|
-#|ASD|#             (:file "raw-svg"                   :depends-on ("kaavio"
-#|ASD|#                                                             "constants"
-#|ASD|#                                                             "entity"
-#|ASD|#                                                             "writer"))
-#|EXPORT|#              ;raw-svg.lisp
+#|ASD|#                (:file "raw-svg"                   :depends-on ("kaavio"
+#|ASD|#                                                                "constants"
+#|ASD|#                                                                "entity"
+#|ASD|#                                                                "writer"))
+#|EXPORT|#                ;raw-svg.lisp
  |#
 
 (in-package :kaavio)
@@ -44,7 +44,7 @@
 ;;
 ;;------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :raw-svg
+#|EXPORT|#                :raw-svg
  |#
 (defmacro raw-svg (svgdata &key (layer nil))
   `(register-entity (make-instance 'kaavio:raw-svg

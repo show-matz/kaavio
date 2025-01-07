@@ -1,29 +1,29 @@
 #|
-#|ASD|#             (:file "entity"                    :depends-on ("kaavio"
-#|ASD|#                                                             "canvas"
-#|ASD|#                                                             "point"
-#|ASD|#                                                             "writer"))
-#|EXPORT|#              ;entity.lisp
+#|ASD|#                (:file "entity"                    :depends-on ("kaavio"
+#|ASD|#                                                                "canvas"
+#|ASD|#                                                                "point"
+#|ASD|#                                                                "writer"))
+#|EXPORT|#                ;entity.lisp
  |#
 
 (in-package :kaavio)
 
 
 #|
-#|EXPORT|#              :attribute-id
-#|EXPORT|#              :attribute-width
-#|EXPORT|#              :attribute-height
-#|EXPORT|#              :attribute-topleft
-#|EXPORT|#              :attribute-top
-#|EXPORT|#              :attribute-topright
-#|EXPORT|#              :attribute-left
-#|EXPORT|#              :attribute-center
-#|EXPORT|#              :attribute-right
-#|EXPORT|#              :attribute-bottomleft
-#|EXPORT|#              :attribute-bottom
-#|EXPORT|#              :attribute-bottomright
-#|EXPORT|#              :attribute-end1
-#|EXPORT|#              :attribute-end2
+#|EXPORT|#                :attribute-id
+#|EXPORT|#                :attribute-width
+#|EXPORT|#                :attribute-height
+#|EXPORT|#                :attribute-topleft
+#|EXPORT|#                :attribute-top
+#|EXPORT|#                :attribute-topright
+#|EXPORT|#                :attribute-left
+#|EXPORT|#                :attribute-center
+#|EXPORT|#                :attribute-right
+#|EXPORT|#                :attribute-bottomleft
+#|EXPORT|#                :attribute-bottom
+#|EXPORT|#                :attribute-bottomright
+#|EXPORT|#                :attribute-end1
+#|EXPORT|#                :attribute-end2
  |#
 (defgeneric attribute-id          (shp))    ;; returns symbol (keyword or gensym).
 (defgeneric attribute-width       (shp))    ;; returns number.
@@ -101,7 +101,7 @@
 ;;
 ;;------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :entity
+#|EXPORT|#                :entity
  |#
 (defclass entity ()
   ((id    :initform nil :initarg :id)      ; keyword or gensym
@@ -109,11 +109,11 @@
 
 
 #|
-#|EXPORT|#              :write-header
-#|EXPORT|#              :draw-entity
-#|EXPORT|#              :pre-draw
-#|EXPORT|#              :post-draw
-#|EXPORT|#              :entity-composition-p
+#|EXPORT|#                :write-header
+#|EXPORT|#                :draw-entity
+#|EXPORT|#                :pre-draw
+#|EXPORT|#                :post-draw
+#|EXPORT|#                :entity-composition-p
  |#
 (defgeneric entity-composition-p (ent))
 (defgeneric write-header (entity writer))
@@ -157,7 +157,7 @@
 
 
 #|
-#|EXPORT|#              :check-and-draw-local-entity
+#|EXPORT|#                :check-and-draw-local-entity
  |#
 (defun check-and-draw-local-entity (entity canvas writer)
   (check entity canvas nil)    ;; local entity can NOT use dictionary.

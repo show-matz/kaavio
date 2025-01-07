@@ -1,15 +1,15 @@
 #|
-#|ASD|#             (:file "line"                      :depends-on ("kaavio"
-#|ASD|#                                                             "constants"
-#|ASD|#                                                             "point"
-#|ASD|#                                                             "mathutil"
-#|ASD|#                                                             "label-info"
-#|ASD|#                                                             "stroke-info"
-#|ASD|#                                                             "endmark-info"
-#|ASD|#                                                             "entity"
-#|ASD|#                                                             "filter"
-#|ASD|#                                                             "writer"))
-#|EXPORT|#              ;line.lisp
+#|ASD|#                (:file "line"                      :depends-on ("kaavio"
+#|ASD|#                                                                "constants"
+#|ASD|#                                                                "point"
+#|ASD|#                                                                "mathutil"
+#|ASD|#                                                                "label-info"
+#|ASD|#                                                                "stroke-info"
+#|ASD|#                                                                "endmark-info"
+#|ASD|#                                                                "entity"
+#|ASD|#                                                                "filter"
+#|ASD|#                                                                "writer"))
+#|EXPORT|#                ;line.lisp
  |#
 
 (in-package :kaavio)
@@ -182,7 +182,7 @@
 ;;
 ;;------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :line
+#|EXPORT|#                :line
  |#
 (defmacro line (points &key stroke label end1 end2 layer filter id)
   `(register-entity (make-instance 'kaavio:line

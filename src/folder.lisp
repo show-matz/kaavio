@@ -1,25 +1,25 @@
 #|
-#|ASD|#             (:file "folder"                    :depends-on ("kaavio"
-#|ASD|#                                                             "constants"
-#|ASD|#                                                             "polygon"
-#|ASD|#                                                             "filter"
-#|ASD|#                                                             "text-shape"))
-#|EXPORT|#              ;folder.lisp
+#|ASD|#                (:file "folder"                    :depends-on ("kaavio"
+#|ASD|#                                                                "constants"
+#|ASD|#                                                                "polygon"
+#|ASD|#                                                                "filter"
+#|ASD|#                                                                "text-shape"))
+#|EXPORT|#                ;folder.lisp
  |#
 
 (in-package :kaavio)
 
 #|
-#|EXPORT|#              :*default-folder-tabwidth*
-#|EXPORT|#              :*default-folder-tabheight*
-#|EXPORT|#              :*default-folder-align*
-#|EXPORT|#              :*default-folder-valign*
-#|EXPORT|#              :*default-folder-margin*
-#|EXPORT|#              :*default-folder-font*
-#|EXPORT|#              :*default-folder-fill*
-#|EXPORT|#              :*default-folder-stroke*
-#|EXPORT|#              :*default-folder-filter*
-#|EXPORT|#              :*default-folder-layer*
+#|EXPORT|#                :*default-folder-tabwidth*
+#|EXPORT|#                :*default-folder-tabheight*
+#|EXPORT|#                :*default-folder-align*
+#|EXPORT|#                :*default-folder-valign*
+#|EXPORT|#                :*default-folder-margin*
+#|EXPORT|#                :*default-folder-font*
+#|EXPORT|#                :*default-folder-fill*
+#|EXPORT|#                :*default-folder-stroke*
+#|EXPORT|#                :*default-folder-filter*
+#|EXPORT|#                :*default-folder-layer*
  |#
 (defparameter *default-folder-tabwidth*     50)
 (defparameter *default-folder-tabheight*    20)
@@ -110,7 +110,7 @@
 ;;
 ;;------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :folder
+#|EXPORT|#                :folder
  |#
 (defmacro folder (position text &key pivot width height tab-width tab-height align
                                    valign font fill stroke margin link rotate layer filter id contents)
@@ -143,7 +143,7 @@
 ;;
 ;;------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :with-folder-options
+#|EXPORT|#                :with-folder-options
  |#
 (defmacro with-folder-options ((&key tab-width tab-height align valign
                                      margin font fill stroke filter layer) &rest body)

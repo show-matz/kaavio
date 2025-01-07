@@ -1,12 +1,12 @@
 #|
-#|ASD|#             (:file "label-info"                :depends-on ("kaavio"
-#|ASD|#                                                             "constants"
-#|ASD|#                                                             "point"
-#|ASD|#                                                             "canvas"
-#|ASD|#                                                             "font-info"
-#|ASD|#                                                             "shape"
-#|ASD|#                                                             "writer"))
-#|EXPORT|#              ;label-info.lisp
+#|ASD|#                (:file "label-info"                :depends-on ("kaavio"
+#|ASD|#                                                                "constants"
+#|ASD|#                                                                "point"
+#|ASD|#                                                                "canvas"
+#|ASD|#                                                                "font-info"
+#|ASD|#                                                                "shape"
+#|ASD|#                                                                "writer"))
+#|EXPORT|#                ;label-info.lisp
  |#
 
 (in-package :kaavio)
@@ -17,7 +17,7 @@
 ;;
 ;;------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :label-info
+#|EXPORT|#                :label-info
  |#
 (defclass label-info ()
   ((text     :initform  "" :initarg :text)      ; (or keyword string)
@@ -77,7 +77,7 @@
   
   
 #|
-#|EXPORT|#              :draw-label-with-point
+#|EXPORT|#                :draw-label-with-point
  |#
 (defun draw-label-with-point (label x y sin cos writer)
   (with-slots (text offset font) label
@@ -106,7 +106,7 @@
             (incf y spacing)))))))
 
 #|
-#|EXPORT|#              :draw-label
+#|EXPORT|#                :draw-label
  |#
 (defun draw-label (label shp writer)
   (with-slots (text offset position font) label
@@ -130,7 +130,7 @@
   
   
 #|
-#|EXPORT|#              :make-label
+#|EXPORT|#                :make-label
  |#
 (defun make-label (&rest params)
   (if (= 1 (length params))
@@ -155,7 +155,7 @@
 ;;
 ;;------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :with-label-options
+#|EXPORT|#                :with-label-options
  |#
 (defmacro with-label-options ((&key position offset font) &rest body)
   (labels ((impl (params acc)

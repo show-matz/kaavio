@@ -1,14 +1,14 @@
 #|
-#|ASD|#             (:file "2d-curve"                  :depends-on ("kaavio"
-#|ASD|#                                                             "constants"
-#|ASD|#                                                             "point"
-#|ASD|#                                                             "mathutil"
-#|ASD|#                                                             "stroke-info"
-#|ASD|#                                                             "endmark-info"
-#|ASD|#                                                             "entity"
-#|ASD|#                                                             "filter"
-#|ASD|#                                                             "writer"))
-#|EXPORT|#              ;2d-curve.lisp
+#|ASD|#                (:file "2d-curve"                  :depends-on ("kaavio"
+#|ASD|#                                                                "constants"
+#|ASD|#                                                                "point"
+#|ASD|#                                                                "mathutil"
+#|ASD|#                                                                "stroke-info"
+#|ASD|#                                                                "endmark-info"
+#|ASD|#                                                                "entity"
+#|ASD|#                                                                "filter"
+#|ASD|#                                                                "writer"))
+#|EXPORT|#                ;2d-curve.lisp
  |#
 
 (in-package :kaavio)
@@ -190,7 +190,7 @@
 ;;
 ;;------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :2d-curve
+#|EXPORT|#                :2d-curve
  |#
 (defmacro 2d-curve (points &key stroke end1 end2 layer filter id debug)
   `(register-entity (make-instance 'kaavio:2d-curve

@@ -1,26 +1,26 @@
 #|
-#|ASD|#             (:file "memo"                      :depends-on ("kaavio"
-#|ASD|#                                                             "constants"
-#|ASD|#                                                             "arc"
-#|ASD|#                                                             "polygon"
-#|ASD|#                                                             "filter"
-#|ASD|#                                                             "text-shape"))
-#|EXPORT|#              ;memo.lisp
+#|ASD|#                (:file "memo"                      :depends-on ("kaavio"
+#|ASD|#                                                                "constants"
+#|ASD|#                                                                "arc"
+#|ASD|#                                                                "polygon"
+#|ASD|#                                                                "filter"
+#|ASD|#                                                                "text-shape"))
+#|EXPORT|#                ;memo.lisp
  |#
 
 (in-package :kaavio)
 
 #|
-#|EXPORT|#              :*default-memo-crease*
-#|EXPORT|#              :*default-memo-align*
-#|EXPORT|#              :*default-memo-valign*
-#|EXPORT|#              :*default-memo-margin*
-#|EXPORT|#              :*default-memo-font*
-#|EXPORT|#              :*default-memo-fill*
-#|EXPORT|#              :*default-memo-fill2*
-#|EXPORT|#              :*default-memo-stroke*
-#|EXPORT|#              :*default-memo-filter*
-#|EXPORT|#              :*default-memo-layer*
+#|EXPORT|#                :*default-memo-crease*
+#|EXPORT|#                :*default-memo-align*
+#|EXPORT|#                :*default-memo-valign*
+#|EXPORT|#                :*default-memo-margin*
+#|EXPORT|#                :*default-memo-font*
+#|EXPORT|#                :*default-memo-fill*
+#|EXPORT|#                :*default-memo-fill2*
+#|EXPORT|#                :*default-memo-stroke*
+#|EXPORT|#                :*default-memo-filter*
+#|EXPORT|#                :*default-memo-layer*
  |#
 (defparameter *default-memo-crease*   20)
 (defparameter *default-memo-align*    :center)
@@ -136,7 +136,7 @@
 ;;
 ;;------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :memo
+#|EXPORT|#                :memo
  |#
 (defmacro memo (position text &key pivot width height crease align valign margin
                                  font fill fill2 stroke link rotate layer id filter contents)
@@ -173,7 +173,7 @@
 ;;
 ;;------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :with-memo-options
+#|EXPORT|#                :with-memo-options
  |#
 (defmacro with-memo-options ((&key crease align valign margin
                                    font fill fill2 stroke filter layer) &rest body)

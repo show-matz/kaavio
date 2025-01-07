@@ -1,10 +1,10 @@
 #|
-#|ASD|#             (:file "grid"                      :depends-on ("kaavio"
-#|ASD|#                                                             "colormap"
-#|ASD|#                                                             "stroke-info"
-#|ASD|#                                                             "entity"
-#|ASD|#                                                             "writer"))
-#|EXPORT|#              ;grid.lisp
+#|ASD|#                (:file "grid"                      :depends-on ("kaavio"
+#|ASD|#                                                                "colormap"
+#|ASD|#                                                                "stroke-info"
+#|ASD|#                                                                "entity"
+#|ASD|#                                                                "writer"))
+#|EXPORT|#                ;grid.lisp
  |#
 
 (in-package :kaavio)
@@ -82,7 +82,7 @@
 ;;
 ;;------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :grid
+#|EXPORT|#                :grid
  |#
 (defmacro grid (&key (size 10) (bgcolor :white) stroke layer)
   `(register-entity (make-instance 'grid

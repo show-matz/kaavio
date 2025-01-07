@@ -1,7 +1,7 @@
 #|
-#|ASD|#             (:file "stroke-info"               :depends-on ("kaavio"
-#|ASD|#                                                             "colormap"))
-#|EXPORT|#              ;stroke-info.lisp
+#|ASD|#                (:file "stroke-info"               :depends-on ("kaavio"
+#|ASD|#                                                                "colormap"))
+#|EXPORT|#                ;stroke-info.lisp
  |#
 
 
@@ -9,8 +9,8 @@
 
 ;; default parameter for stroke-info
 #|
-#|EXPORT|#              :*default-stroke*
-#|EXPORT|#              :*mute-stroke*
+#|EXPORT|#                :*default-stroke*
+#|EXPORT|#                :*mute-stroke*
  |#
 (defparameter *default-stroke* nil)
 (defparameter *mute-stroke*    nil)
@@ -21,7 +21,7 @@
 ;;
 ;;------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :stroke-info
+#|EXPORT|#                :stroke-info
  |#
 (defclass stroke-info ()
   ((color       :initform nil :initarg :color)          ; (or keyword string)
@@ -86,7 +86,7 @@
 
 
 #|
-#|EXPORT|#              :make-stroke
+#|EXPORT|#                :make-stroke
  |#
 (defun make-stroke (&rest params)
   (if (= 1 (length params))

@@ -1,17 +1,17 @@
 #|
-#|ASD|#             (:file "brace"                     :depends-on ("kaavio"
-#|ASD|#                                                             "constants"
-#|ASD|#                                                             "path"))
-#|EXPORT|#              ;brace.lisp
+#|ASD|#                (:file "brace"                     :depends-on ("kaavio"
+#|ASD|#                                                                "constants"
+#|ASD|#                                                                "path"))
+#|EXPORT|#                ;brace.lisp
  |#
 
 (in-package :kaavio)
 
 #|
-#|EXPORT|#              :*default-brace-font*
-#|EXPORT|#              :*default-brace-stroke*
-#|EXPORT|#              :*default-brace-filter*
-#|EXPORT|#              :*default-brace-layer*
+#|EXPORT|#                :*default-brace-font*
+#|EXPORT|#                :*default-brace-stroke*
+#|EXPORT|#                :*default-brace-filter*
+#|EXPORT|#                :*default-brace-layer*
  |#
 (defparameter *default-brace-font*         nil)
 (defparameter *default-brace-stroke*       nil)
@@ -151,7 +151,7 @@
 ;;
 ;;------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :brace
+#|EXPORT|#                :brace
  |#
 (defmacro brace (position direction width height
                         &key pivot r point text font stroke layer filter id)
@@ -169,7 +169,7 @@
 ;;
 ;;------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :with-brace-options
+#|EXPORT|#                :with-brace-options
  |#
 (defmacro with-brace-options ((&key font stroke filter layer) &rest body)
   (labels ((impl (params acc)

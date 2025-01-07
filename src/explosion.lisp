@@ -1,20 +1,20 @@
 #|
-#|ASD|#             (:file "explosion"                 :depends-on ("kaavio"
-#|ASD|#                                                             "constants"
-#|ASD|#                                                             "polygon"
-#|ASD|#                                                             "filter"
-#|ASD|#                                                             "text-shape"))
-#|EXPORT|#              ;explosion.lisp
+#|ASD|#                (:file "explosion"                 :depends-on ("kaavio"
+#|ASD|#                                                                "constants"
+#|ASD|#                                                                "polygon"
+#|ASD|#                                                                "filter"
+#|ASD|#                                                                "text-shape"))
+#|EXPORT|#                ;explosion.lisp
  |#
 
 (in-package :kaavio)
 
 #|
-#|EXPORT|#              :*default-explosion-font*
-#|EXPORT|#              :*default-explosion-fill*
-#|EXPORT|#              :*default-explosion-stroke*
-#|EXPORT|#              :*default-explosion-filter*
-#|EXPORT|#              :*default-explosion-layer*
+#|EXPORT|#                :*default-explosion-font*
+#|EXPORT|#                :*default-explosion-fill*
+#|EXPORT|#                :*default-explosion-stroke*
+#|EXPORT|#                :*default-explosion-filter*
+#|EXPORT|#                :*default-explosion-layer*
  |#
 (defparameter *default-explosion-font*         nil)
 (defparameter *default-explosion-fill*         nil)
@@ -137,7 +137,7 @@
 ;;
 ;;------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :explosion1
+#|EXPORT|#                :explosion1
  |#
 (defmacro explosion1 (position width height text
                          &key pivot font fill stroke link rotate layer id filter contents)
@@ -160,7 +160,7 @@
              ,@contents)))))
 
 #|
-#|EXPORT|#              :explosion2
+#|EXPORT|#                :explosion2
  |#
 (defmacro explosion2 (position width height text
                          &key pivot font fill stroke link rotate layer id filter contents)
@@ -188,7 +188,7 @@
 ;;
 ;;------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :with-explosion-options
+#|EXPORT|#                :with-explosion-options
  |#
 (defmacro with-explosion-options ((&key font fill stroke filter layer) &rest body)
   (labels ((impl (params acc)

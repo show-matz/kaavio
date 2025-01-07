@@ -1,6 +1,6 @@
 #|
-#|ASD|#             (:file "pathutil"                  :depends-on ("kaavio"))
-#|EXPORT|#              ;pathutil.lisp
+#|ASD|#                (:file "pathutil"                  :depends-on ("kaavio"))
+#|EXPORT|#                ;pathutil.lisp
  |#
 
 

@@ -1,14 +1,14 @@
 #|
-#|ASD|#             (:file "3d-curve"                  :depends-on ("kaavio"
-#|ASD|#                                                             "constants"
-#|ASD|#                                                             "point"
-#|ASD|#                                                             "mathutil"
-#|ASD|#                                                             "stroke-info"
-#|ASD|#                                                             "endmark-info"
-#|ASD|#                                                             "entity"
-#|ASD|#                                                             "filter"
-#|ASD|#                                                             "writer"))
-#|EXPORT|#              ;3d-curve.lisp
+#|ASD|#                (:file "3d-curve"                  :depends-on ("kaavio"
+#|ASD|#                                                                "constants"
+#|ASD|#                                                                "point"
+#|ASD|#                                                                "mathutil"
+#|ASD|#                                                                "stroke-info"
+#|ASD|#                                                                "endmark-info"
+#|ASD|#                                                                "entity"
+#|ASD|#                                                                "filter"
+#|ASD|#                                                                "writer"))
+#|EXPORT|#                ;3d-curve.lisp
  |#
 
 (in-package :kaavio)
@@ -198,7 +198,7 @@
 ;;
 ;;------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :3d-curve
+#|EXPORT|#                :3d-curve
  |#
 (defmacro 3d-curve (points &key stroke end1 end2 layer filter id debug)
   `(register-entity (make-instance 'kaavio:3d-curve

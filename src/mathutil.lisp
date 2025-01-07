@@ -1,7 +1,7 @@
 #|
-#|ASD|#             (:file "mathutil"                  :depends-on ("kaavio"
-#|ASD|#                                                             "point"))
-#|EXPORT|#              ;mathutil.lisp
+#|ASD|#                (:file "mathutil"                  :depends-on ("kaavio"
+#|ASD|#                                                                "point"))
+#|EXPORT|#                ;mathutil.lisp
  |#
 
 (in-package :kaavio)
@@ -12,19 +12,19 @@
 ;;
 ;;------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :math/len2
-#|EXPORT|#              :math/len4
-#|EXPORT|#              :math/sin1
-#|EXPORT|#              :math/sin2
-#|EXPORT|#              :math/sin3
-#|EXPORT|#              :math/sin4
-#|EXPORT|#              :math/sin5
-#|EXPORT|#              :math/cos1
-#|EXPORT|#              :math/cos2
-#|EXPORT|#              :math/cos3
-#|EXPORT|#              :math/cos4
-#|EXPORT|#              :math/cos5
-#|EXPORT|#              :math/intersection-point
+#|EXPORT|#                :math/len2
+#|EXPORT|#                :math/len4
+#|EXPORT|#                :math/sin1
+#|EXPORT|#                :math/sin2
+#|EXPORT|#                :math/sin3
+#|EXPORT|#                :math/sin4
+#|EXPORT|#                :math/sin5
+#|EXPORT|#                :math/cos1
+#|EXPORT|#                :math/cos2
+#|EXPORT|#                :math/cos3
+#|EXPORT|#                :math/cos4
+#|EXPORT|#                :math/cos5
+#|EXPORT|#                :math/intersection-point
  |#
 (symbol-macrolet ((RADIAN-UNIT (/ pi 180)))
 

@@ -1,13 +1,13 @@
 #|
-#|ASD|#             (:file "dictionary"                :depends-on ("kaavio"))
-#|EXPORT|#              ;dictionary.lisp
+#|ASD|#                (:file "dictionary"                :depends-on ("kaavio"))
+#|EXPORT|#                ;dictionary.lisp
  |#
 
 
 (in-package :kaavio)
 
 #|
-#|EXPORT|#              :*dict-mute-history*
+#|EXPORT|#                :*dict-mute-history*
  |#
 (defparameter *dict-mute-history* nil)
 
@@ -17,7 +17,7 @@
 ;;
 ;;------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :dictionary
+#|EXPORT|#                :dictionary
  |#
 (defclass dictionary ()
   ((history-max   :initform   0 :initarg :hist-max)    ; integer

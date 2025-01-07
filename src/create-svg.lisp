@@ -1,17 +1,17 @@
 #|
-#|ASD|#             (:file "create-svg"                :depends-on ("kaavio"
-#|ASD|#                                                             "constants"
-#|ASD|#                                                             "colormap"
-#|ASD|#                                                             "entity"
-#|ASD|#                                                             "definition"
-#|ASD|#                                                             "layer-manager"
-#|ASD|#                                                             "dictionary"
-#|ASD|#                                                             "point"
-#|ASD|#                                                             "canvas"
-#|ASD|#                                                             "font-info"
-#|ASD|#                                                             "stroke-info"
-#|ASD|#                                                             "writer"))
-#|EXPORT|#              ;create-svg.lisp
+#|ASD|#                (:file "create-svg"                :depends-on ("kaavio"
+#|ASD|#                                                                "constants"
+#|ASD|#                                                                "colormap"
+#|ASD|#                                                                "entity"
+#|ASD|#                                                                "definition"
+#|ASD|#                                                                "layer-manager"
+#|ASD|#                                                                "dictionary"
+#|ASD|#                                                                "point"
+#|ASD|#                                                                "canvas"
+#|ASD|#                                                                "font-info"
+#|ASD|#                                                                "stroke-info"
+#|ASD|#                                                                "writer"))
+#|EXPORT|#                ;create-svg.lisp
  |#
 
 (in-package :kaavio)
@@ -23,11 +23,11 @@
 ;;
 ;;------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :create-svg
-#|EXPORT|#              :register-entity
-#|EXPORT|#              :layer
-#|EXPORT|#              :width
-#|EXPORT|#              :height
+#|EXPORT|#                :create-svg
+#|EXPORT|#                :register-entity
+#|EXPORT|#                :layer
+#|EXPORT|#                :width
+#|EXPORT|#                :height
  |#
 (defmacro create-svg ((width height &key fill desc) &rest body)
   (let ((g-layer-mgr (gensym "LAYER-MGR"))
@@ -116,7 +116,7 @@
 ;;
 ;;------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :diagram
+#|EXPORT|#                :diagram
  |#
 (defmacro diagram ((w h &key fill) &rest body)
   `(create-svg (,w ,h :fill ,fill) ,@body))

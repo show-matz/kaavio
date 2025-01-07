@@ -1,12 +1,12 @@
 #|
-#|ASD|#             (:file "path"                      :depends-on ("kaavio"
-#|ASD|#                                                             "constants"
-#|ASD|#                                                             "fill-info"
-#|ASD|#                                                             "stroke-info"
-#|ASD|#                                                             "entity"
-#|ASD|#                                                             "filter"
-#|ASD|#                                                             "writer"))
-#|EXPORT|#              ;path.lisp
+#|ASD|#                (:file "path"                      :depends-on ("kaavio"
+#|ASD|#                                                                "constants"
+#|ASD|#                                                                "fill-info"
+#|ASD|#                                                                "stroke-info"
+#|ASD|#                                                                "entity"
+#|ASD|#                                                                "filter"
+#|ASD|#                                                                "writer"))
+#|EXPORT|#                ;path.lisp
  |#
 
 (in-package :kaavio)
@@ -278,7 +278,7 @@
 ;;
 ;;------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :path
+#|EXPORT|#                :path
  |#
 (defmacro path (data &key fill stroke layer filter id)
   `(register-entity (make-instance 'kaavio:path

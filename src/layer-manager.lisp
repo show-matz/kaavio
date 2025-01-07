@@ -1,7 +1,7 @@
 #|
-#|ASD|#             (:file "layer-manager"             :depends-on ("kaavio"
-#|ASD|#                                                             "writer"))
-#|EXPORT|#              ;layer-manager.lisp
+#|ASD|#                (:file "layer-manager"             :depends-on ("kaavio"
+#|ASD|#                                                                "writer"))
+#|EXPORT|#                ;layer-manager.lisp
  |#
 
 (in-package :kaavio)
@@ -13,7 +13,7 @@
 ;;
 ;;------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :layer-manager
+#|EXPORT|#                :layer-manager
  |#
 (defclass layer-manager ()
   ((current  :initform nil :initarg :current)  ; (or nil keyword symbol)

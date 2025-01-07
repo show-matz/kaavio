@@ -1,13 +1,13 @@
 #|
-#|ASD|#             (:file "polygon"                   :depends-on ("kaavio"
-#|ASD|#                                                             "constants"
-#|ASD|#                                                             "fill-info"
-#|ASD|#                                                             "stroke-info"
-#|ASD|#                                                             "link-info"
-#|ASD|#                                                             "entity"
-#|ASD|#                                                             "filter"
-#|ASD|#                                                             "writer"))
-#|EXPORT|#              ;polygon.lisp
+#|ASD|#                (:file "polygon"                   :depends-on ("kaavio"
+#|ASD|#                                                                "constants"
+#|ASD|#                                                                "fill-info"
+#|ASD|#                                                                "stroke-info"
+#|ASD|#                                                                "link-info"
+#|ASD|#                                                                "entity"
+#|ASD|#                                                                "filter"
+#|ASD|#                                                                "writer"))
+#|EXPORT|#                ;polygon.lisp
  |#
 
 (in-package :kaavio)
@@ -108,7 +108,7 @@
 ;;
 ;;------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :polygon
+#|EXPORT|#                :polygon
  |#
 (defmacro polygon (points &key fill stroke link layer filter id)
   `(register-entity (make-instance 'kaavio:polygon

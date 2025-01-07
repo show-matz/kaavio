@@ -1,6 +1,6 @@
 #|
-#|ASD|#             (:file "binutil"                   :depends-on ("kaavio"))
-#|EXPORT|#              ;binutil.lisp
+#|ASD|#                (:file "binutil"                   :depends-on ("kaavio"))
+#|EXPORT|#                ;binutil.lisp
  |#
 
 (in-package :kaavio)

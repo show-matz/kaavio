@@ -1,15 +1,15 @@
 #|
-#|ASD|#             (:file "diamond"                   :depends-on ("kaavio"
-#|ASD|#                                                             "mathutil"
-#|ASD|#                                                             "constants"
-#|ASD|#                                                             "canvas"
-#|ASD|#                                                             "point"
-#|ASD|#                                                             "shape"
-#|ASD|#                                                             "stroke-info"
-#|ASD|#                                                             "link-info"
-#|ASD|#                                                             "filter"
-#|ASD|#                                                             "writer"))
-#|EXPORT|#              ;diamond.lisp
+#|ASD|#                (:file "diamond"                   :depends-on ("kaavio"
+#|ASD|#                                                                "mathutil"
+#|ASD|#                                                                "constants"
+#|ASD|#                                                                "canvas"
+#|ASD|#                                                                "point"
+#|ASD|#                                                                "shape"
+#|ASD|#                                                                "stroke-info"
+#|ASD|#                                                                "link-info"
+#|ASD|#                                                                "filter"
+#|ASD|#                                                                "writer"))
+#|EXPORT|#                ;diamond.lisp
  |#
 
 
@@ -21,7 +21,7 @@
 ;;
 ;;------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :diamond-connect-point
+#|EXPORT|#                :diamond-connect-point
  |#
 (defun diamond-connect-point-C (cx cy w h pt)
   (let ((pt (xy+ pt (- cx) (- cy))))
@@ -172,7 +172,7 @@
 ;;
 ;;-------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :diamond
+#|EXPORT|#                :diamond
  |#
 (defmacro diamond (position width height
                      &key pivot fill stroke rotate link layer id filter contents)

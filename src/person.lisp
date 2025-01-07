@@ -1,17 +1,17 @@
 #|
-#|ASD|#             (:file "person"                    :depends-on ("kaavio"
-#|ASD|#                                                             "constants"
-#|ASD|#                                                             "path"))
-#|EXPORT|#              ;person.lisp
+#|ASD|#                (:file "person"                    :depends-on ("kaavio"
+#|ASD|#                                                                "constants"
+#|ASD|#                                                                "path"))
+#|EXPORT|#                ;person.lisp
  |#
 
 (in-package :kaavio)
 
 #|
-#|EXPORT|#              :*default-person-fill*
-#|EXPORT|#              :*default-person-stroke*
-#|EXPORT|#              :*default-person-filter*
-#|EXPORT|#              :*default-person-layer*
+#|EXPORT|#                :*default-person-fill*
+#|EXPORT|#                :*default-person-stroke*
+#|EXPORT|#                :*default-person-filter*
+#|EXPORT|#                :*default-person-layer*
  |#
 (defparameter *default-person-fill*         nil)
 (defparameter *default-person-stroke*       nil)
@@ -83,7 +83,7 @@
 ;;
 ;;------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :person
+#|EXPORT|#                :person
  |#
 (defmacro person (position size
                         &key pivot fill stroke label link rotate layer filter id)
@@ -101,7 +101,7 @@
 ;;
 ;;------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :with-person-options
+#|EXPORT|#                :with-person-options
  |#
 (defmacro with-person-options ((&key fill stroke filter layer) &rest body)
   (labels ((impl (params acc)

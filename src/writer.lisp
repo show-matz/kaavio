@@ -1,6 +1,6 @@
 #|
-#|ASD|#             (:file "writer"                    :depends-on ("kaavio"))
-#|EXPORT|#              ;writer.lisp
+#|ASD|#                (:file "writer"                    :depends-on ("kaavio"))
+#|EXPORT|#                ;writer.lisp
  |#
 
 (in-package :kaavio)
@@ -12,10 +12,10 @@
 ;;
 ;;------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :writer-write
-#|EXPORT|#              :writer-incr-level
-#|EXPORT|#              :writer-decr-level
-#|EXPORT|#              :writer-close
+#|EXPORT|#                :writer-write
+#|EXPORT|#                :writer-incr-level
+#|EXPORT|#                :writer-decr-level
+#|EXPORT|#                :writer-close
  |#
 (defgeneric writer-write (writer &rest params))
 (defgeneric writer-incr-level (writer))
@@ -28,7 +28,7 @@
 ;;
 ;;------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :buffer-writer
+#|EXPORT|#                :buffer-writer
  |#
 (defclass buffer-writer ()
   ((level  :type     integer
@@ -67,7 +67,7 @@
 ; 
 ;-------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :create-svg-writer
+#|EXPORT|#                :create-svg-writer
  |#
 ; returns buffer-writer
 ; encoding --- :jis :euc-jp :sjis :utf8 :ascii :guess or :default

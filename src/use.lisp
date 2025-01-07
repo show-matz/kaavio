@@ -1,12 +1,12 @@
 #|
-#|ASD|#             (:file "use"                       :depends-on ("kaavio"
-#|ASD|#                                                             "constants"
-#|ASD|#                                                             "defgroup"
-#|ASD|#                                                             "canvas"
-#|ASD|#                                                             "point"
-#|ASD|#                                                             "shape"
-#|ASD|#                                                             "writer"))
-#|EXPORT|#              ;use.lisp
+#|ASD|#                (:file "use"                       :depends-on ("kaavio"
+#|ASD|#                                                                "constants"
+#|ASD|#                                                                "defgroup"
+#|ASD|#                                                                "canvas"
+#|ASD|#                                                                "point"
+#|ASD|#                                                                "shape"
+#|ASD|#                                                                "writer"))
+#|EXPORT|#                ;use.lisp
  |#
 
 (in-package :kaavio)
@@ -94,7 +94,7 @@
 ;;
 ;;------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :use
+#|EXPORT|#                :use
  |#
 (defmacro use (ref position &key pivot link rotate layer id contents debug)
   (let ((code `(register-entity (make-instance 'kaavio:use

@@ -1,25 +1,25 @@
 #|
-#|ASD|#             (:file "cube"                      :depends-on ("kaavio"
-#|ASD|#                                                             "constants"
-#|ASD|#                                                             "path"
-#|ASD|#                                                             "filter"
-#|ASD|#                                                             "text-shape"))
-#|EXPORT|#              ;cube.lisp
+#|ASD|#                (:file "cube"                      :depends-on ("kaavio"
+#|ASD|#                                                                "constants"
+#|ASD|#                                                                "path"
+#|ASD|#                                                                "filter"
+#|ASD|#                                                                "text-shape"))
+#|EXPORT|#                ;cube.lisp
  |#
 
 (in-package :kaavio)
 
 #|
-#|EXPORT|#              :*default-cube-depth*
-#|EXPORT|#              :*default-cube-align*
-#|EXPORT|#              :*default-cube-valign*
-#|EXPORT|#              :*default-cube-margin*
-#|EXPORT|#              :*default-cube-font*
-#|EXPORT|#              :*default-cube-fill*
-#|EXPORT|#              :*default-cube-fill2*
-#|EXPORT|#              :*default-cube-stroke*
-#|EXPORT|#              :*default-cube-filter*
-#|EXPORT|#              :*default-cube-layer*
+#|EXPORT|#                :*default-cube-depth*
+#|EXPORT|#                :*default-cube-align*
+#|EXPORT|#                :*default-cube-valign*
+#|EXPORT|#                :*default-cube-margin*
+#|EXPORT|#                :*default-cube-font*
+#|EXPORT|#                :*default-cube-fill*
+#|EXPORT|#                :*default-cube-fill2*
+#|EXPORT|#                :*default-cube-stroke*
+#|EXPORT|#                :*default-cube-filter*
+#|EXPORT|#                :*default-cube-layer*
  |#
 (defparameter *default-cube-depth*         nil)
 (defparameter *default-cube-align*     :center)
@@ -126,7 +126,7 @@
 ;;
 ;;------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :cube
+#|EXPORT|#                :cube
  |#
 (defmacro cube (position width height text
                     &key pivot depth align valign margin
@@ -162,7 +162,7 @@
 ;;
 ;;------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :with-cube-options
+#|EXPORT|#                :with-cube-options
  |#
 (defmacro with-cube-options ((&key depth align valign margin
                                    font fill fill2 stroke filter layer) &rest body)

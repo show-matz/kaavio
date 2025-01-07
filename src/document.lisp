@@ -1,23 +1,23 @@
 #|
-#|ASD|#             (:file "document"                  :depends-on ("kaavio"
-#|ASD|#                                                             "constants"
-#|ASD|#                                                             "path"
-#|ASD|#                                                             "filter"
-#|ASD|#                                                             "text-shape"))
-#|EXPORT|#              ;document.lisp
+#|ASD|#                (:file "document"                  :depends-on ("kaavio"
+#|ASD|#                                                                "constants"
+#|ASD|#                                                                "path"
+#|ASD|#                                                                "filter"
+#|ASD|#                                                                "text-shape"))
+#|EXPORT|#                ;document.lisp
  |#
 
 (in-package :kaavio)
 
 #|
-#|EXPORT|#              :*default-document-align*
-#|EXPORT|#              :*default-document-valign*
-#|EXPORT|#              :*default-document-margin*
-#|EXPORT|#              :*default-document-font*
-#|EXPORT|#              :*default-document-fill*
-#|EXPORT|#              :*default-document-stroke*
-#|EXPORT|#              :*default-document-filter*
-#|EXPORT|#              :*default-document-layer*
+#|EXPORT|#                :*default-document-align*
+#|EXPORT|#                :*default-document-valign*
+#|EXPORT|#                :*default-document-margin*
+#|EXPORT|#                :*default-document-font*
+#|EXPORT|#                :*default-document-fill*
+#|EXPORT|#                :*default-document-stroke*
+#|EXPORT|#                :*default-document-filter*
+#|EXPORT|#                :*default-document-layer*
  |#
 (defparameter *default-document-align*  :center)
 (defparameter *default-document-valign* :center)
@@ -89,7 +89,7 @@
 ;;
 ;;------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :document
+#|EXPORT|#                :document
  |#
 (defmacro document (position width height text
                          &key pivot depth align valign margin
@@ -120,7 +120,7 @@
 ;;
 ;;------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :with-document-options
+#|EXPORT|#                :with-document-options
  |#
 (defmacro with-document-options ((&key align valign margin
                                        font fill stroke filter layer) &rest body)

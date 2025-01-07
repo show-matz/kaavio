@@ -1,14 +1,14 @@
 #|
-#|ASD|#             (:file "endmark-info"              :depends-on ("kaavio"
-#|ASD|#                                                             "constants"
-#|ASD|#                                                             "mathutil"
-#|ASD|#                                                             "point"
-#|ASD|#                                                             "canvas"
-#|ASD|#                                                             "dictionary"
-#|ASD|#                                                             "fill-info"
-#|ASD|#                                                             "stroke-info"
-#|ASD|#                                                             "writer"))
-#|EXPORT|#              ;endmark-info.lisp
+#|ASD|#                (:file "endmark-info"              :depends-on ("kaavio"
+#|ASD|#                                                                "constants"
+#|ASD|#                                                                "mathutil"
+#|ASD|#                                                                "point"
+#|ASD|#                                                                "canvas"
+#|ASD|#                                                                "dictionary"
+#|ASD|#                                                                "fill-info"
+#|ASD|#                                                                "stroke-info"
+#|ASD|#                                                                "writer"))
+#|EXPORT|#                ;endmark-info.lisp
  |#
 
 
@@ -123,7 +123,7 @@
 ;;
 ;;------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :endmark-info
+#|EXPORT|#                :endmark-info
  |#
 (defclass endmark-info ()
   ((type    :initform nil :initarg :type)       ; (or keyword function)
@@ -187,7 +187,7 @@
   
 
 #|
-#|EXPORT|#              :make-endmark
+#|EXPORT|#                :make-endmark
  |#
 (defun make-endmark (&rest params)
   (if (= 1 (length params))
@@ -213,7 +213,7 @@
 ;;
 ;;------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :with-endmark-options
+#|EXPORT|#                :with-endmark-options
  |#
 (defmacro with-endmark-options ((&key type size fill end1 end2) &rest body)
   (labels ((impl (params acc)

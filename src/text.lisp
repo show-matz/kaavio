@@ -1,11 +1,11 @@
 #|
-#|ASD|#             (:file "text"                      :depends-on ("kaavio"
-#|ASD|#                                                             "constants"
-#|ASD|#                                                             "entity"
-#|ASD|#                                                             "font-info"
-#|ASD|#                                                             "link-info"
-#|ASD|#                                                             "writer"))
-#|EXPORT|#              ;text.lisp
+#|ASD|#                (:file "text"                      :depends-on ("kaavio"
+#|ASD|#                                                                "constants"
+#|ASD|#                                                                "entity"
+#|ASD|#                                                                "font-info"
+#|ASD|#                                                                "link-info"
+#|ASD|#                                                                "writer"))
+#|EXPORT|#                ;text.lisp
  |#
 
 
@@ -23,7 +23,7 @@
             (need-preserve-space-p txt (1+ idx)))))))
 
 #|
-#|EXPORT|#              :write-text-tag
+#|EXPORT|#                :write-text-tag
  |#
 (defun write-text-tag (x y txt writer &key id align font)
   (writer-write writer
@@ -113,7 +113,7 @@
 ;;
 ;;------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :text
+#|EXPORT|#                :text
  |#
 (defmacro text (position text &key align font link layer id)
   `(register-entity (make-instance 'kaavio:text

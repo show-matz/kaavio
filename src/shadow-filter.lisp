@@ -1,8 +1,8 @@
 #|
-#|ASD|#             (:file "shadow-filter"             :depends-on ("kaavio"
-#|ASD|#                                                             "filter"
-#|ASD|#                                                             "writer"))
-#|EXPORT|#              ;shadow-filter.lisp
+#|ASD|#                (:file "shadow-filter"             :depends-on ("kaavio"
+#|ASD|#                                                                "filter"
+#|ASD|#                                                                "writer"))
+#|EXPORT|#                ;shadow-filter.lisp
  |#
 
 (in-package :kaavio)
@@ -50,7 +50,7 @@
 ;;
 ;;-------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :drop-shadow
+#|EXPORT|#                :drop-shadow
  |#
 (defmacro drop-shadow (&key id color-matrix deviation dx dy)
   `(register-filter (make-instance 'kaavio::shadow-filter
@@ -68,7 +68,7 @@
 ;;
 ;;-------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :glow-shadow
+#|EXPORT|#                :glow-shadow
  |#
 (defmacro glow-shadow (&key id color-matrix deviation)
   `(register-filter (make-instance 'kaavio::shadow-filter

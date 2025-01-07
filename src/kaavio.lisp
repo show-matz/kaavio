@@ -1,6 +1,6 @@
 #|
-#|ASD|#             (:file "kaavio")
-#|EXPORT|#              ;kaavio.lisp
+#|ASD|#                (:file "kaavio")
+#|EXPORT|#                ;kaavio.lisp
  |#
 
 (provide :kaavio)
@@ -516,7 +516,7 @@
 
 
 #|
-#|EXPORT|#              :make-id
+#|EXPORT|#                :make-id
  |#
 (defun make-id (prefix &rest args)
   (let ((name (with-output-to-string (stream)
@@ -526,7 +526,7 @@
     (intern name 'keyword)))
 
 #|
-#|EXPORT|#              :fix-name
+#|EXPORT|#                :fix-name
  |#
 (defun fix-name (name &optional no-multiline)
   (setf name (if (symbolp name)
@@ -550,12 +550,12 @@
 
 
 #|
-#|EXPORT|#              :exception
-#|EXPORT|#              :caution
-#|EXPORT|#              :throw-exception
-#|EXPORT|#              :throw-caution
-#|EXPORT|#              :type-assert
-#|EXPORT|#              :chk-type
+#|EXPORT|#                :exception
+#|EXPORT|#                :caution
+#|EXPORT|#                :throw-exception
+#|EXPORT|#                :throw-caution
+#|EXPORT|#                :type-assert
+#|EXPORT|#                :chk-type
  |#
 (define-condition exception (cl:error)
   ((msg :initarg  :msg :accessor exception-msg))
@@ -586,7 +586,7 @@
 
 
 #|
-#|EXPORT|#              :format-string
+#|EXPORT|#                :format-string
  |#
 (defun format-string (&rest args)
   (with-output-to-string (stream)
@@ -607,10 +607,10 @@
 ;;         (setf ,member (or (and ,base (class:member ,base ,kwd)) ,value))))))
 
 #|
-#|EXPORT|#              :check-member
-#|EXPORT|#              :check-object
-#|EXPORT|#              :check-keywords
-#|EXPORT|#              :check-numbers
+#|EXPORT|#                :check-member
+#|EXPORT|#                :check-object
+#|EXPORT|#                :check-keywords
+#|EXPORT|#                :check-numbers
  |#
 (defmacro check-member (sym &key (nullable nil) (types nil))
   (type-assert sym symbol)
@@ -646,8 +646,8 @@
      (throw-exception ,(format nil "~A must be in ~A." sym choices))))
 
 #|
-#|EXPORT|#              :write-when
-#|EXPORT|#              :it
+#|EXPORT|#                :write-when
+#|EXPORT|#                :it
  |#
 (defmacro write-when (item &rest args)
   `(let ((it ,item))
@@ -656,8 +656,8 @@
 
 
 #|
-#|EXPORT|#              :with-dictionary
-#|EXPORT|#              :attr
+#|EXPORT|#                :with-dictionary
+#|EXPORT|#                :attr
  |#
 (defmacro with-dictionary (dict &rest body)
   (type-assert dict symbol)
@@ -691,7 +691,7 @@
              ,@body))))))
 
 #|
-#|EXPORT|#              :escape-characters
+#|EXPORT|#                :escape-characters
  |#
 (defun escape-characters (str)
   (setf str (string/replace str "&"  "&amp;"))
@@ -703,7 +703,7 @@
 
 
 #|
-#|EXPORT|#              :to-property-strings
+#|EXPORT|#                :to-property-strings
  |#
 (defgeneric to-property-strings (info))  ;; ToDo : 他の場所に移動する？
 
@@ -717,13 +717,13 @@
 |#
 
 #|
-#|EXPORT|#              :check
+#|EXPORT|#                :check
  |#
 (defgeneric check (obj canvas dict))
 
 
 #|
-#|EXPORT|#              :rgb
+#|EXPORT|#                :rgb
  |#
 (defun rgb (r g b)
   (labels ((fix (n)
@@ -736,7 +736,7 @@
 
 
 #|
-#|EXPORT|#              :repeat
+#|EXPORT|#                :repeat
  |#
 (defun repeat (source cnt &rest customs)
   (let ((gen (if (functionp source)
@@ -753,7 +753,7 @@
 
 
 #|
-#|EXPORT|#              :with-options
+#|EXPORT|#                :with-options
  |#
 (defmacro with-options ((&key fill stroke font filter layer) &rest body)
   (let ((lst nil))

@@ -1,24 +1,24 @@
 #|
-#|ASD|#             (:file "cylinder"                  :depends-on ("kaavio"
-#|ASD|#                                                             "constants"
-#|ASD|#                                                             "path"
-#|ASD|#                                                             "filter"
-#|ASD|#                                                             "text-shape"))
-#|EXPORT|#              ;cylinder.lisp
+#|ASD|#                (:file "cylinder"                  :depends-on ("kaavio"
+#|ASD|#                                                                "constants"
+#|ASD|#                                                                "path"
+#|ASD|#                                                                "filter"
+#|ASD|#                                                                "text-shape"))
+#|EXPORT|#                ;cylinder.lisp
  |#
 
 (in-package :kaavio)
 
 #|
-#|EXPORT|#              :*default-cylinder-depth*
-#|EXPORT|#              :*default-cylinder-align*
-#|EXPORT|#              :*default-cylinder-valign*
-#|EXPORT|#              :*default-cylinder-margin*
-#|EXPORT|#              :*default-cylinder-font*
-#|EXPORT|#              :*default-cylinder-fill*
-#|EXPORT|#              :*default-cylinder-stroke*
-#|EXPORT|#              :*default-cylinder-filter*
-#|EXPORT|#              :*default-cylinder-layer*
+#|EXPORT|#                :*default-cylinder-depth*
+#|EXPORT|#                :*default-cylinder-align*
+#|EXPORT|#                :*default-cylinder-valign*
+#|EXPORT|#                :*default-cylinder-margin*
+#|EXPORT|#                :*default-cylinder-font*
+#|EXPORT|#                :*default-cylinder-fill*
+#|EXPORT|#                :*default-cylinder-stroke*
+#|EXPORT|#                :*default-cylinder-filter*
+#|EXPORT|#                :*default-cylinder-layer*
  |#
 (defparameter *default-cylinder-depth*        nil)
 (defparameter *default-cylinder-align*    :center)
@@ -97,7 +97,7 @@
 ;;
 ;;------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :cylinder
+#|EXPORT|#                :cylinder
  |#
 (defmacro cylinder (position width height text
                          &key pivot depth align valign margin
@@ -129,7 +129,7 @@
 ;;
 ;;------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :with-cylinder-options
+#|EXPORT|#                :with-cylinder-options
  |#
 (defmacro with-cylinder-options ((&key depth align valign margin
                                        font fill stroke filter layer) &rest body)

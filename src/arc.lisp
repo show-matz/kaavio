@@ -1,10 +1,10 @@
 #|
-#|ASD|#             (:file "arc"                       :depends-on ("kaavio"
-#|ASD|#                                                             "point"
-#|ASD|#                                                             "canvas"
-#|ASD|#                                                             "mathutil"
-#|ASD|#                                                             "path"))
-#|EXPORT|#              ;arc.lisp
+#|ASD|#                (:file "arc"                       :depends-on ("kaavio"
+#|ASD|#                                                                "point"
+#|ASD|#                                                                "canvas"
+#|ASD|#                                                                "mathutil"
+#|ASD|#                                                                "path"))
+#|EXPORT|#                ;arc.lisp
  |#
 
 (in-package :kaavio)
@@ -211,7 +211,7 @@
 ;;
 ;;------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :arc
+#|EXPORT|#                :arc
  |#
 (defmacro arc (center rx ry x-axis-rotation
                       degree1 degree2 &key stroke end1 end2 layer filter id debug)

@@ -1,25 +1,25 @@
 #|
-#|ASD|#             (:file "textbox"                   :depends-on ("kaavio"
-#|ASD|#                                                             "constants"
-#|ASD|#                                                             "rectangle"
-#|ASD|#                                                             "filter"
-#|ASD|#                                                             "text-shape"))
-#|EXPORT|#              ;textbox.lisp
+#|ASD|#                (:file "textbox"                   :depends-on ("kaavio"
+#|ASD|#                                                                "constants"
+#|ASD|#                                                                "rectangle"
+#|ASD|#                                                                "filter"
+#|ASD|#                                                                "text-shape"))
+#|EXPORT|#                ;textbox.lisp
  |#
 
 (in-package :kaavio)
 
 #|
-#|EXPORT|#              :*default-textbox-rx*
-#|EXPORT|#              :*default-textbox-ry*
-#|EXPORT|#              :*default-textbox-align*
-#|EXPORT|#              :*default-textbox-valign*
-#|EXPORT|#              :*default-textbox-margin*
-#|EXPORT|#              :*default-textbox-font*
-#|EXPORT|#              :*default-textbox-fill*
-#|EXPORT|#              :*default-textbox-stroke*
-#|EXPORT|#              :*default-textbox-filter*
-#|EXPORT|#              :*default-textbox-layer*
+#|EXPORT|#                :*default-textbox-rx*
+#|EXPORT|#                :*default-textbox-ry*
+#|EXPORT|#                :*default-textbox-align*
+#|EXPORT|#                :*default-textbox-valign*
+#|EXPORT|#                :*default-textbox-margin*
+#|EXPORT|#                :*default-textbox-font*
+#|EXPORT|#                :*default-textbox-fill*
+#|EXPORT|#                :*default-textbox-stroke*
+#|EXPORT|#                :*default-textbox-filter*
+#|EXPORT|#                :*default-textbox-layer*
  |#
 (defparameter *default-textbox-rx*           nil)
 (defparameter *default-textbox-ry*           nil)
@@ -84,7 +84,7 @@
 ;;
 ;;------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :textbox
+#|EXPORT|#                :textbox
  |#
 (defmacro textbox (position text &key pivot width height no-frame rx ry
                                     align valign margin font fill stroke
@@ -119,7 +119,7 @@
 ;;
 ;;------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :with-textbox-options
+#|EXPORT|#                :with-textbox-options
  |#
 (defmacro with-textbox-options ((&key rx ry align valign margin
                                       font fill stroke filter layer) &rest body)

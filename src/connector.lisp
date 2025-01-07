@@ -1,12 +1,12 @@
 #|
-#|ASD|#             (:file "connector"                 :depends-on ("kaavio"
-#|ASD|#                                                             "constants"
-#|ASD|#                                                             "line"
-#|ASD|#                                                             "shape"
-#|ASD|#                                                             "dictionary"
-#|ASD|#                                                             "rectangle"
-#|ASD|#                                                             "writer"))
-#|EXPORT|#              ;connector.lisp
+#|ASD|#                (:file "connector"                 :depends-on ("kaavio"
+#|ASD|#                                                                "constants"
+#|ASD|#                                                                "line"
+#|ASD|#                                                                "shape"
+#|ASD|#                                                                "dictionary"
+#|ASD|#                                                                "rectangle"
+#|ASD|#                                                                "writer"))
+#|EXPORT|#                ;connector.lisp
  |#
 
 (in-package :kaavio)
@@ -559,7 +559,7 @@
 
 
 #|
-#|EXPORT|#              :resolve-connector-points
+#|EXPORT|#                :resolve-connector-points
  |#
 (defun resolve-connector-points (from dest style spacing)
   (labels ((create-dummy-rect (x y)
@@ -667,7 +667,7 @@
 ;;
 ;;------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :connector
+#|EXPORT|#                :connector
  |#
 (defmacro connector (from to &key style spacing label stroke end1 end2 layer filter id)
   `(register-entity (make-instance 'kaavio:connector
@@ -677,7 +677,7 @@
                                    :stroke ,stroke :filter ,filter :layer ,layer :id ,id)))
 
 #|
-#|EXPORT|#              :connect
+#|EXPORT|#                :connect
  |#
 (defmacro connect (from to &key style spacing label stroke end1 end2 layer filter id)
   `(register-entity (make-instance 'kaavio:connector

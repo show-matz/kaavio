@@ -1,15 +1,15 @@
 #|
-#|ASD|#             (:file "defgroup"                  :depends-on ("kaavio"
-#|ASD|#                                                             "constants"
-#|ASD|#                                                             "definition"
-#|ASD|#                                                             "layer-manager"
-#|ASD|#                                                             "dictionary"
-#|ASD|#                                                             "point"
-#|ASD|#                                                             "canvas"
-#|ASD|#                                                             "font-info"
-#|ASD|#                                                             "stroke-info"
-#|ASD|#                                                             "writer"))
-#|EXPORT|#              ;defgroup.lisp
+#|ASD|#                (:file "defgroup"                  :depends-on ("kaavio"
+#|ASD|#                                                                "constants"
+#|ASD|#                                                                "definition"
+#|ASD|#                                                                "layer-manager"
+#|ASD|#                                                                "dictionary"
+#|ASD|#                                                                "point"
+#|ASD|#                                                                "canvas"
+#|ASD|#                                                                "font-info"
+#|ASD|#                                                                "stroke-info"
+#|ASD|#                                                                "writer"))
+#|EXPORT|#                ;defgroup.lisp
  |#
 
 (in-package :kaavio)
@@ -21,7 +21,7 @@
 ;;
 ;;-------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :group-definition
+#|EXPORT|#                :group-definition
  |#
 (defclass group-definition (definition)
   ((data    :initform  "" :initarg :data)        ; string
@@ -61,8 +61,8 @@
 ;;
 ;;------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :defs
-#|EXPORT|#              :defgroup
+#|EXPORT|#                :defs
+#|EXPORT|#                :defgroup
  |#
 (defmacro defs ((width height id) &rest body)
   `(defgroup (,width ,height ,id) ,@body))

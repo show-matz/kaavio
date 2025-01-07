@@ -1,7 +1,7 @@
 #|
-#|ASD|#             (:file "canvas"                    :depends-on ("kaavio"
-#|ASD|#                                                             "point"))
-#|EXPORT|#              ;canvas.lisp
+#|ASD|#                (:file "canvas"                    :depends-on ("kaavio"
+#|ASD|#                                                                "point"))
+#|EXPORT|#                ;canvas.lisp
  |#
 
 (in-package :kaavio)
@@ -12,10 +12,10 @@
 ;;
 ;;------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :canvas
-#|EXPORT|#              :make-canvas
-#|EXPORT|#              :copy-canvas
-#|EXPORT|#              :canvas-p
+#|EXPORT|#                :canvas
+#|EXPORT|#                :make-canvas
+#|EXPORT|#                :copy-canvas
+#|EXPORT|#                :canvas-p
  |#
 (defun make-canvas (top-left width height)
   (cons top-left (cons width height)))
@@ -30,11 +30,11 @@
        (numberp (cddr canvas))))
 
 #|
-#|EXPORT|#              :canvas-topleft
-#|EXPORT|#              :canvas-left
-#|EXPORT|#              :canvas-top
-#|EXPORT|#              :canvas-right
-#|EXPORT|#              :canvas-bottom
+#|EXPORT|#                :canvas-topleft
+#|EXPORT|#                :canvas-left
+#|EXPORT|#                :canvas-top
+#|EXPORT|#                :canvas-right
+#|EXPORT|#                :canvas-bottom
  |#
 (defun canvas-topleft (canvas) (car canvas))
 (defun canvas-left    (canvas) (point-x (car canvas)))
@@ -45,8 +45,8 @@
 (defun canvas-bottom  (canvas) (+ (point-y (car canvas)) (cddr canvas)))
 
 #|
-#|EXPORT|#              :canvas-width
-#|EXPORT|#              :canvas-height
+#|EXPORT|#                :canvas-width
+#|EXPORT|#                :canvas-height
  |#
 (defun canvas-width  (canvas) (cadr canvas))
 (defun canvas-height (canvas) (cddr canvas))
@@ -54,7 +54,7 @@
 (defun (setf canvas-height) (val canvas) (setf (cddr canvas) val))
 
 #|
-#|EXPORT|#              :canvas-fix-point
+#|EXPORT|#                :canvas-fix-point
  |#
 (defun canvas-fix-point (canvas pt)
   (if (point-absolute-p pt)
@@ -128,7 +128,7 @@
 
 
 #|
-#|EXPORT|#              :with-canvas
+#|EXPORT|#                :with-canvas
  |#
 (defmacro with-canvas ((sym-center sym-width sym-height) canvas &rest body)
   (let ((g-canvas (gensym "CANVAS")))
@@ -140,7 +140,7 @@
          ,@body))))
 
 #|
-#|EXPORT|#              :with-current-canvas
+#|EXPORT|#                :with-current-canvas
  |#
 (defmacro with-current-canvas ((&rest vars) &rest body)
   (labels ((fix-let-vars (e)
@@ -154,7 +154,7 @@
 
 
 #|
-#|EXPORT|#              :with-subcanvas
+#|EXPORT|#                :with-subcanvas
  |#
 (defmacro with-subcanvas ((top-left width height &key debug) &rest body)
   (if (not debug)
@@ -172,7 +172,7 @@
 
 
 #|
-#|EXPORT|#              :with-subcanvas-of
+#|EXPORT|#                :with-subcanvas-of
  |#
 (defmacro with-subcanvas-of ((id) &body body)
   (let ((g-obj (gensym "TBL")))

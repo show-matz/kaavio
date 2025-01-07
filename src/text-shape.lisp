@@ -1,13 +1,13 @@
 #|
-#|ASD|#             (:file "text-shape"                :depends-on ("kaavio"
-#|ASD|#                                                             "canvas"
-#|ASD|#                                                             "group"
-#|ASD|#                                                             "paragraph"
-#|ASD|#                                                             "font-info"
-#|ASD|#                                                             "fill-info"
-#|ASD|#                                                             "stroke-info"
-#|ASD|#                                                             "writer"))
-#|EXPORT|#              ;text-shape.lisp
+#|ASD|#                (:file "text-shape"                :depends-on ("kaavio"
+#|ASD|#                                                                "canvas"
+#|ASD|#                                                                "group"
+#|ASD|#                                                                "paragraph"
+#|ASD|#                                                                "font-info"
+#|ASD|#                                                                "fill-info"
+#|ASD|#                                                                "stroke-info"
+#|ASD|#                                                                "writer"))
+#|EXPORT|#                ;text-shape.lisp
  |#
 
 (in-package :kaavio)
@@ -19,9 +19,9 @@
 ;;
 ;;------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :text-shape
-#|EXPORT|#              :text-shape-calc-size
-#|EXPORT|#              :text-shape-paragraph-area
+#|EXPORT|#                :text-shape
+#|EXPORT|#                :text-shape-calc-size
+#|EXPORT|#                :text-shape-paragraph-area
  |#
 (defclass text-shape (group)
   ((text    :initform nil :initarg :text)        ; (or keyword string)

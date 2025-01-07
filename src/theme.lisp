@@ -1,6 +1,6 @@
 #|
-#|ASD|#             (:file "theme"                     :depends-on ("kaavio"))
-#|EXPORT|#              ;theme.lisp
+#|ASD|#                (:file "theme"                     :depends-on ("kaavio"))
+#|EXPORT|#                ;theme.lisp
  |#
 
 (in-package :kaavio)
@@ -38,14 +38,14 @@
 
 
 #|
-#|EXPORT|#              :register-theme
+#|EXPORT|#                :register-theme
  |#
 (defmacro register-theme ((name &optional base) &rest settings)
   (register-theme-impl name base settings))
 
 
 #|
-#|EXPORT|#              :with-theme
+#|EXPORT|#                :with-theme
  |#
 (defmacro with-theme ((name) &body body)
   (let ((entries (find-theme-impl name)))

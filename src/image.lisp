@@ -1,13 +1,13 @@
 #|
-#|ASD|#             (:file "image"                     :depends-on ("kaavio"
-#|ASD|#                                                             "binutil"
-#|ASD|#                                                             "shape"
-#|ASD|#                                                             "label-info"
-#|ASD|#                                                             "link-info"
-#|ASD|#                                                             "point"
-#|ASD|#                                                             "filter"
-#|ASD|#                                                             "writer"))
-#|EXPORT|#              ;image.lisp
+#|ASD|#                (:file "image"                     :depends-on ("kaavio"
+#|ASD|#                                                                "binutil"
+#|ASD|#                                                                "shape"
+#|ASD|#                                                                "label-info"
+#|ASD|#                                                                "link-info"
+#|ASD|#                                                                "point"
+#|ASD|#                                                                "filter"
+#|ASD|#                                                                "writer"))
+#|EXPORT|#                ;image.lisp
  |#
 
 
@@ -182,7 +182,7 @@
 ;;
 ;;------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :image
+#|EXPORT|#                :image
  |#
 (defmacro image (position filename
                  &key pivot width height label link rotate layer id filter contents)

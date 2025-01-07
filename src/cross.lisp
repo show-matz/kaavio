@@ -1,24 +1,24 @@
 #|
-#|ASD|#             (:file "cross"                     :depends-on ("kaavio"
-#|ASD|#                                                             "constants"
-#|ASD|#                                                             "canvas"
-#|ASD|#                                                             "point"
-#|ASD|#                                                             "shape"
-#|ASD|#                                                             "stroke-info"
-#|ASD|#                                                             "link-info"
-#|ASD|#                                                             "filter"
-#|ASD|#                                                             "writer"))
-#|EXPORT|#              ;cross.lisp
+#|ASD|#                (:file "cross"                     :depends-on ("kaavio"
+#|ASD|#                                                                "constants"
+#|ASD|#                                                                "canvas"
+#|ASD|#                                                                "point"
+#|ASD|#                                                                "shape"
+#|ASD|#                                                                "stroke-info"
+#|ASD|#                                                                "link-info"
+#|ASD|#                                                                "filter"
+#|ASD|#                                                                "writer"))
+#|EXPORT|#                ;cross.lisp
  |#
 
 
 (in-package :kaavio)
 
 #|
-#|EXPORT|#              :*default-cross-fill*
-#|EXPORT|#              :*default-cross-stroke*
-#|EXPORT|#              :*default-cross-filter*
-#|EXPORT|#              :*default-cross-layer*
+#|EXPORT|#                :*default-cross-fill*
+#|EXPORT|#                :*default-cross-stroke*
+#|EXPORT|#                :*default-cross-filter*
+#|EXPORT|#                :*default-cross-layer*
  |#
 (defparameter *default-cross-fill*          nil)
 (defparameter *default-cross-stroke*        nil)
@@ -135,7 +135,7 @@
 ;;
 ;;------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :cross
+#|EXPORT|#                :cross
  |#
 (defmacro cross (position width height size
                         &key pivot size-v intersection fill stroke filter rotate link layer id)
@@ -155,7 +155,7 @@
 ;;
 ;;------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :with-cross-options
+#|EXPORT|#                :with-cross-options
  |#
 (defmacro with-cross-options ((&key fill stroke filter layer) &rest body)
   (labels ((impl (params acc)

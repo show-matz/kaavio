@@ -1,15 +1,15 @@
 #|
-#|ASD|#             (:file "parallelogram"             :depends-on ("kaavio"
-#|ASD|#                                                             "mathutil"
-#|ASD|#                                                             "constants"
-#|ASD|#                                                             "canvas"
-#|ASD|#                                                             "point"
-#|ASD|#                                                             "shape"
-#|ASD|#                                                             "stroke-info"
-#|ASD|#                                                             "link-info"
-#|ASD|#                                                             "filter"
-#|ASD|#                                                             "writer"))
-#|EXPORT|#              ;parallelogram.lisp
+#|ASD|#                (:file "parallelogram"             :depends-on ("kaavio"
+#|ASD|#                                                                "mathutil"
+#|ASD|#                                                                "constants"
+#|ASD|#                                                                "canvas"
+#|ASD|#                                                                "point"
+#|ASD|#                                                                "shape"
+#|ASD|#                                                                "stroke-info"
+#|ASD|#                                                                "link-info"
+#|ASD|#                                                                "filter"
+#|ASD|#                                                                "writer"))
+#|EXPORT|#                ;parallelogram.lisp
  |#
 
 
@@ -60,7 +60,7 @@
 ;;
 ;;------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :parallelogram-connect-point
+#|EXPORT|#                :parallelogram-connect-point
  |#
 (defun parallelogram-connect-point-C (cx cy w h dir offs pt)
   (let ((pt (xy+ pt (- cx) (- cy))))
@@ -267,7 +267,7 @@
 ;;
 ;;-------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :parallelogram
+#|EXPORT|#                :parallelogram
  |#
 (defmacro parallelogram (position width height direction offset
                          &key pivot fill stroke rotate link layer id filter contents)

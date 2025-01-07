@@ -1,9 +1,9 @@
 #|
-#|ASD|#             (:file "font-info"                 :depends-on ("kaavio"
-#|ASD|#                                                             "colormap"
-#|ASD|#                                                             "fill-info"
-#|ASD|#                                                             "stroke-info"))
-#|EXPORT|#              ;font-info.lisp
+#|ASD|#                (:file "font-info"                 :depends-on ("kaavio"
+#|ASD|#                                                                "colormap"
+#|ASD|#                                                                "fill-info"
+#|ASD|#                                                                "stroke-info"))
+#|EXPORT|#                ;font-info.lisp
  |#
 
 
@@ -11,11 +11,11 @@
 
 ;; default parameter for font-info
 #|
-#|EXPORT|#              :*default-font*
-#|EXPORT|#              :*mute-font*
-#|EXPORT|#              :*default-font-fill*
-#|EXPORT|#              :*default-font-stroke*
-#|EXPORT|#              :*default-font-filter*
+#|EXPORT|#                :*default-font*
+#|EXPORT|#                :*mute-font*
+#|EXPORT|#                :*default-font-fill*
+#|EXPORT|#                :*default-font-stroke*
+#|EXPORT|#                :*default-font-filter*
  |#
 (defparameter *default-font*        nil)
 (defparameter *mute-font*           nil)
@@ -29,7 +29,7 @@
 ;;
 ;;------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :font-info
+#|EXPORT|#                :font-info
  |#
 (defclass font-info ()
   ((family          :initform nil :initarg :family)          ; string
@@ -102,7 +102,7 @@
         buf))))
 
 #|
-#|EXPORT|#              :make-font
+#|EXPORT|#                :make-font
  |#
 (defun make-font (&rest params)
   (if (= 1 (length params))
@@ -145,7 +145,7 @@
 
 
 #|
-#|EXPORT|#              :font-calc-textarea
+#|EXPORT|#                :font-calc-textarea
  |#
 (defun font-calc-textarea (font text)
   (with-slots (size width-spice line-spacing) font

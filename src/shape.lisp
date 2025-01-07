@@ -1,11 +1,11 @@
 #|
-#|ASD|#             (:file "shape"                     :depends-on ("kaavio"
-#|ASD|#                                                             "point"
-#|ASD|#                                                             "canvas"
-#|ASD|#                                                             "mathutil"
-#|ASD|#                                                             "entity"
-#|ASD|#                                                             "link-info"))
-#|EXPORT|#              ;shape.lisp
+#|ASD|#                (:file "shape"                     :depends-on ("kaavio"
+#|ASD|#                                                                "point"
+#|ASD|#                                                                "canvas"
+#|ASD|#                                                                "mathutil"
+#|ASD|#                                                                "entity"
+#|ASD|#                                                                "link-info"))
+#|EXPORT|#                ;shape.lisp
  |#
 
 (in-package :kaavio)
@@ -16,7 +16,7 @@
 ;;
 ;;------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :rectangle-connect-point
+#|EXPORT|#                :rectangle-connect-point
  |#
 (defun rectangle-connect-point-C (pt1 width height pt2)
   ;;(format t "cx=~A, cy=~A, width=~A, height=~A, pt2=~A.~%" cx cy width height pt2)
@@ -75,7 +75,7 @@
 ;;
 ;;------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :shape
+#|EXPORT|#                :shape
  |#
 (defclass shape (entity)
   ((rotate  :initform nil :initarg :rotate)    ; number
@@ -93,9 +93,9 @@
 
 
 #|
-#|EXPORT|#              :shape-get-subcanvas
-#|EXPORT|#              :shape-cc-center
-#|EXPORT|#              :shape-connect-point
+#|EXPORT|#                :shape-get-subcanvas
+#|EXPORT|#                :shape-cc-center
+#|EXPORT|#                :shape-connect-point
  |#
 (defgeneric shape-get-subcanvas (shp))  ;; returns canvas object.
 (defgeneric shape-cc-center (shp type)) ;; returns point object.

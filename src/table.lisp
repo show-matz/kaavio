@@ -1,12 +1,12 @@
 #|
-#|ASD|#             (:file "table"                     :depends-on ("kaavio"
-#|ASD|#                                                             "constants"
-#|ASD|#                                                             "group"
-#|ASD|#                                                             "font-info"
-#|ASD|#                                                             "fill-info"
-#|ASD|#                                                             "stroke-info"
-#|ASD|#                                                             "writer"))
-#|EXPORT|#              ;table.lisp
+#|ASD|#                (:file "table"                     :depends-on ("kaavio"
+#|ASD|#                                                                "constants"
+#|ASD|#                                                                "group"
+#|ASD|#                                                                "font-info"
+#|ASD|#                                                                "fill-info"
+#|ASD|#                                                                "stroke-info"
+#|ASD|#                                                                "writer"))
+#|EXPORT|#                ;table.lisp
  |#
 
 
@@ -135,10 +135,10 @@
 
 
 #|
-#|EXPORT|#              :*default-table-font*
-#|EXPORT|#              :*default-table-stroke*
-#|EXPORT|#              :*default-table-fill*
-#|EXPORT|#              :*default-table-layer*
+#|EXPORT|#                :*default-table-font*
+#|EXPORT|#                :*default-table-stroke*
+#|EXPORT|#                :*default-table-fill*
+#|EXPORT|#                :*default-table-layer*
  |#
 (defparameter *default-table-font*   nil)
 (defparameter *default-table-stroke* nil)
@@ -269,7 +269,7 @@
 ;;
 ;;-------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :table
+#|EXPORT|#                :table
  |#
 (defmacro table (position rows cols &key pivot font fills stroke texts layer id)
   `(register-entity (make-instance 'kaavio:table
@@ -288,7 +288,7 @@
 ;;
 ;;------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :with-table-options
+#|EXPORT|#                :with-table-options
  |#
 (defmacro with-table-options ((&key font fill stroke layer) &rest body)
   (labels ((impl (params acc)
@@ -313,7 +313,7 @@
 ;;
 ;;-------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :with-table-cell
+#|EXPORT|#                :with-table-cell
  |#
 (defmacro with-table-cell ((id r c) &body body)
   (let ((g-tbl     (gensym "TBL"))
@@ -332,7 +332,7 @@
            ,@body)))))
 
 #|
-#|EXPORT|#              :with-table-range
+#|EXPORT|#                :with-table-range
  |#
 (defmacro with-table-range ((id kwd) &body body)
   (let ((g-tbl     (gensym "TBL"))

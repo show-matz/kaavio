@@ -1,25 +1,25 @@
 #|
-#|ASD|#             (:file "balloon"                   :depends-on ("kaavio"
-#|ASD|#                                                             "constants"
-#|ASD|#                                                             "arc"
-#|ASD|#                                                             "polygon"
-#|ASD|#                                                             "filter"
-#|ASD|#                                                             "text-shape"))
-#|EXPORT|#              ;balloon.lisp
+#|ASD|#                (:file "balloon"                   :depends-on ("kaavio"
+#|ASD|#                                                                "constants"
+#|ASD|#                                                                "arc"
+#|ASD|#                                                                "polygon"
+#|ASD|#                                                                "filter"
+#|ASD|#                                                                "text-shape"))
+#|EXPORT|#                ;balloon.lisp
  |#
 
 (in-package :kaavio)
 
 #|
-#|EXPORT|#              :*default-balloon-round*
-#|EXPORT|#              :*default-balloon-align*
-#|EXPORT|#              :*default-balloon-valign*
-#|EXPORT|#              :*default-balloon-margin*
-#|EXPORT|#              :*default-balloon-font*
-#|EXPORT|#              :*default-balloon-fill*
-#|EXPORT|#              :*default-balloon-stroke*
-#|EXPORT|#              :*default-balloon-filter*
-#|EXPORT|#              :*default-balloon-layer*
+#|EXPORT|#                :*default-balloon-round*
+#|EXPORT|#                :*default-balloon-align*
+#|EXPORT|#                :*default-balloon-valign*
+#|EXPORT|#                :*default-balloon-margin*
+#|EXPORT|#                :*default-balloon-font*
+#|EXPORT|#                :*default-balloon-fill*
+#|EXPORT|#                :*default-balloon-stroke*
+#|EXPORT|#                :*default-balloon-filter*
+#|EXPORT|#                :*default-balloon-layer*
  |#
 (defparameter *default-balloon-round*  10)
 (defparameter *default-balloon-align*  :center)
@@ -166,7 +166,7 @@
 ;;
 ;;------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :balloon
+#|EXPORT|#                :balloon
  |#
 (defmacro balloon (position text anchor &key pivot width height round align valign margin
                                            font fill stroke link rotate layer id filter contents)
@@ -199,7 +199,7 @@
 ;;
 ;;------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :with-balloon-options
+#|EXPORT|#                :with-balloon-options
  |#
 (defmacro with-balloon-options ((&key round align valign margin
                                       font fill stroke filter layer) &rest body)

@@ -1,14 +1,14 @@
 #|
-#|ASD|#             (:file "rectangle"                 :depends-on ("kaavio"
-#|ASD|#                                                             "constants"
-#|ASD|#                                                             "canvas"
-#|ASD|#                                                             "point"
-#|ASD|#                                                             "shape"
-#|ASD|#                                                             "stroke-info"
-#|ASD|#                                                             "link-info"
-#|ASD|#                                                             "filter"
-#|ASD|#                                                             "writer"))
-#|EXPORT|#              ;rectangle.lisp
+#|ASD|#                (:file "rectangle"                 :depends-on ("kaavio"
+#|ASD|#                                                                "constants"
+#|ASD|#                                                                "canvas"
+#|ASD|#                                                                "point"
+#|ASD|#                                                                "shape"
+#|ASD|#                                                                "stroke-info"
+#|ASD|#                                                                "link-info"
+#|ASD|#                                                                "filter"
+#|ASD|#                                                                "writer"))
+#|EXPORT|#                ;rectangle.lisp
  |#
 
 
@@ -112,7 +112,7 @@
 ;;
 ;;-------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :rectangle
+#|EXPORT|#                :rectangle
  |#
 (defmacro rectangle (position width height
                      &key pivot rx ry fill stroke rotate link layer id filter contents)
@@ -132,7 +132,7 @@
              ,@contents)))))
 
 #|
-#|EXPORT|#              :rect
+#|EXPORT|#                :rect
  |#
 (defmacro rect (position width height
                 &key pivot rx ry fill stroke rotate link layer id filter contents)

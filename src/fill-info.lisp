@@ -1,7 +1,7 @@
 #|
-#|ASD|#             (:file "fill-info"                 :depends-on ("kaavio"
-#|ASD|#                                                             "colormap"))
-#|EXPORT|#              ;fill-info.lisp
+#|ASD|#                (:file "fill-info"                 :depends-on ("kaavio"
+#|ASD|#                                                                "colormap"))
+#|EXPORT|#                ;fill-info.lisp
  |#
 
 
@@ -9,8 +9,8 @@
 
 ;; default parameter for fill
 #|
-#|EXPORT|#              :*default-fill*
-#|EXPORT|#              :*mute-fill*
+#|EXPORT|#                :*default-fill*
+#|EXPORT|#                :*mute-fill*
  |#
 (defparameter *default-fill* nil)
 (defparameter *mute-fill*    nil)
@@ -21,7 +21,7 @@
 ;;
 ;;------------------------------------------------------------------------------
 #|
-#|EXPORT|#              :fill-info
+#|EXPORT|#                :fill-info
  |#
 (defclass fill-info ()
   ((color   :initform nil :initarg :color)      ; (or keyword string)
@@ -65,7 +65,7 @@
             (concatenate 'string color opacity rule))))))
 
 #|
-#|EXPORT|#              :make-fill
+#|EXPORT|#                :make-fill
  |#
 (defun make-fill (&rest params)
   (if (= 1 (length params))
