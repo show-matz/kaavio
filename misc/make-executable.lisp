@@ -22,6 +22,9 @@
          (format t "usage : ~A --help~%" self)
          (format t "usage : ~A --sandbox [-IPATH]... INFILE OUTFILE~%" self)
          (format t "usage : ~A [-IPATH]... [INFILE]~%" self)))
+      ((string= (car args) "--version")
+       (progn
+         (format t "kaavio version ~A~%" +KAAVIO-VERSION+)))
       ((string= (car args) "--sandbox")
        (kaavio::sandbox-main (cdr args)))
       (t
