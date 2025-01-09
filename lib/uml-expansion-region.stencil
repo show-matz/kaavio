@@ -73,11 +73,26 @@
                             writer)))))
   nil)
 
-;;------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### macro uml-expansion-region
 ;;
-;; macro uml-expansion-region
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
 ;;
-;;------------------------------------------------------------------------------
+;;* ${{B}{uml-expansion-region}} position width height ${KEY} pivot keyword font offset corner-r fill stroke link layer id contents
+;;
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　${{TODO}{まだ記述されていません。}}
+;;
+;;${NO_SEE_ALSO}
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
 (defmacro uml-expansion-region (position width height &key pivot keyword font offset
                                          corner-r fill stroke link layer id contents)
   (let* ((code `(register-entity
@@ -101,11 +116,26 @@
              ,@contents)))))
 
 
-;;------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### macro with-uml-expansion-region-options
 ;;
-;; macro with-uml-expansion-region-options
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
 ;;
-;;------------------------------------------------------------------------------
+;;* ${{B}{with-uml-expansion-region-options}} (${KEY} font fill stroke corner-r filter layer) ${BODY} body
+;;
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　${{TODO}{まだ記述されていません。}}
+;;
+;;${NO_SEE_ALSO}
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
 (defmacro with-uml-expansion-region-options ((&key font fill stroke
                                                    corner-r filter layer) &rest body)
   (labels ((impl (params acc)

@@ -152,11 +152,33 @@
 ;;MEMO : use impelementation of shape...
 ;;(defmethod shape-get-subcanvas ((note uml-note)) ...)
 
-;;------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### macro uml-note
 ;;
-;; macro uml-note
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
 ;;
-;;------------------------------------------------------------------------------
+;;* ${{B}{uml-note}} position width height text ${KEY} pivot keyword targets align valign margin crease font fill stroke link layer filter id contents
+;;
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　${{TODO}{まだ記述されていません。}}
+;;
+;;* ${{TODO}{targets は接続先を複数指定する場合はリスト、単一ならリストでなくてもよい。}}
+;;* ${{TODO}{targets で指定する接続先は、図形要素の ID または point 値}}
+;;
+;;　以下も参照してください。
+;;
+;;* [](#uml-note)
+;;
+;;${NO_SEE_ALSO}
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
 (defmacro uml-note (position width height text
                             &key pivot keyword targets
                                  align valign margin crease font
@@ -183,11 +205,26 @@
              ,@contents)))))
 
 
-;;------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### macro with-uml-note-options
 ;;
-;; macro with-uml-note-options
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
 ;;
-;;------------------------------------------------------------------------------
+;;* ${{B}{with-uml-note-options}} (${KEY} font fill stroke margin align valign crease filter layer) ${BODY} body
+;;
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　${{TODO}{まだ記述されていません。}}
+;;
+;;${NO_SEE_ALSO}
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
 (defmacro with-uml-note-options ((&key font fill stroke margin
                                        align valign crease filter layer) &rest body)
   (labels ((impl (params acc)

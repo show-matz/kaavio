@@ -160,11 +160,26 @@
 ;(defmethod text-shape-paragraph-area ((box balloon))
 ;  (call-next-method))
 
-;;------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### macro balloon
 ;;
-;; macro balloon
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
 ;;
-;;------------------------------------------------------------------------------
+;;* ${{B}{balloon}} position text anchor ${KEY} pivot width height round align valign margin font fill stroke link rotate layer id filter contents
+;;
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　${{TODO}{まだ記述されていません。}}
+;;
+;;${NO_SEE_ALSO}
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
 #|
 #|EXPORT|#                :balloon
  |#
@@ -193,11 +208,26 @@
              ,@contents)))))
 
 
-;;------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### macro with-balloon-options
 ;;
-;; macro with-balloon-options
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
 ;;
-;;------------------------------------------------------------------------------
+;;* ${{B}{with-balloon-options}} (${KEY} round align valign margin font fill stroke filter layer) ${BODY} body
+;;
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　${{TODO}{まだ記述されていません。}}
+;;
+;;${NO_SEE_ALSO}
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
 #|
 #|EXPORT|#                :with-balloon-options
  |#

@@ -111,11 +111,26 @@
 
 
 
-;;-------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### macro uml-frame
 ;;
-;; macro uml-frame
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
 ;;
-;;-------------------------------------------------------------------------------
+;;* ${{B}{uml-frame}} position width height title ${KEY} pivot margin font fill stroke link layer filter id contents
+;;
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　${{TODO}{まだ記述されていません。}}
+;;
+;;${NO_SEE_ALSO}
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
 (defmacro uml-frame (position width height title
                               &key pivot margin font fill stroke link layer filter id contents)
   (let ((code `(register-entity (make-instance 'uml-frame
@@ -134,11 +149,26 @@
              ,@contents)))))
 
 
-;;------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### macro with-uml-frame-options
 ;;
-;; macro with-uml-frame-options
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
 ;;
-;;------------------------------------------------------------------------------
+;;* ${{B}{with-uml-frame-options}} (${KEY} font fill stroke margin filter layer) ${BODY} body
+;;
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　${{TODO}{まだ記述されていません。}}
+;;
+;;${NO_SEE_ALSO}
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
 (defmacro with-uml-frame-options ((&key font fill stroke
                                           margin filter layer) &rest body)
   (labels ((impl (params acc)

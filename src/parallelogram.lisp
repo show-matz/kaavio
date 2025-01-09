@@ -261,11 +261,26 @@
     nil))
   
 
-;;-------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### macro parallelogram
 ;;
-;; macro parallelogram
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
 ;;
-;;-------------------------------------------------------------------------------
+;;* ${{B}{parallelogram}} position width height direction offset ${KEY} pivot fill stroke rotate link layer id filter contents
+;;
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　${{TODO}{まだ記述されていません。}}
+;;
+;;${NO_SEE_ALSO}
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
 #|
 #|EXPORT|#                :parallelogram
  |#

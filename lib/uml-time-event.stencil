@@ -85,11 +85,26 @@
  
 
 
-;;------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### macro uml-time-event
 ;;
-;; macro uml-time-event
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
 ;;
-;;------------------------------------------------------------------------------
+;;* ${{B}{uml-time-event}} position ${KEY} label pivot width height fill stroke link filter layer id
+;;
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　${{TODO}{まだ記述されていません。}}
+;;
+;;${NO_SEE_ALSO}
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
 (defmacro uml-time-event (position &key label pivot width height
                                       fill stroke link filter layer id)
   `(register-entity (make-instance 'uml-time-event
@@ -99,11 +114,26 @@
                                    :fill ,fill :stroke ,stroke
                                    :link ,link :filter ,filter :layer ,layer :id ,id)))
 
-;;------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### macro with-uml-time-event-options
 ;;
-;; macro with-uml-time-event-options
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
 ;;
-;;------------------------------------------------------------------------------
+;;* ${{B}{with-uml-time-event-options}} (${KEY} fill stroke width height filter layer) ${BODY} body
+;;
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　${{TODO}{まだ記述されていません。}}
+;;
+;;${NO_SEE_ALSO}
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
 (defmacro with-uml-time-event-options ((&key fill stroke width
                                              height filter layer) &rest body)
   (labels ((impl (params acc)

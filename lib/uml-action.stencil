@@ -167,11 +167,29 @@
     canvas))
 
   
-;;------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### macro uml-action
 ;;
-;; macro uml-action
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
 ;;
-;;------------------------------------------------------------------------------
+;;* ${{B}{uml-action}} position text ${KEY} keyword pivot width height margin corner-r rake font fill stroke link layer filter id contents
+;;
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　${{TODO}{まだ記述されていません。}}
+;;
+;;* rake は t を指定するか、または数値 4 要素のリストを指定する。`(width height x-margin y-margin)`
+;;* `:contents t` がサポートされる。
+;;
+;;${NO_SEE_ALSO}
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
 (defmacro uml-action (position text &key keyword pivot width height
                                          margin corner-r rake
                                          font fill stroke link layer filter id contents)
@@ -201,11 +219,28 @@
              ,@contents)))))
 
 
-;;------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### macro with-uml-action-options
 ;;
-;; macro with-uml-action-options
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
 ;;
-;;------------------------------------------------------------------------------
+;;* ${{B}{with-uml-action-options}} (${KEY} font fill stroke width height corner-r margin rake filter layer) ${BODY} body
+;;
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　${{TODO}{まだ記述されていません。}}
+;;
+;;* ここで指定する width / height はデフォルトの最低サイズとして使用される
+;;
+;;${NO_SEE_ALSO}
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
 (defmacro with-uml-action-options ((&key font fill stroke width height
                                          corner-r margin rake filter layer) &rest body)
   (labels ((impl (params acc)

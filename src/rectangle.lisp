@@ -106,13 +106,29 @@
   nil)
   
 
-;;-------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### macro rect
 ;;
-;; macro rectangle
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
 ;;
-;;-------------------------------------------------------------------------------
+;;* ${{B}{rect}} position width height ${KEY} pivot rx ry fill stroke rotate link layer id filter contents
+;;
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　${{TODO}{まだ記述されていません。}}
+;;
+;;${NO_SEE_ALSO}
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
 #|
 #|EXPORT|#                :rectangle
+#|EXPORT|#                :rect
  |#
 (defmacro rectangle (position width height
                      &key pivot rx ry fill stroke rotate link layer id filter contents)
@@ -131,9 +147,6 @@
              (declare (special canvas))
              ,@contents)))))
 
-#|
-#|EXPORT|#                :rect
- |#
 (defmacro rect (position width height
                 &key pivot rx ry fill stroke rotate link layer id filter contents)
   (let ((code `(register-entity (make-instance 'kaavio:rectangle

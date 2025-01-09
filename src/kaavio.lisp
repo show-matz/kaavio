@@ -515,6 +515,26 @@
 
 
 
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### function make-id
+;;
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
+;;
+;;* ${{B}{make-id}} prefix ${REST} args
+;;
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　${{TODO}{まだ記述されていません。}}
+;;
+;;${NO_SEE_ALSO}
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
 #|
 #|EXPORT|#                :make-id
  |#
@@ -722,6 +742,26 @@
 (defgeneric check (obj canvas dict))
 
 
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### function rgb
+;;
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
+;;
+;;* ${{B}{rgb}} r g b
+;;
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　${{TODO}{まだ記述されていません。}}
+;;
+;;${NO_SEE_ALSO}
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
 #|
 #|EXPORT|#                :rgb
  |#
@@ -735,6 +775,41 @@
     (format nil "#~2,'0x~2,'0x~2,'0x" (fix r) (fix g) (fix b))))
 
 
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### function repeat
+;;
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
+;;
+;;* ${{B}{repeat}} source cnt ${REST} customs
+;;
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　${{TODO}{まだ記述されていません。}}
+;;
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
+;;
+;;```lisp
+;;(repeat 50 4)          ; => '(50 50 50 50)
+;;(repeat 40 5 '(0 80))  ; => '(80 40 40 40 40)
+;;(repeat #'identity 10) ; => '(0 1 2 3 4 5 6 7 8 9)
+;;(repeat (lambda (i)
+;;           (* 10 (1+ i))) 10)  ; => '(10 20 30 40 50 60 70 80 90 100)
+;;```
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;${NO_SEE_ALSO}
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
 #|
 #|EXPORT|#                :repeat
  |#
@@ -752,6 +827,26 @@
         lst))))
 
 
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### macro with-options
+;;
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
+;;
+;;* ${{B}{with-options}} (${KEY} fill stroke font filter layer) ${BODY} body
+;;
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　${{TODO}{まだ記述されていません。}}
+;;
+;;${NO_SEE_ALSO}
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
 #|
 #|EXPORT|#                :with-options
  |#

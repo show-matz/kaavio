@@ -85,6 +85,71 @@
       (concatenate 'string color width opacity linecap linejoin miterlimit dasharr dashoffset))))
 
 
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### function make-stroke
+;;
+;;　make-stroke 関数はストローク情報を生成します。ストローク情報の詳細は「[](#ストローク)」を
+;;参照してください。関数シグネチャは以下の通りです。
+;;
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
+;;
+;;* ${{B}{make-stroke}} ${REST} params
+;;
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　上記は簡潔な記述で柔軟なストローク情報の生成を可能にするためのもので、 `params` として渡される
+;;パラメータ数に応じて以下のことをします。
+;;
+;;* パラメータ数が 0 の場合
+;;    * デフォルトのストローク情報を返します
+;;* パラメータ数が 1 の場合
+;;    * ストローク情報が渡された場合、それをそのまま返します
+;;    * 数値 N が渡された場合、 `(make-stroke :width N)` を返します
+;;    * リスト lst が渡された場合、 `(apply #'make-stroke lst)` を返します
+;;    * 上記のいずれでもない prm の場合、 `(make-stroke :color prm)` を返します
+;;* パラメータ数が 2 以上の場合
+;;    * 後述します
+;;
+;;　パラメータ数が 2 以上の場合、make-stroke 関数は実質的に以下の関数であるかのように振舞います。
+;;
+;;<!-- stack:push li class='syntax' -->
+;;
+;;* ${{B}{make-stroke}} ${KEY} color width opacity linecap linejoin miterlimit dasharray dashoffset url base)
+;;
+;;<!-- stack:pop li -->
+;;
+;;　各パラメータの意味は以下の通りです。詳細は「[](#ストローク)」を参照してください。
+;;
+;;Table. make-stroke 関数のパラメータ
+;;| parameter    | description          |
+;;|:=============|:---------------------|
+;;| `color`      | 線の色を指定します。色の指定方法については [$@ 節](#色の指定)を、色の名前については<br> \
+;;[$@ 節](#色の名前)を参照してください。  |
+;;| `width`      | 線の幅を数値で指定します。                     |
+;;| `opacity`    | 線の不透明度を 0.0 ～ 1.0 の数値で指定します。  |
+;;| `linecap`    | 線の両端の形状を `:butt, :round, :square` から指定します。  |
+;;| `linejoin`   | 線が折れ曲ってできる角の形状を `:miter, :round, :bevel` から指定します。  |
+;;| `miterlimit` | `linejoin` が `:miter` の場合の、結合される線の太さに対する結合部の長さの<br> \
+;;比率を数値で指定します。デフォルト値は 4 です。 |
+;;| `dasharray`  | 点線や破線を描画したい場合に、繰り返される線の長さと間隔の長さをリストで<br> \
+;;指定します。デフォルト値は nil で、直線になります。 |
+;;| `dashoffset` | `dasharray` を指定する場合に、線の開始を `dasharray` のどこから始めるかの<br> \
+;;オフセットを数値で指定します。  |
+;;| `url`        | パターンやグラデーションの ID を指定します。詳細は [$@ 節](#ストロークにおけるパターンとグラデーションの指定)を参照してください。 |
+;;| `base`       | ${{TODO}{まだ記述されていません}} |
+;;
+;;
+;;${BLANK_PARAGRAPH}
+;;
+;;${NO_SEE_ALSO}
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
 #|
 #|EXPORT|#                :make-stroke
  |#

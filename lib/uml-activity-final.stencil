@@ -49,11 +49,26 @@
   nil)
 
 
-;;------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### macro uml-activity-final
 ;;
-;; macro uml-activity-final
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
 ;;
-;;------------------------------------------------------------------------------
+;;* ${{B}{uml-activity-final}} position ${KEY} radius ratio pivot fill stroke link layer filter id
+;;
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　${{TODO}{まだ記述されていません。}}
+;;
+;;${NO_SEE_ALSO}
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
 (defmacro uml-activity-final (position &key radius ratio pivot fill stroke link layer filter id)
   `(register-entity (make-instance 'uml-activity-final
                                    :position ,position :pivot ,pivot
@@ -64,11 +79,26 @@
                                    :link ,link :layer ,layer :filter ,filter :id ,id)))
 
 
-;;------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### macro with-uml-activity-final-options
 ;;
-;; macro with-uml-activity-final-options
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
 ;;
-;;------------------------------------------------------------------------------
+;;* ${{B}{with-uml-activity-final-options}} (${KEY} radius ratio fill stroke  filter layer) ${BODY} body
+;;
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　${{TODO}{まだ記述されていません。}}
+;;
+;;${NO_SEE_ALSO}
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
 (defmacro with-uml-activity-final-options ((&key radius ratio
                                                  fill stroke filter layer) &rest body)
   (labels ((impl (params acc)

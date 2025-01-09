@@ -111,11 +111,26 @@
  
 
 
-;;------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### macro uml-connector
 ;;
-;; macro uml-connector
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
 ;;
-;;------------------------------------------------------------------------------
+;;* ${{B}{uml-connector}} position1 position2 id ${KEY} pivot1 pivot2 name size fill stroke font filter layer
+;;
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　${{TODO}{まだ記述されていません。}}
+;;
+;;${NO_SEE_ALSO}
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
 (defmacro uml-connector (position1 position2 id &key pivot1 pivot2 name
                                                   size fill stroke font filter layer)
   `(register-entity (make-instance 'uml-connector
@@ -128,11 +143,26 @@
                                    :stroke  (or ,stroke *uml-connector-stroke*)
                                    :link nil :filter ,filter :layer ,layer :id ,id)))
 
-;;------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### macro with-uml-connector-options
 ;;
-;; macro with-uml-connector-options
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
 ;;
-;;------------------------------------------------------------------------------
+;;* ${{B}{with-uml-connector-options}} (${KEY} font fill stroke size filter layer) ${BODY} body
+;;
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　${{TODO}{まだ記述されていません。}}
+;;
+;;${NO_SEE_ALSO}
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
 (defmacro with-uml-connector-options ((&key font fill stroke
                                             size filter layer) &rest body)
   (labels ((impl (params acc)

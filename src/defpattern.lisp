@@ -109,11 +109,50 @@
       (writer-write writer "</pattern>"))))
 
 
-;;------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### macro defpattern
 ;;
-;; macro defpattern
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
 ;;
-;;------------------------------------------------------------------------------
+;;* ${{B}{defpattern}} (id ${KEY} x y width height href units content-units view-box transform) ${BODY} body
+;;
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　defpattern マクロはパターンを定義します。パターンの詳細は「[](#パターン)」を参照してください。
+;;説明不足ですが、基本的に SVG 規格に沿っていますので必要に応じて書籍や規格にあたってください。
+;;マクロシグネチャは以下の通りです。なお、現在、preserveAspectRatio 属性には対応していません。
+;;将来対応する可能性はありますが、未確定です。
+;;
+;;${BLANK_PARAGRAPH}
+;;
+;;Table. defpattern マクロのパラメータ
+;;| parameter       | description                               |
+;;|:================|:------------------------------------------|
+;;| `id`            | ID をキーワードで指定します。              |
+;;| `x`             |   |
+;;| `y`             |   |
+;;| `width`         | 幅を数値で指定します。                     |
+;;| `height`        | 高さを数値で指定します。                   |
+;;| `href`          | 高さを数値で指定します。                   |
+;;| `units`         | patternUnits 属性を `:userSpaceOnUse` または `:objectBoundingBox` から<br> \
+;;選択します。 |
+;;| `content-units` | patternContentUnits 属性を `:userSpaceOnUse` または `:objectBoundingBox` <br> \
+;;から選択します。 |
+;;| `view-box`      | viewBox 属性を 4 つの数値からなるリストで指定します。 |
+;;| `transform`     | patternTtransform 属性を指定する場合、文字列で指定します。  |
+;;
+;;
+;;${BLANK_PARAGRAPH}
+;;
+;;${NO_SEE_ALSO}
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
 #|
 #|EXPORT|#                :defpattern
  |#

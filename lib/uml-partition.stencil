@@ -164,11 +164,26 @@
                         (paragraph (make-point (/ width 2) (+ y (/ h 2)))
                                    txt :align :center :valign :center :rotate -90 :font font)))))))))))
 
-;;------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### macro uml-partition
 ;;
-;; macro uml-partition
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
 ;;
-;;------------------------------------------------------------------------------
+;;* ${{B}{uml-partition}} position rows cols ${KEY} pivot lines header fills stroke font layer id
+;;
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　${{TODO}{まだ記述されていません。}}
+;;
+;;${NO_SEE_ALSO}
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
 (defmacro uml-partition (position rows cols
                          &key pivot lines header fills stroke font layer id)
   (let ((g-rc     (gensym "RC"))
@@ -196,11 +211,26 @@
                                        :font   (or ,font   *uml-partition-font*   *default-font*)
                                        :layer ,layer :id ,id)))))
 
-;;------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### macro with-uml-partition-lane
 ;;
-;; macro with-uml-partition-lane
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
 ;;
-;;------------------------------------------------------------------------------
+;;* ${{B}{with-uml-partition-lane}} (id name ${OPTIONAL} name2) ${BODY} body
+;;
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　${{TODO}{まだ記述されていません。}}
+;;
+;;${NO_SEE_ALSO}
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
 (defmacro with-uml-partition-lane ((id name &optional name2) &body body)
   (let ((g-id (gensym "ID"))
         (g-rc (gensym "RC")))
@@ -211,11 +241,26 @@
          ,@body))))
   
 
-;;------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### macro with-uml-partition-options
 ;;
-;; macro with-uml-partition-options
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
 ;;
-;;------------------------------------------------------------------------------
+;;* ${{B}{with-uml-partition-options}} (${KEY} lines header font fill stroke layer) ${BODY} body
+;;
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　${{TODO}{まだ記述されていません。}}
+;;
+;;${NO_SEE_ALSO}
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
 (defmacro with-uml-partition-options ((&key lines header
                                             font fill stroke layer) &rest body)
   (labels ((impl (params acc)

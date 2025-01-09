@@ -46,11 +46,26 @@
 ;  (draw-canvas-frame (shape-get-subcanvas obj) writer)    ;for debug...
   nil)
 
-;;------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### macro uml-fork
 ;;
-;; macro uml-fork & uml-join
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
 ;;
-;;------------------------------------------------------------------------------
+;;* ${{B}{uml-fork}} position direction ${KEY} pivot width length fill link filter layer id
+;;
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　${{TODO}{まだ記述されていません。}}
+;;
+;;${NO_SEE_ALSO}
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
 (defmacro uml-fork (position direction &key pivot width length fill link filter layer id)
   (let ((gw (gensym "WIDTH"))
         (gh (gensym "HEIGHT")))
@@ -65,6 +80,28 @@
                                        :link ,link :filter ,filter :layer ,layer :id ,id)))))
 
 
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### macro uml-join
+;;
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
+;;
+;;* ${{B}{uml-join}} position direction ${KEY} pivot spec width length fill link filter layer id
+;;
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　${{TODO}{まだ記述されていません。}}
+;;
+;;* ${{TODO}{spec パラメータの指定は、ラベルに準拠。}}
+;;
+;;${NO_SEE_ALSO}
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
 (defmacro uml-join (position direction &key pivot spec width length fill link filter layer id)
   (let ((gw (gensym "WIDTH"))
         (gh (gensym "HEIGHT")))
@@ -79,11 +116,26 @@
                                        :link ,link :filter ,filter :layer ,layer :id ,id)))))
 
 
-;;------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### macro with-uml-fork-join-options
 ;;
-;; macro with-uml-fork-join-options
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
 ;;
-;;------------------------------------------------------------------------------
+;;* ${{B}{with-uml-fork-join-options}} (${KEY} width length color filter layer) ${BODY} body
+;;
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　${{TODO}{まだ記述されていません。}}
+;;
+;;${NO_SEE_ALSO}
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
 (defmacro with-uml-fork-join-options ((&key width length
                                             color filter layer) &rest body)
   (labels ((impl (params acc)

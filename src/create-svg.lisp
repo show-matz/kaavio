@@ -17,18 +17,36 @@
 (in-package :kaavio)
 
 
-;;------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### macro diagram
 ;;
-;; macro create-svg
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
 ;;
-;;------------------------------------------------------------------------------
+;;* ${{B}{diagram}} (w h ${KEY} fill) ${BODY} body
+;;
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　${{TODO}{まだ記述されていません。}}
+;;
+;;${NO_SEE_ALSO}
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
 #|
 #|EXPORT|#                :create-svg
+#|EXPORT|#                :diagram
 #|EXPORT|#                :register-entity
-#|EXPORT|#                :layer
 #|EXPORT|#                :width
 #|EXPORT|#                :height
  |#
+(defmacro diagram ((w h &key fill) &rest body)
+  `(create-svg (,w ,h :fill ,fill) ,@body))
+
 (defmacro create-svg ((width height &key fill desc) &rest body)
   (let ((g-layer-mgr (gensym "LAYER-MGR"))
         (g-writer    (gensym "WRITER"))
@@ -109,14 +127,41 @@
          (writer-close ,g-writer)))))
 
 
-
-;;------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### function layer
 ;;
-;; macro diagram ( alias to 'create-svg' )
+;;　レイヤーの導入を宣言します。レイヤーについては「[](#レイヤー)」を参照してください。関数シグネチャは
+;;以下の通りです。
 ;;
-;;------------------------------------------------------------------------------
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
+;;
+;;* ${{B}{layer}} name ${OPTIONAL} (display :inline)
+;;
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;${BLANK_PARAGRAPH}
+;;
+;;Table. layer 関数のパラメータ
+;;| parameter       | description                               |
+;;|:================|:------------------------------------------|
+;;| `name`          | レイヤーの名前をキーワードで指定します。     |
+;;| `display`       | レイヤー全体の表示を `:inline` または `:none` で指定します。省略時の<br> \
+;;                  デフォルトは `:inline` で、レイヤー全体を表示します。 `:none` を指定<br> \
+;;                  すると、レイヤー全体を非表示にします。 |
+;;
+;;
+;;${BLANK_PARAGRAPH}
+;;
+;;${NO_SEE_ALSO}
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
 #|
-#|EXPORT|#                :diagram
+#|EXPORT|#                :layer
  |#
-(defmacro diagram ((w h &key fill) &rest body)
-  `(create-svg (,w ,h :fill ,fill) ,@body))
+;; MEMO : layer は実際には create-svg マクロ内に作成される局所関数

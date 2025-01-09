@@ -139,11 +139,26 @@
     canvas))
 
 
-;;-------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### macro uml-decision
 ;;
-;; macro uml-decision & uml-merge
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
 ;;
-;;-------------------------------------------------------------------------------
+;;* ${{B}{uml-decision}} position ${KEY} pivot text width height margin font fill stroke link layer filter id
+;;
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　${{TODO}{まだ記述されていません。}}
+;;
+;;${NO_SEE_ALSO}
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
 (defmacro uml-decision (position &key pivot text width height margin
                                     font fill stroke link layer filter id)
   `(register-entity (make-instance 'uml-decision-merge
@@ -156,6 +171,26 @@
                                    :stroke  (or ,stroke *uml-decision-merge-stroke*)
                                    :link ,link :layer ,layer :filter ,filter :id ,id)))
 
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### macro uml-merge
+;;
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
+;;
+;;* ${{B}{uml-merge}} position ${KEY} pivot width height margin font fill stroke link layer filter id
+;;
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　${{TODO}{まだ記述されていません。}}
+;;
+;;${NO_SEE_ALSO}
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
 (defmacro uml-merge (position &key pivot width height margin
                                  font fill stroke link layer filter id)
   `(register-entity (make-instance 'uml-decision-merge
@@ -169,11 +204,26 @@
                                    :link ,link :layer ,layer :filter ,filter :id ,id)))
 
 
-;;------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### macro with-uml-decision-merge-options
 ;;
-;; macro with-uml-decision-merge-options
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
 ;;
-;;------------------------------------------------------------------------------
+;;* ${{B}{with-uml-decision-merge-options}} (${KEY} font fill stroke width height margin filter layer) ${BODY} body
+;;
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　${{TODO}{まだ記述されていません。}}
+;;
+;;${NO_SEE_ALSO}
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
 (defmacro with-uml-decision-merge-options ((&key font fill stroke width height
                                                  margin filter layer) &rest body)
   (labels ((impl (params acc)

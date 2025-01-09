@@ -37,6 +37,26 @@
       (:block-arrow :stroke :navy          :fill :skyblue))))
 
 
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### macro register-theme
+;;
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
+;;
+;;* ${{B}{register-theme}} (name ${OPTIONAL} base) ${REST} settings
+;;
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　${{TODO}{まだ記述されていません。}}
+;;
+;;${NO_SEE_ALSO}
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
 #|
 #|EXPORT|#                :register-theme
  |#
@@ -44,6 +64,26 @@
   (register-theme-impl name base settings))
 
 
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### macro with-theme
+;;
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
+;;
+;;* ${{B}{with-theme}} (name) ${BODY} body
+;;
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　${{TODO}{まだ記述されていません。}}
+;;
+;;${NO_SEE_ALSO}
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
 #|
 #|EXPORT|#                :with-theme
  |#

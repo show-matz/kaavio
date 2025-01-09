@@ -1,5 +1,8 @@
 
 build: manual.html
 
-%.html: %.md
+reference.md: ../src/*.lisp  ../lib/*.stencil
+	./extract-reference.sh
+
+%.html: %.md reference.md
 	turnup $< > $@

@@ -164,11 +164,26 @@
 ;  (draw-canvas-frame (group-get-canvas #|shape-get-subcanvas|# pin) writer))
  
 
-;;------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### macro uml-pin
 ;;
-;; macro uml-pin
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
 ;;
-;;------------------------------------------------------------------------------
+;;* ${{B}{uml-pin}} target position name ${KEY} offset multi size fill stroke font filter layer id
+;;
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　${{TODO}{まだ記述されていません。}}
+;;
+;;${NO_SEE_ALSO}
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
 (defmacro uml-pin (target position name &key offset multi size fill stroke font filter layer id)
   `(register-entity (make-instance 'uml-pin
                                    :target (cons ,target ,position)
@@ -179,11 +194,26 @@
                                    :stroke  (or ,stroke *uml-pin-stroke*)
                                    :link nil :filter ,filter :layer ,layer :id ,id)))
 
-;;------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### macro with-uml-pin-options
 ;;
-;; macro with-uml-pin-options
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
 ;;
-;;------------------------------------------------------------------------------
+;;* ${{B}{with-uml-pin-options}} (${KEY} font fill stroke size filter layer) ${BODY} body
+;;
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　${{TODO}{まだ記述されていません。}}
+;;
+;;${NO_SEE_ALSO}
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
 (defmacro with-uml-pin-options ((&key font fill stroke
                                       size filter layer) &rest body)
   (labels ((impl (params acc)

@@ -127,6 +127,28 @@
 
 
 
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### macro with-canvas
+;;
+;;　with-current-canvas マクロの導入に伴い、with-canvas マクロは非推奨となりました。
+;;
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
+;;
+;;* ${{B}{with-canvas}} (sym-center sym-width sym-height) canvas ${BODY} body
+;;
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　${{TODO}{まだ記述されていません。}}
+;;
+;;${NO_SEE_ALSO}
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
 #|
 #|EXPORT|#                :with-canvas
  |#
@@ -139,6 +161,26 @@
                          (,sym-height (cddr ,g-canvas)))
          ,@body))))
 
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### macro with-current-canvas
+;;
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
+;;
+;;* ${{B}{with-current-canvas}} (${REST} vars) ${BODY} body
+;;
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　${{TODO}{まだ記述されていません。}}
+;;
+;;${NO_SEE_ALSO}
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
 #|
 #|EXPORT|#                :with-current-canvas
  |#
@@ -153,6 +195,26 @@
        ,@body)))
 
 
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### macro with-subcanvas
+;;
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
+;;
+;;* ${{B}{with-subcanvas}} (top-left width height ${KEY} debug) ${BODY} body
+;;
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　${{TODO}{まだ記述されていません。}}
+;;
+;;${NO_SEE_ALSO}
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
 #|
 #|EXPORT|#                :with-subcanvas
  |#
@@ -171,6 +233,26 @@
            ,@body))))
 
 
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### macro with-subcanvas-of
+;;
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
+;;
+;;* ${{B}{with-subcanvas-of}} (id) ${BODY} body
+;;
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　${{TODO}{まだ記述されていません。}}
+;;
+;;${NO_SEE_ALSO}
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
 #|
 #|EXPORT|#                :with-subcanvas-of
  |#

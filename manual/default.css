@@ -155,11 +155,11 @@ pre.code {
 span.comment  { color: darkorange; }
 span.keyword1 { color: cyan; }
 span.keyword2 { color: lime; }
-span.keyword3 { color: slateblue; }
+span.keyword3 { color: aquamarine; }
 span.keyword4 { color: yellow; }
 span.keyword5 { color: skyblue; }
 span.keyword6 { color: lightgray; }
-span.literal  { color: pink; }
+span.literal  { color: salmon; }
 
 
 /* for collapse */
@@ -260,4 +260,11 @@ body{font-size:16px;}
   @page :right { margin: 15mm 10mm 15mm 20mm; }
   p, h2, h3 { orphans: 3; widows: 3; }
   h2, h3 { page-break-after: avoid; }
+}
+
+
+li.syntax {
+    font-family: 'Courier New', monospace;
+    list-style-type: none;
+    text-indent: -10px;
 }

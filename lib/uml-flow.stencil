@@ -140,11 +140,26 @@
             (uml-flow-spec-draw spec x y :center writer)))))))
 
 
-;;------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### macro uml-flow
 ;;
-;; macro uml-flow
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
 ;;
-;;------------------------------------------------------------------------------
+;;* ${{B}{uml-flow}} from to ${KEY} keyword spec style spacing filter layer id
+;;
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　${{TODO}{まだ記述されていません。}}
+;;
+;;${NO_SEE_ALSO}
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
 (defmacro uml-flow (from to &key keyword spec style spacing filter layer id)
   (let ((g-kwd  (gensym "KWD"))
         (g-spec (gensym "SPEC")))
@@ -163,11 +178,26 @@
                                        :id ,id)))))
 
 
-;;------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### macro with-uml-flow-options
 ;;
-;; macro with-uml-flow-options
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
 ;;
-;;------------------------------------------------------------------------------
+;;* ${{B}{with-uml-flow-options}} (${KEY} stroke arrow-size font filter layer) ${BODY} body
+;;
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　${{TODO}{まだ記述されていません。}}
+;;
+;;${NO_SEE_ALSO}
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
 (defmacro with-uml-flow-options ((&key stroke arrow-size font filter layer) &rest body)
   (labels ((impl (params acc)
              (if (null params)

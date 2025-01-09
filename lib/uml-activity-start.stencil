@@ -26,11 +26,26 @@
   obj)
 
 
-;;------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### macro uml-activity-start
 ;;
-;; macro uml-activity-start
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
 ;;
-;;------------------------------------------------------------------------------
+;;* ${{B}{uml-activity-start}} position ${KEY} radius pivot fill link layer filter id
+;;
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　${{TODO}{まだ記述されていません。}}
+;;
+;;${NO_SEE_ALSO}
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
 (defmacro uml-activity-start (position &key radius pivot fill link layer filter id)
   `(register-entity (make-instance 'uml-activity-start
                                    :position ,position :pivot ,pivot
@@ -39,11 +54,26 @@
                                    :stroke :none :link ,link :layer ,layer :filter ,filter :id ,id)))
 
 
-;;------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### macro with-uml-activity-start-options
 ;;
-;; macro with-uml-activity-start-options
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
 ;;
-;;------------------------------------------------------------------------------
+;;* ${{B}{with-uml-activity-start-options}} (${KEY} radius fill filter layer) ${BODY} body
+;;
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　${{TODO}{まだ記述されていません。}}
+;;
+;;${NO_SEE_ALSO}
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
 (defmacro with-uml-activity-start-options ((&key radius fill filter layer) &rest body)
   (labels ((impl (params acc)
              (if (null params)
