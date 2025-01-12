@@ -83,11 +83,26 @@
                          (/ (attribute-width  usecase) 2)
                          (/ (attribute-height usecase) 2) type1 type2 arg))
   
-;;------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### macro uml-usecase
 ;;
-;; macro uml-usecase
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
 ;;
-;;------------------------------------------------------------------------------
+;;* ${{B}{uml-usecase}} position text ${KEY} pivot keyword width height font fill stroke margin link layer id
+;;
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　${{TODO}{まだ記述されていません。}}
+;;
+;;${NO_SEE_ALSO}
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
 (defmacro uml-usecase (position text &key pivot keyword width height
                                           font fill stroke margin link layer id)
   `(register-entity (make-instance 'uml-usecase

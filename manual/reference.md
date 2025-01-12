@@ -27,7 +27,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [2d-curve](#macro 2d-curve) -->
+<!-- autolink: [macro 2d-curve](#macro 2d-curve) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -50,7 +50,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [3d-curve](#macro 3d-curve) -->
+<!-- autolink: [macro 3d-curve](#macro 3d-curve) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -73,7 +73,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [arc](#macro arc) -->
+<!-- autolink: [macro arc](#macro arc) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -96,7 +96,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [balloon](#macro balloon) -->
+<!-- autolink: [macro balloon](#macro balloon) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -119,7 +119,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [block-arrow1](#macro block-arrow1) -->
+<!-- autolink: [macro block-arrow1](#macro block-arrow1) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -142,7 +142,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [block-arrow2](#macro block-arrow2) -->
+<!-- autolink: [macro block-arrow2](#macro block-arrow2) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -165,7 +165,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [brace](#macro brace) -->
+<!-- autolink: [macro brace](#macro brace) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -188,7 +188,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [circle](#macro circle) -->
+<!-- autolink: [macro circle](#macro circle) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -211,7 +211,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [connect](#macro connect) -->
+<!-- autolink: [macro connect](#macro connect) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -238,7 +238,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [copy-point](#function copy-point) -->
+<!-- autolink: [function copy-point](#function copy-point) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -261,7 +261,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [cross](#macro cross) -->
+<!-- autolink: [macro cross](#macro cross) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -284,7 +284,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [cube](#macro cube) -->
+<!-- autolink: [macro cube](#macro cube) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -307,7 +307,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [cylinder](#macro cylinder) -->
+<!-- autolink: [macro cylinder](#macro cylinder) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -389,7 +389,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [defgradient](#macro defgradient) -->
+<!-- autolink: [macro defgradient](#macro defgradient) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -413,7 +413,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [defgroup](#macro defgroup) -->
+<!-- autolink: [macro defgroup](#macro defgroup) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -460,7 +460,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [defpattern](#macro defpattern) -->
+<!-- autolink: [macro defpattern](#macro defpattern) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -483,7 +483,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [diagram](#macro diagram) -->
+<!-- autolink: [macro diagram](#macro diagram) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -506,7 +506,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [diamond](#macro diamond) -->
+<!-- autolink: [macro diamond](#macro diamond) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -529,7 +529,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [document](#macro document) -->
+<!-- autolink: [macro document](#macro document) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -568,7 +568,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [drop-shadow](#macro drop-shadow) -->
+<!-- autolink: [macro drop-shadow](#macro drop-shadow) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -591,7 +591,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [ellipse](#macro ellipse) -->
+<!-- autolink: [macro ellipse](#macro ellipse) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -614,7 +614,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [explosion1](#macro explosion1) -->
+<!-- autolink: [macro explosion1](#macro explosion1) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -637,7 +637,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [explosion2](#macro explosion2) -->
+<!-- autolink: [macro explosion2](#macro explosion2) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -660,7 +660,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [folder](#macro folder) -->
+<!-- autolink: [macro folder](#macro folder) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -697,7 +697,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [glow-shadow](#macro glow-shadow) -->
+<!-- autolink: [macro glow-shadow](#macro glow-shadow) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -720,7 +720,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [grid](#macro grid) -->
+<!-- autolink: [macro grid](#macro grid) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -743,7 +743,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [image](#macro image) -->
+<!-- autolink: [macro image](#macro image) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -780,7 +780,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [layer](#function layer) -->
+<!-- autolink: [function layer](#function layer) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -803,7 +803,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [line](#macro line) -->
+<!-- autolink: [macro line](#macro line) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -871,7 +871,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [make-endmark](#function make-endmark) -->
+<!-- autolink: [function make-endmark](#function make-endmark) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -928,7 +928,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [make-fill](#function make-fill) -->
+<!-- autolink: [function make-fill](#function make-fill) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -996,7 +996,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [make-font](#function make-font) -->
+<!-- autolink: [function make-font](#function make-font) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -1019,7 +1019,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [make-id](#function make-id) -->
+<!-- autolink: [function make-id](#function make-id) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -1077,7 +1077,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [make-label](#function make-label) -->
+<!-- autolink: [function make-label](#function make-label) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -1133,7 +1133,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [make-link](#function make-link) -->
+<!-- autolink: [function make-link](#function make-link) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -1156,7 +1156,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [make-point](#function make-point) -->
+<!-- autolink: [function make-point](#function make-point) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -1224,7 +1224,99 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [make-stroke](#function make-stroke) -->
+<!-- autolink: [function make-stroke](#function make-stroke) -->
+
+${BLANK_PARAGRAPH}
+
+#### function make-uml-keyword
+
+<!-- stack:push li class='syntax' -->
+${SYNTAX}
+
+* ${{B}{make-uml-keyword}} ${REST} params
+
+
+<!-- stack:pop li -->
+
+${DESCRIPTION}
+
+　${{TODO}{まだ記述されていません。}}
+
+${NO_SEE_ALSO}
+
+${NO_NOTES}
+
+
+<!-- autolink: [function make-uml-keyword](#function make-uml-keyword) -->
+
+${BLANK_PARAGRAPH}
+
+#### function make-uml-multiplicity
+
+<!-- stack:push li class='syntax' -->
+${SYNTAX}
+
+* ${{B}{make-uml-multiplicity}} ${REST} params
+
+
+<!-- stack:pop li -->
+
+${DESCRIPTION}
+
+　${{TODO}{まだ記述されていません。}}
+
+${NO_SEE_ALSO}
+
+${NO_NOTES}
+
+
+<!-- autolink: [function make-uml-multiplicity](#function make-uml-multiplicity) -->
+
+${BLANK_PARAGRAPH}
+
+#### function make-uml-role
+
+<!-- stack:push li class='syntax' -->
+${SYNTAX}
+
+* ${{B}{make-uml-role}} ${REST} params
+
+
+<!-- stack:pop li -->
+
+${DESCRIPTION}
+
+　${{TODO}{まだ記述されていません。}}
+
+${NO_SEE_ALSO}
+
+${NO_NOTES}
+
+
+<!-- autolink: [function make-uml-role](#function make-uml-role) -->
+
+${BLANK_PARAGRAPH}
+
+#### function make-uml-transition-spec
+
+<!-- stack:push li class='syntax' -->
+${SYNTAX}
+
+* ${{B}{make-uml-transition-spec}} ${REST} params
+
+
+<!-- stack:pop li -->
+
+${DESCRIPTION}
+
+　${{TODO}{まだ記述されていません。}}
+
+${NO_SEE_ALSO}
+
+${NO_NOTES}
+
+
+<!-- autolink: [function make-uml-transition-spec](#function make-uml-transition-spec) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -1247,7 +1339,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [memo](#macro memo) -->
+<!-- autolink: [macro memo](#macro memo) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -1270,7 +1362,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [paragraph](#macro paragraph) -->
+<!-- autolink: [macro paragraph](#macro paragraph) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -1293,7 +1385,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [parallelogram](#macro parallelogram) -->
+<!-- autolink: [macro parallelogram](#macro parallelogram) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -1316,7 +1408,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [path](#macro path) -->
+<!-- autolink: [macro path](#macro path) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -1339,7 +1431,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [person](#macro person) -->
+<!-- autolink: [macro person](#macro person) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -1362,7 +1454,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [point*](#function point*) -->
+<!-- autolink: [function point*](#function point*) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -1385,7 +1477,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [point+](#function point+) -->
+<!-- autolink: [function point+](#function point+) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -1408,7 +1500,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [point-](#function point-) -->
+<!-- autolink: [function point-](#function point-) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -1431,7 +1523,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [point-absolute-p](#function point-absolute-p) -->
+<!-- autolink: [function point-absolute-p](#function point-absolute-p) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -1454,7 +1546,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [point-distance](#function point-distance) -->
+<!-- autolink: [function point-distance](#function point-distance) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -1477,7 +1569,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [point-p](#function point-p) -->
+<!-- autolink: [function point-p](#function point-p) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -1500,7 +1592,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [point-relative-p](#function point-relative-p) -->
+<!-- autolink: [function point-relative-p](#function point-relative-p) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -1524,7 +1616,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [point-x](#function point-x) -->
+<!-- autolink: [function point-x](#function point-x) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -1548,7 +1640,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [point-y](#function point-y) -->
+<!-- autolink: [function point-y](#function point-y) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -1571,7 +1663,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [point/](#function point/) -->
+<!-- autolink: [function point/](#function point/) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -1594,7 +1686,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [point/x+](#function point/x+) -->
+<!-- autolink: [function point/x+](#function point/x+) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -1617,7 +1709,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [point/xy+](#function point/xy+) -->
+<!-- autolink: [function point/xy+](#function point/xy+) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -1640,7 +1732,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [point/y+](#function point/y+) -->
+<!-- autolink: [function point/y+](#function point/y+) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -1663,7 +1755,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [polygon](#macro polygon) -->
+<!-- autolink: [macro polygon](#macro polygon) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -1686,7 +1778,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [pt*](#function pt*) -->
+<!-- autolink: [function pt*](#function pt*) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -1709,7 +1801,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [pt+](#function pt+) -->
+<!-- autolink: [function pt+](#function pt+) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -1732,7 +1824,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [pt-](#function pt-) -->
+<!-- autolink: [function pt-](#function pt-) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -1755,7 +1847,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [pt/](#function pt/) -->
+<!-- autolink: [function pt/](#function pt/) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -1780,7 +1872,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [raw-svg](#macro raw-svg) -->
+<!-- autolink: [macro raw-svg](#macro raw-svg) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -1803,7 +1895,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [rect](#macro rect) -->
+<!-- autolink: [macro rect](#macro rect) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -1826,7 +1918,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [register-theme](#macro register-theme) -->
+<!-- autolink: [macro register-theme](#macro register-theme) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -1864,7 +1956,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [repeat](#function repeat) -->
+<!-- autolink: [function repeat](#function repeat) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -1887,7 +1979,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [rgb](#function rgb) -->
+<!-- autolink: [function rgb](#function rgb) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -1910,7 +2002,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [table](#macro table) -->
+<!-- autolink: [macro table](#macro table) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -1933,7 +2025,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [text](#macro text) -->
+<!-- autolink: [macro text](#macro text) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -1956,7 +2048,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [textbox](#macro textbox) -->
+<!-- autolink: [macro textbox](#macro textbox) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -1982,7 +2074,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [uml-action](#macro uml-action) -->
+<!-- autolink: [macro uml-action](#macro uml-action) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2005,7 +2097,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [uml-activity-final](#macro uml-activity-final) -->
+<!-- autolink: [macro uml-activity-final](#macro uml-activity-final) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2028,7 +2120,145 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [uml-activity-start](#macro uml-activity-start) -->
+<!-- autolink: [macro uml-activity-start](#macro uml-activity-start) -->
+
+${BLANK_PARAGRAPH}
+
+#### macro uml-actor
+
+<!-- stack:push li class='syntax' -->
+${SYNTAX}
+
+* ${{B}{uml-actor}} position name ${KEY} pivot width fill stroke link layer id
+
+
+<!-- stack:pop li -->
+
+${DESCRIPTION}
+
+　${{TODO}{まだ記述されていません。}}
+
+${NO_SEE_ALSO}
+
+${NO_NOTES}
+
+
+<!-- autolink: [macro uml-actor](#macro uml-actor) -->
+
+${BLANK_PARAGRAPH}
+
+#### macro uml-aggregation
+
+<!-- stack:push li class='syntax' -->
+${SYNTAX}
+
+* ${{B}{uml-aggregation}} from to ${KEY} arrow keyword name style spacing role1 mult1 role2 mult2 layer id
+
+
+<!-- stack:pop li -->
+
+${DESCRIPTION}
+
+　${{TODO}{まだ記述されていません。}}
+
+${NO_SEE_ALSO}
+
+${NO_NOTES}
+
+
+<!-- autolink: [macro uml-aggregation](#macro uml-aggregation) -->
+
+${BLANK_PARAGRAPH}
+
+#### macro uml-association
+
+<!-- stack:push li class='syntax' -->
+${SYNTAX}
+
+* ${{B}{uml-association}} from to ${KEY} arrows keyword name style spacing role1 role2 mult1 mult2 layer id
+
+
+<!-- stack:pop li -->
+
+${DESCRIPTION}
+
+　${{TODO}{まだ記述されていません。}}
+
+${NO_SEE_ALSO}
+
+${NO_NOTES}
+
+
+<!-- autolink: [macro uml-association](#macro uml-association) -->
+
+${BLANK_PARAGRAPH}
+
+#### macro uml-class
+
+<!-- stack:push li class='syntax' -->
+${SYNTAX}
+
+* ${{B}{uml-class}} position name ${KEY} pivot width height keyword multiplicity abstract active template attributes operations responsibilities (emptybox nil emptybox-p) font fill stroke link layer id
+
+
+<!-- stack:pop li -->
+
+${DESCRIPTION}
+
+　${{TODO}{まだ記述されていません。}}
+
+${NO_SEE_ALSO}
+
+${NO_NOTES}
+
+
+<!-- autolink: [macro uml-class](#macro uml-class) -->
+
+${BLANK_PARAGRAPH}
+
+#### macro uml-component
+
+<!-- stack:push li class='syntax' -->
+${SYNTAX}
+
+* ${{B}{uml-component}} position name ${KEY} pivot keyword width height font fill stroke link layer id contents
+
+
+<!-- stack:pop li -->
+
+${DESCRIPTION}
+
+　${{TODO}{まだ記述されていません。}}
+
+${NO_SEE_ALSO}
+
+${NO_NOTES}
+
+
+<!-- autolink: [macro uml-component](#macro uml-component) -->
+
+${BLANK_PARAGRAPH}
+
+#### macro uml-composition
+
+<!-- stack:push li class='syntax' -->
+${SYNTAX}
+
+* ${{B}{uml-composition}} from to ${KEY} arrow keyword name style spacing role1 mult1 role2 mult2 layer id
+
+
+<!-- stack:pop li -->
+
+${DESCRIPTION}
+
+　${{TODO}{まだ記述されていません。}}
+
+${NO_SEE_ALSO}
+
+${NO_NOTES}
+
+
+<!-- autolink: [macro uml-composition](#macro uml-composition) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2051,7 +2281,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [uml-connector](#macro uml-connector) -->
+<!-- autolink: [macro uml-connector](#macro uml-connector) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2074,7 +2304,30 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [uml-decision](#macro uml-decision) -->
+<!-- autolink: [macro uml-decision](#macro uml-decision) -->
+
+${BLANK_PARAGRAPH}
+
+#### macro uml-dependency
+
+<!-- stack:push li class='syntax' -->
+${SYNTAX}
+
+* ${{B}{uml-dependency}} from to ${KEY} keyword name style spacing layer id
+
+
+<!-- stack:pop li -->
+
+${DESCRIPTION}
+
+　${{TODO}{まだ記述されていません。}}
+
+${NO_SEE_ALSO}
+
+${NO_NOTES}
+
+
+<!-- autolink: [macro uml-dependency](#macro uml-dependency) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2097,7 +2350,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [uml-expansion-region](#macro uml-expansion-region) -->
+<!-- autolink: [macro uml-expansion-region](#macro uml-expansion-region) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2120,7 +2373,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [uml-flow](#macro uml-flow) -->
+<!-- autolink: [macro uml-flow](#macro uml-flow) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2143,7 +2396,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [uml-flow-final](#macro uml-flow-final) -->
+<!-- autolink: [macro uml-flow-final](#macro uml-flow-final) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2166,7 +2419,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [uml-fork](#macro uml-fork) -->
+<!-- autolink: [macro uml-fork](#macro uml-fork) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2189,7 +2442,99 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [uml-frame](#macro uml-frame) -->
+<!-- autolink: [macro uml-frame](#macro uml-frame) -->
+
+${BLANK_PARAGRAPH}
+
+#### macro uml-generalization
+
+<!-- stack:push li class='syntax' -->
+${SYNTAX}
+
+* ${{B}{uml-generalization}} from to ${KEY} keyword name style spacing layer id
+
+
+<!-- stack:pop li -->
+
+${DESCRIPTION}
+
+　${{TODO}{まだ記述されていません。}}
+
+${NO_SEE_ALSO}
+
+${NO_NOTES}
+
+
+<!-- autolink: [macro uml-generalization](#macro uml-generalization) -->
+
+${BLANK_PARAGRAPH}
+
+#### macro uml-interface
+
+<!-- stack:push li class='syntax' -->
+${SYNTAX}
+
+* ${{B}{uml-interface}} position name ${KEY} pivot fill stroke link layer id
+
+
+<!-- stack:pop li -->
+
+${DESCRIPTION}
+
+　${{TODO}{まだ記述されていません。}}
+
+${NO_SEE_ALSO}
+
+${NO_NOTES}
+
+
+<!-- autolink: [macro uml-interface](#macro uml-interface) -->
+
+${BLANK_PARAGRAPH}
+
+#### macro uml-interface-request
+
+<!-- stack:push li class='syntax' -->
+${SYNTAX}
+
+* ${{B}{uml-interface-request}} from to ${KEY} arrow-p style spacing stroke layer id
+
+
+<!-- stack:pop li -->
+
+${DESCRIPTION}
+
+　${{TODO}{まだ記述されていません。}}
+
+${NO_SEE_ALSO}
+
+${NO_NOTES}
+
+
+<!-- autolink: [macro uml-interface-request](#macro uml-interface-request) -->
+
+${BLANK_PARAGRAPH}
+
+#### macro uml-interface-socket
+
+<!-- stack:push li class='syntax' -->
+${SYNTAX}
+
+* ${{B}{uml-interface-socket}} position from name ${KEY} style spacing stroke layer id
+
+
+<!-- stack:pop li -->
+
+${DESCRIPTION}
+
+　${{TODO}{まだ記述されていません。}}
+
+${NO_SEE_ALSO}
+
+${NO_NOTES}
+
+
+<!-- autolink: [macro uml-interface-socket](#macro uml-interface-socket) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2214,7 +2559,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [uml-join](#macro uml-join) -->
+<!-- autolink: [macro uml-join](#macro uml-join) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2237,7 +2582,30 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [uml-merge](#macro uml-merge) -->
+<!-- autolink: [macro uml-merge](#macro uml-merge) -->
+
+${BLANK_PARAGRAPH}
+
+#### macro uml-node
+
+<!-- stack:push li class='syntax' -->
+${SYNTAX}
+
+* ${{B}{uml-node}} position name ${KEY} pivot keyword width height font fill1 fill2 stroke link layer id contents
+
+
+<!-- stack:pop li -->
+
+${DESCRIPTION}
+
+　${{TODO}{まだ記述されていません。}}
+
+${NO_SEE_ALSO}
+
+${NO_NOTES}
+
+
+<!-- autolink: [macro uml-node](#macro uml-node) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2267,7 +2635,30 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [uml-note](#macro uml-note) -->
+<!-- autolink: [macro uml-note](#macro uml-note) -->
+
+${BLANK_PARAGRAPH}
+
+#### macro uml-package
+
+<!-- stack:push li class='syntax' -->
+${SYNTAX}
+
+* ${{B}{uml-package}} position name ${KEY} pivot keyword width height font fill stroke link layer id contents
+
+
+<!-- stack:pop li -->
+
+${DESCRIPTION}
+
+　${{TODO}{まだ記述されていません。}}
+
+${NO_SEE_ALSO}
+
+${NO_NOTES}
+
+
+<!-- autolink: [macro uml-package](#macro uml-package) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2290,7 +2681,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [uml-partition](#macro uml-partition) -->
+<!-- autolink: [macro uml-partition](#macro uml-partition) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2313,7 +2704,30 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [uml-pin](#macro uml-pin) -->
+<!-- autolink: [macro uml-pin](#macro uml-pin) -->
+
+${BLANK_PARAGRAPH}
+
+#### macro uml-realization
+
+<!-- stack:push li class='syntax' -->
+${SYNTAX}
+
+* ${{B}{uml-realization}} from to ${KEY} keyword name style spacing layer id
+
+
+<!-- stack:pop li -->
+
+${DESCRIPTION}
+
+　${{TODO}{まだ記述されていません。}}
+
+${NO_SEE_ALSO}
+
+${NO_NOTES}
+
+
+<!-- autolink: [macro uml-realization](#macro uml-realization) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2336,7 +2750,99 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [uml-signal](#macro uml-signal) -->
+<!-- autolink: [macro uml-signal](#macro uml-signal) -->
+
+${BLANK_PARAGRAPH}
+
+#### macro uml-state
+
+<!-- stack:push li class='syntax' -->
+${SYNTAX}
+
+* ${{B}{uml-state}} position text ${KEY} pivot keyword width height activities margin corner-r font fill stroke link layer id contents
+
+
+<!-- stack:pop li -->
+
+${DESCRIPTION}
+
+　${{TODO}{まだ記述されていません。}}
+
+${NO_SEE_ALSO}
+
+${NO_NOTES}
+
+
+<!-- autolink: [macro uml-state](#macro uml-state) -->
+
+${BLANK_PARAGRAPH}
+
+#### macro uml-state-begin
+
+<!-- stack:push li class='syntax' -->
+${SYNTAX}
+
+* ${{B}{uml-state-begin}} position ${KEY} pivot radius fill link layer id
+
+
+<!-- stack:pop li -->
+
+${DESCRIPTION}
+
+　${{TODO}{まだ記述されていません。}}
+
+${NO_SEE_ALSO}
+
+${NO_NOTES}
+
+
+<!-- autolink: [macro uml-state-begin](#macro uml-state-begin) -->
+
+${BLANK_PARAGRAPH}
+
+#### macro uml-state-end
+
+<!-- stack:push li class='syntax' -->
+${SYNTAX}
+
+* ${{B}{uml-state-end}} position ${KEY} pivot radius ratio fill stroke link layer id
+
+
+<!-- stack:pop li -->
+
+${DESCRIPTION}
+
+　${{TODO}{まだ記述されていません。}}
+
+${NO_SEE_ALSO}
+
+${NO_NOTES}
+
+
+<!-- autolink: [macro uml-state-end](#macro uml-state-end) -->
+
+${BLANK_PARAGRAPH}
+
+#### macro uml-state-history
+
+<!-- stack:push li class='syntax' -->
+${SYNTAX}
+
+* ${{B}{uml-state-history}} position ${KEY} pivot radius fill stroke link layer id
+
+
+<!-- stack:pop li -->
+
+${DESCRIPTION}
+
+　${{TODO}{まだ記述されていません。}}
+
+${NO_SEE_ALSO}
+
+${NO_NOTES}
+
+
+<!-- autolink: [macro uml-state-history](#macro uml-state-history) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2359,7 +2865,53 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [uml-time-event](#macro uml-time-event) -->
+<!-- autolink: [macro uml-time-event](#macro uml-time-event) -->
+
+${BLANK_PARAGRAPH}
+
+#### macro uml-transition
+
+<!-- stack:push li class='syntax' -->
+${SYNTAX}
+
+* ${{B}{uml-transition}} from to ${KEY} spec style spacing layer id
+
+
+<!-- stack:pop li -->
+
+${DESCRIPTION}
+
+　${{TODO}{まだ記述されていません。}}
+
+${NO_SEE_ALSO}
+
+${NO_NOTES}
+
+
+<!-- autolink: [macro uml-transition](#macro uml-transition) -->
+
+${BLANK_PARAGRAPH}
+
+#### macro uml-usecase
+
+<!-- stack:push li class='syntax' -->
+${SYNTAX}
+
+* ${{B}{uml-usecase}} position text ${KEY} pivot keyword width height font fill stroke margin link layer id
+
+
+<!-- stack:pop li -->
+
+${DESCRIPTION}
+
+　${{TODO}{まだ記述されていません。}}
+
+${NO_SEE_ALSO}
+
+${NO_NOTES}
+
+
+<!-- autolink: [macro uml-usecase](#macro uml-usecase) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2382,7 +2934,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [use](#macro use) -->
+<!-- autolink: [macro use](#macro use) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2405,7 +2957,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [with-balloon-options](#macro with-balloon-options) -->
+<!-- autolink: [macro with-balloon-options](#macro with-balloon-options) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2428,7 +2980,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [with-block-arrow-options](#macro with-block-arrow-options) -->
+<!-- autolink: [macro with-block-arrow-options](#macro with-block-arrow-options) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2451,7 +3003,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [with-brace-options](#macro with-brace-options) -->
+<!-- autolink: [macro with-brace-options](#macro with-brace-options) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2476,7 +3028,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [with-canvas](#macro with-canvas) -->
+<!-- autolink: [macro with-canvas](#macro with-canvas) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2499,7 +3051,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [with-cross-options](#macro with-cross-options) -->
+<!-- autolink: [macro with-cross-options](#macro with-cross-options) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2522,7 +3074,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [with-cube-options](#macro with-cube-options) -->
+<!-- autolink: [macro with-cube-options](#macro with-cube-options) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2545,7 +3097,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [with-current-canvas](#macro with-current-canvas) -->
+<!-- autolink: [macro with-current-canvas](#macro with-current-canvas) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2568,7 +3120,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [with-cylinder-options](#macro with-cylinder-options) -->
+<!-- autolink: [macro with-cylinder-options](#macro with-cylinder-options) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2591,7 +3143,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [with-document-options](#macro with-document-options) -->
+<!-- autolink: [macro with-document-options](#macro with-document-options) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2614,7 +3166,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [with-endmark-options](#macro with-endmark-options) -->
+<!-- autolink: [macro with-endmark-options](#macro with-endmark-options) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2637,7 +3189,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [with-explosion-options](#macro with-explosion-options) -->
+<!-- autolink: [macro with-explosion-options](#macro with-explosion-options) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2660,7 +3212,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [with-folder-options](#macro with-folder-options) -->
+<!-- autolink: [macro with-folder-options](#macro with-folder-options) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2683,7 +3235,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [with-label-options](#macro with-label-options) -->
+<!-- autolink: [macro with-label-options](#macro with-label-options) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2706,7 +3258,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [with-memo-options](#macro with-memo-options) -->
+<!-- autolink: [macro with-memo-options](#macro with-memo-options) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2729,7 +3281,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [with-options](#macro with-options) -->
+<!-- autolink: [macro with-options](#macro with-options) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2752,7 +3304,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [with-person-options](#macro with-person-options) -->
+<!-- autolink: [macro with-person-options](#macro with-person-options) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2775,7 +3327,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [with-point](#macro with-point) -->
+<!-- autolink: [macro with-point](#macro with-point) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2798,7 +3350,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [with-subcanvas](#macro with-subcanvas) -->
+<!-- autolink: [macro with-subcanvas](#macro with-subcanvas) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2821,7 +3373,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [with-subcanvas-of](#macro with-subcanvas-of) -->
+<!-- autolink: [macro with-subcanvas-of](#macro with-subcanvas-of) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2844,7 +3396,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [with-table-cell](#macro with-table-cell) -->
+<!-- autolink: [macro with-table-cell](#macro with-table-cell) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2867,7 +3419,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [with-table-options](#macro with-table-options) -->
+<!-- autolink: [macro with-table-options](#macro with-table-options) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2890,7 +3442,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [with-table-range](#macro with-table-range) -->
+<!-- autolink: [macro with-table-range](#macro with-table-range) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2913,7 +3465,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [with-textbox-options](#macro with-textbox-options) -->
+<!-- autolink: [macro with-textbox-options](#macro with-textbox-options) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2936,7 +3488,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [with-theme](#macro with-theme) -->
+<!-- autolink: [macro with-theme](#macro with-theme) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2961,7 +3513,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [with-uml-action-options](#macro with-uml-action-options) -->
+<!-- autolink: [macro with-uml-action-options](#macro with-uml-action-options) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2984,7 +3536,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [with-uml-activity-final-options](#macro with-uml-activity-final-options) -->
+<!-- autolink: [macro with-uml-activity-final-options](#macro with-uml-activity-final-options) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -3007,7 +3559,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [with-uml-activity-start-options](#macro with-uml-activity-start-options) -->
+<!-- autolink: [macro with-uml-activity-start-options](#macro with-uml-activity-start-options) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -3030,7 +3582,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [with-uml-connector-options](#macro with-uml-connector-options) -->
+<!-- autolink: [macro with-uml-connector-options](#macro with-uml-connector-options) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -3053,7 +3605,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [with-uml-decision-merge-options](#macro with-uml-decision-merge-options) -->
+<!-- autolink: [macro with-uml-decision-merge-options](#macro with-uml-decision-merge-options) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -3076,7 +3628,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [with-uml-expansion-region-options](#macro with-uml-expansion-region-options) -->
+<!-- autolink: [macro with-uml-expansion-region-options](#macro with-uml-expansion-region-options) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -3099,7 +3651,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [with-uml-flow-final-options](#macro with-uml-flow-final-options) -->
+<!-- autolink: [macro with-uml-flow-final-options](#macro with-uml-flow-final-options) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -3122,7 +3674,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [with-uml-flow-options](#macro with-uml-flow-options) -->
+<!-- autolink: [macro with-uml-flow-options](#macro with-uml-flow-options) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -3145,7 +3697,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [with-uml-fork-join-options](#macro with-uml-fork-join-options) -->
+<!-- autolink: [macro with-uml-fork-join-options](#macro with-uml-fork-join-options) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -3168,7 +3720,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [with-uml-frame-options](#macro with-uml-frame-options) -->
+<!-- autolink: [macro with-uml-frame-options](#macro with-uml-frame-options) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -3191,7 +3743,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [with-uml-note-options](#macro with-uml-note-options) -->
+<!-- autolink: [macro with-uml-note-options](#macro with-uml-note-options) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -3214,7 +3766,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [with-uml-partition-lane](#macro with-uml-partition-lane) -->
+<!-- autolink: [macro with-uml-partition-lane](#macro with-uml-partition-lane) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -3237,7 +3789,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [with-uml-partition-options](#macro with-uml-partition-options) -->
+<!-- autolink: [macro with-uml-partition-options](#macro with-uml-partition-options) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -3260,7 +3812,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [with-uml-pin-options](#macro with-uml-pin-options) -->
+<!-- autolink: [macro with-uml-pin-options](#macro with-uml-pin-options) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -3283,7 +3835,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [with-uml-signal-options](#macro with-uml-signal-options) -->
+<!-- autolink: [macro with-uml-signal-options](#macro with-uml-signal-options) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -3306,7 +3858,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [with-uml-time-event-options](#macro with-uml-time-event-options) -->
+<!-- autolink: [macro with-uml-time-event-options](#macro with-uml-time-event-options) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -3329,7 +3881,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [x+](#function x+) -->
+<!-- autolink: [function x+](#function x+) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -3352,7 +3904,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [xy+](#function xy+) -->
+<!-- autolink: [function xy+](#function xy+) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -3375,7 +3927,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [y+](#function y+) -->
+<!-- autolink: [function y+](#function y+) -->
 
 ${BLANK_PARAGRAPH}
 

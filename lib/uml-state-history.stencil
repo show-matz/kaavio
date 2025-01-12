@@ -27,11 +27,26 @@
 ; (draw-canvas-frame (shape-get-subcanvas obj) writer)  ;for debug...
   nil)
 
-;;------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### macro uml-state-history
 ;;
-;; macro uml-state-history
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
 ;;
-;;------------------------------------------------------------------------------
+;;* ${{B}{uml-state-history}} position ${KEY} pivot radius fill stroke link layer id
+;;
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　${{TODO}{まだ記述されていません。}}
+;;
+;;${NO_SEE_ALSO}
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
 (defmacro uml-state-history (position &key pivot radius fill stroke link layer id)
   `(register-entity (make-instance 'uml-state-history
                                    :position ,position :pivot ,pivot

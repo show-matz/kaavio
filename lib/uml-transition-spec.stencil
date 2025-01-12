@@ -49,11 +49,26 @@
       (write-text-tag x y txt writer :align align :font font))))
 
 
-;;------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### function make-uml-transition-spec
 ;;
-;; macro uml-transition-spec
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
 ;;
-;;------------------------------------------------------------------------------
+;;* ${{B}{make-uml-transition-spec}} ${REST} params
+;;
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　${{TODO}{まだ記述されていません。}}
+;;
+;;${NO_SEE_ALSO}
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
 (defun make-uml-transition-spec (&rest params)
   (if (= 1 (length params))
       (let ((param (car params)))

@@ -10,11 +10,26 @@
 ;;------------------------------------------------------------------------------
 (defclass uml-composition (uml-association) ())
 
-;;------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### macro uml-composition
 ;;
-;; macro uml-composition
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
 ;;
-;;------------------------------------------------------------------------------
+;;* ${{B}{uml-composition}} from to ${KEY} arrow keyword name style spacing role1 mult1 role2 mult2 layer id
+;;
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　${{TODO}{まだ記述されていません。}}
+;;
+;;${NO_SEE_ALSO}
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
 (defmacro uml-composition (from to &key arrow keyword name style spacing role1 mult1 role2 mult2 layer id)
   (let ((g-kwd  (gensym "KEYWORD"))
         (g-name (gensym "NAME")))

@@ -42,6 +42,26 @@
                             (- y (* cos offset)) align font writer))))
 
 
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### function make-uml-keyword
+;;
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
+;;
+;;* ${{B}{make-uml-keyword}} ${REST} params
+;;
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　${{TODO}{まだ記述されていません。}}
+;;
+;;${NO_SEE_ALSO}
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
 (defun make-uml-keyword (&rest params)
   (if (= 1 (length params))
       (let ((param (car params)))

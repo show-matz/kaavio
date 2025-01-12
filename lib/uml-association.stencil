@@ -69,11 +69,26 @@
       
 
 
-;;------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### macro uml-association
 ;;
-;; macro uml-association
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
 ;;
-;;------------------------------------------------------------------------------
+;;* ${{B}{uml-association}} from to ${KEY} arrows keyword name style spacing role1 role2 mult1 mult2 layer id
+;;
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　${{TODO}{まだ記述されていません。}}
+;;
+;;${NO_SEE_ALSO}
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
 (defmacro uml-association (from to &key arrows keyword name style spacing
                                      role1 role2 mult1 mult2 layer id)
   (let ((g-arr  (gensym "ARROWS"))

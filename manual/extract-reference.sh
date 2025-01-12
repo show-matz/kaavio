@@ -31,7 +31,7 @@ function extract-reference {
         echo ""        >> ${OUTPATH}/${ENTRY_FILE}
         cat ${TMPFILE} \
             | head -1 \
-            | perl -pe 's/^#### ([^ \n]+) (.*)$/<!-- autolink: [\2](#\1 \2) -->/' \
+            | perl -pe 's/^#### ([^ \n]+) (.*)$/<!-- autolink: [\1 \2](#\1 \2) -->/' \
                                    >> ${OUTPATH}/${ENTRY_FILE}
         echo ""                    >> ${OUTPATH}/${ENTRY_FILE}
         echo "\${BLANK_PARAGRAPH}" >> ${OUTPATH}/${ENTRY_FILE}
@@ -47,7 +47,7 @@ function extract-reference {
 BASEPATH="$(cd "$(dirname "$(realpath "${BASH_SOURCE:-0}")")"; pwd)"
 REFDATA=.refdata
 OUTFILE="${BASEPATH}/reference.md"
-LSTFILE="${BASEPATH}/${REFDATA}/$$.LST"
+LSTFILE="${BASEPATH}/${REFDATA}/$$.list"
 
 if [ ! -e ./${REFDATA} ]; then
     mkdir ${REFDATA}
@@ -64,3 +64,4 @@ for FILENAME in `cat ${LSTFILE} | sort | cut -d '	' -f 2`
 do
     cat ${BASEPATH}/${REFDATA}/${FILENAME} >> ${OUTFILE}
 done
+

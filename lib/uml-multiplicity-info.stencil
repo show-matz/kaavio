@@ -66,6 +66,26 @@
         (uml-multiplicity-draw mul x2 y2 align writer)))))
 
 
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### function make-uml-multiplicity
+;;
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
+;;
+;;* ${{B}{make-uml-multiplicity}} ${REST} params
+;;
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　${{TODO}{まだ記述されていません。}}
+;;
+;;${NO_SEE_ALSO}
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
 (defun make-uml-multiplicity (&rest params)
   (labels ((minmaxp (param)
              (and (consp param)

@@ -54,11 +54,26 @@
 ;  (draw-canvas-frame (shape-get-subcanvas obj) writer)    ;for debug...
   nil)
 
-;;------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### macro uml-interface
 ;;
-;; macro uml-interface
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
 ;;
-;;------------------------------------------------------------------------------
+;;* ${{B}{uml-interface}} position name ${KEY} pivot fill stroke link layer id
+;;
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　${{TODO}{まだ記述されていません。}}
+;;
+;;${NO_SEE_ALSO}
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
 (defmacro uml-interface (position name &key pivot fill stroke link layer id)
   `(register-entity (make-instance 'uml-interface
                                    :position ,position :pivot ,pivot
@@ -157,11 +172,26 @@
           
 
 
-;;------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### macro uml-interface-socket
 ;;
-;; macro uml-interface-socket
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
 ;;
-;;------------------------------------------------------------------------------
+;;* ${{B}{uml-interface-socket}} position from name ${KEY} style spacing stroke layer id
+;;
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　${{TODO}{まだ記述されていません。}}
+;;
+;;${NO_SEE_ALSO}
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
 (defmacro uml-interface-socket (position from name &key style spacing stroke layer id)
   `(register-entity (make-instance 'uml-interface-socket
                                    :name ,name :position ,position :from ,from
@@ -276,11 +306,26 @@
   (call-next-method))
 
 
-;;------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### macro uml-interface-request
 ;;
-;; macro uml-interface-request
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
 ;;
-;;------------------------------------------------------------------------------
+;;* ${{B}{uml-interface-request}} from to ${KEY} arrow-p style spacing stroke layer id
+;;
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　${{TODO}{まだ記述されていません。}}
+;;
+;;${NO_SEE_ALSO}
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
 (defmacro uml-interface-request (from to &key arrow-p style spacing stroke layer id)
   `(register-entity (make-instance 'uml-interface-request
                                    :from ,from :to ,to

@@ -161,11 +161,26 @@
                    (- (attribute-height state) partition)))))
 
 
-;;------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### macro uml-state
 ;;
-;; macro uml-state
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
 ;;
-;;------------------------------------------------------------------------------
+;;* ${{B}{uml-state}} position text ${KEY} pivot keyword width height activities margin corner-r font fill stroke link layer id contents
+;;
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　${{TODO}{まだ記述されていません。}}
+;;
+;;${NO_SEE_ALSO}
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
 (defmacro uml-state (position text &key pivot keyword width height
                                         activities margin corner-r
                                         font fill stroke link layer id contents)

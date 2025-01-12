@@ -107,11 +107,26 @@
  
 
 
-;;------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### macro uml-node
 ;;
-;; macro uml-node
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
 ;;
-;;------------------------------------------------------------------------------
+;;* ${{B}{uml-node}} position name ${KEY} pivot keyword width height font fill1 fill2 stroke link layer id contents
+;;
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　${{TODO}{まだ記述されていません。}}
+;;
+;;${NO_SEE_ALSO}
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
 (defmacro uml-node (position name &key pivot keyword width height font
                                        fill1 fill2 stroke link layer id contents)
   (let* ((contents-p (not (null contents)))

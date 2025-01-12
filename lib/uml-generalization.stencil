@@ -42,11 +42,26 @@
       
 
 
-;;------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### macro uml-generalization
 ;;
-;; macro uml-generalization
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
 ;;
-;;------------------------------------------------------------------------------
+;;* ${{B}{uml-generalization}} from to ${KEY} keyword name style spacing layer id
+;;
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　${{TODO}{まだ記述されていません。}}
+;;
+;;${NO_SEE_ALSO}
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
 (defmacro uml-generalization (from to &key keyword name style spacing layer id)
   (let ((g-kwd  (gensym "KEYWORD"))
         (g-name (gensym "NAME")))

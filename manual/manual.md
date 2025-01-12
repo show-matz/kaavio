@@ -6126,8 +6126,8 @@ Figure. uml-action のサンプル
 
 　詳細は以下を参照してください。
 
-* uml-action マクロ
-* with-uml-action-options マクロ
+* macro uml-action
+* macro with-uml-action-options
 
 #### uml-activity-final
 
@@ -6154,8 +6154,8 @@ Figure. uml-activity-final のサンプル
 <!-- expand: UML-ACTIVITY-FINAL-SAMPLE -->
 ```
 
-* uml-activity-final マクロ
-* with-uml-activity-final-options マクロ
+* macro uml-activity-final
+* macro with-uml-activity-final-options
 
 #### uml-activity-start
 
@@ -6182,8 +6182,8 @@ Figure. uml-activity-start のサンプル
 <!-- expand: UML-ACTIVITY-START-SAMPLE -->
 ```
 
-* uml-activity-start マクロ
-* with-uml-activity-start-options マクロ
+* macro uml-activity-start
+* macro with-uml-activity-start-options
 
 #### uml-actor
 <!-- autolink: [$$](#uml-actor) -->
@@ -6236,8 +6236,8 @@ Figure. uml-connector のサンプル
 マーカーが描画され、uml-flow などのコネクタで `from` と `to` のどちらに指定されたかで
 接続先が変わります。
 
-* uml-connector マクロ
-* with-uml-connector-options マクロ
+* macro uml-connector
+* macro with-uml-connector-options
 
 #### uml-decision
 
@@ -6283,9 +6283,9 @@ height の指定、または with-uml-decision-merge-options マクロで指定�
 
 　詳細は以下を参照してください。
 
-* [$$](#uml-merge)
-* uml-decision マクロ
-* with-uml-decision-merge-options マクロ
+* macro uml-merge
+* macro uml-decision
+* macro with-uml-decision-merge-options
 
 #### uml-dependency
 <!-- autolink: [$$](#uml-dependency) -->
@@ -6318,8 +6318,8 @@ Figure. uml-expansion-region のサンプル
 
 　詳細は以下を参照してください。
 
-* uml-expansion-region マクロ
-* with-uml-expansion-region-options マクロ
+* macro uml-expansion-region
+* macro with-uml-expansion-region-options
 
 #### uml-flow-final
 
@@ -6346,8 +6346,8 @@ Figure. uml-flow-final のサンプル
 <!-- expand: UML-FLOW-FINAL-SAMPLE -->
 ```
 
-* uml-flow-final マクロ
-* with-uml-flow-final-options マクロ
+* macro uml-flow-final
+* macro with-uml-flow-final-options
 
 #### uml-flow
 
@@ -6386,8 +6386,8 @@ Figure. uml-flow のサンプル
 
 　詳細は以下を参照してください。
 
-* uml-flow マクロ
-* with-uml-flow-options マクロ
+* macro uml-flow
+* macro with-uml-flow-options
 
 #### uml-fork
 
@@ -6422,8 +6422,8 @@ Figure. uml-fork のサンプル
 
 　詳細は以下を参照してください。
 
-* uml-fork マクロ
-* with-uml-fork-join-options マクロ
+* macro uml-fork
+* macro with-uml-fork-join-options
 
 #### uml-frame
 
@@ -6461,8 +6461,8 @@ uml-frame を使用する場合にスタイルを統一するために使用し�
 
 　詳細は以下を参照してください。
 
-* uml-frame マクロ
-* with-uml-frame-options マクロ
+* macro uml-frame
+* macro with-uml-frame-options
 
 #### uml-generalization
 <!-- autolink: [$$](#uml-generalization) -->
@@ -6505,8 +6505,8 @@ Figure. uml-join のサンプル
 
 　詳細は以下を参照してください。
 
-* uml-join マクロ
-* with-uml-fork-join-options マクロ
+* macro uml-join
+* macro with-uml-fork-join-options
 
 #### uml-keyword-info
 <!-- autolink: [$$](#uml-keyword-info) -->
@@ -6530,9 +6530,9 @@ Figure. uml-merge のサンプル
 
 　詳細は以下を参照してください。
 
-* [$$](#uml-decision)
-* uml-merge マクロ
-* with-uml-decision-merge-options マクロ
+* macro uml-decision
+* macro uml-merge
+* macro with-uml-decision-merge-options
 
 #### uml-multiplicity-info
 <!-- autolink: [$$](#uml-multiplicity-info) -->
@@ -6582,8 +6582,8 @@ with-uml-note-options を使用しています。
 
 　詳細は以下を参照してください。
 
-* uml-note マクロ
-* with-uml-note-options マクロ
+* macro uml-note
+* macro with-uml-note-options
 
 #### uml-package
 <!-- autolink: [$$](#uml-package) -->
@@ -6703,9 +6703,9 @@ Figure. uml-partition における lines パラメータのサンプル
 
 　詳細は以下を参照してください。
 
-* uml-partition マクロ
-* with-uml-partition-lane マクロ
-* with-uml-partition-options マクロ
+* macro uml-partition
+* macro with-uml-partition-lane
+* macro with-uml-partition-options
 
 #### uml-pin
 
@@ -6749,8 +6749,8 @@ Figure. uml-pin のサンプル
 
 　詳細は以下を参照してください。
 
-* uml-pin マクロ
-* with-uml-pin-options マクロ
+* macro uml-pin
+* macro with-uml-pin-options
 
 #### uml-realization
 <!-- autolink: [$$](#uml-realization) -->
@@ -6795,8 +6795,8 @@ Figure. uml-signal のサンプル
 
 　詳細は以下を参照してください。
 
-* uml-signal マクロ
-* with-uml-signal-options マクロ
+* macro uml-signal
+* macro with-uml-signal-options
 
 
 #### uml-state-begin
@@ -6841,8 +6841,8 @@ Figure. uml-time-event のサンプル
 
 　詳細は以下を参照してください。
 
-* uml-time-event マクロ
-* with-uml-time-event-options マクロ
+* macro uml-time-event
+* macro with-uml-time-event-options
 
 #### uml-transition-spec
 <!-- autolink: [$$](#uml-transition-spec) -->

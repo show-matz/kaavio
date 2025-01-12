@@ -544,11 +544,26 @@
 ;  (draw-canvas-frame (group-get-canvas #|shape-get-subcanvas|# cls) writer))
  
 
-;;------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### macro uml-class
 ;;
-;; macro uml-class
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
 ;;
-;;------------------------------------------------------------------------------
+;;* ${{B}{uml-class}} position name ${KEY} pivot width height keyword multiplicity abstract active template attributes operations responsibilities (emptybox nil emptybox-p) font fill stroke link layer id
+;;
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　${{TODO}{まだ記述されていません。}}
+;;
+;;${NO_SEE_ALSO}
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
 (defmacro uml-class (position name &key pivot width height keyword
                                       multiplicity abstract active template
                                       attributes operations responsibilities

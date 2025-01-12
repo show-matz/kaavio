@@ -44,11 +44,26 @@
                                       (- (+ y py) (* cos f-size)) align writer))))))
 
 
-;;------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### macro uml-transition
 ;;
-;; macro uml-transition
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
 ;;
-;;------------------------------------------------------------------------------
+;;* ${{B}{uml-transition}} from to ${KEY} spec style spacing layer id
+;;
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　${{TODO}{まだ記述されていません。}}
+;;
+;;${NO_SEE_ALSO}
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
 (defmacro uml-transition (from to &key spec style spacing layer id)
   (let ((g-spec  (gensym "SPEC")))
     `(let ((,g-spec  ,spec))

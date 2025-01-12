@@ -34,11 +34,26 @@
   nil)
 
 
-;;------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### macro uml-state-end
 ;;
-;; macro uml-state-end
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
 ;;
-;;------------------------------------------------------------------------------
+;;* ${{B}{uml-state-end}} position ${KEY} pivot radius ratio fill stroke link layer id
+;;
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　${{TODO}{まだ記述されていません。}}
+;;
+;;${NO_SEE_ALSO}
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
 (defmacro uml-state-end (position &key pivot radius ratio fill stroke link layer id)
   `(register-entity (make-instance 'uml-state-end
                                    :position ,position :pivot ,pivot

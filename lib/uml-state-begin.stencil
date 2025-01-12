@@ -10,11 +10,26 @@
 ;;------------------------------------------------------------------------------
 (defclass uml-state-begin (kaavio:circle) ())
 
-;;------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### macro uml-state-begin
 ;;
-;; macro uml-state-begin
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
 ;;
-;;------------------------------------------------------------------------------
+;;* ${{B}{uml-state-begin}} position ${KEY} pivot radius fill link layer id
+;;
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　${{TODO}{まだ記述されていません。}}
+;;
+;;${NO_SEE_ALSO}
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
 (defmacro uml-state-begin (position &key pivot radius fill link layer id)
   `(register-entity (make-instance 'uml-state-begin
                                    :position ,position :pivot ,pivot
