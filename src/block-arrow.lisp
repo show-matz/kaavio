@@ -100,14 +100,32 @@
 ;;
 ;;* ${{B}{block-arrow1}} pt1 pt2 width ${KEY} (length nil length-p) (size nil size-p) (margin nil margin-p) fill stroke link layer filter id
 ;;
-;;
 ;;<!-- stack:pop li -->
+;;
+;;${ARGS_AND_VALS}
+;;
+;;* `pt1, pt2` ---- 始点と終点を指定します。詳細は「[](#座標と位置)」を参照してください。
+;;* `width` ---- 矢印の幅を数値で指定します。
+;;* `length` ---- 矢印部分の長さを数値で指定します。
+;;* `size` ---- 矢印部分の大きさを数値で指定します。
+;;* `margin` ---- 始点・終点とブロック矢印の間にあける隙間を数値で指定します。
+;;* `fill` ---- 内部の塗り潰しを指定します。
+;;* `stroke` ----  外枠を描画する線を指定します。
+;;* `link` ---- リンクにする場合、リンク先を指定します。
+;;* `layer` ---- レイヤーを指定する場合、その ID をキーワードシンボルで指定します
+;;* `filter` ---- フィルタを適用したい場合、その ID をキーワードシンボルで指定します
+;;* `id` ---- ID を付与したい場合、その名前をキーワードシンボルで指定します
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　ブロック矢印を描画します。複数のブロック矢印でスタイルを統一したい場合、
+;;macro with-block-arrow-options を使うことができます。
 ;;
-;;${NO_SEE_ALSO}
+;;${SEE_ALSO}
+;;
+;;* ブロック矢印
+;;* macro block-arrow2
+;;* macro with-block-arrow-options
 ;;
 ;;${NO_NOTES}
 ;;
@@ -144,14 +162,32 @@
 ;;
 ;;* ${{B}{block-arrow2}} (pt1 pt2 width ${KEY} (length nil length-p) (size   nil size-p) (margin nil margin-p) fill stroke link layer filter id
 ;;
-;;
 ;;<!-- stack:pop li -->
+;;
+;;${ARGS_AND_VALS}
+;;
+;;* `pt1, pt2` ---- 始点と終点を指定します。詳細は「[](#座標と位置)」を参照してください。
+;;* `width` ---- 矢印の幅を数値で指定します。
+;;* `length` ---- 矢印部分の長さを数値で指定します。
+;;* `size` ---- 矢印部分の大きさを数値で指定します。
+;;* `margin` ---- 始点・終点とブロック矢印の間にあける隙間を数値で指定します。
+;;* `fill` ---- 内部の塗り潰しを指定します。
+;;* `stroke` ----  外枠を描画する線を指定します。
+;;* `link` ---- リンクにする場合、リンク先を指定します。
+;;* `layer` ---- レイヤーを指定する場合、その ID をキーワードシンボルで指定します
+;;* `filter` ---- フィルタを適用したい場合、その ID をキーワードシンボルで指定します
+;;* `id` ---- ID を付与したい場合、その名前をキーワードシンボルで指定します
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　ブロック矢印を描画します。複数のブロック矢印でスタイルを統一したい場合、
+;;macro with-block-arrow-options を使うことができます。
 ;;
-;;${NO_SEE_ALSO}
+;;${SEE_ALSO}
+;;
+;;* ブロック矢印
+;;* macro block-arrow1
+;;* macro with-block-arrow-options
 ;;
 ;;${NO_NOTES}
 ;;

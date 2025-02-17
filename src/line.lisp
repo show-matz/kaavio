@@ -182,16 +182,28 @@
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
-;;* ${{B}{line}} points ${KEY} stroke label end1 end2 layer filter id
-;;
+;;* ${{B}{line}} points ${KEY} stroke label end1 end2 layer id filter
 ;;
 ;;<!-- stack:pop li -->
+;;
+;;${ARGS_AND_VALS}
+;;
+;;* `points` ---- 線を構成する点のリストを指定します。詳細は「[](#座標と位置)」を参照してください。
+;;* `stroke` ---- 線を描画するストロークを指定します。
+;;* `label` ---- ラベルをつける場合に指定します。
+;;* `end1` ---- 始端に矢印などの装飾を付ける場合は終端マークを指定します。
+;;* `end2` ---- 終端に矢印などの装飾を付ける場合は終端マークを指定します。
+;;* `layer` ---- レイヤーを指定する場合、その ID をキーワードシンボルで指定します。
+;;* `id` ---- ID を付与したい場合、その名前をキーワードシンボルで指定します。
+;;* `filter` ---- フィルタを適用したい場合、その ID をキーワードシンボルで指定します。
 ;;
 ;;${DESCRIPTION}
 ;;
 ;;　${{TODO}{まだ記述されていません。}}
 ;;
 ;;${NO_SEE_ALSO}
+;;
+;;* コネクタ
 ;;
 ;;${NO_NOTES}
 ;;

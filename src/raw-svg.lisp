@@ -46,16 +46,20 @@
 ;;
 ;;* ${{B}{raw-svg}} svgdata ${KEY} (layer nil)
 ;;
-;;
 ;;<!-- stack:pop li -->
+;;
+;;${ARGS_AND_VALS}
+;;
+;;* `svgdata` ---- 挿入する SVG コード片を文字列で指定します。
+;;* `layer` ---- レイヤーを指定する場合、その ID をキーワードシンボルで指定します
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　SVG 図面の中に任意の SVG コードを挿入します。
 ;;
-;;* [](#生の SVG コード片の挿入)
+;;${SEE_ALSO}
 ;;
-;;${NO_SEE_ALSO}
+;;* 生の SVG コード片の挿入
 ;;
 ;;${NO_NOTES}
 ;;
