@@ -119,13 +119,13 @@
 ;;${DESCRIPTION}
 ;;
 ;;　ブロック矢印を描画します。複数のブロック矢印でスタイルを統一したい場合、
-;;macro with-block-arrow-options を使うことができます。
+;;with-block-arrow-options マクロを使うことができます。
 ;;
 ;;${SEE_ALSO}
 ;;
 ;;* ブロック矢印
-;;* macro block-arrow2
-;;* macro with-block-arrow-options
+;;* block-arrow2 マクロ
+;;* with-block-arrow-options マクロ
 ;;
 ;;${NO_NOTES}
 ;;
@@ -181,13 +181,13 @@
 ;;${DESCRIPTION}
 ;;
 ;;　ブロック矢印を描画します。複数のブロック矢印でスタイルを統一したい場合、
-;;macro with-block-arrow-options を使うことができます。
+;;with-block-arrow-options マクロを使うことができます。
 ;;
 ;;${SEE_ALSO}
 ;;
 ;;* ブロック矢印
-;;* macro block-arrow1
-;;* macro with-block-arrow-options
+;;* block-arrow1 マクロ
+;;* with-block-arrow-options マクロ
 ;;
 ;;${NO_NOTES}
 ;;
@@ -224,14 +224,19 @@
 ;;
 ;;* ${{B}{with-block-arrow-options}} (${KEY} length size margin fill stroke filter layer) ${BODY} body
 ;;
-;;
 ;;<!-- stack:pop li -->
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　block-arrow1 マクロおよび block-arrow2 マクロで描画されるブロック矢印のデフォルト
+;;オプションを変更します。キーワードパラメータ群の説明は block-arrow1 マクロを参照して
+;;ください。
 ;;
-;;${NO_SEE_ALSO}
+;;${SEE_ALSO}
+;;
+;;* ブロック矢印
+;;* block-arrow1 マクロ
+;;* block-arrow2 マクロ
 ;;
 ;;${NO_NOTES}
 ;;

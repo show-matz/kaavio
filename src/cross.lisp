@@ -158,13 +158,13 @@
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　十字を描画します。複数の十字でスタイルを統一したい場合、macro with-cross-options を
+;;　十字を描画します。複数の十字でスタイルを統一したい場合、with-cross-options マクロを
 ;;使うことができます。
 ;;
 ;;${SEE_ALSO}
 ;;
 ;;* 十字
-;;* macro with-cross-options
+;;* with-cross-options マクロ
 ;;
 ;;${NO_NOTES}
 ;;
@@ -192,14 +192,17 @@
 ;;
 ;;* ${{B}{with-cross-options}} (${KEY} fill stroke filter layer) ${BODY} body
 ;;
-;;
 ;;<!-- stack:pop li -->
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　cross マクロで描画される十字のデフォルトオプションを変更します。キーワードパラメータ
+;;群の説明は cross マクロを参照してください。
 ;;
-;;${NO_SEE_ALSO}
+;;${SEE_ALSO}
+;;
+;;* 十字
+;;* cross マクロ
 ;;
 ;;${NO_NOTES}
 ;;

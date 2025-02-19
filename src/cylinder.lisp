@@ -124,13 +124,13 @@
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　円柱を描画します。複数の円柱でスタイルを統一したい場合、macro with-cylinder-options を
+;;　円柱を描画します。複数の円柱でスタイルを統一したい場合、with-cylinder-options マクロを
 ;;使うことができます。
 ;;
 ;;${SEE_ALSO}
 ;;
 ;;* 円柱
-;;* macro with-cylinder-options
+;;* with-cylinder-options マクロ
 ;;
 ;;${NO_NOTES}
 ;;
@@ -175,9 +175,13 @@
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　cylinder マクロで描画される円柱のデフォルトオプションを変更します。キーワードパラメータ
+;;群の説明は cylinder マクロを参照してください。
 ;;
-;;${NO_SEE_ALSO}
+;;${SEE_ALSO}
+;;
+;;* 円柱
+;;* cylinder マクロ
 ;;
 ;;${NO_NOTES}
 ;;

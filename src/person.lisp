@@ -103,13 +103,13 @@
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　人物を描画します。複数の人物でスタイルを統一したい場合、
-;;macro with-person-options を使うことができます。
+;;　人物を描画します。複数の人物でスタイルを統一したい場合、with-person-options マクロを
+;;使うことができます。
 ;;
 ;;${SEE_ALSO}
 ;;
 ;;* 人物
-;;* macro with-person-options
+;;* with-person-options マクロ
 ;;
 ;;${NO_NOTES}
 ;;
@@ -140,9 +140,13 @@
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　person マクロで描画される人物のデフォルトオプションを変更します。キーワードパラメータ
+;;群の説明は person マクロを参照してください。
 ;;
-;;${NO_SEE_ALSO}
+;;${SEE_ALSO}
+;;
+;;* 人物
+;;* person マクロ
 ;;
 ;;${NO_NOTES}
 ;;

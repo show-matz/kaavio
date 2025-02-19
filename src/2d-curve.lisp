@@ -214,7 +214,7 @@
 ;;${SEE_ALSO}
 ;;
 ;;* 二次ベジェ曲線
-;;* macro 3d-curve
+;;* 3d-curve マクロ
 ;;
 ;;${NO_NOTES}
 ;;

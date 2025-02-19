@@ -154,13 +154,13 @@
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　キューブを描画します。複数のキューブでスタイルを統一したい場合、macro with-cube-options を
+;;　キューブを描画します。複数のキューブでスタイルを統一したい場合、with-cube-options マクロを
 ;;使うことができます。
 ;;
 ;;${SEE_ALSO}
 ;;
 ;;* キューブ
-;;* macro with-cube-options
+;;* with-cube-options マクロ
 ;;
 ;;${NO_NOTES}
 ;;
@@ -204,14 +204,17 @@
 ;;
 ;;* ${{B}{with-cube-options}} (${KEY} depth align valign margin font fill fill2 stroke filter layer) ${BODY} body
 ;;
-;;
 ;;<!-- stack:pop li -->
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　cube マクロで描画されるキューブのデフォルトオプションを変更します。キーワードパラメータ
+;;群の説明は cube マクロを参照してください。
 ;;
-;;${NO_SEE_ALSO}
+;;${SEE_ALSO}
+;;
+;;* キューブ
+;;* cube マクロ
 ;;
 ;;${NO_NOTES}
 ;;

@@ -160,14 +160,14 @@
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　爆発を描画します。複数の爆発でスタイルを統一したい場合、macro with-explosion-options を
+;;　爆発を描画します。複数の爆発でスタイルを統一したい場合、with-explosion-options マクロを
 ;;使うことができます。
 ;;
 ;;${SEE_ALSO}
 ;;
 ;;* 爆発
-;;* macro explosion2
-;;* macro with-explosion-options
+;;* explosion2 マクロ
+;;* with-explosion-options マクロ
 ;;
 ;;${NO_NOTES}
 ;;
@@ -224,14 +224,14 @@
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　爆発を描画します。複数の爆発でスタイルを統一したい場合、macro with-explosion-options を
+;;　爆発を描画します。複数の爆発でスタイルを統一したい場合、with-explosion-options マクロを
 ;;使うことができます。
 ;;
 ;;${SEE_ALSO}
 ;;
 ;;* 爆発
-;;* macro explosion1
-;;* macro with-explosion-options
+;;* explosion1 マクロ
+;;* with-explosion-options マクロ
 ;;
 ;;${NO_NOTES}
 ;;
@@ -272,9 +272,14 @@
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　explosion1 マクロおよび explosion2 マクロで描画される爆発のデフォルトオプションを変更
+;;します。キーワードパラメータ群の説明は explosion1 マクロを参照してください。
 ;;
-;;${NO_SEE_ALSO}
+;;${SEE_ALSO}
+;;
+;;* 爆発
+;;* explosion1 マクロ
+;;* explosion2 マクロ
 ;;
 ;;${NO_NOTES}
 ;;

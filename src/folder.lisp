@@ -139,12 +139,12 @@
 ;;${DESCRIPTION}
 ;;
 ;;　フォルダを描画します。複数のフォルダでスタイルを統一したい場合、
-;;macro with-folder-options を使うことができます。
+;;with-folder-options マクロを使うことができます。
 ;;
 ;;${SEE_ALSO}
 ;;
 ;;* フォルダ
-;;* macro with-folder-options
+;;* with-folder-options マクロ
 ;;
 ;;${NO_NOTES}
 ;;
@@ -190,9 +190,13 @@
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　folder マクロで描画されるフォルダのデフォルトオプションを変更します。キーワードパラメータ
+;;群の説明は folder マクロを参照してください。
 ;;
-;;${NO_SEE_ALSO}
+;;${SEE_ALSO}
+;;
+;;* フォルダ
+;;* folder マクロ
 ;;
 ;;${NO_NOTES}
 ;;

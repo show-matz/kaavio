@@ -27,12 +27,12 @@ ${DESCRIPTION}
 ${SEE_ALSO}
 
 * 二次ベジェ曲線
-* macro 3d-curve
+* 3d-curve マクロ
 
 ${NO_NOTES}
 
 
-<!-- autolink: [macro 2d-curve](#macro 2d-curve) -->
+<!-- autolink: [2d-curve マクロ](#macro 2d-curve) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -65,12 +65,12 @@ ${DESCRIPTION}
 ${SEE_ALSO}
 
 * 三次ベジェ曲線
-* macro 2d-curve
+* 2d-curve マクロ
 
 ${NO_NOTES}
 
 
-<!-- autolink: [macro 3d-curve](#macro 3d-curve) -->
+<!-- autolink: [3d-curve マクロ](#macro 3d-curve) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -108,12 +108,12 @@ ${DESCRIPTION}
 ${NO_SEE_ALSO}
 
 * 円弧
-* macro path
+* path マクロ
 
 ${NO_NOTES}
 
 
-<!-- autolink: [macro arc](#macro arc) -->
+<!-- autolink: [arc マクロ](#macro arc) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -150,18 +150,18 @@ ${ARGS_AND_VALS}
 
 ${DESCRIPTION}
 
-　吹き出しを描画します。複数の吹き出しでスタイルを統一したい場合、macro with-balloon-options を
+　吹き出しを描画します。複数の吹き出しでスタイルを統一したい場合、with-balloon-options マクロを
 使うことができます。
 
 ${SEE_ALSO}
 
 * 吹き出し
-* macro with-balloon-options
+* with-balloon-options マクロ
 
 ${NO_NOTES}
 
 
-<!-- autolink: [macro balloon](#macro balloon) -->
+<!-- autolink: [balloon マクロ](#macro balloon) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -191,18 +191,18 @@ ${ARGS_AND_VALS}
 ${DESCRIPTION}
 
 　ブロック矢印を描画します。複数のブロック矢印でスタイルを統一したい場合、
-macro with-block-arrow-options を使うことができます。
+with-block-arrow-options マクロを使うことができます。
 
 ${SEE_ALSO}
 
 * ブロック矢印
-* macro block-arrow2
-* macro with-block-arrow-options
+* block-arrow2 マクロ
+* with-block-arrow-options マクロ
 
 ${NO_NOTES}
 
 
-<!-- autolink: [macro block-arrow1](#macro block-arrow1) -->
+<!-- autolink: [block-arrow1 マクロ](#macro block-arrow1) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -232,18 +232,18 @@ ${ARGS_AND_VALS}
 ${DESCRIPTION}
 
 　ブロック矢印を描画します。複数のブロック矢印でスタイルを統一したい場合、
-macro with-block-arrow-options を使うことができます。
+with-block-arrow-options マクロを使うことができます。
 
 ${SEE_ALSO}
 
 * ブロック矢印
-* macro block-arrow1
-* macro with-block-arrow-options
+* block-arrow1 マクロ
+* with-block-arrow-options マクロ
 
 ${NO_NOTES}
 
 
-<!-- autolink: [macro block-arrow2](#macro block-arrow2) -->
+<!-- autolink: [block-arrow2 マクロ](#macro block-arrow2) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -274,18 +274,18 @@ ${ARGS_AND_VALS}
 
 ${DESCRIPTION}
 
-　波括弧を描画します。複数の波括弧でスタイルを統一したい場合、macro with-brace-options を
+　波括弧を描画します。複数の波括弧でスタイルを統一したい場合、with-brace-options マクロを
 使うことができます。
 
 ${SEE_ALSO}
 
 * 波括弧
-* macro with-brace-options
+* with-brace-options マクロ
 
 ${NO_NOTES}
 
 
-<!-- autolink: [macro brace](#macro brace) -->
+<!-- autolink: [brace マクロ](#macro brace) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -313,7 +313,8 @@ ${ARGS_AND_VALS}
 
 ${DESCRIPTION}
 
-　${{TODO}{まだ記述されていません。}}
+　正円を描画します。複数の基本要素でスタイルを統一したい場合、with-options マクロを
+使うことができます。
 
 ${SEE_ALSO}
 
@@ -322,7 +323,7 @@ ${SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro circle](#macro circle) -->
+<!-- autolink: [circle マクロ](#macro circle) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -360,7 +361,7 @@ ${SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro connect](#macro connect) -->
+<!-- autolink: [connect マクロ](#macro connect) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -387,7 +388,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [function copy-point](#function copy-point) -->
+<!-- autolink: [copy-point 関数](#function copy-point) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -419,18 +420,18 @@ ${ARGS_AND_VALS}
 
 ${DESCRIPTION}
 
-　十字を描画します。複数の十字でスタイルを統一したい場合、macro with-cross-options を
+　十字を描画します。複数の十字でスタイルを統一したい場合、with-cross-options マクロを
 使うことができます。
 
 ${SEE_ALSO}
 
 * 十字
-* macro with-cross-options
+* with-cross-options マクロ
 
 ${NO_NOTES}
 
 
-<!-- autolink: [macro cross](#macro cross) -->
+<!-- autolink: [cross マクロ](#macro cross) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -467,18 +468,18 @@ ${ARGS_AND_VALS}
 
 ${DESCRIPTION}
 
-　キューブを描画します。複数のキューブでスタイルを統一したい場合、macro with-cube-options を
+　キューブを描画します。複数のキューブでスタイルを統一したい場合、with-cube-options マクロを
 使うことができます。
 
 ${SEE_ALSO}
 
 * キューブ
-* macro with-cube-options
+* with-cube-options マクロ
 
 ${NO_NOTES}
 
 
-<!-- autolink: [macro cube](#macro cube) -->
+<!-- autolink: [cube マクロ](#macro cube) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -514,18 +515,18 @@ ${ARGS_AND_VALS}
 
 ${DESCRIPTION}
 
-　円柱を描画します。複数の円柱でスタイルを統一したい場合、macro with-cylinder-options を
+　円柱を描画します。複数の円柱でスタイルを統一したい場合、with-cylinder-options マクロを
 使うことができます。
 
 ${SEE_ALSO}
 
 * 円柱
-* macro with-cylinder-options
+* with-cylinder-options マクロ
 
 ${NO_NOTES}
 
 
-<!-- autolink: [macro cylinder](#macro cylinder) -->
+<!-- autolink: [cylinder マクロ](#macro cylinder) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -607,7 +608,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro defgradient](#macro defgradient) -->
+<!-- autolink: [defgradient マクロ](#macro defgradient) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -631,7 +632,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro defgroup](#macro defgroup) -->
+<!-- autolink: [defgroup マクロ](#macro defgroup) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -678,7 +679,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro defpattern](#macro defpattern) -->
+<!-- autolink: [defpattern マクロ](#macro defpattern) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -701,7 +702,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro diagram](#macro diagram) -->
+<!-- autolink: [diagram マクロ](#macro diagram) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -722,7 +723,7 @@ ${ARGS_AND_VALS}
 * `pivot` ---- 基準点がひし形のどこにくるように描画するかを指定します。詳細は「[](#座標と位置)」を参照してください。
 * `fill` ---- 内部の塗り潰しを指定します。
 * `stroke` ---- 外枠を描画するストロークを指定します。
-* `rotate` ---- 回転させる場合、その角度を指定します。詳細は「[](#回転)」を参照してください。
+* `rotate` ---- 全体を回転させたい場合に、その角度を指定します。
 * `link` ---- リンクにする場合、リンク先を指定します。
 * `layer` ---- レイヤーを指定する場合、その ID をキーワードシンボルで指定します。
 * `id` ---- ID を付与したい場合、その名前をキーワードシンボルで指定します。
@@ -731,7 +732,8 @@ ${ARGS_AND_VALS}
 
 ${DESCRIPTION}
 
-　${{TODO}{まだ記述されていません。}}
+　ひし形を描画します。複数の基本要素でスタイルを統一したい場合、with-options マクロを
+使うことができます。
 
 ${SEE_ALSO}
 
@@ -740,7 +742,7 @@ ${SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro diamond](#macro diamond) -->
+<!-- autolink: [diamond マクロ](#macro diamond) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -777,17 +779,17 @@ ${ARGS_AND_VALS}
 ${DESCRIPTION}
 
 　ドキュメントを描画します。複数のドキュメントでスタイルを統一したい場合、
-macro with-document-options を使うことができます。
+with-document-options マクロを使うことができます。
 
 ${SEE_ALSO}
 
 * ドキュメント
-* macro with-document-options
+* with-document-options マクロ
 
 ${NO_NOTES}
 
 
-<!-- autolink: [macro document](#macro document) -->
+<!-- autolink: [document マクロ](#macro document) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -826,7 +828,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro drop-shadow](#macro drop-shadow) -->
+<!-- autolink: [drop-shadow マクロ](#macro drop-shadow) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -847,7 +849,7 @@ ${ARGS_AND_VALS}
 * `pivot` ---- 基準点が楕円のどこにくるように描画するかを指定します。詳細は「[](#座標と位置)」を参照してください。
 * `fill` ---- 内部の塗り潰しを指定します。
 * `stroke` ---- 楕円を描画するストロークを指定します。
-* `rotate` ---- 回転させる場合、その角度を指定します。詳細は「[](#回転)」を参照してください。
+* `rotate` ---- 全体を回転させたい場合に、その角度を指定します。
 * `link` ---- リンクにする場合、リンク先を指定します。
 * `layer` ---- レイヤーを指定する場合、その ID をキーワードシンボルで指定します。
 * `id` ---- ID を付与したい場合、その名前をキーワードシンボルで指定します。
@@ -856,7 +858,8 @@ ${ARGS_AND_VALS}
 
 ${DESCRIPTION}
 
-　${{TODO}{まだ記述されていません。}}
+　楕円を描画します。複数の基本要素でスタイルを統一したい場合、with-options マクロを
+使うことができます。
 
 ${SEE_ALSO}
 
@@ -865,7 +868,7 @@ ${SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro ellipse](#macro ellipse) -->
+<!-- autolink: [ellipse マクロ](#macro ellipse) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -897,19 +900,19 @@ ${ARGS_AND_VALS}
 
 ${DESCRIPTION}
 
-　爆発を描画します。複数の爆発でスタイルを統一したい場合、macro with-explosion-options を
+　爆発を描画します。複数の爆発でスタイルを統一したい場合、with-explosion-options マクロを
 使うことができます。
 
 ${SEE_ALSO}
 
 * 爆発
-* macro explosion2
-* macro with-explosion-options
+* explosion2 マクロ
+* with-explosion-options マクロ
 
 ${NO_NOTES}
 
 
-<!-- autolink: [macro explosion1](#macro explosion1) -->
+<!-- autolink: [explosion1 マクロ](#macro explosion1) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -941,19 +944,19 @@ ${ARGS_AND_VALS}
 
 ${DESCRIPTION}
 
-　爆発を描画します。複数の爆発でスタイルを統一したい場合、macro with-explosion-options を
+　爆発を描画します。複数の爆発でスタイルを統一したい場合、with-explosion-options マクロを
 使うことができます。
 
 ${SEE_ALSO}
 
 * 爆発
-* macro explosion1
-* macro with-explosion-options
+* explosion1 マクロ
+* with-explosion-options マクロ
 
 ${NO_NOTES}
 
 
-<!-- autolink: [macro explosion2](#macro explosion2) -->
+<!-- autolink: [explosion2 マクロ](#macro explosion2) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -991,17 +994,17 @@ ${ARGS_AND_VALS}
 ${DESCRIPTION}
 
 　フォルダを描画します。複数のフォルダでスタイルを統一したい場合、
-macro with-folder-options を使うことができます。
+with-folder-options マクロを使うことができます。
 
 ${SEE_ALSO}
 
 * フォルダ
-* macro with-folder-options
+* with-folder-options マクロ
 
 ${NO_NOTES}
 
 
-<!-- autolink: [macro folder](#macro folder) -->
+<!-- autolink: [folder マクロ](#macro folder) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -1038,7 +1041,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro glow-shadow](#macro glow-shadow) -->
+<!-- autolink: [glow-shadow マクロ](#macro glow-shadow) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -1049,19 +1052,26 @@ ${SYNTAX}
 
 * ${{B}{grid}} ${KEY} (size 10) (bgcolor :white) stroke layer
 
-
 <!-- stack:pop li -->
+
+${ARGS_AND_VALS}
+
+* `size` ---- 挿入する SVG コード片を文字列で指定します。
+* `bgcolor` ---- 背景の塗り潰しを指定します。
+* `stroke` ----  グリッド線を描画するストロークを指定します。
+* `layer` ---- レイヤーを指定する場合、その ID をキーワードシンボルで指定します。
 
 ${DESCRIPTION}
 
-　${{TODO}{まだ記述されていません。}}
+　グリッド線を描画します。現状では常に SVG 画像全体を埋める矩形のパターンとなります。
+（サブキャンバスなど）特定の領域だけにグリッド線を描画することはできません。
 
 ${NO_SEE_ALSO}
 
 ${NO_NOTES}
 
 
-<!-- autolink: [macro grid](#macro grid) -->
+<!-- autolink: [grid マクロ](#macro grid) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -1105,7 +1115,7 @@ ${NOTES}
 場合に限り kaavio は画像ファイルにアクセスしません。
 
 
-<!-- autolink: [macro image](#macro image) -->
+<!-- autolink: [image マクロ](#macro image) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -1142,7 +1152,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [function layer](#function layer) -->
+<!-- autolink: [layer 関数](#function layer) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -1177,7 +1187,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro line](#macro line) -->
+<!-- autolink: [line マクロ](#macro line) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -1245,7 +1255,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [function make-endmark](#function make-endmark) -->
+<!-- autolink: [make-endmark 関数](#function make-endmark) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -1302,7 +1312,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [function make-fill](#function make-fill) -->
+<!-- autolink: [make-fill 関数](#function make-fill) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -1370,7 +1380,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [function make-font](#function make-font) -->
+<!-- autolink: [make-font 関数](#function make-font) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -1393,7 +1403,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [function make-id](#function make-id) -->
+<!-- autolink: [make-id 関数](#function make-id) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -1451,7 +1461,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [function make-label](#function make-label) -->
+<!-- autolink: [make-label 関数](#function make-label) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -1507,7 +1517,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [function make-link](#function make-link) -->
+<!-- autolink: [make-link 関数](#function make-link) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -1518,8 +1528,14 @@ ${SYNTAX}
 
 * ${{B}{make-point}} x y ${OPTIONAL} type => result
 
-
 <!-- stack:pop li -->
+
+${ARGS_AND_VALS}
+
+* `x` ---- x 座標を数値で指定します。
+* `y` ---- y 座標を数値で指定します。
+* `type` ---- `:relative` または `:absolute` を指定します。
+* `result` ---- point 値が返ります。
 
 ${DESCRIPTION}
 
@@ -1530,7 +1546,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [function make-point](#function make-point) -->
+<!-- autolink: [make-point 関数](#function make-point) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -1598,7 +1614,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [function make-stroke](#function make-stroke) -->
+<!-- autolink: [make-stroke 関数](#function make-stroke) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -1621,7 +1637,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [function make-uml-keyword](#function make-uml-keyword) -->
+<!-- autolink: [make-uml-keyword 関数](#function make-uml-keyword) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -1644,7 +1660,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [function make-uml-multiplicity](#function make-uml-multiplicity) -->
+<!-- autolink: [make-uml-multiplicity 関数](#function make-uml-multiplicity) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -1667,7 +1683,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [function make-uml-role](#function make-uml-role) -->
+<!-- autolink: [make-uml-role 関数](#function make-uml-role) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -1690,7 +1706,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [function make-uml-transition-spec](#function make-uml-transition-spec) -->
+<!-- autolink: [make-uml-transition-spec 関数](#function make-uml-transition-spec) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -1727,18 +1743,18 @@ ${ARGS_AND_VALS}
 
 ${DESCRIPTION}
 
-　メモを描画します。複数のメモでスタイルを統一したい場合、macro with-memo-options を
+　メモを描画します。複数のメモでスタイルを統一したい場合、with-memo-options マクロを
 使うことができます。
 
 ${SEE_ALSO}
 
 * メモ
-* macro with-memo-options
+* with-memo-options マクロ
 
 ${NO_NOTES}
 
 
-<!-- autolink: [macro memo](#macro memo) -->
+<!-- autolink: [memo マクロ](#macro memo) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -1764,8 +1780,8 @@ ${ARGS_AND_VALS}
 
 ${DESCRIPTION}
 
-　複数行に渡るパラグラフを描画します。単一行のテキストであれば macro text を、テキストボックス
-を使いたい場合は macro textbox を使うことができます。
+　複数行に渡るパラグラフを描画します。単一行のテキストであれば text マクロを、テキストボックス
+を使いたい場合は textbox マクロを使うことができます。
 
 ${SEE_ALSO}
 
@@ -1776,7 +1792,7 @@ ${SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro paragraph](#macro paragraph) -->
+<!-- autolink: [paragraph マクロ](#macro paragraph) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -1799,7 +1815,7 @@ ${ARGS_AND_VALS}
 * `pivot` ---- 基準点が平行四辺形のどこにくるように描画するかを指定します。詳細は「[](#座標と位置)」を参照してください。
 * `fill` ---- 内部の塗り潰しを指定します。
 * `stroke` ---- 外枠を描画するストロークを指定します。
-* `rotate` ---- 回転させる場合、その角度を指定します。詳細は「[](#回転)」を参照してください。
+* `rotate` ---- 全体を回転させたい場合に、その角度を指定します。
 * `link` ---- リンクにする場合、リンク先を指定します。
 * `layer` ---- レイヤーを指定する場合、その ID をキーワードシンボルで指定します。
 * `id` ---- ID を付与したい場合、その名前をキーワードシンボルで指定します。
@@ -1808,7 +1824,8 @@ ${ARGS_AND_VALS}
 
 ${DESCRIPTION}
 
-　${{TODO}{まだ記述されていません。}}
+　平行四辺形を描画します。複数の基本要素でスタイルを統一したい場合、with-options マクロを
+使うことができます。
 
 ${SEE_ALSO}
 
@@ -1817,7 +1834,7 @@ ${SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro parallelogram](#macro parallelogram) -->
+<!-- autolink: [parallelogram マクロ](#macro parallelogram) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -1850,7 +1867,7 @@ ${SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro path](#macro path) -->
+<!-- autolink: [path マクロ](#macro path) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -1879,18 +1896,18 @@ ${ARGS_AND_VALS}
 
 ${DESCRIPTION}
 
-　人物を描画します。複数の人物でスタイルを統一したい場合、
-macro with-person-options を使うことができます。
+　人物を描画します。複数の人物でスタイルを統一したい場合、with-person-options マクロを
+使うことができます。
 
 ${SEE_ALSO}
 
 * 人物
-* macro with-person-options
+* with-person-options マクロ
 
 ${NO_NOTES}
 
 
-<!-- autolink: [macro person](#macro person) -->
+<!-- autolink: [person マクロ](#macro person) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -1913,7 +1930,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [function point*](#function point*) -->
+<!-- autolink: [point* 関数](#function point*) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -1936,7 +1953,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [function point+](#function point+) -->
+<!-- autolink: [point+ 関数](#function point+) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -1959,7 +1976,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [function point-](#function point-) -->
+<!-- autolink: [point- 関数](#function point-) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -1982,7 +1999,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [function point-absolute-p](#function point-absolute-p) -->
+<!-- autolink: [point-absolute-p 関数](#function point-absolute-p) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2005,7 +2022,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [function point-distance](#function point-distance) -->
+<!-- autolink: [point-distance 関数](#function point-distance) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2028,7 +2045,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [function point-p](#function point-p) -->
+<!-- autolink: [point-p 関数](#function point-p) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2051,7 +2068,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [function point-relative-p](#function point-relative-p) -->
+<!-- autolink: [point-relative-p 関数](#function point-relative-p) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2075,7 +2092,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [function point-x](#function point-x) -->
+<!-- autolink: [point-x 関数](#function point-x) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2099,7 +2116,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [function point-y](#function point-y) -->
+<!-- autolink: [point-y 関数](#function point-y) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2122,7 +2139,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [function point/](#function point/) -->
+<!-- autolink: [point/ 関数](#function point/) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2145,7 +2162,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [function point/x+](#function point/x+) -->
+<!-- autolink: [point/x+ 関数](#function point/x+) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2168,7 +2185,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [function point/xy+](#function point/xy+) -->
+<!-- autolink: [point/xy+ 関数](#function point/xy+) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2191,7 +2208,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [function point/y+](#function point/y+) -->
+<!-- autolink: [point/y+ 関数](#function point/y+) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2216,14 +2233,17 @@ ${ARGS_AND_VALS}
 
 ${DESCRIPTION}
 
-　${{TODO}{まだ記述されていません。}}
+　多角形を描画します。複数の基本要素でスタイルを統一したい場合、with-options マクロを
+使うことができます。
 
-${NO_SEE_ALSO}
+${SEE_ALSO}
+
+* 多角形
 
 ${NO_NOTES}
 
 
-<!-- autolink: [macro polygon](#macro polygon) -->
+<!-- autolink: [polygon マクロ](#macro polygon) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2246,7 +2266,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [function pt*](#function pt*) -->
+<!-- autolink: [pt* 関数](#function pt*) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2269,7 +2289,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [function pt+](#function pt+) -->
+<!-- autolink: [pt+ 関数](#function pt+) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2292,7 +2312,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [function pt-](#function pt-) -->
+<!-- autolink: [pt- 関数](#function pt-) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2315,7 +2335,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [function pt/](#function pt/) -->
+<!-- autolink: [pt/ 関数](#function pt/) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2344,7 +2364,7 @@ ${SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro raw-svg](#macro raw-svg) -->
+<!-- autolink: [raw-svg マクロ](#macro raw-svg) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2375,7 +2395,8 @@ ${ARGS_AND_VALS}
 
 ${DESCRIPTION}
 
-　${{TODO}{まだ記述されていません。}}
+　四角形を描画します。複数の基本要素でスタイルを統一したい場合、with-options マクロを
+使うことができます。
 
 ${SEE_ALSO}
 
@@ -2384,7 +2405,7 @@ ${SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro rect](#macro rect) -->
+<!-- autolink: [rect マクロ](#macro rect) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2407,7 +2428,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro register-theme](#macro register-theme) -->
+<!-- autolink: [register-theme マクロ](#macro register-theme) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2445,7 +2466,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [function repeat](#function repeat) -->
+<!-- autolink: [repeat 関数](#function repeat) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2468,7 +2489,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [function rgb](#function rgb) -->
+<!-- autolink: [rgb 関数](#function rgb) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2496,15 +2517,15 @@ ${ARGS_AND_VALS}
 
 ${DESCRIPTION}
 
-　テーブルを描画します。複数のテーブルでスタイルを統一したい場合、macro with-table-options を
+　テーブルを描画します。複数のテーブルでスタイルを統一したい場合、with-table-options マクロを
 使うことができます。
 
 ${SEE_ALSO}
 
 * テーブル
-* macro with-table-options
-* macro with-table-cell
-* macro with-table-range
+* with-table-options マクロ
+* with-table-cell マクロ
+* with-table-range マクロ
 
 ${NOTES}
 
@@ -2516,7 +2537,7 @@ ${NOTES}
 表の背景は塗り潰されません。
 
 
-<!-- autolink: [macro table](#macro table) -->
+<!-- autolink: [table マクロ](#macro table) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2541,7 +2562,8 @@ ${ARGS_AND_VALS}
 
 ${DESCRIPTION}
 
-　${{TODO}{まだ記述されていません。}}
+　テキストを描画します。複数の基本要素でスタイルを統一したい場合、with-options マクロを
+使うことができます。
 
 ${SEE_ALSO}
 
@@ -2550,7 +2572,7 @@ ${SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro text](#macro text) -->
+<!-- autolink: [text マクロ](#macro text) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2588,17 +2610,17 @@ ${ARGS_AND_VALS}
 ${DESCRIPTION}
 
 　テキストボックスを描画します。複数のテキストボックスでスタイルを統一したい場合、
-macro with-textbox-options を使うことができます。
+with-textbox-options マクロを使うことができます。
 
 ${NO_SEE_ALSO}
 
 * テキストボックス
-* macro with-textbox-options
+* with-textbox-options マクロ
 
 ${NO_NOTES}
 
 
-<!-- autolink: [macro textbox](#macro textbox) -->
+<!-- autolink: [textbox マクロ](#macro textbox) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2624,7 +2646,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro uml-action](#macro uml-action) -->
+<!-- autolink: [uml-action マクロ](#macro uml-action) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2647,7 +2669,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro uml-activity-final](#macro uml-activity-final) -->
+<!-- autolink: [uml-activity-final マクロ](#macro uml-activity-final) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2670,7 +2692,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro uml-activity-start](#macro uml-activity-start) -->
+<!-- autolink: [uml-activity-start マクロ](#macro uml-activity-start) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2693,7 +2715,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro uml-actor](#macro uml-actor) -->
+<!-- autolink: [uml-actor マクロ](#macro uml-actor) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2716,7 +2738,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro uml-aggregation](#macro uml-aggregation) -->
+<!-- autolink: [uml-aggregation マクロ](#macro uml-aggregation) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2739,7 +2761,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro uml-association](#macro uml-association) -->
+<!-- autolink: [uml-association マクロ](#macro uml-association) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2762,7 +2784,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro uml-class](#macro uml-class) -->
+<!-- autolink: [uml-class マクロ](#macro uml-class) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2785,7 +2807,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro uml-component](#macro uml-component) -->
+<!-- autolink: [uml-component マクロ](#macro uml-component) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2808,7 +2830,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro uml-composition](#macro uml-composition) -->
+<!-- autolink: [uml-composition マクロ](#macro uml-composition) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2831,7 +2853,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro uml-connector](#macro uml-connector) -->
+<!-- autolink: [uml-connector マクロ](#macro uml-connector) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2854,7 +2876,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro uml-decision](#macro uml-decision) -->
+<!-- autolink: [uml-decision マクロ](#macro uml-decision) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2877,7 +2899,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro uml-dependency](#macro uml-dependency) -->
+<!-- autolink: [uml-dependency マクロ](#macro uml-dependency) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2900,7 +2922,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro uml-expansion-region](#macro uml-expansion-region) -->
+<!-- autolink: [uml-expansion-region マクロ](#macro uml-expansion-region) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2923,7 +2945,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro uml-flow](#macro uml-flow) -->
+<!-- autolink: [uml-flow マクロ](#macro uml-flow) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2946,7 +2968,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro uml-flow-final](#macro uml-flow-final) -->
+<!-- autolink: [uml-flow-final マクロ](#macro uml-flow-final) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2969,7 +2991,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro uml-fork](#macro uml-fork) -->
+<!-- autolink: [uml-fork マクロ](#macro uml-fork) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2992,7 +3014,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro uml-frame](#macro uml-frame) -->
+<!-- autolink: [uml-frame マクロ](#macro uml-frame) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -3015,7 +3037,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro uml-generalization](#macro uml-generalization) -->
+<!-- autolink: [uml-generalization マクロ](#macro uml-generalization) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -3038,7 +3060,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro uml-interface](#macro uml-interface) -->
+<!-- autolink: [uml-interface マクロ](#macro uml-interface) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -3061,7 +3083,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro uml-interface-request](#macro uml-interface-request) -->
+<!-- autolink: [uml-interface-request マクロ](#macro uml-interface-request) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -3084,7 +3106,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro uml-interface-socket](#macro uml-interface-socket) -->
+<!-- autolink: [uml-interface-socket マクロ](#macro uml-interface-socket) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -3109,7 +3131,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro uml-join](#macro uml-join) -->
+<!-- autolink: [uml-join マクロ](#macro uml-join) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -3132,7 +3154,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro uml-merge](#macro uml-merge) -->
+<!-- autolink: [uml-merge マクロ](#macro uml-merge) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -3155,7 +3177,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro uml-node](#macro uml-node) -->
+<!-- autolink: [uml-node マクロ](#macro uml-node) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -3185,7 +3207,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro uml-note](#macro uml-note) -->
+<!-- autolink: [uml-note マクロ](#macro uml-note) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -3208,7 +3230,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro uml-package](#macro uml-package) -->
+<!-- autolink: [uml-package マクロ](#macro uml-package) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -3231,7 +3253,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro uml-partition](#macro uml-partition) -->
+<!-- autolink: [uml-partition マクロ](#macro uml-partition) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -3254,7 +3276,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro uml-pin](#macro uml-pin) -->
+<!-- autolink: [uml-pin マクロ](#macro uml-pin) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -3277,7 +3299,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro uml-realization](#macro uml-realization) -->
+<!-- autolink: [uml-realization マクロ](#macro uml-realization) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -3300,7 +3322,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro uml-signal](#macro uml-signal) -->
+<!-- autolink: [uml-signal マクロ](#macro uml-signal) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -3323,7 +3345,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro uml-state](#macro uml-state) -->
+<!-- autolink: [uml-state マクロ](#macro uml-state) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -3346,7 +3368,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro uml-state-begin](#macro uml-state-begin) -->
+<!-- autolink: [uml-state-begin マクロ](#macro uml-state-begin) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -3369,7 +3391,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro uml-state-end](#macro uml-state-end) -->
+<!-- autolink: [uml-state-end マクロ](#macro uml-state-end) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -3392,7 +3414,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro uml-state-history](#macro uml-state-history) -->
+<!-- autolink: [uml-state-history マクロ](#macro uml-state-history) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -3415,7 +3437,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro uml-time-event](#macro uml-time-event) -->
+<!-- autolink: [uml-time-event マクロ](#macro uml-time-event) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -3438,7 +3460,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro uml-transition](#macro uml-transition) -->
+<!-- autolink: [uml-transition マクロ](#macro uml-transition) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -3461,7 +3483,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro uml-usecase](#macro uml-usecase) -->
+<!-- autolink: [uml-usecase マクロ](#macro uml-usecase) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -3484,7 +3506,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro use](#macro use) -->
+<!-- autolink: [use マクロ](#macro use) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -3500,16 +3522,18 @@ ${SYNTAX}
 
 ${DESCRIPTION}
 
-　${{TODO}{まだ記述されていません。}}
+　balloon  マクロで描画される吹き出しのデフォルトオプションを変更します。キーワードパラメータ
+群の説明は balloon マクロを参照してください。
 
 ${SEE_ALSO}
 
-* macro balloon
+* 吹き出し
+* balloon マクロ
 
 ${NO_NOTES}
 
 
-<!-- autolink: [macro with-balloon-options](#macro with-balloon-options) -->
+<!-- autolink: [with-balloon-options マクロ](#macro with-balloon-options) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -3520,19 +3544,24 @@ ${SYNTAX}
 
 * ${{B}{with-block-arrow-options}} (${KEY} length size margin fill stroke filter layer) ${BODY} body
 
-
 <!-- stack:pop li -->
 
 ${DESCRIPTION}
 
-　${{TODO}{まだ記述されていません。}}
+　block-arrow1 マクロおよび block-arrow2 マクロで描画されるブロック矢印のデフォルト
+オプションを変更します。キーワードパラメータ群の説明は block-arrow1 マクロを参照して
+ください。
 
-${NO_SEE_ALSO}
+${SEE_ALSO}
+
+* ブロック矢印
+* block-arrow1 マクロ
+* block-arrow2 マクロ
 
 ${NO_NOTES}
 
 
-<!-- autolink: [macro with-block-arrow-options](#macro with-block-arrow-options) -->
+<!-- autolink: [with-block-arrow-options マクロ](#macro with-block-arrow-options) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -3543,19 +3572,22 @@ ${SYNTAX}
 
 * ${{B}{with-brace-options}} (${KEY} font stroke filter layer) ${BODY} body
 
-
 <!-- stack:pop li -->
 
 ${DESCRIPTION}
 
-　${{TODO}{まだ記述されていません。}}
+　brace マクロで描画される波括弧のデフォルトオプションを変更します。キーワードパラメータ
+群の説明は brace マクロを参照してください。
 
-${NO_SEE_ALSO}
+${SEE_ALSO}
+
+* 波括弧
+* brace マクロ
 
 ${NO_NOTES}
 
 
-<!-- autolink: [macro with-brace-options](#macro with-brace-options) -->
+<!-- autolink: [with-brace-options マクロ](#macro with-brace-options) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -3580,7 +3612,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro with-canvas](#macro with-canvas) -->
+<!-- autolink: [with-canvas マクロ](#macro with-canvas) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -3591,19 +3623,22 @@ ${SYNTAX}
 
 * ${{B}{with-cross-options}} (${KEY} fill stroke filter layer) ${BODY} body
 
-
 <!-- stack:pop li -->
 
 ${DESCRIPTION}
 
-　${{TODO}{まだ記述されていません。}}
+　cross マクロで描画される十字のデフォルトオプションを変更します。キーワードパラメータ
+群の説明は cross マクロを参照してください。
 
-${NO_SEE_ALSO}
+${SEE_ALSO}
+
+* 十字
+* cross マクロ
 
 ${NO_NOTES}
 
 
-<!-- autolink: [macro with-cross-options](#macro with-cross-options) -->
+<!-- autolink: [with-cross-options マクロ](#macro with-cross-options) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -3614,19 +3649,22 @@ ${SYNTAX}
 
 * ${{B}{with-cube-options}} (${KEY} depth align valign margin font fill fill2 stroke filter layer) ${BODY} body
 
-
 <!-- stack:pop li -->
 
 ${DESCRIPTION}
 
-　${{TODO}{まだ記述されていません。}}
+　cube マクロで描画されるキューブのデフォルトオプションを変更します。キーワードパラメータ
+群の説明は cube マクロを参照してください。
 
-${NO_SEE_ALSO}
+${SEE_ALSO}
+
+* キューブ
+* cube マクロ
 
 ${NO_NOTES}
 
 
-<!-- autolink: [macro with-cube-options](#macro with-cube-options) -->
+<!-- autolink: [with-cube-options マクロ](#macro with-cube-options) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -3649,7 +3687,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro with-current-canvas](#macro with-current-canvas) -->
+<!-- autolink: [with-current-canvas マクロ](#macro with-current-canvas) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -3665,14 +3703,18 @@ ${SYNTAX}
 
 ${DESCRIPTION}
 
-　${{TODO}{まだ記述されていません。}}
+　cylinder マクロで描画される円柱のデフォルトオプションを変更します。キーワードパラメータ
+群の説明は cylinder マクロを参照してください。
 
-${NO_SEE_ALSO}
+${SEE_ALSO}
+
+* 円柱
+* cylinder マクロ
 
 ${NO_NOTES}
 
 
-<!-- autolink: [macro with-cylinder-options](#macro with-cylinder-options) -->
+<!-- autolink: [with-cylinder-options マクロ](#macro with-cylinder-options) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -3688,14 +3730,18 @@ ${SYNTAX}
 
 ${DESCRIPTION}
 
-　${{TODO}{まだ記述されていません。}}
+　document マクロで描画されるドキュメントのデフォルトオプションを変更します。キーワード
+パラメータ群の説明は document マクロを参照してください。
 
-${NO_SEE_ALSO}
+${SEE_ALSO}
+
+* ドキュメント
+* document マクロ
 
 ${NO_NOTES}
 
 
-<!-- autolink: [macro with-document-options](#macro with-document-options) -->
+<!-- autolink: [with-document-options マクロ](#macro with-document-options) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -3718,7 +3764,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro with-endmark-options](#macro with-endmark-options) -->
+<!-- autolink: [with-endmark-options マクロ](#macro with-endmark-options) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -3734,14 +3780,19 @@ ${SYNTAX}
 
 ${DESCRIPTION}
 
-　${{TODO}{まだ記述されていません。}}
+　explosion1 マクロおよび explosion2 マクロで描画される爆発のデフォルトオプションを変更
+します。キーワードパラメータ群の説明は explosion1 マクロを参照してください。
 
-${NO_SEE_ALSO}
+${SEE_ALSO}
+
+* 爆発
+* explosion1 マクロ
+* explosion2 マクロ
 
 ${NO_NOTES}
 
 
-<!-- autolink: [macro with-explosion-options](#macro with-explosion-options) -->
+<!-- autolink: [with-explosion-options マクロ](#macro with-explosion-options) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -3757,14 +3808,18 @@ ${SYNTAX}
 
 ${DESCRIPTION}
 
-　${{TODO}{まだ記述されていません。}}
+　folder マクロで描画されるフォルダのデフォルトオプションを変更します。キーワードパラメータ
+群の説明は folder マクロを参照してください。
 
-${NO_SEE_ALSO}
+${SEE_ALSO}
+
+* フォルダ
+* folder マクロ
 
 ${NO_NOTES}
 
 
-<!-- autolink: [macro with-folder-options](#macro with-folder-options) -->
+<!-- autolink: [with-folder-options マクロ](#macro with-folder-options) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -3787,7 +3842,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro with-label-options](#macro with-label-options) -->
+<!-- autolink: [with-label-options マクロ](#macro with-label-options) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -3803,14 +3858,18 @@ ${SYNTAX}
 
 ${DESCRIPTION}
 
-　${{TODO}{まだ記述されていません。}}
+　memo マクロで描画されるメモのデフォルトオプションを変更します。キーワードパラメータ
+群の説明は memo マクロを参照してください。
 
-${NO_SEE_ALSO}
+${SEE_ALSO}
+
+* メモ
+* memo マクロ
 
 ${NO_NOTES}
 
 
-<!-- autolink: [macro with-memo-options](#macro with-memo-options) -->
+<!-- autolink: [with-memo-options マクロ](#macro with-memo-options) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -3821,19 +3880,26 @@ ${SYNTAX}
 
 * ${{B}{with-options}} (${KEY} fill stroke font filter layer) ${BODY} body
 
-
 <!-- stack:pop li -->
+
+${ARGS_AND_VALS}
+
+* `fill` ---- 内部の塗り潰しを指定します。
+* `stroke` ---- 外枠を描画するストロークを指定します。
+* `font` ---- フォントを指定します。
+* `filter` ---- フィルタを適用したい場合、その ID をキーワードシンボルで指定します。
+* `layer` ---- レイヤーを指定する場合、その ID をキーワードシンボルで指定します。
 
 ${DESCRIPTION}
 
-　${{TODO}{まだ記述されていません。}}
+　ストローク、塗り潰し、フォントなどのデフォルト設定を変更します。
 
 ${NO_SEE_ALSO}
 
 ${NO_NOTES}
 
 
-<!-- autolink: [macro with-options](#macro with-options) -->
+<!-- autolink: [with-options マクロ](#macro with-options) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -3849,14 +3915,18 @@ ${SYNTAX}
 
 ${DESCRIPTION}
 
-　${{TODO}{まだ記述されていません。}}
+　person マクロで描画される人物のデフォルトオプションを変更します。キーワードパラメータ
+群の説明は person マクロを参照してください。
 
-${NO_SEE_ALSO}
+${SEE_ALSO}
+
+* 人物
+* person マクロ
 
 ${NO_NOTES}
 
 
-<!-- autolink: [macro with-person-options](#macro with-person-options) -->
+<!-- autolink: [with-person-options マクロ](#macro with-person-options) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -3879,7 +3949,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro with-point](#macro with-point) -->
+<!-- autolink: [with-point マクロ](#macro with-point) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -3902,7 +3972,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro with-subcanvas](#macro with-subcanvas) -->
+<!-- autolink: [with-subcanvas マクロ](#macro with-subcanvas) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -3925,7 +3995,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro with-subcanvas-of](#macro with-subcanvas-of) -->
+<!-- autolink: [with-subcanvas-of マクロ](#macro with-subcanvas-of) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -3948,7 +4018,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro with-table-cell](#macro with-table-cell) -->
+<!-- autolink: [with-table-cell マクロ](#macro with-table-cell) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -3964,14 +4034,18 @@ ${SYNTAX}
 
 ${DESCRIPTION}
 
-　${{TODO}{まだ記述されていません。}}
+　table マクロで描画されるテーブルのデフォルトオプションを変更します。キーワードパラメータ
+群の説明は table マクロを参照してください。
 
-${NO_SEE_ALSO}
+${SEE_ALSO}
+
+* テーブル
+* table マクロ
 
 ${NO_NOTES}
 
 
-<!-- autolink: [macro with-table-options](#macro with-table-options) -->
+<!-- autolink: [with-table-options マクロ](#macro with-table-options) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -3994,7 +4068,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro with-table-range](#macro with-table-range) -->
+<!-- autolink: [with-table-range マクロ](#macro with-table-range) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -4010,14 +4084,18 @@ ${SYNTAX}
 
 ${DESCRIPTION}
 
-　${{TODO}{まだ記述されていません。}}
+　textbox マクロで描画されるテキストボックスのデフォルトオプションを変更します。キーワード
+パラメータ群の説明は textbox マクロを参照してください。
 
-${NO_SEE_ALSO}
+${SEE_ALSO}
+
+* テキストボックス
+* textbox マクロ
 
 ${NO_NOTES}
 
 
-<!-- autolink: [macro with-textbox-options](#macro with-textbox-options) -->
+<!-- autolink: [with-textbox-options マクロ](#macro with-textbox-options) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -4040,7 +4118,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro with-theme](#macro with-theme) -->
+<!-- autolink: [with-theme マクロ](#macro with-theme) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -4065,7 +4143,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro with-uml-action-options](#macro with-uml-action-options) -->
+<!-- autolink: [with-uml-action-options マクロ](#macro with-uml-action-options) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -4088,7 +4166,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro with-uml-activity-final-options](#macro with-uml-activity-final-options) -->
+<!-- autolink: [with-uml-activity-final-options マクロ](#macro with-uml-activity-final-options) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -4111,7 +4189,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro with-uml-activity-start-options](#macro with-uml-activity-start-options) -->
+<!-- autolink: [with-uml-activity-start-options マクロ](#macro with-uml-activity-start-options) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -4134,7 +4212,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro with-uml-connector-options](#macro with-uml-connector-options) -->
+<!-- autolink: [with-uml-connector-options マクロ](#macro with-uml-connector-options) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -4157,7 +4235,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro with-uml-decision-merge-options](#macro with-uml-decision-merge-options) -->
+<!-- autolink: [with-uml-decision-merge-options マクロ](#macro with-uml-decision-merge-options) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -4180,7 +4258,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro with-uml-expansion-region-options](#macro with-uml-expansion-region-options) -->
+<!-- autolink: [with-uml-expansion-region-options マクロ](#macro with-uml-expansion-region-options) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -4203,7 +4281,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro with-uml-flow-final-options](#macro with-uml-flow-final-options) -->
+<!-- autolink: [with-uml-flow-final-options マクロ](#macro with-uml-flow-final-options) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -4226,7 +4304,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro with-uml-flow-options](#macro with-uml-flow-options) -->
+<!-- autolink: [with-uml-flow-options マクロ](#macro with-uml-flow-options) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -4249,7 +4327,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro with-uml-fork-join-options](#macro with-uml-fork-join-options) -->
+<!-- autolink: [with-uml-fork-join-options マクロ](#macro with-uml-fork-join-options) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -4272,7 +4350,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro with-uml-frame-options](#macro with-uml-frame-options) -->
+<!-- autolink: [with-uml-frame-options マクロ](#macro with-uml-frame-options) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -4295,7 +4373,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro with-uml-note-options](#macro with-uml-note-options) -->
+<!-- autolink: [with-uml-note-options マクロ](#macro with-uml-note-options) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -4318,7 +4396,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro with-uml-partition-lane](#macro with-uml-partition-lane) -->
+<!-- autolink: [with-uml-partition-lane マクロ](#macro with-uml-partition-lane) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -4341,7 +4419,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro with-uml-partition-options](#macro with-uml-partition-options) -->
+<!-- autolink: [with-uml-partition-options マクロ](#macro with-uml-partition-options) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -4364,7 +4442,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro with-uml-pin-options](#macro with-uml-pin-options) -->
+<!-- autolink: [with-uml-pin-options マクロ](#macro with-uml-pin-options) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -4387,7 +4465,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro with-uml-signal-options](#macro with-uml-signal-options) -->
+<!-- autolink: [with-uml-signal-options マクロ](#macro with-uml-signal-options) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -4410,7 +4488,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [macro with-uml-time-event-options](#macro with-uml-time-event-options) -->
+<!-- autolink: [with-uml-time-event-options マクロ](#macro with-uml-time-event-options) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -4433,7 +4511,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [function x+](#function x+) -->
+<!-- autolink: [x+ 関数](#function x+) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -4456,7 +4534,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [function xy+](#function xy+) -->
+<!-- autolink: [xy+ 関数](#function xy+) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -4479,7 +4557,7 @@ ${NO_SEE_ALSO}
 ${NO_NOTES}
 
 
-<!-- autolink: [function y+](#function y+) -->
+<!-- autolink: [y+ 関数](#function y+) -->
 
 ${BLANK_PARAGRAPH}
 

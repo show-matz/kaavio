@@ -13,8 +13,14 @@
 ;;
 ;;* ${{B}{make-point}} x y ${OPTIONAL} type => result
 ;;
-;;
 ;;<!-- stack:pop li -->
+;;
+;;${ARGS_AND_VALS}
+;;
+;;* `x` ---- x 座標を数値で指定します。
+;;* `y` ---- y 座標を数値で指定します。
+;;* `type` ---- `:relative` または `:absolute` を指定します。
+;;* `result` ---- point 値が返ります。
 ;;
 ;;${DESCRIPTION}
 ;;

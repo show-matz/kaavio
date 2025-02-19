@@ -117,12 +117,12 @@
 ;;${DESCRIPTION}
 ;;
 ;;　ドキュメントを描画します。複数のドキュメントでスタイルを統一したい場合、
-;;macro with-document-options を使うことができます。
+;;with-document-options マクロを使うことができます。
 ;;
 ;;${SEE_ALSO}
 ;;
 ;;* ドキュメント
-;;* macro with-document-options
+;;* with-document-options マクロ
 ;;
 ;;${NO_NOTES}
 ;;
@@ -166,9 +166,13 @@
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　document マクロで描画されるドキュメントのデフォルトオプションを変更します。キーワード
+;;パラメータ群の説明は document マクロを参照してください。
 ;;
-;;${NO_SEE_ALSO}
+;;${SEE_ALSO}
+;;
+;;* ドキュメント
+;;* document マクロ
 ;;
 ;;${NO_NOTES}
 ;;

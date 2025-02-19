@@ -240,7 +240,7 @@
 ;;${NO_SEE_ALSO}
 ;;
 ;;* 円弧
-;;* macro path
+;;* path マクロ
 ;;
 ;;${NO_NOTES}
 ;;

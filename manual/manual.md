@@ -374,7 +374,7 @@ ${BLANK_PARAGRAPH}
   (rect '(150 50) 150 60 :rx 10 :stroke :navy :fill :skyblue))
 -->
 
-　macro rect によって四角形を描画できます。角を丸くすることもできます。
+　rect マクロによって四角形を描画できます。角を丸くすることもできます。
 
 ```kaavio
 <!-- expand: RECTANGLE-SAMPLE -->
@@ -382,7 +382,7 @@ ${BLANK_PARAGRAPH}
 Figure. rect のサンプル
 
 
-　上記サンプルのソースは以下の通りです。パラメータの詳細については macro rect を参照して
+　上記サンプルのソースは以下の通りです。パラメータの詳細については rect マクロを参照して
 ください。
 
 ```lisp
@@ -400,7 +400,7 @@ ${BLANK_PARAGRAPH}
   (circle '(150 50) 30 :stroke :brown :fill :bisque))
 -->
 
-　macro circle によって正円を描画できます。楕円を描画したい場合は macro ellipse を使用
+　circle マクロによって正円を描画できます。楕円を描画したい場合は ellipse マクロを使用
 してください。
 
 ```kaavio
@@ -408,7 +408,7 @@ ${BLANK_PARAGRAPH}
 ```
 Figure. circle のサンプル
 
-　上記サンプルのソースは以下の通りです。パラメータの詳細については macro circle を参照
+　上記サンプルのソースは以下の通りです。パラメータの詳細については circle マクロを参照
 してください。
 
 ```lisp
@@ -426,7 +426,7 @@ ${BLANK_PARAGRAPH}
   (ellipse '(150 50) 60 30 :stroke :olive :fill :beige))
 -->
 
-　macro ellipse によって正円を描画できます。楕円を描画したい場合は macro circle を使用
+　ellipse マクロによって楕円を描画できます。正円を描画したい場合は circle マクロを使用
 してください。
 
 ```kaavio
@@ -434,7 +434,7 @@ ${BLANK_PARAGRAPH}
 ```
 Figure. ellipse のサンプル
 
-　上記サンプルのソースは以下の通りです。パラメータの詳細については macro ellipse を参照
+　上記サンプルのソースは以下の通りです。パラメータの詳細については ellipse マクロを参照
 してください。
 
 ```lisp
@@ -455,14 +455,14 @@ ${BLANK_PARAGRAPH}
              (160.15 40.10)) :stroke :red :fill :lightpink))
 -->
 
-　macro polygon によって多角形、すなわち複数の直線からなる形状を描画できます。
+　polygon マクロによって多角形、すなわち複数の直線からなる形状を描画できます。
 
 ```kaavio
 <!-- expand: POLYGON-SAMPLE -->
 ```
 Figure. polygon のサンプル
 
-　上記サンプルのソースは以下の通りです。パラメータの詳細については macro polygon を参照
+　上記サンプルのソースは以下の通りです。パラメータの詳細については polygon マクロを参照
 してください。
 
 ```lisp
@@ -484,7 +484,7 @@ ${BLANK_PARAGRAPH}
           (185 50) (210 50)) :stroke :red))
 -->
 
-　macro line によって直線（または複数の直線からなる折線）を描画できます。図形要素
+　line マクロによって直線（または複数の直線からなる折線）を描画できます。図形要素
 どうしを接続したい場合はコネクタを使用した方が良いでしょう。
 
 ```kaavio
@@ -492,7 +492,7 @@ ${BLANK_PARAGRAPH}
 ```
 Figure. line のサンプル
 
-　上記サンプルのソースは以下の通りです。パラメータの詳細については macro line を参照
+　上記サンプルのソースは以下の通りです。パラメータの詳細については line マクロを参照
 してください。
 
 ```lisp
@@ -510,7 +510,7 @@ ${BLANK_PARAGRAPH}
   (arc '(150 55) 25 25 0 30 300 :stroke '(:color :navy :width 8)))
 -->
 
-　macro arc によって円弧を描画できます。パスにおける `:arc-to` の機能を単独の図形要素に
+　arc マクロによって円弧を描画できます。パスにおける `:arc-to` の機能を単独の図形要素に
 したものです。端点に終端マークをつけることもできます。
 
 ```kaavio
@@ -525,7 +525,7 @@ Figure. arc のサンプル
 <!-- expand: ARC-SAMPLE -->
 ```
 
-　パラメータの詳細については macro arc を参照してください。ここでは、必須パラメー
+　パラメータの詳細については arc マクロを参照してください。ここでは、必須パラメー
 タに限定して簡単に説明します。 `(arc center rx ry x-axis-rotation degree1 degree2)` と
 した場合、 `center` を中心とした x 半径 `rx` 、y 半径 `ry` の楕円を `x-axis-rotation` だけ
 回転させたものの上で、角度 `degree1` から（時計回りに） `degree2` までの部分弧を描きます。
@@ -556,7 +556,7 @@ Figure. arc のサンプル - 2
 させることに意味はないので、 `x-axis-rotation` は 0 にしてください。
 
 　marcro arc を使用した円弧の描画は、「中心と角度」が明らかな場合に使用します。そうではなく、
-円弧の開始点と終了点が明らかな場合は、macro path を使用した方が良いでしょう。
+円弧の開始点と終了点が明らかな場合は、path マクロを使用した方が良いでしょう。
 
 
 
@@ -619,14 +619,14 @@ ${BLANK_PARAGRAPH}
                 :size 48 :weight :bold :fill :green :style :italic)))
 -->
 
-　macro text によってテキストを描画できます。
+　text マクロによってテキストを描画できます。
 
 ```kaavio
 <!-- expand: TEXT-SAMPLE -->
 ```
 Figure. text のサンプル
 
-　上記サンプルのソースは以下の通りです。パラメータの詳細については macro text を参照
+　上記サンプルのソースは以下の通りです。パラメータの詳細については text マクロを参照
 してください。
 
 ```lisp
@@ -661,14 +661,14 @@ ${BLANK_PARAGRAPH}
   (diamond '(150 50) 150 60 :stroke '(:color :red3 :width 2) :fill :plum3))
 -->
 
-　macro diamond によってひし形を描画できます。
+　diamond マクロによってひし形を描画できます。
 
 ```kaavio
 <!-- expand: DIAMOND-SAMPLE -->
 ```
 Figure. diamond のサンプル
 
-　上記サンプルのソースは以下の通りです。パラメータの詳細については macro diamond を参照
+　上記サンプルのソースは以下の通りです。パラメータの詳細については diamond マクロを参照
 してください。
 
 ```lisp
@@ -688,14 +688,14 @@ ${BLANK_PARAGRAPH}
                  :stroke '(:color :darkslateblue :width 2)))
 -->
 
-　macro parallelogram によって平行四辺形を描画できます。
+　parallelogram マクロによって平行四辺形を描画できます。
 
 ```kaavio
 <!-- expand: PARALLELOGRAM-SAMPLE -->
 ```
 Figure. parallelogram のサンプル
 
-　上記サンプルのソースは以下の通りです。パラメータの詳細については macro parallelogram を
+　上記サンプルのソースは以下の通りです。パラメータの詳細については parallelogram マクロを
 参照してください。
 
 ```lisp
@@ -757,7 +757,7 @@ ${BLANK_PARAGRAPH}
               :debug nil :stroke '(:color :slateblue :width 4))))
 -->
 
-　macro 2d-curve によって二次ベジェ曲線を描画できます。パスにおける `:2d-curve-to` の機能を
+　2d-curve マクロによって二次ベジェ曲線を描画できます。パスにおける `:2d-curve-to` の機能を
 単独の図形要素にしたものです。端点に終端マークをつけることもできます。
 
 ```kaavio
@@ -766,7 +766,7 @@ ${BLANK_PARAGRAPH}
 Figure. 2d-curve のサンプル
 
 
-　上記サンプルのソースは以下の通りです。パラメータの詳細については macro 2d-curve を参照して
+　上記サンプルのソースは以下の通りです。パラメータの詳細については 2d-curve マクロを参照して
 ください。
 
 ```lisp
@@ -823,7 +823,7 @@ ${BLANK_PARAGRAPH}
               :debug nil :stroke '(:color :slateblue :width 4))))
 -->
 
-　macro 3d-curve によって三次ベジェ曲線を描画できます。パスにおける `:3d-curve-to` の機能を
+　3d-curve マクロによって三次ベジェ曲線を描画できます。パスにおける `:3d-curve-to` の機能を
 単独の図形要素にしたものです。端点に終端マークをつけることもできます。
 
 ```kaavio
@@ -832,7 +832,7 @@ ${BLANK_PARAGRAPH}
 Figure. 3d-curve のサンプル
 
 
-　上記サンプルのソースは以下の通りです。パラメータの詳細については macro 3d-curve を参照して
+　上記サンプルのソースは以下の通りです。パラメータの詳細については 3d-curve マクロを参照して
 ください。
 
 ```lisp
@@ -1008,7 +1008,7 @@ ${BLANK_PARAGRAPH}
     (connect :r2 :r3 :style :CC :end2 :arrow)))
 -->
 
-　macro connect によって図形要素どうしを接続することができます。また、終端に矢印などの
+　connect マクロによって図形要素どうしを接続することができます。また、終端に矢印などの
 マークをつけたり、ラベルを付与することもできます。
 
 ```kaavio
@@ -1024,7 +1024,7 @@ Figure. コネクタのサンプル
 
 ${BLANK_PARAGRAPH}
 
-　パラメータの詳細については macro connect を参照してください。ここでは、 `:style` パラ
+　パラメータの詳細については connect マクロを参照してください。ここでは、 `:style` パラ
 メータについて説明します。まず、 `:style` のデフォルト値でもある `:CC` は「Center to 
 Center」という意味で、対象図形の中心どうしを結ぶような一本の直線で接続をします。これは 
 [$@](F#コネクタのサンプル) における R2 と R3 の接続のイメージです。
@@ -1147,14 +1147,14 @@ Figure. spacing パラメータによるコネクタ接続経路の調整
              :align :center :valign :center))
 -->
 
-　macro paragraph によって複数行に渡るテキストを描画できます。
+　paragraph マクロによって複数行に渡るテキストを描画できます。
 
 ```kaavio
 <!-- expand: PARAGRAPH-SAMPLE -->
 ```
 Figure. パラグラフのサンプル
 
-　上記サンプルのソースは以下の通りです。パラメータの詳細については macro paragraph を参照
+　上記サンプルのソースは以下の通りです。パラメータの詳細については paragraph マクロを参照
 してください。
 
 ```lisp
@@ -1197,7 +1197,7 @@ ${BLANK_PARAGRAPH}
                      :rx 10 :ry 10 :stroke :black :fill :white))
 -->
 
-　macro textbox によってテキストボックスを描画できます。テキストボックスは
+　textbox マクロによってテキストボックスを描画できます。テキストボックスは
 [$$](#四角形) と [$$](#パラグラフ) を組み合わせたようなものです。テキスト
 からサイズを自動決定しますが、明示的にボックスのサイズを指定することも可能です。
 
@@ -1206,7 +1206,7 @@ ${BLANK_PARAGRAPH}
 ```
 Figure. テキストボックスのサンプル
 
-　上記サンプルのソースは以下の通りです。パラメータの詳細については macro textbox を参照
+　上記サンプルのソースは以下の通りです。パラメータの詳細については textbox マクロを参照
 してください。
 
 ```lisp
@@ -1240,7 +1240,7 @@ Figure. テキストボックスにおける align と valign
 ${BLANK_PARAGRAPH}
 
 　図の中でテキストボックスのスタイルを統一する作業を簡単にするために、
-macro with-textbox-options が用意されています。これを以下のように使用すること
+with-textbox-options マクロが用意されています。これを以下のように使用すること
 で、複数のテキストボックスのスタイルを一箇所で指定することができます。
 
 
@@ -1272,7 +1272,7 @@ Figure. with-textbox-options のサンプル
                     :stroke :navy :fill :skyblue))
 -->
 
-　macro document によってドキュメントを描画できます。ドキュメントはテキストボックスと良く
+　document マクロによってドキュメントを描画できます。ドキュメントはテキストボックスと良く
 似ていますが、サイズは自動計算されないため、幅と高さを指定する必要があります。
 
 ```kaavio
@@ -1280,7 +1280,7 @@ Figure. with-textbox-options のサンプル
 ```
 Figure. ドキュメントのサンプル
 
-　上記サンプルのソースは以下の通りです。パラメータの詳細については macro document を参照
+　上記サンプルのソースは以下の通りです。パラメータの詳細については document マクロを参照
 してください。
 
 ```lisp
@@ -1289,7 +1289,7 @@ Figure. ドキュメントのサンプル
 
 ${BLANK_PARAGRAPH}
 
-　図の中でドキュメントのスタイルを統一する作業を簡単にするために、with-document-options が
+　図の中でドキュメントのスタイルを統一する作業を簡単にするために、with-document-options マクロが
 用意されています。これを以下のように使用することで、複数のドキュメントのスタイルを一箇所で指定
 することができます。
 
@@ -1322,14 +1322,14 @@ Figure. with-document-options のサンプル
                     :stroke :darkkhaki :fill :cornsilk))
 -->
 
-　macro folder によってフォルダを描画できます。
+　folder マクロによってフォルダを描画できます。
 
 ```kaavio
 <!-- expand: FOLDER-SAMPLE -->
 ```
 Figure. フォルダのサンプル
 
-　上記サンプルのソースは以下の通りです。パラメータの詳細については macro folder を参照
+　上記サンプルのソースは以下の通りです。パラメータの詳細については folder マクロを参照
 してください。
 
 ```lisp
@@ -1338,7 +1338,7 @@ Figure. フォルダのサンプル
 
 ${BLANK_PARAGRAPH}
 
-　図の中でフォルダのスタイルを統一する作業を簡単にするために、with-folder-options が
+　図の中でフォルダのスタイルを統一する作業を簡単にするために、with-folder-options マクロが
 用意されています。これを以下のように使用することで、複数のフォルダのスタイルを一箇所で指定
 することができます。
 
@@ -1370,7 +1370,7 @@ Figure. with-folder-options のサンプル
   (person '(150 50) 40 :fill :oldlace :stroke :brown :label :engineer))
 -->
 
-　macro person を使うと、人物の形を描画することができます。縦横比は一定のため座標とサイズを
+　person マクロを使うと、人物の形を描画することができます。縦横比は一定のため座標とサイズを
 指定する必要があり、ラベルを添えることができます。
 
 ```kaavio
@@ -1378,7 +1378,7 @@ Figure. with-folder-options のサンプル
 ```
 Figure. 人物のサンプル
 
-　上記サンプルのソースは以下の通りです。パラメータの詳細については macro person を参照
+　上記サンプルのソースは以下の通りです。パラメータの詳細については person マクロを参照
 してください。
 
 ```lisp
@@ -1387,7 +1387,7 @@ Figure. 人物のサンプル
 
 ${BLANK_PARAGRAPH}
 
-　図の中で人物のスタイルを統一する作業を簡単にするために、with-person-options が
+　図の中で人物のスタイルを統一する作業を簡単にするために、with-person-options マクロが
 用意されています。これを以下のように使用することで、複数の人物のスタイルを一箇所で指定
 することができます。
 
@@ -1422,7 +1422,7 @@ Figure. with-person-options のサンプル
                                    :fill :skyblue :stroke :navy))
 -->
 
-　macro balloon によって吹き出しを描画できます。テキストボックスと良く似ていますが、指定した
+　balloon マクロによって吹き出しを描画できます。テキストボックスと良く似ていますが、指定した
 位置への引き出し線が描画されます。
 
 ```kaavio
@@ -1430,7 +1430,7 @@ Figure. with-person-options のサンプル
 ```
 Figure. 吹き出しのサンプル
 
-　上記サンプルのソースは以下の通りです。パラメータの詳細については macro balloon を参照して
+　上記サンプルのソースは以下の通りです。パラメータの詳細については balloon マクロを参照して
 ください。
 
 ```lisp
@@ -1439,7 +1439,7 @@ Figure. 吹き出しのサンプル
 
 ${BLANK_PARAGRAPH}
 
-　図の中で吹き出しのスタイルを統一する作業を簡単にするために、macro with-balloon-options が
+　図の中で吹き出しのスタイルを統一する作業を簡単にするために、with-balloon-options マクロが
 用意されています。これを以下のように使用することで、複数の吹き出しのスタイルを一箇所で指定
 することができます。
 
@@ -1473,7 +1473,7 @@ Figure. with-balloon-options のサンプル
                   :fill :lavenderblush :fill2 :lightpink :stroke :red))
 -->
 
-　macro memo によってメモを描画できます。テキストボックスと良く似ていますが、右下に
+　memo マクロによってメモを描画できます。テキストボックスと良く似ていますが、右下に
 折り目が描画されます。
 
 ```kaavio
@@ -1481,7 +1481,7 @@ Figure. with-balloon-options のサンプル
 ```
 Figure. メモのサンプル
 
-　上記サンプルのソースは以下の通りです。パラメータの詳細については macro memo を参照して
+　上記サンプルのソースは以下の通りです。パラメータの詳細については memo マクロを参照して
 ください。
 
 ```lisp
@@ -1490,7 +1490,7 @@ Figure. メモのサンプル
 
 ${BLANK_PARAGRAPH}
 
-　図の中でメモのスタイルを統一する作業を簡単にするために、with-memo-options が
+　図の中でメモのスタイルを統一する作業を簡単にするために、with-memo-options マクロが
 用意されています。これを以下のように使用することで、複数のメモのスタイルを一箇所で
 指定することができます。
 
@@ -1523,7 +1523,7 @@ Figure. with-memo-options のサンプル
               :fill :lightgray :fill2 :darkgray :stroke :black))
 -->
 
-　macro cube によってキューブを描画できます。テキストボックスとは異なり、サイズは
+　cube マクロによってキューブを描画できます。テキストボックスとは異なり、サイズは
 自動計算されないため、幅と高さを指定する必要があります。
 
 ```kaavio
@@ -1531,7 +1531,7 @@ Figure. with-memo-options のサンプル
 ```
 Figure. キューブのサンプル
 
-　上記サンプルのソースは以下の通りです。パラメータの詳細については macro cube を参照して
+　上記サンプルのソースは以下の通りです。パラメータの詳細については cube マクロを参照して
 ください。
 
 ```lisp
@@ -1540,7 +1540,7 @@ Figure. キューブのサンプル
 
 ${BLANK_PARAGRAPH}
 
-　図の中でキューブのスタイルを統一する作業を簡単にするために、with-cube-options が
+　図の中でキューブのスタイルを統一する作業を簡単にするために、with-cube-options マクロが
 用意されています。これを以下のように使用することで、複数のキューブのスタイルを一箇所で
 指定することができます。
 
@@ -1574,7 +1574,7 @@ Figure. with-cube-options のサンプル
                                    :fill :honeydew :stroke :forestgreen))
 -->
 
-　macro cylinder によって円柱を描画できます。テキストボックスとは異なり、サイズは
+　cylinder マクロによって円柱を描画できます。テキストボックスとは異なり、サイズは
 自動計算されないため、幅と高さを指定する必要があります。
 
 ```kaavio
@@ -1582,7 +1582,7 @@ Figure. with-cube-options のサンプル
 ```
 Figure. 円柱のサンプル
 
-　上記サンプルのソースは以下の通りです。パラメータの詳細については macro cylinder を
+　上記サンプルのソースは以下の通りです。パラメータの詳細については cylinder マクロを
 参照してください。
 
 ```lisp
@@ -1591,7 +1591,7 @@ Figure. 円柱のサンプル
 
 ${BLANK_PARAGRAPH}
 
-　図の中で円柱のスタイルを統一する作業を簡単にするために、with-cylinder-options が
+　図の中で円柱のスタイルを統一する作業を簡単にするために、with-cylinder-options マクロが
 用意されています。これを以下のように使用することで、複数の円柱のスタイルを一箇所で指定
 することができます。
 
@@ -1624,7 +1624,7 @@ Figure. with-cylinder-options のサンプル
   (explosion2 '(250 75) 140 120 "explosion~%type2" :fill :pink :stroke :red))
 -->
 
-　macro explosion1 および macro explosion2 によって爆発を描画できます。テキストボックス
+　explosion1 マクロおよび explosion2 マクロによって爆発を描画できます。テキストボックス
 とは異なり、サイズは自動計算されないため、幅と高さを指定する必要があります
 {{fn:不格好に見えるかもしれませんが、Microsoft Word の図形要素をトレースして作っています。 \
 そこそこの再現度のはず。}}。
@@ -1634,8 +1634,8 @@ Figure. with-cylinder-options のサンプル
 ```
 Figure. 爆発のサンプル
 
-　上記サンプルのソースは以下の通りです。パラメータの詳細については macro explosion1 または
-macro explosion2 を参照してください。
+　上記サンプルのソースは以下の通りです。パラメータの詳細については explosion1 マクロまたは
+explosion2 マクロを参照してください。
 
 ```lisp
 <!-- expand: EXPLOSION-SAMPLE -->
@@ -1643,7 +1643,7 @@ macro explosion2 を参照してください。
 
 ${BLANK_PARAGRAPH}
 
-　図の中で爆発のスタイルを統一する作業を簡単にするために、with-explosion-options が
+　図の中で爆発のスタイルを統一する作業を簡単にするために、with-explosion-options マクロが
 用意されています。これを以下のように使用することで、複数の爆発のスタイルを一箇所で指定
 することができます。
 
@@ -1677,7 +1677,7 @@ Figure. with-explosion-options のサンプル
   (cross '(320 50) 80 80 10 :fill :pink :stroke :red :intersection '(-10 -15) :size-v 15))
 -->
 
-　macro cross によって十字を描画できます。幅と高さ、太さを指定でき、回転させれば×印にも
+　cross マクロによって十字を描画できます。幅と高さ、太さを指定でき、回転させれば×印にも
 なります。また、縦横で太さを変えたり、交差する位置をズラすこともできます。
 
 ```kaavio
@@ -1685,7 +1685,7 @@ Figure. with-explosion-options のサンプル
 ```
 Figure. 十字のサンプル
 
-　上記サンプルのソースは以下の通りです。パラメータの詳細については macro cross を参照して
+　上記サンプルのソースは以下の通りです。パラメータの詳細については cross マクロを参照して
 ください。
 
 ```lisp
@@ -1694,7 +1694,7 @@ Figure. 十字のサンプル
 
 ${BLANK_PARAGRAPH}
 
-　図の中で十字のスタイルを統一する作業を簡単にするために、with-cross-options が
+　図の中で十字のスタイルを統一する作業を簡単にするために、with-cross-options マクロが
 用意されています。これを以下のように使用することで、複数の十字のスタイルを一箇所で
 指定することができます。
 
@@ -1729,7 +1729,7 @@ Figure. with-cross-options のサンプル
     (block-arrow2 '(50 110) '(250 110) 20)))
 -->
 
-　macro block-arrow1 および macro block-arrow2 により、指定した２点を結ぶ大きな矢印を描画
+　block-arrow1 マクロおよび block-arrow2 マクロにより、指定した２点を結ぶ大きな矢印を描画
 できます。block-arrow1 は終端側だけに矢印が描画されますが、block-arrow2 を使えば双方向の
 矢印になります。
 
@@ -1738,8 +1738,8 @@ Figure. with-cross-options のサンプル
 ```
 Figure. ブロック矢印のサンプル
 
-　上記サンプルのソースは以下の通りです。パラメータの詳細については macro block-arrow1 および 
-macro block-arrow2 を参照してください。
+　上記サンプルのソースは以下の通りです。パラメータの詳細については block-arrow1 マクロおよび 
+block-arrow2 マクロを参照してください。
 
 ```lisp
 <!-- expand: BLOCKARROW-SAMPLE -->
@@ -1796,7 +1796,7 @@ Figure. ブロック矢印のパラメータ
 
 ${BLANK_PARAGRAPH}
 
-　図の中でブロック矢印のスタイルを統一する作業を簡単にするために、with-block-arrow-options が
+　図の中でブロック矢印のスタイルを統一する作業を簡単にするために、with-block-arrow-options マクロが
 用意されています。これを以下のように使用することで、複数のブロック矢印のスタイルを一箇所で指定
 することができます。
 
@@ -1833,7 +1833,7 @@ Figure. with-block-arrow-options のサンプル
        (brace '(370 110) :right   40 120 :r 10 :point  80 :text "right brace" )))
 -->
 
-　macro brace により、大きな波括弧を描画することができます。波括弧にはテキストを
+　brace マクロにより、大きな波括弧を描画することができます。波括弧にはテキストを
 添えることができます。
 
 ```kaavio
@@ -1841,7 +1841,7 @@ Figure. with-block-arrow-options のサンプル
 ```
 Figure. 波括弧のサンプル
 
-　上記サンプルのソースは以下の通りです。パラメータの詳細については macro brace を参照して
+　上記サンプルのソースは以下の通りです。パラメータの詳細については brace マクロを参照して
 ください。
 
 ```lisp
@@ -1887,7 +1887,7 @@ Figure. 波括弧のパラメータ
 
 ${BLANK_PARAGRAPH}
 
-　図の中で波括弧のスタイルを統一する作業を簡単にするために、with-brace-options が
+　図の中で波括弧のスタイルを統一する作業を簡単にするために、with-brace-options マクロが
 用意されています。これを以下のように使用することで、複数の波括弧のスタイルを一箇所で
 指定することができます。
 
@@ -1923,7 +1923,7 @@ Figure. with-brace-options のサンプル
                    ("asdf" "qwer" "zxcv" "hjkl"))))
 -->
 
-　macro table を使うことで、表を描画することができます。以下の例では、３行４列の表を
+　table マクロを使うことで、表を描画することができます。以下の例では、３行４列の表を
 作成しています。
 
 ```kaavio
@@ -1931,7 +1931,7 @@ Figure. with-brace-options のサンプル
 ```
 Figure. テーブルのサンプル
 
-　上記サンプルのソースは以下の通りです。パラメータの詳細については macro table を参照して
+　上記サンプルのソースは以下の通りです。パラメータの詳細については table マクロを参照して
 ください。
 
 ```lisp
@@ -2016,7 +2016,7 @@ Figure. テーブルにおけるテキストの align と valign パラメータ
 
 #### with-table-cell を使ったセル内描画
 
-　table の id とセルの行・列番号を指定して macro with-table-cell を使用することで、該当する
+　table の id とセルの行・列番号を指定して with-table-cell マクロを使用することで、該当する
 セルをサブキャンバスとした描画ができます。
 
 ```lisp
@@ -2047,14 +2047,14 @@ Figure. with-table-cell の使用例
 <!-- expand: WITH-TABLE-CELL-SAMPLE -->
 ```
 
-　macro with-table-cell は事実上、指定したテーブルの指定セル領域を指定した with-subcanvas と
+　with-table-cell マクロは事実上、指定したテーブルの指定セル領域を指定した with-subcanvas と
 して機能します。そのため、 `canvas` を使ってその中心座標や幅、高さ情報にアクセスできます。
 
 ${BLANK_PARAGRAPH}
 
 #### with-table-range を使った範囲取得
 
-　macro with-table-range を使用することで、テーブルの一部の領域をサブキャンバスとして
+　with-table-range マクロを使用することで、テーブルの一部の領域をサブキャンバスとして
 取得することができます。以下のように、テーブルの ID と範囲を指定します。範囲は、 `fills` 
 パラメータと同じ形式のキーワードで指定します。
 
@@ -2062,7 +2062,7 @@ ${BLANK_PARAGRAPH}
 (defmacro with-table-range ((id range) &body body) ...)
 ```
 
-　以下の例では、4 x 5 のテーブルを作成し、その一部をマスクするために macro with-table-range を
+　以下の例では、4 x 5 のテーブルを作成し、その一部をマスクするために with-table-range マクロを
 使用しています。
 
 <!-- snippet: WITH-TABLE-RANGE-SAMPLE
@@ -2088,7 +2088,7 @@ Figure. with-table-range の使用例
 <!-- expand: WITH-TABLE-RANGE-SAMPLE -->
 ```
 
-　macro with-table-range は事実上、指定したテーブルの指定領域を指定した with-subcanvas として
+　with-table-range マクロは事実上、指定したテーブルの指定領域を指定した with-subcanvas として
 機能します。そのため、 `canvas` を使ってその中心座標や幅、高さ情報にアクセスできます。
 
 ${BLANK_PARAGRAPH}
@@ -2114,7 +2114,7 @@ ${BLANK_PARAGRAPH}
           (:line-to (150 50)) :close-path) :stroke :black :fill :rosybrown))
 -->
 
-　macro path によって直線や曲線からなる複雑な図形を描画できます。macro polygon は直線からなる
+　path マクロによって直線や曲線からなる複雑な図形を描画できます。polygon マクロは直線からなる
 多角形でしたが、パスでは複雑な曲線を含む図形を描画できます。ただ、その分構文も複雑です。
 
 ```kaavio
@@ -2122,7 +2122,7 @@ ${BLANK_PARAGRAPH}
 ```
 Figure. パスのサンプル
 
-　上記サンプルのソースは以下の通りです。パラメータの詳細については macro path を参照して
+　上記サンプルのソースは以下の通りです。パラメータの詳細については path マクロを参照して
 ください。
 
 ```lisp
@@ -2355,7 +2355,7 @@ Figure. :arc-to における large-arc-flag, sweep-flag
 
 　パスにおける :arc-to は、始点と終点が決まっている状態で指定された形状の楕円を位置あわせするような
 やり方なのでわかりにくいかもしれません。円弧のベースとなる楕円の中心点や始点・終点の角度が明らかな場合
-は macro arc の使用を検討してください。
+は arc マクロの使用を検討してください。
 
 #### :2d-curve-to ディレクティブ
 <!-- autolink: [:2d-curve-to](#:2d-curve-to ディレクティブ) -->
@@ -2676,7 +2676,7 @@ ${BLANK_PARAGRAPH}
 ### 画像ファイルの埋め込み
 <!-- autolink: [$$](#画像ファイルの埋め込み) -->
 
-　macro image を使うことで、SVG 図面の中に他の画像を埋め込むことができます。以下の形式の画像
+　image マクロを使うことで、SVG 図面の中に他の画像を埋め込むことができます。以下の形式の画像
 ファイルをサポートします。
 
 * PNG ( *.png )
@@ -2684,7 +2684,7 @@ ${BLANK_PARAGRAPH}
 * GIF ( *.gif )
 * BMP ( *.bmp )
 
-　典型的には、macro image の使用は以下のような記述になるでしょう。必須パラメータは、画像を
+　典型的には、image マクロの使用は以下のような記述になるでしょう。必須パラメータは、画像を
 配置する中心位置と画像ファイル名だけです。画像のサイズは ${APPNAME} が自分で調べるため、
 基本的には指定する必要がありません{{fn:このことは、${APPNAME} が動作する時点で指定された画像ファイル \
 が「そこにある」必要がある、ということを意味します。 `width, height` の両方が明示的に指定された場合に \
@@ -2694,7 +2694,7 @@ ${BLANK_PARAGRAPH}
 (image '(400 400) "./foo.png")
 ```
 
-　macro image のパラメータ詳細は [$@ 節](#macro image)を参照してください。オプションのパラメータ 
+　image マクロのパラメータ詳細は [$@ 節](#macro image)を参照してください。オプションのパラメータ 
 `width` または `height` のどちらかを指定した場合、画像ファイルの縦横比（アスペクト比）を維持
 した状態で指定サイズで表示します。 `width` と `height` の両方を指定した場合、縦横比の維持は
 保証されず、指定されたサイズで表示します。
@@ -2710,7 +2710,7 @@ ${BLANK_PARAGRAPH}
   (raw-svg "<rect x='50' y='25' width='100' height='50' fill='linen' stroke='brown' stroke-width='1' />"))
 -->
 
-　macro raw-svg を使うことで、${APPNAME} が生成する SVG 画像の中に任意の SVG コード片を挿入
+　raw-svg マクロを使うことで、${APPNAME} が生成する SVG 画像の中に任意の SVG コード片を挿入
 することができます。サンプルとしては雑ですが、以下のようにすれば、
 
 ```lisp
@@ -2726,7 +2726,7 @@ Figure. raw-svg のサンプル
 
 ${BLANK_PARAGRAPH}
 
-　macro raw-svg のパラメータ構成は以下の通りです。文字列として渡す `svgdata` パラメータの他に、
+　raw-svg マクロのパラメータ構成は以下の通りです。文字列として渡す `svgdata` パラメータの他に、
 名前付きパラメータとして `layer` を取ります。詳細は「[](#レイヤー)」を参照してください。
 
 ```lisp
@@ -2857,6 +2857,8 @@ attr は局所関数を使って同じパターンの繰り返しを共通化す
 実際には、この `canvas` が意味するのは「現在のキャンバス」なのですが、これについては
 「[](#サブキャンバス)」で説明します。
 
+* ${{TODO}{このあたりで相対座標と絶対座標について触れる：詳細はサブキャンバスの説明で、かな。}}
+
 　`app.cc` などの記述は単独で使用するよりも、「app の中心から 100pt くらい右」といった
 指定をしたい場合の方が多いでしょう。そのような場合、 `(x+ app.cc 100)` といった記述で
 目的を達することができます。以下の 3 つの関数が利用できます。
@@ -2959,7 +2961,7 @@ Figure. contents パラメータを使ったサブキャンバス
 ```
 
 　なお、contents パラメータを使わずに図形要素のサブキャンバスを利用する方法として、
-with-subcanvas-of が用意されています。これは既出の図形要素の ID を指定して
+with-subcanvas-of マクロが用意されています。これは既出の図形要素の ID を指定して
 サブキャンバスを確立するものです。[$@](F#サブキャンバスのサンプル) と同じ
 （つまり [$@](F#contents パラメータを使ったサブキャンバス) とも同じ）作図をする
 サンプルを以下に示します。
@@ -2977,11 +2979,13 @@ Figure. with-subcanvas-of を使ったサブキャンバス
 ${BLANK_PARAGRAPH}
 
 
-　最後に with-current-canvas を紹介しておきます。with-subcanvas と with-subcanvas-of は新しい
-サブキャンバスを確立するものでしたが、with-current-canvas は「現在のキャンバスへのアクセスを簡単にする」
-ものです。キャンバスを使っていると、 `canvas.center, canvas.width, canvs.height` などを頻繁に
-使うことになりますが、これらに短い名前でアクセスできるようにします。たとえば、[本節冒頭の例](#サブキャンバス)
-は、以下のように書き換えることができます（１回ずつしか使ってないのでメリットがわかりにくいですが）。
+　最後に with-current-canvas マクロを紹介しておきます。with-subcanvas マクロと 
+with-subcanvas-of マクロは新しいサブキャンバスを確立するものでしたが、
+with-current-canvas マクロは「現在のキャンバスへのアクセスを簡単にする」ものです。
+キャンバスを使っていると、 `canvas.center, canvas.width, canvs.height` などを頻繁に
+使うことになりますが、これらに短い名前でアクセスできるようにします。たとえば、
+[本節冒頭の例](#サブキャンバス)は、以下のように書き換えることができます
+（１回ずつしか使ってないのでメリットがわかりにくいですが）。
 
 ```lisp
 (diagram (300 150)
@@ -3762,7 +3766,7 @@ ${BLANK_PARAGRAPH}
 指定します。
 * `#rgb` 表記による、3 桁の16進指定。r、g、b は順に赤、緑、青の成分で、 0〜f の範囲で指定します。 \
 これは `#rrggbb` の簡略表記で、たとえば #136 は #113366 に相当します。
-* [$$](#function rgb)による指定。これは `(rgb r g b)` の要領で使用します。r、g、b は順に赤、緑、青の \
+* rgb 関数による指定。これは `(rgb r g b)` の要領で使用します。r、g、b は順に赤、緑、青の \
 成分で、それぞれ 0〜255 の整数または 0.0〜1.0 の小数点数で指定します。0.0〜1.0 の指定の場合、 \
 それに 255 をかけた値が指定されます。
 * 色名での指定。 `:black` など先頭にコロンをつけたキーワードの形式で指定します。使用できる色の名前と \
@@ -3817,7 +3821,7 @@ ${BLANK_PARAGRAPH}
 このことは、多くの作図においては「まったく同じストロークの指定を繰り返す場合が多い」ことを意味します。
 前述の方法でストローク情報オブジェクトを作成して使い回すことも可能ですが、もっとよい方法があります。
 それは「デフォルトストロークの変更」です。もともと、ストロークはデフォルトで `:color :black :width 1` と
-されていますが、with-options を使えばこれを変更することができます{{fn:Lisper の方へ。with-options マクロは  \
+されていますが、with-options マクロを使えばこれを変更することができます{{fn:Lisper の方へ。with-options マクロは  \
 `*default-stroke*` や `*default-fill*` といったスペシャル変数を束縛するものです。非 Lisper のユーザーへの説明を \
 わかりやすくする上でこの方法をとっています。}}。
 以下の例では４種類の四角形を描いていますが、B, C の四角形ではデフォルトストロークを変更しています。
@@ -3853,8 +3857,8 @@ ${BLANK_PARAGRAPH}
 デフォルト設定で描画されました。C の四角形では、 `:stroke :brown` によってデフォルト設定をベース
 として色だけを変更している、というわけです。
 
-　with-options では全体のデフォルト設定を変更しますが、図形要素によっては個別にデフォルト設定
-を持っています。たとえば、テキストボックスであれば with-textbox-options でデフォルト設定を
+　with-options マクロでは全体のデフォルト設定を変更しますが、図形要素によっては個別にデフォルト設定
+を持っています。たとえば、テキストボックスであれば with-textbox-options マクロでデフォルト設定を
 変更することができます。
 
 ${BLANK_PARAGRAPH}
@@ -4029,7 +4033,7 @@ ${BLANK_PARAGRAPH}
 make-fill 関数を使ってフィル情報オブジェクトを作成し、Common LISP 変数に格納して複数の図形要素
 で使用する、ということも可能です。以下のように{{fn:これはあまり使わない方が良いテクニックかもしれません。 \
 図形要素別の「デフォルト設定」とは無関係に動作するので、慣れないと混乱するかもしれないからです。}}。
-この関数の詳細は「[](#function make-fill)」を参照してください。
+この関数の詳細は「[$@ 節](#function make-fill)」を参照してください。
 
 ```lisp
 (let ((fl (make-fill :color :blue :opacity 0.3)))
@@ -4077,8 +4081,8 @@ ${BLANK_PARAGRAPH}
 デフォルト設定で描画されました。C の四角形では、 `:fill :blue` によってデフォルト設定をベース
 として色だけを変更している、というわけです。
 
-　with-options では全体のデフォルト設定を変更しますが、図形要素によっては個別にデフォルト設定
-を持っています。たとえば、テキストボックスであれば with-textbox-options でデフォルト設定を
+　with-options マクロでは全体のデフォルト設定を変更しますが、図形要素によっては個別にデフォルト設定
+を持っています。たとえば、テキストボックスであれば with-textbox-options マクロでデフォルト設定を
 変更することができます。
 
 ${BLANK_PARAGRAPH}
@@ -4199,7 +4203,7 @@ ${BLANK_PARAGRAPH}
 　make-font 関数はその結果として「フォント情報オブジェクト」を返しますが、そのフォント情報
 オブジェクトを make-font 関数自身に渡した場合、そのまま返すようになっています。そのため、自分で
 明示的に make-font 関数を使ってフォント情報オブジェクトを作成し、Common LISP 変数に格納して
-複数の図形要素で使用する、ということも可能です。以下のように。この関数の詳細は「[](#function make-font)」
+複数の図形要素で使用する、ということも可能です。以下のように。この関数の詳細は「[$@ 節](#function make-font)」
 を参照してください。
 
 ```lisp
@@ -4248,8 +4252,8 @@ ${BLANK_PARAGRAPH}
 デフォルト設定で描画されました。C の四角形では、 `:font :brown` によってデフォルト設定をベース
 として色だけを変更している、というわけです。
 
-　with-options では全体のデフォルト設定を変更しますが、図形要素によっては個別にデフォルト設定
-を持っています。たとえば、テキストボックスであれば with-textbox-options でデフォルト設定を
+　with-options マクロでは全体のデフォルト設定を変更しますが、図形要素によっては個別にデフォルト設定
+を持っています。たとえば、テキストボックスであれば with-textbox-options マクロでデフォルト設定を
 変更することができます。
 
 ${BLANK_PARAGRAPH}
@@ -4792,7 +4796,7 @@ ${BLANK_PARAGRAPH}
 　make-link 関数はその結果として「リンク情報オブジェクト」を返しますが、そのリンク情報
 オブジェクトを make-link 関数自身に渡した場合、そのまま返すようになっています。そのため、
 自分で明示的に make-link 関数を使ってリンク情報オブジェクトを作成し、Common LISP 変数に
-格納して複数の図形要素で使用する、ということも可能です。この関数の詳細は「[](#function make-link)」を
+格納して複数の図形要素で使用する、ということも可能です。この関数の詳細は「[$@ 節](#function make-link)」を
 参照してください。
 
 ${BLANK_PARAGRAPH}
@@ -4885,7 +4889,7 @@ ${BLANK_PARAGRAPH}
 　make-endmark 関数はその結果として「終端マーク情報オブジェクト」を返しますが、その終端マーク情報
 オブジェクトを make-endmark 関数自身に渡した場合、そのまま返すようになっています。そのため、自分で
 明示的に make-endmark 関数を使って終端マーク情報オブジェクトを作成し、Common LISP 変数に格納して
-複数の図形要素で使用する、ということも可能です。以下のように。この関数の詳細は「[](#function make-endmark)」
+複数の図形要素で使用する、ということも可能です。以下のように。この関数の詳細は「[$@ 節](#function make-endmark)」
 を参照してください。
 
 ```lisp
@@ -4902,8 +4906,8 @@ ${BLANK_PARAGRAPH}
 わかりやすい図面というのは、同じ種類の図形要素は同じ種類の線で描画されているなど、統制が取れているものです。
 このことは、多くの作図においては「まったく同じ終端マークの指定を繰り返す場合が多い」ことを意味します。
 前述の方法で終端マーク情報オブジェクトを作成して使い回すことも可能ですが、もっとよい方法があります。
-それは with-endmark-options を使った「終端マークのデフォルト設定値の変更」です。以下の例では３つの
-コネクタを描いていますが、終端マークの種類は with-endmark-options で指定しています。
+それは with-endmark-options マクロを使った「終端マークのデフォルト設定値の変更」です。以下の例では３つの
+コネクタを描いていますが、終端マークの種類は with-endmark-options マクロで指定しています。
 
 <!-- with-endmark-options の :end[12] のみ指定する例 -->
 <!-- snippet: WITH-ENDMARK-OPTIONS-SAMPLE-1
@@ -4936,7 +4940,7 @@ ${BLANK_PARAGRAPH}
 
 　種類は個別に指定して、塗り潰しやサイズのデフォルト値を変更したい場合は以下のようになります。この場合、
 それぞれのコネクタの `:end2` で指定指定された `:triangle` などのキーワードから終端マーク情報オブジェクト
-を作成する際、with-endmark-options の `:size :small :fill :white` が適用されるイメージになります。
+を作成する際、with-endmark-options マクロの `:size :small :fill :white` が適用されるイメージになります。
 
 <!-- with-endmark-options の :end[12] に「具体的な endmark」を指定する例 -->
 <!-- snippet: WITH-ENDMARK-OPTIONS-SAMPLE-2
@@ -5016,7 +5020,7 @@ ${BLANK_PARAGRAPH}
 　make-label 関数はその結果として「ラベル情報オブジェクト」を返しますが、そのラベル情報
 オブジェクトを make-label 関数自身に渡した場合、そのまま返すようになっています。そのため、自分で
 明示的に make-label 関数を使ってラベル情報オブジェクトを作成し、Common LISP 変数に格納して
-複数の図形要素で使用する、ということも可能です。以下のように。この関数の詳細は「[](#function make-label)」
+複数の図形要素で使用する、ということも可能です。以下のように。この関数の詳細は「[$@ 節](#function make-label)」
 を参照してください。
 
 ```lisp
@@ -5054,8 +5058,8 @@ label パラメータをサポートする図形要素によって異なりま�
 わかりやすい図面というのは、同じ種類の図形要素は同じ種類の線で描画されているなど、統制が取れているものです。
 このことは、多くの作図においては「まったく同じラベルの指定を繰り返す場合が多い」ことを意味します。
 前述の方法でラベル情報オブジェクトを作成して使い回すことも可能ですが、もっとよい方法があります。
-それは with-label-options を使った「ラベルのデフォルト設定値の変更」です。以下の例では全部で６つの
-ラベルを描いていますが、そのフォントや位置は with-label-options で指定しています。
+それは with-label-options マクロを使った「ラベルのデフォルト設定値の変更」です。以下の例では全部で６つの
+ラベルを描いていますが、そのフォントや位置は with-label-options マクロで指定しています。
 
 <!-- snippet: WITH-LABEL-OPTIONS-SAMPLE
 (diagram (300 150)
@@ -5084,9 +5088,9 @@ Figure. with-label-options によるラベル設定の変更
 
 ${BLANK_PARAGRAPH}
 
-　ラベルのテキストは通常それぞれで異なるため、with-label-options で指定することはできません。
-指定可能なのは position, offset, font だけです{{fn:position もラベル毎に異なる場合が多いですが、きれいに整列 \
-した作図だと同じになる場合もあるので with-label-options でサポートしています。}}。
+　ラベルのテキストは通常それぞれで異なるため、with-label-options マクロで指定することはできません。
+指定可能なのは position, offset, font だけです{{fn:position もラベル毎に異なる場合が多いですが、 \
+きれいに整列した作図だと同じになる場合もあるので with-label-options マクロでサポートしています。}}。
 
 ${BLANK_PARAGRAPH}
 
@@ -5217,16 +5221,16 @@ Figure. uml-action のサンプル
 <!-- expand: UML-ACTION-SAMPLE -->
 ```
 
-　:contents パラメータと with-subcanvas-of は通常は同じように使えますが、uml-action では
-違いが存在します。:contents で内部を描画する場合、uml-action はテキストを上端付近に描画しますが、
-:contents を使わずに with-subcanvas-of を使用した場合、テキストは中央に描画されます。
-この問題を解決するため、uml-action では `:contents t` と指定することでテキストを上端付近に描画
-させることができます。
+　:contents パラメータと with-subcanvas-of マクロは通常は同じように使えますが、
+uml-action では違いが存在します。:contents で内部を描画する場合、uml-action は
+テキストを上端付近に描画しますが、:contents を使わずに with-subcanvas-of マクロを
+使用した場合、テキストは中央に描画されます。この問題を解決するため、uml-action で
+は `:contents t` と指定することでテキストを上端付近に描画させることができます。
 
 　詳細は以下を参照してください。
 
-* macro uml-action
-* macro with-uml-action-options
+* uml-action マクロ
+* with-uml-action-options マクロ
 
 #### uml-activity-final
 
@@ -5253,8 +5257,8 @@ Figure. uml-activity-final のサンプル
 <!-- expand: UML-ACTIVITY-FINAL-SAMPLE -->
 ```
 
-* macro uml-activity-final
-* macro with-uml-activity-final-options
+* uml-activity-final マクロ
+* with-uml-activity-final-options マクロ
 
 #### uml-activity-start
 
@@ -5281,26 +5285,38 @@ Figure. uml-activity-start のサンプル
 <!-- expand: UML-ACTIVITY-START-SAMPLE -->
 ```
 
-* macro uml-activity-start
-* macro with-uml-activity-start-options
+* uml-activity-start マクロ
+* with-uml-activity-start-options マクロ
 
 #### uml-actor
 <!-- autolink: [$$](#uml-actor) -->
 
+* ${{TODO}{まだ記述されていません。}}
+
 #### uml-aggregation
 <!-- autolink: [$$](#uml-aggregation) -->
+
+* ${{TODO}{まだ記述されていません。}}
 
 #### uml-association
 <!-- autolink: [$$](#uml-association) -->
 
+* ${{TODO}{まだ記述されていません。}}
+
 #### uml-class
 <!-- autolink: [$$](#uml-class) -->
+
+* ${{TODO}{まだ記述されていません。}}
 
 #### uml-component
 <!-- autolink: [$$](#uml-component) -->
 
+* ${{TODO}{まだ記述されていません。}}
+
 #### uml-composition
 <!-- autolink: [$$](#uml-composition) -->
+
+* ${{TODO}{まだ記述されていません。}}
 
 #### uml-connector
 
@@ -5335,8 +5351,8 @@ Figure. uml-connector のサンプル
 マーカーが描画され、uml-flow などのコネクタで `from` と `to` のどちらに指定されたかで
 接続先が変わります。
 
-* macro uml-connector
-* macro with-uml-connector-options
+* uml-connector マクロ
+* with-uml-connector-options マクロ
 
 #### uml-decision
 
@@ -5382,12 +5398,14 @@ height の指定、または with-uml-decision-merge-options マクロで指定�
 
 　詳細は以下を参照してください。
 
-* macro uml-merge
-* macro uml-decision
-* macro with-uml-decision-merge-options
+* uml-merge マクロ
+* uml-decision マクロ
+* with-uml-decision-merge-options マクロ
 
 #### uml-dependency
 <!-- autolink: [$$](#uml-dependency) -->
+
+* ${{TODO}{まだ記述されていません。}}
 
 #### uml-expansion-region
 
@@ -5417,8 +5435,8 @@ Figure. uml-expansion-region のサンプル
 
 　詳細は以下を参照してください。
 
-* macro uml-expansion-region
-* macro with-uml-expansion-region-options
+* uml-expansion-region マクロ
+* with-uml-expansion-region-options マクロ
 
 #### uml-flow-final
 
@@ -5445,8 +5463,8 @@ Figure. uml-flow-final のサンプル
 <!-- expand: UML-FLOW-FINAL-SAMPLE -->
 ```
 
-* macro uml-flow-final
-* macro with-uml-flow-final-options
+* uml-flow-final マクロ
+* with-uml-flow-final-options マクロ
 
 #### uml-flow
 
@@ -5485,8 +5503,8 @@ Figure. uml-flow のサンプル
 
 　詳細は以下を参照してください。
 
-* macro uml-flow
-* macro with-uml-flow-options
+* uml-flow マクロ
+* with-uml-flow-options マクロ
 
 #### uml-fork
 
@@ -5521,8 +5539,8 @@ Figure. uml-fork のサンプル
 
 　詳細は以下を参照してください。
 
-* macro uml-fork
-* macro with-uml-fork-join-options
+* uml-fork マクロ
+* with-uml-fork-join-options マクロ
 
 #### uml-frame
 
@@ -5550,8 +5568,8 @@ Figure. uml-fork のサンプル
 Figure. uml-frame のサンプル
 
 
-　上記の作図は以下のコードで行なっています。スタイルの指定には with-uml-frame-options を
-使用しています。図面中で使用している uml-frame はひとつですが、通常は図面中で複数の 
+　上記の作図は以下のコードで行なっています。スタイルの指定には with-uml-frame-options マクロ
+を使用しています。図面中で使用している uml-frame はひとつですが、通常は図面中で複数の 
 uml-frame を使用する場合にスタイルを統一するために使用します。
 
 ```lisp
@@ -5560,14 +5578,18 @@ uml-frame を使用する場合にスタイルを統一するために使用し�
 
 　詳細は以下を参照してください。
 
-* macro uml-frame
-* macro with-uml-frame-options
+* uml-frame マクロ
+* with-uml-frame-options マクロ
 
 #### uml-generalization
 <!-- autolink: [$$](#uml-generalization) -->
 
+* ${{TODO}{まだ記述されていません。}}
+
 #### uml-interface
 <!-- autolink: [$$](#uml-interface) -->
+
+* ${{TODO}{まだ記述されていません。}}
 
 #### uml-join
 
@@ -5604,11 +5626,13 @@ Figure. uml-join のサンプル
 
 　詳細は以下を参照してください。
 
-* macro uml-join
-* macro with-uml-fork-join-options
+* uml-join マクロ
+* with-uml-fork-join-options マクロ
 
 #### uml-keyword-info
 <!-- autolink: [$$](#uml-keyword-info) -->
+
+* ${{TODO}{まだ記述されていません。}}
 
 #### uml-merge
 
@@ -5629,15 +5653,19 @@ Figure. uml-merge のサンプル
 
 　詳細は以下を参照してください。
 
-* macro uml-decision
-* macro uml-merge
-* macro with-uml-decision-merge-options
+* uml-decision マクロ
+* uml-merge マクロ
+* with-uml-decision-merge-options マクロ
 
 #### uml-multiplicity-info
 <!-- autolink: [$$](#uml-multiplicity-info) -->
 
+* ${{TODO}{まだ記述されていません。}}
+
 #### uml-node
 <!-- autolink: [$$](#uml-node) -->
+
+* ${{TODO}{まだ記述されていません。}}
 
 #### uml-note
 
@@ -5668,7 +5696,7 @@ Figure. uml-note のサンプル
 
 　上記の作図は以下のコードで行なっています。targets パラメータは、単一の要素だけを指定する
 場合はリストである必要はありません。また、図面中で uml-note のスタイルを統一するために 
-with-uml-note-options を使用しています。
+with-uml-note-options マクロを使用しています。
 
 ```lisp
 <!-- expand: UML-NOTE-SAMPLE -->
@@ -5681,11 +5709,13 @@ with-uml-note-options を使用しています。
 
 　詳細は以下を参照してください。
 
-* macro uml-note
-* macro with-uml-note-options
+* uml-note マクロ
+* with-uml-note-options マクロ
 
 #### uml-package
 <!-- autolink: [$$](#uml-package) -->
+
+* ${{TODO}{まだ記述されていません。}}
 
 #### uml-partition
 
@@ -5802,9 +5832,9 @@ Figure. uml-partition における lines パラメータのサンプル
 
 　詳細は以下を参照してください。
 
-* macro uml-partition
-* macro with-uml-partition-lane
-* macro with-uml-partition-options
+* uml-partition マクロ
+* with-uml-partition-lane マクロ
+* with-uml-partition-options マクロ
 
 #### uml-pin
 
@@ -5848,14 +5878,18 @@ Figure. uml-pin のサンプル
 
 　詳細は以下を参照してください。
 
-* macro uml-pin
-* macro with-uml-pin-options
+* uml-pin マクロ
+* with-uml-pin-options マクロ
 
 #### uml-realization
 <!-- autolink: [$$](#uml-realization) -->
 
+* ${{TODO}{まだ記述されていません。}}
+
 #### uml-role-info
 <!-- autolink: [$$](#uml-role-info) -->
+
+* ${{TODO}{まだ記述されていません。}}
 
 #### uml-signal
 
@@ -5894,21 +5928,29 @@ Figure. uml-signal のサンプル
 
 　詳細は以下を参照してください。
 
-* macro uml-signal
-* macro with-uml-signal-options
+* uml-signal マクロ
+* with-uml-signal-options マクロ
 
 
 #### uml-state-begin
 <!-- autolink: [$$](#uml-state-begin) -->
 
+* ${{TODO}{まだ記述されていません。}}
+
 #### uml-state-end
 <!-- autolink: [$$](#uml-state-end) -->
+
+* ${{TODO}{まだ記述されていません。}}
 
 #### uml-state-history
 <!-- autolink: [$$](#uml-state-history) -->
 
+* ${{TODO}{まだ記述されていません。}}
+
 #### uml-state
 <!-- autolink: [$$](#uml-state) -->
+
+* ${{TODO}{まだ記述されていません。}}
 
 #### uml-time-event
 
@@ -5940,17 +5982,23 @@ Figure. uml-time-event のサンプル
 
 　詳細は以下を参照してください。
 
-* macro uml-time-event
-* macro with-uml-time-event-options
+* uml-time-event マクロ
+* with-uml-time-event-options マクロ
 
 #### uml-transition-spec
 <!-- autolink: [$$](#uml-transition-spec) -->
 
+* ${{TODO}{まだ記述されていません。}}
+
 #### uml-transition
 <!-- autolink: [$$](#uml-transition) -->
 
+* ${{TODO}{まだ記述されていません。}}
+
 #### uml-usecase
 <!-- autolink: [$$](#uml-usecase) -->
+
+* ${{TODO}{まだ記述されていません。}}
 
 ## リファレンス
 
@@ -6607,7 +6655,7 @@ Figure. 色の名前とサンプル - 2
 * __2022/08/21 - version 0.001__
     * とりあえず使えそうになったのでリリース
 * __2022/08/31 - version 0.002__
-    * ENHANCE : with-subcanvas-ofマクロを追加
+    * ENHANCE : with-subcanvas-of マクロを追加
     * DOCUMENT : 「[](#座標と位置)」、および「[](#サブキャンバス)」を執筆
 * __2022/09/04 - version 0.003__
     * __INCOMPATIBLE CHANGE : with-canvas マクロの第１パラメータを topleft から center に変更__
@@ -6679,7 +6727,7 @@ Figure. 色の名前とサンプル - 2
 * __2022/11/10__
     * ENHANCE : repeat 関数を追加
     * BUGFIX : [$$](#円弧)における[$$](#終端マーク)のバグを改修
-    * ENHANCE : with-block-arrow-options に length, size, margin パラメータを追加
+    * ENHANCE : with-block-arrow-options マクロに length, size, margin パラメータを追加
 * __2022/11/12 - version 0.016__
     * DOCUMENT : 「[](#画像ファイルの埋め込み)」を執筆
 * __2022/11/16__

@@ -113,12 +113,12 @@
 ;;${DESCRIPTION}
 ;;
 ;;　テキストボックスを描画します。複数のテキストボックスでスタイルを統一したい場合、
-;;macro with-textbox-options を使うことができます。
+;;with-textbox-options マクロを使うことができます。
 ;;
 ;;${NO_SEE_ALSO}
 ;;
 ;;* テキストボックス
-;;* macro with-textbox-options
+;;* with-textbox-options マクロ
 ;;
 ;;${NO_NOTES}
 ;;
@@ -166,9 +166,13 @@
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　textbox マクロで描画されるテキストボックスのデフォルトオプションを変更します。キーワード
+;;パラメータ群の説明は textbox マクロを参照してください。
 ;;
-;;${NO_SEE_ALSO}
+;;${SEE_ALSO}
+;;
+;;* テキストボックス
+;;* textbox マクロ
 ;;
 ;;${NO_NOTES}
 ;;

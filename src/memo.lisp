@@ -164,13 +164,13 @@
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　メモを描画します。複数のメモでスタイルを統一したい場合、macro with-memo-options を
+;;　メモを描画します。複数のメモでスタイルを統一したい場合、with-memo-options マクロを
 ;;使うことができます。
 ;;
 ;;${SEE_ALSO}
 ;;
 ;;* メモ
-;;* macro with-memo-options
+;;* with-memo-options マクロ
 ;;
 ;;${NO_NOTES}
 ;;
@@ -220,9 +220,13 @@
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　memo マクロで描画されるメモのデフォルトオプションを変更します。キーワードパラメータ
+;;群の説明は memo マクロを参照してください。
 ;;
-;;${NO_SEE_ALSO}
+;;${SEE_ALSO}
+;;
+;;* メモ
+;;* memo マクロ
 ;;
 ;;${NO_NOTES}
 ;;

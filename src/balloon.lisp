@@ -194,13 +194,13 @@
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　吹き出しを描画します。複数の吹き出しでスタイルを統一したい場合、macro with-balloon-options を
+;;　吹き出しを描画します。複数の吹き出しでスタイルを統一したい場合、with-balloon-options マクロを
 ;;使うことができます。
 ;;
 ;;${SEE_ALSO}
 ;;
 ;;* 吹き出し
-;;* macro with-balloon-options
+;;* with-balloon-options マクロ
 ;;
 ;;${NO_NOTES}
 ;;
@@ -246,11 +246,13 @@
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　balloon  マクロで描画される吹き出しのデフォルトオプションを変更します。キーワードパラメータ
+;;群の説明は balloon マクロを参照してください。
 ;;
 ;;${SEE_ALSO}
 ;;
-;;* macro balloon
+;;* 吹き出し
+;;* balloon マクロ
 ;;
 ;;${NO_NOTES}
 ;;

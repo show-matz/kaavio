@@ -288,15 +288,15 @@
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　テーブルを描画します。複数のテーブルでスタイルを統一したい場合、macro with-table-options を
+;;　テーブルを描画します。複数のテーブルでスタイルを統一したい場合、with-table-options マクロを
 ;;使うことができます。
 ;;
 ;;${SEE_ALSO}
 ;;
 ;;* テーブル
-;;* macro with-table-options
-;;* macro with-table-cell
-;;* macro with-table-range
+;;* with-table-options マクロ
+;;* with-table-cell マクロ
+;;* with-table-range マクロ
 ;;
 ;;${NOTES}
 ;;
@@ -335,9 +335,13 @@
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　table マクロで描画されるテーブルのデフォルトオプションを変更します。キーワードパラメータ
+;;群の説明は table マクロを参照してください。
 ;;
-;;${NO_SEE_ALSO}
+;;${SEE_ALSO}
+;;
+;;* テーブル
+;;* table マクロ
 ;;
 ;;${NO_NOTES}
 ;;

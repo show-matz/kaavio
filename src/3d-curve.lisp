@@ -222,7 +222,7 @@
 ;;${SEE_ALSO}
 ;;
 ;;* 三次ベジェ曲線
-;;* macro 2d-curve
+;;* 2d-curve マクロ
 ;;
 ;;${NO_NOTES}
 ;;

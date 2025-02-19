@@ -173,13 +173,13 @@
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　波括弧を描画します。複数の波括弧でスタイルを統一したい場合、macro with-brace-options を
+;;　波括弧を描画します。複数の波括弧でスタイルを統一したい場合、with-brace-options マクロを
 ;;使うことができます。
 ;;
 ;;${SEE_ALSO}
 ;;
 ;;* 波括弧
-;;* macro with-brace-options
+;;* with-brace-options マクロ
 ;;
 ;;${NO_NOTES}
 ;;
@@ -205,14 +205,17 @@
 ;;
 ;;* ${{B}{with-brace-options}} (${KEY} font stroke filter layer) ${BODY} body
 ;;
-;;
 ;;<!-- stack:pop li -->
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　brace マクロで描画される波括弧のデフォルトオプションを変更します。キーワードパラメータ
+;;群の説明は brace マクロを参照してください。
 ;;
-;;${NO_SEE_ALSO}
+;;${SEE_ALSO}
+;;
+;;* 波括弧
+;;* brace マクロ
 ;;
 ;;${NO_NOTES}
 ;;

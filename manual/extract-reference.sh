@@ -29,10 +29,15 @@ function extract-reference {
 
         cat ${TMPFILE}  > ${OUTPATH}/${ENTRY_FILE}
         echo ""        >> ${OUTPATH}/${ENTRY_FILE}
-        cat ${TMPFILE} \
-            | head -1 \
-            | perl -pe 's/^#### ([^ \n]+) (.*)$/<!-- autolink: [\1 \2](#\1 \2) -->/' \
-                                   >> ${OUTPATH}/${ENTRY_FILE}
+        local DATA=`cat ${TMPFILE} | head -1 | perl -pe 's/^#### ([^ \n]+) (.*)$/\1,\2/'`
+        local TYPE=`echo "${DATA}" | cut -d , -f 1`
+        local NAME=`echo "${DATA}" | cut -d , -f 2`
+        case "${TYPE}" in
+            function ) TYPE2="関数";;
+            macro )    TYPE2="マクロ";;
+        esac
+#       echo "<!-- autolink: [${TYPE} ${NAME}](#${TYPE} ${NAME}) -->"  >> ${OUTPATH}/${ENTRY_FILE}
+        echo "<!-- autolink: [${NAME} ${TYPE2}](#${TYPE} ${NAME}) -->" >> ${OUTPATH}/${ENTRY_FILE}
         echo ""                    >> ${OUTPATH}/${ENTRY_FILE}
         echo "\${BLANK_PARAGRAPH}" >> ${OUTPATH}/${ENTRY_FILE}
         echo ""                    >> ${OUTPATH}/${ENTRY_FILE}
