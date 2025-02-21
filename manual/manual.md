@@ -286,6 +286,7 @@ ${BLANK_PARAGRAPH}
 <!-- define: HASH_RECT          = '[](#四角形)' -->
 <!-- define: HASH_CIRCLE        = '[](#正円)' -->
 <!-- define: HASH_ELLIPSE       = '[](#楕円)' -->
+<!-- define: HASH_REGULAR_POLYGON = '[](#正多角形)' -->
 <!-- define: HASH_POLYGON       = '[](#多角形)' -->
 <!-- define: HASH_LINE          = '[](#直線)' -->
 <!-- define: HASH_ARC           = '[](#円弧)' -->
@@ -314,6 +315,10 @@ ${BLANK_PARAGRAPH}
       (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
       (ellipse `(,(/ w 2) ,(/ w 2)) 30 20 :fill :beige :stroke :olive)
       (text `(,(/ w 2) ,(- h 5)) "楕円" :align :center))
+    (defgroup (w h :regular-polygon-grp)
+      (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
+      (regular-polygon `(,(/ w 2) ,(/ w 2)) 5 25 :fill :gray :stroke :black)
+      (text `(,(/ w 2) ,(- h 5)) "正多角形" :align :center))
     (defgroup (w h :polygon-grp)
       (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
       (polygon '((40.00 10.00) (32.75 31.50) (10.25 31.50)
@@ -355,14 +360,15 @@ ${BLANK_PARAGRAPH}
     (use :rect-grp          '(100  60) :link "${HASH_RECT}")
     (use :circle-grp        '(200  60) :link "${HASH_CIRCLE}")
     (use :ellipse-grp       '(300  60) :link "${HASH_ELLIPSE}")
-    (use :polygon-grp       '(400  60) :link "${HASH_POLYGON}")
-    (use :line-grp          '(500  60) :link "${HASH_LINE}")
-    (use :arc-grp           '(600  60) :link "${HASH_ARC}")
-    (use :text-grp          '(700  60) :link "${HASH_TEXT}")
-    (use :diamond-grp       '(100 170) :link "${HASH_DIAMOND}")
-    (use :parallelogram-grp '(200 170) :link "${HASH_PARALLELOGRAM}")
-    (use :2d-curve-grp      '(300 170) :link "${HASH_2D_CURVE}")
-    (use :3d-curve-grp      '(400 170) :link "${HASH_3D_CURVE}")))
+    (use :regular-polygon-grp '(400  60) :link "${HASH_REGULAR_POLYGON}")
+    (use :polygon-grp       '(500  60) :link "${HASH_POLYGON}")
+    (use :line-grp          '(600  60) :link "${HASH_LINE}")
+    (use :arc-grp           '(700  60) :link "${HASH_ARC}")
+    (use :text-grp          '(100 170) :link "${HASH_TEXT}")
+    (use :diamond-grp       '(200 170) :link "${HASH_DIAMOND}")
+    (use :parallelogram-grp '(300 170) :link "${HASH_PARALLELOGRAM}")
+    (use :2d-curve-grp      '(400 170) :link "${HASH_2D_CURVE}")
+    (use :3d-curve-grp      '(500 170) :link "${HASH_3D_CURVE}")))
 ```
 
 ### 四角形
@@ -443,6 +449,33 @@ Figure. ellipse のサンプル
 
 ${BLANK_PARAGRAPH}
 
+### 正多角形
+<!-- autolink: [$$](#正多角形) -->
+
+<!-- snippet: REGULAR-POLYGON-SAMPLE
+(diagram (400 100)
+  (grid)
+  (regular-polygon (x+ canvas.cc -130) 5 40 :fill :gray :stroke :black)
+  (regular-polygon (x+ canvas.cc    0) 6 40 :fill :gray :stroke :black)
+  (regular-polygon (x+ canvas.cc  130) 8 40 :fill :gray :stroke :black))
+-->
+
+　regular-polygon マクロによって正多角形、すなわち五角形や六角形などを描画できます。
+
+```kaavio
+<!-- expand: REGULAR-POLYGON-SAMPLE -->
+```
+Figure. regular-polygon のサンプル
+
+　上記サンプルのソースは以下の通りです。パラメータの詳細については regular-polygon マクロを
+参照してください。
+
+```lisp
+<!-- expand: REGULAR-POLYGON-SAMPLE -->
+```
+
+${BLANK_PARAGRAPH}
+
 ### 多角形
 <!-- autolink: [$$](#多角形) -->
 
@@ -455,7 +488,8 @@ ${BLANK_PARAGRAPH}
              (160.15 40.10)) :stroke :red :fill :lightpink))
 -->
 
-　polygon マクロによって多角形、すなわち複数の直線からなる形状を描画できます。
+　polygon マクロによって多角形、すなわち複数の直線からなる形状を描画できます。正多角形
+を描画する場合には regular-polygon マクロを使用した方が良いでしょう。
 
 ```kaavio
 <!-- expand: POLYGON-SAMPLE -->
@@ -6761,6 +6795,8 @@ Figure. 色の名前とサンプル - 2
     * __INCOMPATIBLE CHANGE : 上記変更に伴い、 `cross` における既存の `pivot` パラメータを `intersection` に名称変更__
 * __2024/05/11 - version 0.025__
     * BUGFIX : version 0.024 における connector のバグを改修
+* __2025/02/20 - version 0.026__
+    * ENHANCE : [$$](#正多角形)を追加
 
 ## 図表一覧
 <!-- embed:figure-list -->

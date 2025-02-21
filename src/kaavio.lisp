@@ -94,11 +94,11 @@
                 :*default-layer*
                 ;create-svg.lisp
                 :create-svg
+                :diagram
                 :register-entity
-                :layer
                 :width
                 :height
-                :diagram
+                :layer
                 ;cross.lisp
                 :*default-cross-fill*
                 :*default-cross-stroke*
@@ -330,14 +330,14 @@
                 :point-relative-p
                 :point-x
                 :point-y
-                :point+
-                :point-
-                :point*
-                :point/
                 :pt+
                 :pt-
                 :pt*
                 :pt/
+                :point+
+                :point-
+                :point*
+                :point/
                 :point/x+
                 :point/y+
                 :point/xy+
@@ -353,6 +353,8 @@
                 ;rectangle.lisp
                 :rectangle
                 :rect
+                ;regular-polygon.lisp
+                :regular-polygon
                 ;shadow-filter.lisp
                 :drop-shadow
                 :glow-shadow

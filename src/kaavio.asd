@@ -273,6 +273,16 @@
                                                                 "link-info"
                                                                 "filter"
                                                                 "writer"))
+                (:file "regular-polygon"           :depends-on ("kaavio"
+                                                                "constants"
+                                                                "mathutil"
+                                                                "canvas"
+                                                                "point"
+                                                                "circle"
+                                                                "stroke-info"
+                                                                "link-info"
+                                                                "filter"
+                                                                "writer"))
                 (:file "shadow-filter"             :depends-on ("kaavio"
                                                                 "filter"
                                                                 "writer"))

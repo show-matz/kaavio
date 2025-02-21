@@ -2239,6 +2239,7 @@ ${DESCRIPTION}
 ${SEE_ALSO}
 
 * 多角形
+* 正多角形
 
 ${NO_NOTES}
 
@@ -2429,6 +2430,50 @@ ${NO_NOTES}
 
 
 <!-- autolink: [register-theme マクロ](#macro register-theme) -->
+
+${BLANK_PARAGRAPH}
+
+#### macro regular-polygon
+
+<!-- stack:push li class='syntax' -->
+${SYNTAX}
+
+* ${{B}{regular-polygon}} position n size ${KEY} pivot fill stroke link layer id filter contents
+
+<!-- stack:pop li -->
+
+${ARGS_AND_VALS}
+
+* `position` ---- 描画の基準点を指定します。詳細は「[](#座標と位置)」を参照してください。
+* `n` ---- 正Ｎ角形を描く場合の N を指定します。現在、3 4 5 6 8 10 12 が使用できます。
+* `size` ---- ベースとなる正円の半径を数値で指定します。
+* `pivot` ---- 基準点が正円のどこにくるように描画するかを指定します。詳細は「[](#座標と位置)」を参照してください。
+* `fill` ---- 内部の塗り潰しを指定します。
+* `stroke` ---- 円を描画するストロークを指定します。
+* `rotate` ---- 全体を回転させたい場合に、その角度を指定します。
+* `link` ---- リンクにする場合、リンク先を指定します。
+* `layer` ---- レイヤーを指定する場合、その ID をキーワードシンボルで指定します。
+* `id` ---- ID を付与したい場合、その名前をキーワードシンボルで指定します。
+* `filter` ---- フィルタを適用したい場合、その ID をキーワードシンボルで指定します。
+* `contents` ---- 内部をサブキャンバスとした描画をしたい場合、その内容を指定します。
+
+${DESCRIPTION}
+
+　正多角形を描画します。複数の基本要素でスタイルを統一したい場合、with-options マクロを
+使うことができます。
+
+${SEE_ALSO}
+
+* 正多角形
+* 多角形
+
+${NOTES}
+
+　regular-polygon マクロが生成する正多角形への接続点は、 `size` を半径とする正円の上に
+配置されます。
+
+
+<!-- autolink: [regular-polygon マクロ](#macro regular-polygon) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2638,7 +2683,7 @@ ${DESCRIPTION}
 
 　${{TODO}{まだ記述されていません。}}
 
-* rake は t を指定するか、または数値 4 要素のリストを指定する。`(width height x-margin y-margin)`
+* rake は t を指定するか、または数値 4 要素のリストを指定する。 `(width height x-margin y-margin)`
 * `:contents t` がサポートされる。
 
 ${NO_SEE_ALSO}
