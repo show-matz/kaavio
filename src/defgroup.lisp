@@ -61,17 +61,27 @@
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
-;;* ${{B}{defgroup}} width height id ${BODY} body
-;;* ${{B}{defs}} width height id ${BODY} body
-;;
+;;* ${{B}{defgroup}} (width height id) ${BODY} body
+;;* ${{B}{defs}} (width height id) ${BODY} body
 ;;
 ;;<!-- stack:pop li -->
 ;;
+;;${ARGS_AND_VALS}
+;;
+;;* `width` ---- 幅を数値で指定します。
+;;* `height` ---- 高さを数値で指定します。
+;;* `id` ---- 定義に与える ID をキーワードで指定します。
+;;* `body` ---- 定義内での描画コードを記述します。
+;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　幅 `width` 、高さ `height` の定義を作成し、内部を `body` のコードで描画します。
+;;作成された定義は use マクロで `id` を指定することで繰り返し利用できます。
 ;;
-;;${NO_SEE_ALSO}
+;;${SEE_ALSO}
+;;
+;;* [](#定義と再使用)
+;;* use マクロ
 ;;
 ;;${NO_NOTES}
 ;;

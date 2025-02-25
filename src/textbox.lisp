@@ -115,7 +115,7 @@
 ;;　テキストボックスを描画します。複数のテキストボックスでスタイルを統一したい場合、
 ;;with-textbox-options マクロを使うことができます。
 ;;
-;;${NO_SEE_ALSO}
+;;${SEE_ALSO}
 ;;
 ;;* テキストボックス
 ;;* with-textbox-options マクロ

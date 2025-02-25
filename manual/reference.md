@@ -105,7 +105,7 @@ ${DESCRIPTION}
 場合の使用を想定しています。始点・終点の座標がわかっている場合は path の使用を
 検討してください。詳細は [$@ 節](#パス)の `:arc-to` の説明を参照してください。
 
-${NO_SEE_ALSO}
+${SEE_ALSO}
 
 * 円弧
 * path マクロ
@@ -372,16 +372,16 @@ ${SYNTAX}
 
 * ${{B}{copy-point}} pt => result
 
+<!-- stack:pop li -->
+
 ${ARGS_AND_VALS}
 
-* pt ---- a point
-* result ---- a point
-
-<!-- stack:pop li -->
+* pt ---- コピー対象の座標値を指定します。
+* result ---- コピーされた座標値が返ります。
 
 ${DESCRIPTION}
 
-　${{TODO}{まだ記述されていません。}}
+　座標値をコピーします。あまり使いません。
 
 ${NO_SEE_ALSO}
 
@@ -617,17 +617,27 @@ ${BLANK_PARAGRAPH}
 <!-- stack:push li class='syntax' -->
 ${SYNTAX}
 
-* ${{B}{defgroup}} width height id ${BODY} body
-* ${{B}{defs}} width height id ${BODY} body
-
+* ${{B}{defgroup}} (width height id) ${BODY} body
+* ${{B}{defs}} (width height id) ${BODY} body
 
 <!-- stack:pop li -->
 
+${ARGS_AND_VALS}
+
+* `width` ---- 幅を数値で指定します。
+* `height` ---- 高さを数値で指定します。
+* `id` ---- 定義に与える ID をキーワードで指定します。
+* `body` ---- 定義内での描画コードを記述します。
+
 ${DESCRIPTION}
 
-　${{TODO}{まだ記述されていません。}}
+　幅 `width` 、高さ `height` の定義を作成し、内部を `body` のコードで描画します。
+作成された定義は use マクロで `id` を指定することで繰り返し利用できます。
 
-${NO_SEE_ALSO}
+${SEE_ALSO}
+
+* [](#定義と再使用)
+* use マクロ
 
 ${NO_NOTES}
 
@@ -688,14 +698,20 @@ ${BLANK_PARAGRAPH}
 <!-- stack:push li class='syntax' -->
 ${SYNTAX}
 
-* ${{B}{diagram}} (w h ${KEY} fill) ${BODY} body
-
+* ${{B}{diagram}} (width height ${KEY} fill) ${BODY} body
 
 <!-- stack:pop li -->
 
+${ARGS_AND_VALS}
+
+* `width` ---- 幅を数値で指定します。
+* `height` ---- 高さを数値で指定します。
+* `fill` ---- 背景全体の塗り潰しが必要な場合は指定します。
+* `body` ---- 描画コードを記述します。
+
 ${DESCRIPTION}
 
-　${{TODO}{まだ記述されていません。}}
+　幅 `width` 、高さ `height` の SVG 画像を作成し、内部を `body` のコードで描画します。
 
 ${NO_SEE_ALSO}
 
@@ -1121,35 +1137,29 @@ ${BLANK_PARAGRAPH}
 
 #### function layer
 
-　レイヤーの導入を宣言します。レイヤーについては「[](#レイヤー)」を参照してください。関数シグネチャは
-以下の通りです。
-
 <!-- stack:push li class='syntax' -->
 ${SYNTAX}
 
 * ${{B}{layer}} name ${OPTIONAL} (display :inline)
 
-
 <!-- stack:pop li -->
+
+${ARGS_AND_VALS}
+
+* `name` ---- レイヤーの名前をキーワードで指定します。
+* `display` ---- レイヤー全体の表示を `:inline` または `:none` で指定します。省略時のデフォルトは `:inline` で、レイヤー全体を表示します。 `:none` を指定すると、レイヤー全体を非表示にします。
 
 ${DESCRIPTION}
 
-${BLANK_PARAGRAPH}
+　レイヤーの導入を宣言します。レイヤーについては [$@ 節](#レイヤー)を参照してください。
 
-Table. layer 関数のパラメータ
-| parameter       | description                               |
-|:================|:------------------------------------------|
-| `name`          | レイヤーの名前をキーワードで指定します。     |
-| `display`       | レイヤー全体の表示を `:inline` または `:none` で指定します。省略時の<br> \
-                  デフォルトは `:inline` で、レイヤー全体を表示します。 `:none` を指定<br> \
-                  すると、レイヤー全体を非表示にします。 |
+${SEE_ALSO}
 
+* [](#レイヤー)
 
-${BLANK_PARAGRAPH}
+${NOTES}
 
-${NO_SEE_ALSO}
-
-${NO_NOTES}
+　layer 関数は、実際には diagram マクロ内で作成される局所関数です。
 
 
 <!-- autolink: [layer 関数](#function layer) -->
@@ -1167,20 +1177,21 @@ ${SYNTAX}
 
 ${ARGS_AND_VALS}
 
-* `points` ---- 線を構成する点のリストを指定します。詳細は「[](#座標と位置)」を参照してください。
+* `points` ---- 線を構成する点のリストを指定します。
 * `stroke` ---- 線を描画するストロークを指定します。
 * `label` ---- ラベルをつける場合に指定します。
-* `end1` ---- 始端に矢印などの装飾を付ける場合は終端マークを指定します。
-* `end2` ---- 終端に矢印などの装飾を付ける場合は終端マークを指定します。
+* `end1` ---- 始端に終端マークをつける場合は指定します
+* `end2` ---- 終端に終端マークをつける場合は指定します
 * `layer` ---- レイヤーを指定する場合、その ID をキーワードシンボルで指定します。
 * `id` ---- ID を付与したい場合、その名前をキーワードシンボルで指定します。
 * `filter` ---- フィルタを適用したい場合、その ID をキーワードシンボルで指定します。
 
 ${DESCRIPTION}
 
-　${{TODO}{まだ記述されていません。}}
+　`points` で指定された点を順番に通過する直線を描画します。 `points` で指定する点のリストは
+最低限でも２要素以上である必要があり、始点 [通過点]... 終点の要領で指定します。
 
-${NO_SEE_ALSO}
+${SEE_ALSO}
 
 * コネクタ
 
@@ -1193,21 +1204,18 @@ ${BLANK_PARAGRAPH}
 
 #### function make-endmark
 
-　make-endmark 関数は終端マーク情報を生成します。終端マーク情報の詳細は「[](#終端マーク)」を
-参照してください。関数シグネチャは以下の通りです。
-
 <!-- stack:push li class='syntax' -->
 ${SYNTAX}
 
 * ${{B}{make-endmark}} ${REST} params
 
-
 <!-- stack:pop li -->
 
 ${DESCRIPTION}
 
-　上記は簡潔な記述で柔軟な終端マーク情報の生成を可能にするためのもので、 `params` として渡される
-パラメータ数に応じて以下のことをします。
+　指定されたパラメータで終端マーク情報を生成します。終端マーク情報の詳細は「[](#終端マーク)」を
+参照してください。上記は簡潔な記述で柔軟な終端マーク情報の生成を可能にするためのもので、 
+`params` として渡されるパラメータ数に応じて以下のことをします。
 
 * パラメータ数が 0 の場合
     * nil を返します
@@ -1227,32 +1235,26 @@ ${DESCRIPTION}
 
 <!-- stack:pop li -->
 
-Table. make-endmark 関数のパラメータ
-| parameter   | description                      |
-|:============|:---------------------------------|
-| `type`      | 終端マークの形状を指定します。 `:arrow :triangle :diamond :circle :rect` のいずれか、または \
-カスタム描画関数を指定します。 |
-| `size`      | 終端マークのサイズを指定します。 `:small :medium :large :xlarge` のいずれか、または数値を指定します。 |
-| `stroke`    | 終端マークを描画する線を指定します。詳細は「[](#ストローク)」を参照してください。省略した場合、実際に \
-終端マークが描画される対象（直線やコネクタ）のストロークが使用されます。ただしその場合、そのストロークの `:dasharray`  \
-など一部のパラメータは引き継がれません。 |
-| `fill`      | 終端マーク内部の塗り潰しを指定します。詳細は「[](#フィル)」を参照してください。省略した場合、ストローク \
-と同じ色で塗り潰されます。 |
+　各パラメータの意味は以下の通りです。詳細は「[](#終端マーク)」を参照してください。
 
+* `type` ---- 終端マークの形状を指定します。 `:arrow :triangle :diamond :circle :rect` のいずれか、またはカスタム描画関数を指定します。
+* `size` ---- 終端マークのサイズを指定します。 `:small :medium :large :xlarge` のいずれか、または数値を指定します。
+* `stroke` ---- 終端マークを描画するストロークを指定します。省略した場合、実際に終端マークが描画される対象（直線やコネクタ）のストロークが使用されます。ただしその場合、そのストロークの `:dasharray` など一部のパラメータは引き継がれません。
+* `fill` ---- 終端マーク内部の塗り潰しを指定します。省略した場合、ストロークと同じ色で塗り潰されます。
 
-${BLANK_PARAGRAPH}
+${SEE_ALSO}
 
-　`type` パラメータでキーワードのかわりに指定するカスタム描画関数ですが、以下のシグネチャの関数を
-指定する必要があります。これは現状では暫定的で undocumented な状態です。詳細はコードを参照して
-ください。
+* [](#終端マーク)
+
+${NOTES}
+
+　`type` パラメータでキーワードのかわりに指定するカスタム描画関数ですが、以下のシグネチャの
+関数を指定する必要があります。これは現状では暫定的で undocumented な状態です。詳細はコードを
+参照してください。
 
 ```lisp
 (lambda (points size stroke fill writer) ...)
 ```
-
-${NO_SEE_ALSO}
-
-${NO_NOTES}
 
 
 <!-- autolink: [make-endmark 関数](#function make-endmark) -->
@@ -1261,21 +1263,18 @@ ${BLANK_PARAGRAPH}
 
 #### function make-fill
 
-　make-fill 関数はフィル情報を生成します。フィル情報の詳細は「[](#フィル)」を参照してください。
-関数シグネチャは以下の通りです。
-
 <!-- stack:push li class='syntax' -->
 ${SYNTAX}
 
 * ${{B}{make-fill}} ${REST} params
 
-
 <!-- stack:pop li -->
 
 ${DESCRIPTION}
 
-　上記は簡潔な記述で柔軟なフィル情報の生成を可能にするためのもので、 `params` として渡される
-パラメータ数に応じて以下のことをします。
+　指定されたパラメータでフィル情報を生成します。フィル情報の詳細は「[](#フィル)」を参照して
+ください。上記は簡潔な記述で柔軟なフィル情報の生成を可能にするためのもので、 `params` として
+渡されるパラメータ数に応じて以下のことをします。
 
 * パラメータ数が 0 の場合
     * デフォルトのフィル情報を返します
@@ -1294,20 +1293,17 @@ ${DESCRIPTION}
 
 <!-- stack:pop li -->
 
-Table. make-fill 関数のパラメータ
-| parameter   | description          |
-|:============|:---------------------|
-| `color`     | 塗り潰しの色を指定します。色の指定方法については [$@ 節](#色の指定)を、色の名前については<br> \
-[$@ 節](#色の名前)を参照してください。  |
-| `opacity`   | 塗り潰しの不透明度を 0.0 ～ 1.0 の数値で指定します。  |
-| `rule`      | 塗りつぶしのルールを `:nonzero` または `:evenodd` で指定します。|
-| `url`       | パターンやグラデーションの ID を指定します。詳細は [$@ 節](#フィルにおけるパターンとグラデーションの指定)を参照してください。 |
-| `base`      | ${{TODO}{まだ記述されていません}} |
+　各パラメータの意味は以下の通りです。詳細は [$@ 節](#フィル)を参照してください。
 
+* `color` ---- 塗り潰しの色を指定します。色の指定方法については [$@ 節](#色の指定)を、色の名前については [$@ 節](#色の名前)を参照してください。
+* `opacity` ---- 塗り潰しの不透明度を 0.0 ～ 1.0 の数値で指定します。省略した場合のデフォルト値は 1.0 です。
+* `rule` ---- 塗りつぶしのルールを `:nonzero` または `:evenodd` で指定します。
+* `url` ---- パターンやグラデーションを使用する場合、その ID をキーワードシンボルで指定します。詳細は [$@ 節](#フィルにおけるパターンとグラデーションの指定)を参照してください。
+* `base` ---- フィル情報の作成においてベースとする他のフィル情報があれば指定します。
 
-${BLANK_PARAGRAPH}
+${SEE_ALSO}
 
-${NO_SEE_ALSO}
+* [](#フィル)
 
 ${NO_NOTES}
 
@@ -1318,21 +1314,18 @@ ${BLANK_PARAGRAPH}
 
 #### function make-font
 
-　make-font 関数はフォント情報を生成します。フォント情報の詳細は「[](#フォント)」を参照して
-ください。関数シグネチャは以下の通りです。
-
 <!-- stack:push li class='syntax' -->
 ${SYNTAX}
 
 * ${{B}{make-font}} ${REST} params
 
-
 <!-- stack:pop li -->
 
 ${DESCRIPTION}
 
-　上記は簡潔な記述で柔軟なフォント情報の生成を可能にするためのもので、 `params` として渡される
-パラメータ数に応じて以下のことをします。
+　指定されたパラメータでフォント情報を生成します。フォント情報の詳細は「[](#フォント)」を
+参照してください。上記は簡潔な記述で柔軟なフォント情報の生成を可能にするためのもので、 
+`params` として渡されるパラメータ数に応じて以下のことをします。
 
 * パラメータ数が 0 の場合
     * デフォルトのフォント情報を返します
@@ -1353,29 +1346,23 @@ ${DESCRIPTION}
 
 <!-- stack:pop li -->
 
-　各パラメータの意味は以下の通りです。詳細は「[](#フォント)」を参照してください。
+　各パラメータの意味は以下の通りです。詳細は [$@ 節](#フォント)を参照してください。
 
-Table. make-font 関数のパラメータ
-| parameter      | description          |
-|:===============|:---------------------|
-| `family`       | 使用するフォントの名前をカンマで区切って並べた文字列を指定します（後述）。 |
-| `size`         | フォントサイズを数値で指定します。 |
-| `fill`         | フォントの塗り潰しを指定します。詳細は「[](#フィル)」を参照してください。 |
-| `stroke`       | フォントの輪郭を描くストロークを指定します。詳細は「[](#ストローク)」を参照してください。 \
-通常、フォントでは輪郭線は指定しません。 |
-| `style`        | スタイルを `:normal, :italic, :oblique` のいずれかから指定します。 |
-| `decoration`   | 装飾を `:none, :underline, :overline, :line-through` のいずれかから指定します。 |
-| `weight`       | 文字の太さを `:normal, :bold, :bolder, :lighter` のいずれか、または  \
-100 200 300 400 500 600 700 800 900 のいずれかから指定します。 |
-| `filter`       | フォントの描画に適用するフィルタを指定します。詳細は「[](#フィルタ)」を参照してください。 |
-| `line-spacing` | パラグラフなどで複数行のテキストを描画する際の行間を数値で指定します。 |
-| `width-spice`  | フォントサイズとテキスト内容から描画幅を計算する際の係数を数値で指定します。 |
-| `base`         | ${{TODO}{まだ記述されていません}} |
+* `family` ---- 使用するフォントの名前をカンマで区切って並べた文字列を指定します。
+* `size` ---- フォントサイズを数値で指定します。
+* `fill` ---- フォントの塗り潰しを指定します。
+* `stroke` ---- フォントの輪郭を描くストロークを指定します。通常、フォントでは輪郭線は指定しません。
+* `style` ---- スタイルを `:normal, :italic, :oblique` のいずれかから指定します。
+* `decoration` ---- 装飾を `:none, :underline, :overline, :line-through` のいずれかから指定します。
+* `weight` ---- 文字の太さを `:normal, :bold, :bolder, :lighter` のいずれか、または 100 200 300 400 500 600 700 800 900 のいずれかから指定します。
+* `filter` ---- フィルタを適用したい場合、その ID をキーワードシンボルで指定します
+* `line-spacing` ---- パラグラフなどで複数行のテキストを描画する際の行間を数値で指定します。
+* `width-spice` ---- フォントサイズとテキスト内容から描画幅を計算する際の係数を数値で指定します。
+* `base` ---- フォント情報の作成においてベースとする他のフォント情報があれば指定します。
 
+${SEE_ALSO}
 
-${BLANK_PARAGRAPH}
-
-${NO_SEE_ALSO}
+* [](#フォント)
 
 ${NO_NOTES}
 
@@ -1389,14 +1376,20 @@ ${BLANK_PARAGRAPH}
 <!-- stack:push li class='syntax' -->
 ${SYNTAX}
 
-* ${{B}{make-id}} prefix ${REST} args
-
+* ${{B}{make-id}} prefix ${REST} args => result
 
 <!-- stack:pop li -->
 
+${ARGS_AND_VALS}
+
+* `prerix` ---- 文字列またはシンボルを指定します。
+* `args` ---- 任意の数の文字列またはシンボルを指定します。
+* `result` ---- 結果がキーワードシンボルで返ります。
+
 ${DESCRIPTION}
 
-　${{TODO}{まだ記述されていません。}}
+　`prefix` および追加の `args` を連結した ID を生成し、キーワードシンボルのかたちで
+返します。
 
 ${NO_SEE_ALSO}
 
@@ -1409,21 +1402,18 @@ ${BLANK_PARAGRAPH}
 
 #### function make-label
 
-　make-label 関数はラベル情報を生成します。ラベル情報の詳細は「[](#ラベル)」を参照してください。
-関数シグネチャは以下の通りです。
-
 <!-- stack:push li class='syntax' -->
 ${SYNTAX}
 
 * ${{B}{make-label}} ${REST} params
 
-
 <!-- stack:pop li -->
 
 ${DESCRIPTION}
 
-　上記は簡潔な記述で柔軟なラベル情報の生成を可能にするためのもので、 `params` として渡される
-パラメータ数に応じて以下のことをします。
+　指定されたパラメータでラベル情報を生成します。ラベル情報の詳細は「[](#ラベル)」を参照して
+ください。上記は簡潔な記述で柔軟なラベル情報の生成を可能にするためのもので、 `params` として
+渡されるパラメータ数に応じて以下のことをします。
 
 * パラメータ数が 0 の場合
     * nil を返します
@@ -1444,19 +1434,14 @@ ${DESCRIPTION}
 
 　各パラメータの意味は以下の通りです。詳細は「[](#ラベル)」を参照してください。
 
-Table. make-label 関数のパラメータ
-| parameter    | description          |
-|:=============|:---------------------|
-| `text`       | ラベルのテキストを文字列かキーワードで指定します。  |
-| `position`   | ラベルを表示する位置を `:above, :below, :left, :right` から指定します。<br> \
-直線やコネクタでは無視されます。  |
-| `offset`     | ラベルの表示位置を微調整する `(x y)` 値を指定します。  |
-| `font`       | ラベルの描画に使用するフォントを指定します。詳細は「[](#フォント)」を参照<br> \
-してください。 |
+* `text` ---- ラベルのテキストを文字列かキーワードシンボルで指定します。
+* `position` ---- ラベルを表示する位置を `:above :below :left :right` のいずれかで指定します。直線やコネクタでは無視されます。
+* `offset` ---- ラベルの表示位置を微調整する `(x y)` 値を指定します。
+* `font` ---- ラベルの描画に使用するフォントを指定します。
 
-${BLANK_PARAGRAPH}
+${SEE_ALSO}
 
-${NO_SEE_ALSO}
+* [](#ラベル)
 
 ${NO_NOTES}
 
@@ -1467,21 +1452,18 @@ ${BLANK_PARAGRAPH}
 
 #### function make-link
 
-　make-link 関数はリンク情報を生成します。リンク情報の詳細は「[](#リンク)」を参照してください。
-関数シグネチャは以下の通りです。
-
 <!-- stack:push li class='syntax' -->
 ${SYNTAX}
 
 * ${{B}{make-link}} ${REST} params
 
-
 <!-- stack:pop li -->
 
 ${DESCRIPTION}
 
-　上記は簡潔な記述で柔軟なリンク情報の生成を可能にするためのもので、 `params` として渡される
-パラメータ数に応じて以下のことをします。
+　指定されたパラメータでリンク情報を生成します。リンク情報の詳細は「[](#リンク)」を参照して
+ください。上記は簡潔な記述で柔軟なリンク情報の生成を可能にするためのもので、 `params` として
+渡されるパラメータ数に応じて以下のことをします。
 
 * パラメータ数が 0 の場合
     * nil を返します
@@ -1502,17 +1484,12 @@ ${DESCRIPTION}
 
 　各パラメータの意味は以下の通りです。詳細は「[](#リンク)」を参照してください。
 
-Table. make-link 関数のパラメータ
-| parameter    | description                          |
-|:=============|:-------------------------------------|
-| `url`        | リンク先の URL を文字列で指定します。  |
-| `target`     | a タグにおける target をキーワード `:replace :self :parent :top :blank` の<br> \
-いずれかで指定します。省略可能です。 |
+* `url` ---- リンク先の URL を文字列で指定します。  |
+* `target` ---- `a` タグにおける `target` をキーワード `:replace :self :parent :top :blank` のいずれかで指定します。省略可能です。
 
+${SEE_ALSO}
 
-${BLANK_PARAGRAPH}
-
-${NO_SEE_ALSO}
+* [](#リンク)
 
 ${NO_NOTES}
 
@@ -1534,14 +1511,19 @@ ${ARGS_AND_VALS}
 
 * `x` ---- x 座標を数値で指定します。
 * `y` ---- y 座標を数値で指定します。
-* `type` ---- `:relative` または `:absolute` を指定します。
-* `result` ---- point 値が返ります。
+* `type` ---- `:relative` または `:absolute` を指定します。省略した場合のデフォルト値は `:relative` です。
+* `result` ---- 座標値が返ります。
 
 ${DESCRIPTION}
 
-　${{TODO}{まだ記述されていません。}}
+　座標値を生成します。 `type` に `absolute` を指定すると絶対座標に、それ以外の場合は
+相対座標になります。絶対座標は画像全体をキャンバスとしてその左上を `'(0 0)` とする座標
+で、相対座標は「現在のキャンバス」をの左上を `'(0 0)` とする座標です。
 
-${NO_SEE_ALSO}
+${SEE_ALSO}
+
+* [](#座標と位置)
+* [](#サブキャンバス)
 
 ${NO_NOTES}
 
@@ -1552,21 +1534,18 @@ ${BLANK_PARAGRAPH}
 
 #### function make-stroke
 
-　make-stroke 関数はストローク情報を生成します。ストローク情報の詳細は「[](#ストローク)」を
-参照してください。関数シグネチャは以下の通りです。
-
 <!-- stack:push li class='syntax' -->
 ${SYNTAX}
 
 * ${{B}{make-stroke}} ${REST} params
 
-
 <!-- stack:pop li -->
 
 ${DESCRIPTION}
 
-　上記は簡潔な記述で柔軟なストローク情報の生成を可能にするためのもので、 `params` として渡される
-パラメータ数に応じて以下のことをします。
+　指定されたパラメータでストローク情報を生成します。ストローク情報の詳細は「[](#ストローク)」を
+参照してください。上記は簡潔な記述で柔軟なストローク情報の生成を可能にするためのもので、 
+`params` として渡されるパラメータ数に応じて以下のことをします。
 
 * パラメータ数が 0 の場合
     * デフォルトのストローク情報を返します
@@ -1586,30 +1565,22 @@ ${DESCRIPTION}
 
 <!-- stack:pop li -->
 
-　各パラメータの意味は以下の通りです。詳細は「[](#ストローク)」を参照してください。
+　各パラメータの意味は以下の通りです。詳細は [$@ 節](#ストローク)を参照してください。
 
-Table. make-stroke 関数のパラメータ
-| parameter    | description          |
-|:=============|:---------------------|
-| `color`      | 線の色を指定します。色の指定方法については [$@ 節](#色の指定)を、色の名前については<br> \
-[$@ 節](#色の名前)を参照してください。  |
-| `width`      | 線の幅を数値で指定します。                     |
-| `opacity`    | 線の不透明度を 0.0 ～ 1.0 の数値で指定します。  |
-| `linecap`    | 線の両端の形状を `:butt, :round, :square` から指定します。  |
-| `linejoin`   | 線が折れ曲ってできる角の形状を `:miter, :round, :bevel` から指定します。  |
-| `miterlimit` | `linejoin` が `:miter` の場合の、結合される線の太さに対する結合部の長さの<br> \
-比率を数値で指定します。デフォルト値は 4 です。 |
-| `dasharray`  | 点線や破線を描画したい場合に、繰り返される線の長さと間隔の長さをリストで<br> \
-指定します。デフォルト値は nil で、直線になります。 |
-| `dashoffset` | `dasharray` を指定する場合に、線の開始を `dasharray` のどこから始めるかの<br> \
-オフセットを数値で指定します。  |
-| `url`        | パターンやグラデーションの ID を指定します。詳細は [$@ 節](#ストロークにおけるパターンとグラデーションの指定)を参照してください。 |
-| `base`       | ${{TODO}{まだ記述されていません}} |
+* `color` ---- 線の色を指定します。色の指定方法については [$@ 節](#色の指定)を、色の名前については [$@ 節](#色の名前)を参照してください。
+* `width` ---- 線の幅を数値で指定します。
+* `opacity` ---- 線の不透明度を 0.0 ～ 1.0 の数値で指定します。省略した場合のデフォルト値は 1.0 です。
+* `linecap` ---- 線の両端の形状を `:butt, :round, :square` から指定します。
+* `linejoin` ---- 線が折れ曲ってできる角の形状を `:miter, :round, :bevel` から指定します。
+* `miterlimit` ---- `linejoin` が `:miter` の場合の、結合される線の太さに対する結合部の長さの比率を数値で指定します。デフォルト値は 4 です。
+* `dasharray` ---- 点線や破線を描画したい場合に、繰り返される線の長さと間隔の長さをリストで指定します。デフォルト値は nil で、直線になります。
+* `dashoffset` ---- `dasharray` を指定する場合に、線の開始を `dasharray` のどこから始めるかのオフセットを数値で指定します。
+* `url` ---- パターンやグラデーションを使用する場合、その ID をキーワードシンボルで指定します。詳細は [$@ 節](#ストロークにおけるパターンとグラデーションの指定)を参照してください。
+* `base` ---- ストローク情報の作成においてベースとする他のストローク情報があれば指定します。
 
+${SEE_ALSO}
 
-${BLANK_PARAGRAPH}
-
-${NO_SEE_ALSO}
+* [](#ストローク)
 
 ${NO_NOTES}
 
@@ -1916,14 +1887,19 @@ ${BLANK_PARAGRAPH}
 <!-- stack:push li class='syntax' -->
 ${SYNTAX}
 
-* ${{B}{point*}} pt n
-
+* ${{B}{point*}} pt n => result
 
 <!-- stack:pop li -->
 
+${ARGS_AND_VALS}
+
+* `pt` ---- 対象の座標値を指定します。
+* `n` ---- 対象の座標値を指定します。
+* `result` ---- 結果の座標値が返ります。
+
 ${DESCRIPTION}
 
-　${{TODO}{まだ記述されていません。}}
+　`pt`を `n` 倍した座標値を返します。function pt* と同じことをします。
 
 ${NO_SEE_ALSO}
 
@@ -1939,14 +1915,20 @@ ${BLANK_PARAGRAPH}
 <!-- stack:push li class='syntax' -->
 ${SYNTAX}
 
-* ${{B}{point+}} pt1 pt2
-
+* ${{B}{point+}} pt1 pt2 => result
 
 <!-- stack:pop li -->
 
+${ARGS_AND_VALS}
+
+* `pt1` ---- 対象の座標値を指定します。
+* `pt2` ---- 対象の座標値を指定します。
+* `result` ---- 結果の座標値が返ります。
+
 ${DESCRIPTION}
 
-　${{TODO}{まだ記述されていません。}}
+　2 つの座標値を足しあわせます。どちらかまたは両方が絶対座標の場合、結果も絶対座標に
+なります。function pt+ と同じことをします。
 
 ${NO_SEE_ALSO}
 
@@ -1962,14 +1944,20 @@ ${BLANK_PARAGRAPH}
 <!-- stack:push li class='syntax' -->
 ${SYNTAX}
 
-* ${{B}{point-}} pt1 pt2
-
+* ${{B}{point-}} pt1 pt2 => result
 
 <!-- stack:pop li -->
 
+${ARGS_AND_VALS}
+
+* `pt1` ---- 対象の座標値を指定します。
+* `pt2` ---- 対象の座標値を指定します。
+* `result` ---- 結果の座標値が返ります。
+
 ${DESCRIPTION}
 
-　${{TODO}{まだ記述されていません。}}
+　`pt1` から `pt2` を引きます。どちらかまたは両方が絶対座標の場合、結果も絶対座標に
+なります。function pt- と同じことをします。
 
 ${NO_SEE_ALSO}
 
@@ -1985,14 +1973,18 @@ ${BLANK_PARAGRAPH}
 <!-- stack:push li class='syntax' -->
 ${SYNTAX}
 
-* ${{B}{point-absolute-p}} pt
-
+* ${{B}{point-absolute-p}} pt => result
 
 <!-- stack:pop li -->
 
+${ARGS_AND_VALS}
+
+* `pt` ---- 対象オブジェクトを指定します。
+* `result` ---- `T` または `NIL` が返ります。
+
 ${DESCRIPTION}
 
-　${{TODO}{まだ記述されていません。}}
+　`pt` が絶対座標を示す座標値かどうかを調べます。
 
 ${NO_SEE_ALSO}
 
@@ -2008,14 +2000,20 @@ ${BLANK_PARAGRAPH}
 <!-- stack:push li class='syntax' -->
 ${SYNTAX}
 
-* ${{B}{point-distance}} pt1 pt2
-
+* ${{B}{point-distance}} pt1 pt2 => result
 
 <!-- stack:pop li -->
 
+${ARGS_AND_VALS}
+
+* `pt1` ---- 対象の座標値を指定します。
+* `pt2` ---- 対象の座標値を指定します。
+* `result` ---- 結果の値が返ります。
+
 ${DESCRIPTION}
 
-　${{TODO}{まだ記述されていません。}}
+　`pt1` と `pt2` の間の距離を計算して返します。この時、これらの座標値が絶対座標であるか
+相対座標であるかは考慮されないので注意が必要です。
 
 ${NO_SEE_ALSO}
 
@@ -2031,14 +2029,18 @@ ${BLANK_PARAGRAPH}
 <!-- stack:push li class='syntax' -->
 ${SYNTAX}
 
-* ${{B}{point-p}} pt
-
+* ${{B}{point-p}} pt => result
 
 <!-- stack:pop li -->
 
+${ARGS_AND_VALS}
+
+* `pt` ---- 対象オブジェクトを指定します。
+* `result` ---- `T` または `NIL` が返ります。
+
 ${DESCRIPTION}
 
-　${{TODO}{まだ記述されていません。}}
+　`pt` が座標値かどうかを調べます。
 
 ${NO_SEE_ALSO}
 
@@ -2054,14 +2056,18 @@ ${BLANK_PARAGRAPH}
 <!-- stack:push li class='syntax' -->
 ${SYNTAX}
 
-* ${{B}{point-relative-p}} pt
-
+* ${{B}{point-relative-p}} pt => result
 
 <!-- stack:pop li -->
 
+${ARGS_AND_VALS}
+
+* `pt` ---- 対象オブジェクトを指定します。
+* `result` ---- `T` または `NIL` が返ります。
+
 ${DESCRIPTION}
 
-　${{TODO}{まだ記述されていません。}}
+　`pt` が相対座標を示す座標値かどうかを調べます。
 
 ${NO_SEE_ALSO}
 
@@ -2077,15 +2083,20 @@ ${BLANK_PARAGRAPH}
 <!-- stack:push li class='syntax' -->
 ${SYNTAX}
 
-* ${{B}{point-x}} pt
-* ${{B}{(setf point-x)}} val pt
-
+* ${{B}{point-x}} pt => result
+* (setf (${{B}{point-x}} pt) val)
 
 <!-- stack:pop li -->
 
+${ARGS_AND_VALS}
+
+* `pt` ---- 対象の座標値を指定します。
+* `result` ---- `pt` の x 座標が返ります。
+* `val` ---- `pt` に設定する x 座標値を指定します。
+
 ${DESCRIPTION}
 
-　${{TODO}{まだ記述されていません。}}
+　座標値の x 軸の値を取得または設定します。
 
 ${NO_SEE_ALSO}
 
@@ -2102,14 +2113,19 @@ ${BLANK_PARAGRAPH}
 ${SYNTAX}
 
 * ${{B}{point-y}} pt
-* ${{B}{(setf point-y)}} val pt
-
+* (setf ${{B}{point-y}} pt) val)
 
 <!-- stack:pop li -->
 
+${ARGS_AND_VALS}
+
+* `pt` ---- 対象の座標値を指定します。
+* `result` ---- `pt` の y 座標が返ります。
+* `val` ---- `pt` に設定する y 座標値を指定します。
+
 ${DESCRIPTION}
 
-　${{TODO}{まだ記述されていません。}}
+　座標値の y 軸の値を取得または設定します。
 
 ${NO_SEE_ALSO}
 
@@ -2127,12 +2143,17 @@ ${SYNTAX}
 
 * ${{B}{point/}} pt n
 
-
 <!-- stack:pop li -->
+
+${ARGS_AND_VALS}
+
+* `pt` ---- 対象の座標値を指定します。
+* `n` ---- 対象の座標値を指定します。
+* `result` ---- 結果の座標値が返ります。
 
 ${DESCRIPTION}
 
-　${{TODO}{まだ記述されていません。}}
+　`pt`を `1/n` 倍した座標値を返します。function pt/ と同じことをします。
 
 ${NO_SEE_ALSO}
 
@@ -2148,14 +2169,19 @@ ${BLANK_PARAGRAPH}
 <!-- stack:push li class='syntax' -->
 ${SYNTAX}
 
-* ${{B}{point/x+}} pt x
-
+* ${{B}{point/x+}} pt x => result
 
 <!-- stack:pop li -->
 
+${ARGS_AND_VALS}
+
+* `pt` ---- 対象の座標値を指定します。
+* `x` ---- 加算する x 軸の値を指定します。
+* `result` ---- 結果の座標値が返ります。
+
 ${DESCRIPTION}
 
-　${{TODO}{まだ記述されていません。}}
+　`pt` に `(x 0)` を足した座標値を返します。function x+ と同じことをします。
 
 ${NO_SEE_ALSO}
 
@@ -2171,14 +2197,20 @@ ${BLANK_PARAGRAPH}
 <!-- stack:push li class='syntax' -->
 ${SYNTAX}
 
-* ${{B}{point/xy+}} pt x y
-
+* ${{B}{point/xy+}} pt x y => result
 
 <!-- stack:pop li -->
 
+${ARGS_AND_VALS}
+
+* `pt` ---- 対象の座標値を指定します。
+* `x` ---- 加算する x 軸の値を指定します。
+* `y` ---- 加算する y 軸の値を指定します。
+* `result` ---- 結果の座標値が返ります。
+
 ${DESCRIPTION}
 
-　${{TODO}{まだ記述されていません。}}
+　`pt` に `(x y)` を足した座標値を返します。function xy+ と同じことをします。
 
 ${NO_SEE_ALSO}
 
@@ -2194,14 +2226,19 @@ ${BLANK_PARAGRAPH}
 <!-- stack:push li class='syntax' -->
 ${SYNTAX}
 
-* ${{B}{point/y+}} pt y
-
+* ${{B}{point/y+}} pt y => result
 
 <!-- stack:pop li -->
 
+${ARGS_AND_VALS}
+
+* `pt` ---- 対象の座標値を指定します。
+* `y` ---- 加算する y 軸の値を指定します。
+* `result` ---- 結果の座標値が返ります。
+
 ${DESCRIPTION}
 
-　${{TODO}{まだ記述されていません。}}
+　`pt` に `(0 y)` を足した座標値を返します。function y+ と同じことをします。
 
 ${NO_SEE_ALSO}
 
@@ -2253,14 +2290,19 @@ ${BLANK_PARAGRAPH}
 <!-- stack:push li class='syntax' -->
 ${SYNTAX}
 
-* ${{B}{pt*}} pt n
-
+* ${{B}{pt*}} pt n => result
 
 <!-- stack:pop li -->
 
+${ARGS_AND_VALS}
+
+* `pt` ---- 対象の座標値を指定します。
+* `n` ---- 対象の座標値を指定します。
+* `result` ---- 結果の座標値が返ります。
+
 ${DESCRIPTION}
 
-　${{TODO}{まだ記述されていません。}}
+　`pt`を `n` 倍した座標値を返します。function point* と同じことをします。
 
 ${NO_SEE_ALSO}
 
@@ -2276,14 +2318,20 @@ ${BLANK_PARAGRAPH}
 <!-- stack:push li class='syntax' -->
 ${SYNTAX}
 
-* ${{B}{pt+}} pt1 pt2
-
+* ${{B}{pt+}} pt1 pt2 => result
 
 <!-- stack:pop li -->
 
+${ARGS_AND_VALS}
+
+* `pt1` ---- 対象の座標値を指定します。
+* `pt2` ---- 対象の座標値を指定します。
+* `result` ---- 結果の座標値が返ります。
+
 ${DESCRIPTION}
 
-　${{TODO}{まだ記述されていません。}}
+　2 つの座標値を足しあわせます。どちらかまたは両方が絶対座標の場合、結果も絶対座標に
+なります。function point+ と同じことをします。
 
 ${NO_SEE_ALSO}
 
@@ -2299,14 +2347,20 @@ ${BLANK_PARAGRAPH}
 <!-- stack:push li class='syntax' -->
 ${SYNTAX}
 
-* ${{B}{pt-}} pt1 pt2
-
+* ${{B}{pt-}} pt1 pt2 => result
 
 <!-- stack:pop li -->
 
+${ARGS_AND_VALS}
+
+* `pt1` ---- 対象の座標値を指定します。
+* `pt2` ---- 対象の座標値を指定します。
+* `result` ---- 結果の座標値が返ります。
+
 ${DESCRIPTION}
 
-　${{TODO}{まだ記述されていません。}}
+　`pt1` から `pt2` を引きます。どちらかまたは両方が絶対座標の場合、結果も絶対座標に
+なります。function point- と同じことをします。
 
 ${NO_SEE_ALSO}
 
@@ -2322,14 +2376,19 @@ ${BLANK_PARAGRAPH}
 <!-- stack:push li class='syntax' -->
 ${SYNTAX}
 
-* ${{B}{pt/}} pt n
-
+* ${{B}{pt/}} pt n => result
 
 <!-- stack:pop li -->
 
+${ARGS_AND_VALS}
+
+* `pt` ---- 対象の座標値を指定します。
+* `n` ---- 対象の座標値を指定します。
+* `result` ---- 結果の座標値が返ります。
+
 ${DESCRIPTION}
 
-　${{TODO}{まだ記述されていません。}}
+　`pt`を `1/n` 倍した座標値を返します。function point/ と同じことをします。
 
 ${NO_SEE_ALSO}
 
@@ -2417,14 +2476,23 @@ ${SYNTAX}
 
 * ${{B}{register-theme}} (name ${OPTIONAL} base) ${REST} settings
 
-
 <!-- stack:pop li -->
+
+${ARGS_AND_VALS}
+
+* `name` ---- 作成するテーマの ID をキーワードシンボルで指定します。
+* `base` ---- ベースにするテーマがある場合はその ID をキーワードシンボルで指定します。
+* `settings` ---- テーマに登録する設定を指定します（[$@ 節](#新しいテーマの作成)参照）。
 
 ${DESCRIPTION}
 
-　${{TODO}{まだ記述されていません。}}
+　新しいテーマを作成します。詳細は [$@ 節](#新しいテーマの作成)および
+[$@ 節](#テーマのカスタマイズ)を参照してください。
 
-${NO_SEE_ALSO}
+${SEE_ALSO}
+
+* [](#新しいテーマの作成)
+* [](#テーマのカスタマイズ)
 
 ${NO_NOTES}
 
@@ -2482,31 +2550,42 @@ ${BLANK_PARAGRAPH}
 <!-- stack:push li class='syntax' -->
 ${SYNTAX}
 
-* ${{B}{repeat}} source cnt ${REST} customs
-
+* ${{B}{repeat}} value count ${REST} customs => result
 
 <!-- stack:pop li -->
 
+${ARGS_AND_VALS}
+
+* `value` ---- 数値、または一引数関数を指定します。
+* `count` ---- 数値を指定します。
+* `customs` ---- `(n v)` 形式のリストを任意数指定します。ここで `n v` はともに整数です。
+* `result` ---- 結果がリストで返ります。
+
 ${DESCRIPTION}
 
-　${{TODO}{まだ記述されていません。}}
+　`value count customs` に従って数値のリストを生成して返します。table マクロにおける
+`rows` および `cols` パラメータでの使用を想定しています。
 
-<!-- stack:push li class='syntax' -->
-${SYNTAX}
+　基本的には、この関数は `count` 個の `value` からなるリストを生成します。ただし、
+`customs` が指定されている場合、生成したリストを `customs` に従って変更します。
+`customs` は、 `(n v)` 形式のリストの羅列であることが期待され、これによって結果の 
+`n` 番目の要素が `v` に置き換えられます。
+
+　さらに、 `value` は数値ではなく一引数関数にすることもできます。この場合、その関数は
+結果リストの個々の値を生成するためにインデックスを引数としてコールされます。以下に
+それぞれの例を示します。
 
 ```lisp
-(repeat 50 4)          ; => '(50 50 50 50)
-(repeat 40 5 '(0 80))  ; => '(80 40 40 40 40)
-(repeat #'identity 10) ; => '(0 1 2 3 4 5 6 7 8 9)
+(repeat 50 4)                 ; => '(50 50 50 50)
+(repeat 40 5 '(0 80) '(3 60)) ; => '(80 40 40 60 40)
+(repeat #'identity 10)        ; => '(0 1 2 3 4 5 6 7 8 9)
 (repeat (lambda (i)
            (* 10 (1+ i))) 10)  ; => '(10 20 30 40 50 60 70 80 90 100)
 ```
 
-<!-- stack:pop li -->
+${SEE_ALSO}
 
-${DESCRIPTION}
-
-${NO_SEE_ALSO}
+* table マクロ
 
 ${NO_NOTES}
 
@@ -2520,16 +2599,24 @@ ${BLANK_PARAGRAPH}
 <!-- stack:push li class='syntax' -->
 ${SYNTAX}
 
-* ${{B}{rgb}} r g b
-
+* ${{B}{rgb}} r g b => result
 
 <!-- stack:pop li -->
 
+${ARGS_AND_VALS}
+
+* `r` ---- 0 ～ 255 の整数値または 0.0 ～ 1.0 の浮動小数点値
+* `g` ---- 0 ～ 255 の整数値または 0.0 ～ 1.0 の浮動小数点値
+* `b` ---- 0 ～ 255 の整数値または 0.0 ～ 1.0 の浮動小数点値
+* `result` ---- 結果が `"#RRGGBB"` 形式の文字列で返ります。
+
 ${DESCRIPTION}
 
-　${{TODO}{まだ記述されていません。}}
+　`r g b` の 3 値から色指定の文字列を生成指定返します。
 
-${NO_SEE_ALSO}
+${SEE_ALSO}
+
+* [](#色の指定)
 
 ${NO_NOTES}
 
@@ -2657,7 +2744,7 @@ ${DESCRIPTION}
 　テキストボックスを描画します。複数のテキストボックスでスタイルを統一したい場合、
 with-textbox-options マクロを使うことができます。
 
-${NO_SEE_ALSO}
+${SEE_ALSO}
 
 * テキストボックス
 * with-textbox-options マクロ
@@ -3539,14 +3626,28 @@ ${SYNTAX}
 
 * ${{B}{use}} ref position ${KEY} pivot link rotate layer id contents debug
 
-
 <!-- stack:pop li -->
+
+${ARGS_AND_VALS}
+
+* `ref` ---- 再使用する定義の ID をキーワードシンボルで指定します。
+* `position` ---- 描画の基準点を指定します。詳細は「[](#座標と位置)」を参照してください。
+* `pivot` ---- 基準点が描画矩形のどこにくるように描画するかを指定します。詳細は「[](#座標と位置)」を参照してください。
+* `link` ---- リンクにする場合、リンク先を指定します。
+* `rotate` ---- 全体を回転させたい場合に、その角度を指定します。
+* `layer` ---- レイヤーを指定する場合、その ID をキーワードシンボルで指定します
+* `id` ---- ID を付与したい場合、その名前をキーワードシンボルで指定します
+* `contents` ---- 内部をサブキャンバスとした描画をしたい場合、その内容を指定します。
+* `debug` ---- 補助線を描画する場合、 `t` または色名を指定します
 
 ${DESCRIPTION}
 
-　${{TODO}{まだ記述されていません。}}
+　defgroup マクロで作成した定義 `ref` を使用します。
 
-${NO_SEE_ALSO}
+${SEE_ALSO}
+
+* [](#定義と再使用)
+* defgroup マクロ
 
 ${NO_NOTES}
 
@@ -3638,23 +3739,33 @@ ${BLANK_PARAGRAPH}
 
 #### macro with-canvas
 
-　with-current-canvas マクロの導入に伴い、with-canvas マクロは非推奨となりました。
-
 <!-- stack:push li class='syntax' -->
 ${SYNTAX}
 
 * ${{B}{with-canvas}} (sym-center sym-width sym-height) canvas ${BODY} body
 
-
 <!-- stack:pop li -->
+
+${ARGS_AND_VALS}
+
+* `sym-center` ---- `canvas` の center 値を参照するための変数名を指定します。
+* `sym-width` ---- `canvas` の幅を参照するための変数名を指定します。
+* `sym-height` ---- `canvas` の高さを参照するための変数名を指定します。
+* `canvas` ---- 対象のキャンバスを指定します。
+* `body` ---- 実行するコードを指定します。
 
 ${DESCRIPTION}
 
-　${{TODO}{まだ記述されていません。}}
+　`canvas` の中心、幅、および高さを変数で直接参照できるかのようなレキシカル環境を確立し、
+コード `body` を実行します。コード `body` 内では、 `sym-center sym-width sym-height` 
+それぞれで指定した名前の変数で値の取得が可能です。
 
 ${NO_SEE_ALSO}
 
-${NO_NOTES}
+${NOTES}
+
+　with-canvas マクロは非推奨となりました。今後は with-current-canvas マクロを使用して
+ください。
 
 
 <!-- autolink: [with-canvas マクロ](#macro with-canvas) -->
@@ -3720,14 +3831,22 @@ ${SYNTAX}
 
 * ${{B}{with-current-canvas}} (${REST} vars) ${BODY} body
 
-
 <!-- stack:pop li -->
+
+${ARGS_AND_VALS}
+
+* `vars` ---- `canvas` における各種の値を参照するための変数を指定します。
+* `body` ---- 実行するコードを指定します。
 
 ${DESCRIPTION}
 
-　${{TODO}{まだ記述されていません。}}
+　現在のキャンバスの中心、幅、高さなど各種の値を直接参照できるかのようなレキシカル
+環境を確立し、コード `body` を実行します。使用例は [$@ 章](#サブキャンバス)を参照して
+ください。
 
-${NO_SEE_ALSO}
+${SEE_ALSO}
+
+* [](#サブキャンバス)
 
 ${NO_NOTES}
 
@@ -3797,14 +3916,16 @@ ${SYNTAX}
 
 * ${{B}{with-endmark-options}} (${KEY} type size fill end1 end2) ${BODY} body
 
-
 <!-- stack:pop li -->
 
 ${DESCRIPTION}
 
-　${{TODO}{まだ記述されていません。}}
+　終端マークのデフォルトオプションを変更します。キーワードパラメータ群の説明は 
+[$@ 節](#終端マーク)を参照してください。
 
-${NO_SEE_ALSO}
+${SEE_ALSO}
+
+* [](#終端マーク)
 
 ${NO_NOTES}
 
@@ -3848,7 +3969,6 @@ ${SYNTAX}
 
 * ${{B}{with-folder-options}} (${KEY} tab-width tab-height align valign margin font fill stroke filter layer) ${BODY} body
 
-
 <!-- stack:pop li -->
 
 ${DESCRIPTION}
@@ -3875,14 +3995,16 @@ ${SYNTAX}
 
 * ${{B}{with-label-options}} (${KEY} position offset font) ${BODY} body
 
-
 <!-- stack:pop li -->
 
 ${DESCRIPTION}
 
-　${{TODO}{まだ記述されていません。}}
+　ラベルのデフォルトオプションを変更します。キーワードパラメータ群の説明は [$@ 節](#ラベル)を
+参照してください。
 
-${NO_SEE_ALSO}
+${SEE_ALSO}
+
+* [](#ラベル)
 
 ${NO_NOTES}
 
@@ -3982,12 +4104,20 @@ ${SYNTAX}
 
 * ${{B}{with-point}} (sym-x sym-y) pt ${BODY} body
 
-
 <!-- stack:pop li -->
+
+${ARGS_AND_VALS}
+
+* `sym-x` ---- `pt` の x 値を参照するための変数名を指定します。
+* `sym-y` ---- `pt` の y 値を参照するための変数名を指定します。
+* `pt` ---- 対象の座標値を指定します。
+* `body` ---- 実行するコードを指定します。
 
 ${DESCRIPTION}
 
-　${{TODO}{まだ記述されていません。}}
+　`pt` の x および y の値を変数で直接参照できるかのようなレキシカル環境を確立し、
+コード `body` を実行します。コード `body` 内では、 `sym-x sym-y` それぞれで指定した
+名前の変数で値の取得と設定が可能です。
 
 ${NO_SEE_ALSO}
 
@@ -4005,14 +4135,25 @@ ${SYNTAX}
 
 * ${{B}{with-subcanvas}} (top-left width height ${KEY} debug) ${BODY} body
 
-
 <!-- stack:pop li -->
+
+${ARGS_AND_VALS}
+
+* `top-left` ---- 作成するサブキャンバスの（現在のキャンバスから見た）左上の座標を指定します。
+* `width` ---- 作成するサブキャンバスの幅を指定します。
+* `height` ---- 作成するサブキャンバスの高さ指定します。
+* `debug` ---- `T` または色名を示すキーワードシンボルを指定するとキャンバスの領域を明示する補助線が描画されます。
+* `body` ---- 作成したサブキャンバス内部に描画するコードを指定します。
 
 ${DESCRIPTION}
 
-　${{TODO}{まだ記述されていません。}}
+　任意の位置とサイズでサブキャンバスを確立し、その内部に描画を行ないます。既存の図形要素の
+内部をサブキャンバスとした描画をしたい場合、with-subcanvas-of マクロを使用してください。
 
-${NO_SEE_ALSO}
+${SEE_ALSO}
+
+* [](#サブキャンバス)
+* with-subcanvas-of マクロ
 
 ${NO_NOTES}
 
@@ -4028,14 +4169,22 @@ ${SYNTAX}
 
 * ${{B}{with-subcanvas-of}} (id) ${BODY} body
 
-
 <!-- stack:pop li -->
+
+${ARGS_AND_VALS}
+
+* `id` ---- 対象となる図形要素の ID をキーワードシンボルで指定します。
+* `body` ---- 作成したサブキャンバス内部に描画するコードを指定します。
 
 ${DESCRIPTION}
 
-　${{TODO}{まだ記述されていません。}}
+　既存の図形要素の内部をサブキャンバスとして、その内部に描画を行ないます。任意の領域を
+サブキャンバスとした描画をしたい場合、with-subcanvas マクロを使用してください。
 
-${NO_SEE_ALSO}
+${SEE_ALSO}
+
+* [](#サブキャンバス)
+* with-subcanvas マクロ
 
 ${NO_NOTES}
 
@@ -4051,14 +4200,23 @@ ${SYNTAX}
 
 * ${{B}{with-table-cell}} (id r c) ${BODY} body
 
-
 <!-- stack:pop li -->
+
+${ARGS_AND_VALS}
+
+* `id` ---- 対象となるテーブルの ID をキーワードシンボルで指定します。
+* `r` ---- 対象となるテーブルセルの（０から始まる）行番号を数値で指定します。
+* `c` ---- 対象となるテーブルセルの（０から始まる）列番号を数値で指定します。
+* `body` ---- 対象となるテーブルセル内で行なう描画コードを記述します。
 
 ${DESCRIPTION}
 
-　${{TODO}{まだ記述されていません。}}
+　テーブルの ID とセルの行・列番号を指定して該当するセル内をサブキャンバスとした
+描画を行ないます。
 
-${NO_SEE_ALSO}
+${SEE_ALSO}
+
+* [](#with-table-cell を使ったセル内描画)
 
 ${NO_NOTES}
 
@@ -4073,7 +4231,6 @@ ${BLANK_PARAGRAPH}
 ${SYNTAX}
 
 * ${{B}{with-table-options}} (${KEY} font fill stroke layer) ${BODY} body
-
 
 <!-- stack:pop li -->
 
@@ -4099,16 +4256,23 @@ ${BLANK_PARAGRAPH}
 <!-- stack:push li class='syntax' -->
 ${SYNTAX}
 
-* ${{B}{with-table-range}} (id kwd) ${BODY} body
-
+* ${{B}{with-table-range}} (id range) ${BODY} body
 
 <!-- stack:pop li -->
 
+${ARGS_AND_VALS}
+
+* `id` ---- 対象となるテーブルの ID をキーワードシンボルで指定します。
+* `range` ---- 対象となるテーブル内の部分領域をキーワードシンボルで指定します。これは table マクロにおける `fills` パラメータの指定方法と同様です。
+* `body` ---- 対象となるテーブルセル内で行なう描画コードを記述します。
+
 ${DESCRIPTION}
 
-　${{TODO}{まだ記述されていません。}}
+　テーブルの一部の領域をサブキャンバスとした描画を行ないます。
 
-${NO_SEE_ALSO}
+${SEE_ALSO}
+
+* [](#with-table-range を使った範囲取得)
 
 ${NO_NOTES}
 
@@ -4151,14 +4315,20 @@ ${SYNTAX}
 
 * ${{B}{with-theme}} (name) ${BODY} body
 
-
 <!-- stack:pop li -->
+
+${ARGS_AND_VALS}
+
+* `name` ---- 使用するテーマの ID をキーワードシンボルで指定します。
+* `body` ---- `name` で指定したテーマを使用して描画を行なうコードを記述します。
 
 ${DESCRIPTION}
 
-　${{TODO}{まだ記述されていません。}}
+　テーマを指定した描画を行ないます。詳細は [$@ 章](#テーマ)を参照してください。
 
-${NO_SEE_ALSO}
+${SEE_ALSO}
+
+* [](#テーマ)
 
 ${NO_NOTES}
 
@@ -4544,12 +4714,17 @@ ${SYNTAX}
 
 * ${{B}{x+}} pt x => result
 
-
 <!-- stack:pop li -->
+
+${ARGS_AND_VALS}
+
+* `pt` ---- 対象の座標値を指定します。
+* `x` ---- 加算する x 軸の値を指定します。
+* `result` ---- 結果の座標値が返ります。
 
 ${DESCRIPTION}
 
-　${{TODO}{まだ記述されていません。}}
+　`pt` に `(x 0)` を足した座標値を返します。function point/x+ と同じことをします。
 
 ${NO_SEE_ALSO}
 
@@ -4567,12 +4742,18 @@ ${SYNTAX}
 
 * ${{B}{xy+}} pt x y => result
 
-
 <!-- stack:pop li -->
+
+${ARGS_AND_VALS}
+
+* `pt` ---- 対象の座標値を指定します。
+* `x` ---- 加算する x 軸の値を指定します。
+* `y` ---- 加算する y 軸の値を指定します。
+* `result` ---- 結果の座標値が返ります。
 
 ${DESCRIPTION}
 
-　${{TODO}{まだ記述されていません。}}
+　`pt` に `(x y)` を足した座標値を返します。function xy+ と同じことをします。
 
 ${NO_SEE_ALSO}
 
@@ -4590,12 +4771,17 @@ ${SYNTAX}
 
 * ${{B}{y+}} pt y => result
 
-
 <!-- stack:pop li -->
+
+${ARGS_AND_VALS}
+
+* `pt` ---- 対象の座標値を指定します。
+* `y` ---- 加算する y 軸の値を指定します。
+* `result` ---- 結果の座標値が返ります。
 
 ${DESCRIPTION}
 
-　${{TODO}{まだ記述されていません。}}
+　`pt` に `(0 y)` を足した座標値を返します。function point/y+ と同じことをします。
 
 ${NO_SEE_ALSO}
 

@@ -182,7 +182,7 @@
 ;;
 ;;　${{TODO}{まだ記述されていません。}}
 ;;
-;;* rake は t を指定するか、または数値 4 要素のリストを指定する。`(width height x-margin y-margin)`
+;;* rake は t を指定するか、または数値 4 要素のリストを指定する。 `(width height x-margin y-margin)`
 ;;* `:contents t` がサポートされる。
 ;;
 ;;${NO_SEE_ALSO}

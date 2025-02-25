@@ -523,14 +523,20 @@
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
-;;* ${{B}{make-id}} prefix ${REST} args
-;;
+;;* ${{B}{make-id}} prefix ${REST} args => result
 ;;
 ;;<!-- stack:pop li -->
 ;;
+;;${ARGS_AND_VALS}
+;;
+;;* `prerix` ---- 文字列またはシンボルを指定します。
+;;* `args` ---- 任意の数の文字列またはシンボルを指定します。
+;;* `result` ---- 結果がキーワードシンボルで返ります。
+;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　`prefix` および追加の `args` を連結した ID を生成し、キーワードシンボルのかたちで
+;;返します。
 ;;
 ;;${NO_SEE_ALSO}
 ;;
@@ -750,16 +756,24 @@
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
-;;* ${{B}{rgb}} r g b
-;;
+;;* ${{B}{rgb}} r g b => result
 ;;
 ;;<!-- stack:pop li -->
 ;;
+;;${ARGS_AND_VALS}
+;;
+;;* `r` ---- 0 ～ 255 の整数値または 0.0 ～ 1.0 の浮動小数点値
+;;* `g` ---- 0 ～ 255 の整数値または 0.0 ～ 1.0 の浮動小数点値
+;;* `b` ---- 0 ～ 255 の整数値または 0.0 ～ 1.0 の浮動小数点値
+;;* `result` ---- 結果が `"#RRGGBB"` 形式の文字列で返ります。
+;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　`r g b` の 3 値から色指定の文字列を生成指定返します。
 ;;
-;;${NO_SEE_ALSO}
+;;${SEE_ALSO}
+;;
+;;* [](#色の指定)
 ;;
 ;;${NO_NOTES}
 ;;
@@ -783,31 +797,42 @@
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
-;;* ${{B}{repeat}} source cnt ${REST} customs
-;;
+;;* ${{B}{repeat}} value count ${REST} customs => result
 ;;
 ;;<!-- stack:pop li -->
 ;;
+;;${ARGS_AND_VALS}
+;;
+;;* `value` ---- 数値、または一引数関数を指定します。
+;;* `count` ---- 数値を指定します。
+;;* `customs` ---- `(n v)` 形式のリストを任意数指定します。ここで `n v` はともに整数です。
+;;* `result` ---- 結果がリストで返ります。
+;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　`value count customs` に従って数値のリストを生成して返します。table マクロにおける
+;;`rows` および `cols` パラメータでの使用を想定しています。
 ;;
-;;<!-- stack:push li class='syntax' -->
-;;${SYNTAX}
+;;　基本的には、この関数は `count` 個の `value` からなるリストを生成します。ただし、
+;;`customs` が指定されている場合、生成したリストを `customs` に従って変更します。
+;;`customs` は、 `(n v)` 形式のリストの羅列であることが期待され、これによって結果の 
+;;`n` 番目の要素が `v` に置き換えられます。
+;;
+;;　さらに、 `value` は数値ではなく一引数関数にすることもできます。この場合、その関数は
+;;結果リストの個々の値を生成するためにインデックスを引数としてコールされます。以下に
+;;それぞれの例を示します。
 ;;
 ;;```lisp
-;;(repeat 50 4)          ; => '(50 50 50 50)
-;;(repeat 40 5 '(0 80))  ; => '(80 40 40 40 40)
-;;(repeat #'identity 10) ; => '(0 1 2 3 4 5 6 7 8 9)
+;;(repeat 50 4)                 ; => '(50 50 50 50)
+;;(repeat 40 5 '(0 80) '(3 60)) ; => '(80 40 40 60 40)
+;;(repeat #'identity 10)        ; => '(0 1 2 3 4 5 6 7 8 9)
 ;;(repeat (lambda (i)
 ;;           (* 10 (1+ i))) 10)  ; => '(10 20 30 40 50 60 70 80 90 100)
 ;;```
 ;;
-;;<!-- stack:pop li -->
+;;${SEE_ALSO}
 ;;
-;;${DESCRIPTION}
-;;
-;;${NO_SEE_ALSO}
+;;* table マクロ
 ;;
 ;;${NO_NOTES}
 ;;
@@ -815,12 +840,12 @@
 #|
 #|EXPORT|#                :repeat
  |#
-(defun repeat (source cnt &rest customs)
-  (let ((gen (if (functionp source)
-                 source
-                 (constantly source))))
+(defun repeat (value count &rest customs)
+  (let ((gen (if (functionp value)
+                 value
+                 (constantly value))))
     (labels ((impl (i acc)
-               (if (= cnt i)
+               (if (= count i)
                    (nreverse acc)
                    (impl (1+ i) (push (funcall gen i) acc)))))
       (let ((lst (impl 0 nil)))

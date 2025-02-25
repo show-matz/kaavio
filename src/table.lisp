@@ -330,7 +330,6 @@
 ;;
 ;;* ${{B}{with-table-options}} (${KEY} font fill stroke layer) ${BODY} body
 ;;
-;;
 ;;<!-- stack:pop li -->
 ;;
 ;;${DESCRIPTION}
@@ -374,14 +373,23 @@
 ;;
 ;;* ${{B}{with-table-cell}} (id r c) ${BODY} body
 ;;
-;;
 ;;<!-- stack:pop li -->
+;;
+;;${ARGS_AND_VALS}
+;;
+;;* `id` ---- 対象となるテーブルの ID をキーワードシンボルで指定します。
+;;* `r` ---- 対象となるテーブルセルの（０から始まる）行番号を数値で指定します。
+;;* `c` ---- 対象となるテーブルセルの（０から始まる）列番号を数値で指定します。
+;;* `body` ---- 対象となるテーブルセル内で行なう描画コードを記述します。
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　テーブルの ID とセルの行・列番号を指定して該当するセル内をサブキャンバスとした
+;;描画を行ないます。
 ;;
-;;${NO_SEE_ALSO}
+;;${SEE_ALSO}
+;;
+;;* [](#with-table-cell を使ったセル内描画)
 ;;
 ;;${NO_NOTES}
 ;;
@@ -411,16 +419,23 @@
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
-;;* ${{B}{with-table-range}} (id kwd) ${BODY} body
-;;
+;;* ${{B}{with-table-range}} (id range) ${BODY} body
 ;;
 ;;<!-- stack:pop li -->
 ;;
+;;${ARGS_AND_VALS}
+;;
+;;* `id` ---- 対象となるテーブルの ID をキーワードシンボルで指定します。
+;;* `range` ---- 対象となるテーブル内の部分領域をキーワードシンボルで指定します。これは table マクロにおける `fills` パラメータの指定方法と同様です。
+;;* `body` ---- 対象となるテーブルセル内で行なう描画コードを記述します。
+;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　テーブルの一部の領域をサブキャンバスとした描画を行ないます。
 ;;
-;;${NO_SEE_ALSO}
+;;${SEE_ALSO}
+;;
+;;* [](#with-table-range を使った範囲取得)
 ;;
 ;;${NO_NOTES}
 ;;
@@ -428,7 +443,7 @@
 #|
 #|EXPORT|#                :with-table-range
  |#
-(defmacro with-table-range ((id kwd) &body body)
+(defmacro with-table-range ((id range) &body body)
   (let ((g-tbl     (gensym "TBL"))
         (g-center  (gensym "CENTER"))
         (g-width   (gensym "WIDTH"))
@@ -436,10 +451,10 @@
         (g-topleft (gensym "TOPLEFT")))
     `(let ((,g-tbl (kaavio::dict-get-entity (kaavio::get-dictionary) ,id)))
        (multiple-value-bind (,g-center ,g-width ,g-height)
-                (kaavio::table-get-sub-area ,kwd (kaavio:attribute-center ,g-tbl)
-                                                 (slot-value ,g-tbl 'kaavio::rows)
-                                                 (slot-value ,g-tbl 'kaavio::cols)
-                                                 (attribute-topleft ,g-tbl))
+                (kaavio::table-get-sub-area ,range (kaavio:attribute-center ,g-tbl)
+                                                   (slot-value ,g-tbl 'kaavio::rows)
+                                                   (slot-value ,g-tbl 'kaavio::cols)
+                                                   (attribute-topleft ,g-tbl))
          (let* ((,g-topleft (xy+ ,g-center (- (/ ,g-width 2)) (- (/ ,g-height 2))))
                 (canvas (make-canvas ,g-topleft ,g-width ,g-height)))
            (declare (special canvas))

@@ -19,14 +19,19 @@
 ;;
 ;;* `x` ---- x 座標を数値で指定します。
 ;;* `y` ---- y 座標を数値で指定します。
-;;* `type` ---- `:relative` または `:absolute` を指定します。
-;;* `result` ---- point 値が返ります。
+;;* `type` ---- `:relative` または `:absolute` を指定します。省略した場合のデフォルト値は `:relative` です。
+;;* `result` ---- 座標値が返ります。
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　座標値を生成します。 `type` に `absolute` を指定すると絶対座標に、それ以外の場合は
+;;相対座標になります。絶対座標は画像全体をキャンバスとしてその左上を `'(0 0)` とする座標
+;;で、相対座標は「現在のキャンバス」をの左上を `'(0 0)` とする座標です。
 ;;
-;;${NO_SEE_ALSO}
+;;${SEE_ALSO}
+;;
+;;* [](#座標と位置)
+;;* [](#サブキャンバス)
 ;;
 ;;${NO_NOTES}
 ;;
@@ -49,16 +54,16 @@
 ;;
 ;;* ${{B}{copy-point}} pt => result
 ;;
+;;<!-- stack:pop li -->
+;;
 ;;${ARGS_AND_VALS}
 ;;
-;;* pt ---- a point
-;;* result ---- a point
-;;
-;;<!-- stack:pop li -->
+;;* pt ---- コピー対象の座標値を指定します。
+;;* result ---- コピーされた座標値が返ります。
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　座標値をコピーします。あまり使いません。
 ;;
 ;;${NO_SEE_ALSO}
 ;;
@@ -77,14 +82,18 @@
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
-;;* ${{B}{point-p}} pt
-;;
+;;* ${{B}{point-p}} pt => result
 ;;
 ;;<!-- stack:pop li -->
 ;;
+;;${ARGS_AND_VALS}
+;;
+;;* `pt` ---- 対象オブジェクトを指定します。
+;;* `result` ---- `T` または `NIL` が返ります。
+;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　`pt` が座標値かどうかを調べます。
 ;;
 ;;${NO_SEE_ALSO}
 ;;
@@ -106,14 +115,18 @@
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
-;;* ${{B}{point-absolute-p}} pt
-;;
+;;* ${{B}{point-absolute-p}} pt => result
 ;;
 ;;<!-- stack:pop li -->
 ;;
+;;${ARGS_AND_VALS}
+;;
+;;* `pt` ---- 対象オブジェクトを指定します。
+;;* `result` ---- `T` または `NIL` が返ります。
+;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　`pt` が絶対座標を示す座標値かどうかを調べます。
 ;;
 ;;${NO_SEE_ALSO}
 ;;
@@ -124,7 +137,8 @@
 #|EXPORT|#                :point-absolute-p
  |#
 (defun point-absolute-p (pt)
-  (eq (cddr pt) :absolute))
+  (and (point-p pt)
+       (eq (cddr pt) :absolute)))
 
 ;;------------------------------------------------------------------------------------- BEGIN TURNUP
 ;;#### function point-relative-p
@@ -132,14 +146,18 @@
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
-;;* ${{B}{point-relative-p}} pt
-;;
+;;* ${{B}{point-relative-p}} pt => result
 ;;
 ;;<!-- stack:pop li -->
 ;;
+;;${ARGS_AND_VALS}
+;;
+;;* `pt` ---- 対象オブジェクトを指定します。
+;;* `result` ---- `T` または `NIL` が返ります。
+;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　`pt` が相対座標を示す座標値かどうかを調べます。
 ;;
 ;;${NO_SEE_ALSO}
 ;;
@@ -150,7 +168,8 @@
 #|EXPORT|#                :point-relative-p
  |#
 (defun point-relative-p (pt)
-  (null (cddr pt)))
+  (and (point-p pt)
+       (null (cddr pt))))
 
 ;;------------------------------------------------------------------------------------- BEGIN TURNUP
 ;;#### function point-x
@@ -158,15 +177,20 @@
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
-;;* ${{B}{point-x}} pt
-;;* ${{B}{(setf point-x)}} val pt
-;;
+;;* ${{B}{point-x}} pt => result
+;;* (setf (${{B}{point-x}} pt) val)
 ;;
 ;;<!-- stack:pop li -->
 ;;
+;;${ARGS_AND_VALS}
+;;
+;;* `pt` ---- 対象の座標値を指定します。
+;;* `result` ---- `pt` の x 座標が返ります。
+;;* `val` ---- `pt` に設定する x 座標値を指定します。
+;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　座標値の x 軸の値を取得または設定します。
 ;;
 ;;${NO_SEE_ALSO}
 ;;
@@ -186,14 +210,19 @@
 ;;${SYNTAX}
 ;;
 ;;* ${{B}{point-y}} pt
-;;* ${{B}{(setf point-y)}} val pt
-;;
+;;* (setf ${{B}{point-y}} pt) val)
 ;;
 ;;<!-- stack:pop li -->
 ;;
+;;${ARGS_AND_VALS}
+;;
+;;* `pt` ---- 対象の座標値を指定します。
+;;* `result` ---- `pt` の y 座標が返ります。
+;;* `val` ---- `pt` に設定する y 座標値を指定します。
+;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　座標値の y 軸の値を取得または設定します。
 ;;
 ;;${NO_SEE_ALSO}
 ;;
@@ -212,14 +241,20 @@
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
-;;* ${{B}{pt+}} pt1 pt2
-;;
+;;* ${{B}{pt+}} pt1 pt2 => result
 ;;
 ;;<!-- stack:pop li -->
 ;;
+;;${ARGS_AND_VALS}
+;;
+;;* `pt1` ---- 対象の座標値を指定します。
+;;* `pt2` ---- 対象の座標値を指定します。
+;;* `result` ---- 結果の座標値が返ります。
+;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　2 つの座標値を足しあわせます。どちらかまたは両方が絶対座標の場合、結果も絶対座標に
+;;なります。function point+ と同じことをします。
 ;;
 ;;${NO_SEE_ALSO}
 ;;
@@ -240,14 +275,20 @@
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
-;;* ${{B}{pt-}} pt1 pt2
-;;
+;;* ${{B}{pt-}} pt1 pt2 => result
 ;;
 ;;<!-- stack:pop li -->
 ;;
+;;${ARGS_AND_VALS}
+;;
+;;* `pt1` ---- 対象の座標値を指定します。
+;;* `pt2` ---- 対象の座標値を指定します。
+;;* `result` ---- 結果の座標値が返ります。
+;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　`pt1` から `pt2` を引きます。どちらかまたは両方が絶対座標の場合、結果も絶対座標に
+;;なります。function point- と同じことをします。
 ;;
 ;;${NO_SEE_ALSO}
 ;;
@@ -268,14 +309,19 @@
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
-;;* ${{B}{pt*}} pt n
-;;
+;;* ${{B}{pt*}} pt n => result
 ;;
 ;;<!-- stack:pop li -->
 ;;
+;;${ARGS_AND_VALS}
+;;
+;;* `pt` ---- 対象の座標値を指定します。
+;;* `n` ---- 対象の座標値を指定します。
+;;* `result` ---- 結果の座標値が返ります。
+;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　`pt`を `n` 倍した座標値を返します。function point* と同じことをします。
 ;;
 ;;${NO_SEE_ALSO}
 ;;
@@ -295,14 +341,19 @@
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
-;;* ${{B}{pt/}} pt n
-;;
+;;* ${{B}{pt/}} pt n => result
 ;;
 ;;<!-- stack:pop li -->
 ;;
+;;${ARGS_AND_VALS}
+;;
+;;* `pt` ---- 対象の座標値を指定します。
+;;* `n` ---- 対象の座標値を指定します。
+;;* `result` ---- 結果の座標値が返ります。
+;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　`pt`を `1/n` 倍した座標値を返します。function point/ と同じことをします。
 ;;
 ;;${NO_SEE_ALSO}
 ;;
@@ -322,14 +373,20 @@
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
-;;* ${{B}{point+}} pt1 pt2
-;;
+;;* ${{B}{point+}} pt1 pt2 => result
 ;;
 ;;<!-- stack:pop li -->
 ;;
+;;${ARGS_AND_VALS}
+;;
+;;* `pt1` ---- 対象の座標値を指定します。
+;;* `pt2` ---- 対象の座標値を指定します。
+;;* `result` ---- 結果の座標値が返ります。
+;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　2 つの座標値を足しあわせます。どちらかまたは両方が絶対座標の場合、結果も絶対座標に
+;;なります。function pt+ と同じことをします。
 ;;
 ;;${NO_SEE_ALSO}
 ;;
@@ -347,14 +404,20 @@
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
-;;* ${{B}{point-}} pt1 pt2
-;;
+;;* ${{B}{point-}} pt1 pt2 => result
 ;;
 ;;<!-- stack:pop li -->
 ;;
+;;${ARGS_AND_VALS}
+;;
+;;* `pt1` ---- 対象の座標値を指定します。
+;;* `pt2` ---- 対象の座標値を指定します。
+;;* `result` ---- 結果の座標値が返ります。
+;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　`pt1` から `pt2` を引きます。どちらかまたは両方が絶対座標の場合、結果も絶対座標に
+;;なります。function pt- と同じことをします。
 ;;
 ;;${NO_SEE_ALSO}
 ;;
@@ -372,14 +435,19 @@
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
-;;* ${{B}{point*}} pt n
-;;
+;;* ${{B}{point*}} pt n => result
 ;;
 ;;<!-- stack:pop li -->
 ;;
+;;${ARGS_AND_VALS}
+;;
+;;* `pt` ---- 対象の座標値を指定します。
+;;* `n` ---- 対象の座標値を指定します。
+;;* `result` ---- 結果の座標値が返ります。
+;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　`pt`を `n` 倍した座標値を返します。function pt* と同じことをします。
 ;;
 ;;${NO_SEE_ALSO}
 ;;
@@ -399,12 +467,17 @@
 ;;
 ;;* ${{B}{point/}} pt n
 ;;
-;;
 ;;<!-- stack:pop li -->
+;;
+;;${ARGS_AND_VALS}
+;;
+;;* `pt` ---- 対象の座標値を指定します。
+;;* `n` ---- 対象の座標値を指定します。
+;;* `result` ---- 結果の座標値が返ります。
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　`pt`を `1/n` 倍した座標値を返します。function pt/ と同じことをします。
 ;;
 ;;${NO_SEE_ALSO}
 ;;
@@ -422,14 +495,19 @@
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
-;;* ${{B}{point/x+}} pt x
-;;
+;;* ${{B}{point/x+}} pt x => result
 ;;
 ;;<!-- stack:pop li -->
 ;;
+;;${ARGS_AND_VALS}
+;;
+;;* `pt` ---- 対象の座標値を指定します。
+;;* `x` ---- 加算する x 軸の値を指定します。
+;;* `result` ---- 結果の座標値が返ります。
+;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　`pt` に `(x 0)` を足した座標値を返します。function x+ と同じことをします。
 ;;
 ;;${NO_SEE_ALSO}
 ;;
@@ -448,14 +526,19 @@
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
-;;* ${{B}{point/y+}} pt y
-;;
+;;* ${{B}{point/y+}} pt y => result
 ;;
 ;;<!-- stack:pop li -->
 ;;
+;;${ARGS_AND_VALS}
+;;
+;;* `pt` ---- 対象の座標値を指定します。
+;;* `y` ---- 加算する y 軸の値を指定します。
+;;* `result` ---- 結果の座標値が返ります。
+;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　`pt` に `(0 y)` を足した座標値を返します。function y+ と同じことをします。
 ;;
 ;;${NO_SEE_ALSO}
 ;;
@@ -474,14 +557,20 @@
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
-;;* ${{B}{point/xy+}} pt x y
-;;
+;;* ${{B}{point/xy+}} pt x y => result
 ;;
 ;;<!-- stack:pop li -->
 ;;
+;;${ARGS_AND_VALS}
+;;
+;;* `pt` ---- 対象の座標値を指定します。
+;;* `x` ---- 加算する x 軸の値を指定します。
+;;* `y` ---- 加算する y 軸の値を指定します。
+;;* `result` ---- 結果の座標値が返ります。
+;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　`pt` に `(x y)` を足した座標値を返します。function xy+ と同じことをします。
 ;;
 ;;${NO_SEE_ALSO}
 ;;
@@ -503,12 +592,17 @@
 ;;
 ;;* ${{B}{x+}} pt x => result
 ;;
-;;
 ;;<!-- stack:pop li -->
+;;
+;;${ARGS_AND_VALS}
+;;
+;;* `pt` ---- 対象の座標値を指定します。
+;;* `x` ---- 加算する x 軸の値を指定します。
+;;* `result` ---- 結果の座標値が返ります。
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　`pt` に `(x 0)` を足した座標値を返します。function point/x+ と同じことをします。
 ;;
 ;;${NO_SEE_ALSO}
 ;;
@@ -529,12 +623,17 @@
 ;;
 ;;* ${{B}{y+}} pt y => result
 ;;
-;;
 ;;<!-- stack:pop li -->
+;;
+;;${ARGS_AND_VALS}
+;;
+;;* `pt` ---- 対象の座標値を指定します。
+;;* `y` ---- 加算する y 軸の値を指定します。
+;;* `result` ---- 結果の座標値が返ります。
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　`pt` に `(0 y)` を足した座標値を返します。function point/y+ と同じことをします。
 ;;
 ;;${NO_SEE_ALSO}
 ;;
@@ -555,12 +654,18 @@
 ;;
 ;;* ${{B}{xy+}} pt x y => result
 ;;
-;;
 ;;<!-- stack:pop li -->
+;;
+;;${ARGS_AND_VALS}
+;;
+;;* `pt` ---- 対象の座標値を指定します。
+;;* `x` ---- 加算する x 軸の値を指定します。
+;;* `y` ---- 加算する y 軸の値を指定します。
+;;* `result` ---- 結果の座標値が返ります。
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　`pt` に `(x y)` を足した座標値を返します。function xy+ と同じことをします。
 ;;
 ;;${NO_SEE_ALSO}
 ;;
@@ -580,14 +685,20 @@
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
-;;* ${{B}{point-distance}} pt1 pt2
-;;
+;;* ${{B}{point-distance}} pt1 pt2 => result
 ;;
 ;;<!-- stack:pop li -->
 ;;
+;;${ARGS_AND_VALS}
+;;
+;;* `pt1` ---- 対象の座標値を指定します。
+;;* `pt2` ---- 対象の座標値を指定します。
+;;* `result` ---- 結果の値が返ります。
+;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　`pt1` と `pt2` の間の距離を計算して返します。この時、これらの座標値が絶対座標であるか
+;;相対座標であるかは考慮されないので注意が必要です。
 ;;
 ;;${NO_SEE_ALSO}
 ;;
@@ -610,12 +721,20 @@
 ;;
 ;;* ${{B}{with-point}} (sym-x sym-y) pt ${BODY} body
 ;;
-;;
 ;;<!-- stack:pop li -->
+;;
+;;${ARGS_AND_VALS}
+;;
+;;* `sym-x` ---- `pt` の x 値を参照するための変数名を指定します。
+;;* `sym-y` ---- `pt` の y 値を参照するための変数名を指定します。
+;;* `pt` ---- 対象の座標値を指定します。
+;;* `body` ---- 実行するコードを指定します。
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　`pt` の x および y の値を変数で直接参照できるかのようなレキシカル環境を確立し、
+;;コード `body` を実行します。コード `body` 内では、 `sym-x sym-y` それぞれで指定した
+;;名前の変数で値の取得と設定が可能です。
 ;;
 ;;${NO_SEE_ALSO}
 ;;

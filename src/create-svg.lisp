@@ -23,14 +23,20 @@
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
-;;* ${{B}{diagram}} (w h ${KEY} fill) ${BODY} body
-;;
+;;* ${{B}{diagram}} (width height ${KEY} fill) ${BODY} body
 ;;
 ;;<!-- stack:pop li -->
 ;;
+;;${ARGS_AND_VALS}
+;;
+;;* `width` ---- 幅を数値で指定します。
+;;* `height` ---- 高さを数値で指定します。
+;;* `fill` ---- 背景全体の塗り潰しが必要な場合は指定します。
+;;* `body` ---- 描画コードを記述します。
+;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　幅 `width` 、高さ `height` の SVG 画像を作成し、内部を `body` のコードで描画します。
 ;;
 ;;${NO_SEE_ALSO}
 ;;
@@ -44,8 +50,8 @@
 #|EXPORT|#                :width
 #|EXPORT|#                :height
  |#
-(defmacro diagram ((w h &key fill) &rest body)
-  `(create-svg (,w ,h :fill ,fill) ,@body))
+(defmacro diagram ((width height &key fill) &rest body)
+  `(create-svg (,width ,height :fill ,fill) ,@body))
 
 (defmacro create-svg ((width height &key fill desc) &rest body)
   (let ((g-layer-mgr (gensym "LAYER-MGR"))
@@ -130,38 +136,31 @@
 ;;------------------------------------------------------------------------------------- BEGIN TURNUP
 ;;#### function layer
 ;;
-;;　レイヤーの導入を宣言します。レイヤーについては「[](#レイヤー)」を参照してください。関数シグネチャは
-;;以下の通りです。
-;;
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
 ;;* ${{B}{layer}} name ${OPTIONAL} (display :inline)
 ;;
-;;
 ;;<!-- stack:pop li -->
+;;
+;;${ARGS_AND_VALS}
+;;
+;;* `name` ---- レイヤーの名前をキーワードで指定します。
+;;* `display` ---- レイヤー全体の表示を `:inline` または `:none` で指定します。省略時のデフォルトは `:inline` で、レイヤー全体を表示します。 `:none` を指定すると、レイヤー全体を非表示にします。
 ;;
 ;;${DESCRIPTION}
 ;;
-;;${BLANK_PARAGRAPH}
+;;　レイヤーの導入を宣言します。レイヤーについては [$@ 節](#レイヤー)を参照してください。
 ;;
-;;Table. layer 関数のパラメータ
-;;| parameter       | description                               |
-;;|:================|:------------------------------------------|
-;;| `name`          | レイヤーの名前をキーワードで指定します。     |
-;;| `display`       | レイヤー全体の表示を `:inline` または `:none` で指定します。省略時の<br> \
-;;                  デフォルトは `:inline` で、レイヤー全体を表示します。 `:none` を指定<br> \
-;;                  すると、レイヤー全体を非表示にします。 |
+;;${SEE_ALSO}
 ;;
+;;* [](#レイヤー)
 ;;
-;;${BLANK_PARAGRAPH}
+;;${NOTES}
 ;;
-;;${NO_SEE_ALSO}
-;;
-;;${NO_NOTES}
+;;　layer 関数は、実際には diagram マクロ内で作成される局所関数です。
 ;;
 ;;--------------------------------------------------------------------------------------- END TURNUP
 #|
 #|EXPORT|#                :layer
  |#
-;; MEMO : layer は実際には create-svg マクロ内に作成される局所関数

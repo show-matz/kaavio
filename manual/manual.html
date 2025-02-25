@@ -4377,7 +4377,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p>　　</p>
 <h2><a name='kgs1vf3AbTN'></a>7 サブキャンバス</h2>
 <p>　<a href='#h1RNMQY1C0b'>前節</a>では、座標指定のための ID 名として <code>canvas</code> を指定すると作成中の図全体の領域を指定できると説明しました。kaavio では、これを<a class='autolink' href='#kgs1vf3AbTN'>キャンバス</a>と読んでいますが、その一部を独立した<a class='autolink' href='#kgs1vf3AbTN'>キャンバス</a>として描画を行うことができます。これを<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>と呼びます。</p>
-<p>　<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>を使う方法のひとつは、with-subcanvas を使うことです。左上の座標と幅・高さを与えることで、その部分領域の左上を原点とする新しい座標系が作成されます。以下に簡単な例を示します。</p>
+<p>　<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>を使う方法のひとつは、<a class='autolink' href='#5cY34BaMQhr'>with-subcanvas マクロ</a>を使うことです。左上の座標と与えることで、その部分領域の左上を原点とする新しい座標系が作成されます。以下に簡単な例を示します。</p>
 <pre class='code'>
 (diagram (300 150)
   (grid)
@@ -4386,7 +4386,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
     (rect canvas.center canvas.width canvas.height <span class='keyword3'>:stroke</span> <span class='keyword3'>:gray</span> <span class='keyword3'>:fill</span> <span class='keyword3'>:none</span>)
     (circle '(50 50) 20 <span class='keyword3'>:stroke</span> <span class='keyword3'>:navy</span> <span class='keyword3'>:fill</span> <span class='keyword3'>:skyblue</span>)))
 </pre>
-<p>　上記のコードを kaavio にかけると以下が生成されます。2 回登場する circle は座標と半径が同じ <code>'(50 50) 20</code> で指定されていますが、実際に描画された場所は異なっています。これは、後者の（青い方の）circle が with-subcanvas の配下にあるためで、この<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>の実際の領域は rect で示されています。</p>
+<p>　上記のコードを kaavio にかけると以下が生成されます。2 回登場する circle は座標と半径が同じ <code>'(50 50) 20</code> で指定されていますが、実際に描画された場所は異なっています。これは、後者の（青い方の）circle が <a class='autolink' href='#5cY34BaMQhr'>with-subcanvas マクロ</a>の配下にあるためで、この<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>の実際の領域は rect で示されています。</p>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='150'>
@@ -4409,7 +4409,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 
 <p class='fig_title'><a name='kV8JVeAiwLR'></a>Figure.7-1 サブキャンバスのサンプル</p>
 <p>　<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>は入力データの一部分で独自の座標系を一時的に作成するもので、それ以外の効果はありません。たとえば、描画順序を制御する<a class='autolink' href='#1ovJxG7Ie9O'>レイヤー</a>とは無関係です<sup><a name='footnote_ref11' href='#footnote11'>11</a></sup>。</p>
-<p>　with-subcanvas で明示的に<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>を作成するのでなく、作成した図形要素の内部を<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>とすることもできます。これには、 contents パラメータを使用します。たとえば、先程の例と同じ作図をするには以下のように書きます。この場合、先程とは違って rect の中に circle が置かれることになります（rect が動けば circle も動く）。</p>
+<p>　<a class='autolink' href='#5cY34BaMQhr'>with-subcanvas マクロ</a>で明示的に<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>を作成するのでなく、作成した図形要素の内部を<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>とすることもできます。これには、 <code>:contents</code> パラメータを使用します。たとえば、先程の例と同じ作図をするには以下のように書きます。この場合、先程とは違って rect の中に circle が置かれることになります（rect が動けば circle も動く）。</p>
 <pre class='code'>
 (diagram (300 150)
   (grid)
@@ -4419,7 +4419,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
      ((circle '(50 50) 20 <span class='keyword3'>:stroke</span> <span class='keyword3'>:navy</span> <span class='keyword3'>:fill</span> <span class='keyword3'>:skyblue</span>))))
 </pre>
 <p class='fig_title'><a name='5maEWPLcbWX'></a>Figure.7-2 contents パラメータを使ったサブキャンバス</p>
-<p>　contents パラメータによる<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>は、その図形要素の幅と高さからなる<a class='autolink' href='#kJonRG8GtHF'>四角形</a>になるのが原則です。つまり、円や<a class='autolink' href='#7YzIcjhyGKN'>楕円</a>の場合は以下のように<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>の方が大きくなりますので注意してください。</p>
+<p>　<code>:contents</code> パラメータによる<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>は、その図形要素の幅と高さからなる<a class='autolink' href='#kJonRG8GtHF'>四角形</a>になるのが原則です。つまり、円や<a class='autolink' href='#7YzIcjhyGKN'>楕円</a>の場合は以下のように<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>の方が大きくなりますので注意してください。</p>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='120'>
@@ -4469,7 +4469,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p>　なお、contents パラメータを使わずに図形要素の<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>を利用する方法として、<a class='autolink' href='#c9lZIyRpbeF'>with-subcanvas-of マクロ</a>が用意されています。これは既出の図形要素の ID を指定して<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>を確立するものです。<a href='#kV8JVeAiwLR'>Figure.7-1</a> と同じ（つまり <a href='#5maEWPLcbWX'>Figure.7-2</a> とも同じ）作図をするサンプルを以下に示します。</p>
+<p>　なお、 <code>:contents</code> パラメータを使わずに図形要素の<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>を利用する方法として、<a class='autolink' href='#c9lZIyRpbeF'>with-subcanvas-of マクロ</a>が用意されています。これは既出の図形要素の ID を指定して<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>を確立するものです。<a href='#kV8JVeAiwLR'>Figure.7-1</a> と同じ（つまり <a href='#5maEWPLcbWX'>Figure.7-2</a> とも同じ）作図をするサンプルを以下に示します。</p>
 <pre class='code'>
 (diagram (300 150)
   (grid)
@@ -4493,7 +4493,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p class='fig_title'><a name='fIhw6603jDc'></a>Figure.7-4 with-current-canvas の使用</p>
 <p>　　</p>
 <h2><a name='hwRhCz9Gn9t'></a>8 定義と再使用</h2>
-<p>　defgroup と use を使うことによって、複数の図形要素をひとつにまとめ、図面の中で繰り返し使用することができます。要点を明確にするために、まずは同じ図形（ちょっと装飾のついた<a class='autolink' href='#kJonRG8GtHF'>四角形</a>）を３回描画することを考えてみてください。まずは単純に記述を３回繰り返します。座標以外は完全に同じ内容です。</p>
+<p>　<a class='autolink' href='#5hmH4Z1JfiN'>defgroup マクロ</a>と <a class='autolink' href='#3ABOLb3a4Yl'>use マクロ</a>を使うことによって、複数の図形要素をひとつにまとめ、図面の中で繰り返し使用することができます。要点を明確にするために、まずは同じ図形（ちょっと装飾のついた<a class='autolink' href='#kJonRG8GtHF'>四角形</a>）を３回描画することを考えてみてください。まずは単純に記述を３回繰り返します。座標以外は完全に同じ内容です。</p>
 <pre class='code'>
 (diagram (200 100)
   (grid)
@@ -4569,7 +4569,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
           ((line '((0 10) (40 10)) <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span>)
            (line '((10 0) (10 40)) <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span>)))))
 </pre>
-<p>　これに対して、defgroup と use を使うと SVG 上でも「一度だけ定義して複数回描画させる」ような出力をすることができます。先程のサンプルと同じ出力をするコードは以下のようになります。</p>
+<p>　これに対して、<a class='autolink' href='#5hmH4Z1JfiN'>defgroup マクロ</a>と <a class='autolink' href='#3ABOLb3a4Yl'>use マクロ</a>を使うと SVG 上でも「一度だけ定義して複数回描画させる」ような出力をすることができます。先程のサンプルと同じ出力をするコードは以下のようになります。</p>
 <pre class='code'>
 (diagram (200 100)
   (grid)
@@ -4582,7 +4582,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
   (use <span class='keyword3'>:icon</span> '(100 50))
   (use <span class='keyword3'>:icon</span> '(150 50)))
 </pre>
-<p>　上記のコードでは、 <code>(defgroup (40 40 :icon) ...)</code> によって icon という名前の定義を作成しています。幅と高さはそれぞれ 40 です。これによって独立した<a class='autolink' href='#kgs1vf3AbTN'>キャンバス</a>が確立され、その中で作図を行うことができます。ここではその<a class='autolink' href='#kgs1vf3AbTN'>キャンバス</a>いっぱいに rect を描き、さらにその中で line を 2 本描いています。しかしこれは defgroup の中でのこと（つまり定義を作成しただけ）なので、これだけでは描画は行なわれません。defgroup で定義した図形を実際に描画するには、use を使います。上記の例では、 <code>(use :icon '( 50 50))</code> といった記述を 3 回行なっています。パラメータは、定義名と描画する基準座標です。</p>
+<p>　上記のコードでは、 <code>(defgroup (40 40 :icon) ...)</code> によって icon という名前の定義を作成しています。幅と高さはそれぞれ 40 です。これによって独立した<a class='autolink' href='#kgs1vf3AbTN'>キャンバス</a>が確立され、その中で作図を行うことができます。ここではその<a class='autolink' href='#kgs1vf3AbTN'>キャンバス</a>いっぱいに rect を描き、さらにその中で line を 2 本描いています。しかしこれは <a class='autolink' href='#5hmH4Z1JfiN'>defgroup マクロ</a>の中でのこと（つまり定義を作成しただけ）なので、これだけでは描画は行なわれません。<a class='autolink' href='#5hmH4Z1JfiN'>defgroup マクロ</a>で定義した図形を実際に描画するには、<a class='autolink' href='#3ABOLb3a4Yl'>use マクロ</a>を使います。上記の例では、 <code>(use :icon '( 50 50))</code> といった記述を 3 回行なっています。パラメータは、定義名と描画する基準座標です。</p>
 <p>　上記のコードによって生成される SVG 画像は以下のようになります。入力データとの対応がわかると思います。定義（defgroup）は一度だけで、それを参照（use）するタグが複数登場しています。</p>
 <pre>
 &lt;svg xmlns='http://www.w3.org/2000/svg' ...&gt;
@@ -4599,7 +4599,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
     &lt;use xlink:href='#icon' x='130' y='30' /&gt;
 &lt;/svg&gt;
 </pre>
-<p>　このように、defgroup と use を使えば繰り返し登場する図形要素の再利用が可能になりますが、スタンプのようにまったく同じものを表示させることしかできないのでしょうか。また、use で描画した要素どうしを<a class='autolink' href='#eFhVs4WwYUG'>コネクタ</a>で接続したりできないでしょうか。最初の質問については、「基本的に定義した通りにしか描画できないけど、use で contents パラメータが使えます」が答えになります。そして２番目の質問の答えは、「use に ID を付ければ<a class='autolink' href='#eFhVs4WwYUG'>コネクタ</a>が使える」です。以下の例ではその両方をやっています。</p>
+<p>　このように、<a class='autolink' href='#5hmH4Z1JfiN'>defgroup マクロ</a>と <a class='autolink' href='#3ABOLb3a4Yl'>use マクロ</a>を使えば繰り返し登場する図形要素の再利用が可能になりますが、スタンプのようにまったく同じものを表示させることしかできないのでしょうか。また、<a class='autolink' href='#3ABOLb3a4Yl'>use マクロ</a>で描画した要素どうしを<a class='autolink' href='#eFhVs4WwYUG'>コネクタ</a>で接続したりできないでしょうか。最初の質問については、「基本的に定義した通りにしか描画できないけど、<a class='autolink' href='#3ABOLb3a4Yl'>use マクロ</a>で contents パラメータが使えます」が答えになります。そして２番目の質問の答えは、「<a class='autolink' href='#3ABOLb3a4Yl'>use マクロ</a>に ID を付ければ<a class='autolink' href='#eFhVs4WwYUG'>コネクタ</a>が使える」です。以下の例ではその両方をやっています。</p>
 <pre class='code'>
 (diagram (300 150)
   (grid)
@@ -4652,7 +4652,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 
 <p class='fig_title'><a name='eY4WMx1X8UT'></a>Figure.8-1 defgroup と use のサンプル</p>
 <p>　　</p>
-<p>　注意してほしいのは、defgroup で作成する定義に指定する ID と、図形要素を描画する時に指定する ID は別モノだということです。上記の例で言えば、 <code>:frame</code> は定義の ID なので、use の最初のパラメータには使えますが<a class='autolink' href='#eFhVs4WwYUG'>コネクタ</a>の接続対象としては指定できません。逆も同様で、たとえば rect を描いた後にその ID を指定して use することはできません。</p>
+<p>　注意してほしいのは、<a class='autolink' href='#5hmH4Z1JfiN'>defgroup マクロ</a>で作成する定義に指定する ID と、図形要素を描画する時に指定する ID は別モノだということです。上記の例で言えば、 <code>:frame</code> は定義の ID なので、<a class='autolink' href='#3ABOLb3a4Yl'>use マクロ</a>の最初のパラメータには使えますが<a class='autolink' href='#eFhVs4WwYUG'>コネクタ</a>の接続対象としては指定できません。逆も同様で、たとえば rect を描いた後にその ID を指定して use することはできません。</p>
 <p>　　</p>
 <h2><a name='kfrwaPRQE9I'></a>9 パターンとグラデーション</h2>
 <p>　「<a class='autolink' href='#dBUd7L4C3dx'>フィル</a>」では通常<a class='autolink' href='#dBUd7L4C3dx'>塗り潰し</a>を指定しますが、定義した図形を敷き詰める「<a class='autolink' href='#dmYFJAv81Kl'>パターン</a>」や、複雑な色の変化を見せる「<a class='autolink' href='#4p1J7EWjD3m'>グラデーション</a>」も利用できます。また、<a class='autolink' href='#dmYFJAv81Kl'>パターン</a>と<a class='autolink' href='#4p1J7EWjD3m'>グラデーション</a>は<a class='autolink' href='#dBUd7L4C3dx'>フィル</a>だけでなく<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>で使用することも可能です。</p>
@@ -8841,7 +8841,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p><strong>Description:</strong></p>
 <p>　<a class='autolink' href='#cp2F91gKG7W'>円弧</a>を描画します。<a class='autolink' href='#cp2F91gKG7W'>円弧</a>のベースとなる<a class='autolink' href='#7YzIcjhyGKN'>楕円</a>の中心点や始点・終点の角度が明らかな場合の使用を想定しています。始点・終点の座標がわかっている場合は path の使用を検討してください。詳細は <a href='#4qgt62QVDZl'>5.1  節</a>の <code>:arc-to</code> の説明を参照してください。</p>
-<p><strong>See Also:</strong> None.</p>
+<p><strong>See Also:</strong></p>
 <ul>
 <li><a class='autolink' href='#cp2F91gKG7W'>円弧</a></li>
 <li><a class='autolink' href='#akKCr0fEV12'>path マクロ</a></li>
@@ -9032,11 +9032,11 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p><strong>Arguments and Values:</strong></p>
 <ul>
-<li class='syntax'>pt ---- a point</li>
-<li class='syntax'>result ---- a point</li>
+<li>pt ---- コピー対象の座標値を指定します。</li>
+<li>result ---- コピーされた座標値が返ります。</li>
 </ul>
 <p><strong>Description:</strong></p>
-<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<p>　座標値をコピーします。あまり使いません。</p>
 <p><strong>See Also:</strong> None.</p>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
@@ -9196,12 +9196,23 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <h4><a name='5hmH4Z1JfiN'></a>13.1.15 macro defgroup</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
-<li class='syntax'><span style='font-weight:bold;'>defgroup</span> width height id <span style='color:navy;'>&body</span> body</li>
-<li class='syntax'><span style='font-weight:bold;'>defs</span> width height id <span style='color:navy;'>&body</span> body</li>
+<li class='syntax'><span style='font-weight:bold;'>defgroup</span> (width height id) <span style='color:navy;'>&body</span> body</li>
+<li class='syntax'><span style='font-weight:bold;'>defs</span> (width height id) <span style='color:navy;'>&body</span> body</li>
+</ul>
+<p><strong>Arguments and Values:</strong></p>
+<ul>
+<li><code>width</code> ---- 幅を数値で指定します。</li>
+<li><code>height</code> ---- 高さを数値で指定します。</li>
+<li><code>id</code> ---- 定義に与える ID をキーワードで指定します。</li>
+<li><code>body</code> ---- 定義内での描画コードを記述します。</li>
 </ul>
 <p><strong>Description:</strong></p>
-<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<p><strong>See Also:</strong> None.</p>
+<p>　幅 <code>width</code> 、高さ <code>height</code> の定義を作成し、内部を <code>body</code> のコードで描画します。作成された定義は <a class='autolink' href='#3ABOLb3a4Yl'>use マクロ</a>で <code>id</code> を指定することで繰り返し利用できます。</p>
+<p><strong>See Also:</strong></p>
+<ul>
+<li><a href='#hwRhCz9Gn9t'>8  定義と再使用</a></li>
+<li><a class='autolink' href='#3ABOLb3a4Yl'>use マクロ</a></li>
+</ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
 <h4><a name='c7I5kIEPU49'></a>13.1.16 macro defpattern</h4>
@@ -9233,10 +9244,17 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <h4><a name='3dkLpAyOj5o'></a>13.1.17 macro diagram</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
-<li class='syntax'><span style='font-weight:bold;'>diagram</span> (w h <span style='color:navy;'>&key</span> fill) <span style='color:navy;'>&body</span> body</li>
+<li class='syntax'><span style='font-weight:bold;'>diagram</span> (width height <span style='color:navy;'>&key</span> fill) <span style='color:navy;'>&body</span> body</li>
+</ul>
+<p><strong>Arguments and Values:</strong></p>
+<ul>
+<li><code>width</code> ---- 幅を数値で指定します。</li>
+<li><code>height</code> ---- 高さを数値で指定します。</li>
+<li><code>fill</code> ---- 背景全体の<a class='autolink' href='#dBUd7L4C3dx'>塗り潰し</a>が必要な場合は指定します。</li>
+<li><code>body</code> ---- 描画コードを記述します。</li>
 </ul>
 <p><strong>Description:</strong></p>
-<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<p>　幅 <code>width</code> 、高さ <code>height</code> の SVG 画像を作成し、内部を <code>body</code> のコードで描画します。</p>
 <p><strong>See Also:</strong> None.</p>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
@@ -9517,22 +9535,23 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p>　ほとんどの場合、kaavio は画像ファイルの実際のサイズを調べる必要があります。そのため、<code>filename</code> で指定した画像ファイルは kaavio が動作する時点で「その場所に」存在していなければなりません。例外は、 <code>width</code> および <code>height</code> パラメータの両方を明示的に指定した場合で、その場合に限り kaavio は画像ファイルにアクセスしません。</p>
 <p>　　</p>
 <h4><a name='5Ymxg2NeQNs'></a>13.1.28 function layer</h4>
-<p>　<a class='autolink' href='#1ovJxG7Ie9O'>レイヤー</a>の導入を宣言します。<a class='autolink' href='#1ovJxG7Ie9O'>レイヤー</a>については「<a href='#1ovJxG7Ie9O'>11.8  レイヤー</a>」を参照してください。関数シグネチャは以下の通りです。</p>
 <p><strong>Syntax:</strong></p>
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>layer</span> name <span style='color:navy;'>&optional</span> (display :inline)</li>
 </ul>
+<p><strong>Arguments and Values:</strong></p>
+<ul>
+<li><code>name</code> ---- <a class='autolink' href='#1ovJxG7Ie9O'>レイヤー</a>の名前をキーワードで指定します。</li>
+<li><code>display</code> ---- <a class='autolink' href='#1ovJxG7Ie9O'>レイヤー</a>全体の表示を <code>:inline</code> または <code>:none</code> で指定します。省略時のデフォルトは <code>:inline</code> で、<a class='autolink' href='#1ovJxG7Ie9O'>レイヤー</a>全体を表示します。 <code>:none</code> を指定すると、<a class='autolink' href='#1ovJxG7Ie9O'>レイヤー</a>全体を非表示にします。</li>
+</ul>
 <p><strong>Description:</strong></p>
-<p>　　</p>
-<p class='tbl_title'><a name='f8GupUJh1xX'></a>Table.13-8 layer 関数のパラメータ</p>
-<table align='center'>
-<tr><th>parameter</th><th>description</th></tr>
-<tr><td nowrap align='left'><code>name</code></td><td align='left'><a class='autolink' href='#1ovJxG7Ie9O'>レイヤー</a>の名前をキーワードで指定します。</td></tr>
-<tr><td nowrap align='left'><code>display</code></td><td align='left'><a class='autolink' href='#1ovJxG7Ie9O'>レイヤー</a>全体の表示を <code>:inline</code> または <code>:none</code> で指定します。省略時の<br>                  デフォルトは <code>:inline</code> で、<a class='autolink' href='#1ovJxG7Ie9O'>レイヤー</a>全体を表示します。 <code>:none</code> を指定<br>                  すると、<a class='autolink' href='#1ovJxG7Ie9O'>レイヤー</a>全体を非表示にします。</td></tr>
-</table>
-<p>　　</p>
-<p><strong>See Also:</strong> None.</p>
-<p><strong>Notes:</strong> None.</p>
+<p>　<a class='autolink' href='#1ovJxG7Ie9O'>レイヤー</a>の導入を宣言します。<a class='autolink' href='#1ovJxG7Ie9O'>レイヤー</a>については <a href='#1ovJxG7Ie9O'>11.8  節</a>を参照してください。</p>
+<p><strong>See Also:</strong></p>
+<ul>
+<li><a href='#1ovJxG7Ie9O'>11.8  レイヤー</a></li>
+</ul>
+<p><strong>Notes:</strong></p>
+<p>　<a class='autolink' href='#5Ymxg2NeQNs'>layer 関数</a>は、実際には <a class='autolink' href='#3dkLpAyOj5o'>diagram マクロ</a>内で作成される局所関数です。</p>
 <p>　　</p>
 <h4><a name='doyrJWCDQyn'></a>13.1.29 macro line</h4>
 <p><strong>Syntax:</strong></p>
@@ -9541,31 +9560,30 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p><strong>Arguments and Values:</strong></p>
 <ul>
-<li><code>points</code> ---- 線を構成する点のリストを指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</li>
+<li><code>points</code> ---- 線を構成する点のリストを指定します。</li>
 <li><code>stroke</code> ---- 線を描画する<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>を指定します。</li>
 <li><code>label</code> ---- <a class='autolink' href='#lpCVEZ9kMoP'>ラベル</a>をつける場合に指定します。</li>
-<li><code>end1</code> ---- 始端に矢印などの装飾を付ける場合は<a class='autolink' href='#9MB3lirlqL9'>終端マーク</a>を指定します。</li>
-<li><code>end2</code> ---- 終端に矢印などの装飾を付ける場合は<a class='autolink' href='#9MB3lirlqL9'>終端マーク</a>を指定します。</li>
+<li><code>end1</code> ---- 始端に<a class='autolink' href='#9MB3lirlqL9'>終端マーク</a>をつける場合は指定します</li>
+<li><code>end2</code> ---- 終端に<a class='autolink' href='#9MB3lirlqL9'>終端マーク</a>をつける場合は指定します</li>
 <li><code>layer</code> ---- <a class='autolink' href='#1ovJxG7Ie9O'>レイヤー</a>を指定する場合、その ID をキーワードシンボルで指定します。</li>
 <li><code>id</code> ---- ID を付与したい場合、その名前をキーワードシンボルで指定します。</li>
 <li><code>filter</code> ---- <a class='autolink' href='#gPGlqSbIfdL'>フィルタ</a>を適用したい場合、その ID をキーワードシンボルで指定します。</li>
 </ul>
 <p><strong>Description:</strong></p>
-<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<p><strong>See Also:</strong> None.</p>
+<p>　<code>points</code> で指定された点を順番に通過する<a class='autolink' href='#fv4OUML78x4'>直線</a>を描画します。 <code>points</code> で指定する点のリストは最低限でも２要素以上である必要があり、始点 [通過点]... 終点の要領で指定します。</p>
+<p><strong>See Also:</strong></p>
 <ul>
 <li><a class='autolink' href='#eFhVs4WwYUG'>コネクタ</a></li>
 </ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
 <h4><a name='793zIcGmzV1'></a>13.1.30 function make-endmark</h4>
-<p>　<a class='autolink' href='#793zIcGmzV1'>make-endmark 関数</a>は<a class='autolink' href='#9MB3lirlqL9'>終端マーク</a>情報を生成します。<a class='autolink' href='#9MB3lirlqL9'>終端マーク</a>情報の詳細は「<a href='#9MB3lirlqL9'>11.10  終端マーク</a>」を参照してください。関数シグネチャは以下の通りです。</p>
 <p><strong>Syntax:</strong></p>
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>make-endmark</span> <span style='color:navy;'>&rest</span> params</li>
 </ul>
 <p><strong>Description:</strong></p>
-<p>　上記は簡潔な記述で柔軟な<a class='autolink' href='#9MB3lirlqL9'>終端マーク</a>情報の生成を可能にするためのもので、 <code>params</code> として渡されるパラメータ数に応じて以下のことをします。</p>
+<p>　指定されたパラメータで<a class='autolink' href='#9MB3lirlqL9'>終端マーク</a>情報を生成します。<a class='autolink' href='#9MB3lirlqL9'>終端マーク</a>情報の詳細は「<a href='#9MB3lirlqL9'>11.10  終端マーク</a>」を参照してください。上記は簡潔な記述で柔軟な<a class='autolink' href='#9MB3lirlqL9'>終端マーク</a>情報の生成を可能にするためのもので、 <code>params</code> として渡されるパラメータ数に応じて以下のことをします。</p>
 <ul>
 <li>パラメータ数が 0 の場合
 <ul>
@@ -9590,30 +9608,30 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>make-endmark</span> <span style='color:navy;'>&key</span> type size stroke fill</li>
 </ul>
-<p class='tbl_title'><a name='eW0eLCWvjeC'></a>Table.13-9 make-endmark 関数のパラメータ</p>
-<table align='center'>
-<tr><th>parameter</th><th>description</th></tr>
-<tr><td nowrap align='left'><code>type</code></td><td align='left'><a class='autolink' href='#9MB3lirlqL9'>終端マーク</a>の形状を指定します。 <code>:arrow :triangle :diamond :circle :rect</code> のいずれか、またはカスタム描画関数を指定します。</td></tr>
-<tr><td nowrap align='left'><code>size</code></td><td align='left'><a class='autolink' href='#9MB3lirlqL9'>終端マーク</a>のサイズを指定します。 <code>:small :medium :large :xlarge</code> のいずれか、または数値を指定します。</td></tr>
-<tr><td nowrap align='left'><code>stroke</code></td><td align='left'><a class='autolink' href='#9MB3lirlqL9'>終端マーク</a>を描画する線を指定します。詳細は「<a href='#4HFjqmTuIU6'>11.2  ストローク</a>」を参照してください。省略した場合、実際に<a class='autolink' href='#9MB3lirlqL9'>終端マーク</a>が描画される対象（<a class='autolink' href='#fv4OUML78x4'>直線</a>や<a class='autolink' href='#eFhVs4WwYUG'>コネクタ</a>）の<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>が使用されます。ただしその場合、その<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>の <code>:dasharray</code> など一部のパラメータは引き継がれません。</td></tr>
-<tr><td nowrap align='left'><code>fill</code></td><td align='left'><a class='autolink' href='#9MB3lirlqL9'>終端マーク</a>内部の<a class='autolink' href='#dBUd7L4C3dx'>塗り潰し</a>を指定します。詳細は「<a href='#dBUd7L4C3dx'>11.3  フィル</a>」を参照してください。省略した場合、<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>と同じ色で塗り潰されます。</td></tr>
-</table>
-<p>　　</p>
+<p>　各パラメータの意味は以下の通りです。詳細は「<a href='#9MB3lirlqL9'>11.10  終端マーク</a>」を参照してください。</p>
+<ul>
+<li><code>type</code> ---- <a class='autolink' href='#9MB3lirlqL9'>終端マーク</a>の形状を指定します。 <code>:arrow :triangle :diamond :circle :rect</code> のいずれか、またはカスタム描画関数を指定します。</li>
+<li><code>size</code> ---- <a class='autolink' href='#9MB3lirlqL9'>終端マーク</a>のサイズを指定します。 <code>:small :medium :large :xlarge</code> のいずれか、または数値を指定します。</li>
+<li><code>stroke</code> ---- <a class='autolink' href='#9MB3lirlqL9'>終端マーク</a>を描画する<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>を指定します。省略した場合、実際に<a class='autolink' href='#9MB3lirlqL9'>終端マーク</a>が描画される対象（<a class='autolink' href='#fv4OUML78x4'>直線</a>や<a class='autolink' href='#eFhVs4WwYUG'>コネクタ</a>）の<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>が使用されます。ただしその場合、その<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>の <code>:dasharray</code> など一部のパラメータは引き継がれません。</li>
+<li><code>fill</code> ---- <a class='autolink' href='#9MB3lirlqL9'>終端マーク</a>内部の<a class='autolink' href='#dBUd7L4C3dx'>塗り潰し</a>を指定します。省略した場合、<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>と同じ色で塗り潰されます。</li>
+</ul>
+<p><strong>See Also:</strong></p>
+<ul>
+<li><a href='#9MB3lirlqL9'>11.10  終端マーク</a></li>
+</ul>
+<p><strong>Notes:</strong></p>
 <p>　<code>type</code> パラメータでキーワードのかわりに指定するカスタム描画関数ですが、以下のシグネチャの関数を指定する必要があります。これは現状では暫定的で undocumented な状態です。詳細はコードを参照してください。</p>
 <pre class='code'>
 (<span class='keyword1'>lambda</span> (points size stroke fill writer) ...)
 </pre>
-<p><strong>See Also:</strong> None.</p>
-<p><strong>Notes:</strong> None.</p>
 <p>　　</p>
 <h4><a name='8VjSwPlDaAr'></a>13.1.31 function make-fill</h4>
-<p>　<a class='autolink' href='#8VjSwPlDaAr'>make-fill 関数</a>は<a class='autolink' href='#dBUd7L4C3dx'>フィル</a>情報を生成します。<a class='autolink' href='#dBUd7L4C3dx'>フィル</a>情報の詳細は「<a href='#dBUd7L4C3dx'>11.3  フィル</a>」を参照してください。関数シグネチャは以下の通りです。</p>
 <p><strong>Syntax:</strong></p>
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>make-fill</span> <span style='color:navy;'>&rest</span> params</li>
 </ul>
 <p><strong>Description:</strong></p>
-<p>　上記は簡潔な記述で柔軟な<a class='autolink' href='#dBUd7L4C3dx'>フィル</a>情報の生成を可能にするためのもので、 <code>params</code> として渡されるパラメータ数に応じて以下のことをします。</p>
+<p>　指定されたパラメータで<a class='autolink' href='#dBUd7L4C3dx'>フィル</a>情報を生成します。<a class='autolink' href='#dBUd7L4C3dx'>フィル</a>情報の詳細は「<a href='#dBUd7L4C3dx'>11.3  フィル</a>」を参照してください。上記は簡潔な記述で柔軟な<a class='autolink' href='#dBUd7L4C3dx'>フィル</a>情報の生成を可能にするためのもので、 <code>params</code> として渡されるパラメータ数に応じて以下のことをします。</p>
 <ul>
 <li>パラメータ数が 0 の場合
 <ul>
@@ -9637,27 +9655,27 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>make-fill</span> <span style='color:navy;'>&key</span> color opacity rule url base</li>
 </ul>
-<p class='tbl_title'><a name='jaLWrUQI3jh'></a>Table.13-10 make-fill 関数のパラメータ</p>
-<table align='center'>
-<tr><th>parameter</th><th>description</th></tr>
-<tr><td nowrap align='left'><code>color</code></td><td align='left'><a class='autolink' href='#dBUd7L4C3dx'>塗り潰し</a>の色を指定します。<a class='autolink' href='#1rpUB3fre67'>色の指定</a>方法については <a href='#1rpUB3fre67'>11.1  節</a>を、色の名前については<br><a href='#dR01Jh257Q6'>13.2  節</a>を参照してください。</td></tr>
-<tr><td nowrap align='left'><code>opacity</code></td><td align='left'><a class='autolink' href='#dBUd7L4C3dx'>塗り潰し</a>の不透明度を 0.0 ～ 1.0 の数値で指定します。</td></tr>
-<tr><td nowrap align='left'><code>rule</code></td><td align='left'>塗りつぶしのルールを <code>:nonzero</code> または <code>:evenodd</code> で指定します。</td></tr>
-<tr><td nowrap align='left'><code>url</code></td><td align='left'><a class='autolink' href='#dmYFJAv81Kl'>パターン</a>や<a class='autolink' href='#4p1J7EWjD3m'>グラデーション</a>の ID を指定します。詳細は <a href='#7K8A5tBrYlW'>11.3.3  節</a>を参照してください。</td></tr>
-<tr><td nowrap align='left'><code>base</code></td><td align='left'><span style='background:red;color:white;'>ToDo : まだ記述されていません</span></td></tr>
-</table>
-<p>　　</p>
-<p><strong>See Also:</strong> None.</p>
+<p>　各パラメータの意味は以下の通りです。詳細は <a href='#dBUd7L4C3dx'>11.3  節</a>を参照してください。</p>
+<ul>
+<li><code>color</code> ---- <a class='autolink' href='#dBUd7L4C3dx'>塗り潰し</a>の色を指定します。<a class='autolink' href='#1rpUB3fre67'>色の指定</a>方法については <a href='#1rpUB3fre67'>11.1  節</a>を、色の名前については <a href='#dR01Jh257Q6'>13.2  節</a>を参照してください。</li>
+<li><code>opacity</code> ---- <a class='autolink' href='#dBUd7L4C3dx'>塗り潰し</a>の不透明度を 0.0 ～ 1.0 の数値で指定します。省略した場合のデフォルト値は 1.0 です。</li>
+<li><code>rule</code> ---- 塗りつぶしのルールを <code>:nonzero</code> または <code>:evenodd</code> で指定します。</li>
+<li><code>url</code> ---- <a class='autolink' href='#dmYFJAv81Kl'>パターン</a>や<a class='autolink' href='#4p1J7EWjD3m'>グラデーション</a>を使用する場合、その ID をキーワードシンボルで指定します。詳細は <a href='#7K8A5tBrYlW'>11.3.3  節</a>を参照してください。</li>
+<li><code>base</code> ---- <a class='autolink' href='#dBUd7L4C3dx'>フィル</a>情報の作成においてベースとする他の<a class='autolink' href='#dBUd7L4C3dx'>フィル</a>情報があれば指定します。</li>
+</ul>
+<p><strong>See Also:</strong></p>
+<ul>
+<li><a href='#dBUd7L4C3dx'>11.3  フィル</a></li>
+</ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
 <h4><a name='1LiwgKPPHPV'></a>13.1.32 function make-font</h4>
-<p>　<a class='autolink' href='#1LiwgKPPHPV'>make-font 関数</a>は<a class='autolink' href='#3kZ9FkounyK'>フォント</a>情報を生成します。<a class='autolink' href='#3kZ9FkounyK'>フォント</a>情報の詳細は「<a href='#3kZ9FkounyK'>11.4  フォント</a>」を参照してください。関数シグネチャは以下の通りです。</p>
 <p><strong>Syntax:</strong></p>
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>make-font</span> <span style='color:navy;'>&rest</span> params</li>
 </ul>
 <p><strong>Description:</strong></p>
-<p>　上記は簡潔な記述で柔軟な<a class='autolink' href='#3kZ9FkounyK'>フォント</a>情報の生成を可能にするためのもので、 <code>params</code> として渡されるパラメータ数に応じて以下のことをします。</p>
+<p>　指定されたパラメータで<a class='autolink' href='#3kZ9FkounyK'>フォント</a>情報を生成します。<a class='autolink' href='#3kZ9FkounyK'>フォント</a>情報の詳細は「<a href='#3kZ9FkounyK'>11.4  フォント</a>」を参照してください。上記は簡潔な記述で柔軟な<a class='autolink' href='#3kZ9FkounyK'>フォント</a>情報の生成を可能にするためのもので、 <code>params</code> として渡されるパラメータ数に応じて以下のことをします。</p>
 <ul>
 <li>パラメータ数が 0 の場合
 <ul>
@@ -9683,44 +9701,49 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>make-font</span> <span style='color:navy;'>&key</span> family size fill stroke style decoration weight filter line-spacing width-spice base</li>
 </ul>
-<p>　各パラメータの意味は以下の通りです。詳細は「<a href='#3kZ9FkounyK'>11.4  フォント</a>」を参照してください。</p>
-<p class='tbl_title'><a name='3B1RHolTZeW'></a>Table.13-11 make-font 関数のパラメータ</p>
-<table align='center'>
-<tr><th>parameter</th><th>description</th></tr>
-<tr><td nowrap align='left'><code>family</code></td><td align='left'>使用する<a class='autolink' href='#3kZ9FkounyK'>フォント</a>の名前をカンマで区切って並べた文字列を指定します（後述）。</td></tr>
-<tr><td nowrap align='left'><code>size</code></td><td align='left'><a class='autolink' href='#3kZ9FkounyK'>フォント</a>サイズを数値で指定します。</td></tr>
-<tr><td nowrap align='left'><code>fill</code></td><td align='left'><a class='autolink' href='#3kZ9FkounyK'>フォント</a>の<a class='autolink' href='#dBUd7L4C3dx'>塗り潰し</a>を指定します。詳細は「<a href='#dBUd7L4C3dx'>11.3  フィル</a>」を参照してください。</td></tr>
-<tr><td nowrap align='left'><code>stroke</code></td><td align='left'><a class='autolink' href='#3kZ9FkounyK'>フォント</a>の輪郭を描く<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>を指定します。詳細は「<a href='#4HFjqmTuIU6'>11.2  ストローク</a>」を参照してください。通常、<a class='autolink' href='#3kZ9FkounyK'>フォント</a>では輪郭線は指定しません。</td></tr>
-<tr><td nowrap align='left'><code>style</code></td><td align='left'>スタイルを <code>:normal, :italic, :oblique</code> のいずれかから指定します。</td></tr>
-<tr><td nowrap align='left'><code>decoration</code></td><td align='left'>装飾を <code>:none, :underline, :overline, :line-through</code> のいずれかから指定します。</td></tr>
-<tr><td nowrap align='left'><code>weight</code></td><td align='left'>文字の太さを <code>:normal, :bold, :bolder, :lighter</code> のいずれか、または 100 200 300 400 500 600 700 800 900 のいずれかから指定します。</td></tr>
-<tr><td nowrap align='left'><code>filter</code></td><td align='left'><a class='autolink' href='#3kZ9FkounyK'>フォント</a>の描画に適用する<a class='autolink' href='#gPGlqSbIfdL'>フィルタ</a>を指定します。詳細は「<a href='#gPGlqSbIfdL'>11.7  フィルタ</a>」を参照してください。</td></tr>
-<tr><td nowrap align='left'><code>line-spacing</code></td><td align='left'><a class='autolink' href='#4WyMTv59pvw'>パラグラフ</a>などで複数行の<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>を描画する際の行間を数値で指定します。</td></tr>
-<tr><td nowrap align='left'><code>width-spice</code></td><td align='left'><a class='autolink' href='#3kZ9FkounyK'>フォント</a>サイズと<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>内容から描画幅を計算する際の係数を数値で指定します。</td></tr>
-<tr><td nowrap align='left'><code>base</code></td><td align='left'><span style='background:red;color:white;'>ToDo : まだ記述されていません</span></td></tr>
-</table>
-<p>　　</p>
-<p><strong>See Also:</strong> None.</p>
+<p>　各パラメータの意味は以下の通りです。詳細は <a href='#3kZ9FkounyK'>11.4  節</a>を参照してください。</p>
+<ul>
+<li><code>family</code> ---- 使用する<a class='autolink' href='#3kZ9FkounyK'>フォント</a>の名前をカンマで区切って並べた文字列を指定します。</li>
+<li><code>size</code> ---- <a class='autolink' href='#3kZ9FkounyK'>フォント</a>サイズを数値で指定します。</li>
+<li><code>fill</code> ---- <a class='autolink' href='#3kZ9FkounyK'>フォント</a>の<a class='autolink' href='#dBUd7L4C3dx'>塗り潰し</a>を指定します。</li>
+<li><code>stroke</code> ---- <a class='autolink' href='#3kZ9FkounyK'>フォント</a>の輪郭を描く<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>を指定します。通常、<a class='autolink' href='#3kZ9FkounyK'>フォント</a>では輪郭線は指定しません。</li>
+<li><code>style</code> ---- スタイルを <code>:normal, :italic, :oblique</code> のいずれかから指定します。</li>
+<li><code>decoration</code> ---- 装飾を <code>:none, :underline, :overline, :line-through</code> のいずれかから指定します。</li>
+<li><code>weight</code> ---- 文字の太さを <code>:normal, :bold, :bolder, :lighter</code> のいずれか、または 100 200 300 400 500 600 700 800 900 のいずれかから指定します。</li>
+<li><code>filter</code> ---- <a class='autolink' href='#gPGlqSbIfdL'>フィルタ</a>を適用したい場合、その ID をキーワードシンボルで指定します</li>
+<li><code>line-spacing</code> ---- <a class='autolink' href='#4WyMTv59pvw'>パラグラフ</a>などで複数行の<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>を描画する際の行間を数値で指定します。</li>
+<li><code>width-spice</code> ---- <a class='autolink' href='#3kZ9FkounyK'>フォント</a>サイズと<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>内容から描画幅を計算する際の係数を数値で指定します。</li>
+<li><code>base</code> ---- <a class='autolink' href='#3kZ9FkounyK'>フォント</a>情報の作成においてベースとする他の<a class='autolink' href='#3kZ9FkounyK'>フォント</a>情報があれば指定します。</li>
+</ul>
+<p><strong>See Also:</strong></p>
+<ul>
+<li><a href='#3kZ9FkounyK'>11.4  フォント</a></li>
+</ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
 <h4><a name='fduKuW1erVu'></a>13.1.33 function make-id</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
-<li class='syntax'><span style='font-weight:bold;'>make-id</span> prefix <span style='color:navy;'>&rest</span> args</li>
+<li class='syntax'><span style='font-weight:bold;'>make-id</span> prefix <span style='color:navy;'>&rest</span> args =&gt; result</li>
+</ul>
+<p><strong>Arguments and Values:</strong></p>
+<ul>
+<li><code>prerix</code> ---- 文字列またはシンボルを指定します。</li>
+<li><code>args</code> ---- 任意の数の文字列またはシンボルを指定します。</li>
+<li><code>result</code> ---- 結果がキーワードシンボルで返ります。</li>
 </ul>
 <p><strong>Description:</strong></p>
-<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<p>　<code>prefix</code> および追加の <code>args</code> を連結した ID を生成し、キーワードシンボルのかたちで返します。</p>
 <p><strong>See Also:</strong> None.</p>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
 <h4><a name='39Bn4oB2Anb'></a>13.1.34 function make-label</h4>
-<p>　<a class='autolink' href='#39Bn4oB2Anb'>make-label 関数</a>は<a class='autolink' href='#lpCVEZ9kMoP'>ラベル</a>情報を生成します。<a class='autolink' href='#lpCVEZ9kMoP'>ラベル</a>情報の詳細は「<a href='#lpCVEZ9kMoP'>11.11  ラベル</a>」を参照してください。関数シグネチャは以下の通りです。</p>
 <p><strong>Syntax:</strong></p>
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>make-label</span> <span style='color:navy;'>&rest</span> params</li>
 </ul>
 <p><strong>Description:</strong></p>
-<p>　上記は簡潔な記述で柔軟な<a class='autolink' href='#lpCVEZ9kMoP'>ラベル</a>情報の生成を可能にするためのもので、 <code>params</code> として渡されるパラメータ数に応じて以下のことをします。</p>
+<p>　指定されたパラメータで<a class='autolink' href='#lpCVEZ9kMoP'>ラベル</a>情報を生成します。<a class='autolink' href='#lpCVEZ9kMoP'>ラベル</a>情報の詳細は「<a href='#lpCVEZ9kMoP'>11.11  ラベル</a>」を参照してください。上記は簡潔な記述で柔軟な<a class='autolink' href='#lpCVEZ9kMoP'>ラベル</a>情報の生成を可能にするためのもので、 <code>params</code> として渡されるパラメータ数に応じて以下のことをします。</p>
 <ul>
 <li>パラメータ数が 0 の場合
 <ul>
@@ -9745,26 +9768,25 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li class='syntax'><span style='font-weight:bold;'>make-label</span> text <span style='color:navy;'>&key</span> position offset font</li>
 </ul>
 <p>　各パラメータの意味は以下の通りです。詳細は「<a href='#lpCVEZ9kMoP'>11.11  ラベル</a>」を参照してください。</p>
-<p class='tbl_title'><a name='aFT8lxS3iDq'></a>Table.13-12 make-label 関数のパラメータ</p>
-<table align='center'>
-<tr><th>parameter</th><th>description</th></tr>
-<tr><td nowrap align='left'><code>text</code></td><td align='left'><a class='autolink' href='#lpCVEZ9kMoP'>ラベル</a>の<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>を文字列かキーワードで指定します。</td></tr>
-<tr><td nowrap align='left'><code>position</code></td><td align='left'><a class='autolink' href='#lpCVEZ9kMoP'>ラベル</a>を表示する位置を <code>:above, :below, :left, :right</code> から指定します。<br><a class='autolink' href='#fv4OUML78x4'>直線</a>や<a class='autolink' href='#eFhVs4WwYUG'>コネクタ</a>では無視されます。</td></tr>
-<tr><td nowrap align='left'><code>offset</code></td><td align='left'><a class='autolink' href='#lpCVEZ9kMoP'>ラベル</a>の表示位置を微調整する <code>(x y)</code> 値を指定します。</td></tr>
-<tr><td nowrap align='left'><code>font</code></td><td align='left'><a class='autolink' href='#lpCVEZ9kMoP'>ラベル</a>の描画に使用する<a class='autolink' href='#3kZ9FkounyK'>フォント</a>を指定します。詳細は「<a href='#3kZ9FkounyK'>11.4  フォント</a>」を参照<br>してください。</td></tr>
-</table>
-<p>　　</p>
-<p><strong>See Also:</strong> None.</p>
+<ul>
+<li><code>text</code> ---- <a class='autolink' href='#lpCVEZ9kMoP'>ラベル</a>の<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>を文字列かキーワードシンボルで指定します。</li>
+<li><code>position</code> ---- <a class='autolink' href='#lpCVEZ9kMoP'>ラベル</a>を表示する位置を <code>:above :below :left :right</code> のいずれかで指定します。<a class='autolink' href='#fv4OUML78x4'>直線</a>や<a class='autolink' href='#eFhVs4WwYUG'>コネクタ</a>では無視されます。</li>
+<li><code>offset</code> ---- <a class='autolink' href='#lpCVEZ9kMoP'>ラベル</a>の表示位置を微調整する <code>(x y)</code> 値を指定します。</li>
+<li><code>font</code> ---- <a class='autolink' href='#lpCVEZ9kMoP'>ラベル</a>の描画に使用する<a class='autolink' href='#3kZ9FkounyK'>フォント</a>を指定します。</li>
+</ul>
+<p><strong>See Also:</strong></p>
+<ul>
+<li><a href='#lpCVEZ9kMoP'>11.11  ラベル</a></li>
+</ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
 <h4><a name='kHFmcjbmpJJ'></a>13.1.35 function make-link</h4>
-<p>　<a class='autolink' href='#kHFmcjbmpJJ'>make-link 関数</a>は<a class='autolink' href='#fbLcMRTVXac'>リンク</a>情報を生成します。<a class='autolink' href='#fbLcMRTVXac'>リンク</a>情報の詳細は「<a href='#fbLcMRTVXac'>11.9  リンク</a>」を参照してください。関数シグネチャは以下の通りです。</p>
 <p><strong>Syntax:</strong></p>
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>make-link</span> <span style='color:navy;'>&rest</span> params</li>
 </ul>
 <p><strong>Description:</strong></p>
-<p>　上記は簡潔な記述で柔軟な<a class='autolink' href='#fbLcMRTVXac'>リンク</a>情報の生成を可能にするためのもので、 <code>params</code> として渡されるパラメータ数に応じて以下のことをします。</p>
+<p>　指定されたパラメータで<a class='autolink' href='#fbLcMRTVXac'>リンク</a>情報を生成します。<a class='autolink' href='#fbLcMRTVXac'>リンク</a>情報の詳細は「<a href='#fbLcMRTVXac'>11.9  リンク</a>」を参照してください。上記は簡潔な記述で柔軟な<a class='autolink' href='#fbLcMRTVXac'>リンク</a>情報の生成を可能にするためのもので、 <code>params</code> として渡されるパラメータ数に応じて以下のことをします。</p>
 <ul>
 <li>パラメータ数が 0 の場合
 <ul>
@@ -9789,14 +9811,14 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li class='syntax'><span style='font-weight:bold;'>make-link</span> <span style='color:navy;'>&key</span> url target</li>
 </ul>
 <p>　各パラメータの意味は以下の通りです。詳細は「<a href='#fbLcMRTVXac'>11.9  リンク</a>」を参照してください。</p>
-<p class='tbl_title'><a name='bJoy1GAqDZc'></a>Table.13-13 make-link 関数のパラメータ</p>
-<table align='center'>
-<tr><th>parameter</th><th>description</th></tr>
-<tr><td nowrap align='left'><code>url</code></td><td align='left'><a class='autolink' href='#fbLcMRTVXac'>リンク</a>先の URL を文字列で指定します。</td></tr>
-<tr><td nowrap align='left'><code>target</code></td><td align='left'>a タグにおける target をキーワード <code>:replace :self :parent :top :blank</code> の<br>いずれかで指定します。省略可能です。</td></tr>
-</table>
-<p>　　</p>
-<p><strong>See Also:</strong> None.</p>
+<ul>
+<li><code>url</code> ---- <a class='autolink' href='#fbLcMRTVXac'>リンク</a>先の URL を文字列で指定します。  |</li>
+<li><code>target</code> ---- <code>a</code> タグにおける <code>target</code> をキーワード <code>:replace :self :parent :top :blank</code> のいずれかで指定します。省略可能です。</li>
+</ul>
+<p><strong>See Also:</strong></p>
+<ul>
+<li><a href='#fbLcMRTVXac'>11.9  リンク</a></li>
+</ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
 <h4><a name='2S1kQeXPgCc'></a>13.1.36 function make-point</h4>
@@ -9808,22 +9830,25 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <ul>
 <li><code>x</code> ---- x 座標を数値で指定します。</li>
 <li><code>y</code> ---- y 座標を数値で指定します。</li>
-<li><code>type</code> ---- <code>:relative</code> または <code>:absolute</code> を指定します。</li>
-<li><code>result</code> ---- point 値が返ります。</li>
+<li><code>type</code> ---- <code>:relative</code> または <code>:absolute</code> を指定します。省略した場合のデフォルト値は <code>:relative</code> です。</li>
+<li><code>result</code> ---- 座標値が返ります。</li>
 </ul>
 <p><strong>Description:</strong></p>
-<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<p><strong>See Also:</strong> None.</p>
+<p>　座標値を生成します。 <code>type</code> に <code>absolute</code> を指定すると絶対座標に、それ以外の場合は相対座標になります。絶対座標は画像全体を<a class='autolink' href='#kgs1vf3AbTN'>キャンバス</a>としてその左上を <code>'(0 0)</code> とする座標で、相対座標は「現在の<a class='autolink' href='#kgs1vf3AbTN'>キャンバス</a>」をの左上を <code>'(0 0)</code> とする座標です。</p>
+<p><strong>See Also:</strong></p>
+<ul>
+<li><a href='#h1RNMQY1C0b'>6  座標と位置</a></li>
+<li><a href='#kgs1vf3AbTN'>7  サブキャンバス</a></li>
+</ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
 <h4><a name='erFvEPTJvvx'></a>13.1.37 function make-stroke</h4>
-<p>　<a class='autolink' href='#erFvEPTJvvx'>make-stroke 関数</a>は<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>情報を生成します。<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>情報の詳細は「<a href='#4HFjqmTuIU6'>11.2  ストローク</a>」を参照してください。関数シグネチャは以下の通りです。</p>
 <p><strong>Syntax:</strong></p>
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>make-stroke</span> <span style='color:navy;'>&rest</span> params</li>
 </ul>
 <p><strong>Description:</strong></p>
-<p>　上記は簡潔な記述で柔軟な<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>情報の生成を可能にするためのもので、 <code>params</code> として渡されるパラメータ数に応じて以下のことをします。</p>
+<p>　指定されたパラメータで<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>情報を生成します。<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>情報の詳細は「<a href='#4HFjqmTuIU6'>11.2  ストローク</a>」を参照してください。上記は簡潔な記述で柔軟な<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>情報の生成を可能にするためのもので、 <code>params</code> として渡されるパラメータ数に応じて以下のことをします。</p>
 <ul>
 <li>パラメータ数が 0 の場合
 <ul>
@@ -9848,23 +9873,23 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>make-stroke</span> <span style='color:navy;'>&key</span> color width opacity linecap linejoin miterlimit dasharray dashoffset url base)</li>
 </ul>
-<p>　各パラメータの意味は以下の通りです。詳細は「<a href='#4HFjqmTuIU6'>11.2  ストローク</a>」を参照してください。</p>
-<p class='tbl_title'><a name='8gU4HDke41S'></a>Table.13-14 make-stroke 関数のパラメータ</p>
-<table align='center'>
-<tr><th>parameter</th><th>description</th></tr>
-<tr><td nowrap align='left'><code>color</code></td><td align='left'>線の色を指定します。<a class='autolink' href='#1rpUB3fre67'>色の指定</a>方法については <a href='#1rpUB3fre67'>11.1  節</a>を、色の名前については<br><a href='#dR01Jh257Q6'>13.2  節</a>を参照してください。</td></tr>
-<tr><td nowrap align='left'><code>width</code></td><td align='left'>線の幅を数値で指定します。</td></tr>
-<tr><td nowrap align='left'><code>opacity</code></td><td align='left'>線の不透明度を 0.0 ～ 1.0 の数値で指定します。</td></tr>
-<tr><td nowrap align='left'><code>linecap</code></td><td align='left'>線の両端の形状を <code>:butt, :round, :square</code> から指定します。</td></tr>
-<tr><td nowrap align='left'><code>linejoin</code></td><td align='left'>線が折れ曲ってできる角の形状を <code>:miter, :round, :bevel</code> から指定します。</td></tr>
-<tr><td nowrap align='left'><code>miterlimit</code></td><td align='left'><code>linejoin</code> が <code>:miter</code> の場合の、結合される線の太さに対する結合部の長さの<br>比率を数値で指定します。デフォルト値は 4 です。</td></tr>
-<tr><td nowrap align='left'><code>dasharray</code></td><td align='left'>点線や破線を描画したい場合に、繰り返される線の長さと間隔の長さをリストで<br>指定します。デフォルト値は nil で、<a class='autolink' href='#fv4OUML78x4'>直線</a>になります。</td></tr>
-<tr><td nowrap align='left'><code>dashoffset</code></td><td align='left'><code>dasharray</code> を指定する場合に、線の開始を <code>dasharray</code> のどこから始めるかの<br>オフセットを数値で指定します。</td></tr>
-<tr><td nowrap align='left'><code>url</code></td><td align='left'><a class='autolink' href='#dmYFJAv81Kl'>パターン</a>や<a class='autolink' href='#4p1J7EWjD3m'>グラデーション</a>の ID を指定します。詳細は <a href='#cPNmZfLmh3t'>11.2.5  節</a>を参照してください。</td></tr>
-<tr><td nowrap align='left'><code>base</code></td><td align='left'><span style='background:red;color:white;'>ToDo : まだ記述されていません</span></td></tr>
-</table>
-<p>　　</p>
-<p><strong>See Also:</strong> None.</p>
+<p>　各パラメータの意味は以下の通りです。詳細は <a href='#4HFjqmTuIU6'>11.2  節</a>を参照してください。</p>
+<ul>
+<li><code>color</code> ---- 線の色を指定します。<a class='autolink' href='#1rpUB3fre67'>色の指定</a>方法については <a href='#1rpUB3fre67'>11.1  節</a>を、色の名前については <a href='#dR01Jh257Q6'>13.2  節</a>を参照してください。</li>
+<li><code>width</code> ---- 線の幅を数値で指定します。</li>
+<li><code>opacity</code> ---- 線の不透明度を 0.0 ～ 1.0 の数値で指定します。省略した場合のデフォルト値は 1.0 です。</li>
+<li><code>linecap</code> ---- 線の両端の形状を <code>:butt, :round, :square</code> から指定します。</li>
+<li><code>linejoin</code> ---- 線が折れ曲ってできる角の形状を <code>:miter, :round, :bevel</code> から指定します。</li>
+<li><code>miterlimit</code> ---- <code>linejoin</code> が <code>:miter</code> の場合の、結合される線の太さに対する結合部の長さの比率を数値で指定します。デフォルト値は 4 です。</li>
+<li><code>dasharray</code> ---- 点線や破線を描画したい場合に、繰り返される線の長さと間隔の長さをリストで指定します。デフォルト値は nil で、<a class='autolink' href='#fv4OUML78x4'>直線</a>になります。</li>
+<li><code>dashoffset</code> ---- <code>dasharray</code> を指定する場合に、線の開始を <code>dasharray</code> のどこから始めるかのオフセットを数値で指定します。</li>
+<li><code>url</code> ---- <a class='autolink' href='#dmYFJAv81Kl'>パターン</a>や<a class='autolink' href='#4p1J7EWjD3m'>グラデーション</a>を使用する場合、その ID をキーワードシンボルで指定します。詳細は <a href='#cPNmZfLmh3t'>11.2.5  節</a>を参照してください。</li>
+<li><code>base</code> ---- <a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>情報の作成においてベースとする他の<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>情報があれば指定します。</li>
+</ul>
+<p><strong>See Also:</strong></p>
+<ul>
+<li><a href='#4HFjqmTuIU6'>11.2  ストローク</a></li>
+</ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
 <h4><a name='0rixfYcvCkA'></a>13.1.38 function make-uml-keyword</h4>
@@ -10052,81 +10077,126 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <h4><a name='57KuEXjwgOh'></a>13.1.47 function point*</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
-<li class='syntax'><span style='font-weight:bold;'>point*</span> pt n</li>
+<li class='syntax'><span style='font-weight:bold;'>point*</span> pt n =&gt; result</li>
+</ul>
+<p><strong>Arguments and Values:</strong></p>
+<ul>
+<li><code>pt</code> ---- 対象の座標値を指定します。</li>
+<li><code>n</code> ---- 対象の座標値を指定します。</li>
+<li><code>result</code> ---- 結果の座標値が返ります。</li>
 </ul>
 <p><strong>Description:</strong></p>
-<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<p>　<code>pt`を `n</code> 倍した座標値を返します。function pt* と同じことをします。</p>
 <p><strong>See Also:</strong> None.</p>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
 <h4><a name='0vQ0ekhKwfr'></a>13.1.48 function point+</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
-<li class='syntax'><span style='font-weight:bold;'>point+</span> pt1 pt2</li>
+<li class='syntax'><span style='font-weight:bold;'>point+</span> pt1 pt2 =&gt; result</li>
+</ul>
+<p><strong>Arguments and Values:</strong></p>
+<ul>
+<li><code>pt1</code> ---- 対象の座標値を指定します。</li>
+<li><code>pt2</code> ---- 対象の座標値を指定します。</li>
+<li><code>result</code> ---- 結果の座標値が返ります。</li>
 </ul>
 <p><strong>Description:</strong></p>
-<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<p>　2 つの座標値を足しあわせます。どちらかまたは両方が絶対座標の場合、結果も絶対座標になります。function pt+ と同じことをします。</p>
 <p><strong>See Also:</strong> None.</p>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
 <h4><a name='b0LbTZSVMDP'></a>13.1.49 function point-</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
-<li class='syntax'><span style='font-weight:bold;'>point-</span> pt1 pt2</li>
+<li class='syntax'><span style='font-weight:bold;'>point-</span> pt1 pt2 =&gt; result</li>
+</ul>
+<p><strong>Arguments and Values:</strong></p>
+<ul>
+<li><code>pt1</code> ---- 対象の座標値を指定します。</li>
+<li><code>pt2</code> ---- 対象の座標値を指定します。</li>
+<li><code>result</code> ---- 結果の座標値が返ります。</li>
 </ul>
 <p><strong>Description:</strong></p>
-<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<p>　<code>pt1</code> から <code>pt2</code> を引きます。どちらかまたは両方が絶対座標の場合、結果も絶対座標になります。function pt- と同じことをします。</p>
 <p><strong>See Also:</strong> None.</p>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
 <h4><a name='54sryPWnhiV'></a>13.1.50 function point-absolute-p</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
-<li class='syntax'><span style='font-weight:bold;'>point-absolute-p</span> pt</li>
+<li class='syntax'><span style='font-weight:bold;'>point-absolute-p</span> pt =&gt; result</li>
+</ul>
+<p><strong>Arguments and Values:</strong></p>
+<ul>
+<li><code>pt</code> ---- 対象オブジェクトを指定します。</li>
+<li><code>result</code> ---- <code>T</code> または <code>NIL</code> が返ります。</li>
 </ul>
 <p><strong>Description:</strong></p>
-<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<p>　<code>pt</code> が絶対座標を示す座標値かどうかを調べます。</p>
 <p><strong>See Also:</strong> None.</p>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
 <h4><a name='iN3USlmMy0C'></a>13.1.51 function point-distance</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
-<li class='syntax'><span style='font-weight:bold;'>point-distance</span> pt1 pt2</li>
+<li class='syntax'><span style='font-weight:bold;'>point-distance</span> pt1 pt2 =&gt; result</li>
+</ul>
+<p><strong>Arguments and Values:</strong></p>
+<ul>
+<li><code>pt1</code> ---- 対象の座標値を指定します。</li>
+<li><code>pt2</code> ---- 対象の座標値を指定します。</li>
+<li><code>result</code> ---- 結果の値が返ります。</li>
 </ul>
 <p><strong>Description:</strong></p>
-<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<p>　<code>pt1</code> と <code>pt2</code> の間の距離を計算して返します。この時、これらの座標値が絶対座標であるか相対座標であるかは考慮されないので注意が必要です。</p>
 <p><strong>See Also:</strong> None.</p>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
 <h4><a name='bQomeUcXeDy'></a>13.1.52 function point-p</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
-<li class='syntax'><span style='font-weight:bold;'>point-p</span> pt</li>
+<li class='syntax'><span style='font-weight:bold;'>point-p</span> pt =&gt; result</li>
+</ul>
+<p><strong>Arguments and Values:</strong></p>
+<ul>
+<li><code>pt</code> ---- 対象オブジェクトを指定します。</li>
+<li><code>result</code> ---- <code>T</code> または <code>NIL</code> が返ります。</li>
 </ul>
 <p><strong>Description:</strong></p>
-<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<p>　<code>pt</code> が座標値かどうかを調べます。</p>
 <p><strong>See Also:</strong> None.</p>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
 <h4><a name='h10DBSdGdsq'></a>13.1.53 function point-relative-p</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
-<li class='syntax'><span style='font-weight:bold;'>point-relative-p</span> pt</li>
+<li class='syntax'><span style='font-weight:bold;'>point-relative-p</span> pt =&gt; result</li>
+</ul>
+<p><strong>Arguments and Values:</strong></p>
+<ul>
+<li><code>pt</code> ---- 対象オブジェクトを指定します。</li>
+<li><code>result</code> ---- <code>T</code> または <code>NIL</code> が返ります。</li>
 </ul>
 <p><strong>Description:</strong></p>
-<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<p>　<code>pt</code> が相対座標を示す座標値かどうかを調べます。</p>
 <p><strong>See Also:</strong> None.</p>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
 <h4><a name='bvPKeqUaY73'></a>13.1.54 function point-x</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
-<li class='syntax'><span style='font-weight:bold;'>point-x</span> pt</li>
-<li class='syntax'><span style='font-weight:bold;'>(setf point-x</span>) val pt</li>
+<li class='syntax'><span style='font-weight:bold;'>point-x</span> pt =&gt; result</li>
+<li class='syntax'>(setf (<span style='font-weight:bold;'>point-x</span> pt) val)</li>
+</ul>
+<p><strong>Arguments and Values:</strong></p>
+<ul>
+<li><code>pt</code> ---- 対象の座標値を指定します。</li>
+<li><code>result</code> ---- <code>pt</code> の x 座標が返ります。</li>
+<li><code>val</code> ---- <code>pt</code> に設定する x 座標値を指定します。</li>
 </ul>
 <p><strong>Description:</strong></p>
-<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<p>　座標値の x 軸の値を取得または設定します。</p>
 <p><strong>See Also:</strong> None.</p>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
@@ -10134,10 +10204,16 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p><strong>Syntax:</strong></p>
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>point-y</span> pt</li>
-<li class='syntax'><span style='font-weight:bold;'>(setf point-y</span>) val pt</li>
+<li class='syntax'>(setf <span style='font-weight:bold;'>point-y</span> pt) val)</li>
+</ul>
+<p><strong>Arguments and Values:</strong></p>
+<ul>
+<li><code>pt</code> ---- 対象の座標値を指定します。</li>
+<li><code>result</code> ---- <code>pt</code> の y 座標が返ります。</li>
+<li><code>val</code> ---- <code>pt</code> に設定する y 座標値を指定します。</li>
 </ul>
 <p><strong>Description:</strong></p>
-<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<p>　座標値の y 軸の値を取得または設定します。</p>
 <p><strong>See Also:</strong> None.</p>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
@@ -10146,38 +10222,63 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>point/</span> pt n</li>
 </ul>
+<p><strong>Arguments and Values:</strong></p>
+<ul>
+<li><code>pt</code> ---- 対象の座標値を指定します。</li>
+<li><code>n</code> ---- 対象の座標値を指定します。</li>
+<li><code>result</code> ---- 結果の座標値が返ります。</li>
+</ul>
 <p><strong>Description:</strong></p>
-<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<p>　<code>pt`を `1/n</code> 倍した座標値を返します。function pt/ と同じことをします。</p>
 <p><strong>See Also:</strong> None.</p>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
 <h4><a name='0XKkW5OfgY0'></a>13.1.57 function point/x+</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
-<li class='syntax'><span style='font-weight:bold;'>point/x+</span> pt x</li>
+<li class='syntax'><span style='font-weight:bold;'>point/x+</span> pt x =&gt; result</li>
+</ul>
+<p><strong>Arguments and Values:</strong></p>
+<ul>
+<li><code>pt</code> ---- 対象の座標値を指定します。</li>
+<li><code>x</code> ---- 加算する x 軸の値を指定します。</li>
+<li><code>result</code> ---- 結果の座標値が返ります。</li>
 </ul>
 <p><strong>Description:</strong></p>
-<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<p>　<code>pt</code> に <code>(x 0)</code> を足した座標値を返します。function x+ と同じことをします。</p>
 <p><strong>See Also:</strong> None.</p>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
 <h4><a name='8hAs0t2cS2R'></a>13.1.58 function point/xy+</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
-<li class='syntax'><span style='font-weight:bold;'>point/xy+</span> pt x y</li>
+<li class='syntax'><span style='font-weight:bold;'>point/xy+</span> pt x y =&gt; result</li>
+</ul>
+<p><strong>Arguments and Values:</strong></p>
+<ul>
+<li><code>pt</code> ---- 対象の座標値を指定します。</li>
+<li><code>x</code> ---- 加算する x 軸の値を指定します。</li>
+<li><code>y</code> ---- 加算する y 軸の値を指定します。</li>
+<li><code>result</code> ---- 結果の座標値が返ります。</li>
 </ul>
 <p><strong>Description:</strong></p>
-<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<p>　<code>pt</code> に <code>(x y)</code> を足した座標値を返します。function xy+ と同じことをします。</p>
 <p><strong>See Also:</strong> None.</p>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
 <h4><a name='fxwgCL9UAe4'></a>13.1.59 function point/y+</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
-<li class='syntax'><span style='font-weight:bold;'>point/y+</span> pt y</li>
+<li class='syntax'><span style='font-weight:bold;'>point/y+</span> pt y =&gt; result</li>
+</ul>
+<p><strong>Arguments and Values:</strong></p>
+<ul>
+<li><code>pt</code> ---- 対象の座標値を指定します。</li>
+<li><code>y</code> ---- 加算する y 軸の値を指定します。</li>
+<li><code>result</code> ---- 結果の座標値が返ります。</li>
 </ul>
 <p><strong>Description:</strong></p>
-<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<p>　<code>pt</code> に <code>(0 y)</code> を足した座標値を返します。function y+ と同じことをします。</p>
 <p><strong>See Also:</strong> None.</p>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
@@ -10208,40 +10309,64 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <h4><a name='cKLahjjavLp'></a>13.1.61 function pt*</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
-<li class='syntax'><span style='font-weight:bold;'>pt*</span> pt n</li>
+<li class='syntax'><span style='font-weight:bold;'>pt*</span> pt n =&gt; result</li>
+</ul>
+<p><strong>Arguments and Values:</strong></p>
+<ul>
+<li><code>pt</code> ---- 対象の座標値を指定します。</li>
+<li><code>n</code> ---- 対象の座標値を指定します。</li>
+<li><code>result</code> ---- 結果の座標値が返ります。</li>
 </ul>
 <p><strong>Description:</strong></p>
-<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<p>　<code>pt`を `n</code> 倍した座標値を返します。function point* と同じことをします。</p>
 <p><strong>See Also:</strong> None.</p>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
 <h4><a name='eEZRDxsQS11'></a>13.1.62 function pt+</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
-<li class='syntax'><span style='font-weight:bold;'>pt+</span> pt1 pt2</li>
+<li class='syntax'><span style='font-weight:bold;'>pt+</span> pt1 pt2 =&gt; result</li>
+</ul>
+<p><strong>Arguments and Values:</strong></p>
+<ul>
+<li><code>pt1</code> ---- 対象の座標値を指定します。</li>
+<li><code>pt2</code> ---- 対象の座標値を指定します。</li>
+<li><code>result</code> ---- 結果の座標値が返ります。</li>
 </ul>
 <p><strong>Description:</strong></p>
-<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<p>　2 つの座標値を足しあわせます。どちらかまたは両方が絶対座標の場合、結果も絶対座標になります。function point+ と同じことをします。</p>
 <p><strong>See Also:</strong> None.</p>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
 <h4><a name='44KEZOmjrZt'></a>13.1.63 function pt-</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
-<li class='syntax'><span style='font-weight:bold;'>pt-</span> pt1 pt2</li>
+<li class='syntax'><span style='font-weight:bold;'>pt-</span> pt1 pt2 =&gt; result</li>
+</ul>
+<p><strong>Arguments and Values:</strong></p>
+<ul>
+<li><code>pt1</code> ---- 対象の座標値を指定します。</li>
+<li><code>pt2</code> ---- 対象の座標値を指定します。</li>
+<li><code>result</code> ---- 結果の座標値が返ります。</li>
 </ul>
 <p><strong>Description:</strong></p>
-<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<p>　<code>pt1</code> から <code>pt2</code> を引きます。どちらかまたは両方が絶対座標の場合、結果も絶対座標になります。function point- と同じことをします。</p>
 <p><strong>See Also:</strong> None.</p>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
 <h4><a name='7cLBJDb8TMb'></a>13.1.64 function pt/</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
-<li class='syntax'><span style='font-weight:bold;'>pt/</span> pt n</li>
+<li class='syntax'><span style='font-weight:bold;'>pt/</span> pt n =&gt; result</li>
+</ul>
+<p><strong>Arguments and Values:</strong></p>
+<ul>
+<li><code>pt</code> ---- 対象の座標値を指定します。</li>
+<li><code>n</code> ---- 対象の座標値を指定します。</li>
+<li><code>result</code> ---- 結果の座標値が返ります。</li>
 </ul>
 <p><strong>Description:</strong></p>
-<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<p>　<code>pt`を `1/n</code> 倍した座標値を返します。function point/ と同じことをします。</p>
 <p><strong>See Also:</strong> None.</p>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
@@ -10297,9 +10422,19 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>register-theme</span> (name <span style='color:navy;'>&optional</span> base) <span style='color:navy;'>&rest</span> settings</li>
 </ul>
+<p><strong>Arguments and Values:</strong></p>
+<ul>
+<li><code>name</code> ---- 作成する<a class='autolink' href='#4z8VHZK3CSo'>テーマ</a>の ID をキーワードシンボルで指定します。</li>
+<li><code>base</code> ---- ベースにする<a class='autolink' href='#4z8VHZK3CSo'>テーマ</a>がある場合はその ID をキーワードシンボルで指定します。</li>
+<li><code>settings</code> ---- <a class='autolink' href='#4z8VHZK3CSo'>テーマ</a>に登録する設定を指定します（<a href='#dY1SXtflNNS'>10.2  節</a>参照）。</li>
+</ul>
 <p><strong>Description:</strong></p>
-<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<p><strong>See Also:</strong> None.</p>
+<p>　新しい<a class='autolink' href='#4z8VHZK3CSo'>テーマ</a>を作成します。詳細は <a href='#dY1SXtflNNS'>10.2  節</a>および<a href='#fgQNJlpxlTm'>10.3  節</a>を参照してください。</p>
+<p><strong>See Also:</strong></p>
+<ul>
+<li><a href='#dY1SXtflNNS'>10.2  新しいテーマの作成</a></li>
+<li><a href='#fgQNJlpxlTm'>10.3  テーマのカスタマイズ</a></li>
+</ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
 <h4><a name='jLTDopnLqyT'></a>13.1.68 macro regular-polygon</h4>
@@ -10335,30 +10470,50 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <h4><a name='49Awu7jPI7m'></a>13.1.69 function repeat</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
-<li class='syntax'><span style='font-weight:bold;'>repeat</span> source cnt <span style='color:navy;'>&rest</span> customs</li>
+<li class='syntax'><span style='font-weight:bold;'>repeat</span> value count <span style='color:navy;'>&rest</span> customs =&gt; result</li>
+</ul>
+<p><strong>Arguments and Values:</strong></p>
+<ul>
+<li><code>value</code> ---- 数値、または一引数関数を指定します。</li>
+<li><code>count</code> ---- 数値を指定します。</li>
+<li><code>customs</code> ---- <code>(n v)</code> 形式のリストを任意数指定します。ここで <code>n v</code> はともに整数です。</li>
+<li><code>result</code> ---- 結果がリストで返ります。</li>
 </ul>
 <p><strong>Description:</strong></p>
-<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<p><strong>Syntax:</strong></p>
+<p>　<code>value count customs</code> に従って数値のリストを生成して返します。<a class='autolink' href='#hqebcMypbfk'>table マクロ</a>における<code>rows</code> および <code>cols</code> パラメータでの使用を想定しています。</p>
+<p>　基本的には、この関数は <code>count</code> 個の <code>value</code> からなるリストを生成します。ただし、<code>customs</code> が指定されている場合、生成したリストを <code>customs</code> に従って変更します。<code>customs</code> は、 <code>(n v)</code> 形式のリストの羅列であることが期待され、これによって結果の <code>n</code> 番目の要素が <code>v</code> に置き換えられます。</p>
+<p>　さらに、 <code>value</code> は数値ではなく一引数関数にすることもできます。この場合、その関数は結果リストの個々の値を生成するためにインデックスを引数としてコールされます。以下にそれぞれの例を示します。</p>
 <pre class='code'>
-(repeat 50 4)          <span class='comment'>; =&gt; '(50 50 50 50)</span>
-(repeat 40 5 '(0 80))  <span class='comment'>; =&gt; '(80 40 40 40 40)</span>
-(repeat #'identity 10) <span class='comment'>; =&gt; '(0 1 2 3 4 5 6 7 8 9)</span>
+(repeat 50 4)                 <span class='comment'>; =&gt; '(50 50 50 50)</span>
+(repeat 40 5 '(0 80) '(3 60)) <span class='comment'>; =&gt; '(80 40 40 60 40)</span>
+(repeat #'identity 10)        <span class='comment'>; =&gt; '(0 1 2 3 4 5 6 7 8 9)</span>
 (repeat (<span class='keyword1'>lambda</span> (i)
            (* 10 (1+ i))) 10)  <span class='comment'>; =&gt; '(10 20 30 40 50 60 70 80 90 100)</span>
 </pre>
-<p><strong>Description:</strong></p>
-<p><strong>See Also:</strong> None.</p>
+<p><strong>See Also:</strong></p>
+<ul>
+<li><a class='autolink' href='#hqebcMypbfk'>table マクロ</a></li>
+</ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
 <h4><a name='bxjD7EmOfDd'></a>13.1.70 function rgb</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
-<li class='syntax'><span style='font-weight:bold;'>rgb</span> r g b</li>
+<li class='syntax'><span style='font-weight:bold;'>rgb</span> r g b =&gt; result</li>
+</ul>
+<p><strong>Arguments and Values:</strong></p>
+<ul>
+<li><code>r</code> ---- 0 ～ 255 の整数値または 0.0 ～ 1.0 の浮動小数点値</li>
+<li><code>g</code> ---- 0 ～ 255 の整数値または 0.0 ～ 1.0 の浮動小数点値</li>
+<li><code>b</code> ---- 0 ～ 255 の整数値または 0.0 ～ 1.0 の浮動小数点値</li>
+<li><code>result</code> ---- 結果が <code>"#RRGGBB"</code> 形式の文字列で返ります。</li>
 </ul>
 <p><strong>Description:</strong></p>
-<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<p><strong>See Also:</strong> None.</p>
+<p>　<code>r g b</code> の 3 値から色指定の文字列を生成指定返します。</p>
+<p><strong>See Also:</strong></p>
+<ul>
+<li><a href='#1rpUB3fre67'>11.1  色の指定</a></li>
+</ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
 <h4><a name='hqebcMypbfk'></a>13.1.71 macro table</h4>
@@ -10443,7 +10598,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p><strong>Description:</strong></p>
 <p>　<a class='autolink' href='#e7hkC2YUaKe'>テキストボックス</a>を描画します。複数の<a class='autolink' href='#e7hkC2YUaKe'>テキストボックス</a>でスタイルを統一したい場合、<a class='autolink' href='#5oL7bKJkowz'>with-textbox-options マクロ</a>を使うことができます。</p>
-<p><strong>See Also:</strong> None.</p>
+<p><strong>See Also:</strong></p>
 <ul>
 <li><a class='autolink' href='#e7hkC2YUaKe'>テキストボックス</a></li>
 <li><a class='autolink' href='#5oL7bKJkowz'>with-textbox-options マクロ</a></li>
@@ -10840,9 +10995,25 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>use</span> ref position <span style='color:navy;'>&key</span> pivot link rotate layer id contents debug</li>
 </ul>
+<p><strong>Arguments and Values:</strong></p>
+<ul>
+<li><code>ref</code> ---- 再使用する定義の ID をキーワードシンボルで指定します。</li>
+<li><code>position</code> ---- 描画の基準点を指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</li>
+<li><code>pivot</code> ---- 基準点が描画矩形のどこにくるように描画するかを指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</li>
+<li><code>link</code> ---- <a class='autolink' href='#fbLcMRTVXac'>リンク</a>にする場合、<a class='autolink' href='#fbLcMRTVXac'>リンク</a>先を指定します。</li>
+<li><code>rotate</code> ---- 全体を<a class='autolink' href='#heEi5Lc5BX9'>回転</a>させたい場合に、その角度を指定します。</li>
+<li><code>layer</code> ---- <a class='autolink' href='#1ovJxG7Ie9O'>レイヤー</a>を指定する場合、その ID をキーワードシンボルで指定します</li>
+<li><code>id</code> ---- ID を付与したい場合、その名前をキーワードシンボルで指定します</li>
+<li><code>contents</code> ---- 内部を<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>とした描画をしたい場合、その内容を指定します。</li>
+<li><code>debug</code> ---- <a class='autolink' href='#2tO36YvJCgK'>補助線</a>を描画する場合、 <code>t</code> または色名を指定します</li>
+</ul>
 <p><strong>Description:</strong></p>
-<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<p><strong>See Also:</strong> None.</p>
+<p>　<a class='autolink' href='#5hmH4Z1JfiN'>defgroup マクロ</a>で作成した定義 <code>ref</code> を使用します。</p>
+<p><strong>See Also:</strong></p>
+<ul>
+<li><a href='#hwRhCz9Gn9t'>8  定義と再使用</a></li>
+<li><a class='autolink' href='#5hmH4Z1JfiN'>defgroup マクロ</a></li>
+</ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
 <h4><a name='5wbX4fvnNyO'></a>13.1.112 macro with-balloon-options</h4>
@@ -10889,15 +11060,23 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
 <h4><a name='juKAz8erPO0'></a>13.1.115 macro with-canvas</h4>
-<p>　<a class='autolink' href='#ibXCLOBvHnZ'>with-current-canvas マクロ</a>の導入に伴い、<a class='autolink' href='#juKAz8erPO0'>with-canvas マクロ</a>は非推奨となりました。</p>
 <p><strong>Syntax:</strong></p>
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>with-canvas</span> (sym-center sym-width sym-height) canvas <span style='color:navy;'>&body</span> body</li>
 </ul>
+<p><strong>Arguments and Values:</strong></p>
+<ul>
+<li><code>sym-center</code> ---- <code>canvas</code> の center 値を参照するための変数名を指定します。</li>
+<li><code>sym-width</code> ---- <code>canvas</code> の幅を参照するための変数名を指定します。</li>
+<li><code>sym-height</code> ---- <code>canvas</code> の高さを参照するための変数名を指定します。</li>
+<li><code>canvas</code> ---- 対象の<a class='autolink' href='#kgs1vf3AbTN'>キャンバス</a>を指定します。</li>
+<li><code>body</code> ---- 実行するコードを指定します。</li>
+</ul>
 <p><strong>Description:</strong></p>
-<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<p>　<code>canvas</code> の中心、幅、および高さを変数で直接参照できるかのようなレキシカル環境を確立し、コード <code>body</code> を実行します。コード <code>body</code> 内では、 <code>sym-center sym-width sym-height</code> それぞれで指定した名前の変数で値の取得が可能です。</p>
 <p><strong>See Also:</strong> None.</p>
-<p><strong>Notes:</strong> None.</p>
+<p><strong>Notes:</strong></p>
+<p>　<a class='autolink' href='#juKAz8erPO0'>with-canvas マクロ</a>は非推奨となりました。今後は <a class='autolink' href='#ibXCLOBvHnZ'>with-current-canvas マクロ</a>を使用してください。</p>
 <p>　　</p>
 <h4><a name='hUUF8VmJZqf'></a>13.1.116 macro with-cross-options</h4>
 <p><strong>Syntax:</strong></p>
@@ -10932,9 +11111,17 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>with-current-canvas</span> (<span style='color:navy;'>&rest</span> vars) <span style='color:navy;'>&body</span> body</li>
 </ul>
+<p><strong>Arguments and Values:</strong></p>
+<ul>
+<li><code>vars</code> ---- <code>canvas</code> における各種の値を参照するための変数を指定します。</li>
+<li><code>body</code> ---- 実行するコードを指定します。</li>
+</ul>
 <p><strong>Description:</strong></p>
-<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<p><strong>See Also:</strong> None.</p>
+<p>　現在の<a class='autolink' href='#kgs1vf3AbTN'>キャンバス</a>の中心、幅、高さなど各種の値を直接参照できるかのようなレキシカル環境を確立し、コード <code>body</code> を実行します。使用例は <a href='#kgs1vf3AbTN'>7  章</a>を参照してください。</p>
+<p><strong>See Also:</strong></p>
+<ul>
+<li><a href='#kgs1vf3AbTN'>7  サブキャンバス</a></li>
+</ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
 <h4><a name='0EzzPQAHjpS'></a>13.1.119 macro with-cylinder-options</h4>
@@ -10971,8 +11158,11 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li class='syntax'><span style='font-weight:bold;'>with-endmark-options</span> (<span style='color:navy;'>&key</span> type size fill end1 end2) <span style='color:navy;'>&body</span> body</li>
 </ul>
 <p><strong>Description:</strong></p>
-<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<p><strong>See Also:</strong> None.</p>
+<p>　<a class='autolink' href='#9MB3lirlqL9'>終端マーク</a>のデフォルトオプションを変更します。キーワードパラメータ群の説明は <a href='#9MB3lirlqL9'>11.10  節</a>を参照してください。</p>
+<p><strong>See Also:</strong></p>
+<ul>
+<li><a href='#9MB3lirlqL9'>11.10  終端マーク</a></li>
+</ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
 <h4><a name='2N1LVsx5TAj'></a>13.1.122 macro with-explosion-options</h4>
@@ -11010,8 +11200,11 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li class='syntax'><span style='font-weight:bold;'>with-label-options</span> (<span style='color:navy;'>&key</span> position offset font) <span style='color:navy;'>&body</span> body</li>
 </ul>
 <p><strong>Description:</strong></p>
-<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<p><strong>See Also:</strong> None.</p>
+<p>　<a class='autolink' href='#lpCVEZ9kMoP'>ラベル</a>のデフォルトオプションを変更します。キーワードパラメータ群の説明は <a href='#lpCVEZ9kMoP'>11.11  節</a>を参照してください。</p>
+<p><strong>See Also:</strong></p>
+<ul>
+<li><a href='#lpCVEZ9kMoP'>11.11  ラベル</a></li>
+</ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
 <h4><a name='3Z6ItFChKPn'></a>13.1.125 macro with-memo-options</h4>
@@ -11065,8 +11258,15 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>with-point</span> (sym-x sym-y) pt <span style='color:navy;'>&body</span> body</li>
 </ul>
+<p><strong>Arguments and Values:</strong></p>
+<ul>
+<li><code>sym-x</code> ---- <code>pt</code> の x 値を参照するための変数名を指定します。</li>
+<li><code>sym-y</code> ---- <code>pt</code> の y 値を参照するための変数名を指定します。</li>
+<li><code>pt</code> ---- 対象の座標値を指定します。</li>
+<li><code>body</code> ---- 実行するコードを指定します。</li>
+</ul>
 <p><strong>Description:</strong></p>
-<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<p>　<code>pt</code> の x および y の値を変数で直接参照できるかのようなレキシカル環境を確立し、コード <code>body</code> を実行します。コード <code>body</code> 内では、 <code>sym-x sym-y</code> それぞれで指定した名前の変数で値の取得と設定が可能です。</p>
 <p><strong>See Also:</strong> None.</p>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
@@ -11075,9 +11275,21 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>with-subcanvas</span> (top-left width height <span style='color:navy;'>&key</span> debug) <span style='color:navy;'>&body</span> body</li>
 </ul>
+<p><strong>Arguments and Values:</strong></p>
+<ul>
+<li><code>top-left</code> ---- 作成する<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>の（現在の<a class='autolink' href='#kgs1vf3AbTN'>キャンバス</a>から見た）左上の座標を指定します。</li>
+<li><code>width</code> ---- 作成する<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>の幅を指定します。</li>
+<li><code>height</code> ---- 作成する<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>の高さ指定します。</li>
+<li><code>debug</code> ---- <code>T</code> または色名を示すキーワードシンボルを指定すると<a class='autolink' href='#kgs1vf3AbTN'>キャンバス</a>の領域を明示する<a class='autolink' href='#2tO36YvJCgK'>補助線</a>が描画されます。</li>
+<li><code>body</code> ---- 作成した<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>内部に描画するコードを指定します。</li>
+</ul>
 <p><strong>Description:</strong></p>
-<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<p><strong>See Also:</strong> None.</p>
+<p>　任意の位置とサイズで<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>を確立し、その内部に描画を行ないます。既存の図形要素の内部を<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>とした描画をしたい場合、<a class='autolink' href='#c9lZIyRpbeF'>with-subcanvas-of マクロ</a>を使用してください。</p>
+<p><strong>See Also:</strong></p>
+<ul>
+<li><a href='#kgs1vf3AbTN'>7  サブキャンバス</a></li>
+<li><a class='autolink' href='#c9lZIyRpbeF'>with-subcanvas-of マクロ</a></li>
+</ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
 <h4><a name='c9lZIyRpbeF'></a>13.1.130 macro with-subcanvas-of</h4>
@@ -11085,9 +11297,18 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>with-subcanvas-of</span> (id) <span style='color:navy;'>&body</span> body</li>
 </ul>
+<p><strong>Arguments and Values:</strong></p>
+<ul>
+<li><code>id</code> ---- 対象となる図形要素の ID をキーワードシンボルで指定します。</li>
+<li><code>body</code> ---- 作成した<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>内部に描画するコードを指定します。</li>
+</ul>
 <p><strong>Description:</strong></p>
-<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<p><strong>See Also:</strong> None.</p>
+<p>　既存の図形要素の内部を<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>として、その内部に描画を行ないます。任意の領域を<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>とした描画をしたい場合、<a class='autolink' href='#5cY34BaMQhr'>with-subcanvas マクロ</a>を使用してください。</p>
+<p><strong>See Also:</strong></p>
+<ul>
+<li><a href='#kgs1vf3AbTN'>7  サブキャンバス</a></li>
+<li><a class='autolink' href='#5cY34BaMQhr'>with-subcanvas マクロ</a></li>
+</ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
 <h4><a name='8rELk1LL2bC'></a>13.1.131 macro with-table-cell</h4>
@@ -11095,9 +11316,19 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>with-table-cell</span> (id r c) <span style='color:navy;'>&body</span> body</li>
 </ul>
+<p><strong>Arguments and Values:</strong></p>
+<ul>
+<li><code>id</code> ---- 対象となる<a class='autolink' href='#g6xjP526KX7'>テーブル</a>の ID をキーワードシンボルで指定します。</li>
+<li><code>r</code> ---- 対象となる<a class='autolink' href='#g6xjP526KX7'>テーブル</a>セルの（０から始まる）行番号を数値で指定します。</li>
+<li><code>c</code> ---- 対象となる<a class='autolink' href='#g6xjP526KX7'>テーブル</a>セルの（０から始まる）列番号を数値で指定します。</li>
+<li><code>body</code> ---- 対象となる<a class='autolink' href='#g6xjP526KX7'>テーブル</a>セル内で行なう描画コードを記述します。</li>
+</ul>
 <p><strong>Description:</strong></p>
-<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<p><strong>See Also:</strong> None.</p>
+<p>　<a class='autolink' href='#g6xjP526KX7'>テーブル</a>の ID とセルの行・列番号を指定して該当するセル内を<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>とした描画を行ないます。</p>
+<p><strong>See Also:</strong></p>
+<ul>
+<li><a href='#3qNm5uHdKTZ'>4.15.1  with-table-cell を使ったセル内描画</a></li>
+</ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
 <h4><a name='50lQokEAysO'></a>13.1.132 macro with-table-options</h4>
@@ -11117,11 +11348,20 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <h4><a name='8n9SABCEJKZ'></a>13.1.133 macro with-table-range</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
-<li class='syntax'><span style='font-weight:bold;'>with-table-range</span> (id kwd) <span style='color:navy;'>&body</span> body</li>
+<li class='syntax'><span style='font-weight:bold;'>with-table-range</span> (id range) <span style='color:navy;'>&body</span> body</li>
+</ul>
+<p><strong>Arguments and Values:</strong></p>
+<ul>
+<li><code>id</code> ---- 対象となる<a class='autolink' href='#g6xjP526KX7'>テーブル</a>の ID をキーワードシンボルで指定します。</li>
+<li><code>range</code> ---- 対象となる<a class='autolink' href='#g6xjP526KX7'>テーブル</a>内の部分領域をキーワードシンボルで指定します。これは <a class='autolink' href='#hqebcMypbfk'>table マクロ</a>における <code>fills</code> パラメータの指定方法と同様です。</li>
+<li><code>body</code> ---- 対象となる<a class='autolink' href='#g6xjP526KX7'>テーブル</a>セル内で行なう描画コードを記述します。</li>
 </ul>
 <p><strong>Description:</strong></p>
-<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<p><strong>See Also:</strong> None.</p>
+<p>　<a class='autolink' href='#g6xjP526KX7'>テーブル</a>の一部の領域を<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>とした描画を行ないます。</p>
+<p><strong>See Also:</strong></p>
+<ul>
+<li><a href='#2sVUYL4zgkO'>4.15.2  with-table-range を使った範囲取得</a></li>
+</ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
 <h4><a name='5oL7bKJkowz'></a>13.1.134 macro with-textbox-options</h4>
@@ -11143,9 +11383,17 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>with-theme</span> (name) <span style='color:navy;'>&body</span> body</li>
 </ul>
+<p><strong>Arguments and Values:</strong></p>
+<ul>
+<li><code>name</code> ---- 使用する<a class='autolink' href='#4z8VHZK3CSo'>テーマ</a>の ID をキーワードシンボルで指定します。</li>
+<li><code>body</code> ---- <code>name</code> で指定した<a class='autolink' href='#4z8VHZK3CSo'>テーマ</a>を使用して描画を行なうコードを記述します。</li>
+</ul>
 <p><strong>Description:</strong></p>
-<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
-<p><strong>See Also:</strong> None.</p>
+<p>　<a class='autolink' href='#4z8VHZK3CSo'>テーマ</a>を指定した描画を行ないます。詳細は <a href='#4z8VHZK3CSo'>10  章</a>を参照してください。</p>
+<p><strong>See Also:</strong></p>
+<ul>
+<li><a href='#4z8VHZK3CSo'>10  テーマ</a></li>
+</ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
 <h4><a name='kqRLmxG6cu2'></a>13.1.136 macro with-uml-action-options</h4>
@@ -11316,8 +11564,14 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>x+</span> pt x =&gt; result</li>
 </ul>
+<p><strong>Arguments and Values:</strong></p>
+<ul>
+<li><code>pt</code> ---- 対象の座標値を指定します。</li>
+<li><code>x</code> ---- 加算する x 軸の値を指定します。</li>
+<li><code>result</code> ---- 結果の座標値が返ります。</li>
+</ul>
 <p><strong>Description:</strong></p>
-<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<p>　<code>pt</code> に <code>(x 0)</code> を足した座標値を返します。function point/x+ と同じことをします。</p>
 <p><strong>See Also:</strong> None.</p>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
@@ -11326,8 +11580,15 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>xy+</span> pt x y =&gt; result</li>
 </ul>
+<p><strong>Arguments and Values:</strong></p>
+<ul>
+<li><code>pt</code> ---- 対象の座標値を指定します。</li>
+<li><code>x</code> ---- 加算する x 軸の値を指定します。</li>
+<li><code>y</code> ---- 加算する y 軸の値を指定します。</li>
+<li><code>result</code> ---- 結果の座標値が返ります。</li>
+</ul>
 <p><strong>Description:</strong></p>
-<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<p>　<code>pt</code> に <code>(x y)</code> を足した座標値を返します。function xy+ と同じことをします。</p>
 <p><strong>See Also:</strong> None.</p>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
@@ -11336,8 +11597,14 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>y+</span> pt y =&gt; result</li>
 </ul>
+<p><strong>Arguments and Values:</strong></p>
+<ul>
+<li><code>pt</code> ---- 対象の座標値を指定します。</li>
+<li><code>y</code> ---- 加算する y 軸の値を指定します。</li>
+<li><code>result</code> ---- 結果の座標値が返ります。</li>
+</ul>
 <p><strong>Description:</strong></p>
-<p>　<span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></p>
+<p>　<code>pt</code> に <code>(0 y)</code> を足した座標値を返します。function point/y+ と同じことをします。</p>
 <p><strong>See Also:</strong> None.</p>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
@@ -14189,13 +14456,6 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li><a href='#43tbSrg0HB4'>Table.13-5 defpattern マクロのパラメータ</a></li>
 <li><a href='#98FSocmF926'>Table.13-6 drop-shadow マクロのパラメータ</a></li>
 <li><a href='#8OxjHEdW6gK'>Table.13-7 glow-shadow マクロのパラメータ</a></li>
-<li><a href='#f8GupUJh1xX'>Table.13-8 layer 関数のパラメータ</a></li>
-<li><a href='#eW0eLCWvjeC'>Table.13-9 make-endmark 関数のパラメータ</a></li>
-<li><a href='#jaLWrUQI3jh'>Table.13-10 make-fill 関数のパラメータ</a></li>
-<li><a href='#3B1RHolTZeW'>Table.13-11 make-font 関数のパラメータ</a></li>
-<li><a href='#aFT8lxS3iDq'>Table.13-12 make-label 関数のパラメータ</a></li>
-<li><a href='#bJoy1GAqDZc'>Table.13-13 make-link 関数のパラメータ</a></li>
-<li><a href='#8gU4HDke41S'>Table.13-14 make-stroke 関数のパラメータ</a></li>
 </ul>
 <p>　　</p>
 <h2><a name='1ewHzjI62xn'></a>16 索引</h2>
@@ -14555,7 +14815,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p class='footnote'><a name='footnote8' href='#footnote_ref8'>8</a> : Lisper の方へ：ご想像通り、 <code>(list x y)</code> でも問題無いですし、バッククォートを使ってもかまいません。</p>
 <p class='footnote'><a name='footnote9' href='#footnote_ref9'>9</a> : この他に <code>width, height</code> があって、その図形要素の幅と高さを取得することもできますが、あまり使用しません。</p>
 <p class='footnote'><a name='footnote10' href='#footnote_ref10'>10</a> : Lisper の方へ： <code>app.center</code> という記法は動的に生成する symbol-macrolet によって、また <code>(attr :app :center)</code> については macrolet によって実現しています。attr は局所関数を使って同じ<a class='autolink' href='#dmYFJAv81Kl'>パターン</a>の繰り返しを共通化する場合などに便利でしょう。</p>
-<p class='footnote'><a name='footnote11' href='#footnote_ref11'>11</a> : 現状では、<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>の描画では幅と高さによって作成される矩形で内部要素の描画をクリッピングしません。つまり、実質的には<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>は原点をズラす効果しかありません。ただし、このクリッピングしないという挙動は将来変更される可能性があります。</p>
+<p class='footnote'><a name='footnote11' href='#footnote_ref11'>11</a> : 現状では、<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>の描画では幅と高さによって作成される矩形で内部要素の描画をクリッピングしません。つまり、現状の<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>は実質的に原点をズラす効果しかありません。ただし、このクリッピングしないという挙動は将来変更される可能性があります。</p>
 <p class='footnote'><a name='footnote12' href='#footnote_ref12'>12</a> : これはあまり使わない方が良いテクニックかもしれません。図形要素別の「デフォルト設定」とは無関係に動作するので、慣れないと混乱するかもしれないからです。</p>
 <p class='footnote'><a name='footnote13' href='#footnote_ref13'>13</a> : Lisper の方へ。<a class='autolink' href='#cTbK0huuMTl'>with-options マクロ</a>は <code>*default-stroke*</code> や <code>*default-fill*</code> といったスペシャル変数を束縛するものです。非 Lisper のユーザーへの説明をわかりやすくする上でこの方法をとっています。</p>
 <p class='footnote'><a name='footnote14' href='#footnote_ref14'>14</a> : これはあまり使わない方が良いテクニックかもしれません。図形要素別の「デフォルト設定」とは無関係に動作するので、慣れないと混乱するかもしれないからです。</p>
