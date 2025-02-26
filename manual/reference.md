@@ -532,78 +532,56 @@ ${BLANK_PARAGRAPH}
 
 #### macro defgradient
 
-　defgradient マクロはグラデーションを定義します。グラデーションの詳細は「[](#グラデーション)」を
-参照してください。説明不足ですが、基本的に SVG 規格に沿っていますので必要に応じて書籍や規格にあたって
-ください。マクロシグネチャは以下の通りです。
-
 <!-- stack:push li class='syntax' -->
 ${SYNTAX}
 
 * ${{B}{defgradient}} (type id ${REST} params) ${REST} stops
 
-
 <!-- stack:pop li -->
+
+${ARGS_AND_VALS}
+
+* `type` ---- グラデーションの種類を `:linear` または `:radial` から選択します。
+* `id` ---- ID をキーワードで指定します。
+* `params` ---- グラデーションの付加パラメータを指定します。 `type` により異なるため後述します。
+* `stops` ---- グラデーションストップをリストで指定します。詳細は [$@ 節](#グラデーション)を参照してください。後述する `href` パラメータで他の定義を参照する場合は指定する必要はありません。
+
 
 ${DESCRIPTION}
 
-${BLANK_PARAGRAPH}
-
-Table. defgradient マクロのパラメータ
-| parameter       | description                               |
-|:================|:------------------------------------------|
-| `type`          | グラデーションの種類を `:linear` または `:radial` から選択します。 |
-| `id`            | ID をキーワードで指定します。              |
-| `params`        | グラデーションの付加パラメータを指定します。 `type` により異なるため後述します。  |
-| `stops`         | グラデーションストップをリストで指定します。詳細は「[](#グラデーション)」<br> \
-を参照してください。後述する `href` パラメータで他の定義を参照する場合は<br> \
-指定する必要はありません。 |
-
-${BLANK_PARAGRAPH}
+　与えられたパラメータでグラデーションを定義します。グラデーションの詳細は 
+[$@ 節](#グラデーション)を参照してください。説明不足ですが、基本的に SVG 規格に沿って
+いますので必要に応じて書籍や規格にあたってください。
 
 　`params` はグラデーションの種類（linear/radial）によって異なりますが、いずれの場合でも
 名前付きパラメータとして扱われます。まず、共通のパラメータを以下に示します。
 
-
-Table. defgradient マクロの付加パラメータ（linear/radial 共通）
-| parameter       | description                               |
-|:================|:------------------------------------------|
-| `href`          | 他のグラデーション定義を参照する場合、その ID をキーワードで指定します。 |
-| `units`         | patternUnits 属性を `:userSpaceOnUse` または `:objectBoundingBox` から<br> \
-選択します。 |
-| `spread`        | spreadMethod 属性を指定する場合、 `:pad :repeat :reflect` から選択します。 |
-| `transform`     | gradientTtransform 属性を指定する場合、文字列で指定します。    |
+* `href` ---- 他のグラデーション定義を参照する場合、その ID をキーワードで指定します。
+* `units` ---- patternUnits 属性を `:userSpaceOnUse` または `:objectBoundingBox` から選択します。
+* `spread` ---- spreadMethod 属性を指定する場合、 `:pad :repeat :reflect` から選択します。
+* `transform` ---- gradientTtransform 属性を指定する場合、文字列で指定します。
 
 ${BLANK_PARAGRAPH}
 
 　線型グラデーション特有の付加パラメータは以下の通りです。
 
+* `x1` ---- x1 属性を指定する場合、数値または文字列で指定します。
+* `y1` ---- y1 属性を指定する場合、数値または文字列で指定します。
+* `x2` ---- x2 属性を指定する場合、数値または文字列で指定します。
+* `y2` ---- y2 属性を指定する場合、数値または文字列で指定します。
 
-Table. defgradient マクロの付加パラメータ（linear）
-| parameter       | description                               |
-|:================|:------------------------------------------|
-| `x1`            | x1 属性を指定する場合、数値または文字列で指定します。 |
-| `y1`            | y1 属性を指定する場合、数値または文字列で指定します。 |
-| `x2`            | x2 属性を指定する場合、数値または文字列で指定します。 |
-| `y2`            | y2 属性を指定する場合、数値または文字列で指定します。 |
-
-${BLANK_PARAGRAPH}
 
 　円形グラデーション特有の付加パラメータは以下の通りです。
 
+* `cx` ---- cx 属性を指定する場合、数値または文字列で指定します。
+* `cy` ---- cy 属性を指定する場合、数値または文字列で指定します。
+* `fx` ---- fx 属性を指定する場合、数値または文字列で指定します。
+* `fy` ---- fy 属性を指定する場合、数値または文字列で指定します。
+* `radius` ---- r 属性を指定する場合、数値または文字列で指定します。
 
-Table. defgradient マクロの付加パラメータ（radial）
-| parameter       | description                               |
-|:================|:------------------------------------------|
-| `cx`            | cx 属性を指定する場合、数値または文字列で指定します。 |
-| `cy`            | cy 属性を指定する場合、数値または文字列で指定します。 |
-| `fx`            | fx 属性を指定する場合、数値または文字列で指定します。 |
-| `fy`            | fy 属性を指定する場合、数値または文字列で指定します。 |
-| `radius`        | r 属性を指定する場合、数値または文字列で指定します。 |
+${SEE_ALSO}
 
-
-${BLANK_PARAGRAPH}
-
-${NO_SEE_ALSO}
+* [](#グラデーション)
 
 ${NO_NOTES}
 
@@ -653,40 +631,35 @@ ${SYNTAX}
 
 * ${{B}{defpattern}} (id ${KEY} x y width height href units content-units view-box transform) ${BODY} body
 
-
 <!-- stack:pop li -->
+
+${ARGS_AND_VALS}
+
+* `id` ---- ID をキーワードで指定します。
+* `x` ---- ${{TODO}{まだ記述されていません。}}
+* `y` ---- ${{TODO}{まだ記述されていません。}}
+* `width` ---- 幅を数値で指定します。
+* `height` ---- 高さを数値で指定します。
+* `href` ---- ${{TODO}{まだ記述されていません。}}
+* `units` ---- patternUnits 属性を `:userSpaceOnUse` または `:objectBoundingBox` から選択します。
+* `content-units` ---- patternContentUnits 属性を `:userSpaceOnUse` または `:objectBoundingBox` から選択します。
+* `view-box` ---- viewBox 属性を 4 つの数値からなるリストで指定します。
+* `transform` ---- patternTtransform 属性を指定する場合、文字列で指定します。
 
 ${DESCRIPTION}
 
-　defpattern マクロはパターンを定義します。パターンの詳細は「[](#パターン)」を参照してください。
-説明不足ですが、基本的に SVG 規格に沿っていますので必要に応じて書籍や規格にあたってください。
-マクロシグネチャは以下の通りです。なお、現在、preserveAspectRatio 属性には対応していません。
-将来対応する可能性はありますが、未確定です。
+　与えられたパラメータでパターンを定義します。パターンの詳細は「[$@ 節](#パターン)」を参照
+してください。説明不足ですが、基本的に SVG 規格に沿っていますので必要に応じて書籍や規格に
+あたってください。
 
-${BLANK_PARAGRAPH}
+${SEE_ALSO}
 
-Table. defpattern マクロのパラメータ
-| parameter       | description                               |
-|:================|:------------------------------------------|
-| `id`            | ID をキーワードで指定します。              |
-| `x`             |   |
-| `y`             |   |
-| `width`         | 幅を数値で指定します。                     |
-| `height`        | 高さを数値で指定します。                   |
-| `href`          | 高さを数値で指定します。                   |
-| `units`         | patternUnits 属性を `:userSpaceOnUse` または `:objectBoundingBox` から<br> \
-選択します。 |
-| `content-units` | patternContentUnits 属性を `:userSpaceOnUse` または `:objectBoundingBox` <br> \
-から選択します。 |
-| `view-box`      | viewBox 属性を 4 つの数値からなるリストで指定します。 |
-| `transform`     | patternTtransform 属性を指定する場合、文字列で指定します。  |
+* [](#パターン)
 
+${NOTES}
 
-${BLANK_PARAGRAPH}
-
-${NO_SEE_ALSO}
-
-${NO_NOTES}
+　現在、 `preserveAspectRatio` 属性には対応していません。将来対応する可能性はありますが、
+未確定です。
 
 
 <!-- autolink: [defpattern マクロ](#macro defpattern) -->
@@ -811,35 +784,28 @@ ${BLANK_PARAGRAPH}
 
 #### macro drop-shadow
 
-　生成画像にドロップシャドウを導入します。詳細は SVG 規格を参照してください。
-
 <!-- stack:push li class='syntax' -->
 ${SYNTAX}
 
 * ${{B}{drop-shadow}} ${KEY} id color-matrix deviation dx dy
 
-
 <!-- stack:pop li -->
+
+${ARGS_AND_VALS}
+
+* `id` ---- ID をキーワードで指定します。省略した場合のデフォルト値は `:drop-shadow` です。
+* `color-matrix` ---- `<feColorMatrix>` の values 値を数値のリストで指定します。詳細は SVG 規格を参照してください。省略した場合のデフォルト値は `'(0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.4 0)` です。
+* `deviation` ---- `<feGaussianBlur>` における `stdDeviation` 値を指定します。詳細は SVG 規格を参照してください。省略した場合のデフォルト値は 2 です。
+* `dx` ---- `<feOffset>` における `dx` 値を指定します。詳細は SVG 規格を参照してください。省略した場合のデフォルト値は 4 です。
+* `dy` ---- `<feOffset>` における `dy` 値を指定します。詳細は SVG 規格を参照してください。省略した場合のデフォルト値は 4 です。
 
 ${DESCRIPTION}
 
-${BLANK_PARAGRAPH}
+　生成画像にドロップシャドウを導入します。詳細は SVG 規格を参照してください。
 
-Table. drop-shadow マクロのパラメータ
-| parameter       | description                               |
-|:================|:------------------------------------------|
-| `id`            | ID をキーワードで指定します。省略した場合のデフォルト値は `:drop-shadow` です。 |
-| `color-matrix`  | `<feColorMatrix>` の values 値を数値のリストで指定します。詳細は SVG 規格を \
-参照してください。省略した場合のデフォルト値は `'(0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.4 0)` です。 |
-| `deviation`     | `<feGaussianBlur>` における `stdDeviation` 値を指定します。詳細は SVG 規格を \
-参照してください。省略した場合のデフォルト値は 2 です。  |
-| `dx, dy`        | `<feOffset>` における `dx` および `dy` 値を指定します。詳細は SVG 規格を \
-参照してください。省略した場合のデフォルト値は 4 です。  |
+${SEE_ALSO}
 
-
-${BLANK_PARAGRAPH}
-
-${NO_SEE_ALSO}
+* [](#フィルタ)
 
 ${NO_NOTES}
 
@@ -1026,8 +992,6 @@ ${BLANK_PARAGRAPH}
 
 #### macro glow-shadow
 
-　生成画像にグローシャドウを導入します。詳細は SVG 規格を参照してください。
-
 <!-- stack:push li class='syntax' -->
 ${SYNTAX}
 
@@ -1036,23 +1000,19 @@ ${SYNTAX}
 
 <!-- stack:pop li -->
 
+${ARGS_AND_VALS}
+
+* `id` ---- ID をキーワードで指定します。省略した場合のデフォルト値は `:glow-shadow` です。
+* `color-matrix` ---- `<feColorMatrix>` の values 値を数値のリストで指定します。詳細は SVG 規格を参照してください。省略した場合のデフォルト値は `'(0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0)` です。
+* `deviation` ---- `<feGaussianBlur>` における `stdDeviation` 値を指定します。詳細は SVG 規格を参照してください。省略した場合のデフォルト値は 3 です。
+
 ${DESCRIPTION}
 
-${BLANK_PARAGRAPH}
+　生成画像にグローシャドウを導入します。詳細は SVG 規格を参照してください。
 
-Table. glow-shadow マクロのパラメータ
-| parameter       | description                               |
-|:================|:------------------------------------------|
-| `id`            | ID をキーワードで指定します。省略した場合のデフォルト値は `:glow-shadow` です。 |
-| `color-matrix`  | `<feColorMatrix>` の values 値を数値のリストで指定します。詳細は SVG 規格を \
-参照してください。省略した場合のデフォルト値は `'(0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0)` です。 |
-| `deviation`     | `<feGaussianBlur>` における `stdDeviation` 値を指定します。詳細は SVG 規格を \
-参照してください。省略した場合のデフォルト値は 3 です。  |
+${SEE_ALSO}
 
-
-${BLANK_PARAGRAPH}
-
-${NO_SEE_ALSO}
+* [](#フィルタ)
 
 ${NO_NOTES}
 
@@ -2685,7 +2645,7 @@ ${SYNTAX}
 ${ARGS_AND_VALS}
 
 * `position` ---- 描画するテキストの基準点を指定します。詳細は「[](#座標と位置)」を参照してください。
-* `text` ---- 描画するテキストを文字列で指定します。                                                |
+* `text` ---- 描画するテキストを文字列で指定します。
 * `align` ---- テキストのアライメントを `:left :center :right` のいずれかで指定します。省略した場合のデフォルト値は `:left` です。
 * `font` ---- フォントを指定します。
 * `link` ---- リンクにする場合、リンク先を指定します。

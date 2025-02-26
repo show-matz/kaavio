@@ -372,7 +372,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li><code>(y+ canvas.center 20)</code> といった表記によってある位置から x 軸や y 軸に指定されただけ移動した座標を計算することができます。</li>
 </ul>
 </li>
-<li>複数行の<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>扱うことができる要素では、 <code>"input~%file"</code> のように ~% を使って改行を表します。</li>
+<li>複数行の<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>を扱うことができる要素では、 <code>"input~%file"</code> のように ~% を使って改行を表します。</li>
 </ul>
 <p>　　</p>
 <p>　サンプルは以上です。雰囲気は掴めたと思うので、続いて各種の図形要素について説明します。</p>
@@ -999,7 +999,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
                  <span class='keyword3'>:stroke</span> '(<span class='keyword3'>:color</span> <span class='keyword3'>:darkslateblue</span> <span class='keyword3'>:width</span> 2)))
 </pre>
 <p>　　</p>
-<p>　<code>direction</code> および <code>offset</code> パラメータについて説明します。 <code>direction</code> が <code>:H</code> の場合、上側の角を右または左方向に押して変形させたような形になります。その長さを指定するのが <code>offset</code> です。 <code>offset</code> が０以上の場合は左上の角を右方向に、負数の場合は右上の角を左方向に押すイメージです。 <code>direction</code> が <code>:H</code> の場合は、同じ要領で左側の角を上または下に押すイメージになります。以下のように。</p>
+<p>　<code>direction</code> および <code>offset</code> パラメータについて説明します。 <code>direction</code> が <code>:H</code> の場合、上側の角を右または左方向に押して変形させたような形になります。その長さを指定するのが <code>offset</code> です。 <code>offset</code> が０以上の場合は左上の角を右方向に、負数の場合は右上の角を左方向に押すイメージです。 <code>direction</code> が <code>:V</code> の場合は、同じ要領で左側の角を上または下に押すイメージになります。以下のように。</p>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='400' height='280'>
@@ -1614,8 +1614,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </pre>
 <p>　　</p>
 <p>　パラメータの詳細については <a class='autolink' href='#dUJMfsL520O'>connect マクロ</a>を参照してください。ここでは、 <code>:style</code> パラメータについて説明します。まず、 <code>:style</code> のデフォルト値でもある <code>:CC</code> は「Center to Center」という意味で、対象図形の中心どうしを結ぶような一本の<a class='autolink' href='#fv4OUML78x4'>直線</a>で接続をします。これは <a href='#4gGy4q3tl7a'>Figure.4-1</a> における R2 と R3 の接続のイメージです。</p>
-<p>　<code>:CC</code> 以外の接続方法は、T, B, L, R のいずれかを2つ使って接続位置を指定する方法になります。これはそれぞれ Top, Bottom, Left, Right の頭文字で、たとえば :BL であれば「Bottom to Left」という意味になり、これは from 側の下端と to 側の左端を接続する、ということを意味します。これは <a href='#4gGy4q3tl7a'>Figure.4-1</a> における R1 と R2 の接続のイメージです。</p>
-<p>　さらに細かく接続位置を制御したい場合、それぞれの T,B,L,R の後ろに 1 ～ 3 のインデックスを指定することができます。先程の :BL という指定は、実は :B2L2 の省略記法です。インデックスと実際の接続位置の関係を以下に示します。</p>
+<p>　<code>:CC</code> 以外の接続方法は、 <code>T B L R</code> のいずれか 2 つを使って接続位置を指定する方法になります。これはそれぞれ <code>Top Bottom Left Right</code> の頭文字で、たとえば <code>:BL</code> であれば「Bottom to Left」という意味になり、これは from 側の下端と to 側の左端を接続する、ということを意味します。これは <a href='#4gGy4q3tl7a'>Figure.4-1</a> における R1 と R2 の接続のイメージです。</p>
+<p>　さらに細かく接続位置を制御したい場合、それぞれの <code>T B L R</code> の後ろに 1 ～ 3 のインデックスを指定することができます。先程の <code>:BL</code> という指定は、実は <code>:B2L2</code> の省略記法です。インデックスと実際の接続位置の関係を以下に示します。</p>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='160'>
@@ -1813,7 +1813,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
              <span class='keyword3'>:align</span> <span class='keyword3'>:center</span> <span class='keyword3'>:valign</span> <span class='keyword3'>:center</span>))
 </pre>
 <p>　　</p>
-<p>　position と align, valign の関係を以下に示します。以下において、赤い点が position で、アライメント指定は<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>で示されています。</p>
+<p>　<code>position</code> と <code>align</code> および <code>valign</code> の関係を以下に示します。以下において、赤い点が <code>position</code> で、アライメント指定は<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>で示されています。</p>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='500' height='180'>
@@ -1924,7 +1924,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
                      <span class='keyword3'>:rx</span> 10 <span class='keyword3'>:ry</span> 10 <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span> <span class='keyword3'>:fill</span> <span class='keyword3'>:white</span>))
 </pre>
 <p>　　</p>
-<p>　align, valign の関係を以下に示します。以下のように、<a class='autolink' href='#e7hkC2YUaKe'>テキストボックス</a>の内部で水平方向、および垂直方向にそれぞれどう寄せるかが変化します。</p>
+<p>　<code>align</code> と <code>valign</code> の効果を以下に示します。以下のように、<a class='autolink' href='#e7hkC2YUaKe'>テキストボックス</a>の内部で水平方向、および垂直方向にそれぞれどう寄せるかが変化します。</p>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='550' height='220'>
@@ -3202,11 +3202,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </details>
 <p>　データを（リストでなく）直接指定した場合でも、デフォルトの設定として数値ならば右寄せ、文字列ならば左寄せ、シンボルならば中央揃えという措置が行なわれるため、多くの場合で個別セルの<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>データ指定をリストで行なう必要は無いでしょう。キーワードを使うと全て大文字で表示されてしまいますが、 <code>:|Foo|</code> のようにバーティカルバーで括ると文字の大小を維持したまま表示されます（<a href='#0EEfXZqu18P'>Figure.4-37</a> のコードを参照）。</p>
 <h4><a name='3qNm5uHdKTZ'></a>4.15.1 with-table-cell を使ったセル内描画</h4>
-<p>　table の id とセルの行・列番号を指定して <a class='autolink' href='#8rELk1LL2bC'>with-table-cell マクロ</a>を使用することで、該当するセルを<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>とした描画ができます。</p>
-<pre class='code'>
-(<span class='keyword1'>defmacro</span> <span class='keyword5'>with-table-cell</span> ((id r c) &amp;body body) ...)
-</pre>
-<p>　以下の例では、2 x 2 の空の<a class='autolink' href='#g6xjP526KX7'>テーブル</a>を作成し、そのうちの２つのセル内部に図形を描画しています。</p>
+<p>　table の id とセルの行・列番号を指定して <a class='autolink' href='#8rELk1LL2bC'>with-table-cell マクロ</a>を使用することで、該当するセルを<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>とした描画ができます。以下の例では、2 x 2 の空の<a class='autolink' href='#g6xjP526KX7'>テーブル</a>を作成し、そのうちの２つのセル内部に図形を描画しています。</p>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='220' height='220'>
@@ -3243,14 +3239,10 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
     (with-table-cell (<span class='keyword3'>:tbl</span> 0 1)
       (rect canvas.center 50 50 <span class='keyword3'>:fill</span> <span class='keyword3'>:lightpink</span> <span class='keyword3'>:stroke</span> <span class='keyword3'>:red</span> <span class='keyword3'>:rotate</span> 45)))
 </pre>
-<p>　<a class='autolink' href='#8rELk1LL2bC'>with-table-cell マクロ</a>は事実上、指定した<a class='autolink' href='#g6xjP526KX7'>テーブル</a>の指定セル領域を指定した with-subcanvas として機能します。そのため、 <code>canvas</code> を使ってその中心座標や幅、高さ情報にアクセスできます。</p>
+<p>　<a class='autolink' href='#8rELk1LL2bC'>with-table-cell マクロ</a>は事実上、<a class='autolink' href='#g6xjP526KX7'>テーブル</a>の単一セル領域を指定した <a class='autolink' href='#5cY34BaMQhr'>with-subcanvas マクロ</a>として機能します。そのため、 <code>canvas</code> を使ってその中心座標や幅、高さ情報にアクセスできます。</p>
 <p>　　</p>
 <h4><a name='2sVUYL4zgkO'></a>4.15.2 with-table-range を使った範囲取得</h4>
-<p>　<a class='autolink' href='#8n9SABCEJKZ'>with-table-range マクロ</a>を使用することで、<a class='autolink' href='#g6xjP526KX7'>テーブル</a>の一部の領域を<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>として取得することができます。以下のように、<a class='autolink' href='#g6xjP526KX7'>テーブル</a>の ID と範囲を指定します。範囲は、 <code>fills</code> パラメータと同じ形式のキーワードで指定します。</p>
-<pre class='code'>
-(<span class='keyword1'>defmacro</span> <span class='keyword5'>with-table-range</span> ((id range) &amp;body body) ...)
-</pre>
-<p>　以下の例では、4 x 5 の<a class='autolink' href='#g6xjP526KX7'>テーブル</a>を作成し、その一部をマスクするために <a class='autolink' href='#8n9SABCEJKZ'>with-table-range マクロ</a>を使用しています。</p>
+<p>　<a class='autolink' href='#8n9SABCEJKZ'>with-table-range マクロ</a>を使用することで、<a class='autolink' href='#g6xjP526KX7'>テーブル</a>内の指定範囲を<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>として取得することができます。範囲は、 <code>fills</code> パラメータと同じ形式のキーワードで指定します。以下の例では、4 x 5 の<a class='autolink' href='#g6xjP526KX7'>テーブル</a>を作成し、その一部をマスクするために <a class='autolink' href='#8n9SABCEJKZ'>with-table-range マクロ</a>を使用しています。</p>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='100'>
@@ -3299,7 +3291,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
           <span class='keyword3'>:stroke</span> <span class='keyword3'>:none</span> <span class='keyword3'>:fill</span> '(<span class='keyword3'>:color</span> <span class='keyword3'>:lightgray</span> <span class='keyword3'>:opacity</span> 0.8))
     (brace (x+ canvas.right 10) <span class='keyword3'>:left</span> 10 canvas.height <span class='keyword3'>:r</span> 3 <span class='keyword3'>:text</span> <span class='literal'>"masked"</span>)))
 </pre>
-<p>　<a class='autolink' href='#8n9SABCEJKZ'>with-table-range マクロ</a>は事実上、指定した<a class='autolink' href='#g6xjP526KX7'>テーブル</a>の指定領域を指定した with-subcanvas として機能します。そのため、 <code>canvas</code> を使ってその中心座標や幅、高さ情報にアクセスできます。</p>
+<p>　<a class='autolink' href='#8n9SABCEJKZ'>with-table-range マクロ</a>は事実上、<a class='autolink' href='#g6xjP526KX7'>テーブル</a>の指定領域を指定した <a class='autolink' href='#5cY34BaMQhr'>with-subcanvas マクロ</a>として機能します。そのため、 <code>canvas</code> を使ってその中心座標や幅、高さ情報にアクセスできます。</p>
 <p>　　</p>
 <h2><a name='gz7soCOOkJW'></a>5 その他の図形要素</h2>
 <p>　ほしい図形要素がなければ、手間はかかりますが<a class='autolink' href='#4qgt62QVDZl'>パス</a>を使って実現できるかもしれません。図面の中に写真などのラスタ画像を含めることもできます。あるいは、kaavio がサポートしていない SVG の機能を利用したければ生の SVG コードを挿入することもできます<sup><a name='footnote_ref6' href='#footnote6'>6</a></sup>。</p>
@@ -4162,13 +4154,13 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p>　<a class='autolink' href='#8X1qKGWyF0t'>image マクロ</a>のパラメータ詳細は <a href='#8X1qKGWyF0t'>13.1.27  節</a>を参照してください。オプションのパラメータ <code>width</code> または <code>height</code> のどちらかを指定した場合、画像ファイルの縦横比（アスペクト比）を維持した状態で指定サイズで表示します。 <code>width</code> と <code>height</code> の両方を指定した場合、縦横比の維持は保証されず、指定されたサイズで表示します。</p>
 <p>　　</p>
 <h3><a name='cNmjD3OiTOH'></a>5.3 生の SVG コード片の挿入</h3>
-<p>　<a class='autolink' href='#44CYyox6BTR'>raw-svg マクロ</a>を使うことで、kaavio が生成する SVG 画像の中に任意の SVG コード片を挿入することができます。サンプルとしては雑ですが、以下のようにすれば、</p>
+<p>　<a class='autolink' href='#44CYyox6BTR'>raw-svg マクロ</a>によって、図面の中に任意の SVG コード片を挿入することができます。サンプルとしては雑ですが、以下のようにすれば、</p>
 <pre class='code'>
 (diagram (200 100)
   (grid)
   (raw-svg <span class='literal'>"&lt;rect x='50' y='25' width='100' height='50' fill='linen' stroke='brown' stroke-width='1' /&gt;"</span>))
 </pre>
-<p>　文字列として raw-svg に渡したコード片がそのまま挿入されます。</p>
+<p>　文字列として raw-svg に渡したコード片がそのまま挿入されます。パラメータの詳細については <a class='autolink' href='#44CYyox6BTR'>raw-svg マクロ</a>を参照してください。</p>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='200' height='100'>
@@ -4186,11 +4178,6 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </div>
 
 <p class='fig_title'><a name='f0G61WmPR5j'></a>Figure.5-17 raw-svg のサンプル</p>
-<p>　　</p>
-<p>　<a class='autolink' href='#44CYyox6BTR'>raw-svg マクロ</a>のパラメータ構成は以下の通りです。文字列として渡す <code>svgdata</code> パラメータの他に、名前付きパラメータとして <code>layer</code> を取ります。詳細は「<a href='#1ovJxG7Ie9O'>11.8  レイヤー</a>」を参照してください。</p>
-<pre class='code'>
-(<span class='keyword1'>defmacro</span> <span class='keyword5'>raw-svg</span> (svgdata <span class='keyword2'>&amp;key</span> (layer nil)) ...)
-</pre>
 <p>　　</p>
 <h2><a name='h1RNMQY1C0b'></a>6 座標と位置</h2>
 <p>　kaavio では、座標系は左上端を原点としており、水平右方向に x 軸、垂直下方向に y 軸となっています。また、角度は時計回りになります。</p>
@@ -4252,7 +4239,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </details>
 <p>　　</p>
 <p>　kaavio データの中で座標を指定する方法にはいくつかあります。以下に説明します。</p>
-<p>　具体的な数値で座標を指定する場合、 <code>'(x y)</code> の要領で指定します。つまり、 <code>'(50 100)</code> といった指定です。これは即値で座標を指定する場合の書き方ですが、Common LISP の変数に格納した数値から座標を作成したい場合は <a class='autolink' href='#2S1kQeXPgCc'>make-point 関数</a>が使えます。これは <code>(make-point x y)</code> の要領で使用してください<sup><a name='footnote_ref8' href='#footnote8'>8</a></sup>。</p>
+<p>　具体的な数値で座標を指定する場合、 <code>'(50 100)</code> といった要領で指定します。これは即値で座標を指定する場合の書き方ですが、Common LISP の変数に格納した数値から座標を作成したい場合は <a class='autolink' href='#2S1kQeXPgCc'>make-point 関数</a>が使えます。これは <code>(make-point x y)</code> の要領で使用してください<sup><a name='footnote_ref8' href='#footnote8'>8</a></sup>。</p>
 <p>　具体的な数値を指定するのでなく、「すでに登場した要素の属性を利用して位置を指定する」こともできます。<a href='#9LLncE6hWlx'>2  章</a>の 2 つめのサンプルでは、 <code>app.center</code> や <code>in.right</code> という表記が登場しました。これは、図形要素を記述する際に指定した ID を使ってその中心座標などを参照するものです。幅や高さを持つ図形要素では９種類あり、その名前と具体的な場所は以下の通りです<sup><a name='footnote_ref9' href='#footnote9'>9</a></sup>。図では <code>topleft(tl)</code> などの記載がありますが、括弧内の <code>tl</code> は簡略記法で、 <code>foo.topleft</code> を <code>foo.tl</code> と書くこともできることを意味しています。</p>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
@@ -4376,8 +4363,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p>　なお、 <code>(x- app.cc 100)</code> とは書けません。 <code>(x+ app.cc -100)</code> としてください。</p>
 <p>　　</p>
 <h2><a name='kgs1vf3AbTN'></a>7 サブキャンバス</h2>
-<p>　<a href='#h1RNMQY1C0b'>前節</a>では、座標指定のための ID 名として <code>canvas</code> を指定すると作成中の図全体の領域を指定できると説明しました。kaavio では、これを<a class='autolink' href='#kgs1vf3AbTN'>キャンバス</a>と読んでいますが、その一部を独立した<a class='autolink' href='#kgs1vf3AbTN'>キャンバス</a>として描画を行うことができます。これを<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>と呼びます。</p>
-<p>　<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>を使う方法のひとつは、<a class='autolink' href='#5cY34BaMQhr'>with-subcanvas マクロ</a>を使うことです。左上の座標と与えることで、その部分領域の左上を原点とする新しい座標系が作成されます。以下に簡単な例を示します。</p>
+<p>　<a href='#h1RNMQY1C0b'>6  章</a>では、座標指定のための ID 名として <code>canvas</code> を指定すると作成中の図全体の領域を指定できると説明しました。kaavio では、これを<a class='autolink' href='#kgs1vf3AbTN'>キャンバス</a>と読んでいますが、その一部を独立した<a class='autolink' href='#kgs1vf3AbTN'>キャンバス</a>として描画を行うことができます。これを<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>と呼びます。</p>
+<p>　<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>を使う方法のひとつは、<a class='autolink' href='#5cY34BaMQhr'>with-subcanvas マクロ</a>を使うことです。左上の座標と幅・高さを与えることで、その部分領域の左上を原点とする新しい座標系が作成されます。以下に簡単な例を示します。</p>
 <pre class='code'>
 (diagram (300 150)
   (grid)
@@ -4386,7 +4373,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
     (rect canvas.center canvas.width canvas.height <span class='keyword3'>:stroke</span> <span class='keyword3'>:gray</span> <span class='keyword3'>:fill</span> <span class='keyword3'>:none</span>)
     (circle '(50 50) 20 <span class='keyword3'>:stroke</span> <span class='keyword3'>:navy</span> <span class='keyword3'>:fill</span> <span class='keyword3'>:skyblue</span>)))
 </pre>
-<p>　上記のコードを kaavio にかけると以下が生成されます。2 回登場する circle は座標と半径が同じ <code>'(50 50) 20</code> で指定されていますが、実際に描画された場所は異なっています。これは、後者の（青い方の）circle が <a class='autolink' href='#5cY34BaMQhr'>with-subcanvas マクロ</a>の配下にあるためで、この<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>の実際の領域は rect で示されています。</p>
+<p>　上記のコードを kaavio に通すと以下が生成されます。2 回登場する circle は座標と半径が同じ <code>'(50 50) 20</code> で指定されていますが、実際に描画された場所は異なっています。これは、後者の（青い方の）circle が <a class='autolink' href='#5cY34BaMQhr'>with-subcanvas マクロ</a>の配下にあるためで、この<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>の実際の領域は rect で示されています。</p>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='150'>
@@ -4408,6 +4395,9 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </div>
 
 <p class='fig_title'><a name='kV8JVeAiwLR'></a>Figure.7-1 サブキャンバスのサンプル</p>
+<ul>
+<li><span style='background:red;color:white;'>ToDo : レビュー作業、イマココ</span></li>
+</ul>
 <p>　<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>は入力データの一部分で独自の座標系を一時的に作成するもので、それ以外の効果はありません。たとえば、描画順序を制御する<a class='autolink' href='#1ovJxG7Ie9O'>レイヤー</a>とは無関係です<sup><a name='footnote_ref11' href='#footnote11'>11</a></sup>。</p>
 <p>　<a class='autolink' href='#5cY34BaMQhr'>with-subcanvas マクロ</a>で明示的に<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>を作成するのでなく、作成した図形要素の内部を<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>とすることもできます。これには、 <code>:contents</code> パラメータを使用します。たとえば、先程の例と同じ作図をするには以下のように書きます。この場合、先程とは違って rect の中に circle が置かれることになります（rect が動けば circle も動く）。</p>
 <pre class='code'>
@@ -9143,54 +9133,46 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
 <h4><a name='drHcyK8ztR6'></a>13.1.14 macro defgradient</h4>
-<p>　<a class='autolink' href='#drHcyK8ztR6'>defgradient マクロ</a>は<a class='autolink' href='#4p1J7EWjD3m'>グラデーション</a>を定義します。<a class='autolink' href='#4p1J7EWjD3m'>グラデーション</a>の詳細は「<a href='#4p1J7EWjD3m'>9.2  グラデーション</a>」を参照してください。説明不足ですが、基本的に SVG 規格に沿っていますので必要に応じて書籍や規格にあたってください。マクロシグネチャは以下の通りです。</p>
 <p><strong>Syntax:</strong></p>
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>defgradient</span> (type id <span style='color:navy;'>&rest</span> params) <span style='color:navy;'>&rest</span> stops</li>
 </ul>
+<p><strong>Arguments and Values:</strong></p>
+<ul>
+<li><code>type</code> ---- <a class='autolink' href='#4p1J7EWjD3m'>グラデーション</a>の種類を <code>:linear</code> または <code>:radial</code> から選択します。</li>
+<li><code>id</code> ---- ID をキーワードで指定します。</li>
+<li><code>params</code> ---- <a class='autolink' href='#4p1J7EWjD3m'>グラデーション</a>の付加パラメータを指定します。 <code>type</code> により異なるため後述します。</li>
+<li><code>stops</code> ---- <a class='autolink' href='#4p1J7EWjD3m'>グラデーション</a>ストップをリストで指定します。詳細は <a href='#4p1J7EWjD3m'>9.2  節</a>を参照してください。後述する <code>href</code> パラメータで他の定義を参照する場合は指定する必要はありません。</li>
+</ul>
 <p><strong>Description:</strong></p>
-<p>　　</p>
-<p class='tbl_title'><a name='l8ZKPnackNk'></a>Table.13-1 defgradient マクロのパラメータ</p>
-<table align='center'>
-<tr><th>parameter</th><th>description</th></tr>
-<tr><td nowrap align='left'><code>type</code></td><td align='left'><a class='autolink' href='#4p1J7EWjD3m'>グラデーション</a>の種類を <code>:linear</code> または <code>:radial</code> から選択します。</td></tr>
-<tr><td nowrap align='left'><code>id</code></td><td align='left'>ID をキーワードで指定します。</td></tr>
-<tr><td nowrap align='left'><code>params</code></td><td align='left'><a class='autolink' href='#4p1J7EWjD3m'>グラデーション</a>の付加パラメータを指定します。 <code>type</code> により異なるため後述します。</td></tr>
-<tr><td nowrap align='left'><code>stops</code></td><td align='left'><a class='autolink' href='#4p1J7EWjD3m'>グラデーション</a>ストップをリストで指定します。詳細は「<a href='#4p1J7EWjD3m'>9.2  グラデーション</a>」<br>を参照してください。後述する <code>href</code> パラメータで他の定義を参照する場合は<br>指定する必要はありません。</td></tr>
-</table>
-<p>　　</p>
+<p>　与えられたパラメータで<a class='autolink' href='#4p1J7EWjD3m'>グラデーション</a>を定義します。<a class='autolink' href='#4p1J7EWjD3m'>グラデーション</a>の詳細は <a href='#4p1J7EWjD3m'>9.2  節</a>を参照してください。説明不足ですが、基本的に SVG 規格に沿っていますので必要に応じて書籍や規格にあたってください。</p>
 <p>　<code>params</code> は<a class='autolink' href='#4p1J7EWjD3m'>グラデーション</a>の種類（linear/radial）によって異なりますが、いずれの場合でも名前付きパラメータとして扱われます。まず、共通のパラメータを以下に示します。</p>
-<p class='tbl_title'><a name='75EaQ9VoQov'></a>Table.13-2 defgradient マクロの付加パラメータ（linear/radial 共通）</p>
-<table align='center'>
-<tr><th>parameter</th><th>description</th></tr>
-<tr><td nowrap align='left'><code>href</code></td><td align='left'>他の<a class='autolink' href='#4p1J7EWjD3m'>グラデーション</a>定義を参照する場合、その ID をキーワードで指定します。</td></tr>
-<tr><td nowrap align='left'><code>units</code></td><td align='left'>patternUnits 属性を <code>:userSpaceOnUse</code> または <code>:objectBoundingBox</code> から<br>選択します。</td></tr>
-<tr><td nowrap align='left'><code>spread</code></td><td align='left'>spreadMethod 属性を指定する場合、 <code>:pad :repeat :reflect</code> から選択します。</td></tr>
-<tr><td nowrap align='left'><code>transform</code></td><td align='left'>gradientTtransform 属性を指定する場合、文字列で指定します。</td></tr>
-</table>
+<ul>
+<li><code>href</code> ---- 他の<a class='autolink' href='#4p1J7EWjD3m'>グラデーション</a>定義を参照する場合、その ID をキーワードで指定します。</li>
+<li><code>units</code> ---- patternUnits 属性を <code>:userSpaceOnUse</code> または <code>:objectBoundingBox</code> から選択します。</li>
+<li><code>spread</code> ---- spreadMethod 属性を指定する場合、 <code>:pad :repeat :reflect</code> から選択します。</li>
+<li><code>transform</code> ---- gradientTtransform 属性を指定する場合、文字列で指定します。</li>
+</ul>
 <p>　　</p>
 <p>　線型<a class='autolink' href='#4p1J7EWjD3m'>グラデーション</a>特有の付加パラメータは以下の通りです。</p>
-<p class='tbl_title'><a name='7B7qYLtcQVS'></a>Table.13-3 defgradient マクロの付加パラメータ（linear）</p>
-<table align='center'>
-<tr><th>parameter</th><th>description</th></tr>
-<tr><td nowrap align='left'><code>x1</code></td><td align='left'>x1 属性を指定する場合、数値または文字列で指定します。</td></tr>
-<tr><td nowrap align='left'><code>y1</code></td><td align='left'>y1 属性を指定する場合、数値または文字列で指定します。</td></tr>
-<tr><td nowrap align='left'><code>x2</code></td><td align='left'>x2 属性を指定する場合、数値または文字列で指定します。</td></tr>
-<tr><td nowrap align='left'><code>y2</code></td><td align='left'>y2 属性を指定する場合、数値または文字列で指定します。</td></tr>
-</table>
-<p>　　</p>
+<ul>
+<li><code>x1</code> ---- x1 属性を指定する場合、数値または文字列で指定します。</li>
+<li><code>y1</code> ---- y1 属性を指定する場合、数値または文字列で指定します。</li>
+<li><code>x2</code> ---- x2 属性を指定する場合、数値または文字列で指定します。</li>
+<li><code>y2</code> ---- y2 属性を指定する場合、数値または文字列で指定します。</li>
+</ul>
 <p>　円形<a class='autolink' href='#4p1J7EWjD3m'>グラデーション</a>特有の付加パラメータは以下の通りです。</p>
-<p class='tbl_title'><a name='bRsr41rCkR5'></a>Table.13-4 defgradient マクロの付加パラメータ（radial）</p>
-<table align='center'>
-<tr><th>parameter</th><th>description</th></tr>
-<tr><td nowrap align='left'><code>cx</code></td><td align='left'>cx 属性を指定する場合、数値または文字列で指定します。</td></tr>
-<tr><td nowrap align='left'><code>cy</code></td><td align='left'>cy 属性を指定する場合、数値または文字列で指定します。</td></tr>
-<tr><td nowrap align='left'><code>fx</code></td><td align='left'>fx 属性を指定する場合、数値または文字列で指定します。</td></tr>
-<tr><td nowrap align='left'><code>fy</code></td><td align='left'>fy 属性を指定する場合、数値または文字列で指定します。</td></tr>
-<tr><td nowrap align='left'><code>radius</code></td><td align='left'>r 属性を指定する場合、数値または文字列で指定します。</td></tr>
-</table>
-<p>　　</p>
-<p><strong>See Also:</strong> None.</p>
+<ul>
+<li><code>cx</code> ---- cx 属性を指定する場合、数値または文字列で指定します。</li>
+<li><code>cy</code> ---- cy 属性を指定する場合、数値または文字列で指定します。</li>
+<li><code>fx</code> ---- fx 属性を指定する場合、数値または文字列で指定します。</li>
+<li><code>fy</code> ---- fy 属性を指定する場合、数値または文字列で指定します。</li>
+<li><code>radius</code> ---- r 属性を指定する場合、数値または文字列で指定します。</li>
+</ul>
+<p><strong>See Also:</strong></p>
+<ul>
+<li><a href='#4p1J7EWjD3m'>9.2  グラデーション</a></li>
+</ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
 <h4><a name='5hmH4Z1JfiN'></a>13.1.15 macro defgroup</h4>
@@ -9220,26 +9202,27 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>defpattern</span> (id <span style='color:navy;'>&key</span> x y width height href units content-units view-box transform) <span style='color:navy;'>&body</span> body</li>
 </ul>
+<p><strong>Arguments and Values:</strong></p>
+<ul>
+<li><code>id</code> ---- ID をキーワードで指定します。</li>
+<li><code>x</code> ---- <span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></li>
+<li><code>y</code> ---- <span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></li>
+<li><code>width</code> ---- 幅を数値で指定します。</li>
+<li><code>height</code> ---- 高さを数値で指定します。</li>
+<li><code>href</code> ---- <span style='background:red;color:white;'>ToDo : まだ記述されていません。</span></li>
+<li><code>units</code> ---- patternUnits 属性を <code>:userSpaceOnUse</code> または <code>:objectBoundingBox</code> から選択します。</li>
+<li><code>content-units</code> ---- patternContentUnits 属性を <code>:userSpaceOnUse</code> または <code>:objectBoundingBox</code> から選択します。</li>
+<li><code>view-box</code> ---- viewBox 属性を 4 つの数値からなるリストで指定します。</li>
+<li><code>transform</code> ---- patternTtransform 属性を指定する場合、文字列で指定します。</li>
+</ul>
 <p><strong>Description:</strong></p>
-<p>　<a class='autolink' href='#c7I5kIEPU49'>defpattern マクロ</a>は<a class='autolink' href='#dmYFJAv81Kl'>パターン</a>を定義します。<a class='autolink' href='#dmYFJAv81Kl'>パターン</a>の詳細は「<a href='#dmYFJAv81Kl'>9.1  パターン</a>」を参照してください。説明不足ですが、基本的に SVG 規格に沿っていますので必要に応じて書籍や規格にあたってください。マクロシグネチャは以下の通りです。なお、現在、preserveAspectRatio 属性には対応していません。将来対応する可能性はありますが、未確定です。</p>
-<p>　　</p>
-<p class='tbl_title'><a name='43tbSrg0HB4'></a>Table.13-5 defpattern マクロのパラメータ</p>
-<table align='center'>
-<tr><th>parameter</th><th>description</th></tr>
-<tr><td nowrap align='left'><code>id</code></td><td align='left'>ID をキーワードで指定します。</td></tr>
-<tr><td nowrap align='left'><code>x</code></td><td align='left'></td></tr>
-<tr><td nowrap align='left'><code>y</code></td><td align='left'></td></tr>
-<tr><td nowrap align='left'><code>width</code></td><td align='left'>幅を数値で指定します。</td></tr>
-<tr><td nowrap align='left'><code>height</code></td><td align='left'>高さを数値で指定します。</td></tr>
-<tr><td nowrap align='left'><code>href</code></td><td align='left'>高さを数値で指定します。</td></tr>
-<tr><td nowrap align='left'><code>units</code></td><td align='left'>patternUnits 属性を <code>:userSpaceOnUse</code> または <code>:objectBoundingBox</code> から<br>選択します。</td></tr>
-<tr><td nowrap align='left'><code>content-units</code></td><td align='left'>patternContentUnits 属性を <code>:userSpaceOnUse</code> または <code>:objectBoundingBox</code> <br>から選択します。</td></tr>
-<tr><td nowrap align='left'><code>view-box</code></td><td align='left'>viewBox 属性を 4 つの数値からなるリストで指定します。</td></tr>
-<tr><td nowrap align='left'><code>transform</code></td><td align='left'>patternTtransform 属性を指定する場合、文字列で指定します。</td></tr>
-</table>
-<p>　　</p>
-<p><strong>See Also:</strong> None.</p>
-<p><strong>Notes:</strong> None.</p>
+<p>　与えられたパラメータで<a class='autolink' href='#dmYFJAv81Kl'>パターン</a>を定義します。<a class='autolink' href='#dmYFJAv81Kl'>パターン</a>の詳細は「<a href='#dmYFJAv81Kl'>9.1  節</a>」を参照してください。説明不足ですが、基本的に SVG 規格に沿っていますので必要に応じて書籍や規格にあたってください。</p>
+<p><strong>See Also:</strong></p>
+<ul>
+<li><a href='#dmYFJAv81Kl'>9.1  パターン</a></li>
+</ul>
+<p><strong>Notes:</strong></p>
+<p>　現在、 <code>preserveAspectRatio</code> 属性には対応していません。将来対応する可能性はありますが、未確定です。</p>
 <p>　　</p>
 <h4><a name='3dkLpAyOj5o'></a>13.1.17 macro diagram</h4>
 <p><strong>Syntax:</strong></p>
@@ -9322,23 +9305,24 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
 <h4><a name='4L4hGTnCpBr'></a>13.1.20 macro drop-shadow</h4>
-<p>　生成画像にドロップシャドウを導入します。詳細は SVG 規格を参照してください。</p>
 <p><strong>Syntax:</strong></p>
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>drop-shadow</span> <span style='color:navy;'>&key</span> id color-matrix deviation dx dy</li>
 </ul>
+<p><strong>Arguments and Values:</strong></p>
+<ul>
+<li><code>id</code> ---- ID をキーワードで指定します。省略した場合のデフォルト値は <code>:drop-shadow</code> です。</li>
+<li><code>color-matrix</code> ---- <code>&lt;feColorMatrix&gt;</code> の values 値を数値のリストで指定します。詳細は SVG 規格を参照してください。省略した場合のデフォルト値は <code>'(0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.4 0)</code> です。</li>
+<li><code>deviation</code> ---- <code>&lt;feGaussianBlur&gt;</code> における <code>stdDeviation</code> 値を指定します。詳細は SVG 規格を参照してください。省略した場合のデフォルト値は 2 です。</li>
+<li><code>dx</code> ---- <code>&lt;feOffset&gt;</code> における <code>dx</code> 値を指定します。詳細は SVG 規格を参照してください。省略した場合のデフォルト値は 4 です。</li>
+<li><code>dy</code> ---- <code>&lt;feOffset&gt;</code> における <code>dy</code> 値を指定します。詳細は SVG 規格を参照してください。省略した場合のデフォルト値は 4 です。</li>
+</ul>
 <p><strong>Description:</strong></p>
-<p>　　</p>
-<p class='tbl_title'><a name='98FSocmF926'></a>Table.13-6 drop-shadow マクロのパラメータ</p>
-<table align='center'>
-<tr><th>parameter</th><th>description</th></tr>
-<tr><td nowrap align='left'><code>id</code></td><td align='left'>ID をキーワードで指定します。省略した場合のデフォルト値は <code>:drop-shadow</code> です。</td></tr>
-<tr><td nowrap align='left'><code>color-matrix</code></td><td align='left'><code>&lt;feColorMatrix&gt;</code> の values 値を数値のリストで指定します。詳細は SVG 規格を参照してください。省略した場合のデフォルト値は <code>'(0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.4 0)</code> です。</td></tr>
-<tr><td nowrap align='left'><code>deviation</code></td><td align='left'><code>&lt;feGaussianBlur&gt;</code> における <code>stdDeviation</code> 値を指定します。詳細は SVG 規格を参照してください。省略した場合のデフォルト値は 2 です。</td></tr>
-<tr><td nowrap align='left'><code>dx, dy</code></td><td align='left'><code>&lt;feOffset&gt;</code> における <code>dx</code> および <code>dy</code> 値を指定します。詳細は SVG 規格を参照してください。省略した場合のデフォルト値は 4 です。</td></tr>
-</table>
-<p>　　</p>
-<p><strong>See Also:</strong> None.</p>
+<p>　生成画像にドロップシャドウを導入します。詳細は SVG 規格を参照してください。</p>
+<p><strong>See Also:</strong></p>
+<ul>
+<li><a href='#gPGlqSbIfdL'>11.7  フィルタ</a></li>
+</ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
 <h4><a name='hsg6m1zvfoj'></a>13.1.21 macro ellipse</h4>
@@ -9470,22 +9454,22 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
 <h4><a name='9Uh7JdQfISi'></a>13.1.25 macro glow-shadow</h4>
-<p>　生成画像にグローシャドウを導入します。詳細は SVG 規格を参照してください。</p>
 <p><strong>Syntax:</strong></p>
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>glow-shadow</span> <span style='color:navy;'>&key</span> id color-matrix deviation</li>
 </ul>
+<p><strong>Arguments and Values:</strong></p>
+<ul>
+<li><code>id</code> ---- ID をキーワードで指定します。省略した場合のデフォルト値は <code>:glow-shadow</code> です。</li>
+<li><code>color-matrix</code> ---- <code>&lt;feColorMatrix&gt;</code> の values 値を数値のリストで指定します。詳細は SVG 規格を参照してください。省略した場合のデフォルト値は <code>'(0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0)</code> です。</li>
+<li><code>deviation</code> ---- <code>&lt;feGaussianBlur&gt;</code> における <code>stdDeviation</code> 値を指定します。詳細は SVG 規格を参照してください。省略した場合のデフォルト値は 3 です。</li>
+</ul>
 <p><strong>Description:</strong></p>
-<p>　　</p>
-<p class='tbl_title'><a name='8OxjHEdW6gK'></a>Table.13-7 glow-shadow マクロのパラメータ</p>
-<table align='center'>
-<tr><th>parameter</th><th>description</th></tr>
-<tr><td nowrap align='left'><code>id</code></td><td align='left'>ID をキーワードで指定します。省略した場合のデフォルト値は <code>:glow-shadow</code> です。</td></tr>
-<tr><td nowrap align='left'><code>color-matrix</code></td><td align='left'><code>&lt;feColorMatrix&gt;</code> の values 値を数値のリストで指定します。詳細は SVG 規格を参照してください。省略した場合のデフォルト値は <code>'(0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0)</code> です。</td></tr>
-<tr><td nowrap align='left'><code>deviation</code></td><td align='left'><code>&lt;feGaussianBlur&gt;</code> における <code>stdDeviation</code> 値を指定します。詳細は SVG 規格を参照してください。省略した場合のデフォルト値は 3 です。</td></tr>
-</table>
-<p>　　</p>
-<p><strong>See Also:</strong> None.</p>
+<p>　生成画像にグローシャドウを導入します。詳細は SVG 規格を参照してください。</p>
+<p><strong>See Also:</strong></p>
+<ul>
+<li><a href='#gPGlqSbIfdL'>11.7  フィルタ</a></li>
+</ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
 <h4><a name='2MPHhIhTRRr'></a>13.1.26 macro grid</h4>
@@ -10554,7 +10538,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p><strong>Arguments and Values:</strong></p>
 <ul>
 <li><code>position</code> ---- 描画する<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>の基準点を指定します。詳細は「<a href='#h1RNMQY1C0b'>6  座標と位置</a>」を参照してください。</li>
-<li><code>text</code> ---- 描画する<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>を文字列で指定します。                                                |</li>
+<li><code>text</code> ---- 描画する<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>を文字列で指定します。</li>
 <li><code>align</code> ---- <a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>のアライメントを <code>:left :center :right</code> のいずれかで指定します。省略した場合のデフォルト値は <code>:left</code> です。</li>
 <li><code>font</code> ---- <a class='autolink' href='#3kZ9FkounyK'>フォント</a>を指定します。</li>
 <li><code>link</code> ---- <a class='autolink' href='#fbLcMRTVXac'>リンク</a>にする場合、<a class='autolink' href='#fbLcMRTVXac'>リンク</a>先を指定します。</li>
@@ -14449,13 +14433,6 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <ul>
 <li><a href='#f7wEYjGUqWE'>Table.5-1 path の data で使用できるディレクティブ</a></li>
 <li><a href='#ju0HQrRY8oT'>Table.11-1 ID 指定で参照できる属性の一覧</a></li>
-<li><a href='#l8ZKPnackNk'>Table.13-1 defgradient マクロのパラメータ</a></li>
-<li><a href='#75EaQ9VoQov'>Table.13-2 defgradient マクロの付加パラメータ（linear/radial 共通）</a></li>
-<li><a href='#7B7qYLtcQVS'>Table.13-3 defgradient マクロの付加パラメータ（linear）</a></li>
-<li><a href='#bRsr41rCkR5'>Table.13-4 defgradient マクロの付加パラメータ（radial）</a></li>
-<li><a href='#43tbSrg0HB4'>Table.13-5 defpattern マクロのパラメータ</a></li>
-<li><a href='#98FSocmF926'>Table.13-6 drop-shadow マクロのパラメータ</a></li>
-<li><a href='#8OxjHEdW6gK'>Table.13-7 glow-shadow マクロのパラメータ</a></li>
 </ul>
 <p>　　</p>
 <h2><a name='1ewHzjI62xn'></a>16 索引</h2>
@@ -14812,7 +14789,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p class='footnote'><a name='footnote5' href='#footnote_ref5'>5</a> : 不格好に見えるかもしれませんが、Microsoft Word の図形要素をトレースして作っています。そこそこの再現度のはず。</p>
 <p class='footnote'><a name='footnote6' href='#footnote_ref6'>6</a> : 生の SVG コードを挿入したとして、そしてそれが SVG 規格に完璧に適合していたとしても、お使いの（ブラウザなどの）SVG ビューワーで「正しく」表示できるかどうかは別問題だということを常に念頭に置いて作業してください。kaavio の開発では「メジャーなブラウザでサポートされていない SVG の機能を避ける」ことに大きな注意と努力が払われています。</p>
 <p class='footnote'><a name='footnote7' href='#footnote_ref7'>7</a> : このことは、kaavio が動作する時点で指定された画像ファイルが「そこにある」必要がある、ということを意味します。 <code>width, height</code> の両方が明示的に指定された場合に限り、kaavio は実際の画像サイズを調べません。</p>
-<p class='footnote'><a name='footnote8' href='#footnote_ref8'>8</a> : Lisper の方へ：ご想像通り、 <code>(list x y)</code> でも問題無いですし、バッククォートを使ってもかまいません。</p>
+<p class='footnote'><a name='footnote8' href='#footnote_ref8'>8</a> : Lisper の方へ：ご想像通り、 <code>(list x y)</code> でもいいですし、バッククォートを使ってもかまいません。</p>
 <p class='footnote'><a name='footnote9' href='#footnote_ref9'>9</a> : この他に <code>width, height</code> があって、その図形要素の幅と高さを取得することもできますが、あまり使用しません。</p>
 <p class='footnote'><a name='footnote10' href='#footnote_ref10'>10</a> : Lisper の方へ： <code>app.center</code> という記法は動的に生成する symbol-macrolet によって、また <code>(attr :app :center)</code> については macrolet によって実現しています。attr は局所関数を使って同じ<a class='autolink' href='#dmYFJAv81Kl'>パターン</a>の繰り返しを共通化する場合などに便利でしょう。</p>
 <p class='footnote'><a name='footnote11' href='#footnote_ref11'>11</a> : 現状では、<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>の描画では幅と高さによって作成される矩形で内部要素の描画をクリッピングしません。つまり、現状の<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>は実質的に原点をズラす効果しかありません。ただし、このクリッピングしないという挙動は将来変更される可能性があります。</p>

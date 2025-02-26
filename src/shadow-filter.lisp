@@ -47,35 +47,28 @@
 ;;------------------------------------------------------------------------------------- BEGIN TURNUP
 ;;#### macro drop-shadow
 ;;
-;;　生成画像にドロップシャドウを導入します。詳細は SVG 規格を参照してください。
-;;
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
 ;;* ${{B}{drop-shadow}} ${KEY} id color-matrix deviation dx dy
 ;;
-;;
 ;;<!-- stack:pop li -->
+;;
+;;${ARGS_AND_VALS}
+;;
+;;* `id` ---- ID をキーワードで指定します。省略した場合のデフォルト値は `:drop-shadow` です。
+;;* `color-matrix` ---- `<feColorMatrix>` の values 値を数値のリストで指定します。詳細は SVG 規格を参照してください。省略した場合のデフォルト値は `'(0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.4 0)` です。
+;;* `deviation` ---- `<feGaussianBlur>` における `stdDeviation` 値を指定します。詳細は SVG 規格を参照してください。省略した場合のデフォルト値は 2 です。
+;;* `dx` ---- `<feOffset>` における `dx` 値を指定します。詳細は SVG 規格を参照してください。省略した場合のデフォルト値は 4 です。
+;;* `dy` ---- `<feOffset>` における `dy` 値を指定します。詳細は SVG 規格を参照してください。省略した場合のデフォルト値は 4 です。
 ;;
 ;;${DESCRIPTION}
 ;;
-;;${BLANK_PARAGRAPH}
+;;　生成画像にドロップシャドウを導入します。詳細は SVG 規格を参照してください。
 ;;
-;;Table. drop-shadow マクロのパラメータ
-;;| parameter       | description                               |
-;;|:================|:------------------------------------------|
-;;| `id`            | ID をキーワードで指定します。省略した場合のデフォルト値は `:drop-shadow` です。 |
-;;| `color-matrix`  | `<feColorMatrix>` の values 値を数値のリストで指定します。詳細は SVG 規格を \
-;;参照してください。省略した場合のデフォルト値は `'(0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.4 0)` です。 |
-;;| `deviation`     | `<feGaussianBlur>` における `stdDeviation` 値を指定します。詳細は SVG 規格を \
-;;参照してください。省略した場合のデフォルト値は 2 です。  |
-;;| `dx, dy`        | `<feOffset>` における `dx` および `dy` 値を指定します。詳細は SVG 規格を \
-;;参照してください。省略した場合のデフォルト値は 4 です。  |
+;;${SEE_ALSO}
 ;;
-;;
-;;${BLANK_PARAGRAPH}
-;;
-;;${NO_SEE_ALSO}
+;;* [](#フィルタ)
 ;;
 ;;${NO_NOTES}
 ;;
@@ -96,8 +89,6 @@
 ;;------------------------------------------------------------------------------------- BEGIN TURNUP
 ;;#### macro glow-shadow
 ;;
-;;　生成画像にグローシャドウを導入します。詳細は SVG 規格を参照してください。
-;;
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
@@ -106,23 +97,19 @@
 ;;
 ;;<!-- stack:pop li -->
 ;;
+;;${ARGS_AND_VALS}
+;;
+;;* `id` ---- ID をキーワードで指定します。省略した場合のデフォルト値は `:glow-shadow` です。
+;;* `color-matrix` ---- `<feColorMatrix>` の values 値を数値のリストで指定します。詳細は SVG 規格を参照してください。省略した場合のデフォルト値は `'(0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0)` です。
+;;* `deviation` ---- `<feGaussianBlur>` における `stdDeviation` 値を指定します。詳細は SVG 規格を参照してください。省略した場合のデフォルト値は 3 です。
+;;
 ;;${DESCRIPTION}
 ;;
-;;${BLANK_PARAGRAPH}
+;;　生成画像にグローシャドウを導入します。詳細は SVG 規格を参照してください。
 ;;
-;;Table. glow-shadow マクロのパラメータ
-;;| parameter       | description                               |
-;;|:================|:------------------------------------------|
-;;| `id`            | ID をキーワードで指定します。省略した場合のデフォルト値は `:glow-shadow` です。 |
-;;| `color-matrix`  | `<feColorMatrix>` の values 値を数値のリストで指定します。詳細は SVG 規格を \
-;;参照してください。省略した場合のデフォルト値は `'(0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0)` です。 |
-;;| `deviation`     | `<feGaussianBlur>` における `stdDeviation` 値を指定します。詳細は SVG 規格を \
-;;参照してください。省略した場合のデフォルト値は 3 です。  |
+;;${SEE_ALSO}
 ;;
-;;
-;;${BLANK_PARAGRAPH}
-;;
-;;${NO_SEE_ALSO}
+;;* [](#フィルタ)
 ;;
 ;;${NO_NOTES}
 ;;
