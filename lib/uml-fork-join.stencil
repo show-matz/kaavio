@@ -39,9 +39,9 @@
   t)  
 
 (defmethod post-draw ((obj uml-fork-join) writer)
-  (with-slots (spec) obj
+  (with-slots (spec kaavio::clip-path) obj
     (when spec
-      (draw-label spec obj writer)))
+      (draw-label spec obj kaavio::clip-path writer)))
   (call-next-method)
 ;  (draw-canvas-frame (shape-get-subcanvas obj) writer)    ;for debug...
   nil)
@@ -77,6 +77,7 @@
                                        :height (ecase ,direction ((:h) ,gh) ((:v) ,gw))
                                        :rx 0 :ry 0 :stroke :none
                                        :fill   (or ,fill *uml-fork-join-color* *default-fill*)
+                                       :clip-path *current-clip-path*
                                        :link ,link :filter ,filter :layer ,layer :id ,id)))))
 
 
@@ -113,6 +114,7 @@
                                        :height (ecase ,direction ((:h) ,gh) ((:v) ,gw))
                                        :rx 0 :ry 0 :stroke :none
                                        :fill   (or ,fill *uml-fork-join-color* *default-fill*)
+                                       :clip-path *current-clip-path*
                                        :link ,link :filter ,filter :layer ,layer :id ,id)))))
 
 

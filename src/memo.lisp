@@ -101,24 +101,25 @@
          (height (canvas-height canvas)))
     (macrolet ((register-entity (entity)
                  `(check-and-draw-local-entity ,entity canvas writer)))
-      (with-slots (crease fill fill2 stroke filter) obj
+      (with-slots (crease fill fill2 stroke filter clip-path) obj
         ;; draw
-        (writer-write writer "<g stroke='none' "
-                             (write-when filter "filter='url(#" it ")' ") ">")
-        (writer-incr-level writer)
-        (let ((*mute-stroke* t))
-          (polygon (memo-get-points1 width height crease) :fill fill)
-          (polygon (memo-get-points2 width height crease) :fill fill2))
-        (writer-write writer "<g fill='none' "
-                             (to-property-strings stroke) ">")
-        (writer-incr-level writer)
-        (let ((*mute-stroke* t))
-          (line (memo-get-stroke-points1 width height crease))
-          (line (memo-get-stroke-points2 width height crease)))
-        (writer-decr-level writer)
-        (writer-write writer "</g>")
-        (writer-decr-level writer)
-        (writer-write writer "</g>"))))
+        (let ((*current-clip-path* clip-path))
+          (writer-write writer "<g stroke='none' "
+                        (write-when filter "filter='url(#" it ")' ") ">")
+          (writer-incr-level writer)
+          (let ((*mute-stroke* t))
+            (polygon (memo-get-points1 width height crease) :fill fill)
+            (polygon (memo-get-points2 width height crease) :fill fill2))
+          (writer-write writer "<g fill='none' "
+                        (to-property-strings stroke) ">")
+          (writer-incr-level writer)
+          (let ((*mute-stroke* t))
+            (line (memo-get-stroke-points1 width height crease))
+            (line (memo-get-stroke-points2 width height crease)))
+          (writer-decr-level writer)
+          (writer-write writer "</g>")
+          (writer-decr-level writer)
+          (writer-write writer "</g>")))))
   ;; draw text
   (call-next-method))
 
@@ -197,6 +198,7 @@
                                                                        *default-memo-fill*)
                                                    :stroke (or ,stroke *default-memo-stroke*)
                                                    :link ,link :rotate ,rotate
+                                                   :clip-path *current-clip-path*
                                                    :filter ,filter :layer ,layer :id ,id)))))
     (if (null contents)
         code

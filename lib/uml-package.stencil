@@ -35,6 +35,7 @@
    (font        :initform nil :initarg :font)        ; (or nil font-info)
    (fill        :initform nil :initarg :fill)        ; (or nil fill-info)
    (stroke      :initform nil :initarg :stroke)      ; (or nil stroke-info)
+   (clip-path   :initform nil :initarg :clip-path)   ; (or nil symbol)
    (tab-width   :initform   0)                       ; number
    (tab-height  :initform   0)                       ; number
    (tab-margin  :initform   0)))                     ; number
@@ -54,13 +55,14 @@
 (defmethod check ((pkg uml-package) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (with-slots (name keyword font fill stroke
+  (with-slots (name keyword font fill stroke clip-path
                     contents-p tab-width tab-height tab-margin) pkg
     (check-member name       :nullable nil :types (or string keyword))
     (check-object keyword    canvas dict :nullable t :class uml-keyword-info)
     (check-object font       canvas dict :nullable t :class   font-info)
     (check-object fill       canvas dict :nullable t :class   fill-info)
     (check-object stroke     canvas dict :nullable t :class stroke-info)
+    (check-member clip-path   :nullable   t :types symbol)
     (check-member tab-width   :nullable nil :types number)
     (check-member tab-height  :nullable nil :types number)
     (check-member tab-margin  :nullable nil :types number)
@@ -93,9 +95,10 @@
 (defmethod draw-group ((pkg uml-package) writer)
   (let ((canvas (group-get-canvas pkg)))
     (with-slots (name keyword contents-p font
-                      fill stroke tab-width tab-height tab-margin) pkg
+                      fill stroke clip-path tab-width tab-height tab-margin) pkg
       (let* ((width     (canvas-width  canvas))
              (height    (canvas-height canvas))
+             (kaavio:*current-clip-path* clip-path)
              (font-size (slot-value font 'kaavio::size))
              (spacing   (slot-value font 'kaavio::line-spacing)))
         (macrolet ((register-entity (entity)
@@ -115,7 +118,7 @@
                 (incf y font-size)
                 (uml-keyword-draw keyword
                                   (+ (canvas-left canvas) x)
-                                  (+ (canvas-top  canvas) y) :center font writer)
+                                  (+ (canvas-top  canvas) y) :center font clip-path writer)
                 (incf y spacing))
               (dolist (name names)
                 (incf y font-size)
@@ -160,6 +163,7 @@
                                                :name ,name :keyword ,keyword
                                                :contents-p ,contents-p
                                                :font ,font :fill ,fill :stroke ,stroke
+                                               :clip-path *current-clip-path*
                                                :link ,link :layer ,layer :id ,id))))
     (if (null contents)
         code

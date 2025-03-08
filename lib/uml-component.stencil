@@ -24,6 +24,7 @@
    (font        :initform nil :initarg :font)           ; (or nil font-info)
    (fill        :initform nil :initarg :fill)           ; (or nil fill-info)
    (stroke      :initform nil :initarg :stroke)         ; (or nil stroke-info)
+   (clip-path   :initform nil :initarg :clip-path)      ; (or nil symbol)
    (iconsize    :initform   0 :initarg :iconsize)       ; number
    (iconoffset  :initform   0 :initarg :iconoffset)))   ; number
 
@@ -39,12 +40,13 @@
 (defmethod check ((cmp uml-component) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (with-slots (name keyword font fill stroke iconsize iconoffset) cmp 
+  (with-slots (name keyword font fill stroke clip-path iconsize iconoffset) cmp 
     (check-member name     :nullable nil :types (or string keyword))
     (check-object keyword  canvas dict :nullable t :class uml-keyword-info)
     (check-object font     canvas dict :nullable t :class   font-info)
     (check-object fill     canvas dict :nullable t :class   fill-info)
     (check-object stroke   canvas dict :nullable t :class stroke-info)
+    (check-member clip-path  :nullable t :types symbol)
     (check-member iconsize   :nullable t :types number)
     (check-member iconoffset :nullable t :types number))
   nil)
@@ -61,11 +63,12 @@
 (defmethod draw-group ((cmp uml-component) writer)
   (let ((canvas (group-get-canvas cmp)))
     (with-slots (name keyword contents-p
-                      font fill stroke iconsize iconoffset) cmp
+                      font fill stroke clip-path iconsize iconoffset) cmp
       (let* ((width     (canvas-width  canvas))
              (height    (canvas-height canvas))
              (x         (/ width  2))
              (y         (/ height 2))
+             (kaavio:*current-clip-path* clip-path)
              (font-size (slot-value font 'kaavio::size))
              (spacing   (slot-value font 'kaavio::line-spacing)))
         (macrolet ((register-entity (entity)
@@ -93,7 +96,7 @@
                 (progn
                   (uml-keyword-draw keyword
                                     (+ (canvas-left canvas) x)
-                                    (+ (canvas-top  canvas) y) :center font writer)
+                                    (+ (canvas-top  canvas) y) :center font clip-path writer)
                   (incf y font-size)))
             (text (make-point x y) name :align :center))))))
   nil)
@@ -136,6 +139,7 @@
                                                :name ,name :keyword ,keyword
                                                :contents-p ,contents-p
                                                :font ,font :fill ,fill :stroke ,stroke
+                                               :clip-path *current-clip-path*
                                                :iconsize   *uml-component-iconsize*
                                                :iconoffset *uml-component-iconoffset*
                                                :link ,link :layer ,layer :id ,id))))

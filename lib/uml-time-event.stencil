@@ -18,6 +18,7 @@
   ((label   :initform nil :initarg :label)       ; (or nil label-info)
    (fill    :initform nil :initarg :fill)        ; (or nil fill-info)
    (stroke  :initform nil :initarg :stroke)      ; (or nil stroke-info)
+   (clip-path :initform nil :initarg :clip-path) ; (or nil symbol)
    (filter  :initform nil :initarg :filter)))    ; (or nil keyword)
 
 (defmethod initialize-instance :after ((obj uml-time-event) &rest initargs)
@@ -35,10 +36,11 @@
   obj)
 
 (defmethod check ((obj uml-time-event) canvas dict)
-  (with-slots (label fill stroke) obj
+  (with-slots (label fill stroke clip-path) obj
     (check-object label  canvas dict :nullable t :class  label-info)
     (check-object fill   canvas dict :nullable t :class   fill-info)
-    (check-object stroke canvas dict :nullable t :class stroke-info))
+    (check-object stroke canvas dict :nullable t :class stroke-info)
+    (check-member clip-path          :nullable t :types      symbol))
   ;; this method must call super class' one.
   (call-next-method))
 
@@ -59,13 +61,14 @@
 
 ;; override of group::draw-group
 (defmethod draw-group ((obj uml-time-event) writer)
-  (with-slots (label fill stroke filter) obj
+  (with-slots (label fill stroke clip-path filter) obj
     (let* ((canvas (group-get-canvas obj))
            (width  (canvas-width  canvas))
            (height (canvas-height canvas))
            (*default-filter* filter)
            (*default-fill*   fill)
-           (*default-stroke* stroke))
+           (*default-stroke* stroke)
+           (kaavio:*current-clip-path* clip-path))
       (macrolet ((register-entity (entity)
                    `(check-and-draw-local-entity ,entity canvas writer)))
         ;; draw note body
@@ -75,7 +78,7 @@
                    (,width ,height)
                    (0 0)))))
     (when label
-      (draw-label label obj writer)))
+      (draw-label label obj clip-path writer)))
   nil)
 
 ;for debug...
@@ -112,6 +115,7 @@
                                    :width  (or ,width  *uml-time-event-width*)
                                    :height (or ,height *uml-time-event-height*)
                                    :fill ,fill :stroke ,stroke
+                                   :clip-path *current-clip-path*
                                    :link ,link :filter ,filter :layer ,layer :id ,id)))
 
 ;;------------------------------------------------------------------------------------- BEGIN TURNUP

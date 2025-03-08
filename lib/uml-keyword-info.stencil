@@ -23,12 +23,12 @@
 (defun uml-keyword-to-string (kwd)
   (format-string "«" (slot-value kwd 'name) "»"))
 
-(defun uml-keyword-draw (kwd x y align font writer)
+(defun uml-keyword-draw (kwd x y align font clip-path writer)
   (let ((txt (uml-keyword-to-string kwd)))
-    (write-text-tag x y txt writer :align align :font (make-font font))))
+    (write-text-tag x y txt writer :align align :font (make-font font) :clip-path clip-path)))
 
 
-(defun uml-keyword-draw-beside-line (kwd line font writer)
+(defun uml-keyword-draw-beside-line (kwd line font clip-path writer)
   (multiple-value-bind (x y sin cos) (kaavio::line-get-center line)    ;;ToDo : export!?
     (declare (ignorable x y sin cos))
     (let* ((font (make-font font))
@@ -39,7 +39,7 @@
                         (t           :right))))
       (incf y (/ f-size 2))
       (uml-keyword-draw kwd (+ x (* sin offset))
-                            (- y (* cos offset)) align font writer))))
+                            (- y (* cos offset)) align font clip-path writer))))
 
 
 ;;------------------------------------------------------------------------------------- BEGIN TURNUP

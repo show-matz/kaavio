@@ -12,14 +12,15 @@
 (defclass uml-state-history (kaavio:circle) ())
 
 (defmethod post-draw ((obj uml-state-history) writer)
-  (with-slots (kaavio::stroke) obj
+  (with-slots (kaavio::stroke kaavio::clip-path) obj
     (let* ((canvas (shape-get-subcanvas obj))
            (x (/ (canvas-width canvas) 2))
            (y x)
            (r x))
       (macrolet ((register-entity (entity)
                    `(check-and-draw-local-entity ,entity canvas writer)))
-        (let ((*default-stroke* kaavio::stroke))
+        (let ((*default-stroke* kaavio::stroke)
+              (kaavio:*current-clip-path* kaavio::clip-path))
           (path `((:move-to (,(- x (/ r 3)) ,y) (,(+ x (/ r 3)) ,y))
                   (:move-to (,(- x (/ r 3)) ,(- y (/ r 2))) (,(- x (/ r 3)) ,(+ y (/ r 2))))
                   (:move-to (,(+ x (/ r 3)) ,(- y (/ r 2))) (,(+ x (/ r 3)) ,(+ y (/ r 2))))))))))
@@ -53,6 +54,7 @@
                                    :radius (or ,radius *uml-state-history-radius*)
                                    :fill   (or ,fill   *uml-state-history-fill*   *default-fill*)
                                    :stroke (or ,stroke *uml-state-history-stroke* *default-stroke*)
+                                   :clip-path kaavio:*current-clip-path*
                                    :link ,link :layer ,layer :id ,id)))
 
 

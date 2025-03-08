@@ -75,5 +75,6 @@
                                        :stroke (make-stroke
                                                 :dasharray (or *uml-dependency-dasharray* '(4 2))
                                                 :base *default-stroke*)
+                                       :clip-path *current-clip-path*
                                        :end1 nil :end2 :arrow :layer ,layer :id ,id)))))
 

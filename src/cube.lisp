@@ -75,12 +75,13 @@
 ;; override of group::draw-group
 (defmethod draw-group ((cb cube) writer)
   (let ((canvas (group-get-canvas cb)))
-    (with-slots (depth contents-p fill fill2 stroke filter) cb
+    (with-slots (depth contents-p fill fill2 stroke filter clip-path) cb
       (let* ((width     (canvas-width  canvas))
              (height    (canvas-height canvas))
              (x         (/ width  2))
              (y         (/ height 2))
-             (half      (/ depth  2)))
+             (half      (/ depth  2))
+             (*current-clip-path* clip-path))
         (macrolet ((register-entity (entity)
                      `(check-and-draw-local-entity ,entity canvas writer)))
           (writer-write writer "<g stroke='none' "
@@ -187,6 +188,7 @@
                                                                        *default-cube-fill*)
                                                    :stroke (or ,stroke *default-cube-stroke*)
                                                    :link ,link  :rotate ,rotate
+                                                   :clip-path *current-clip-path*
                                                    :filter ,filter :layer ,layer :id ,id)))))
     (if (null contents)
         code

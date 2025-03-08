@@ -7,6 +7,7 @@
 #|ASD|#                                                                "stroke-info"
 #|ASD|#                                                                "endmark-info"
 #|ASD|#                                                                "entity"
+#|ASD|#                                                                "clipping"
 #|ASD|#                                                                "filter"
 #|ASD|#                                                                "writer"))
 #|EXPORT|#                ;line.lisp
@@ -26,6 +27,7 @@
    (end2    :initform nil :initarg :end2)       ; keyword
    (label   :initform nil :initarg :label)      ; (or nil label-info function)
    (stroke  :initform nil :initarg :stroke)     ; (or nil stroke-info)
+   (clip-path :initform nil :initarg :clip-path) ; (or nil symbol)
    (filter  :initform nil :initarg :filter)))   ; (or nil keyword)
 
 
@@ -103,13 +105,14 @@
 (defmethod check ((ent line) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (with-slots (points end1 end2 label stroke filter) ent
+  (with-slots (points end1 end2 label stroke clip-path filter) ent
     (check-member points :nullable nil :types list)
     (check-object end1   canvas dict :nullable   t :class endmark-info)
     (check-object end2   canvas dict :nullable   t :class endmark-info)
     (unless (functionp label)
       (check-object label canvas dict :nullable t :class label-info))
     (check-object stroke canvas dict :nullable nil :class stroke-info)
+    (check-member clip-path :nullable  t :types symbol)
     (check-member filter :nullable   t :types keyword)
     (when end1 (check end1 canvas dict))
     (when end2 (check end2 canvas dict))
@@ -132,7 +135,7 @@
       (slot-value ent 'label)))
 
 (defmethod draw-entity ((ent line) writer)
-  (with-slots (points label end1 end2 stroke filter) ent
+  (with-slots (points label end1 end2 stroke clip-path filter) ent
     (let ((id  (and (not (entity-composition-p ent))
                     (slot-value ent 'id))))
       (pre-draw ent writer)
@@ -150,17 +153,18 @@
                       (to-property-strings stroke)
                       "points='" (with-output-to-string (st)
                                    (format-points points st)) "' "
+                      (write-when clip-path "clip-path='url(#" it ")' ")
                       (write-when filter "filter='url(#" it ")' ")
                       "/>"))
       (when label
         (multiple-value-bind (x y sin cos) (line-get-center ent)
           (if (functionp label)
-              (funcall label           ent x y sin cos writer)
-              (draw-label-with-point label x y sin cos writer))))
+              (funcall label           ent x y sin cos clip-path writer)
+              (draw-label-with-point label x y sin cos clip-path writer))))
       (when end1
-        (draw-endmark end1 (line-get-endpoints ent :from) stroke writer))
+        (draw-endmark end1 (line-get-endpoints ent :from) stroke clip-path writer))
       (when end2
-        (draw-endmark end2 (line-get-endpoints ent :dest) stroke writer))
+        (draw-endmark end2 (line-get-endpoints ent :dest) stroke clip-path writer))
       (post-draw ent writer)))
   nil)
   
@@ -217,5 +221,6 @@
                                    :points ,points
                                    :end1 ,end1 :end2 ,end2 :label ,label
                                    :stroke ,stroke :filter ,filter
+                                   :clip-path *current-clip-path*
                                    :layer ,layer :id ,id)))
 

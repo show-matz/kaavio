@@ -94,7 +94,7 @@
 (defmethod draw-group ((obj uml-partition) writer)
   (with-slots (type lines row-headers col-headers
                (rows kaavio::rows) (cols kaavio::cols)
-               (stroke kaavio::stroke) (font kaavio::font)) obj
+               (stroke kaavio::stroke) (font kaavio::font) (clip-path kaavio::clip-path)) obj
     ;; draw table without stroke
     (let ((stroke-bkup stroke))
       (setf stroke (make-stroke :none))
@@ -102,7 +102,8 @@
       (setf stroke stroke-bkup))
     (let* ((canvas (group-get-canvas obj))
            (width  (canvas-width  canvas))
-           (height (canvas-height canvas)))
+           (height (canvas-height canvas))
+           (kaavio:*current-clip-path* clip-path))
       (macrolet ((register-entity (entity)
                    `(check-and-draw-local-entity ,entity canvas writer)))
         ;; draw stroke
@@ -209,6 +210,7 @@
                                        :fills  (or ,fills (list :rc *uml-partition-fill*))
                                        :stroke (or ,stroke *uml-partition-stroke* *default-stroke*)
                                        :font   (or ,font   *uml-partition-font*   *default-font*)
+                                       :clip-path kaavio:*current-clip-path*
                                        :layer ,layer :id ,id)))))
 
 ;;------------------------------------------------------------------------------------- BEGIN TURNUP

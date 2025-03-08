@@ -20,7 +20,7 @@
 ;; internal functions
 ;;
 ;;------------------------------------------------------------------------------
-(defun __draw-endmark-arrow (points size stroke fill writer)
+(defun __draw-endmark-arrow (points size stroke fill clip-path writer)
   (declare (ignore fill))
   (symbol-macrolet ((ARROW_DEGREE1 210)
                     (ARROW_DEGREE2 150))
@@ -35,12 +35,13 @@
                     "fill='none' "
                     (when stroke
                       (to-property-strings stroke))
+                    (write-when clip-path "clip-path='url(#" it ")' ")
                     "points='"  (+ (point-x pt2) x2) "," (+ (point-y pt2) y2) " "
                                 (point-x pt2)        "," (point-y pt2)        " "
                                 (+ (point-x pt2) x1) "," (+ (point-y pt2) y1) "' "
                     "/>"))))
 
-(defun __draw-endmark-triangle (points size stroke fill writer)
+(defun __draw-endmark-triangle (points size stroke fill clip-path writer)
   (symbol-macrolet ((ARROW_DEGREE1 205)
                     (ARROW_DEGREE2 155))
     (let* ((pt1 (car points))
@@ -55,12 +56,13 @@
                       (to-property-strings fill))
                     (when stroke
                       (to-property-strings stroke))
+                    (write-when clip-path "clip-path='url(#" it ")' ")
                     "d='M " (point-x pt2) " " (point-y pt2) " "
                        "l " x1            " " y1            " "
                        "l " (- x2 x1)     " " (- y2 y1)     " z' "
                     "/>"))))
 
-(defun __draw-endmark-diamond (points size stroke fill writer)
+(defun __draw-endmark-diamond (points size stroke fill clip-path writer)
   (symbol-macrolet ((ARROW_DEGREE1 210)
                     (ARROW_DEGREE2 150))
     (let* ((pt1 (car points))
@@ -79,11 +81,12 @@
                       (to-property-strings fill))
                     (when stroke
                       (to-property-strings stroke))
+                    (write-when clip-path "clip-path='url(#" it ")' ")
                     "d='M " x1 " " y1 " L " x2 " " y2 " "
                        "L " x3 " " y3 " L " x4 " " y4 " z' "
                     "/>"))))
 
-(defun __draw-endmark-circle (points size stroke fill writer)
+(defun __draw-endmark-circle (points size stroke fill clip-path writer)
   (let ((pt (cdr points)))
     (writer-write writer
                   "<circle "
@@ -94,9 +97,10 @@
                     (to-property-strings fill))
                   (when stroke
                     (to-property-strings stroke))
+                  (write-when clip-path "clip-path='url(#" it ")' ")
                   "/>")))
 
-(defun __draw-endmark-rectangle (points size stroke fill writer)
+(defun __draw-endmark-rectangle (points size stroke fill clip-path writer)
   (let* ((pt1  (car points))
          (pt2  (cdr points))
          (r    (/ size (sqrt 2)))
@@ -108,6 +112,7 @@
                     (to-property-strings fill))
                   (when stroke
                     (to-property-strings stroke))
+                  (write-when clip-path "clip-path='url(#" it ")' ")
                   "d='M " (+ cx (* r (math/cos3 pt1 pt2  45)))
                   " "     (+ cy (* r (math/sin3 pt1 pt2  45)))
                   " L "   (+ cx (* r (math/cos3 pt1 pt2 135)))
@@ -158,7 +163,7 @@
       (check-keywords size :small :medium :large :xlarge)))
   t)
 
-(defun draw-endmark (mark points stroke writer)
+(defun draw-endmark (mark points stroke clip-path writer)
   ;; RULE : 1. mark 自体に stroke/fill が設定されていればそれを使う
   ;;        2. stroke が mark に設定されていない場合、パラメータの stroke を使う
   ;;        3. fill が mark に設定されていない場合、stroke の color/url を使う
@@ -183,7 +188,7 @@
                          ((:diamond)  #'__draw-endmark-diamond)
                          ((:circle)   #'__draw-endmark-circle)
                          ((:rect)     #'__draw-endmark-rectangle)))))
-      (funcall drawer points sz st fl writer))))
+      (funcall drawer points sz st fl clip-path writer))))
   
 
 ;;------------------------------------------------------------------------------------- BEGIN TURNUP

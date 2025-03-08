@@ -3732,6 +3732,71 @@ ${NOTES}
 
 ${BLANK_PARAGRAPH}
 
+#### macro with-clipping-current-canvas
+
+<!-- stack:push li class='syntax' -->
+${SYNTAX}
+
+* ${{B}{with-clipping-current-canvas}} ${BODY} body
+
+<!-- stack:pop li -->
+
+${ARGS_AND_VALS}
+
+* `body` ---- クリッピングの対象となる描画コードを記述します。
+
+${DESCRIPTION}
+
+　現在のキャンバスを使ってクリッピングを行ないます。
+
+${SEE_ALSO}
+
+* クリッピング
+* with-clipping-use マクロ
+
+${NO_NOTES}
+
+
+<!-- autolink: [with-clipping-current-canvas マクロ](#macro with-clipping-current-canvas) -->
+
+${BLANK_PARAGRAPH}
+
+#### macro with-clipping-use
+
+<!-- stack:push li class='syntax' -->
+${SYNTAX}
+
+* ${{B}{with-clipping-use}} (id) ${BODY} body
+
+<!-- stack:pop li -->
+
+${ARGS_AND_VALS}
+
+* `id` ---- クリッピングパスとして扱う既出の図形要素の ID をキーワードシンボルで指定します。
+* `body` ---- クリッピングの対象となる描画コードを記述します。
+
+${DESCRIPTION}
+
+　既出の図形要素の ID を指定し、その描画パスを使ってクリッピングを行ないます。
+
+${SEE_ALSO}
+
+* クリッピング
+* with-clipping-current-canvas マクロ
+
+${NOTES}
+
+　`id` で指定する図形要素の ID は、その図形要素の記述において明示的に指定されていなければ
+なりません。たとえばコネクタなどでは `$1.id` といった記述で ID が明示的に指定されていない
+図形要素を指定できますが、 with-clipping-use マクロではそれはできません
+{{fn: これは、省略時に自動的に付与される ID は SVG コード上には現れないからです。しかし、この挙動は \
+将来変更される可能性があります。}}。
+
+
+<!-- autolink: [with-clipping-use マクロ](#macro with-clipping-use) -->
+
+${BLANK_PARAGRAPH}
+
 #### macro with-cross-options
 
 <!-- stack:push li class='syntax' -->

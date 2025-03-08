@@ -25,7 +25,8 @@
    (font        :initform nil :initarg :font)       ; (or nil font-info)
    (fill1       :initform nil :initarg :fill1)      ; (or nil fill-info)
    (fill2       :initform nil :initarg :fill2)      ; (or nil fill-info)
-   (stroke      :initform nil :initarg :stroke)))   ; (or nil stroke-info)
+   (stroke      :initform nil :initarg :stroke)     ; (or nil stroke-info)
+   (clip-path   :initform nil :initarg :clip-path))) ; (or nil symbol)
 
 (defmethod initialize-instance :after ((node uml-node) &rest initargs)
   (declare (ignore initargs))
@@ -40,14 +41,15 @@
 (defmethod check ((node uml-node) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (with-slots (name keyword depth font fill1 fill2 stroke) node
+  (with-slots (name keyword depth font fill1 fill2 stroke clip-path) node
     (check-member name    :nullable nil :types (or string keyword))
     (check-object keyword canvas dict :nullable t :class uml-keyword-info)
     (check-member depth   :nullable nil :types number)
     (check-object font    canvas dict :nullable t :class   font-info)
     (check-object fill1   canvas dict :nullable t :class   fill-info)
     (check-object fill2   canvas dict :nullable t :class   fill-info)
-    (check-object stroke  canvas dict :nullable t :class stroke-info))
+    (check-object stroke  canvas dict :nullable t :class stroke-info)
+    (check-member clip-path :nullable  t :types symbol))
   nil)
 
 ;;MEMO : use impelementation of group...
@@ -64,12 +66,13 @@
 (defmethod draw-group ((node uml-node) writer)
   (let ((canvas (group-get-canvas node)))
     (with-slots (name keyword depth contents-p
-                              font fill1 fill2 stroke) node
+                              font fill1 fill2 stroke clip-path) node
       (let* ((width     (canvas-width  canvas))
              (height    (canvas-height canvas))
              (x         (/ width  2))
              (y         (/ height 2))
              (half      (/ depth  2))
+             (kaavio:*current-clip-path* clip-path)
              (font-size (slot-value font 'kaavio::size))
              (spacing   (slot-value font 'kaavio::line-spacing)))
         (macrolet ((register-entity (entity)
@@ -95,7 +98,7 @@
                 (progn
                   (uml-keyword-draw keyword
                                     (+ (canvas-left canvas) x)
-                                    (+ (canvas-top  canvas) y) :center font writer)
+                                    (+ (canvas-top  canvas) y) :center font clip-path writer)
                   (incf y font-size)))
             (text (make-point x y) name :align :center))))))
   nil)
@@ -139,6 +142,7 @@
                                                :contents-p ,contents-p
                                                :font ,font :stroke ,stroke
                                                :fill1 ,fill1 :fill2 ,fill2
+                                               :clip-path *current-clip-path*
                                                :link ,link :layer ,layer :id ,id))))
     (if (null contents)
         code

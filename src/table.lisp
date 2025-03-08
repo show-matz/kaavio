@@ -5,6 +5,7 @@
 #|ASD|#                                                                "font-info"
 #|ASD|#                                                                "fill-info"
 #|ASD|#                                                                "stroke-info"
+#|ASD|#                                                                "clipping"
 #|ASD|#                                                                "writer"))
 #|EXPORT|#                ;table.lisp
  |#
@@ -156,7 +157,8 @@
    (font    :initform nil :initarg :font)       ; (or nil font-info)
    (stroke  :initform nil :initarg :stroke)     ; (or nil stroke-info)
    (fills   :initform nil :initarg :fills)      ; list
-   (texts   :initform nil :initarg :texts)))    ; list
+   (texts   :initform nil :initarg :texts)      ; list
+   (clip-path :initform nil :initarg :clip-path))) ; (or nil symbol)
 
 
 (defmethod initialize-instance :after ((tbl table) &rest initargs)
@@ -184,7 +186,7 @@
 (defmethod check ((tbl table) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (with-slots (font fills stroke texts) tbl
+  (with-slots (font fills stroke texts clip-path) tbl
     (labels ((chk-fills (lst)
                (when lst
                  (let ((fill (cadr fills)))
@@ -193,6 +195,7 @@
       (chk-fills fills))
     (check-object font      canvas dict :nullable t :class font-info)
     (check-object stroke    canvas dict :nullable t :class stroke-info)
+    (check-member clip-path :nullable   t :types symbol)
     (setf texts (table-normalize-texts texts)))
   nil)
 
@@ -203,8 +206,9 @@
           (height (canvas-height canvas)))
       (macrolet ((register-entity (entity)
                    `(check-and-draw-local-entity ,entity canvas writer)))
-        (with-slots (rows cols stroke fills font texts) tbl
-          (let ((center (attribute-center tbl)))
+        (with-slots (rows cols stroke fills font texts clip-path) tbl
+          (let ((center (attribute-center tbl))
+                (*current-clip-path* clip-path))
             ;; filling ----------------------------------------------
             ;; 「同じ色指定が連続するなら g tag でまとめたい」が、keyword とは限らないので断念
             (unless (and (= 2 (length fills))
@@ -318,6 +322,7 @@
                                    :height (apply #'+ ,rows)
                                    :rows ,rows :cols ,cols
                                    :stroke ,stroke :fills ,fills
+                                   :clip-path *current-clip-path*
                                    :font ,font :texts ,texts :layer ,layer :id ,id)))
 
 

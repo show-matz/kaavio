@@ -77,5 +77,6 @@
                                        :end1 nil
                                        :end2 `(:type :triangle :fill :white
                                                      :stroke (:dasharray nil :base ,*default-stroke*))
+                                       :clip-path *current-clip-path*
                                        :layer ,layer :id ,id)))))
 

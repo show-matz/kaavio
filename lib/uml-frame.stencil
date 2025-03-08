@@ -24,6 +24,7 @@
    (font     :initform nil :initarg :font)        ; (or nil font-info)
    (fill     :initform nil :initarg :fill)        ; (or nil fill-info)
    (stroke   :initform nil :initarg :stroke)      ; (or nil stroke-info)
+   (clip-path :initform nil :initarg :clip-path)  ; (or nil symbol)
    (filter   :initform nil :initarg :filter)))    ; (or nil keyword)
 
 (defmethod initialize-instance :after ((obj uml-frame) &rest initargs)
@@ -45,7 +46,7 @@
 (defmethod check ((obj uml-frame) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (with-slots (position pivot width height title margin font fill stroke) obj
+  (with-slots (position pivot width height title margin font fill stroke clip-path) obj
     (unless (point-p position)
       (throw-exception "position is not point."))
     (check-member pivot  :nullable nil :types keyword)
@@ -56,6 +57,7 @@
     (check-object font         canvas dict :nullable   t :class font-info)
     (check-object fill         canvas dict :nullable   t :class fill-info)
     (check-object stroke       canvas dict :nullable   t :class stroke-info)
+    (check-member clip-path :nullable   t :types symbol)
     (setf position (canvas-fix-point canvas position))
     (setf title  (fix-name title)))
   nil)
@@ -86,14 +88,15 @@
                              (attribute-width   obj)
                              (attribute-height  obj))))
     (with-slots (width height title
-                       margin font fill stroke filter) obj
+                       margin font fill stroke filter clip-path) obj
       (macrolet ((register-entity (entity)
                    `(check-and-draw-local-entity ,entity canvas writer)))
         (writer-write writer "<g "
                              (to-property-strings stroke)
                              (write-when filter "filter='url(#" it ")' ") ">")
         (writer-incr-level writer)
-        (let ((*mute-stroke* t))
+        (let ((*mute-stroke* t)
+              (kaavio:*current-clip-path* clip-path))
           (rectangle (make-point (/ width 2) (/ height 2)) width height :fill fill)
           (multiple-value-bind (w h) (kaavio::caluculate-paragraph-shapesize
                                       font (kaavio::string/split title #\newline))
@@ -105,7 +108,8 @@
                     (,(+ w margin) 0)))))
         (writer-decr-level writer)
         (writer-write writer "</g>")
-        (paragraph (make-point margin margin) title :align :left :valign :top :font font))))
+        (let ((kaavio:*current-clip-path* clip-path))
+          (paragraph (make-point margin margin) title :align :left :valign :top :font font)))))
   (post-draw obj writer)
   nil)
 
@@ -139,6 +143,7 @@
                                                :title ,title :margin ,margin
                                                :font ,font :fill ,fill
                                                :stroke ,stroke :link ,link
+                                               :clip-path *current-clip-path*
                                                :layer ,layer :filter ,filter :id ,id))))
     (if (null contents)
         code

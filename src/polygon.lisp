@@ -5,6 +5,7 @@
 #|ASD|#                                                                "stroke-info"
 #|ASD|#                                                                "link-info"
 #|ASD|#                                                                "entity"
+#|ASD|#                                                                "clipping"
 #|ASD|#                                                                "filter"
 #|ASD|#                                                                "writer"))
 #|EXPORT|#                ;polygon.lisp
@@ -21,6 +22,7 @@
   ((points  :initform nil :initarg :points)  ; list
    (fill    :initform nil :initarg :fill)    ; (or nil fill-info)
    (stroke  :initform nil :initarg :stroke)  ; (or nil stroke-info)
+   (clip-path :initform nil :initarg :clip-path) ; (or nil symbol)
    (filter  :initform nil :initarg :filter)  ; (or nil keyword)
    (link    :initform nil :initarg :link)))  ; (or nil link-info)
 
@@ -43,10 +45,11 @@
 (defmethod check ((ent polygon) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (with-slots (points fill stroke filter link) ent
+  (with-slots (points fill stroke clip-path filter link) ent
     (check-member points :nullable nil :types list)
     (check-object fill   canvas dict :nullable nil :class fill-info)
     (check-object stroke canvas dict :nullable nil :class stroke-info)
+    (check-member clip-path :nullable  t :types symbol)
     (check-member filter :nullable   t :types keyword)
     (check-object link   canvas dict :nullable   t :class link-info)
     (unless (<= 3 (length points))
@@ -86,7 +89,7 @@
                          (coerce (point-x (car pts)) 'single-float)
                          (coerce (point-y (car pts)) 'single-float))
                  (setf pts (cdr pts))))))
-    (with-slots (points fill stroke filter) ent
+    (with-slots (points fill stroke clip-path filter) ent
       (let ((id  (and (not (entity-composition-p ent))
                       (slot-value ent 'id))))
         (pre-draw ent writer)
@@ -96,6 +99,7 @@
                       (to-property-strings fill)
                       (to-property-strings stroke)
                       "points='" (format-points points) "' "
+                      (write-when clip-path "clip-path='url(#" it ")' ")
                       (write-when filter "filter='url(#" it ")' ")
                       "/>")
         (pre-draw ent writer)))))
@@ -141,5 +145,6 @@
 (defmacro polygon (points &key fill stroke link layer filter id)
   `(register-entity (make-instance 'kaavio:polygon
                                    :points ,points :fill ,fill :stroke ,stroke
+                                   :clip-path *current-clip-path*
                                    :link ,link :layer ,layer :filter ,filter :id ,id)))
 

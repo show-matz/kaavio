@@ -5,6 +5,7 @@
 #|ASD|#                                                                "label-info"
 #|ASD|#                                                                "link-info"
 #|ASD|#                                                                "point"
+#|ASD|#                                                                "clipping"
 #|ASD|#                                                                "filter"
 #|ASD|#                                                                "writer"))
 #|EXPORT|#                ;image.lisp
@@ -79,6 +80,7 @@
    (pivot           :initform :CC :initarg :pivot)       ; keyword
    (label           :initform nil :initarg :label)       ; (or nil label-info)
    (preserve-ratio  :initform nil)                       ; boolean
+   (clip-path       :initform nil :initarg :clip-path)   ; (or nil symbol)
    (filter          :initform nil :initarg :filter)))    ; (or nil keyword)
 
 
@@ -100,12 +102,13 @@
 (defmethod check ((img image) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (with-slots (position pivot filename width height label preserve-ratio filter) img
+  (with-slots (position pivot filename width height label preserve-ratio filter clip-path) img
     (check-member filename :nullable nil :types (or pathname string))
     (check-member width    :nullable   t :types number)
     (check-member height   :nullable   t :types number)
     (check-member pivot    :nullable nil :types keyword)
     (check-object label    canvas dict :nullable t :class label-info)
+    (check-member clip-path :nullable  t :types symbol)
     (check-member filter   :nullable   t :types keyword)
     (let ((path (merge-pathnames filename (path/get-current-directory))))
       ;; 指定された名前のファイルがカレントディレクトリに存在することをチェック
@@ -152,7 +155,7 @@
       (call-next-method)))
 
 (defmethod draw-entity ((img image) writer)
-  (with-slots (width height filename preserve-ratio filter) img
+  (with-slots (width height filename preserve-ratio clip-path filter) img
     (let ((id (and (not (entity-composition-p img))
                    (slot-value img 'id)))
           (topleft (attribute-topleft img)))
@@ -167,11 +170,12 @@
                     "xlink:href='" filename "' "
                     (unless preserve-ratio
                       "preserveAspectRatio='none' ")
+                    (write-when clip-path "clip-path='url(#" it ")' ")
                     (write-when filter "filter='url(#" it ")' ")
                     "/>")
       (with-slots (label) img
         (when label
-          (draw-label label img writer)))
+          (draw-label label img clip-path writer)))
       (post-draw img writer)))
   nil)
 
@@ -228,6 +232,7 @@
                                                :position ,position :pivot ,pivot
                                                :label ,label
                                                :link ,link :rotate ,rotate
+                                               :clip-path *current-clip-path*
                                                :filter ,filter :layer ,layer :id ,id))))
     (if (null contents)
         code

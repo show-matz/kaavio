@@ -6,6 +6,7 @@
 #|ASD|#                                                                "shape"
 #|ASD|#                                                                "stroke-info"
 #|ASD|#                                                                "link-info"
+#|ASD|#                                                                "clipping"
 #|ASD|#                                                                "filter"
 #|ASD|#                                                                "writer"))
 #|EXPORT|#                ;rectangle.lisp
@@ -28,6 +29,7 @@
    (ry        :initform nil :initarg :ry)          ; number
    (fill      :initform nil :initarg :fill)        ; (or nil fill-info)
    (stroke    :initform nil :initarg :stroke)      ; (or nil fill-info)
+   (clip-path :initform nil :initarg :clip-path)   ; (or nil symbol)
    (filter    :initform nil :initarg :filter)))    ; (or nil keyword)
 
 
@@ -54,7 +56,7 @@
 (defmethod check ((rct rectangle) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (with-slots (position pivot width height rx ry fill stroke filter) rct
+  (with-slots (position pivot width height rx ry fill stroke clip-path filter) rct
     (check-member pivot     :nullable nil :types keyword)
     (check-member width     :nullable nil :types number)
     (check-member height    :nullable nil :types number)
@@ -62,6 +64,7 @@
     (check-member ry        :nullable   t :types number)
     (check-object fill      canvas dict :nullable nil :class   fill-info)
     (check-object stroke    canvas dict :nullable nil :class stroke-info)
+    (check-member clip-path :nullable   t :types symbol)
     (check-member filter    :nullable   t :types keyword)
     (setf position (canvas-fix-point canvas position)))
   nil)
@@ -84,7 +87,7 @@
 ;;(defmethod shape-get-subcanvas ((shp rectangle)) ...)
 
 (defmethod draw-entity ((rct rectangle) writer)
-  (with-slots (rx ry fill stroke filter) rct
+  (with-slots (rx ry fill stroke clip-path filter) rct
     (let ((id (and (not (entity-composition-p rct))
                    (slot-value rct 'id)))
           (topleft (attribute-topleft rct)))
@@ -100,6 +103,7 @@
                     (write-when (and ry (/= rx ry)) "ry='" ry "' ")
                     (to-property-strings fill)
                     (to-property-strings stroke)
+                    (write-when clip-path "clip-path='url(#" it ")' ")
                     (write-when filter "filter='url(#" it ")' ")
                     "/>")
       (post-draw rct writer)))
@@ -156,6 +160,7 @@
                                                :rx ,rx :ry ,ry
                                                :fill ,fill :stroke ,stroke
                                                :rotate ,rotate :link ,link
+                                               :clip-path *current-clip-path*
                                                :filter ,filter :layer ,layer :id ,id))))
     (if (null contents)
         code
@@ -173,6 +178,7 @@
                                                :rx ,rx :ry ,ry
                                                :fill ,fill :stroke ,stroke
                                                :rotate ,rotate :link ,link
+                                               :clip-path *current-clip-path*
                                                :filter ,filter :layer ,layer :id ,id))))
     (if (null contents)
         code

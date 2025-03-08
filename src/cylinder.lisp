@@ -66,10 +66,11 @@
          (h      (canvas-height canvas)))
     (macrolet ((register-entity (entity)
                  `(check-and-draw-local-entity ,entity canvas writer)))
-      (with-slots (depth fill stroke filter) cyl
+      (with-slots (depth fill stroke filter clip-path) cyl
         (writer-write writer "<g " (to-property-strings stroke) ">")
         (writer-incr-level writer)
-        (let ((*mute-stroke* t))
+        (let ((*mute-stroke* t)
+              (*current-clip-path* clip-path))
           ;; draw 
           (path `((:move-to (0  0))
                   (:line-to (0 ,h))
@@ -152,6 +153,7 @@
                                                :fill   (or ,fill   *default-cylinder-fill*)
                                                :stroke (or ,stroke *default-cylinder-stroke*)
                                                :link ,link  :rotate ,rotate
+                                               :clip-path *current-clip-path*
                                                :filter ,filter :layer ,layer :id ,id))))
     (if (null contents)
         code

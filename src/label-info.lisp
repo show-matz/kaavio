@@ -79,7 +79,7 @@
 #|
 #|EXPORT|#                :draw-label-with-point
  |#
-(defun draw-label-with-point (label x y sin cos writer)
+(defun draw-label-with-point (label x y sin cos clip-path writer)
   (with-slots (text offset font) label
     (labels ((calc-width-and-height ()
                (let* ((width     0)
@@ -102,13 +102,14 @@
           (dolist (line lines)
             (incf y font-size)
             (write-text-tag (+ x (point-x offset))
-                            (+ y (point-y offset)) line writer :align :center :font font)
+                            (+ y (point-y offset))
+                            line writer :align :center :font font :clip-path clip-path)
             (incf y spacing)))))))
 
 #|
 #|EXPORT|#                :draw-label
  |#
-(defun draw-label (label shp writer)
+(defun draw-label (label shp clip-path writer)
   (with-slots (text offset position font) label
     (let ((size    (slot-value font 'size))
           (spacing (slot-value font 'line-spacing))
@@ -125,7 +126,7 @@
         (multiple-value-bind (align pt) (get-location-info)
           (dolist (line lines)
             (write-text-tag (point-x pt)
-                            (point-y pt) line writer :align align :font font)
+                            (point-y pt) line writer :align align :font font :clip-path clip-path)
             (incf (point-y pt) (+ spacing size))))))))
   
   

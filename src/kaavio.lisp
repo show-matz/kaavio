@@ -67,6 +67,11 @@
                 ;circle.lisp
                 :circle-connect-point
                 :circle
+                ;clipping.lisp
+                :*current-clip-path*
+                :clipper
+                :with-clipping-use
+                :with-clipping-current-canvas
                 ;colormap.lisp
                 :colormap-fix
                 ;connector.lisp

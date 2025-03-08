@@ -22,6 +22,7 @@
    (font    :initform nil :initarg :font)        ; (or nil font-info)
    (fill    :initform nil :initarg :fill)        ; (or nil fill-info)
    (stroke  :initform nil :initarg :stroke)      ; (or nil stroke-info)
+   (clip-path :initform nil :initarg :clip-path) ; (or nil symbol)
    (filter  :initform nil :initarg :filter)))    ; (or nil keyword)
 
 
@@ -41,7 +42,7 @@
   pin)
 
 (defmethod check ((pin uml-pin) canvas dict)
-  (with-slots (name target size offset multi font fill stroke) pin
+  (with-slots (name target size offset multi font fill stroke clip-path) pin
     (check-member name               :nullable   t :types (or string keyword))
     (check-member size               :nullable nil :types              number)
     (check-member offset             :nullable   t :types                cons)
@@ -52,6 +53,7 @@
     (check-object font   canvas dict :nullable   t :class           font-info)
     (check-object fill   canvas dict :nullable   t :class           fill-info)
     (check-object stroke canvas dict :nullable   t :class         stroke-info)
+    (check-member clip-path          :nullable   t :types              symbol)
     (let ((target   (car target))
           (position (cdr target)))
       (check-member target   :nullable nil :types symbol)
@@ -125,10 +127,11 @@
 ;; override of group::draw-group
 (defmethod draw-group ((pin uml-pin) writer)
   (let ((canvas (group-get-canvas pin)))
-    (with-slots (name size offset multi font fill stroke filter) pin
+    (with-slots (name size offset multi font fill stroke clip-path filter) pin
       (with-canvas (cc width height) canvas
         (let* ((x (/ width  2))
                (y (/ height 2))
+               (kaavio:*current-clip-path* clip-path)
                (font-size (slot-value font 'kaavio::size)))
           (labels ((locate-text ()
                      (let ((pos (string-upcase
@@ -192,6 +195,7 @@
                                    :font    (or ,font   *uml-pin-font*)
                                    :fill    (or ,fill   *uml-pin-fill*)
                                    :stroke  (or ,stroke *uml-pin-stroke*)
+                                   :clip-path *current-clip-path*
                                    :link nil :filter ,filter :layer ,layer :id ,id)))
 
 ;;------------------------------------------------------------------------------------- BEGIN TURNUP

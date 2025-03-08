@@ -146,6 +146,7 @@
                                             (if ,margin-p ,margin *default-block-arrow-margin*))
                                    :fill   (or ,fill   *default-block-arrow-fill*)
                                    :stroke (or ,stroke *default-block-arrow-stroke*)
+                                   :clip-path *current-clip-path*
                                    :filter (or ,filter
                                                *default-block-arrow-filter*
                                                *default-filter*)
@@ -208,6 +209,7 @@
                                             (if ,margin-p ,margin *default-block-arrow-margin*))
                                    :fill   (or ,fill   *default-block-arrow-fill*)
                                    :stroke (or ,stroke *default-block-arrow-stroke*)
+                                   :clip-path *current-clip-path*
                                    :filter (or ,filter
                                                *default-block-arrow-filter*
                                                *default-filter*)

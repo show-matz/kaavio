@@ -21,7 +21,8 @@
    (stroke    :initform nil  :initarg  :stroke) ; (or nil stroke-info)
    (head      :initform 0)                      ; number
    (shoulder  :initform 0)                      ; number
-   (thigh     :initform 0)))                    ; number
+   (thigh     :initform 0)                      ; number
+   (clip-path :initform nil :initarg :clip-path))) ; (or nil symbol)
 
 (defmethod initialize-instance :after ((actor uml-actor) &rest initargs)
   (declare (ignore initargs))
@@ -38,25 +39,27 @@
 (defmethod check ((actor uml-actor) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (with-slots (name fill stroke head shoulder thigh) actor
+  (with-slots (name fill stroke head shoulder thigh clip-path) actor
     (check-object name     canvas dict :nullable t :class  label-info)
     (check-object fill     canvas dict :nullable t :class   fill-info)
     (check-object stroke   canvas dict :nullable t :class stroke-info)
     (check-member head     :nullable nil :types number)
     (check-member shoulder :nullable nil :types number)
-    (check-member thigh    :nullable nil :types number))
+    (check-member thigh    :nullable nil :types number)
+    (check-member clip-path :nullable  t :types symbol))
   nil)
 
 ;; override of group::draw-group
 (defmethod draw-group ((actor uml-actor) writer)
-  (with-slots (name fill stroke head shoulder thigh) actor
+  (with-slots (name fill stroke head shoulder thigh clip-path) actor
     (let* ((canvas (group-get-canvas actor))
            (width  (canvas-width  canvas))
            (height (canvas-height canvas))
            (center (/ width 2))
            (neck   (* head 2))
            (*default-fill*   fill)
-           (*default-stroke* stroke))
+           (*default-stroke* stroke)
+           (kaavio:*current-clip-path* clip-path))
       (macrolet ((register-entity (entity)
                    `(check-and-draw-local-entity ,entity canvas writer)))
         (circle `(,center ,head) head)
@@ -64,7 +67,7 @@
         (line `((0 ,shoulder) (,width ,shoulder)))
         (line `((0 ,height) (,center ,thigh) (,width ,height)))))
     (when name
-      (draw-label name actor writer)))
+      (draw-label name actor clip-path writer)))
   nil)
 
 ;for debug...
@@ -103,5 +106,6 @@
                                    :height (* *uml-actor-height-ratio*
                                               (or ,width *uml-actor-width*))
                                    :fill ,fill :stroke ,stroke
+                                   :clip-path *current-clip-path*
                                    :link ,link :layer ,layer :id ,id)))
 

@@ -7,6 +7,7 @@
 #|ASD|#                                                                "shape"
 #|ASD|#                                                                "stroke-info"
 #|ASD|#                                                                "link-info"
+#|ASD|#                                                                "clipping"
 #|ASD|#                                                                "filter"
 #|ASD|#                                                                "writer"))
 #|EXPORT|#                ;parallelogram.lisp
@@ -168,6 +169,7 @@
    (offset     :initform   0 :initarg :offset)      ; number
    (fill       :initform nil :initarg :fill)        ; (or nil fill-info)
    (stroke     :initform nil :initarg :stroke)      ; (or nil fill-info)
+   (clip-path  :initform nil :initarg :clip-path)   ; (or nil symbol)
    (filter     :initform nil :initarg :filter)))    ; (or nil keyword)
 
 
@@ -189,7 +191,7 @@
   ;; this method must call super class' one.
   (call-next-method)
   (with-slots (position pivot width height
-                      direction offset fill stroke filter) obj
+                      direction offset fill stroke clip-path filter) obj
     (check-member pivot     :nullable nil :types keyword)
     (check-member width     :nullable nil :types number)
     (check-member height    :nullable nil :types number)
@@ -198,6 +200,7 @@
     (check-member offset    :nullable nil :types number)
     (check-object fill      canvas dict :nullable nil :class   fill-info)
     (check-object stroke    canvas dict :nullable nil :class stroke-info)
+    (check-member clip-path :nullable   t :types symbol)
     (check-member filter    :nullable   t :types keyword)
     (setf position (canvas-fix-point canvas position)))
   nil)
@@ -223,7 +226,7 @@
 (defmethod draw-entity ((obj parallelogram) writer)
   (let ((center (attribute-center obj)))
     (with-slots (width height
-                 direction offset fill stroke filter) obj
+                 direction offset fill stroke clip-path filter) obj
       (labels ((make-points ()
                  (let ((tl (xy+ center (- (/ width 2)) (- (/ height 2))))
                        (tr (xy+ center (+ (/ width 2)) (- (/ height 2))))
@@ -255,6 +258,7 @@
                         (to-property-strings fill)
                         (to-property-strings stroke)
                         "points='" (format-points (make-points)) "' "
+                        (write-when clip-path "clip-path='url(#" it ")' ")
                         (write-when filter "filter='url(#" it ")' ")
                         "/>")
           (post-draw obj writer))))
@@ -311,6 +315,7 @@
                                                :direction ,direction :offset ,offset
                                                :fill ,fill :stroke ,stroke
                                                :rotate ,rotate :link ,link
+                                               :clip-path *current-clip-path*
                                                :filter ,filter :layer ,layer :id ,id))))
     (if (null contents)
         code

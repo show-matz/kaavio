@@ -60,11 +60,11 @@
         (call-next-method))))
 
 (defmethod post-draw ((ass uml-association) writer)
-  (with-slots (role1 role2 mult1 mult2) ass
-    (when role1   (uml-role-draw-beside-line         role1   ass :from writer))
-    (when role2   (uml-role-draw-beside-line         role2   ass :dest writer))
-    (when mult1   (uml-multiplicity-draw-beside-line mult1   ass :from writer))
-    (when mult2   (uml-multiplicity-draw-beside-line mult2   ass :dest writer)))
+  (with-slots (role1 role2 mult1 mult2 kaavio::clip-path) ass
+    (when role1 (uml-role-draw-beside-line         role1 ass :from kaavio::clip-path writer))
+    (when role2 (uml-role-draw-beside-line         role2 ass :dest kaavio::clip-path writer))
+    (when mult1 (uml-multiplicity-draw-beside-line mult1 ass :from kaavio::clip-path writer))
+    (when mult2 (uml-multiplicity-draw-beside-line mult2 ass :dest kaavio::clip-path writer)))
   (call-next-method))
       
 
@@ -104,6 +104,7 @@
                                        :label (and (or ,g-kwd ,g-name)
                                                    #'uml-connection-draw-label)
                                        :stroke (make-stroke :dasharray nil :base *default-stroke*)
+                                       :clip-path *current-clip-path*
                                        :end1 (and ,g-arr (integerp ,g-arr) (= ,g-arr 2)   :arrow)
                                        :end2 (and ,g-arr (integerp ,g-arr) (< 0 ,g-arr 3) :arrow)
                                        :role1 ,role1 :role2 ,role2

@@ -2927,10 +2927,12 @@ Figure. サブキャンバスのサンプル
 * ${{TODO}{レビュー作業、イマココ}}
 
 　サブキャンバスは入力データの一部分で独自の座標系を一時的に作成するもので、それ以外の効果は
-ありません。たとえば、描画順序を制御するレイヤーとは無関係です
-{{fn:現状では、サブキャンバスの描画では幅と高さによって作成される矩形で内部要素の描画をクリッピング \
-しません。つまり、現状のサブキャンバスは実質的に原点をズラす効果しかありません。ただし、このクリッ \
-ピングしないという挙動は将来変更される可能性があります。}}。
+ありません。たとえば、描画順序を制御するレイヤーとは無関係ですし、サブキャンバスの矩形で
+描画内容をクリッピングすることもしません。つまり、サブキャンバスの機能自体には実質的に原点を
+ズラす効果しかありません
+{{fn:サブキャンバスが自動的なクリッピングをしないのは、kaavio が作図指向で絵画的な効果を重視していない \
+という理由があります。}}。
+クリッピングを行ないたい場合は [$@ 章](#クリッピング)を参照してください。
 
 　with-subcanvas マクロで明示的にサブキャンバスを作成するのでなく、作成した図形要素の内部を
 サブキャンバスとすることもできます。これには、 `:contents` パラメータを使用します。たとえば、
@@ -3020,6 +3022,119 @@ Figure. with-current-canvas の使用
 
 
 ${BLANK_PARAGRAPH}
+
+## クリッピング
+<!-- autolink: [$$](#クリッピング) -->
+
+　クリッピング機能を使えば、図面の一部だけを切り取ったように描画することができま
+す。サブキャンバスからはみ出す部分が描画されないようにしたり、任意の形状（パス）
+でクリッピングすることもできます。
+
+　わざとらしい例ですが、以下のような図を考えましょう。大きな矩形の四隅に、それぞ
+れはみ出すように４つの要素が置かれています。
+
+<!-- snippet: DEFS-CLIPPING-SAMPLE-1
+(diagram (280 160)
+  (grid)
+  (drop-shadow)
+  (rect canvas.cc 160 100 :stroke :black :fill :beige :id :rct :filter :drop-shadow)
+  (with-subcanvas-of (:rct)
+    (rect            '( 10  10) 40 40 :stroke :navy      :fill :lightblue)
+    (circle          '(150  10) 25    :stroke :maroon    :fill :darksalmon)
+    (diamond         '( 10  90) 50 50 :stroke :darkgreen :fill :lightgreen)
+    (regular-polygon '(150  90)  5 28 :stroke :black     :fill :lightgray)))
+-->
+
+```kaavio
+<!-- expand: DEFS-CLIPPING-SAMPLE-1 -->
+```
+
+　上記図面のコードは以下の通りです。大きな矩形 `:rct` のサブキャンバス内で 4 つ
+の図形要素を描画しています。
+
+```lisp
+<!-- expand: DEFS-CLIPPING-SAMPLE-1 -->
+```
+
+<!-- snippet: DEFS-CLIPPING-SAMPLE-2
+(diagram (280 160)
+  (grid)
+  (drop-shadow)
+  (rect canvas.cc 160 100 :stroke :black :fill :beige :id :rct :filter :drop-shadow)
+  (with-subcanvas-of (:rct)
+    (with-clipping-current-canvas    ;; ADDED
+      (rect            '( 10  10) 40 40 :stroke :navy      :fill :lightblue)
+      (circle          '(150  10) 25    :stroke :maroon    :fill :darksalmon)
+      (diamond         '( 10  90) 50 50 :stroke :darkgreen :fill :lightgreen)
+      (regular-polygon '(150  90)  5 28 :stroke :black     :fill :lightgray))))
+-->
+
+　では、クリッピング機能を使用してはみ出した部分が描画されないようにしてみましょう。
+with-clipping-current-canvas マクロを使用して、4 つの要素を描画するコードを括る
+だけです。以下のように。
+
+```lisp
+<!-- expand: DEFS-CLIPPING-SAMPLE-2 -->
+```
+
+　結果は以下のようになります。
+
+```kaavio
+<!-- expand: DEFS-CLIPPING-SAMPLE-2 -->
+```
+Figure. with-clipping-current-canvas マクロの例
+
+
+<!-- snippet: DEFS-CLIPPING-SAMPLE-3
+(diagram (280 160)
+  (grid)
+  (drop-shadow)
+  (ellipse canvas.cc 100 60 :stroke :black :fill :beige :id :ellipse :filter :drop-shadow)
+  (with-clipping-use (:ellipse)
+    (rect            '( 70  40) 40 40 :stroke :navy      :fill :lightblue)
+    (circle          '(210  40) 25    :stroke :maroon    :fill :darksalmon)
+    (diamond         '( 70 120) 50 50 :stroke :darkgreen :fill :lightgreen)
+    (regular-polygon '(210 120)  5 28 :stroke :black     :fill :lightgray)))
+-->
+
+　サブキャンバスは常に矩形なので、たとえば円形の領域で上記の方法を使うと期待通り
+にはいきません。その場合、with-clipping-use マクロが使えるかもしれません。
+以下の例では、楕円でクリッピングをしています。
+
+```lisp
+<!-- expand: DEFS-CLIPPING-SAMPLE-3 -->
+```
+
+　結果は以下のようになります。with-clipping-use マクロはサブキャンバスとは無関係なので、
+この例では（クリッピングされる）4 つの図形要素の位置指定がこれまでと異なることに注意
+してください。
+
+```kaavio
+<!-- expand: DEFS-CLIPPING-SAMPLE-3 -->
+```
+Figure. with-clipping-use マクロの例
+
+　より複雑なパスでクリッピングを行なうことも可能です。以下では、文字を使ってクリッピング
+をています。
+
+<!-- snippet: DEFS-CLIPPING-SAMPLE-4
+(diagram (280 160)
+  (grid)
+  (text (y+ canvas.cc 60) "B" :align :center :id :char
+        :font '(:family "Courier New" :size 140
+                :stroke 3 :fill :lightgray :weight :bolder))
+  (with-clipping-use (:char)
+    (explosion1 (y+ canvas.cc 10) 110 110 "" :fill :pink :stroke :red)))
+-->
+
+```lisp
+<!-- expand: DEFS-CLIPPING-SAMPLE-4 -->
+```
+
+```kaavio
+<!-- expand: DEFS-CLIPPING-SAMPLE-4 -->
+```
+Figure. 文字を使ったクリッピングの例
 
 ## 定義と再使用
 
@@ -6786,6 +6901,9 @@ Figure. 色の名前とサンプル - 2
     * BUGFIX : version 0.024 における connector のバグを改修
 * __2025/02/20 - version 0.026__
     * ENHANCE : [$$](#正多角形)を追加
+* __2025/03/08 - version 0.027__
+    * ENHANCE : [$$](#クリッピング)機能を追加
+
 
 ## 図表一覧
 <!-- embed:figure-list -->

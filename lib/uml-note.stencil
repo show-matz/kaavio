@@ -79,32 +79,34 @@
       (macrolet ((register-entity (entity)
                    `(check-and-draw-local-entity ,entity canvas writer)))
         (with-slots (keyword margin2 crease filter
-                             kaavio::font kaavio::fill kaavio::stroke kaavio::margin) note
-          ;; draw note body
-          (writer-write writer "<g "
-                               (to-property-strings kaavio::stroke)
-                               (write-when filter "filter='url(#" it ")' ") ">")
-          (writer-incr-level writer)
-          (let ((*mute-stroke* t))
-            (polygon `((0 ,(/ height 2))
-                       (0 ,height)
-                       (,width ,height)
-                       (,width ,crease)
-                       (,(- width crease) 0)
-                       (0 0)
-                       (0 ,(/ height 2))) :fill kaavio::fill)
-            ;; crease
-            (line `((,width ,crease)
-                    (,(- width crease) ,crease) (,(- width crease) 0))))
-          (writer-decr-level writer)
-          (writer-write writer "</g>")
-          ;; draw keyword
-          (when keyword
-            (uml-keyword-draw keyword (+ left kaavio::margin)
-                              (+ top (/ kaavio::margin 2) margin2)
-                              :left kaavio::font writer))))))
-  ;; draw text
-  (call-next-method))
+                             kaavio::font kaavio::margin
+                             kaavio::fill kaavio::stroke kaavio::clip-path) note
+          (let ((kaavio:*current-clip-path* kaavio::clip-path))
+            ;; draw note body
+            (writer-write writer "<g "
+                                 (to-property-strings kaavio::stroke)
+                                 (write-when filter "filter='url(#" it ")' ") ">")
+            (writer-incr-level writer)
+            (let ((*mute-stroke* t))
+              (polygon `((0 ,(/ height 2))
+                         (0 ,height)
+                         (,width ,height)
+                         (,width ,crease)
+                         (,(- width crease) 0)
+                         (0 0)
+                         (0 ,(/ height 2))) :fill kaavio::fill)
+              ;; crease
+              (line `((,width ,crease)
+                      (,(- width crease) ,crease) (,(- width crease) 0))))
+            (writer-decr-level writer)
+            (writer-write writer "</g>")
+            ;; draw keyword
+            (when keyword
+              (uml-keyword-draw keyword (+ left kaavio::margin)
+                                (+ top (/ kaavio::margin 2) margin2)
+                                :left kaavio::font kaavio::clip-path writer))))))
+    ;; draw text
+    (call-next-method)))
 
 ;for debug...
 ;(defmethod post-draw ((obj uml-note) writer)
@@ -195,6 +197,7 @@
                                                :fill   (or ,fill *uml-note-fill*)
                                                :stroke (or ,stroke *uml-note-stroke*)
                                                :crease ,crease :link ,link
+                                               :clip-path kaavio:*current-clip-path*
                                                :layer ,layer :filter ,filter :id ,id))))
     (if (null contents)
         code

@@ -4,6 +4,7 @@
 #|ASD|#                                                                "entity"
 #|ASD|#                                                                "font-info"
 #|ASD|#                                                                "link-info"
+#|ASD|#                                                                "clipping"
 #|ASD|#                                                                "writer"))
 #|EXPORT|#                ;text.lisp
  |#
@@ -25,7 +26,7 @@
 #|
 #|EXPORT|#                :write-text-tag
  |#
-(defun write-text-tag (x y txt writer &key id align font)
+(defun write-text-tag (x y txt writer &key id align font clip-path)
   (writer-write writer
                 "<text x='" x "' y='" y "' "
                 (write-when (keywordp id) "id='" id "' ")
@@ -37,6 +38,7 @@
                   (if (stringp font)
                       font
                       (to-property-strings font)))
+                (write-when clip-path "clip-path='url(#" it ")' ")
                 (when (need-preserve-space-p txt)
                   "xml:space='preserve' ")
                 ">" (escape-characters txt) "</text>"))
@@ -51,7 +53,8 @@
    (text      :initform nil :initarg :text)        ; string
    (align     :initform nil :initarg :align)       ; keyword
    (font      :initform nil :initarg :font)        ; (or nil font-info)
-   (link      :initform nil :initarg :link)))      ; (or nil link-info)
+   (link      :initform nil :initarg :link)        ; (or nil link-info)
+   (clip-path :initform nil :initarg :clip-path))) ; (or nil symbol)
 
 
 (defmethod initialize-instance :after ((txt text) &rest initargs)
@@ -69,12 +72,13 @@
   (declare (ignorable dict))
   ;; this method must call super class' one.
   (call-next-method)
-  (with-slots (position text align font link) txt
+  (with-slots (position text align font link clip-path) txt
     (check-member   text  :nullable nil :types string)
     (check-member   align :nullable nil :types keyword)
     (check-object   font  canvas dict :nullable nil :class font-info)
     (check-object   link  canvas dict :nullable   t :class link-info)
     (check-keywords align :left :center :right)
+    (check-member   clip-path :nullable  t :types symbol)
     (setf position (canvas-fix-point canvas position)))
   nil)
 
@@ -96,13 +100,13 @@
   (call-next-method))
 
 (defmethod draw-entity ((txt text) writer)
-  (with-slots (position align font text) txt
+  (with-slots (position align font text clip-path) txt
     (let ((id  (and (not (entity-composition-p txt))
                     (slot-value txt 'id))))
       (pre-draw txt writer)
       (write-text-tag (point-x position)
                       (point-y position)
-                      text writer :id id :align align :font font)
+                      text writer :id id :align align :font font :clip-path clip-path)
       (post-draw txt writer))))
 
 
@@ -146,5 +150,6 @@
   `(register-entity (make-instance 'kaavio:text
                                    :position ,position :text ,text
                                    :align ,align :font ,font 
+                                   :clip-path *current-clip-path*
                                    :link ,link :layer ,layer :id ,id)))
 

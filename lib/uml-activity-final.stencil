@@ -36,11 +36,12 @@
   nil)
 
 (defmethod post-draw ((obj uml-activity-final) writer)
-  (with-slots (ratio) obj
+  (with-slots (ratio kaavio::clip-path) obj
     (let* ((canvas (shape-get-subcanvas obj))
            (center (/ (canvas-width canvas) 2))
            (radius (* center ratio))
-           (fill   (slot-value (slot-value obj 'kaavio::stroke) 'kaavio::color)))
+           (fill   (slot-value (slot-value obj 'kaavio::stroke) 'kaavio::color))
+           (kaavio:*current-clip-path* kaavio::clip-path))
       (macrolet ((register-entity (entity)
                    `(check-and-draw-local-entity ,entity canvas writer)))
         (circle (make-point center center) radius :fill fill :stroke :none))))
@@ -76,6 +77,7 @@
                                    :ratio  (or ,ratio  *uml-activity-final-ratio*)
                                    :fill   (or ,fill   *uml-activity-final-fill*   *default-fill*)
                                    :stroke (or ,stroke *uml-activity-final-stroke* *default-stroke*)
+                                   :clip-path kaavio:*current-clip-path*
                                    :link ,link :layer ,layer :filter ,filter :id ,id)))
 
 

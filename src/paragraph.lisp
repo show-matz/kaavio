@@ -6,6 +6,7 @@
 #|ASD|#                                                                "font-info"
 #|ASD|#                                                                "link-info"
 #|ASD|#                                                                "point"
+#|ASD|#                                                                "clipping"
 #|ASD|#                                                                "writer"))
 #|EXPORT|#                ;paragraph.lisp
  |#
@@ -37,7 +38,8 @@
    (valign    :initform nil :initarg :valign)      ; keyword
    (font      :initform nil :initarg :font)        ; (or nil font-info)
    (width     :initform nil :initarg :width)       ; number
-   (height    :initform nil :initarg :height)))    ; number
+   (height    :initform nil :initarg :height)      ; number
+   (clip-path :initform nil :initarg :clip-path))) ; (or nil symbol)
 
 
 (defmethod initialize-instance :after ((shp paragraph) &rest initargs)
@@ -51,13 +53,14 @@
 (defmethod check ((shp paragraph) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (with-slots (position text align valign font width height layer) shp
+  (with-slots (position text align valign font width height layer clip-path) shp
     (check-member   text   :nullable nil :types string)
     (check-member   align  :nullable nil :types keyword)
     (check-member   valign :nullable nil :types keyword)
     (check-object   font   canvas dict :nullable nil :class font-info)
     (check-keywords align  :left :center :right)
     (check-keywords valign :top  :center :bottom)
+    (check-member clip-path :nullable  t :types symbol)
     (setf text (string/split (fix-name text) #\newline))
     (setf position (canvas-fix-point canvas position))
     (multiple-value-bind (w h) (caluculate-paragraph-shapesize font text)
@@ -95,13 +98,14 @@
   (call-next-method)
   (with-slots (text) shp
     (when (< 1 (length text))
-      (with-slots (align font) shp
+      (with-slots (align font clip-path) shp
         (writer-write writer "<g "
                       "text-anchor='" (ecase align
                                         ((:left)   "start")
                                         ((:center) "middle")
                                         ((:right)  "end")) "' "
                       (to-property-strings font)
+                      (write-when clip-path "clip-path='url(#" it ")' ")
                       ">"))
       (writer-incr-level writer))))
 
@@ -116,7 +120,7 @@
 ;;(defmethod shape-get-subcanvas ((shp rectangle)) ...)
 
 (defmethod draw-entity ((shp paragraph) writer)
-  (with-slots (position align font text id) shp
+  (with-slots (position align font text id clip-path) shp
     (let ((x (point-x position))
           (y (point-y (attribute-top shp)))
           (txt-anchor (ecase align
@@ -127,7 +131,8 @@
         (pre-draw shp writer)
         (if (= 1 (length text))
             (write-text-tag x (+ y font-size) (car text) writer
-                            :id id :align align :font (to-property-strings font))
+                            :id id :align align
+                            :font (to-property-strings font) :clip-path clip-path)
             (dolist (line text)
               (incf y font-size)
               (write-text-tag x y line writer)
@@ -180,5 +185,6 @@
   `(register-entity (make-instance 'kaavio:paragraph
                                    :position ,position :text ,text
                                    :align ,align :valign ,valign :rotate ,rotate
+                                   :clip-path *current-clip-path*
                                    :font ,font :link ,link :layer ,layer :id ,id)))
 

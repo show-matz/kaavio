@@ -7,6 +7,7 @@
 #|ASD|#                                                                "circle"
 #|ASD|#                                                                "stroke-info"
 #|ASD|#                                                                "link-info"
+#|ASD|#                                                                "clipping"
 #|ASD|#                                                                "filter"
 #|ASD|#                                                                "writer"))
 #|EXPORT|#                ;regular-polygon.lisp
@@ -98,7 +99,7 @@
                          (coerce (point-x (car pts)) 'single-float)
                          (coerce (point-y (car pts)) 'single-float))
                  (setf pts (cdr pts))))))
-    (with-slots (count radius fill stroke filter) shp
+    (with-slots (count radius fill stroke clip-path filter) shp
       (let* ((id (and (not (entity-composition-p shp))
                       (slot-value shp 'id)))
              (center (attribute-center shp))
@@ -118,6 +119,7 @@
                       (to-property-strings fill)
                       (to-property-strings stroke)
                       "points='" (format-points points) "' "
+                      (write-when clip-path "clip-path='url(#" it ")' ")
                       (write-when filter "filter='url(#" it ")' ")
                       "/>")
       (post-draw shp writer))))
@@ -174,6 +176,7 @@
                                                :count ,n :position ,position
                                                :pivot ,pivot :radius ,size
                                                :fill ,fill :stroke ,stroke :rotate ,rotate
+                                               :clip-path *current-clip-path*
                                                :link ,link :filter ,filter :layer ,layer :id ,id))))
     (if (null contents)
         code

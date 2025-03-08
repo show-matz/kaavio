@@ -4,6 +4,7 @@
 #|ASD|#                                                                "fill-info"
 #|ASD|#                                                                "stroke-info"
 #|ASD|#                                                                "entity"
+#|ASD|#                                                                "clipping"
 #|ASD|#                                                                "filter"
 #|ASD|#                                                                "writer"))
 #|EXPORT|#                ;path.lisp
@@ -218,6 +219,7 @@
   ((data   :initform nil :initarg :data)        ; list
    (fill   :initform nil :initarg :fill)        ; (or nil fill-info)
    (stroke :initform nil :initarg :stroke)      ; (or nil stroke-info)
+   (clip-path :initform nil :initarg :clip-path) ; (or nil symbol)
    (filter :initform nil :initarg :filter)))    ; (or nil keyword)
 
 
@@ -237,10 +239,11 @@
 (defmethod check ((ent path) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (with-slots (data fill stroke filter) ent
+  (with-slots (data fill stroke clip-path filter) ent
     (check-member data    :nullable nil :types list)
     (check-object fill    canvas dict :nullable nil :class fill-info)
     (check-object stroke  canvas dict :nullable nil :class stroke-info)
+    (check-member clip-path :nullable  t :types symbol)
     (check-member filter  :nullable   t :types keyword)
     (setf data (__check-&-fix-data data nil :absolute canvas)))
   nil)
@@ -257,7 +260,7 @@
                      ((numberp  elm) (format stream "~F" elm))
                      ((stringp  elm) (format stream "~A" elm)))
                    (incf idx))))))
-    (with-slots (data fill stroke filter) ent
+    (with-slots (data fill stroke clip-path filter) ent
       (let ((id  (and (not (entity-composition-p ent))
                       (slot-value ent 'id))))
         (pre-draw ent writer)
@@ -267,6 +270,7 @@
                       (to-property-strings fill)
                       (to-property-strings stroke)
                       "d='" (format-path-data data) "' "
+                      (write-when clip-path "clip-path='url(#" it ")' ")
                       (write-when filter "filter='url(#" it ")' ")
                       "/>")
         (post-draw ent writer)))))
@@ -308,5 +312,6 @@
 (defmacro path (data &key fill stroke layer filter id)
   `(register-entity (make-instance 'kaavio:path
                                    :data ,data :fill ,fill :stroke ,stroke
+                                   :clip-path *current-clip-path*
                                    :layer ,layer :filter ,filter :id ,id)))
 

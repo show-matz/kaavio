@@ -6,6 +6,7 @@
 #|ASD|#                                                                "shape"
 #|ASD|#                                                                "stroke-info"
 #|ASD|#                                                                "link-info"
+#|ASD|#                                                                "clipping"
 #|ASD|#                                                                "filter"
 #|ASD|#                                                                "writer"))
 #|EXPORT|#                ;ellipse.lisp
@@ -104,6 +105,7 @@
    (radius-y  :initform   0 :initarg :radius-y)    ; number
    (fill      :initform nil :initarg :fill)        ; (or nil fill-info)
    (stroke    :initform nil :initarg :stroke)      ; (or nil stroke-info)
+   (clip-path :initform nil :initarg :clip-path)   ; (or nil symbol)
    (filter    :initform nil :initarg :filter)))    ; (or nil keyword)
 
 (defmethod initialize-instance :after ((ent ellipse) &rest initargs)
@@ -124,12 +126,13 @@
   (declare (ignorable dict))
   ;; this method must call super class' one.
   (call-next-method)
-  (with-slots (position pivot radius-x radius-y fill stroke filter) shp
+  (with-slots (position pivot radius-x radius-y fill stroke clip-path filter) shp
     (check-member pivot     :nullable nil :types keyword)
     (check-member radius-x  :nullable nil :types number)
     (check-member radius-y  :nullable nil :types number)
     (check-object fill      canvas dict :nullable nil :class   fill-info)
     (check-object stroke    canvas dict :nullable nil :class stroke-info)
+    (check-member clip-path :nullable   t :types symbol)
     (check-member filter    :nullable   t :types keyword)
     (setf position (canvas-fix-point canvas position)))
   nil)
@@ -157,7 +160,7 @@
 ;;(defmethod entity-composition-p ((shp ellipse)) ...)
   
 (defmethod draw-entity ((shp ellipse) writer)
-  (with-slots (radius-x radius-y fill stroke filter) shp
+  (with-slots (radius-x radius-y fill stroke clip-path filter) shp
     (let ((id (and (not (entity-composition-p shp))
                    (slot-value shp 'id)))
           (center (attribute-center shp)))
@@ -171,6 +174,7 @@
                     "ry='" radius-y "' "
                     (to-property-strings fill)
                     (to-property-strings stroke)
+                    (write-when clip-path "clip-path='url(#" it ")' ")
                     (write-when filter "filter='url(#" it ")' ")
                     "/>")
       (post-draw shp writer)))
@@ -224,6 +228,7 @@
                                                :pivot ,pivot :rotate ,rotate
                                                :radius-x ,rx :radius-y ,ry
                                                :fill ,fill :stroke ,stroke
+                                               :clip-path *current-clip-path*
                                                :filter ,filter :link ,link
                                                :layer ,layer :id ,id))))
     (if (null contents)

@@ -6,6 +6,7 @@
 #|ASD|#                                                                "font-info"
 #|ASD|#                                                                "fill-info"
 #|ASD|#                                                                "stroke-info"
+#|ASD|#                                                                "clipping"
 #|ASD|#                                                                "writer"))
 #|EXPORT|#                ;text-shape.lisp
  |#
@@ -30,7 +31,8 @@
    (font    :initform nil :initarg :font)        ; (or nil font-info)
    (fill    :initform nil :initarg :fill)        ; (or nil fill-info)
    (stroke  :initform nil :initarg :stroke)      ; (or nil stroke-info)
-   (margin  :initform nil :initarg :margin)))    ; number
+   (margin  :initform nil :initarg :margin)      ; number
+   (clip-path :initform nil :initarg :clip-path))) ; (or nil symbol)
 
 
 ; calc width & height of whole text-shape.
@@ -53,7 +55,7 @@
   txtshp)
 
 (defmethod check ((txtshp text-shape) canvas dict)
-  (with-slots (text align valign font fill stroke margin) txtshp
+  (with-slots (text align valign font fill stroke margin clip-path) txtshp
     (check-member   text    :nullable nil :types (or keyword string))
     (check-member   align   :nullable nil :types keyword)
     (check-member   valign  :nullable nil :types keyword)
@@ -63,6 +65,7 @@
     (check-member   margin  :nullable nil :types number)
     (check-keywords align   :left :center :right)
     (check-keywords valign  :top  :center :bottom)
+    (check-member clip-path :nullable  t :types symbol)
     (setf text (fix-name text)))
   ;; width, height のいずれか（または両方）が省略されている場合は計算で決定
   ;;MEMO : 明示的に w/h を指定された場合、テキストがはみ出す可能性があるがそれは仕方ない
@@ -83,7 +86,7 @@
           (height (canvas-height canvas)))
       (macrolet ((register-entity (entity)
                    `(check-and-draw-local-entity ,entity canvas writer)))
-        (with-slots (text align valign font margin) txtshp
+        (with-slots (text align valign font margin clip-path) txtshp
           (unless (string= "" text)
             ;; draw text
             (let ((x (ecase align
@@ -94,7 +97,8 @@
                        ((:top)     margin)
                        ((:center) (/ height 2))
                        ((:bottom) (- height margin)))))
-              (paragraph (list x y) text :align align :valign valign :font font)))))))
+              (let ((*current-clip-path* clip-path))
+                (paragraph (list x y) text :align align :valign valign :font font))))))))
   nil)
 
 ;for debug...

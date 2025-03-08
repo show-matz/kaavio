@@ -34,13 +34,13 @@
 (defun uml-role-to-string (rol)
   (format-string (slot-value rol 'name)))
 
-(defun uml-role-draw (rol x y align writer)
+(defun uml-role-draw (rol x y align clip-path writer)
   (let ((txt (uml-role-to-string rol)))
     (with-slots (font) rol
-      (write-text-tag x y txt writer :align align :font font))))
+      (write-text-tag x y txt writer :align align :font font :clip-path clip-path))))
 
 ;; type := :from|:dest
-(defun uml-role-draw-beside-line (rol line type writer)
+(defun uml-role-draw-beside-line (rol line type clip-path writer)
   (unless (typep line 'kaavio:line)
     (throw-exception "role-info : line parameter is not line object"))
   (with-slots (offset font) rol
@@ -54,7 +54,7 @@
              (align (if (< x1 x2) :left :right)))
         (when (< y1 y2)
           (incf y2 (slot-value font 'kaavio::size)))
-        (uml-role-draw rol x2 y2 align writer)))))
+        (uml-role-draw rol x2 y2 align clip-path writer)))))
 
 
 ;;------------------------------------------------------------------------------------- BEGIN TURNUP

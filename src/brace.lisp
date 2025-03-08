@@ -1,6 +1,7 @@
 #|
 #|ASD|#                (:file "brace"                     :depends-on ("kaavio"
 #|ASD|#                                                                "constants"
+#|ASD|#                                                                "clipping"
 #|ASD|#                                                                "path"))
 #|EXPORT|#                ;brace.lisp
  |#
@@ -86,6 +87,7 @@
    (text        :initform nil :initarg :text)        ; (or keyword string)
    (font        :initform nil :initarg :font)        ; (or nil font-info)
    (stroke      :initform nil :initarg :stroke)      ; (or nil stroke-info)
+   (clip-path   :initform nil :initarg :clip-path)   ; (or nil symbol)
    (filter      :initform nil :initarg :filter)))    ; (or nil keyword)
   
 (defmethod initialize-instance :after ((brc brace) &rest initargs)
@@ -102,13 +104,14 @@
   brc)
 
 (defmethod check ((brc brace) canvas dict)
-  (with-slots (direction r point text font stroke filter) brc
+  (with-slots (direction r point text font stroke filter clip-path) brc
     (check-keywords direction :upper :bottom :left :right)
     (check-member   r       :nullable t :types number)
     (check-member   point   :nullable t :types number)
     (check-member   text    :nullable t :types (or keyword string))
     (check-object   font    canvas dict :nullable   t :class   font-info)
     (check-object   stroke  canvas dict :nullable nil :class stroke-info)
+    (check-member clip-path :nullable   t :types symbol)
     (check-member filter    :nullable   t :types keyword)
     (when text
       (setf text (fix-name text))))
@@ -123,25 +126,26 @@
           (height (canvas-height canvas)))
       (macrolet ((register-entity (entity)
                    `(check-and-draw-local-entity ,entity canvas writer)))
-        (with-slots (direction r point text font stroke filter) brc
+        (with-slots (direction r point text font stroke filter clip-path) brc
           (multiple-value-bind (point data)
               (case direction
                 ((:upper)  (brace-make-path-upper  width height r point))
                 ((:bottom) (brace-make-path-bottom width height r point))
                 ((:left)   (brace-make-path-left   width height r point))
                 ((:right)  (brace-make-path-right  width height r point)))
-            ;; draw brace
-            (path data :stroke stroke :fill :none :filter filter)
-            ;; draw text
-            (when text
-              (with-slots (size) font
-                (multiple-value-bind (align pos)
-                    (case direction
-                      ((:upper)  (values :center `(,point ,(+ height size 5))))
-                      ((:bottom) (values :center `(,point -5)))
-                      ((:left)   (values :left   `(,(+ width 5) ,(+ point (/ size 2)))))
-                      ((:right)  (values :right  `(-5 ,(+ point (/ size 2))))))
-                  (text pos text :align align :font font)))))))))
+            (let ((*current-clip-path* clip-path))
+              ;; draw brace
+              (path data :stroke stroke :fill :none :filter filter)
+              ;; draw text
+              (when text
+                (with-slots (size) font
+                  (multiple-value-bind (align pos)
+                      (case direction
+                        ((:upper)  (values :center `(,point ,(+ height size 5))))
+                        ((:bottom) (values :center `(,point -5)))
+                        ((:left)   (values :left   `(,(+ width 5) ,(+ point (/ size 2)))))
+                        ((:right)  (values :right  `(-5 ,(+ point (/ size 2))))))
+                    (text pos text :align align :font font))))))))))
   nil)
 
 
@@ -194,6 +198,7 @@
                                    :direction ,direction :width ,width :height ,height
                                    :r ,r :point ,point
                                    :text ,text :font ,font :stroke ,stroke
+                                   :clip-path *current-clip-path*
                                    :link nil :layer ,layer :filter ,filter :id ,id)))
 
 

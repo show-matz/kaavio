@@ -6,6 +6,7 @@
 #|ASD|#                                                                "stroke-info"
 #|ASD|#                                                                "endmark-info"
 #|ASD|#                                                                "entity"
+#|ASD|#                                                                "clipping"
 #|ASD|#                                                                "filter"
 #|ASD|#                                                                "writer"))
 #|EXPORT|#                ;2d-curve.lisp
@@ -24,6 +25,7 @@
    (end1    :initform nil :initarg :end1)       ; keyword
    (end2    :initform nil :initarg :end2)       ; keyword
    (stroke  :initform nil :initarg :stroke)     ; (or nil stroke-info)
+   (clip-path :initform nil :initarg :clip-path) ; (or nil symbol)
    (filter  :initform nil :initarg :filter)     ; (or nil stroke-info)
    (debug   :initform nil :initarg :debug)))    ; (or nil t keyword)
 
@@ -69,7 +71,7 @@
                                (second points)
                                (first  points)))))
 
-(defun 2d-curve-draw-controls (color ctrl-pts writer)
+(defun 2d-curve-draw-controls (color ctrl-pts clip-path writer)
   (let ((stroke (make-stroke :color color :dasharray '(2 3)))
         (fill   (make-fill   :color color)))
     (labels ((draw-ctrl-lines (pts)
@@ -84,12 +86,14 @@
                                "cy='" (point-y (car pts)) "' "
                                "r='3' stroke='none' "
                                (to-property-strings fill)
+                               (write-when clip-path "clip-path='url(#" it ")' ")
                                "/>")
                  (draw-ctrl-points (cdr pts))))
              (draw-line-impl (pt1 pt2)
                (writer-write writer
                              "<polyline fill='none' "
                              (to-property-strings stroke)
+                             (write-when clip-path "clip-path='url(#" it ")' ")
                              "points='"
                              (with-output-to-string (st)
                                (format st "~A,~A ~A,~A"
@@ -104,11 +108,12 @@
 (defmethod check ((ent 2d-curve) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (with-slots (points end1 end2 stroke filter debug) ent
+  (with-slots (points end1 end2 stroke clip-path filter debug) ent
     (check-member points :nullable nil :types list)
     (check-object end1   canvas dict :nullable   t :class endmark-info)
     (check-object end2   canvas dict :nullable   t :class endmark-info)
     (check-object stroke canvas dict :nullable nil :class stroke-info)
+    (check-member clip-path :nullable t :types symbol)
     (check-member filter :nullable   t :types keyword)
     (check-member debug  :nullable   t :types keyword)
     (when end1 (check end1 canvas dict))
@@ -131,7 +136,7 @@
       (slot-value ent 'end2)))
 
 (defmethod draw-entity ((ent 2d-curve) writer)
-  (with-slots (points end1 end2 stroke filter debug) ent
+  (with-slots (points end1 end2 stroke clip-path filter debug) ent
     (let ((id  (and (not (entity-composition-p ent))
                     (slot-value ent 'id))))
       (pre-draw ent writer)
@@ -159,16 +164,17 @@
                       (to-property-strings stroke)
                       "d='" (with-output-to-string (st)
                               (format-path-data points st)) "' "
+                      (write-when clip-path "clip-path='url(#" it ")' ")
                       (write-when filter "filter='url(#" it ")' ")
                       "/>"))
       (let ((ctrl-pts (and (or end2 debug)
                            (2d-curve-get-ctrl-points points))))
         (when end1
-          (draw-endmark end1 (2d-curve-get-endpoints ctrl-pts :from) stroke writer))
+          (draw-endmark end1 (2d-curve-get-endpoints ctrl-pts :from) stroke clip-path writer))
         (when end2
-          (draw-endmark end2 (2d-curve-get-endpoints ctrl-pts :dest) stroke writer))
+          (draw-endmark end2 (2d-curve-get-endpoints ctrl-pts :dest) stroke clip-path writer))
         (when debug
-          (2d-curve-draw-controls debug ctrl-pts writer)))
+          (2d-curve-draw-controls debug ctrl-pts clip-path writer)))
       (post-draw ent writer)))
   nil)
 
@@ -227,5 +233,6 @@
                                    :points ,points
                                    :end1 ,end1 :end2 ,end2
                                    :stroke ,stroke :filter ,filter
+                                   :clip-path *current-clip-path*
                                    :layer ,layer :id ,id :debug ,debug)))
 

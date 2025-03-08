@@ -47,9 +47,9 @@
   t)  
 
 (defmethod post-draw ((obj uml-interface) writer)
-  (with-slots (name) obj
+  (with-slots (name kaavio::clip-path) obj
     (when name
-      (draw-label name obj writer)))
+      (draw-label name obj kaavio::clip-path writer)))
   (call-next-method)
 ;  (draw-canvas-frame (shape-get-subcanvas obj) writer)    ;for debug...
   nil)
@@ -81,6 +81,7 @@
                                    :name ,name
                                    :fill   (or ,fill   *uml-interface-fill*)
                                    :stroke (or ,stroke *uml-interface-stroke*)
+                                   :clip-path kaavio:*current-clip-path*
                                    :link ,link :layer ,layer :id ,id)))
 
 
@@ -99,6 +100,7 @@
    (style           :initform nil :initarg :style)    ; keyword - :(CC|[BLRT][123]?[BLRT][123]?) ( keyword -> list )
    (spacing         :initform nil :initarg :spacing)  ; list
    (stroke          :initform nil :initarg :stroke)   ; (or nil stroke-info)
+   (clip-path       :initform nil :initarg :clip-path) ; (or nil symbol)
    (points          :initform nil)                    ; list
    (canvas-cache    :initform nil)                    ; (or nil canvas)
    (dummy-circle    :initform nil)                    ; (or nil circle)
@@ -116,13 +118,14 @@
 (defmethod check ((sock uml-interface-socket) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (with-slots (name position from style stroke spacing
+  (with-slots (name position from style stroke clip-path spacing
                     points canvas-cache dummy-circle #|degree|#) sock
     (check-object name   canvas dict :nullable nil :class label-info)
     (unless (point-p from)
       (check-member from   :nullable nil :types symbol))
     (check-member style  :nullable nil :types keyword)
     (check-object stroke canvas dict :nullable nil :class stroke-info)
+    (check-member clip-path :nullable  t :types symbol)
     (check-member spacing :nullable  t :types (or number list))
     (setf spacing (if (numberp spacing) (list spacing) spacing))
     (when (remove-if #'numberp spacing)
@@ -151,13 +154,14 @@
 
 (defmethod draw-entity ((sock uml-interface-socket) writer)
   (pre-draw sock writer)
-  (with-slots (name position stroke
+  (with-slots (name position stroke clip-path
                 canvas-cache dummy-circle points degree) sock
     (let ((canvas canvas-cache))
       (declare (special canvas))
       (macrolet ((register-entity (entity)
                    `(check-and-draw-local-entity ,entity canvas writer)))
-        (let ((*default-stroke* stroke))
+        (let ((*default-stroke* stroke)
+              (*current-clip-path*  clip-path))
           (line points)
           (multiple-value-bind (deg1 deg2)
               (calculate-degrees (slot-value dummy-circle 'kaavio::position) points degree)
@@ -166,7 +170,7 @@
             (let ((radius  (slot-value dummy-circle 'kaavio::radius)))
               (arc position radius radius 0 deg1 deg2)))
           (when name
-            (draw-label name dummy-circle writer))))))    ;;ToDo : font OK...?
+            (draw-label name dummy-circle clip-path writer))))))  ;;ToDo : font OK...?
   (post-draw sock writer)
   nil)
           
@@ -196,6 +200,7 @@
   `(register-entity (make-instance 'uml-interface-socket
                                    :name ,name :position ,position :from ,from
                                    :style ,style :spacing ,spacing
+                                   :clip-path *current-clip-path*
                                    :stroke ,stroke :layer ,layer :id ,id)))
 
 
@@ -288,12 +293,13 @@
 
 (defmethod post-draw ((req uml-interface-request) writer)
   (with-slots (canvas-cache points-cache pt-cache
-                degree-cache radius-cache kaavio::stroke) req
+                degree-cache radius-cache kaavio::stroke kaavio::clip-path) req
     (let ((canvas canvas-cache))
       (declare (special canvas))
       (macrolet ((register-entity (entity)
                    `(check-and-draw-local-entity ,entity canvas writer)))
-        (let ((*default-stroke* kaavio::stroke))
+        (let ((*default-stroke* kaavio::stroke)
+              (*current-clip-path* kaavio::clip-path))
           (when points-cache
             (line points-cache :end1 nil :end2 :arrow
                                :stroke '(:dasharray (3 3)))) ; ToDo : fix ?
@@ -333,5 +339,6 @@
                                    :stroke (or ,stroke
                                                *uml-interface-request-stroke*
                                                *default-stroke* :black)
+                                   :clip-path *current-clip-path*
                                    :end1 nil :end2 nil :layer ,layer :id ,id)))
 

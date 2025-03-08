@@ -3,7 +3,7 @@
 
 (load-stencil :uml-keyword-info)
 
-(defun uml-connection-draw-label (connection x y sin cos writer)
+(defun uml-connection-draw-label (connection x y sin cos clip-path writer)
   (with-slots (name keyword) connection
     (labels ((calc-width-and-height ()
                (let* ((width   0)
@@ -40,6 +40,7 @@
                                       (+ y (point-y offset))
                                       :center
                                       nil    ;; ToDo : font
+                                      clip-path
                                       writer)
             (incf y spacing))
           (when name
@@ -48,6 +49,7 @@
                 (incf y name-size)
                 (write-text-tag (+ x (point-x offset))
                                 (+ y (point-y offset))
-                                line writer :align :center :font font-property)
+                                line writer :align :center
+                                :font font-property :clip-path clip-path)
                 (incf y spacing)))))))))
 

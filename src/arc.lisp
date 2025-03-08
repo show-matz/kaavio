@@ -72,7 +72,7 @@
     (when x-axis-rotation
       (writer-write writer "</g>"))))
 
-(defun arc-draw-endmarks (ent writer)
+(defun arc-draw-endmarks (ent clip-path writer)
   (with-slots (pt1 pt2 rx ry x-axis-rotation
                   degree1 degree2 end1 end2 stroke debug) ent
     (let ((sin-d1 (math/sin1 x-axis-rotation))
@@ -97,7 +97,7 @@
             (let* ((sin-theta (+ (* sin-d1 cos-d2) (* cos-d1 sin-d2)))
                    (cos-theta (- (* cos-d1 cos-d2) (* sin-d1 sin-d2)))
                    (pw (xy+ pt1 (- (* 20 cos-theta)) (- (* 20 sin-theta)))))
-              (draw-endmark end1 (cons pw pt1) stroke writer))))
+              (draw-endmark end1 (cons pw pt1) stroke clip-path writer))))
         (when end2
           ;;正規化されたベース楕円における (k2 m2) を通る接線の sin/cos を求める
           (multiple-value-bind (sin-d2 cos-d2)
@@ -115,9 +115,9 @@
             (let* ((sin-theta (+ (* sin-d1 cos-d2) (* cos-d1 sin-d2)))
                    (cos-theta (- (* cos-d1 cos-d2) (* sin-d1 sin-d2)))
                    (pw (xy+ pt2 (- (* 20 cos-theta)) (- (* 20 sin-theta)))))
-              (draw-endmark end2 (cons pw pt2) stroke writer))))))))
+              (draw-endmark end2 (cons pw pt2) stroke clip-path writer))))))))
 
-(defun arc-draw-controls (ent writer)
+(defun arc-draw-controls (ent clip-path writer)
   (with-slots (center pt1 pt2 debug) ent
     (let ((stroke (make-stroke :color debug :dasharray '(4 3)))
           (fill   (make-fill   :color debug)))
@@ -128,11 +128,13 @@
                                "cy='" (point-y pt) "' "
                                "r='3' stroke='none' "
                                (to-property-strings fill)
+                               (write-when clip-path "clip-path='url(#" it ")' ")
                                "/>"))
                (draw-line (pt1 pt2)
                  (writer-write writer
                                "<polyline fill='none' "
                                (to-property-strings stroke)
+                               (write-when clip-path "clip-path='url(#" it ")' ")
                                "points='"
                                (with-output-to-string (st)
                                  (format st "~A,~A ~A,~A"
@@ -181,7 +183,7 @@
       (slot-value ent 'end2)))
 
 (defmethod draw-entity ((ent arc) writer)
-  (with-slots (end1 end2 debug) ent
+  (with-slots (end1 end2 debug clip-path) ent
     ;; debug mode ならベースになる楕円を描画
     (when debug
       (arc-draw-base-ellipse ent writer))
@@ -189,10 +191,10 @@
     (call-next-method)
     ;; endmark 処理 : internal doc の「円弧の端点における傾きの計算方法」参照
     (when (or end1 end2)
-      (arc-draw-endmarks ent writer))
+      (arc-draw-endmarks ent clip-path writer))
     ;; debug mode なら中心と始点、終点、およびそれらの間の線を描く
     (when debug
-      (arc-draw-controls ent writer))))
+      (arc-draw-controls ent clip-path writer))))
 
 
 (defmethod attribute-center ((ent arc))
@@ -256,5 +258,6 @@
                                    :degree1 ,degree1 :degree2 ,degree2
                                    :end1 ,end1 :end2 ,end2
                                    :stroke ,stroke :fill :none :layer ,layer
+                                   :clip-path *current-clip-path*
                                    :filter ,filter :id ,id :debug ,debug)))
 

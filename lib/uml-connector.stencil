@@ -22,6 +22,7 @@
    (fill    :initform nil  :initarg :fill)       ; (or nil fill-info)
    (stroke  :initform nil  :initarg :stroke)     ; (or nil stroke-info)
    (font    :initform nil  :initarg :font)       ; (or nil font-info)
+   (clip-path :initform nil :initarg :clip-path) ; (or nil symbol)
    (filter  :initform nil  :initarg :filter)))   ; (or nil keyword)
 
 (defmethod initialize-instance :after ((con uml-connector) &rest initargs)
@@ -40,11 +41,12 @@
   con)
 
 (defmethod check ((con uml-connector) canvas dict)
-  (with-slots (position2 pivot2 name fill stroke font) con
+  (with-slots (position2 pivot2 name fill stroke clip-path font) con
     (check-member pivot2             :nullable nil :types keyword)
     (check-member name               :nullable t :types     keyword)
     (check-object fill   canvas dict :nullable t :class   fill-info)
     (check-object stroke canvas dict :nullable t :class stroke-info)
+    (check-member clip-path          :nullable t :types      symbol)
     (check-object font   canvas dict :nullable t :class   font-info)
     (if name
         (setf name (subseq (symbol-name name) 0 1))
@@ -76,7 +78,7 @@
 
 ;; override of group::draw-group
 (defmethod draw-group ((con uml-connector) writer)
-  (with-slots (name size fill stroke font filter) con
+  (with-slots (name size fill stroke font clip-path filter) con
     (let* ((center1 (shape-cc-center con :dest))
            (center2 (shape-cc-center con :from))
            (canvas (group-get-canvas con))
@@ -87,7 +89,8 @@
            (fsize (slot-value font 'kaavio::size))
            (*default-fill*     fill)
            (*default-stroke* stroke)
-           (*default-font*     font))
+           (*default-font*     font)
+           (kaavio:*current-clip-path* clip-path))
       (declare (special canvas))
       (macrolet ((register-entity (entity)
                    `(check-and-draw-local-entity ,entity canvas writer)))
@@ -141,6 +144,7 @@
                                    :font    (or ,font   *uml-connector-font*)
                                    :fill    (or ,fill   *uml-connector-fill*)
                                    :stroke  (or ,stroke *uml-connector-stroke*)
+                                   :clip-path *current-clip-path*
                                    :link nil :filter ,filter :layer ,layer :id ,id)))
 
 ;;------------------------------------------------------------------------------------- BEGIN TURNUP

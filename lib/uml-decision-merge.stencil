@@ -71,39 +71,41 @@
       (macrolet ((register-entity (entity)
                    `(check-and-draw-local-entity ,entity canvas writer)))
         (with-slots (kaavio::text keyword kwd-height filter
-                         kaavio::font kaavio::margin kaavio::fill kaavio::stroke) obj
-          (when filter
-            (writer-write writer "<g filter='url(#" filter ")' >")
-            (writer-incr-level writer))
-          (let ((*default-filter* filter)
-                (*default-fill*   kaavio::fill)
-                (*default-stroke* kaavio::stroke))
-            (if (or (string/= "" kaavio::text) keyword)
-                (let ((offset (/ height 3)))
-                  (polygon `((,offset 0)
-                             (0 ,(/ height 2))
-                             (,offset ,height)
-                             (,(- width offset) ,height)
-                             (,width ,(/ height 2))
-                             (,(- width offset) 0))))
-                (let ((half-w (/ width  2))
-                      (half-h (/ height 2)))
-                  (polygon `((,half-w 0)
-                             (0 ,half-h)
-                             (,half-w ,height)
-                             (,width ,half-h)
-                             (,half-w 0))))))
-          (when filter
-            (writer-decr-level writer)
-            (writer-write writer "</g>"))
-          ;; draw keyword
-          (when keyword
-            (uml-keyword-draw keyword
-                              (+ left (/ width 2))
-                              (+ top  kaavio::margin kwd-height)
-                              :center kaavio::font writer))
-          ;; draw text
-          (call-next-method)))))
+                         kaavio::font kaavio::margin
+                         kaavio::fill kaavio::stroke kaavio::clip-path) obj
+          (let ((kaavio:*current-clip-path* kaavio::clip-path))
+            (when filter
+              (writer-write writer "<g filter='url(#" filter ")' >")
+              (writer-incr-level writer))
+            (let ((*default-filter* filter)
+                  (*default-fill*   kaavio::fill)
+                  (*default-stroke* kaavio::stroke))
+              (if (or (string/= "" kaavio::text) keyword)
+                  (let ((offset (/ height 3)))
+                    (polygon `((,offset 0)
+                               (0 ,(/ height 2))
+                               (,offset ,height)
+                               (,(- width offset) ,height)
+                               (,width ,(/ height 2))
+                               (,(- width offset) 0))))
+                  (let ((half-w (/ width  2))
+                        (half-h (/ height 2)))
+                    (polygon `((,half-w 0)
+                               (0 ,half-h)
+                               (,half-w ,height)
+                               (,width ,half-h)
+                               (,half-w 0))))))
+            (when filter
+              (writer-decr-level writer)
+              (writer-write writer "</g>"))
+            ;; draw keyword
+            (when keyword
+              (uml-keyword-draw keyword
+                                (+ left (/ width 2))
+                                (+ top  kaavio::margin kwd-height)
+                                :center kaavio::font kaavio::clip-path writer))
+            ;; draw text
+            (call-next-method))))))
   nil)
 
 
@@ -169,6 +171,7 @@
                                    :font    (or ,font   *uml-decision-merge-font*)
                                    :fill    (or ,fill   *uml-decision-merge-fill*)
                                    :stroke  (or ,stroke *uml-decision-merge-stroke*)
+                                   :clip-path kaavio:*current-clip-path*
                                    :link ,link :layer ,layer :filter ,filter :id ,id)))
 
 ;;------------------------------------------------------------------------------------- BEGIN TURNUP
@@ -201,6 +204,7 @@
                                    :font    (or ,font   *uml-decision-merge-font*)
                                    :fill    (or ,fill   *uml-decision-merge-fill*)
                                    :stroke  (or ,stroke *uml-decision-merge-stroke*)
+                                   :clip-path kaavio:*current-clip-path*
                                    :link ,link :layer ,layer :filter ,filter :id ,id)))
 
 

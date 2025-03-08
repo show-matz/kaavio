@@ -1,6 +1,7 @@
 #|
 #|ASD|#                (:file "person"                    :depends-on ("kaavio"
 #|ASD|#                                                                "constants"
+#|ASD|#                                                                "clipping"
 #|ASD|#                                                                "path"))
 #|EXPORT|#                ;person.lisp
  |#
@@ -28,6 +29,7 @@
   ((label   :initform nil :initarg :label)       ; (or nil label-info)
    (fill    :initform nil :initarg :fill)        ; (or nil fill-info)
    (stroke  :initform nil :initarg :stroke)      ; (or nil stroke-info)
+   (clip-path :initform nil :initarg :clip-path) ; (or nil symbol)
    (filter  :initform nil :initarg :filter)))    ; (or nil keyword)
   
 (defmethod initialize-instance :after ((prsn person) &rest initargs)
@@ -45,10 +47,11 @@
   prsn)
 
 (defmethod check ((prsn person) canvas dict)
-  (with-slots (label fill stroke filter) prsn
+  (with-slots (label fill stroke filter clip-path) prsn
     (check-object   label   canvas dict :nullable t   :class  label-info)
     (check-object   fill    canvas dict :nullable nil :class   fill-info)
     (check-object   stroke  canvas dict :nullable nil :class stroke-info)
+    (check-member clip-path :nullable   t :types symbol)
     (check-member   filter  :nullable   t :types keyword))
   ;; this method must call super class' one.
   (call-next-method))
@@ -60,10 +63,11 @@
     (with-canvas (cc w h) canvas
       (macrolet ((register-entity (entity)
                    `(check-and-draw-local-entity ,entity canvas writer)))
-        (with-slots (label fill stroke filter) prsn
+        (with-slots (label fill stroke filter clip-path) prsn
           ;; draw person
           (let ((w/2 (/ w 2))
-                (h/2 (/ h 2)))
+                (h/2 (/ h 2))
+                (*current-clip-path* clip-path))
             (path `((:move-to ,(xy+ cc (- w/2) h/2))
                     (:arc-to ,w/2 ,h/2 0 1 1 ,(xy+ cc w/2 h/2))
                     (:line-to ,(xy+ cc (- w/2) h/2))
@@ -73,7 +77,7 @@
                   :fill fill :stroke stroke :filter filter))
           ;; draw label
           (when label
-            (draw-label label prsn writer))))))
+            (draw-label label prsn clip-path writer))))))
   nil)
 
 
@@ -122,6 +126,7 @@
   `(register-entity (make-instance 'kaavio:person
                                    :label ,label :fill ,fill
                                    :stroke ,stroke :filter ,filter
+                                   :clip-path *current-clip-path*
                     #| group  |#   :position ,position :pivot ,pivot :width ,size :height ,(* 2 size)
                     #| shape  |#   :link ,link :rotate ,rotate
                     #| entity |#   :id ,id :layer ,layer)))

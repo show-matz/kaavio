@@ -704,6 +704,7 @@
                                    :from ,from :to ,to
                                    :style ,style :spacing ,spacing
                                    :label ,label :end1 ,end1 :end2 ,end2
+                                   :clip-path *current-clip-path*
                                    :stroke ,stroke :filter ,filter :layer ,layer :id ,id)))
 
 #|
@@ -714,6 +715,7 @@
                                    :from ,from :to ,to
                                    :style ,style :spacing ,spacing
                                    :label ,label :end1 ,end1 :end2 ,end2
+                                   :clip-path *current-clip-path*
                                    :stroke ,stroke :filter ,filter :layer ,layer :id ,id)))
 
 

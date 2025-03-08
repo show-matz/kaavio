@@ -58,7 +58,7 @@
   ;; draw rectangle
   (call-next-method)
   ;; draw keyword ( if exists ).
-  (with-slots (keyword font offset) obj
+  (with-slots (keyword font offset kaavio::clip-path) obj
     (when keyword
       (let* ((canvas    (shape-get-subcanvas obj))
              (topleft   (canvas-topleft   canvas))
@@ -70,6 +70,7 @@
                             (+ (point-y topleft) 5 (point-y offset) font-size)
                             :left
                             font
+                            kaavio::clip-path
                             writer)))))
   nil)
 
@@ -106,6 +107,7 @@
                                                   *default-fill*   :white)
                                     :stroke   (or ,stroke *uml-expansion-region-stroke*
                                                   *default-stroke* :black)
+                                    :clip-path kaavio:*current-clip-path*
                                     :link ,link :layer ,layer :id ,id))))
     (if (null contents)
         code

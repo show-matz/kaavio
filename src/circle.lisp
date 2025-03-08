@@ -7,6 +7,7 @@
 #|ASD|#                                                                "shape"
 #|ASD|#                                                                "stroke-info"
 #|ASD|#                                                                "link-info"
+#|ASD|#                                                                "clipping"
 #|ASD|#                                                                "filter"
 #|ASD|#                                                                "writer"))
 #|EXPORT|#                ;circle.lisp
@@ -55,6 +56,7 @@
    (radius      :initform   0 :initarg :radius)      ; number
    (fill        :initform nil :initarg :fill)        ; (or nil fill-info)
    (stroke      :initform nil :initarg :stroke)      ; (or nil stroke-info)
+   (clip-path   :initform nil :initarg :clip-path)   ; (or nil symbol)
    (filter      :initform nil :initarg :filter)))    ; (or nil keyword)
 
 (defmethod initialize-instance :after ((ent circle) &rest initargs)
@@ -71,11 +73,12 @@
 (defmethod check ((shp circle) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (with-slots (position pivot radius fill stroke filter layer) shp
+  (with-slots (position pivot radius fill stroke clip-path filter layer) shp
     (check-member pivot    :nullable nil :types keyword)
     (check-member radius   :nullable nil :types number)
     (check-object fill      canvas dict :nullable nil :class   fill-info)
     (check-object stroke    canvas dict :nullable nil :class stroke-info)
+    (check-member clip-path :nullable  t :types symbol)
     (check-member filter   :nullable   t :types keyword)
     (setf filter (if (eq filter :none) nil filter))
     (setf position (canvas-fix-point canvas position))
@@ -106,7 +109,7 @@
 ;;(defmethod entity-composition-p ((shp circle)) ...)
   
 (defmethod draw-entity ((shp circle) writer)
-  (with-slots (radius fill stroke filter) shp
+  (with-slots (radius fill stroke clip-path filter) shp
     (let ((id (and (not (entity-composition-p shp))
                    (slot-value shp 'id)))
           (center (attribute-center shp)))
@@ -119,6 +122,7 @@
                     "r='" radius "' "
                     (to-property-strings fill)
                     (to-property-strings stroke)
+                    (write-when clip-path "clip-path='url(#" it ")' ")
                     (write-when filter "filter='url(#" it ")' ")
                     "/>")
       (post-draw shp writer)))
@@ -169,6 +173,7 @@
                                                :position ,position
                                                :pivot ,pivot :radius ,radius
                                                :fill ,fill :stroke ,stroke :link ,link
+                                               :clip-path *current-clip-path*
                                                :filter ,filter :layer ,layer :id ,id))))
     (if (null contents)
         code

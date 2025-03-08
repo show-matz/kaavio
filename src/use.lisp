@@ -5,6 +5,7 @@
 #|ASD|#                                                                "canvas"
 #|ASD|#                                                                "point"
 #|ASD|#                                                                "shape"
+#|ASD|#                                                                "clipping"
 #|ASD|#                                                                "writer"))
 #|EXPORT|#                ;use.lisp
  |#
@@ -21,6 +22,7 @@
   ((ref       :initform nil :initarg :ref)        ; keyword / shape
    (position  :initform nil :initarg :position)   ; point
    (pivot     :initform :CC :initarg :pivot)      ; keyword
+   (clip-path :initform nil :initarg :clip-path)  ; (or nil symbol)
    (debug     :initform nil :initarg :debug)))    ; (or nil t keyword)
 
 
@@ -35,7 +37,7 @@
 (defmethod check ((ent use) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (with-slots (ref position pivot layer debug) ent
+  (with-slots (ref position pivot layer clip-path debug) ent
     (let ((obj (dict-get-entity dict ref)))
       (if (and obj (typep obj 'kaavio:group-definition))
           (setf ref obj)
@@ -45,6 +47,7 @@
                      nil
                      (or layer *default-layer*)))
     (check-member pivot  :nullable nil :types keyword)
+    (check-member clip-path :nullable t :types symbol)
     (check-member debug  :nullable t :types keyword))
   nil)
 
@@ -67,14 +70,16 @@
 ;;(defmethod shape-get-subcanvas ((obj use)) ...)
 
 (defmethod draw-entity ((obj use) writer)
-  (with-slots (ref debug) obj
+  (with-slots (ref debug clip-path) obj
     (let ((center (attribute-center obj)))
       (pre-draw obj writer)
       (with-slots (width height) ref
         (writer-write writer
                       "<use xlink:href='#" (slot-value ref 'id) "' "
                       "x='" (- (point-x center) (/ width  2)) "' "
-                      "y='" (- (point-y center) (/ height 2)) "' />")
+                      "y='" (- (point-y center) (/ height 2)) "' "
+                      (write-when clip-path "clip-path='url(#" it ")' ")
+                      "/>")
         (when debug
           (writer-write writer
                         "<rect "
@@ -84,6 +89,7 @@
                         "height='" height "' "
                         "fill='none' "
                         (to-property-strings (make-stroke :color debug :dasharray '(1 4)))
+                        (write-when clip-path "clip-path='url(#" it ")' ")
                         "/>")))
       (post-draw obj writer)))
   nil)
@@ -130,6 +136,7 @@
                                                :ref   ,ref
                                                :position ,position :pivot ,pivot
                                                :link  ,link  :rotate ,rotate
+                                               :clip-path *current-clip-path*
                                                :layer ,layer :id ,id :debug ,debug))))
     (if (null contents)
         code

@@ -43,10 +43,10 @@
                    (when action
                      (format-string "/" action)))))
 
-(defun uml-transition-spec-draw (obj x y align writer)
+(defun uml-transition-spec-draw (obj x y align clip-path writer)
   (let ((txt (uml-transition-spec-to-string obj)))
     (with-slots (font) obj
-      (write-text-tag x y txt writer :align align :font font))))
+      (write-text-tag x y txt writer :align align :font font :clip-path clip-path))))
 
 
 ;;------------------------------------------------------------------------------------- BEGIN TURNUP

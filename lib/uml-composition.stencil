@@ -42,6 +42,7 @@
                                        :label (and (or ,g-kwd ,g-name)
                                                    #'uml-connection-draw-label)
                                        :stroke (make-stroke :dasharray nil :base *default-stroke*)
+                                       :clip-path *current-clip-path*
                                        :end1 '(:type :diamond :fill :black)
                                        :end2 (and ,arrow :arrow)
                                        :role1 ,role1 :role2 ,role2

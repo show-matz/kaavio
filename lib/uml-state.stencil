@@ -70,34 +70,37 @@
       (macrolet ((register-entity (entity)
                    `(check-and-draw-local-entity ,entity canvas writer)))
         (with-slots (keyword kwd-height corner-r activities contents-p
-                         kaavio::margin kaavio::font kaavio::fill kaavio::stroke) state
-          ;; draw state body
-          (rectangle (make-point (/ width 2) (/ height 2))
-                     width height :rx corner-r :ry corner-r
-                     :fill kaavio::fill :stroke kaavio::stroke)
-          ;; draw keyword
-          (when keyword
-            (uml-keyword-draw keyword
-                              (+ left (/ width 2))
-                              (+ top  kaavio::margin kwd-height) :center kaavio::font writer))
-          ;; draw text
-          (call-next-method)
-          ;;contents
-          (when contents-p
-            (let ((y (canvas-height (text-shape-paragraph-area state))))
-              ;;draw partition line
-              (incf y kaavio::margin)
-              (line `((0 ,y) (,width ,y)))
-              (incf y kaavio::margin)
-              ;;activities がある場合は順番に描画する必要がある
-              (dolist (act activities)
-                (when act
-                  (let ((txt (uml-transition-spec-to-string act)))
-                    (with-slots (font) act
-                      (with-slots ((fsize kaavio::size)
-                                   (ls kaavio::line-spacing)) font
-                        (incf y (+ ls fsize))
-                        (text `(,kaavio::margin ,y) txt :align :left :font font))))))))))))
+                         kaavio::margin kaavio::font
+                         kaavio::fill kaavio::stroke kaavio::clip-path) state
+          (let ((kaavio:*current-clip-path* kaavio::clip-path))
+            ;; draw state body
+            (rectangle (make-point (/ width 2) (/ height 2))
+                       width height :rx corner-r :ry corner-r
+                       :fill kaavio::fill :stroke kaavio::stroke)
+            ;; draw keyword
+            (when keyword
+              (uml-keyword-draw keyword
+                                (+ left (/ width 2))
+                                (+ top  kaavio::margin kwd-height)
+                                :center kaavio::font kaavio::clip-path writer))
+            ;; draw text
+            (call-next-method)
+            ;;contents
+            (when contents-p
+              (let ((y (canvas-height (text-shape-paragraph-area state))))
+                ;;draw partition line
+                (incf y kaavio::margin)
+                (line `((0 ,y) (,width ,y)))
+                (incf y kaavio::margin)
+                ;;activities がある場合は順番に描画する必要がある
+                (dolist (act activities)
+                  (when act
+                    (let ((txt (uml-transition-spec-to-string act)))
+                      (with-slots (font) act
+                        (with-slots ((fsize kaavio::size)
+                                     (ls kaavio::line-spacing)) font
+                          (incf y (+ ls fsize))
+                          (text `(,kaavio::margin ,y) txt :align :left :font font)))))))))))))
   nil)
 
 
@@ -197,6 +200,7 @@
                                                               *default-fill*   :white)
                                                 :stroke   (or ,stroke *uml-state-stroke*
                                                               *default-stroke* :black)
+                                                :clip-path kaavio:*current-clip-path*
                                                 :link ,link :layer ,layer :id ,id))))
     (if (null contents)
         code

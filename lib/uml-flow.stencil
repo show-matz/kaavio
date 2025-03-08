@@ -47,12 +47,12 @@
                    (when action
                      (format-string "/" action)))))
 
-(defun uml-flow-spec-draw (obj x y align writer)
+(defun uml-flow-spec-draw (obj x y align clip-path writer)
   (let ((txt (uml-flow-spec-to-string obj)))
     (with-slots (offset font) obj
       (write-text-tag (+ x (point-x offset))
                       (+ y (point-y offset))
-                      txt writer :align align :font font))))
+                      txt writer :align align :font font :clip-path clip-path))))
 
 (defun make-uml-flow-spec (&rest params)
   (if (= 1 (length params))
@@ -104,7 +104,7 @@
         (call-next-method))))
 
 
-(defun uml-flow-draw-spec (flow x y sin cos writer)
+(defun uml-flow-draw-spec (flow x y sin cos clip-path writer)
   (with-slots (keyword spec) flow
     (labels ((calc-width-and-height ()
                (let* ((width   0)
@@ -133,11 +133,11 @@
           (when keyword
             (incf y font-size)
             (uml-keyword-draw keyword (+ x (point-x offset))
-                                      (+ y (point-y offset)) :center font writer)
+                                      (+ y (point-y offset)) :center font clip-path writer)
             (incf y spacing))
           (when spec
             (incf y font-size)
-            (uml-flow-spec-draw spec x y :center writer)))))))
+            (uml-flow-spec-draw spec x y :center clip-path writer)))))))
 
 
 ;;------------------------------------------------------------------------------------- BEGIN TURNUP
@@ -172,6 +172,7 @@
                                                    #'uml-flow-draw-spec)
                                        :style ,style :spacing ,spacing
                                        :stroke (or *uml-flow-stroke* *default-stroke*)
+                                       :clip-path *current-clip-path*
                                        :end1 nil :end2 (list :type :arrow :size *uml-flow-arrow-size*)
                                        :filter (or ,filter *uml-flow-filter* *default-filter*)
                                        :layer  (or ,layer  *uml-flow-layer*  *default-layer*)

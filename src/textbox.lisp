@@ -61,12 +61,12 @@
          (height (canvas-height canvas)))
     (macrolet ((register-entity (entity)
                  `(check-and-draw-local-entity ,entity canvas writer)))
-      (with-slots (no-frame rx ry fill stroke filter) box
+      (with-slots (no-frame rx ry fill stroke filter clip-path) box
         (unless no-frame
           ;; draw box
-          (rectangle (list (/ width 2) (/ height 2)) width height
-                     :rx rx :ry ry
-                     :fill fill :stroke stroke :filter filter)))))
+          (let ((*current-clip-path* clip-path))
+            (rectangle (list (/ width 2) (/ height 2)) width height
+                       :rx rx :ry ry :fill fill :stroke stroke :filter filter))))))
   ;; draw text
   (call-next-method))
 
@@ -143,6 +143,7 @@
                                                :fill   (or ,fill   *default-textbox-fill*)
                                                :stroke (or ,stroke *default-textbox-stroke*)
                                                :link ,link  :rotate ,rotate
+                                               :clip-path *current-clip-path*
                                                :filter ,filter :layer ,layer :id ,id))))
     (if (null contents)
         code

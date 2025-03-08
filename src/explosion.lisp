@@ -116,10 +116,11 @@
          (height (canvas-height canvas)))
     (macrolet ((register-entity (entity)
                  `(check-and-draw-local-entity ,entity canvas writer)))
-      (with-slots (pattern fill stroke filter) exp
+      (with-slots (pattern fill stroke filter clip-path) exp
         ;; draw 
-        (polygon (explosion-get-points pattern width height)
-                 :stroke stroke :fill fill :filter filter))))
+        (let ((*current-clip-path* clip-path))
+          (polygon (explosion-get-points pattern width height)
+                                         :stroke stroke :fill fill :filter filter)))))
   ;; draw text
   (call-next-method))
 
@@ -186,6 +187,7 @@
                                                :fill   (or ,fill   *default-explosion-fill*)
                                                :stroke (or ,stroke *default-explosion-stroke*)
                                                :link ,link  :rotate ,rotate
+                                               :clip-path *current-clip-path*
                                                :filter ,filter :layer ,layer :id ,id))))
     (if (null contents)
         code
@@ -250,6 +252,7 @@
                                                :fill   (or ,fill   *default-explosion-fill*)
                                                :stroke (or ,stroke *default-explosion-stroke*)
                                                :link ,link  :rotate ,rotate
+                                               :clip-path *current-clip-path*
                                                :filter ,filter :layer ,layer :id ,id))))
     (if (null contents)
         code

@@ -95,34 +95,36 @@
       (macrolet ((register-entity (entity)
                    `(check-and-draw-local-entity ,entity canvas writer)))
         (with-slots (keyword kwd-height corner-r rake filter
-                         kaavio::font kaavio::margin kaavio::fill kaavio::stroke) action
-          ;; draw note body
-          (writer-write writer "<g " (write-when filter "filter='url(#" it ")' ") ">")
-          (writer-incr-level writer)
-          ;; draw action body
-          (rectangle (make-point (/ width 2) (/ height 2)) width height
-                     :rx corner-r :stroke kaavio::stroke :fill kaavio::fill)
-          ;; rake icon
-          (when rake
-            (destructuring-bind (w h xm ym) rake
-              (let ((*default-stroke* (make-stroke :width 2 :base kaavio::stroke)))
-                (path `((:move-to (,(- width xm (/ w 2)) ,(- height ym h)))
-                        :relative
-                        (:line-to (0 ,h))
-                        (:move-to (,(- (/ w 2)) 0))
-                        (:line-to (0 ,(- (/ h 2))))
-                        (:line-to (,w 0))
-                        (:line-to (0 ,(/ h 2))))))))
-          (writer-decr-level writer)
-          (writer-write writer "</g>")
-          ;; draw keyword
-          (when keyword
-            (uml-keyword-draw keyword
-                              (+ left (/ width 2))
-                              (+ top  kaavio::margin kwd-height)
-                              :center kaavio::font writer))
-          ;; draw text
-          (call-next-method)))))
+                         kaavio::font kaavio::margin
+                         kaavio::fill kaavio::stroke kaavio::clip-path) action
+          (let ((kaavio:*current-clip-path* kaavio::clip-path))
+            ;; draw note body
+            (writer-write writer "<g " (write-when filter "filter='url(#" it ")' ") ">")
+            (writer-incr-level writer)
+            ;; draw action body
+            (rectangle (make-point (/ width 2) (/ height 2)) width height
+                       :rx corner-r :stroke kaavio::stroke :fill kaavio::fill)
+            ;; rake icon
+            (when rake
+              (destructuring-bind (w h xm ym) rake
+                (let ((*default-stroke* (make-stroke :width 2 :base kaavio::stroke)))
+                  (path `((:move-to (,(- width xm (/ w 2)) ,(- height ym h)))
+                          :relative
+                          (:line-to (0 ,h))
+                          (:move-to (,(- (/ w 2)) 0))
+                          (:line-to (0 ,(- (/ h 2))))
+                          (:line-to (,w 0))
+                          (:line-to (0 ,(/ h 2))))))))
+            (writer-decr-level writer)
+            (writer-write writer "</g>")
+            ;; draw keyword
+            (when keyword
+              (uml-keyword-draw keyword
+                                (+ left (/ width 2))
+                                (+ top  kaavio::margin kwd-height)
+                                :center kaavio::font kaavio::clip-path writer))
+            ;; draw text
+            (call-next-method))))))
   nil)
 
 
@@ -208,6 +210,7 @@
                                                   *default-fill*   :white)
                                     :stroke   (or ,stroke *uml-action-stroke*
                                                   *default-stroke* :black)
+                                    :clip-path kaavio:*current-clip-path*
                                     :link ,link :layer ,layer :filter ,filter :id ,id))))
     (if (or (null contents)
             (not (listp contents)))

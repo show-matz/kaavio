@@ -10,6 +10,7 @@
                                                                 "stroke-info"
                                                                 "endmark-info"
                                                                 "entity"
+                                                                "clipping"
                                                                 "filter"
                                                                 "writer"))
                 (:file "3d-curve"                  :depends-on ("kaavio"
@@ -19,6 +20,7 @@
                                                                 "stroke-info"
                                                                 "endmark-info"
                                                                 "entity"
+                                                                "clipping"
                                                                 "filter"
                                                                 "writer"))
                 (:file "arc"                       :depends-on ("kaavio"
@@ -38,6 +40,7 @@
                                                                 "polygon"))
                 (:file "brace"                     :depends-on ("kaavio"
                                                                 "constants"
+                                                                "clipping"
                                                                 "path"))
                 (:file "canvas"                    :depends-on ("kaavio"
                                                                 "point"))
@@ -49,7 +52,10 @@
                                                                 "shape"
                                                                 "stroke-info"
                                                                 "link-info"
+                                                                "clipping"
                                                                 "filter"
+                                                                "writer"))
+                (:file "clipping"                  :depends-on ("kaavio"
                                                                 "writer"))
                 (:file "colormap"                  :depends-on ("kaavio"))
                 (:file "connector"                 :depends-on ("kaavio"
@@ -79,6 +85,7 @@
                                                                 "shape"
                                                                 "stroke-info"
                                                                 "link-info"
+                                                                "clipping"
                                                                 "filter"
                                                                 "writer"))
                 (:file "cube"                      :depends-on ("kaavio"
@@ -125,6 +132,7 @@
                                                                 "shape"
                                                                 "stroke-info"
                                                                 "link-info"
+                                                                "clipping"
                                                                 "filter"
                                                                 "writer"))
                 (:file "dictionary"                :depends-on ("kaavio"))
@@ -140,6 +148,7 @@
                                                                 "shape"
                                                                 "stroke-info"
                                                                 "link-info"
+                                                                "clipping"
                                                                 "filter"
                                                                 "writer"))
                 (:file "endmark-info"              :depends-on ("kaavio"
@@ -189,6 +198,7 @@
                                                                 "label-info"
                                                                 "link-info"
                                                                 "point"
+                                                                "clipping"
                                                                 "filter"
                                                                 "writer"))
                 (:file "kaavio")
@@ -209,6 +219,7 @@
                                                                 "stroke-info"
                                                                 "endmark-info"
                                                                 "entity"
+                                                                "clipping"
                                                                 "filter"
                                                                 "writer"))
                 (:file "link-info"                 :depends-on ("kaavio"
@@ -229,6 +240,7 @@
                                                                 "font-info"
                                                                 "link-info"
                                                                 "point"
+                                                                "clipping"
                                                                 "writer"))
                 (:file "parallelogram"             :depends-on ("kaavio"
                                                                 "mathutil"
@@ -238,6 +250,7 @@
                                                                 "shape"
                                                                 "stroke-info"
                                                                 "link-info"
+                                                                "clipping"
                                                                 "filter"
                                                                 "writer"))
                 (:file "path"                      :depends-on ("kaavio"
@@ -245,11 +258,13 @@
                                                                 "fill-info"
                                                                 "stroke-info"
                                                                 "entity"
+                                                                "clipping"
                                                                 "filter"
                                                                 "writer"))
                 (:file "pathutil"                  :depends-on ("kaavio"))
                 (:file "person"                    :depends-on ("kaavio"
                                                                 "constants"
+                                                                "clipping"
                                                                 "path"))
                 (:file "point"                     :depends-on ("kaavio"))
                 (:file "polygon"                   :depends-on ("kaavio"
@@ -258,6 +273,7 @@
                                                                 "stroke-info"
                                                                 "link-info"
                                                                 "entity"
+                                                                "clipping"
                                                                 "filter"
                                                                 "writer"))
                 (:file "raw-svg"                   :depends-on ("kaavio"
@@ -271,6 +287,7 @@
                                                                 "shape"
                                                                 "stroke-info"
                                                                 "link-info"
+                                                                "clipping"
                                                                 "filter"
                                                                 "writer"))
                 (:file "regular-polygon"           :depends-on ("kaavio"
@@ -281,6 +298,7 @@
                                                                 "circle"
                                                                 "stroke-info"
                                                                 "link-info"
+                                                                "clipping"
                                                                 "filter"
                                                                 "writer"))
                 (:file "shadow-filter"             :depends-on ("kaavio"
@@ -302,6 +320,7 @@
                                                                 "font-info"
                                                                 "fill-info"
                                                                 "stroke-info"
+                                                                "clipping"
                                                                 "writer"))
                 (:file "text-shape"                :depends-on ("kaavio"
                                                                 "canvas"
@@ -310,12 +329,14 @@
                                                                 "font-info"
                                                                 "fill-info"
                                                                 "stroke-info"
+                                                                "clipping"
                                                                 "writer"))
                 (:file "text"                      :depends-on ("kaavio"
                                                                 "constants"
                                                                 "entity"
                                                                 "font-info"
                                                                 "link-info"
+                                                                "clipping"
                                                                 "writer"))
                 (:file "textbox"                   :depends-on ("kaavio"
                                                                 "constants"
@@ -329,6 +350,7 @@
                                                                 "canvas"
                                                                 "point"
                                                                 "shape"
+                                                                "clipping"
                                                                 "writer"))
                 (:file "writer"                    :depends-on ("kaavio"))
                 ;; ------------------------------------------ END COMPONENTS

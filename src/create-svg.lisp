@@ -56,7 +56,9 @@
 (defmacro create-svg ((width height &key fill desc) &rest body)
   (let ((g-layer-mgr (gensym "LAYER-MGR"))
         (g-writer    (gensym "WRITER"))
+        (g-clipper   (gensym "CLIPPER"))
         (g-filter    (gensym "FILTER"))
+        (g-clippers  (gensym "CLIPPERS"))
         (g-filters   (gensym "FILTERS"))
         (g-entity    (gensym "ENTITY"))
         (g-entities  (gensym "ENTITIES"))
@@ -64,6 +66,7 @@
         (g-dict      (gensym "DICT")))
     `(let ((,g-layer-mgr (layer-create-manager))
            (,g-desc      ,desc)
+           (,g-clippers  nil)
            (,g-filters   nil)
            (,g-entities  nil)
            (,g-dict      (dict-create *default-history-count*))  ;;ToDo : export dict-create!
@@ -71,6 +74,10 @@
        (declare (special canvas))
        (labels ((layer (name &optional (display :inline))
                   (layer-register ,g-layer-mgr name display))
+                (register-clipper (,g-clipper)
+                  (unless (typep ,g-clipper 'clipper)
+                    (throw-exception "Can't register ~A as clipper." ,g-clipper))
+                  (push ,g-clipper ,g-clippers))
                 (register-filter (,g-filter)
                   (unless (typep ,g-filter 'filter)
                     (throw-exception "Can't register ~A as filter." ,g-filter))
@@ -111,6 +118,9 @@
            ;; filter があれば最初に出力
            (dolist (,g-filter ,g-filters)
              (write-filter ,g-filter ,g-writer))
+           ;; clipper もあれば出力
+           (dolist (,g-clipper ,g-clippers)
+             (write-clipper ,g-clipper ,g-writer))
            ;; definition は layer とは無関係に先頭に出力
            (dolist (,g-entity (remove-if-not #'definitionp ,g-entities))
              (write-header ,g-entity ,g-writer)

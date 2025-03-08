@@ -35,4 +35,5 @@
                                    :position ,position :pivot ,pivot
                                    :radius (or ,radius *uml-state-begin-radius*)
                                    :fill (or ,fill *uml-state-begin-fill* *default-fill*)
+                                   :clip-path kaavio:*current-clip-path*
                                    :stroke :none :link ,link :layer ,layer :id ,id)))

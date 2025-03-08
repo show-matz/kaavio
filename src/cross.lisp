@@ -6,6 +6,7 @@
 #|ASD|#                                                                "shape"
 #|ASD|#                                                                "stroke-info"
 #|ASD|#                                                                "link-info"
+#|ASD|#                                                                "clipping"
 #|ASD|#                                                                "filter"
 #|ASD|#                                                                "writer"))
 #|EXPORT|#                ;cross.lisp
@@ -40,6 +41,7 @@
    (intersection :initform   0 :initarg :intersection) ; point
    (fill         :initform nil :initarg :fill)         ; (or nil fill-info)
    (stroke       :initform nil :initarg :stroke)       ; (or nil stroke-info)
+   (clip-path    :initform nil :initarg :clip-path)    ; (or nil symbol)
    (filter       :initform nil :initarg :filter)))     ; (or nil keyword)
 
 (defmethod initialize-instance :after ((crs cross) &rest initargs)
@@ -62,7 +64,7 @@
   (declare (ignorable dict))
   ;; this method must call super class' one.
   (call-next-method)
-  (with-slots (position pivot width height size size-v intersection fill stroke filter) crs
+  (with-slots (position pivot width height size size-v intersection fill stroke filter clip-path) crs
     (check-member pivot     :nullable nil :types keyword)
     (check-member width     :nullable nil :types number)
     (check-member height    :nullable nil :types number)
@@ -71,6 +73,7 @@
     (check-member intersection :nullable nil :types cons)
     (check-object fill      canvas dict :nullable nil :class   fill-info)
     (check-object stroke    canvas dict :nullable nil :class stroke-info)
+    (check-member clip-path :nullable   t :types symbol)
     (check-member filter    :nullable   t :types keyword)
     (setf position (canvas-fix-point canvas position)))
   nil)
@@ -97,7 +100,7 @@
   
 (defmethod draw-entity ((crs cross) writer)
   (pre-draw crs writer)
-  (with-slots (width height size size-v intersection fill stroke filter) crs
+  (with-slots (width height size size-v intersection fill stroke filter clip-path) crs
     (let* ((center (attribute-center crs))
            (cc   (point+ center intersection))
            (hs/2 (/ size   2))
@@ -123,6 +126,7 @@
                        "V " v3 " H " h4 " "
                        "V " v2 " H " h3 " "
                        "V " v1 " z' "
+                    (write-when clip-path "clip-path='url(#" it ")' ")
                     (write-when filter "filter='url(#" it ")' ")
                     "/>")))
   (post-draw crs writer)
@@ -181,6 +185,7 @@
                                    :intersection ,intersection
                                    :fill   (or ,fill   *default-cross-fill*)
                                    :stroke (or ,stroke *default-cross-stroke*)
+                                   :clip-path *current-clip-path*
                                    :filter ,filter :rotate ,rotate
                                    :link ,link :id ,id :layer ,layer)))
 

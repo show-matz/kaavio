@@ -34,11 +34,13 @@
          (radius (/ (canvas-width canvas) 2))
          (c      radius)
          (len    (/ radius (sqrt 2))))
-    (macrolet ((register-entity (entity)
-                 `(check-and-draw-local-entity ,entity canvas writer)))
-      (let ((*default-stroke* (slot-value obj 'kaavio::stroke)))
-        (line `((,(- c len) ,(- c len)) (,(+ c len) ,(+ c len))))
-        (line `((,(+ c len) ,(- c len)) (,(- c len) ,(+ c len)))))))
+    (with-slots (kaavio::clip-path) obj
+      (macrolet ((register-entity (entity)
+                   `(check-and-draw-local-entity ,entity canvas writer)))
+        (let ((*default-stroke* (slot-value obj 'kaavio::stroke))
+              (kaavio:*current-clip-path* kaavio::clip-path))
+          (line `((,(- c len) ,(- c len)) (,(+ c len) ,(+ c len))))
+          (line `((,(+ c len) ,(- c len)) (,(- c len) ,(+ c len))))))))
   (call-next-method)
 ; (draw-canvas-frame (shape-get-subcanvas obj) writer)  ;for debug...
   nil)
@@ -70,6 +72,7 @@
                                    :radius (or ,radius *uml-flow-final-radius*)
                                    :fill   (or ,fill   *uml-flow-final-fill*   *default-fill*)
                                    :stroke (or ,stroke *uml-flow-final-stroke* *default-stroke*)
+                                   :clip-path kaavio:*current-clip-path*
                                    :link nil :layer ,layer :filter ,filter :id ,id)))
 
 

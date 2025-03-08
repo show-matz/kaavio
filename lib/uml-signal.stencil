@@ -88,11 +88,13 @@
       (macrolet ((register-entity (entity)
                    `(check-and-draw-local-entity ,entity canvas writer)))
         (with-slots (type direction keyword depth margin2 filter
-                        kaavio::margin kaavio::font kaavio::fill kaavio::stroke) obj
+                        kaavio::margin kaavio::font
+                        kaavio::fill kaavio::stroke kaavio::clip-path) obj
           (let ((half (/ depth 2))
                 (*default-filter* filter)
                 (*default-fill*   kaavio::fill)
-                (*default-stroke* kaavio::stroke))
+                (*default-stroke* kaavio::stroke)
+                (kaavio:*current-clip-path* kaavio::clip-path))
             ;; draw body
             (if (eq type :send)
                 (if (eq direction :right)
@@ -125,7 +127,8 @@
           (when keyword
             (uml-keyword-draw keyword
                               (+ left (/ width 2))
-                              (+ top  kaavio::margin margin2) :center kaavio::font writer))
+                              (+ top  kaavio::margin margin2)
+                              :center kaavio::font kaavio::clip-path writer))
           ;; draw text
           (call-next-method)))))
   nil)
@@ -184,6 +187,7 @@
                        :margin   (or ,margin   *uml-signal-margin*)
                        :fill     (or ,fill   *uml-signal-fill*   *default-fill*   :white)
                        :stroke   (or ,stroke *uml-signal-stroke* *default-stroke* :black)
+                       :clip-path kaavio:*current-clip-path*
                        :link ,link :filter ,filter :layer ,layer :id ,id)))
 
 

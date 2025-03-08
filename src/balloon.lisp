@@ -138,7 +138,7 @@
          (height (canvas-height canvas)))
     (macrolet ((register-entity (entity)
                  `(check-and-draw-local-entity ,entity canvas writer)))
-      (with-slots (round anchor fill stroke filter) box
+      (with-slots (round anchor fill stroke filter clip-path) box
         (labels ((abs2rel (pt)
                    (let ((topleft (canvas-topleft canvas)))
                      (make-point (- (point-x pt) (point-x topleft))
@@ -147,7 +147,8 @@
           (multiple-value-bind (pt pos)
               (rectangle-connect-point-C (attribute-center box) width height anchor)
             (let ((points (balloon-make-path width height (or round 0)
-                                            (abs2rel anchor) (abs2rel pt) pos)))
+                                            (abs2rel anchor) (abs2rel pt) pos))
+                  (*current-clip-path* clip-path))
               (path points :fill fill :stroke stroke :filter filter)))))))
   ;; draw text
   (call-next-method))
@@ -223,6 +224,7 @@
                                                :fill   (or ,fill   *default-balloon-fill*)
                                                :stroke (or ,stroke *default-balloon-stroke*)
                                                :link ,link :rotate ,rotate
+                                               :clip-path *current-clip-path*
                                                :filter ,filter :layer ,layer :id ,id))))
     (if (null contents)
         code

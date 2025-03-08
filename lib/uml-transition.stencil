@@ -30,7 +30,7 @@
     (or spec
         (call-next-method))))
 
-(defun uml-transition-draw-spec (tran x y sin cos writer)
+(defun uml-transition-draw-spec (tran x y sin cos clip-path writer)
   (with-slots (spec) tran
     (with-slots (offset font) spec
       (let ((f-size (slot-value font 'kaavio::size))
@@ -41,7 +41,7 @@
         (with-point (px py) offset
             (uml-transition-spec-draw spec
                                       (+ (+ x px) (* sin f-size))
-                                      (- (+ y py) (* cos f-size)) align writer))))))
+                                      (- (+ y py) (* cos f-size)) align clip-path writer))))))
 
 
 ;;------------------------------------------------------------------------------------- BEGIN TURNUP
@@ -72,5 +72,6 @@
                                        :spec ,g-spec :style ,style :spacing ,spacing
                                        :label (and ,g-spec #'uml-transition-draw-spec)
                                        :stroke (or *uml-transition-stroke* *default-stroke*)
+                                       :clip-path *current-clip-path*
                                        :end1 nil :end2 :arrow :layer ,layer :id ,id)))))
 

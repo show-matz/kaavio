@@ -321,6 +321,7 @@
    (font                :initform nil :initarg :font)               ; (or nil font-info)
    (fill                :initform nil :initarg :fill)               ; (or nil fill-info)
    (stroke              :initform nil :initarg :stroke)             ; (or nil stroke-info)
+   (clip-path           :initform nil :initarg :clip-path)          ; (or nil symbol)
    (name-actual-height  :initform nil)                              ; number
    (heights-cache       :initform nil)    #|list of box heights|#   ; list
    (margin-cache        :initform nil)                              ; number
@@ -405,7 +406,7 @@
   ;; this method must call super class' one.
   (call-next-method)
   (with-slots (name keyword multiplicity attributes operations template 
-                    responsibilities font fill stroke name-actual-height) cls
+                    responsibilities font fill stroke clip-path name-actual-height) cls
     (check-member name             :nullable nil :types (or string keyword))
     (check-object keyword canvas dict :nullable t :class uml-keyword-info)
     (check-object multiplicity canvas dict :nullable t :class uml-multiplicity-info)
@@ -416,6 +417,7 @@
     (check-object font   canvas dict :nullable t :class   font-info)
     (check-object fill   canvas dict :nullable t :class   fill-info)
     (check-object stroke canvas dict :nullable t :class stroke-info)
+    (check-member clip-path        :nullable   t :types symbol)
     (setf attributes (mapcar #'make-uml-class-attribute attributes))
     (dolist (attribute attributes)
       (check-object attribute canvas dict :nullable nil :class uml-class-stuff)
@@ -447,7 +449,7 @@
     (with-slots (name keyword multiplicity
                   active-p abstract-p template
                   attributes operations responsibilities emptybox
-                  name-actual-height margin-cache heights-cache font fill stroke) cls
+                  name-actual-height margin-cache heights-cache font fill stroke clip-path) cls
       (with-canvas (cc width height) canvas
         (let ((font-size (slot-value font 'kaavio::size))
               (spice     (slot-value font 'kaavio::width-spice))
@@ -459,7 +461,8 @@
                   (right            width)
                   (*default-font*   font)
                   (*default-fill*   fill)
-                  (*default-stroke* stroke))
+                  (*default-stroke* stroke)
+                  (kaavio:*current-clip-path* clip-path))
               ;; draw whole box
               (rectangle (make-point (/ width 2) (/ height 2)) width height)
               (when active-p
@@ -479,7 +482,7 @@
                     (incf y font-size)
                     (uml-keyword-draw keyword
                                       (+ (canvas-left canvas) center)
-                                      (+ (canvas-top  canvas) y) :center font writer)
+                                      (+ (canvas-top  canvas) y) :center font clip-path writer)
                     (incf y spacing))
                   (dolist (name names)
                     (incf y font-size)
@@ -494,7 +497,7 @@
                          (fsize (slot-value font         'kaavio::size))
                          (x (- (+ (point-x topleft) width) margin-cache))
                          (y    (+ (point-y topleft) fsize  margin-cache)))
-                    (uml-multiplicity-draw multiplicity x y :right writer)))
+                    (uml-multiplicity-draw multiplicity x y :right clip-path writer)))
                 ;; draw template box ( if exists ).
                 (when template
                   (rectangle (make-point width 0)
@@ -583,5 +586,6 @@
                                                   emptybox
                                                   '*uml-class-draw-emptybox*)
                                    :font ,font :fill ,fill :stroke ,stroke
+                                   :clip-path *current-clip-path*
                                    :link ,link :layer ,layer :id ,id)))
 
