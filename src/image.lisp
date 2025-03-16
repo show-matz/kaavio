@@ -7,6 +7,7 @@
 #|ASD|#                                                                "point"
 #|ASD|#                                                                "clipping"
 #|ASD|#                                                                "filter"
+#|ASD|#                                                                "pathutil"
 #|ASD|#                                                                "writer"))
 #|EXPORT|#                ;image.lisp
  |#

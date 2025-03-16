@@ -122,11 +122,7 @@
 (defmethod draw-entity ((shp paragraph) writer)
   (with-slots (position align font text id clip-path) shp
     (let ((x (point-x position))
-          (y (point-y (attribute-top shp)))
-          (txt-anchor (ecase align
-                        ((:left)   "start")
-                        ((:center) "middle")
-                        ((:right)  "end"))))
+          (y (point-y (attribute-top shp))))
       (with-slots ((font-size size) line-spacing) font
         (pre-draw shp writer)
         (if (= 1 (length text))

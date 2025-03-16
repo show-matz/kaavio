@@ -1,5 +1,3 @@
-(require :sb-posix)
-(require :kaavio)
 
 ;; lib 配下の *.stencil ファイルを検索して自動登録する
 (let ((kaavio:*include-paths* (list "../lib/")))

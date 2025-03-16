@@ -200,6 +200,7 @@
                                                                 "point"
                                                                 "clipping"
                                                                 "filter"
+                                                                "pathutil"
                                                                 "writer"))
                 (:file "kaavio")
                 (:file "label-info"                :depends-on ("kaavio"

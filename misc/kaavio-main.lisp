@@ -1,5 +1,3 @@
-(require :kaavio)
-
 (in-package :kaavio)
 
 (defun kaavio-main (args)
