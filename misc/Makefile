@@ -29,9 +29,11 @@ $(TARGET): ../lib/*.stencil ./*.lisp
 bare-build-impl: ../src/*.lisp ../lib/*.stencil ./*.lisp
 	sbcl --noinform \
          --no-sysinit \
+         --no-userinit \
          --eval "(defconstant +KAAVIO-VERSION+  \"$(VERSION1).$(VERSION2)\")" \
          --eval "(defconstant +OUTPUT-FILENAME+ \"$(TARGET)\")"  \
          --eval "(require :sb-posix)" \
+         --eval "(require :uiop)" \
          --load bare-load.lisp \
          --load utils.lisp \
          --load kaavio-main.lisp \
