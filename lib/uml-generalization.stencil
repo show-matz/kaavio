@@ -1,8 +1,17 @@
 
 (in-package :kaavio-user)
 
+(load-stencil :uml-common-base)
 (load-stencil :uml-connection-common)
-(load-stencil :uml-keyword-info)
+(load-stencil :uml-stereotype-info)
+
+(defparameter *uml-generalization-stroke*      :black)
+(defparameter *uml-generalization-fill*        :white)
+(defparameter *uml-generalization-arrow-size* :medium)
+(defparameter *uml-generalization-filter*         nil)
+(defparameter *uml-generalization-layer*          nil)
+(defparameter *uml-generalization-font*           nil)
+
 
 ;;------------------------------------------------------------------------------
 ;;
@@ -10,30 +19,28 @@
 ;;
 ;;------------------------------------------------------------------------------
 (defclass uml-generalization (kaavio:connector)
-  ((name    :initform nil :initarg :name)        ; (or nil kaavio::label-info)
-   (keyword :initform nil :initarg :keyword)))   ; (or nil uml-keyword-info)
+  ((name       :initform nil :initarg :name)           ; (or nil kaavio::label-info)
+   (stereotype :initform nil :initarg :stereotype)))   ; (or nil uml-stereotype-info)
 
 (defmethod initialize-instance :after ((gen uml-generalization) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (name keyword) gen
-    (when name
-      (setf name (make-label name)))
-    (setf keyword (and keyword (make-uml-keyword keyword))))
+  (with-slots (stereotype) gen
+    (setf stereotype (and stereotype (make-uml-stereotype stereotype))))
   gen)
 
 
 (defmethod check ((gen uml-generalization) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (with-slots (name keyword) gen
-    (check-object name    canvas dict :nullable t :class label-info)
-    (check-object keyword canvas dict :nullable t :class uml-keyword-info))
+  (with-slots (name stereotype) gen
+    (check-object name       canvas dict :nullable t :class label-info)
+    (check-object stereotype canvas dict :nullable t :class uml-stereotype-info))
   nil)
 
 (defmethod entity-composition-p ((gen uml-generalization))
-  (with-slots (name keyword) gen
+  (with-slots (name stereotype) gen
     (or name
-        keyword
+        stereotype
         (call-next-method))))
 
 ;;no implementation
@@ -48,35 +55,97 @@
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
-;;* ${{B}{uml-generalization}} from to ${KEY} keyword name style spacing layer id
+;;* ${{B}{uml-generalization}} from to ${KEY} stereotype keyword name style spacing filter layer id
 ;;
+;;<!-- stack:pop li -->
+;;
+;;${ARGS_AND_VALS}
+;;
+;;* `from` ---- 接続元となる要素の ID をキーワードで指定します。point 値も指定できます。
+;;* `to` ---- 接続先となる要素の ID をキーワードで指定します。point 値も指定できます。
+;;* `stereotype` ---- ステレオタイプを明示する場合はステレオタイプ情報を指定します。詳細は [$@ 節](#uml-stereotype-info) を参照してください。
+;;* `keyword` ---- キーワードを明示する場合はステレオタイプ情報を指定します。 `stereotype` が指定されている場合は無視されます。詳細は [$@ 節](#uml-stereotype-info) を参照してください。
+;;* `name` ---- 汎化関係に名前をつける場合、ラベル形式で指定します。
+;;* `style` ---- 接続線の引き方を指定します。詳細は [$@ 節](#コネクタ)を参照してください。
+;;* `spacing` ---- 2 回以上折れ曲がる接続線における「自由な線分」の位置を調整するためのパラメータです。詳細は [$@ 節](#コネクタ)を参照してください。
+;;* `filter` ---- フィルタを適用したい場合、その ID をキーワードシンボルで指定します。
+;;* `layer` ---- レイヤーを指定する場合、その ID をキーワードシンボルで指定します。
+;;* `id` ---- ID を付与したい場合、その名前をキーワードシンボルで指定します。
+;;
+;;${DESCRIPTION}
+;;
+;;　クラス図を始めとする各種の UML ダイアグラムにおける汎化関係を描画します。スタイルを統一
+;;したい場合、with-uml-generalization-options マクロを使うことができます。
+;;
+;;${SEE_ALSO}
+;;
+;;* [$$](#クラス図)
+;;* [$$](#uml-generalization)
+;;* with-uml-generalization-options マクロ
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
+(defmacro uml-generalization (from to &key stereotype keyword name style spacing filter layer id)
+  (let ((g-stype (gensym "STEREOTYPE"))
+        (g-name  (gensym "NAME")))
+    `(let ((,g-stype ,(or stereotype keyword))
+           (,g-name  ,name))
+       (register-entity (make-instance 'uml-generalization
+                                       :from ,from :to ,to
+                                       :stereotype ,g-stype :style ,style :spacing ,spacing
+                                       :name (uml-make-label *uml-generalization-font* ,g-name)
+                                       :label (and (or ,g-stype ,g-name)
+                                                   #'uml-connection-draw-label)
+                                       :stroke (or *uml-generalization-stroke*
+                                                   (make-stroke :dasharray nil :base *default-stroke*))
+                                       :end1 nil
+                                       :end2 (list :type :triangle
+                                                   :fill (or *uml-generalization-fill* :white)
+                                                   :size *uml-generalization-arrow-size*)
+                                       :clip-path *current-clip-path*
+                                       :filter (or ,filter *uml-generalization-filter* *default-filter*)
+                                       :layer  (or ,layer  *uml-generalization-layer*  *default-layer*)
+                                       :id ,id)))))
+
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### macro with-uml-generalization-options
+;;
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
+;;
+;;* ${{B}{with-uml-generalization-options}} (${KEY} stroke fill arrow-size font filter layer) ${BODY} body
 ;;
 ;;<!-- stack:pop li -->
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　uml-generalization マクロで描画される図形要素のデフォルトオプションを変更します。
+;;キーワードパラメータ群の説明は uml-generalization マクロを参照してください。
 ;;
-;;${NO_SEE_ALSO}
+;;${SEE_ALSO}
+;;
+;;* uml-generalization マクロ
 ;;
 ;;${NO_NOTES}
 ;;
 ;;--------------------------------------------------------------------------------------- END TURNUP
-(defmacro uml-generalization (from to &key keyword name style spacing layer id)
-  (let ((g-kwd  (gensym "KEYWORD"))
-        (g-name (gensym "NAME")))
-    `(let ((,g-kwd  ,keyword)
-           (,g-name ,name))
-       (register-entity (make-instance 'uml-generalization
-                                       :from ,from :to ,to
-                                       :keyword ,g-kwd :style ,style :spacing ,spacing
-                                       :name ,g-name
-                                       :label (and (or ,g-kwd ,g-name)
-                                                   #'uml-connection-draw-label)
-                                       :stroke (make-stroke :dasharray nil :base *default-stroke*)
-                                       :end1 nil
-                                       :end2 `(:type :triangle :fill :white
-                                                     :stroke (:dasharray nil :base ,*default-stroke*))
-                                       :clip-path *current-clip-path*
-                                       :layer ,layer :id ,id)))))
-
+(defmacro with-uml-generalization-options ((&key stroke fill arrow-size font filter layer) &rest body)
+  (labels ((impl (params acc)
+             (if (null params)
+                 acc
+                 (let ((value  (car  params))
+                       (symbol (cadr params)))
+                   (impl (cddr params)
+                         (if (null value)
+                             acc
+                             (push (list symbol value) acc)))))))
+    (let ((lst (impl (list  stroke     '*uml-generalization-stroke*
+                            fill       '*uml-generalization-fill*
+                            arrow-size '*uml-generalization-arrow-size*
+                            font       '*uml-generalization-font*
+                            filter     '*uml-generalization-filter*
+                            layer      '*uml-generalization-layer*) nil)))
+      `(let ,lst
+         ,@body))))
+ 

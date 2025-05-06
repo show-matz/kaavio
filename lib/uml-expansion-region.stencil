@@ -1,7 +1,7 @@
 
 (in-package :kaavio-user)
 
-(load-stencil :uml-keyword-info)
+(load-stencil :uml-common-base)
 
 (defparameter *uml-expansion-region-font*         nil)
 (defparameter *uml-expansion-region-fill*      :white)
@@ -16,21 +16,21 @@
 ;;
 ;;------------------------------------------------------------------------------
 (defclass uml-expansion-region (kaavio:rectangle)
-  ((keyword :initform nil  :initarg  :keyword)     ; (or nil uml-keyword-info)
-   (font    :initform nil  :initarg  :font)        ; (or nil font-info)
-   (offset  :initform nil  :initarg  :offset)))    ; point
+  ((stereotype :initform nil  :initarg  :stereotype)  ; (or nil uml-stereotype-info)
+   (font       :initform nil  :initarg  :font)        ; (or nil font-info)
+   (offset     :initform nil  :initarg  :offset)))    ; point
 
 (defmethod initialize-instance :after ((obj uml-expansion-region) &rest initargs)
   (declare (ignore initargs))
   ;;(format t "initialize-instance :after called.~%")
-  (with-slots (keyword font offset filter layer) obj
-    (setf keyword (and keyword (make-uml-keyword keyword)))
+  (with-slots (stereotype font offset filter layer) obj
+    (setf stereotype (and stereotype (make-uml-stereotype stereotype)))
     (unless offset
       (setf offset (make-point 0 0)))
     (setf filter (if (eq filter :none)
                      nil
                      (or filter *uml-expansion-region-filter* *default-filter*)))
-    (setf font   (make-font (or font *uml-expansion-region-font* *default-font*)))
+    (setf font   (make-font font))
     (setf layer  (if (eq layer :none)
                      nil
                      (or layer *uml-expansion-region-layer* *default-layer*))))
@@ -38,9 +38,9 @@
 
 (defmethod check ((obj uml-expansion-region) canvas dict)
   ;;(format t "check called.~%")
-  (with-slots (keyword font offset) obj
-    (check-object keyword  canvas dict :nullable t :class uml-keyword-info)
-    (check-object font     canvas dict :nullable t :class font-info)
+  (with-slots (stereotype font offset) obj
+    (check-object stereotype canvas dict :nullable t :class uml-stereotype-info)
+    (check-object font       canvas dict :nullable t :class font-info)
     (unless (point-p offset)
       (throw-exception "offset is not point object.")))
   ;; this method must call super class' one.
@@ -57,21 +57,21 @@
 (defmethod draw-entity ((obj uml-expansion-region) writer)
   ;; draw rectangle
   (call-next-method)
-  ;; draw keyword ( if exists ).
-  (with-slots (keyword font offset kaavio::clip-path) obj
-    (when keyword
+  ;; draw stereotype ( if exists ).
+  (with-slots (stereotype font offset kaavio::clip-path) obj
+    (when stereotype
       (let* ((canvas    (shape-get-subcanvas obj))
              (topleft   (canvas-topleft   canvas))
              (font-size (slot-value font 'kaavio::size)))
         (macrolet ((register-entity (entity)
                      `(check-and-draw-local-entity ,entity canvas writer)))
-          (uml-keyword-draw keyword
-                            (+ (point-x topleft) 5 (point-x offset))
-                            (+ (point-y topleft) 5 (point-y offset) font-size)
-                            :left
-                            font
-                            kaavio::clip-path
-                            writer)))))
+          (uml-stereotype-draw stereotype
+                               (+ (point-x topleft) 5 (point-x offset))
+                               (+ (point-y topleft) 5 (point-y offset) font-size)
+                               :left
+                               font
+                               kaavio::clip-path
+                               writer)))))
   nil)
 
 ;;------------------------------------------------------------------------------------- BEGIN TURNUP
@@ -80,27 +80,53 @@
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
-;;* ${{B}{uml-expansion-region}} position width height ${KEY} pivot keyword font offset corner-r fill stroke link layer id contents
-;;
+;;* ${{B}{uml-expansion-region}} position width height ${KEY} pivot stereotype keyword font offset corner-r fill stroke link layer filter id contents
 ;;
 ;;<!-- stack:pop li -->
 ;;
+;;${ARGS_AND_VALS}
+;;
+;;* `position` ---- 描画の基準点を指定します。詳細は「[](#座標と位置)」を参照してください。
+;;* `width` ---- 幅を数値で指定します。
+;;* `height` ---- 高さを数値で指定します。
+;;* `pivot` ---- `position` で指定した基準点が図形要素のどこにくるように描画するかを指定します。詳細は「[](#座標と位置)」を参照してください。
+;;* `stereotype` ---- ステレオタイプを明示する場合はステレオタイプ情報を指定します。詳細は [$@ 節](#uml-stereotype-info) を参照してください。
+;;* `keyword` ---- キーワードを明示する場合はステレオタイプ情報を指定します。 `stereotype` が指定されている場合は無視されます。詳細は [$@ 節](#uml-stereotype-info) を参照してください。
+;;* `offset` ---- キーワードの表示位置を調整するためのオフセットを座標値で指定します。
+;;* `corner-r` ---- 四隅の角の丸みの大きさを数値で指定します。デフォルト値は 10 です。
+;;* `fill` ---- 内部の塗り潰しを指定します。
+;;* `stroke` ---- 外枠を描画するストロークを指定します
+;;* `link` ---- リンクにする場合、リンク先を指定します。
+;;* `layer` ---- レイヤーを指定する場合、その ID をキーワードシンボルで指定します
+;;* `filter` ---- フィルタを適用したい場合、その ID をキーワードシンボルで指定します
+;;* `id` ---- ID を付与したい場合、その名前をキーワードシンボルで指定します
+;;* `contents` ---- 内部をサブキャンバスとした描画をしたい場合、その内容を指定します。
+;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　UML アクティビティ図における拡張領域を描画します。スタイルを統一したい場合、
+;;with-uml-expansion-region-options マクロを使うことができます。
 ;;
-;;${NO_SEE_ALSO}
+;;${SEE_ALSO}
 ;;
-;;${NO_NOTES}
+;;* [$$](#アクティビティ図)
+;;* [$$](#uml-expansion-region)
+;;* with-uml-expansion-region-options マクロ
+;;
+;;${NOTES}
+;;
+;;　キーワードはデフォルト値で拡張領域の左上に表示されます。この位置を調整したい場合、
+;;`:offset '(20 3)` といった要領で移動させたいオフセット値を指定してください。 
 ;;
 ;;--------------------------------------------------------------------------------------- END TURNUP
-(defmacro uml-expansion-region (position width height &key pivot keyword font offset
-                                         corner-r fill stroke link layer id contents)
+(defmacro uml-expansion-region (position width height &key pivot stereotype keyword offset
+                                         corner-r fill stroke link layer filter id contents)
   (let* ((code `(register-entity
                      (make-instance 'uml-expansion-region
                                     :position ,position :pivot ,pivot
                                     :width ,width :height ,height
-                                    :keyword ,keyword :font ,font :offset ,offset
+                                    :stereotype ,(or stereotype keyword) :offset ,offset
+                                    :font (or *uml-expansion-region-font* *default-font*)
                                     :rx (or ,corner-r *uml-expansion-region-corner-r*)
                                     :ry (or ,corner-r *uml-expansion-region-corner-r*)
                                     :fill     (or ,fill *uml-expansion-region-fill*
@@ -108,7 +134,7 @@
                                     :stroke   (or ,stroke *uml-expansion-region-stroke*
                                                   *default-stroke* :black)
                                     :clip-path kaavio:*current-clip-path*
-                                    :link ,link :layer ,layer :id ,id))))
+                                    :link ,link :layer ,layer :filter ,filter :id ,id))))
     (if (null contents)
         code
         (let ((g-obj (gensym "OBJ")))
@@ -126,14 +152,18 @@
 ;;
 ;;* ${{B}{with-uml-expansion-region-options}} (${KEY} font fill stroke corner-r filter layer) ${BODY} body
 ;;
-;;
 ;;<!-- stack:pop li -->
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　uml-expansion-region マクロで描画される図形要素のデフォルトオプションを変更します。
+;;キーワードパラメータ群の説明は uml-expansion-region マクロを参照してください。
 ;;
-;;${NO_SEE_ALSO}
+;;* ${{TODO}{font はキーワードのデフォルトフォントなのでここで説明する必要がある。}}
+;;
+;;${SEE_ALSO}
+;;
+;;* uml-expansion-region マクロ
 ;;
 ;;${NO_NOTES}
 ;;

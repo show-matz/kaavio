@@ -1,8 +1,70 @@
+
 (in-package :kaavio-user)
 
-(load-stencil :uml-transition-spec)
+(defparameter *uml-transition-stroke*      :black)
+(defparameter *uml-transition-arrow-size* :medium)
+(defparameter *uml-transition-filter*         nil)
+(defparameter *uml-transition-layer*          nil)
+(defparameter *uml-transition-font*           nil)
 
-(defparameter *uml-transition-stroke* :black)
+
+;;------------------------------------------------------------------------------
+;;
+;; class uml-transition-spec
+;;
+;;------------------------------------------------------------------------------
+(defclass uml-transition-spec ()
+  ((trigger :initform nil :initarg :trigger)    ; (or keyword string)
+   (guard   :initform nil :initarg :guard)      ; (or keyword string)
+   (action  :initform nil :initarg :action)     ; (or keyword string)
+   (offset  :initform nil :initarg :offset)     ; (or nil list)
+   (font    :initform nil :initarg :font)))     ; (or nil font-info)
+
+
+(defmethod initialize-instance :after ((obj uml-transition-spec) &rest initargs)
+  (declare (ignore initargs))
+  (with-slots (offset font) obj
+    (setf offset (or offset (make-point 0 0)))
+    (when font
+      (setf font (make-font font)))))
+
+(defmethod check ((spec uml-transition-spec) canvas dict)
+  (with-slots (trigger guard action offset font) spec
+    (check-member trigger :nullable t :types (or keyword string))
+    (check-member guard   :nullable t :types (or keyword string))
+    (check-member action  :nullable t :types (or keyword string))
+    (check-member offset  :nullable t :types cons)
+    (when offset
+      (with-point (x y) offset
+        (check-member x   :nullable nil :types number)
+        (check-member y   :nullable nil :types number)))
+    (check-object font    canvas dict :nullable t :class font-info))
+  nil)
+
+(defun uml-transition-spec-to-string (obj)
+  (with-slots (trigger guard action) obj
+    (format-string trigger
+                   (when guard
+                     (format-string "[" guard "]"))
+                   (when action
+                     (format-string "/" action)))))
+
+(defun make-uml-transition-spec (&rest params)
+  (if (= 1 (length params))
+      (let ((param (car params)))
+        (cond
+          ((typep   param  'uml-transition-spec) param)
+          ((listp   param) (apply #'make-uml-transition-spec param))
+          (t               (make-uml-transition-spec :trigger param))))
+      (destructuring-bind (&key trigger guard action offset
+                                (font  nil  font-p)) params
+        (make-instance 'uml-transition-spec
+                       :trigger   trigger
+                       :guard     guard
+                       :action    action
+                       :offset    offset
+                       :font     (if font-p  font  (or *uml-transition-font*
+                                                            kaavio:*default-font*))))))
 
 ;;------------------------------------------------------------------------------
 ;;
@@ -10,38 +72,81 @@
 ;;
 ;;------------------------------------------------------------------------------
 (defclass uml-transition (kaavio:connector)
-  ((spec :initform nil :initarg :spec)))    ; (or nil uml-transition-spec)
+  ((stereotype :initform nil :initarg :stereotype)   ; (or nil uml-stereotype-info)
+   (spec       :initform nil :initarg :spec)))       ; (or nil uml-transition-spec)
 
 (defmethod initialize-instance :after ((tran uml-transition) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (spec) tran
-    (setf spec (and spec (make-uml-transition-spec spec))))
+  (with-slots (stereotype spec) tran
+    (setf stereotype (and stereotype (make-uml-stereotype      stereotype)))
+    (setf spec       (and spec       (make-uml-transition-spec spec))))
   tran)
 
 
 (defmethod check ((tran uml-transition) canvas dict)
-  (with-slots (spec) tran
-    (check-object spec canvas dict :nullable t :class uml-transition-spec))
   ;; this method must call super class' one.
-  (call-next-method))
+  (call-next-method)
+  (with-slots (stereotype spec) tran
+    (check-object stereotype canvas dict :nullable t :class uml-stereotype-info)
+    (check-object spec       canvas dict :nullable t :class uml-transition-spec))
+  nil)
+
 
 (defmethod entity-composition-p ((tran uml-transition))
-  (with-slots (spec) tran
-    (or spec
+  (with-slots (stereotype spec) tran
+    (or stereotype
+        spec
         (call-next-method))))
 
+;;MEMO : uml-connection-draw-label と酷似している。共通化が可能なはずだがそこまで手が回ってない。
 (defun uml-transition-draw-spec (tran x y sin cos clip-path writer)
-  (with-slots (spec) tran
-    (with-slots (offset font) spec
-      (let ((f-size (slot-value font 'kaavio::size))
-            (align (cond ((zerop sin) :center)
-                         ((<  0  sin) :left)
-                         (t           :right))))
-        (incf y (/ f-size 2))
-        (with-point (px py) offset
-            (uml-transition-spec-draw spec
-                                      (+ (+ x px) (* sin f-size))
-                                      (- (+ y py) (* cos f-size)) align clip-path writer))))))
+  (with-slots (spec stereotype) tran
+    (labels ((calc-width-and-height ()
+               (let* ((width   0)
+                      (height  0)
+                      (lines   nil)
+                      (offset  (if spec (slot-value spec 'offset) '(0 0)))
+                      (st-font (and stereotype (slot-value stereotype 'font)))
+                      (sp-font (and spec       (slot-value spec       'font)))
+                      (sp-size (if  spec       (slot-value sp-font    'kaavio::size) 0))
+                      (spacing (if  spec       (slot-value sp-font    'kaavio::line-spacing) 0)))
+                 (when stereotype
+                   (multiple-value-setq (width height)
+                                        (font-calc-textarea st-font
+                                                            (uml-stereotype-to-string stereotype))))
+                 (when spec
+                   (let ((text (fix-name (uml-transition-spec-to-string spec))))
+                     (setf lines (kaavio::string/split text #\newline))
+                     (multiple-value-bind (w h) (font-calc-textarea sp-font text)
+                       (setf width (max width w))
+                       (incf height spacing)
+                       (incf height h))))
+                 (values width height offset lines st-font sp-font sp-size spacing))))
+      (multiple-value-bind (width height offset lines
+                                  stype-font spec-font spec-size spacing) (calc-width-and-height)
+        (let (;(x (+ x (* sin height)))
+              (y (- y (* cos height))))
+          (decf y (/ height 2))
+          (when (< 0 sin) (incf x (/ width 2)))
+          (when (< sin 0) (decf x (/ width 2)))
+          (when stereotype
+            (incf y (slot-value stype-font 'kaavio::size))
+            (uml-stereotype-draw stereotype (+ x (point-x offset))
+                                            (+ y (point-y offset))
+                                            :center
+                                            stype-font
+                                            clip-path
+                                            writer)
+            (incf y spacing))
+          (when spec
+            (let ((font-property (to-property-strings spec-font)))
+              (dolist (line lines)
+                (incf y spec-size)
+                (write-text-tag (+ x (point-x offset))
+                                (+ y (point-y offset))
+                                line writer :align :center
+                                :font font-property :clip-path clip-path)
+                (incf y spacing)))))))))
 
 
 ;;------------------------------------------------------------------------------------- BEGIN TURNUP
@@ -50,28 +155,109 @@
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
-;;* ${{B}{uml-transition}} from to ${KEY} spec style spacing layer id
+;;* ${{B}{uml-transition}} from to ${KEY} stereotype keyword spec style spacing filter layer id
 ;;
+;;<!-- stack:pop li -->
+;;
+;;${ARGS_AND_VALS}
+;;
+;;* `from` ---- 接続元となる要素の ID をキーワードで指定します。point 値も指定できます。
+;;* `to` ---- 接続先となる要素の ID をキーワードで指定します。point 値も指定できます。
+;;* `stereotype` ---- ステレオタイプを明示する場合はステレオタイプ情報を指定します。詳細は [$@ 節](#uml-stereotype-info) を参照してください。
+;;* `keyword` ---- キーワードを明示する場合はステレオタイプ情報を指定します。 `stereotype` が指定されている場合は無視されます。詳細は [$@ 節](#uml-stereotype-info) を参照してください。
+;;* `spec` ---- 遷移にトリガーやガード条件、アクションを明示する場合に指定します。詳細は後述します。
+;;* `style` ---- 接続線の引き方を指定します。詳細は [$@ 節](#コネクタ)を参照してください。
+;;* `spacing` ---- 2 回以上折れ曲がる接続線における「自由な線分」の位置を調整するためのパラメータです。詳細は [$@ 節](#コネクタ)を参照してください。
+;;* `filter` ---- フィルタを適用したい場合、その ID をキーワードシンボルで指定します。
+;;* `layer` ---- レイヤーを指定する場合、その ID をキーワードシンボルで指定します。
+;;* `id` ---- ID を付与したい場合、その名前をキーワードシンボルで指定します。
+;;
+;;${DESCRIPTION}
+;;
+;;　UML ステートマシーン図における遷移を描画します。スタイルを統一したい場合、
+;;with-uml-transition-options マクロを使うことができます。
+;;
+;;　`spec` に指定する遷移仕様は、 `:spec '(:trigger "event" :guard "v = 666" :action "foo()")` と
+;;いった要領で指定します。リスト内に名前付きパラメータを並べる形式で、以下のパラメータが指定
+;;できます。
+;;
+;;<!-- stack:push li class='syntax' -->
+;;
+;;* ${KEY} trigger guard action offset font
+;;
+;;<!-- stack:pop li -->
+;;
+;;　`:trigger :guard :action` はそれぞれトリガーとガード条件、アクションで、それぞれ文字列で
+;;指定します。これによって、先ほどの例で言えば `event[v = 666]/foo()` といった仕様が表示される
+;;ことになります。 `:offset` は表示位置の調整を `(x y)` 形式で指定します。 `:font` はフォント
+;;の指定が必要な場合に使用します。フォントの指定を省略した場合、with-uml-transition-options マクロ
+;;で指定されているフォントが使用されます。
+;;
+;;${SEE_ALSO}
+;;
+;;* [$$](#ステートマシーン図)
+;;* [$$](#uml-transition)
+;;* with-uml-transition-options マクロ
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
+(defmacro uml-transition (from to &key stereotype keyword spec style spacing filter layer id)
+  (let ((g-stype (gensym "STEREOTYPE"))
+        (g-spec  (gensym "SPEC")))
+    `(let ((,g-stype ,(or stereotype keyword))
+           (,g-spec ,spec))
+       (register-entity (make-instance 'uml-transition
+                                       :from ,from :to ,to
+                                       :stereotype ,g-stype :spec ,g-spec
+                                       :label (and (or ,g-stype ,g-spec)
+                                                   #'uml-transition-draw-spec)
+                                       :style ,style :spacing ,spacing
+                                       :stroke (or *uml-transition-stroke* *default-stroke*)
+                                       :clip-path *current-clip-path*
+                                       :end1 nil
+                                       :end2 (list :type :arrow :size *uml-transition-arrow-size*)
+                                       :filter (or ,filter *uml-transition-filter* *default-filter*)
+                                       :layer  (or ,layer  *uml-transition-layer*  *default-layer*)
+                                       :id ,id)))))
+
+
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### macro with-uml-transition-options
+;;
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
+;;
+;;* ${{B}{with-uml-transition-options}} (${KEY} stroke arrow-size font filter layer) ${BODY} body
 ;;
 ;;<!-- stack:pop li -->
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　uml-transition マクロで描画される図形要素のデフォルトオプションを変更します。キーワード
+;;パラメータ群の説明は uml-transition マクロを参照してください。
 ;;
-;;${NO_SEE_ALSO}
+;;${SEE_ALSO}
+;;
+;;* uml-transition マクロ
 ;;
 ;;${NO_NOTES}
 ;;
 ;;--------------------------------------------------------------------------------------- END TURNUP
-(defmacro uml-transition (from to &key spec style spacing layer id)
-  (let ((g-spec  (gensym "SPEC")))
-    `(let ((,g-spec  ,spec))
-       (register-entity (make-instance 'uml-transition
-                                       :from ,from :to ,to
-                                       :spec ,g-spec :style ,style :spacing ,spacing
-                                       :label (and ,g-spec #'uml-transition-draw-spec)
-                                       :stroke (or *uml-transition-stroke* *default-stroke*)
-                                       :clip-path *current-clip-path*
-                                       :end1 nil :end2 :arrow :layer ,layer :id ,id)))))
-
+(defmacro with-uml-transition-options ((&key stroke arrow-size font filter layer) &rest body)
+  (labels ((impl (params acc)
+             (if (null params)
+                 acc
+                 (let ((value  (car  params))
+                       (symbol (cadr params)))
+                   (impl (cddr params)
+                         (if (null value)
+                             acc
+                             (push (list symbol value) acc)))))))
+    (let ((lst (impl (list  stroke     '*uml-transition-stroke*
+                            arrow-size '*uml-transition-arrow-size*
+                            font       '*uml-transition-font*
+                            filter     '*uml-transition-filter*
+                            layer      '*uml-transition-layer*) nil)))
+      `(let ,lst
+         ,@body))))

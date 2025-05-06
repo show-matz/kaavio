@@ -69,7 +69,7 @@
            (,g-clippers  nil)
            (,g-filters   nil)
            (,g-entities  nil)
-           (,g-dict      (dict-create *default-history-count*))  ;;ToDo : export dict-create!
+           (,g-dict      (dict-create *default-history-count*))
            (canvas       (make-canvas (make-point 0 0 :absolute) ,width ,height)))
        (declare (special canvas))
        (labels ((layer (name &optional (display :inline))
@@ -88,7 +88,7 @@
                   (push ,g-entity ,g-entities)
                   (check ,g-entity canvas ,g-dict)
                   (dict-register ,g-dict ,g-entity)))
-         (declare (ignorable #'layer #'register-entity #'register-filter))
+         (declare (ignorable #'layer #'register-entity #'register-filter #'register-clipper))
          (let ((*default-font*   (or *default-font*   (make-font)))
                (*default-fill*   (or *default-fill*   (make-fill)))
                (*default-stroke* (or *default-stroke* (make-stroke))))

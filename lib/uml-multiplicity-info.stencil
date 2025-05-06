@@ -74,16 +74,49 @@
 ;;
 ;;* ${{B}{make-uml-multiplicity}} ${REST} params
 ;;
-;;
 ;;<!-- stack:pop li -->
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　指定されたパラメータで多重度情報を生成します。上記は簡潔な記述で柔軟な多重度情報の生成を
+;;可能にするためのもので、 `params` として渡されるパラメータ数に応じて以下のことをします。
 ;;
-;;${NO_SEE_ALSO}
+;;* パラメータ数が 1 の場合
+;;    * ドットリストを使った多重度指定（ car / cdr それぞれが `:*` または整数値） `cons` の場合、 `(make-uml-multiplicity :min (car param) prm :max (cdr param))` を返します。
+;;    * 多重度情報が渡された場合、それをそのまま返します。
+;;    * リスト lst が渡された場合、 `(apply #'make-uml-multiplicity lst)` を返します。
+;;    * 上記のいずれでもない prm の場合、 `(make-uml-multiplicity :min prm :max prm)` を返します。
+;;* パラメータ数が 2 以上の場合
+;;    * 後述します。
 ;;
-;;${NO_NOTES}
+;;　パラメータ数が 2 以上の場合、make-uml-multiplicity 関数は実質的に以下の関数であるかのように
+;;振舞います。
+;;
+;;<!-- stack:push li class='syntax' -->
+;;
+;;* ${{B}{make-uml-multiplicity}} ${KEY} min max offset font
+;;
+;;<!-- stack:pop li -->
+;;
+;;　各パラメータの意味は以下の通りです。
+;;
+;;* `min` ---- 多重度の最小値を指定します。整数または `:*` です。
+;;* `max` ---- 多重度の最大値を指定します。整数または `:*` です。
+;;* `offset` ---- 描画位置調整のためのオフセット情報を `(x y)` 形式で指定します。
+;;* `font` ---- フォントを指定します。
+;;
+;;${SEE_ALSO}
+;;
+;;* [$$](#uml-multiplicity-info)
+;;* [$$](#uml-aggregation)
+;;* [$$](#uml-association)
+;;* [$$](#uml-composition)
+;;
+;;${NOTES}
+;;
+;;　通常、この関数を明示的に使用する必要はありません。uml-assciation マクロの `:mult1` などに
+;;指定されたパラメータは内部でこの関数に渡されるため、 `:mult1 1` や `:mult1 '(0 . 5)` 、あるいは 
+;;`:mult1 '(:min 5 :max 100 :offset (-5 3))` といった記述で多重度情報を指定できます。
 ;;
 ;;--------------------------------------------------------------------------------------- END TURNUP
 (defun make-uml-multiplicity (&rest params)

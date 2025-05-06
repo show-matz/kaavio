@@ -4,6 +4,8 @@
 (defparameter *uml-state-end-ratio*       0.6)
 (defparameter *uml-state-end-fill*     :white)
 (defparameter *uml-state-end-stroke*   :black)
+(defparameter *uml-state-end-filter*      nil)
+(defparameter *uml-state-end-layer*       nil)
 
 ;;------------------------------------------------------------------------------
 ;;
@@ -12,6 +14,19 @@
 ;;------------------------------------------------------------------------------
 (defclass uml-state-end (kaavio:circle)
   ((ratio :initform 0 :initarg :ratio)))    ; number
+
+
+(defmethod initialize-instance :after ((obj uml-state-end) &rest initargs)
+  (declare (ignore initargs))
+  ;;(format t "initialize-instance :after called.~%")
+  (with-slots (filter layer) obj
+    (setf filter  (if (eq filter :none)
+                      nil
+                      (or filter *uml-state-end-filter* *default-filter*)))
+    (setf layer  (if (eq layer :none)
+                     nil
+                     (or layer *uml-state-end-layer* *default-layer*))))
+  obj)
 
 (defmethod check ((obj uml-state-end) canvas dict)
   ;; this method must call super class' one.
@@ -41,21 +56,38 @@
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
-;;* ${{B}{uml-state-end}} position ${KEY} pivot radius ratio fill stroke link layer id
-;;
+;;* ${{B}{uml-state-end}} position ${KEY} pivot radius ratio fill stroke link layer filter id
 ;;
 ;;<!-- stack:pop li -->
 ;;
+;;${ARGS_AND_VALS}
+;;
+;;* `position` ---- 描画の基準点を指定します。詳細は「[](#座標と位置)」を参照してください。
+;;* `pivot` ---- `position` で指定した基準点が図形要素のどこにくるように描画するかを指定します。詳細は「[](#座標と位置)」を参照してください。
+;;* `radius` ---- 終了状態の半径を数値で指定します。省略した場合のデフォルト値は 15 です。
+;;* `ratio` ---- 内部の（塗り潰される）円の半径を `radius` に対する比で指定します。省略した場合のデフォルト値は 0.6 です。
+;;* `fill` ---- 外側の円と内側の円の間を塗り潰す色を指定します。省略した場合のデフォルト値は `:white` です。
+;;* `stroke` ---- 外側の円を描画するストロークを指定します。内側の（塗り潰される）円の色としても使用されます。省略した場合のデフォルト値は `:black` です。
+;;* `link` ---- リンクにする場合、リンク先を指定します。
+;;* `layer` ---- レイヤーを指定する場合、その ID をキーワードシンボルで指定します
+;;* `filter` ---- フィルタを適用したい場合、その ID をキーワードシンボルで指定します
+;;* `id` ---- ID を付与したい場合、その名前をキーワードシンボルで指定します
+;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　UML ステートマシーン図における終了状態を描画します。スタイルを統一したい場合、
+;;with-uml-state-end-options マクロを使うことができます。
 ;;
-;;${NO_SEE_ALSO}
+;;${SEE_ALSO}
+;;
+;;* [$$](#ステートマシーン図)
+;;* [$$](#uml-state-end)
+;;* with-uml-state-end-options マクロ
 ;;
 ;;${NO_NOTES}
 ;;
 ;;--------------------------------------------------------------------------------------- END TURNUP
-(defmacro uml-state-end (position &key pivot radius ratio fill stroke link layer id)
+(defmacro uml-state-end (position &key pivot radius ratio fill stroke link layer filter id)
   `(register-entity (make-instance 'uml-state-end
                                    :position ,position :pivot ,pivot
                                    :radius (or ,radius *uml-state-end-radius*)
@@ -63,5 +95,49 @@
                                    :fill   (or ,fill   *uml-state-end-fill*   *default-fill*)
                                    :stroke (or ,stroke *uml-state-end-stroke* *default-stroke*)
                                    :clip-path kaavio:*current-clip-path*
-                                   :link ,link :layer ,layer :id ,id)))
+                                   :link ,link :layer ,layer :filter ,filter :id ,id)))
+
+
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### macro with-uml-state-end-options
+;;
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
+;;
+;;* ${{B}{with-uml-state-end-options}} (${KEY} radius ratio fill stroke filter layer) ${BODY} body
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　uml-state-end マクロで描画される図形要素のデフォルトオプションを変更します。キーワード
+;;パラメータ群の説明は uml-state-end マクロを参照してください。
+;;
+;;${SEE_ALSO}
+;;
+;;* uml-state-end マクロ
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
+(defmacro with-uml-state-end-options ((&key radius ratio
+                                                 fill stroke filter layer) &rest body)
+  (labels ((impl (params acc)
+             (if (null params)
+                 acc
+                 (let ((value  (car  params))
+                       (symbol (cadr params)))
+                   (impl (cddr params)
+                         (if (null value)
+                             acc
+                             (push (list symbol value) acc)))))))
+    (let ((lst (impl (list radius   '*uml-state-end-radius*
+                           ratio    '*uml-state-end-ratio*
+                           fill     '*uml-state-end-fill*
+                           stroke   '*uml-state-end-stroke*
+                           filter   '*uml-state-end-filter*
+                           layer    '*uml-state-end-layer*) nil)))
+      `(let ,lst
+         ,@body))))
+
 

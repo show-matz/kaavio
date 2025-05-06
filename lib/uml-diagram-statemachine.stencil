@@ -1,10 +1,20 @@
 (in-package :kaavio-user)
 
 (load-stencil :uml-note)
+(load-stencil :uml-frame)
 (load-stencil :uml-state-begin)
 (load-stencil :uml-state-end)
 (load-stencil :uml-state-history)
-(load-stencil :uml-transition-spec)
 (load-stencil :uml-transition)
 (load-stencil :uml-state)
-(load-stencil :uml-frame)
+
+(register-theme (:uml-statemachine-default)
+  (t                     :font '(:family "sans-serif" :size 10))
+  (uml-note              :fill :ivory      :stroke :olive)
+  (uml-frame             :fill :whitesmoke :stroke :darkslategray)
+  (uml-state             :fill :aliceblue  :stroke :darkslateblue)
+  (uml-state-begin       :fill :darkslateblue :radius 10)
+  (uml-state-end         :fill :aliceblue  :stroke :darkslateblue :radius 15)
+  (uml-state-history     :fill :aliceblue  :stroke :darkslateblue :radius 10)
+  (uml-transition        :stroke :black  :arrow-size :small))
+

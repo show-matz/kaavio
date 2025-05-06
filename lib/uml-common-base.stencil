@@ -1,0 +1,77 @@
+(in-package :kaavio-user)
+
+(load-stencil :uml-stereotype-info)
+
+(defun uml-stereotype-keyword-p (param)
+  (when (keywordp param)
+    (setf param (string-downcase (symbol-name param))))
+  (and (stringp param)
+       (let* ((len (length param)))
+         (and (< 4 len)
+              (char= (char param 0) #\<)
+              (char= (char param 1) #\<)
+              (char= (char param (- len 2)) #\>)
+              (char= (char param (- len 1)) #\>)
+              (subseq param 2 (- len 2))))))
+         
+(defun uml-make-label (default-font &rest params)
+  (if (null default-font)
+      (apply #'kaavio:make-label params)
+      (if (and (= 1 (length params))
+               (listp (car params)))
+          (apply #'uml-make-label default-font (car params))
+          (destructuring-bind (text &key position offset font) params
+            (declare (ignore font))
+            (kaavio:make-label text :position position :offset offset :font default-font)))))
+      
+;; stereotype を伴う（場合がある）複数行テキストの描画に必要な領域の幅と高さを計算して返す
+(defun uml-calc-textarea (font text stereotype)
+  (multiple-value-bind (w h) (kaavio:font-calc-textarea font text)
+    (if (null stereotype)
+        (values w h)
+        (let* ((line-spacing (slot-value font 'kaavio::line-spacing))
+               (font         (or (slot-value stereotype 'font) font))
+               (size             (slot-value font       'kaavio::size)))
+          (incf h (+ size line-spacing))
+          (values w h)))))
+
+;; text-shape 派生の UML オブジェクトのテキスト領域を描画する
+;;   考え方：text-shape-paragraph-area によって適切な領域を計算しているはずなので、
+;;           valign は実質的に無視して動作する。
+(defun uml-draw-textarea (txtshp stereotype writer &key debug v-margin h-margin)
+  (let ((canvas (text-shape-paragraph-area txtshp)))
+    (with-slots ((text kaavio::text) (align  kaavio::align)
+                 (font kaavio::font) (margin kaavio::margin) (clip-path kaavio::clip-path)) txtshp
+      (multiple-value-bind (w h) (uml-calc-textarea font text stereotype)
+        (declare (ignore w))
+        (let* ((top      (canvas-top    canvas))
+               (left     (canvas-left   canvas))
+               (width    (canvas-width  canvas))
+               (height   (canvas-height canvas))
+               (st-font  (or (and stereotype (slot-value stereotype 'font)) font))
+               (st-size  (slot-value st-font 'kaavio::size))
+               (v-margin (or v-margin margin))
+               (h-margin (or h-margin margin))
+               (y        (max v-margin (/ (- height h) 2)))
+               (x        (ecase align
+                           ((:left)   h-margin)
+                           ((:center) (/ width 2))
+                           ((:right)  (- width h-margin)))))
+          (macrolet ((register-entity (entity)
+                       `(check-and-draw-local-entity ,entity canvas writer)))
+            (when debug
+              (when (eq debug t)
+                (setf debug :red))
+              (rect (canvas-center canvas) width height
+                    :stroke nil :fill `(:color ,debug :opacity 0.1)))
+            (when stereotype
+              (uml-stereotype-draw stereotype
+                                   (+ left x)
+                                   (+ top  y st-size) align font clip-path writer)
+              (incf y (+ st-size (slot-value font 'kaavio::line-spacing))))
+            (when (string/= "" text)
+              ;; draw text
+              (let ((*current-clip-path* clip-path))
+                (paragraph (list x y) text :align align :valign :top :font font)))))))
+    canvas))
+

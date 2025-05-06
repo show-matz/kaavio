@@ -18,11 +18,9 @@
   (with-slots (size
                (spice width-spice)
                (spacing line-spacing)) font
-    (let ((line-count (length text))
-          (width-fnc  (lambda (line)
-                        (* (length line) size spice))))    ;ToDo : what can I do ?
-      ;;ToDo : implement... fix width-fnc.
-      (values (apply #'max (mapcar width-fnc text))
+    (let ((line-count (length text)))
+      (values (apply #'max (mapcar (lambda (line)
+                                     (* (length line) size spice)) text))
               (+ (* size line-count)
                  (* spacing (1- line-count)))))))
 

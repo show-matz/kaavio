@@ -1,9 +1,20 @@
 (in-package :kaavio-user)
 
 (load-stencil :uml-note)
+(load-stencil :uml-frame)
 (load-stencil :uml-actor)
 (load-stencil :uml-usecase)
 (load-stencil :uml-association)
 (load-stencil :uml-generalization)
-(load-stencil :uml-frame)
+
+
+(register-theme (:uml-usecase-default)
+  (t                     :font '(:family "sans-serif" :size 10))
+  (uml-note              :fill :ivory      :stroke :olive)
+  (uml-frame             :fill :whitesmoke :stroke :darkslategray)
+  (uml-actor             :fill :ivory      :stroke :olive)
+  (uml-usecase           :fill :ivory      :stroke :olive)
+  (uml-association       :arrow-size :small :stroke :black)
+  (uml-generalization    :arrow-size :small :stroke :black :fill :white))
+
 

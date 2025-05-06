@@ -1,18 +1,21 @@
 (in-package :kaavio-user)
 
 (load-stencil :uml-stereotype-info)
+(load-stencil :uml-node)
+(load-stencil :uml-artifact)
 (load-stencil :uml-dependency)
+(load-stencil :uml-association)
 (load-stencil :uml-frame)
 (load-stencil :uml-note)
-(load-stencil :uml-package)
-(load-stencil :uml-realization)
 
 
-(register-theme (:uml-package-default)
+(register-theme (:uml-deployment-default)
   (t                     :font '(:family "sans-serif" :size 10))
+  (uml-node              :fill1 :grey97 :fill2 :grey85 :stroke :black)
+  (uml-artifact          :fill :white      :stroke :black
+                         :icon-stroke :darkgray :icon-fill :floralwhite)
   (uml-note              :fill :ivory      :stroke :olive)
   (uml-frame             :fill :whitesmoke :stroke :darkslategray)
-  (uml-package           :fill :beige      :stroke :maroon)
-  (uml-realization       :arrow-size :small :stroke '(:color :black :dasharray (4 2)) :fill :white)
+  (uml-association       :arrow-size :small :stroke :black)
   (uml-dependency        :arrow-size :small :stroke '(:color :black :dasharray (4 2))))
 

@@ -9,6 +9,8 @@
 (defparameter *uml-frame-layer*     nil)
 
 
+;;MEMO: 0CmlEwGLQBg : uml-frame で alt をするときの「横点線と guard 条件」とかを組み込みたい
+
 ;;-------------------------------------------------------------------------------
 ;;
 ;; class uml-frame
@@ -123,14 +125,34 @@
 ;;
 ;;* ${{B}{uml-frame}} position width height title ${KEY} pivot margin font fill stroke link layer filter id contents
 ;;
-;;
 ;;<!-- stack:pop li -->
+;;
+;;${ARGS_AND_VALS}
+;;
+;;* `position` ---- 描画の基準点を指定します。詳細は「[](#座標と位置)」を参照してください。
+;;* `width` ---- 幅を数値で指定します。
+;;* `height` ---- 高さを数値で指定します。
+;;* `title` ---- 名前をキーワードまたは文字列で指定します。内部的にパラグラフとして処理されるため、改行を含む複数行の文字列が使用できます。
+;;* `pivot` ---- `position` で指定した基準点が図形要素のどこにくるように描画するかを指定します。詳細は「[](#座標と位置)」を参照してください。
+;;* `margin` ---- フレームの左上に表示される名前部分の余白の大きさを数値で指定します。
+;;* `font` ---- フォントを指定します。
+;;* `fill` ---- 内部の塗り潰しを指定します。
+;;* `stroke` ---- 外枠を描画するストロークを指定します
+;;* `link` ---- リンクにする場合、リンク先を指定します。
+;;* `layer` ---- レイヤーを指定する場合、その ID をキーワードシンボルで指定します
+;;* `filter` ---- フィルタを適用したい場合、その ID をキーワードシンボルで指定します
+;;* `id` ---- ID を付与したい場合、その名前をキーワードシンボルで指定します
+;;* `contents` ---- 内部をサブキャンバスとした描画をしたい場合、その内容を指定します。
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　各種の UML ダイアグラムで使用されるフレームを描画します。スタイルを統一
+;;したい場合、with-uml-frame-options マクロを使うことができます。
 ;;
-;;${NO_SEE_ALSO}
+;;${SEE_ALSO}
+;;
+;;* [$$](#uml-frame)
+;;* with-uml-frame-options マクロ
 ;;
 ;;${NO_NOTES}
 ;;
@@ -162,14 +184,16 @@
 ;;
 ;;* ${{B}{with-uml-frame-options}} (${KEY} font fill stroke margin filter layer) ${BODY} body
 ;;
-;;
 ;;<!-- stack:pop li -->
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　uml-frame マクロで描画される図形要素のデフォルトオプションを変更します。キーワード
+;;パラメータ群の説明は uml-frame マクロを参照してください。
 ;;
-;;${NO_SEE_ALSO}
+;;${SEE_ALSO}
+;;
+;;* uml-frame マクロ
 ;;
 ;;${NO_NOTES}
 ;;

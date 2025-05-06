@@ -8,6 +8,8 @@
 (defparameter *uml-actor-head-ratio*        0.4)
 (defparameter *uml-actor-shoulder-position* 0.5)
 (defparameter *uml-actor-thigh-position*    0.7)
+(defparameter *uml-actor-filter*            nil)
+(defparameter *uml-actor-layer*             nil)
 
 
 ;;------------------------------------------------------------------------------
@@ -19,6 +21,7 @@
   ((name      :initform nil  :initarg  :name)   ; (or nil label-info)
    (fill      :initform nil  :initarg  :fill)   ; (or nil fill-info)
    (stroke    :initform nil  :initarg  :stroke) ; (or nil stroke-info)
+   (filter    :initform nil  :initarg  :filter) ; (or nil keyword)
    (head      :initform 0)                      ; number
    (shoulder  :initform 0)                      ; number
    (thigh     :initform 0)                      ; number
@@ -26,10 +29,16 @@
 
 (defmethod initialize-instance :after ((actor uml-actor) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (name fill stroke head shoulder thigh) actor
+  (with-slots (name fill stroke filter layer head shoulder thigh) actor
     (setf name   (and name (make-label name)))
     (setf fill   (make-fill   (or fill   *uml-actor-fill*   *default-fill*  )))
     (setf stroke (make-stroke (or stroke *uml-actor-stroke* *default-stroke*)))
+    (setf filter (if (eq filter :none)
+                     nil
+                     (or filter *uml-actor-filter* *default-filter*)))
+    (setf layer  (if (eq layer :none)
+                     nil
+                     (or layer *uml-actor-layer* *default-layer*)))
     (let ((height (slot-value actor 'kaavio::height)))
       (setf head  (/ (* height *uml-actor-head-ratio*) 2))
       (setf thigh    (* height *uml-actor-thigh-position*))
@@ -51,7 +60,7 @@
 
 ;; override of group::draw-group
 (defmethod draw-group ((actor uml-actor) writer)
-  (with-slots (name fill stroke head shoulder thigh clip-path) actor
+  (with-slots (name fill stroke filter head shoulder thigh clip-path) actor
     (let* ((canvas (group-get-canvas actor))
            (width  (canvas-width  canvas))
            (height (canvas-height canvas))
@@ -59,6 +68,7 @@
            (neck   (* head 2))
            (*default-fill*   fill)
            (*default-stroke* stroke)
+           (*default-filter* filter)
            (kaavio:*current-clip-path* clip-path))
       (macrolet ((register-entity (entity)
                    `(check-and-draw-local-entity ,entity canvas writer)))
@@ -84,21 +94,38 @@
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
-;;* ${{B}{uml-actor}} position name ${KEY} pivot width fill stroke link layer id
-;;
+;;* ${{B}{uml-actor}} position name ${KEY} pivot width fill stroke link layer filter id
 ;;
 ;;<!-- stack:pop li -->
 ;;
+;;${ARGS_AND_VALS}
+;;
+;;* `position` ---- 描画の基準点を指定します。詳細は「[](#座標と位置)」を参照してください。
+;;* `name` ---- アクターの名前を文字列で指定します。
+;;* `pivot` ---- `position` で指定した基準点が図形要素のどこにくるように描画するかを指定します。詳細は「[](#座標と位置)」を参照してください。
+;;* `width` ---- 大きさを明示的に指定したい場合に、幅を数値で指定します。高さは幅から自動的に決定されます。省略した場合のデフォルト値は 30 です。
+;;* `fill` ---- 内部の塗り潰しを指定します。
+;;* `stroke` ---- 線を描画するストロークを指定します
+;;* `link` ---- リンクにする場合、リンク先を指定します。
+;;* `layer` ---- レイヤーを指定する場合、その ID をキーワードシンボルで指定します
+;;* `filter` ---- フィルタを適用したい場合、その ID をキーワードシンボルで指定します
+;;* `id` ---- ID を付与したい場合、その名前をキーワードシンボルで指定します
+;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　UML ユースケース図におけるアクターを描画します。スタイルを統一したい場合、
+;;with-uml-actor-options マクロを使うことができます。
 ;;
-;;${NO_SEE_ALSO}
+;;${SEE_ALSO}
+;;
+;;* [$$](#ユースケース図)
+;;* [$$](#uml-actor)
+;;* with-uml-actor-options マクロ
 ;;
 ;;${NO_NOTES}
 ;;
 ;;--------------------------------------------------------------------------------------- END TURNUP
-(defmacro uml-actor (position name &key pivot width fill stroke link layer id)
+(defmacro uml-actor (position name &key pivot width fill stroke link layer filter id)
   `(register-entity (make-instance 'uml-actor
                                    :position ,position :pivot ,pivot
                                    :name ,name
@@ -107,5 +134,60 @@
                                               (or ,width *uml-actor-width*))
                                    :fill ,fill :stroke ,stroke
                                    :clip-path *current-clip-path*
-                                   :link ,link :layer ,layer :id ,id)))
+                                   :link ,link :layer ,layer
+                                   :filter ,filter :id ,id)))
+
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### macro with-uml-actor-options
+;;
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
+;;
+;;* ${{B}{with-uml-actor-options}} (${KEY} fill stroke width height-ratio head-ratio shoulder-position thigh-position filter layer) ${BODY} body
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　uml-actor マクロで描画される図形要素のデフォルトオプションを変更します。キーワード
+;;パラメータ群の説明は uml-actor マクロを参照してください。uml-actor マクロに現れない
+;;パラメータについては後述します。
+;;
+;;${SEE_ALSO}
+;;
+;;* uml-actor マクロ
+;;
+;;${NOTES}
+;;
+;;　uml-actor マクロのパラメータに対応しないものとして、以下があります。これらはアクター
+;;のアイコン形状を制御するものです。
+;;
+;;* `height-ratio` : `width` で指定する幅に対して高さを決定するための係数です。デフォルト値は 1.5 です。
+;;* `head-ratio` : 頭部の円の大きさを高さに対する比で決定するための係数です。デフォルト値は 0.4 です。
+;;* `shoulder-position` : 「肩」の位置（つまり横棒で描画される腕の高さ）を決定するための係数です。デフォルト値は 0.5 です。
+;;* `thigh-position` : 「腰」の位置（つまり斜めの棒で描画される二本の脚が胴体から分岐する位置）を決定するための係数です。デフォルト値は 0.7 です。
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
+(defmacro with-uml-actor-options ((&key fill stroke width height-ratio head-ratio
+                                     shoulder-position thigh-position filter layer) &rest body)
+  (labels ((impl (params acc)
+             (if (null params)
+                 acc
+                 (let ((value  (car  params))
+                       (symbol (cadr params)))
+                   (impl (cddr params)
+                         (if (null value)
+                             acc
+                             (push (list symbol value) acc)))))))
+    (let ((lst (impl (list fill              '*uml-actor-fill*
+                           stroke            '*uml-actor-stroke*
+                           width             '*uml-actor-width*
+                           height-ratio      '*uml-actor-height-ratio*
+                           head-ratio        '*uml-actor-head-ratio*
+                           shoulder-position '*uml-actor-shoulder-position*
+                           thigh-position    '*uml-actor-thigh-position*
+                           filter            '*uml-actor-filter*
+                           layer             '*uml-actor-layer*) nil)))
+      `(let ,lst
+         ,@body))))
 

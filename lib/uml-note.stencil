@@ -1,17 +1,16 @@
 
 (in-package :kaavio-user)
 
-(load-stencil :uml-keyword-info)
+(load-stencil :uml-common-base)
 
-(defparameter *uml-note-font*      nil)
-(defparameter *uml-note-fill*   :white)
-(defparameter *uml-note-stroke* :black)
-(defparameter *uml-note-margin*     10)
-(defparameter *uml-note-align*   :left)
-(defparameter *uml-note-valign*   :top)
-(defparameter *uml-note-crease*     20)
-(defparameter *uml-note-filter*    nil)
-(defparameter *uml-note-layer*     nil)
+(defparameter *uml-note-font*         nil)
+(defparameter *uml-note-fill*      :white)
+(defparameter *uml-note-stroke*    :black)
+(defparameter *uml-note-margin*        10)
+(defparameter *uml-note-crease*        20)
+(defparameter *uml-note-dasharray* '(3 3))
+(defparameter *uml-note-filter*       nil)
+(defparameter *uml-note-layer*        nil)
 
 ;;------------------------------------------------------------------------------
 ;;
@@ -19,44 +18,44 @@
 ;;
 ;;------------------------------------------------------------------------------
 (defclass uml-note (kaavio:text-shape)
-  ((keyword  :initform nil :initarg :keyword)    ; (or nil uml-keyword-info)
-   (targets  :initform nil :initarg :targets)    ; list of (or keyword symbol point)
-   (margin2  :initform nil :initarg :margin)     ; number ( margin for keyword )
-   (crease   :initform nil :initarg :crease)     ; number
-   (filter   :initform nil :initarg :filter)))   ; (or nil keyword)
+  ((stereotype :initform nil :initarg :stereotype) ; (or nil uml-stereotype-info)
+   (targets    :initform nil :initarg :targets)    ; list of (or keyword symbol point)
+   (crease     :initform nil :initarg :crease)     ; number
+   (dasharray  :initform nil :initarg :dasharray)  ; list of integers
+   (filter     :initform nil :initarg :filter)))   ; (or nil keyword)
 
 
-(defmethod initialize-instance :after ((note uml-note) &rest initargs)
+(defmethod initialize-instance :after ((obj uml-note) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (keyword targets margin2 crease filter layer) note
-    (setf keyword (and keyword (make-uml-keyword keyword)))
+  ;;(format t "initialize-instance :after called.~%")
+  (with-slots (stereotype targets crease dasharray filter layer) obj
+    (setf stereotype (and stereotype (make-uml-stereotype stereotype)))
     (setf targets (cond
                     ((point-p targets) (list targets))
                     ((listp   targets) targets)
                     (t                 (list targets))))
-    (setf margin2 (if (null keyword)
-                      0
-                      (or (and *uml-note-font* (slot-value *uml-note-font* 'kaavio::size))
-                          (and *default-font*  (slot-value *default-font*  'kaavio::size))
-                          12)))    ;;ToDo : これはなんとかしないと。
     (setf crease  (or crease *uml-note-crease*))
+    (setf dasharray *uml-note-dasharray*)
     (setf filter  (if (eq filter :none)
                       nil
                       (or filter *uml-note-filter* *default-filter*)))
     (setf layer  (if (eq layer :none)
                      nil
                      (or layer *uml-note-layer* *default-layer*))))
-  note)
+  obj)
 
-(defmethod check ((note uml-note) canvas dict)
-  (with-slots (keyword targets margin2 crease) note
-    (check-object keyword canvas dict :nullable t :class uml-keyword-info)
+(defmethod check ((obj uml-note) canvas dict)
+  ;; this method must call super class' one.
+  (call-next-method)
+  ;;(format t "check called.~%")
+  (with-slots (stereotype targets crease dasharray filter) obj
+    (check-object stereotype canvas dict :nullable t :class uml-stereotype-info)
     (check-member targets :nullable   t :types list)
     (dolist (target targets)
       (unless (point-p target)
         (check-member target :nullable nil :types symbol)))
-    (check-member margin2 :nullable nil :types number)
-    (check-member crease  :nullable nil :types number)
+    (check-member crease    :nullable nil :types number)
+    (check-member dasharray :nullable nil :types list)
     (setf targets
           (mapcar (lambda (target)
                     (if (point-p target)
@@ -64,29 +63,26 @@
                         (let ((ent (kaavio::dict-get-entity dict target)))
                           (unless ent
                             (throw-exception "ERROR : entity '~A' not found in dictionary." target))
-                          ent))) targets)))
-  ;; this method must call super class' one.
-  (call-next-method))
+                          ent))) targets))
+    (check-member filter   :nullable   t :types keyword)))
 
 
 ;; override of group::draw-group
-(defmethod draw-group ((note uml-note) writer)
-  (let ((canvas (group-get-canvas note)))
-    (let ((top    (canvas-top    canvas))
-          (left   (canvas-left   canvas))
-          (width  (canvas-width  canvas))
+(defmethod draw-group ((obj uml-note) writer)
+  (let ((canvas (group-get-canvas obj)))
+    (let ((width  (canvas-width  canvas))
           (height (canvas-height canvas)))
       (macrolet ((register-entity (entity)
                    `(check-and-draw-local-entity ,entity canvas writer)))
-        (with-slots (keyword margin2 crease filter
-                             kaavio::font kaavio::margin
-                             kaavio::fill kaavio::stroke kaavio::clip-path) note
-          (let ((kaavio:*current-clip-path* kaavio::clip-path))
+        (with-slots (stereotype crease filter
+                      (text kaavio::text) (font kaavio::font) (margin kaavio::margin)
+                      (fill kaavio::fill) (stroke kaavio::stroke) (clip-path kaavio::clip-path)) obj
+          (let ((*current-clip-path* clip-path))
             ;; draw note body
-            (writer-write writer "<g "
-                                 (to-property-strings kaavio::stroke)
-                                 (write-when filter "filter='url(#" it ")' ") ">")
+            (writer-write writer "<g " (to-property-strings stroke)
+                                       (write-when filter "filter='url(#" it ")' ") ">")
             (writer-incr-level writer)
+            ;;
             (let ((*mute-stroke* t))
               (polygon `((0 ,(/ height 2))
                          (0 ,height)
@@ -94,19 +90,20 @@
                          (,width ,crease)
                          (,(- width crease) 0)
                          (0 0)
-                         (0 ,(/ height 2))) :fill kaavio::fill)
+                         (0 ,(/ height 2))) :fill fill)
               ;; crease
               (line `((,width ,crease)
                       (,(- width crease) ,crease) (,(- width crease) 0))))
             (writer-decr-level writer)
             (writer-write writer "</g>")
-            ;; draw keyword
-            (when keyword
-              (uml-keyword-draw keyword (+ left kaavio::margin)
-                                (+ top (/ kaavio::margin 2) margin2)
-                                :left kaavio::font kaavio::clip-path writer))))))
-    ;; draw text
-    (call-next-method)))
+            ;; draw text
+            (let ((cv (uml-draw-textarea obj stereotype writer)))
+              (declare (ignorable cv))
+;              (rect (canvas-center cv)
+;                    (canvas-width cv) (canvas-height cv)
+;                    :fill '(:color :red :opacity 0.1) :stroke :red)
+              ))))))
+  nil)
 
 ;for debug...
 ;(defmethod post-draw ((obj uml-note) writer)
@@ -114,45 +111,54 @@
 ;  (draw-canvas-frame (shape-get-subcanvas obj) writer))
  
 
-(defun draw-connection (note writer)
-  (let* ((canvas (group-get-canvas note))
+(defun draw-connection (obj writer)
+  (let* ((canvas (group-get-canvas obj))
          (width  (canvas-width  canvas))
          (height (canvas-height canvas)))
     (macrolet ((register-entity (entity)
                  `(check-and-draw-local-entity ,entity canvas writer)))
-      (with-slots (targets kaavio::stroke) note
+      (with-slots (targets dasharray kaavio::stroke) obj
         ;; draw connections
         (let ((canvas (make-canvas '(0 0) width height))
-              (st (make-stroke :dasharray '(3 3) :base kaavio::stroke))) ;;ToDo : fixed ?
+              (st (make-stroke :dasharray dasharray :base kaavio::stroke)))
           (if (= 1 (length targets))
-              (line (resolve-connector-points note (car targets) :CC nil) :stroke st)
+              (line (resolve-connector-points obj (car targets) :CC nil) :stroke st)
               (progn
                 (writer-write writer "<g " (to-property-strings st) ">")
                 (writer-incr-level writer)
                 (let ((*mute-stroke* t))
                   (dolist (ent targets)
-                    (line (resolve-connector-points note ent :CC nil))))
+                    (line (resolve-connector-points obj ent :CC nil))))
                 (writer-decr-level writer)
                 (writer-write writer "</g>")))))))
   nil)
 
-(defmethod draw-entity ((note uml-note) writer)
+(defmethod draw-entity ((obj uml-note) writer)
   (let ((result (call-next-method)))
-    (draw-connection note writer)
+    (draw-connection obj writer)
     result))
 
-(defmethod text-shape-calc-size ((note uml-note))
-  (multiple-value-bind (w h) (call-next-method)
-    (values w (+ h (slot-value note 'margin2)))))
+(defmethod text-shape-calc-size ((obj uml-note))
+  (with-slots (kaavio::width kaavio::height) obj
+    (values kaavio::width kaavio::height)))
 
-(defmethod text-shape-paragraph-area ((note uml-note))
-  (let ((canvas (call-next-method)))
-    (incf (canvas-top canvas)
-          (slot-value note 'margin2))
-    canvas))
+;;MEMO : uml-note は暗黙に :valign :top だが　paragraph-area の調整によってそれを実現している。
+(defmethod text-shape-paragraph-area ((obj uml-note))
+  ;;(format t "text-shape-paragraph-area called.~%")
+  (with-slots (stereotype (text kaavio::text)
+                          (font kaavio::font) (margin kaavio::margin)) obj
+    (multiple-value-bind (w height) (uml-calc-textarea font text stereotype)
+      (declare (ignore w))
+      (incf height (* margin 2))
+      (make-canvas (attribute-topleft obj)
+                   (attribute-width   obj) height))))
 
-;;MEMO : use impelementation of shape...
-;;(defmethod shape-get-subcanvas ((note uml-note)) ...)
+;;MEMO : uml-note のサブキャンバスは常に shape と同じ（つまりテキストと重なる可能性がある）
+(defmethod shape-get-subcanvas ((obj uml-note))
+  ;;(format t "shape-get-subcanvas called.~%")
+  (make-canvas (attribute-topleft obj)
+               (attribute-width   obj)
+               (attribute-height  obj)))
 
 ;;------------------------------------------------------------------------------------- BEGIN TURNUP
 ;;#### macro uml-note
@@ -160,38 +166,54 @@
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
-;;* ${{B}{uml-note}} position width height text ${KEY} pivot keyword targets align valign margin crease font fill stroke link layer filter id contents
-;;
+;;* ${{B}{uml-note}} position width height text ${KEY} pivot stereotype keyword targets margin crease font fill stroke link layer filter id contents
 ;;
 ;;<!-- stack:pop li -->
 ;;
+;;${ARGS_AND_VALS}
+;;
+;;* `position` ---- 描画の基準点を指定します。詳細は「[](#座標と位置)」を参照してください。
+;;* `width` ---- 幅を数値で指定します。
+;;* `height` ---- 高さを数値で指定します。
+;;* `text` ---- 内部に配置するテキストを指定します。改行を含む複数行の文字列が使用できます。
+;;* `pivot` ---- `position` で指定した基準点が図形要素のどこにくるように描画するかを指定します。詳細は「[](#座標と位置)」を参照してください。
+;;* `stereotype` ---- ステレオタイプを明示する場合はステレオタイプ情報を指定します。詳細は [$@ 節](#uml-stereotype-info) を参照してください。
+;;* `keyword` ---- キーワードを明示する場合はステレオタイプ情報を指定します。 `stereotype` が指定されている場合は無視されます。詳細は [$@ 節](#uml-stereotype-info) を参照してください。
+;;* `targets` ---- 点線で接続する対象を指定します。対象はその ID をキーワードシンボルで指定するか、接続点の具体的な座標値です。対象が単一の場合はそのまま指定可能しますが、複数の対象に（複数の点線で）接続する場合、リストにして指定してください。
+;;* `margin` ---- 余白の大きさを指定します。省略した場合のデフォルト値は10です。
+;;* `crease` ---- 右上部分の折り返しの大きさを変更したい場合、その大きさを数値で指定します。省略した場合のデフォルト値は20です。
+;;* `font` ---- フォントを指定します。
+;;* `fill` ---- 内部の塗り潰しを指定します。
+;;* `stroke` ---- 外枠を描画するストロークを指定します
+;;* `link` ---- リンクにする場合、リンク先を指定します。
+;;* `layer` ---- レイヤーを指定する場合、その ID をキーワードシンボルで指定します
+;;* `filter` ---- フィルタを適用したい場合、その ID をキーワードシンボルで指定します
+;;* `id` ---- ID を付与したい場合、その名前をキーワードシンボルで指定します
+;;* `contents` ---- 内部をサブキャンバスとした描画をしたい場合、その内容を指定します。
+;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　各種の UML ダイアグラムで使用されるノートを描画します。スタイルを統一
+;;したい場合、with-uml-note-options マクロを使うことができます。
 ;;
-;;* ${{TODO}{targets は接続先を複数指定する場合はリスト、単一ならリストでなくてもよい。}}
-;;* ${{TODO}{targets で指定する接続先は、図形要素の ID または point 値}}
+;;${SEE_ALSO}
 ;;
-;;　以下も参照してください。
-;;
-;;* [](#uml-note)
-;;
-;;${NO_SEE_ALSO}
+;;* [$$](#uml-note)
+;;* with-uml-note-options マクロ
 ;;
 ;;${NO_NOTES}
 ;;
 ;;--------------------------------------------------------------------------------------- END TURNUP
 (defmacro uml-note (position width height text
-                            &key pivot keyword targets
-                                 align valign margin crease font
+                            &key pivot stereotype keyword targets
+                                 margin crease font
                                  fill stroke link layer filter id contents)
   (let ((code `(register-entity (make-instance 'uml-note
                                                :position ,position :pivot ,pivot
                                                :width ,width :height ,height
-                                               :text ,text :keyword ,keyword
+                                               :text ,text :stereotype ,(or stereotype keyword)
                                                :targets ,targets
-                                               :align  (or ,align  *uml-note-align*)
-                                               :valign (or ,valign *uml-note-valign*)
+                                               :align  :left :valign :top
                                                :margin (or ,margin *uml-note-margin*)
                                                :font ,font
                                                :fill   (or ,fill *uml-note-fill*)
@@ -214,22 +236,26 @@
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
-;;* ${{B}{with-uml-note-options}} (${KEY} font fill stroke margin align valign crease filter layer) ${BODY} body
-;;
+;;* ${{B}{with-uml-note-options}} (${KEY} font fill stroke margin crease dasharray filter layer) ${BODY} body
 ;;
 ;;<!-- stack:pop li -->
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　uml-note マクロで描画される図形要素のデフォルトオプションを変更します。キーワード
+;;パラメータ群の説明は uml-note マクロを参照してください。
 ;;
-;;${NO_SEE_ALSO}
+;;* ${{TODO}{dasharray はここで説明してあげる必要がある。}}
+;;
+;;${SEE_ALSO}
+;;
+;;* uml-note マクロ
 ;;
 ;;${NO_NOTES}
 ;;
 ;;--------------------------------------------------------------------------------------- END TURNUP
 (defmacro with-uml-note-options ((&key font fill stroke margin
-                                       align valign crease filter layer) &rest body)
+                                       crease dasharray filter layer) &rest body)
   (labels ((impl (params acc)
              (if (null params)
                  acc
@@ -239,14 +265,13 @@
                          (if (null value)
                              acc
                              (push (list symbol value) acc)))))))
-    (let ((lst (impl (list font   '*uml-note-font*
-                           fill   '*uml-note-fill*
-                           stroke '*uml-note-stroke*
-                           margin '*uml-note-margin*
-                           align  '*uml-note-align*
-                           valign '*uml-note-valign*
-                           crease '*uml-note-crease*
-                           filter '*uml-note-filter*
-                           layer  '*uml-note-layer*) nil)))
+    (let ((lst (impl (list font      '*uml-note-font*
+                           fill      '*uml-note-fill*
+                           stroke    '*uml-note-stroke*
+                           margin    '*uml-note-margin*
+                           crease    '*uml-note-crease*
+                           dasharray '*uml-note-dasharray*
+                           filter    '*uml-note-filter*
+                           layer     '*uml-note-layer*) nil)))
       `(let ,lst
          ,@body))))

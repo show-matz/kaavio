@@ -1,10 +1,16 @@
 
 (in-package :kaavio-user)
 
+(load-stencil :uml-common-base)
 (load-stencil :uml-connection-common)
-(load-stencil :uml-keyword-info)
+(load-stencil :uml-stereotype-info)
 
-(defparameter *uml-dependency-dasharray* '(4 2))
+(defparameter *uml-dependency-stroke*     '(:color :black :dasharray (4 2)))
+(defparameter *uml-dependency-arrow-size* :medium)
+(defparameter *uml-dependency-filter*         nil)
+(defparameter *uml-dependency-layer*          nil)
+(defparameter *uml-dependency-font*           nil)
+
 
 ;;------------------------------------------------------------------------------
 ;;
@@ -12,29 +18,27 @@
 ;;
 ;;------------------------------------------------------------------------------
 (defclass uml-dependency (kaavio:connector)
-  ((name    :initform nil :initarg :name)        ; (or nil kaavio::label-info)
-   (keyword :initform nil :initarg :keyword)))   ; (or nil uml-keyword-info)
+  ((name       :initform nil :initarg :name)           ; (or nil kaavio::label-info)
+   (stereotype :initform nil :initarg :stereotype)))   ; (or nil uml-stereotype-info)
 
 (defmethod initialize-instance :after ((dep uml-dependency) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (name keyword) dep
-    (when name
-      (setf name (make-label name)))
-    (setf keyword (and keyword (make-uml-keyword keyword))))
+  (with-slots (stereotype) dep
+    (setf stereotype (and stereotype (make-uml-stereotype stereotype))))
   dep)
 
 
 (defmethod check ((dep uml-dependency) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (with-slots (name keyword) dep 
-    (check-object name    canvas dict :nullable t :class label-info)
-    (check-object keyword canvas dict :nullable t :class uml-keyword-info))
+  (with-slots (name stereotype) dep 
+    (check-object name       canvas dict :nullable t :class label-info)
+    (check-object stereotype canvas dict :nullable t :class uml-stereotype-info))
   nil)
 
 (defmethod entity-composition-p ((dep uml-dependency))
-  (with-slots (name keyword) dep
-    (or name keyword
+  (with-slots (name stereotype) dep
+    (or name stereotype
         (call-next-method))))
 
 ;;no implementation...
@@ -47,34 +51,96 @@
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
-;;* ${{B}{uml-dependency}} from to ${KEY} keyword name style spacing layer id
+;;* ${{B}{uml-dependency}} from to ${KEY} stereotype keyword name style spacing filter layer id
+;;
+;;<!-- stack:pop li -->
+;;
+;;${ARGS_AND_VALS}
+;;
+;;* `from` ---- 接続元となる要素の ID をキーワードで指定します。point 値も指定できます。
+;;* `to` ---- 接続先となる要素の ID をキーワードで指定します。point 値も指定できます。
+;;* `stereotype` ---- ステレオタイプを明示する場合はステレオタイプ情報を指定します。詳細は [$@ 節](#uml-stereotype-info) を参照してください。
+;;* `keyword` ---- キーワードを明示する場合はステレオタイプ情報を指定します。 `stereotype` が指定されている場合は無視されます。詳細は [$@ 節](#uml-stereotype-info) を参照してください。
+;;* `name` ---- 依存関係に名前をつける場合、ラベル形式で指定します。
+;;* `style` ---- 接続線の引き方を指定します。詳細は [$@ 節](#コネクタ)を参照してください。
+;;* `spacing` ---- 2 回以上折れ曲がる接続線における「自由な線分」の位置を調整するためのパラメータです。詳細は [$@ 節](#コネクタ)を参照してください。
+;;* `filter` ---- フィルタを適用したい場合、その ID をキーワードシンボルで指定します。
+;;* `layer` ---- レイヤーを指定する場合、その ID をキーワードシンボルで指定します。
+;;* `id` ---- ID を付与したい場合、その名前をキーワードシンボルで指定します。
+;;
+;;${DESCRIPTION}
+;;
+;;　クラス図を始めとする各種の UML ダイアグラムにおける依存関係を描画します。スタイルを統一
+;;したい場合、with-uml-dependency-options マクロを使うことができます。
+;;
+;;${SEE_ALSO}
+;;
+;;* [$$](#クラス図)
+;;* [$$](#uml-dependency)
+;;* with-uml-dependency-options マクロ
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
+(defmacro uml-dependency (from to &key stereotype keyword name style spacing filter layer id)
+  (let ((g-stype (gensym "STEREOTYPE"))
+        (g-name  (gensym "NAME")))
+    `(let ((,g-stype ,(or stereotype keyword))
+           (,g-name  ,name))
+       (register-entity (make-instance 'uml-dependency
+                                       :from ,from :to ,to
+                                       :stereotype ,g-stype :style ,style :spacing ,spacing
+                                       :name (uml-make-label *uml-dependency-font* ,g-name)
+                                       :label (and (or ,g-stype ,g-name)
+                                                   #'uml-connection-draw-label)
+                                       :stroke (or *uml-dependency-stroke*
+                                                   (make-stroke :dasharray '(4 2)
+                                                                :base *default-stroke*))
+                                       :clip-path *current-clip-path*
+                                       :end1 nil
+                                       :end2 (list :type :arrow :size *uml-dependency-arrow-size*)
+                                       :filter (or ,filter *uml-dependency-filter* *default-filter*)
+                                       :layer  (or ,layer  *uml-dependency-layer*  *default-layer*)
+                                       :id ,id)))))
+
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### macro with-uml-dependency-options
+;;
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
+;;
+;;* ${{B}{with-uml-dependency-options}} (${KEY} stroke arrow-size font filter layer) ${BODY} body
 ;;
 ;;
 ;;<!-- stack:pop li -->
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　uml-dependency マクロで描画される図形要素のデフォルトオプションを変更します。キーワード
+;;パラメータ群の説明は uml-dependency マクロを参照してください。
 ;;
-;;${NO_SEE_ALSO}
+;;${SEE_ALSO}
+;;
+;;* uml-dependency マクロ
 ;;
 ;;${NO_NOTES}
 ;;
 ;;--------------------------------------------------------------------------------------- END TURNUP
-(defmacro uml-dependency (from to &key keyword name style spacing layer id)
-  (let ((g-kwd  (gensym "KEYWORD"))
-        (g-name (gensym "NAME")))
-    `(let ((,g-kwd  ,keyword)
-           (,g-name ,name))
-       (register-entity (make-instance 'uml-dependency
-                                       :from ,from :to ,to
-                                       :keyword ,g-kwd :style ,style :spacing ,spacing
-                                       :name ,g-name
-                                       :label (and (or ,g-kwd ,g-name)
-                                                   #'uml-connection-draw-label)
-                                       :stroke (make-stroke
-                                                :dasharray (or *uml-dependency-dasharray* '(4 2))
-                                                :base *default-stroke*)
-                                       :clip-path *current-clip-path*
-                                       :end1 nil :end2 :arrow :layer ,layer :id ,id)))))
-
+(defmacro with-uml-dependency-options ((&key stroke arrow-size font filter layer) &rest body)
+  (labels ((impl (params acc)
+             (if (null params)
+                 acc
+                 (let ((value  (car  params))
+                       (symbol (cadr params)))
+                   (impl (cddr params)
+                         (if (null value)
+                             acc
+                             (push (list symbol value) acc)))))))
+    (let ((lst (impl (list  stroke     '*uml-dependency-stroke*
+                            arrow-size '*uml-dependency-arrow-size*
+                            font       '*uml-dependency-font*
+                            filter     '*uml-dependency-filter*
+                            layer      '*uml-dependency-layer*) nil)))
+      `(let ,lst
+         ,@body))))
+ 

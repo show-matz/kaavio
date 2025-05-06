@@ -1,24 +1,27 @@
 
 (in-package :kaavio-user)
 
-(load-stencil :uml-keyword-info)
+(load-stencil :uml-stereotype-info)
 
+
+;;MEMO : 以下の２関数がこの uml-connection-draw-label に酷似している。共通化が可能なはずだが未着手。
+;;    * uml-flow-draw-spec
+;;    * uml-transition-draw-spec
 (defun uml-connection-draw-label (connection x y sin cos clip-path writer)
-  (with-slots (name keyword) connection
+  (with-slots (name stereotype) connection
     (labels ((calc-width-and-height ()
                (let* ((width   0)
                       (height  0)
                       (lines   nil)
                       (offset  (if name (slot-value name 'kaavio::offset) '(0 0)))
-                      (k-font  (and keyword (slot-value keyword 'font)))
-                      (k-size  (if  k-font  (slot-value k-font  'kaavio::size) 0))
-                      (n-font  (and name    (slot-value name    'kaavio::font)))
-                      (n-size  (if  n-font  (slot-value n-font  'kaavio::size) 0))
-                      (spacing (if  n-font  (slot-value n-font  'kaavio::line-spacing) 0)))
-                 (when keyword
+                      (s-font  (and stereotype (slot-value stereotype   'font)))
+                      (n-font  (and name       (slot-value name 'kaavio::font)))
+                      (n-size  (if name (slot-value n-font 'kaavio::size) 0))
+                      (spacing (if name (slot-value n-font 'kaavio::line-spacing) 0)))
+                 (when stereotype
                    (multiple-value-setq (width height)
-                                        (font-calc-textarea k-font
-                                                            (uml-keyword-to-string keyword))))
+                                        (font-calc-textarea s-font
+                                                            (uml-stereotype-to-string stereotype))))
                  (when name
                    (let ((text (fix-name (slot-value name 'kaavio::text))))
                      (setf lines (kaavio::string/split text #\newline))
@@ -26,22 +29,22 @@
                        (setf width (max width w))
                        (incf height spacing)
                        (incf height h))))
-                 (values width height offset lines k-size n-font n-size spacing))))
+                 (values width height offset lines s-font n-font n-size spacing))))
       (multiple-value-bind (width height offset lines
-                            kwd-size name-font name-size spacing) (calc-width-and-height)
+                            stype-font name-font name-size spacing) (calc-width-and-height)
         (let (;(x (+ x (* sin height)))
               (y (- y (* cos height))))
           (decf y (/ height 2))
           (when (< 0 sin) (incf x (/ width 2)))
           (when (< sin 0) (decf x (/ width 2)))
-          (when keyword
-            (incf y kwd-size)
-            (uml-keyword-draw keyword (+ x (point-x offset))
-                                      (+ y (point-y offset))
-                                      :center
-                                      nil    ;; ToDo : font
-                                      clip-path
-                                      writer)
+          (when stereotype
+            (incf y (slot-value stype-font 'kaavio::size))
+            (uml-stereotype-draw stereotype (+ x (point-x offset))
+                                            (+ y (point-y offset))
+                                            :center
+                                            stype-font
+                                            clip-path
+                                            writer)
             (incf y spacing))
           (when name
             (let ((font-property (to-property-strings name-font)))

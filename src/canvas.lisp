@@ -30,19 +30,27 @@
        (numberp (cddr canvas))))
 
 #|
+#|EXPORT|#                :canvas-center
 #|EXPORT|#                :canvas-topleft
+#|EXPORT|#                :canvas-topright
+#|EXPORT|#                :canvas-bottomleft
+#|EXPORT|#                :canvas-bottomright
 #|EXPORT|#                :canvas-left
 #|EXPORT|#                :canvas-top
 #|EXPORT|#                :canvas-right
 #|EXPORT|#                :canvas-bottom
  |#
-(defun canvas-topleft (canvas) (car canvas))
-(defun canvas-left    (canvas) (point-x (car canvas)))
-(defun canvas-top     (canvas) (point-y (car canvas)))
+(defun canvas-center      (canvas) (point/xy+ (car canvas) (/ (cadr canvas) 2) (/ (cddr canvas) 2)))
+(defun canvas-topleft     (canvas) (car canvas))
+(defun canvas-topright    (canvas) (point/x+  (car canvas)    (cadr canvas)))
+(defun canvas-bottomleft  (canvas) (point/y+  (car canvas)    (cddr canvas)))
+(defun canvas-bottomright (canvas) (point/xy+ (car canvas)    (cadr canvas)       (cddr canvas)))
+(defun canvas-left        (canvas) (point-x (car canvas)))
+(defun canvas-top         (canvas) (point-y (car canvas)))
 (defun (setf canvas-left) (val canvas) (setf (point-x (car canvas)) val))
 (defun (setf canvas-top)  (val canvas) (setf (point-y (car canvas)) val))
-(defun canvas-right   (canvas) (+ (point-x (car canvas)) (cadr canvas)))
-(defun canvas-bottom  (canvas) (+ (point-y (car canvas)) (cddr canvas)))
+(defun canvas-right       (canvas) (+ (point-x (car canvas)) (cadr canvas)))
+(defun canvas-bottom      (canvas) (+ (point-y (car canvas)) (cddr canvas)))
 
 #|
 #|EXPORT|#                :canvas-width

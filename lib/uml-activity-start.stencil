@@ -34,14 +34,29 @@
 ;;
 ;;* ${{B}{uml-activity-start}} position ${KEY} radius pivot fill link layer filter id
 ;;
-;;
 ;;<!-- stack:pop li -->
+;;
+;;${ARGS_AND_VALS}
+;;
+;;* `position` ---- 描画の基準点を指定します。詳細は「[](#座標と位置)」を参照してください。
+;;* `radius` ---- 開始アクションの半径を数値で指定します。省略した場合のデフォルト値は 10 です。
+;;* `pivot` ---- `position` で指定した基準点が図形要素のどこにくるように描画するかを指定します。詳細は「[](#座標と位置)」を参照してください。
+;;* `fill` ---- 円を塗り潰す色を指定します。省略した場合のデフォルト値は `:black` です。
+;;* `link` ---- リンクにする場合、リンク先を指定します。
+;;* `layer` ---- レイヤーを指定する場合、その ID をキーワードシンボルで指定します
+;;* `filter` ---- フィルタを適用したい場合、その ID をキーワードシンボルで指定します
+;;* `id` ---- ID を付与したい場合、その名前をキーワードシンボルで指定します
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　UML アクティビティ図における開始アクションを描画します。スタイルを統一したい場合、
+;;with-uml-activity-start-options マクロを使うことができます。
 ;;
-;;${NO_SEE_ALSO}
+;;${SEE_ALSO}
+;;
+;;* [$$](#アクティビティ図)
+;;* [$$](#uml-activity-start)
+;;* with-uml-activity-start-options マクロ
 ;;
 ;;${NO_NOTES}
 ;;
@@ -63,14 +78,16 @@
 ;;
 ;;* ${{B}{with-uml-activity-start-options}} (${KEY} radius fill filter layer) ${BODY} body
 ;;
-;;
 ;;<!-- stack:pop li -->
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　uml-activity-start マクロで描画される図形要素のデフォルトオプションを変更します。
+;;キーワードパラメータ群の説明は uml-activity-start マクロを参照してください。
 ;;
-;;${NO_SEE_ALSO}
+;;${SEE_ALSO}
+;;
+;;* uml-activity-start マクロ
 ;;
 ;;${NO_NOTES}
 ;;

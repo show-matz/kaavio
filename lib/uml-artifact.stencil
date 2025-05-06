@@ -3,26 +3,26 @@
 
 (load-stencil :uml-common-base)
 
-(defparameter *uml-component-font*           nil)
-(defparameter *uml-component-fill*        :white)
-(defparameter *uml-component-stroke*      :black)
-(defparameter *uml-component-width*          100)
-(defparameter *uml-component-height*          50)
-(defparameter *uml-component-icon-fill*   :white)
-(defparameter *uml-component-icon-stroke* :black)
-(defparameter *uml-component-icon-size*       20)
-(defparameter *uml-component-icon-offset*      5)
-(defparameter *uml-component-margin*          10)
-(defparameter *uml-component-filter*         nil)
-(defparameter *uml-component-layer*          nil)
+(defparameter *uml-artifact-font*           nil)
+(defparameter *uml-artifact-fill*        :white)
+(defparameter *uml-artifact-stroke*      :black)
+(defparameter *uml-artifact-width*          100)
+(defparameter *uml-artifact-height*          50)
+(defparameter *uml-artifact-icon-fill*   :white)
+(defparameter *uml-artifact-icon-stroke* :black)
+(defparameter *uml-artifact-icon-size*       14)
+(defparameter *uml-artifact-icon-offset*      5)
+(defparameter *uml-artifact-margin*          10)
+(defparameter *uml-artifact-filter*         nil)
+(defparameter *uml-artifact-layer*          nil)
 
 
 ;;------------------------------------------------------------------------------
 ;;
-;; class uml-component
+;; class uml-artifact
 ;;
 ;;------------------------------------------------------------------------------
-(defclass uml-component (kaavio:text-shape)
+(defclass uml-artifact (kaavio:text-shape)
   ((stereotype  :initform nil :initarg :stereotype)     ; (or nil uml-stereotype-info)
    (contents-p  :initform nil :initarg :contents-p)     ; boolean
    (filter      :initform nil :initarg :filter)         ; (or nil keyword)
@@ -31,22 +31,22 @@
    (icon-size   :initform   0 :initarg :icon-size)      ; number
    (icon-offset :initform   0 :initarg :icon-offset)))  ; number
 
-(defmethod initialize-instance :after ((obj uml-component) &rest initargs)
+(defmethod initialize-instance :after ((obj uml-artifact) &rest initargs)
   (declare (ignore initargs))
   ;;(format t "initialize-instance :after called.~%")
   (with-slots (stereotype filter icon-fill icon-stroke layer) obj
     (setf stereotype (and stereotype (make-uml-stereotype stereotype)))
     (setf filter  (if (eq filter :none)
                       nil
-                      (or filter *uml-component-filter* *default-filter*)))
+                      (or filter *uml-artifact-filter* *default-filter*)))
     (setf icon-fill   (make-fill   (or icon-fill   :none)))
     (setf icon-stroke (make-stroke (or icon-stroke :none)))
     (setf layer  (if (eq layer :none)
                      nil
-                     (or layer *uml-component-layer* *default-layer*))))
+                     (or layer *uml-artifact-layer* *default-layer*))))
   obj)
 
-(defmethod check ((obj uml-component) canvas dict)
+(defmethod check ((obj uml-artifact) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
   ;;(format t "check called.~%")
@@ -59,16 +59,16 @@
     (check-member icon-size   :nullable t   :types number)
     (check-member icon-offset :nullable t   :types number)))
 
-(defmethod shape-connect-point ((component uml-component) type1 type2 arg)
-  (rectangle-connect-point (attribute-center component)
-                           (attribute-width  component)
-                           (attribute-height component) type1 type2 arg))
+(defmethod shape-connect-point ((artifact uml-artifact) type1 type2 arg)
+  (rectangle-connect-point (attribute-center artifact)
+                           (attribute-width  artifact)
+                           (attribute-height artifact) type1 type2 arg))
 
 ;;MEMO : use impelementation of group...
-;;(defmethod group-get-canvas ((obj uml-component)) ...)
+;;(defmethod group-get-canvas ((obj uml-artifact)) ...)
 
 ;; override of group::draw-group
-(defmethod draw-group ((obj uml-component) writer)
+(defmethod draw-group ((obj uml-artifact) writer)
   (let ((canvas (group-get-canvas obj)))
     (let ((width  (canvas-width  canvas))
           (height (canvas-height canvas)))
@@ -78,22 +78,28 @@
                       (text kaavio::text) (font kaavio::font) (margin kaavio::margin)
                       (fill kaavio::fill) (stroke kaavio::stroke) (clip-path kaavio::clip-path)) obj
           (let ((*current-clip-path* clip-path))
-            ;; draw note body
+            ;; draw artifact body
             (writer-write writer "<g " (write-when filter "filter='url(#" it ")' ") ">")
             (writer-incr-level writer)
             ;;
             (rectangle (make-point (/ width 2) (/ height 2)) width height :stroke stroke :fill fill)
-            ;;draw component icon.
-            (let ((size   icon-size)
-                  (offset icon-offset)
-                  (kaavio:*default-fill* icon-fill)
-                  (kaavio:*default-stroke* icon-stroke))
-              (rectangle (make-point (- width (/ size 2) offset)
-                                     (+ (/ size 2) offset)) size size)
-              (rectangle (make-point (- width size offset)
-                                     (- (+ (/ size 2) offset) (/ size 5))) (* size 0.8) (/ size 4))
-              (rectangle (make-point (- width size offset)
-                                     (+ (+ (/ size 2) offset) (/ size 5))) (* size 0.8) (/ size 4))))
+            ;;draw artifact icon.
+            (let* ((size   icon-size)
+                   (offset icon-offset)
+                   (crease  (/ size 3))
+                   (topleft (make-point (- width size offset) offset))
+                   (kaavio:*default-fill* icon-fill)
+                   (kaavio:*default-stroke* icon-stroke))
+              (polygon `(,(xy+ topleft 0 0)
+                         ,(xy+ topleft 0    (* 1.3 size))
+                         ,(xy+ topleft size (* 1.3 size))
+                         ,(xy+ topleft size crease)
+                         ,(xy+ topleft (- size crease) 0)
+                         ,(xy+ topleft (- size crease) 0)
+                         ,(xy+ topleft 0 0)))
+              (line `(,(xy+ topleft size crease)
+                      ,(xy+ topleft (- size crease) crease)
+                      ,(xy+ topleft (- size crease) 0)))))
             ;; draw text
             (let ((cv (uml-draw-textarea obj stereotype writer)))
               (declare (ignorable cv))
@@ -107,13 +113,13 @@
 
 
 ;;for debug...
-;(defmethod post-draw ((obj uml-component) writer)
+;(defmethod post-draw ((obj uml-artifact) writer)
 ;  (call-next-method)
 ;  (draw-canvas-frame (group-get-canvas #|shape-get-subcanvas|# obj) writer)
 ;  nil)
  
 
-(defmethod text-shape-calc-size ((obj uml-component))
+(defmethod text-shape-calc-size ((obj uml-artifact))
   ;;(format t "text-shape-calc-size called.~%")
   (multiple-value-bind (width height) (call-next-method)
     (with-slots (stereotype contents-p (font kaavio::font) (margin kaavio::margin)) obj
@@ -126,16 +132,16 @@
                 (font-calc-textarea font (uml-stereotype-to-string stereotype))
             (setf width (cl:max width (+ w (* margin 2))))
             (incf height h)))))
-    (values (cl:max width  *uml-component-width*)
-            (cl:max height *uml-component-height*))))
+    (values (cl:max width  *uml-artifact-width*)
+            (cl:max height *uml-artifact-height*))))
 
 ;;MEMO : 下記 text-shape-paragraph-area / shape-get-subcanvas は contents 有無によって
 ;;       どちらがどちらに依存するかが変わる。気持ち悪いかもしれないが、動作する。
 
-;;MEMO : uml-component の paragraph-area は以下のルール
+;;MEMO : uml-artifact の paragraph-area は以下のルール
 ;;  * contents 無しの場合：サブキャンバスと同じ
 ;;  * contents ありの場合：キーワード込みの textarea を計算し、margin を上下に足す。
-(defmethod text-shape-paragraph-area ((obj uml-component))
+(defmethod text-shape-paragraph-area ((obj uml-artifact))
   ;;(format t "text-shape-paragraph-area called.~%")
   (with-slots (stereotype contents-p
                  (text kaavio::text) (font kaavio::font) (margin kaavio::margin)) obj
@@ -147,10 +153,10 @@
           (make-canvas (attribute-topleft obj)
                        (attribute-width   obj) height)))))
 
-;;MEMO : uml-component のサブキャンバスは以下のルール
+;;MEMO : uml-artifact のサブキャンバスは以下のルール
 ;;  * contents 無しの場合：shape と同じ
 ;;  * contents ありの場合：上記から paragraph-area を除いたもの
-(defmethod shape-get-subcanvas ((obj uml-component))
+(defmethod shape-get-subcanvas ((obj uml-artifact))
   ;;(format t "shape-get-subcanvas called.~%")
   (with-slots (contents-p) obj
     (let ((canvas (make-canvas (attribute-topleft obj)
@@ -165,19 +171,19 @@
 
 
 ;;------------------------------------------------------------------------------------- BEGIN TURNUP
-;;#### macro uml-component
+;;#### macro uml-artifact
 ;;
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
-;;* ${{B}{uml-component}} position name ${KEY} pivot stereotype keyword width height font fill stroke margin link layer filter id contents
+;;* ${{B}{uml-artifact}} position name ${KEY} pivot stereotype keyword width height font fill stroke margin link layer filter id contents
 ;;
 ;;<!-- stack:pop li -->
 ;;
 ;;${ARGS_AND_VALS}
 ;;
 ;;* `position` ---- 描画の基準点を指定します。詳細は「[](#座標と位置)」を参照してください。
-;;* `name` ---- コンポーネントの名前を文字列で指定します。
+;;* `name` ---- 生成物の名前を文字列で指定します。
 ;;* `pivot` ---- `position` で指定した基準点が図形要素のどこにくるように描画するかを指定します。詳細は「[](#座標と位置)」を参照してください。
 ;;* `stereotype` ---- ステレオタイプを明示する場合はステレオタイプ情報を指定します。詳細は [$@ 節](#uml-stereotype-info) を参照してください。
 ;;* `keyword` ---- キーワードを明示する場合はステレオタイプ情報を指定します。 `stereotype` が指定されている場合は無視されます。詳細は [$@ 節](#uml-stereotype-info) を参照してください。
@@ -195,42 +201,42 @@
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　UML コンポーネント図におけるコンポーネントを描画します。スタイルを統一したい場合、
-;;with-uml-component-options マクロを使うことができます。
+;;　UML 配置図における生成物を描画します。スタイルを統一したい場合、
+;;with-uml-artifact-options マクロを使うことができます。
 ;;
 ;;${SEE_ALSO}
 ;;
-;;* [$$](#コンポーネント図)
-;;* [$$](#uml-component)
-;;* with-uml-component-options マクロ
+;;* [$$](#配置図)
+;;* [$$](#uml-artifact)
+;;* with-uml-artifact-options マクロ
 ;;
 ;;${NO_NOTES}
 ;;
 ;;--------------------------------------------------------------------------------------- END TURNUP
-(defmacro uml-component (position name &key pivot stereotype keyword width height font fill stroke
+(defmacro uml-artifact (position name &key pivot stereotype keyword width height font fill stroke
                                             icon-fill icon-stroke margin link layer filter id contents)
   (let* ((contents-p (not (null contents)))
          (code `(register-entity
-                     (make-instance 'uml-component
+                     (make-instance 'uml-artifact
                                     :position ,position :pivot ,pivot 
                                     :width ,width :height ,height
                                     :text ,name :stereotype ,(or stereotype keyword)
                                     :contents-p ,contents-p
-                                    :margin   (or ,margin   *uml-component-margin*)
-                                    :font     (or ,font *uml-component-font*  *default-font*)
-                                    :fill     (or ,fill *uml-component-fill*
+                                    :margin   (or ,margin   *uml-artifact-margin*)
+                                    :font     (or ,font *uml-artifact-font*  *default-font*)
+                                    :fill     (or ,fill *uml-artifact-fill*
                                                   *default-fill*   :white)
-                                    :stroke   (or ,stroke *uml-component-stroke*
+                                    :stroke   (or ,stroke *uml-artifact-stroke*
                                                   *default-stroke* :black)
                                     :clip-path kaavio:*current-clip-path*
                                     :icon-fill   (or ,icon-fill
-                                                     *uml-component-icon-fill*
-                                                     *uml-component-fill* *default-fill* :none)
+                                                     *uml-artifact-icon-fill*
+                                                     *uml-artifact-fill* *default-fill* :none)
                                     :icon-stroke (or ,icon-stroke
-                                                     *uml-component-icon-stroke*
-                                                     *uml-component-stroke* *default-stroke* :none)
-                                    :icon-size   *uml-component-icon-size*
-                                    :icon-offset *uml-component-icon-offset*
+                                                     *uml-artifact-icon-stroke*
+                                                     *uml-artifact-stroke* *default-stroke* :none)
+                                    :icon-size   *uml-artifact-icon-size*
+                                    :icon-offset *uml-artifact-icon-offset*
                                     :link ,link :layer ,layer :filter ,filter :id ,id))))
     (if (or (null contents)
             (not (listp contents)))
@@ -243,31 +249,31 @@
 
 
 ;;------------------------------------------------------------------------------------- BEGIN TURNUP
-;;#### macro with-uml-component-options
+;;#### macro with-uml-artifact-options
 ;;
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
-;;* ${{B}{with-uml-component-options}} (${KEY} font fill stroke width height icon-fill icon-stroke icon-size icon-offset filter layer) ${BODY} body
+;;* ${{B}{with-uml-artifact-options}} (${KEY} font fill stroke width height icon-fill icon-stroke icon-size icon-offset filter layer) ${BODY} body
 ;;
 ;;<!-- stack:pop li -->
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　uml-component マクロで描画される図形要素のデフォルトオプションを変更します。
-;;キーワードパラメータ群の説明は uml-component マクロを参照してください。uml-component マクロ
+;;　uml-artifact マクロで描画される図形要素のデフォルトオプションを変更します。
+;;キーワードパラメータ群の説明は uml-artifact マクロを参照してください。uml-artifact マクロ
 ;;に現れないパラメータについては後述します。
 ;;
 ;;　なお、ここで指定する width および height はデフォルトの最低サイズとして使用されます。
 ;;
 ;;${SEE_ALSO}
 ;;
-;;* uml-component マクロ
+;;* uml-artifact マクロ
 ;;
 ;;${NOTES}
 ;;
-;;　uml-component マクロのパラメータに対応しないものとして、以下があります。これらは
-;;コンポーネントのアイコン形状を制御するものです。
+;;　uml-artifact マクロのパラメータに対応しないものとして、以下があります。これらは
+;;生成物のアイコン形状を制御するものです。
 ;;
 ;;* `icon-fill` : アイコン内部の塗り潰しを指定します。デフォルト値は `:white` です。
 ;;* `icon-stroke` : アイコンの線を描画するストロークを指定します。デフォルト値は `:black` です。
@@ -275,7 +281,7 @@
 ;;* `icon-offset` : アイコンの描画位置を図形要素左上からのオフセットで指定します。デフォルト値は 5 です。
 ;;
 ;;--------------------------------------------------------------------------------------- END TURNUP
-(defmacro with-uml-component-options ((&key font fill stroke width height
+(defmacro with-uml-artifact-options ((&key font fill stroke width height
                                             icon-fill icon-stroke
                                             icon-size icon-offset margin filter layer) &rest body)
   (labels ((impl (params acc)
@@ -287,17 +293,17 @@
                          (if (null value)
                              acc
                              (push (list symbol value) acc)))))))
-    (let ((lst (impl (list font        '*uml-component-font*
-                           fill        '*uml-component-fill*
-                           stroke      '*uml-component-stroke*
-                           width       '*uml-component-width*
-                           height      '*uml-component-height*
-                           icon-fill   '*uml-component-icon-fill*
-                           icon-stroke '*uml-component-icon-stroke*
-                           icon-size   '*uml-component-icon-size*
-                           icon-offset '*uml-component-icon-offset*
-                           margin      '*uml-component-margin*
-                           filter      '*uml-component-filter*
-                           layer       '*uml-component-layer*) nil)))
+    (let ((lst (impl (list font        '*uml-artifact-font*
+                           fill        '*uml-artifact-fill*
+                           stroke      '*uml-artifact-stroke*
+                           width       '*uml-artifact-width*
+                           height      '*uml-artifact-height*
+                           icon-fill   '*uml-artifact-icon-fill*
+                           icon-stroke '*uml-artifact-icon-stroke*
+                           icon-size   '*uml-artifact-icon-size*
+                           icon-offset '*uml-artifact-icon-offset*
+                           margin      '*uml-artifact-margin*
+                           filter      '*uml-artifact-filter*
+                           layer       '*uml-artifact-layer*) nil)))
       `(let ,lst
          ,@body))))

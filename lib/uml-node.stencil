@@ -1,7 +1,7 @@
 
 (in-package :kaavio-user)
 
-(load-stencil :uml-keyword-info)
+(load-stencil :uml-common-base)
 
 (defparameter *uml-node-font*          nil)
 (defparameter *uml-node-fill1*      :white)
@@ -10,6 +10,9 @@
 (defparameter *uml-node-width*          80)
 (defparameter *uml-node-height*         80)
 (defparameter *uml-node-depth*          15)
+(defparameter *uml-node-margin*          5)
+(defparameter *uml-node-filter*        nil)
+(defparameter *uml-node-layer*         nil)
 
 
 ;;------------------------------------------------------------------------------
@@ -17,98 +20,147 @@
 ;; class uml-node
 ;;
 ;;------------------------------------------------------------------------------
-(defclass uml-node (kaavio:group)
-  ((name        :initform nil :initarg :name)       ; (or string keyword)
-   (keyword     :initform nil :initarg :keyword)    ; (or nil uml-keyword-info)
-   (depth       :initform   0 :initarg :depth)      ; number
-   (contents-p  :initform nil :initarg :contents-p) ; boolean
-   (font        :initform nil :initarg :font)       ; (or nil font-info)
-   (fill1       :initform nil :initarg :fill1)      ; (or nil fill-info)
-   (fill2       :initform nil :initarg :fill2)      ; (or nil fill-info)
-   (stroke      :initform nil :initarg :stroke)     ; (or nil stroke-info)
-   (clip-path   :initform nil :initarg :clip-path))) ; (or nil symbol)
+(defclass uml-node (kaavio:text-shape)
+  ((depth       :initform nil :initarg :depth)       ; number
+   (stereotype  :initform nil :initarg :stereotype)  ; (or nil uml-stereotype-info)
+   (fill2       :initform nil :initarg :fill2)       ; (or nil fill-info)
+   (contents-p  :initform nil :initarg :contents-p)  ; boolean
+   (filter      :initform nil :initarg :filter)))    ; (or nil keyword)
 
 (defmethod initialize-instance :after ((node uml-node) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (keyword font fill1 fill2 stroke #|tab-width tab-height tab-margin|#) node
-    (setf keyword (and keyword (make-uml-keyword keyword)))
-    (setf font    (make-font   (or font   *uml-node-font*   *default-font*  )))
-    (setf fill1   (make-fill   (or fill1  *uml-node-fill1*  *default-fill*  )))
-    (setf fill2   (make-fill   (or fill2  *uml-node-fill2*  *default-fill*  )))
-    (setf stroke  (make-stroke (or stroke *uml-node-stroke* *default-stroke*))))
+  ;;(format t "initialize-instance :after called.~%")
+  (with-slots (stereotype fill2 filter layer) node
+    (setf stereotype (and stereotype (make-uml-stereotype stereotype)))
+    (setf fill2   (make-fill fill2))
+    (setf filter  (if (eq filter :none)
+                      nil
+                      (or filter *uml-node-filter* *default-filter*)))
+    (setf layer  (if (eq layer :none)
+                     nil
+                     (or layer *uml-node-layer* *default-layer*))))
   node)
 
 (defmethod check ((node uml-node) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (with-slots (name keyword depth font fill1 fill2 stroke clip-path) node
-    (check-member name    :nullable nil :types (or string keyword))
-    (check-object keyword canvas dict :nullable t :class uml-keyword-info)
-    (check-member depth   :nullable nil :types number)
-    (check-object font    canvas dict :nullable t :class   font-info)
-    (check-object fill1   canvas dict :nullable t :class   fill-info)
-    (check-object fill2   canvas dict :nullable t :class   fill-info)
-    (check-object stroke  canvas dict :nullable t :class stroke-info)
-    (check-member clip-path :nullable  t :types symbol))
-  nil)
+  ;;(format t "check called.~%")
+  (with-slots (stereotype depth kaavio::fill fill2 filter kaavio::height) node
+    (check-object stereotype canvas dict :nullable   t :class uml-stereotype-info)
+    (setf depth (or depth (/ kaavio::height 5)))
+    (check-member depth      :nullable nil :types number)
+    (setf fill2 (or fill2 kaavio::fill))
+    (check-object fill2  canvas dict :nullable t :class fill-info)
+    (check-member filter     :nullable   t :types keyword)))
+
+;;(defmethod shape-connect-point ((node uml-node) type1 type2 arg)
+;;  (rectangle-connect-point (attribute-center node)
+;;                           (attribute-width  node)
+;;                           (attribute-height node) type1 type2 arg))
 
 ;;MEMO : use impelementation of group...
 ;;(defmethod group-get-canvas ((node uml-node)) ...)
 
-(defmethod shape-get-subcanvas ((node uml-node))
-  (with-slots (depth) node
-    (let ((half (/ depth 2)))
-      (make-canvas (point/y+ (attribute-topleft node) half)
-                   (- (attribute-width  node) half)
-                   (- (attribute-height node) half)))))
-
 ;; override of group::draw-group
 (defmethod draw-group ((node uml-node) writer)
   (let ((canvas (group-get-canvas node)))
-    (with-slots (name keyword depth contents-p
-                              font fill1 fill2 stroke clip-path) node
-      (let* ((width     (canvas-width  canvas))
-             (height    (canvas-height canvas))
-             (x         (/ width  2))
-             (y         (/ height 2))
-             (half      (/ depth  2))
-             (kaavio:*current-clip-path* clip-path)
-             (font-size (slot-value font 'kaavio::size))
-             (spacing   (slot-value font 'kaavio::line-spacing)))
-        (macrolet ((register-entity (entity)
-                     `(check-and-draw-local-entity ,entity canvas writer)))
-          (let ((*default-font*   font)
-                (*default-stroke* stroke))
-            (polygon `((0 ,half)
-                       (,depth ,(- half))
-                       (,(+ width half) ,(- half))
-                       (,(+ width half) ,(- height depth))
-                       (,(- width half) ,height)) :fill fill2)
-            (line `((,(+ width half) ,(- half))
-                    (,(- width half) ,half)))
-            (rectangle (make-point (- x (/ half 2))
-                                   (+ y (/ half 2))) (- width half) (- height half) :fill fill1))
-          (let ((name (fix-name name t))
-                (x    (/ (- width half) 2))
-                (y    (if contents-p
-                          (+ half spacing font-size)
-                          (/ (+ height half) 2))))
-            (if (null keyword)
-                (incf y (/ font-size 2))
-                (progn
-                  (uml-keyword-draw keyword
-                                    (+ (canvas-left canvas) x)
-                                    (+ (canvas-top  canvas) y) :center font clip-path writer)
-                  (incf y font-size)))
-            (text (make-point x y) name :align :center))))))
+    (let ((width  (canvas-width  canvas))
+          (height (canvas-height canvas)))
+      (macrolet ((register-entity (entity)
+                   `(check-and-draw-local-entity ,entity canvas writer)))
+        (with-slots (depth stereotype fill2 contents-p filter
+                       (text kaavio::text) (font kaavio::font) (margin kaavio::margin)
+                       (fill kaavio::fill) (stroke kaavio::stroke) (clip-path kaavio::clip-path)) node
+          (let* ((x     (/ width  2))
+                 (y     (/ height 2))
+                 (half  (/ depth  2))
+                 (*current-clip-path* clip-path))
+            ;; draw node body
+            (writer-write writer "<g stroke='none' "
+                                 (write-when filter "filter='url(#" it ")' ") ">")
+            (writer-incr-level writer)
+            (let ((*mute-stroke* t))
+              (polygon `((0 ,half)
+                         (,depth ,(- half))
+                         (,(+ width half) ,(- half))
+                         (,(+ width half) ,(- height depth))
+                         (,(- width half) ,height)
+                         (,(- width half) ,half)) :fill fill2)
+              (rectangle (make-point (- x (/ half 2))
+                                     (+ y (/ half 2)))
+                         (- width half) (- height half) :fill fill))
+            (path `((:move-to (0 ,half))
+                    (:line-to (,(- width half) ,half)
+                              (,(- width half) ,height)
+                              (0               ,height)
+                              (0               ,half)
+                              (,depth          ,(- half))
+                              (,(+ width half) ,(- half))
+                              (,(+ width half) ,(- height depth))
+                              (,(- width half) ,height))
+                    (:move-to (,(- width half) ,half))
+                    (:line-to (,(+ width half) ,(- half))))
+                  :stroke stroke :fill :none)
+            ;; draw text
+            (let ((cv (uml-draw-textarea node stereotype writer)))
+;             (rect (canvas-center cv)
+;                   (canvas-width cv) (canvas-height cv)
+;                   :fill '(:color :red :opacity 0.1) :stroke :red)
+              (when contents-p
+                ;;draw partition line
+                (line `(,(canvas-bottomleft  cv)
+                        ,(canvas-bottomright cv)))))
+            (writer-decr-level writer)
+            (writer-write writer "</g>"))))))
   nil)
 
-;;for debug...
+;for debug...
 ;(defmethod post-draw ((node uml-node) writer)
+;  ;;(format t "post-draw called.~%")
 ;  (call-next-method)
-;  (draw-canvas-frame (group-get-canvas #|shape-get-subcanvas|# node) writer))
+;  (with-slots (contents-p) node
+;    (when contents-p
+;      (draw-canvas-frame (shape-get-subcanvas node) writer))))
  
+;; no override.
+;(defmethod text-shape-calc-size ((node uml-node))
+;  (call-next-method))
 
+;;MEMO : 下記 text-shape-paragraph-area / shape-get-subcanvas は contents 有無によって
+;;       どちらがどちらに依存するかが変わる。気持ち悪いかもしれないが、動作する。
+
+;;MEMO : uml-node の paragraph-area は以下のルール
+;;  * contents 無しの場合：サブキャンバスと同じ
+;;  * contents ありの場合：キーワード込みの textarea を計算し、margin を上下に足す。
+(defmethod text-shape-paragraph-area ((node uml-node))
+  ;;(format t "text-shape-paragraph-area called.~%")
+  (with-slots (depth stereotype contents-p
+                     (text kaavio::text) (font kaavio::font) (margin kaavio::margin)) node
+    (if (not contents-p)
+        (shape-get-subcanvas node)
+        (let ((half (/ depth 2)))
+          (multiple-value-bind (w height) (uml-calc-textarea font text stereotype)
+            (declare (ignore w))
+            (incf height (* margin 2))
+            (make-canvas (y+ (attribute-topleft node) half)
+                         (-  (attribute-width   node) half) height))))))
+
+;;MEMO : uml-node のサブキャンバスは以下のルール
+;;  * contents 無しの場合：cube と同じ
+;;  * contents ありの場合：上記から paragraph-area を除いたもの
+(defmethod shape-get-subcanvas ((node uml-node))
+  ;;(format t "shape-get-subcanvas called.~%")
+  (with-slots (contents-p depth) node
+    (let* ((half (/ depth 2))
+           (canvas (make-canvas (y+ (attribute-topleft node) half)
+                                (-  (attribute-width   node) half)
+                                (-  (attribute-height  node) half))))
+      (if (not contents-p)
+          canvas
+          (let ((area (text-shape-paragraph-area node)))
+            (incf (canvas-top    canvas) (canvas-height area))
+            (decf (canvas-height canvas) (canvas-height area))
+            canvas)))))
 
 ;;------------------------------------------------------------------------------------- BEGIN TURNUP
 ;;#### macro uml-node
@@ -116,39 +168,117 @@
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
-;;* ${{B}{uml-node}} position name ${KEY} pivot keyword width height font fill1 fill2 stroke link layer id contents
-;;
+;;* ${{B}{uml-node}} position name ${KEY} pivot stereotype keyword width height margin font fill1 fill2 stroke link layer id contents
 ;;
 ;;<!-- stack:pop li -->
 ;;
+;;${ARGS_AND_VALS}
+;;
+;;* `position` ---- 描画の基準点を指定します。詳細は「[](#座標と位置)」を参照してください。
+;;* `name` ---- ノードの名前を文字列で指定します。
+;;* `pivot` ---- `position` で指定した基準点が図形要素のどこにくるように描画するかを指定します。詳細は「[](#座標と位置)」を参照してください。
+;;* `stereotype` ---- ステレオタイプを明示する場合はステレオタイプ情報を指定します。詳細は [$@ 節](#uml-stereotype-info) を参照してください。
+;;* `keyword` ---- キーワードを明示する場合はステレオタイプ情報を指定します。 `stereotype` が指定されている場合は無視されます。詳細は [$@ 節](#uml-stereotype-info) を参照してください。
+;;* `width` ---- 幅を自動決定せず、明示的に指定したい場合に数値で指定します。
+;;* `height` ---- 高さを自動決定せず、明示的に指定したい場合に数値で指定します。
+;;* `margin` ---- テキスト描画における「余白」のサイズです。省略した場合のデフォルト値は 5 です。
+;;* `font` ---- フォントを指定します。
+;;* `fill1` ---- 前面内部の塗り潰しを指定します。
+;;* `fill2` ---- 側面・上面部分の内部の塗り潰しを指定します。
+;;* `stroke` ---- 外枠を描画するストロークを指定します
+;;* `link` ---- リンクにする場合、リンク先を指定します。
+;;* `filter` ---- フィルタを適用したい場合、その ID をキーワードシンボルで指定します
+;;* `layer` ---- レイヤーを指定する場合、その ID をキーワードシンボルで指定します
+;;* `id` ---- ID を付与したい場合、その名前をキーワードシンボルで指定します
+;;* `contents` ---- 内部をサブキャンバスとした描画をしたい場合、その内容を指定します。 `:contents t` とすることも可能です。詳細は後述します。
+;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　UML 配置図などにおけるノードを描画します。スタイルを統一したい場合、
+;;with-uml-node-options マクロを使うことができます。
 ;;
-;;${NO_SEE_ALSO}
+;;${SEE_ALSO}
 ;;
-;;${NO_NOTES}
+;;* [$$](#配置図)
+;;* uml-node マクロ
+;;* with-uml-node-options マクロ
+;;
+;;${NOTES}
+;;
+;;* uml-node では `:contents` パラメータを指定した場合、 `name` で指定されたテキストを（中央でなく）上部に描画します。しかし、（ `:contents` パラメータでなく）with-subcanvas-of マクロを使う場合、テキストは中央に描画されてしまいます。これを避けるためには、 `:contents t` を指定してください。これはテキストを上端付近に描画させる効果だけを持ちます。
 ;;
 ;;--------------------------------------------------------------------------------------- END TURNUP
-(defmacro uml-node (position name &key pivot keyword width height font
-                                       fill1 fill2 stroke link layer id contents)
+(defmacro uml-node (position name &key pivot stereotype keyword width height margin
+                                       font fill1 fill2 stroke link layer filter id contents)
   (let* ((contents-p (not (null contents)))
-         (code `(register-entity (make-instance 'uml-node
-                                               :position ,position :pivot ,pivot
-                                               :width  (or ,width  *uml-node-width*)
-                                               :height (or ,height *uml-node-height*)
-                                               :name ,name :keyword ,keyword
-                                               :depth *uml-node-depth*
-                                               :contents-p ,contents-p
-                                               :font ,font :stroke ,stroke
-                                               :fill1 ,fill1 :fill2 ,fill2
-                                               :clip-path *current-clip-path*
-                                               :link ,link :layer ,layer :id ,id))))
-    (if (null contents)
+         (code `(register-entity
+                     (make-instance 'uml-node
+                                    :position ,position :pivot ,pivot
+                                    :width  (or ,width  *uml-node-width*)
+                                    :height (or ,height *uml-node-height*)
+                                    :text ,name :stereotype ,(or stereotype keyword)
+
+                                    :contents-p ,contents-p
+                                    :margin   (or ,margin   *uml-node-margin*)
+                                    :font  (or ,font  *uml-node-font*  *default-font*)
+                                    :fill  (or ,fill1 *uml-node-fill1* *default-fill* :white)
+                                    :fill2 (or ,fill2 *uml-node-fill2* *default-fill* :lightgray)
+                                    :stroke (or ,stroke *uml-node-stroke* *default-stroke* :black)
+                                    :clip-path kaavio:*current-clip-path*
+                                    :link ,link :layer ,layer :filter ,filter :id ,id))))
+    (if (or (null contents)
+            (not (listp contents)))
         code
         (let ((g-obj (gensym "OBJ")))
           `(let* ((,g-obj ,code)
                   (canvas (shape-get-subcanvas ,g-obj)))
              (declare (special canvas))
              ,@contents)))))
+
+
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### macro with-uml-node-options
+;;
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
+;;
+;;* ${{B}{with-uml-node-options}} (${KEY} font fill stroke size filter layer) ${BODY} body
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　uml-node マクロで描画される図形要素のデフォルトオプションを変更します。キーワード
+;;パラメータ群の説明は uml-node マクロを参照してください。
+;;
+;;${SEE_ALSO}
+;;
+;;* uml-node マクロ
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
+(defmacro with-uml-node-options ((&key font fill1 fill2 stroke
+                                       width height depth margin filter layer) &rest body)
+  (labels ((impl (params acc)
+             (if (null params)
+                 acc
+                 (let ((value  (car  params))
+                       (symbol (cadr params)))
+                   (impl (cddr params)
+                         (if (null value)
+                             acc
+                             (push (list symbol value) acc)))))))
+    (let ((lst (impl (list font     '*uml-node-font*
+                           fill1    '*uml-node-fill1*
+                           fill2    '*uml-node-fill2*
+                           stroke   '*uml-node-stroke*
+                           width    '*uml-node-width*
+                           height   '*uml-node-height*
+                           depth    '*uml-node-depth*
+                           margin   '*uml-node-margin*
+                           filter   '*uml-node-filter*
+                           layer    '*uml-node-layer*) nil)))
+      `(let ,lst
+         ,@body))))
 

@@ -21,7 +21,7 @@
 ;;    radius ---- ベースとなる正円の半径
 ;;    count ---- 正Ｎ角形の N
 (defun regular-polygon-listup-points (pt radius count)
-  (let ((delta (ecase count    ;;ToDo : regular-polygon::check で値チェックしてるのでここでは不要かな
+  (let ((delta (ecase count
                  (( 3) (/ 360  3))
                  (( 4) (/ 360  4))
                  (( 5) (/ 360  5))
@@ -87,7 +87,6 @@
 ;;MEMO : use impelementation of shape...
 ;;(defmethod entity-composition-p ((shp regular-polygon)) ...)
 
-;;ToDo : implement...  
 (defmethod draw-entity ((shp regular-polygon) writer)
   (labels ((format-points (pts)
              (with-output-to-string (stream)

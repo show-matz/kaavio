@@ -52,7 +52,11 @@
                 :make-canvas
                 :copy-canvas
                 :canvas-p
+                :canvas-center
                 :canvas-topleft
+                :canvas-topright
+                :canvas-bottomleft
+                :canvas-bottomright
                 :canvas-left
                 :canvas-top
                 :canvas-right
@@ -279,6 +283,7 @@
                 ;layer-manager.lisp
                 :layer-manager
                 ;line.lisp
+                :line-get-center
                 :line
                 ;link-info.lisp
                 :link-info
@@ -738,7 +743,7 @@
 #|
 #|EXPORT|#                :to-property-strings
  |#
-(defgeneric to-property-strings (info))  ;; ToDo : 他の場所に移動する？
+(defgeneric to-property-strings (info))
 
 #|
 (let ((lnk (make-link "http://www.google.co.jp/"))

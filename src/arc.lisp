@@ -161,6 +161,7 @@
     (check-object end1 canvas dict :nullable  t :class endmark-info)
     (check-object end2 canvas dict :nullable  t :class endmark-info)
     (check-member debug           :nullable   t :types keyword)
+    (setf center (canvas-fix-point canvas center))
     (when end1 (check end1 canvas dict))
     (when end2 (check end2 canvas dict))
     (multiple-value-bind (x0 y0 x1 y1 large-arc sweep-flag)

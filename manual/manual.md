@@ -1,18 +1,16 @@
-<!-- define: APPNAME = kaavio -->
-<!-- define: BLANK_PARAGRAPH = '　　' -->
-<!-- define: TODO = '@((background:red;color:white;)(ToDo : %1))' -->
-
-<!-- title:${APPNAME} readme -->
+<!-- title:kaavio readme -->
 <!-- style:./default.css -->
 
 <!-- config:write-comment -->
-<!-- config:header-numbering 2 4 -->
+<!-- config:header-numbering 2 5 -->
 <!-- config:entity-numbering-depth 1 -->
 <!-- <!-- config:term-link-in-header -->
 
 <!-- filter:kaavio   = bash ./kaavio.sh   %in %out -->
 <!-- filter:plantuml = bash ./plantuml.sh %in %out -->
 
+<!-- define: BLANK_PARAGRAPH = '　　' -->
+<!-- define: TODO = '@((background:red;color:white;)(ToDo : %1))' -->
 <!-- define: B = '@((font-weight:bold;)(%1))' -->
 <!-- define: I = '@((font-style:oblique;)(%1))' -->
 <!-- define: SYNTAX = "**Syntax:**" -->
@@ -29,9 +27,9 @@
 <!-- define: BODY = '@((color:navy;)(&body))' -->
 
 
-# README - ${APPNAME}
+# README - kaavio
 
-　この文書は、 **${APPNAME}** のマニュアル文書です。
+　この文書は、 **kaavio** のマニュアル文書です。
 
 <!-- anchor: toc-link-target -->
 ```raw
@@ -44,24 +42,24 @@
 
 ${BLANK_PARAGRAPH}
 
-## ${APPNAME} とは
+## kaavio とは
 
-　${APPNAME}{{fn:正式な名称が決まる前は、diagram という名前でした。${APPNAME} は同じ意味のフィンランドの \
+　kaavio{{fn:正式な名称が決まる前は、diagram という名前でした。kaavio は同じ意味のフィンランドの \
 言葉だそうです。この名前にした深い理由はなく、単純にネット検索で埋もれてしまわない名前にしたかっただけです。}} 
 は、テキストベースの作図ツールです。テキスト形式のデータファイルを入力として、
 SVG 形式{{fn:SVG は Scalable Vector Graphics の略です。}}の画像ファイルを生成します。
 
-　${APPNAME} の入力データの記述方法には違和感を感じるかもしれません。これは、${APPNAME} が 
-Common LISP 言語で実装されており、入力データも Common LISP 上に作成された DSL(domain specific 
+　kaavio の入力データの記述方法には違和感を感じるかもしれません。これは、kaavio が 
+Common Lisp 言語で実装されており、入力データも Common Lisp 上に作成された DSL(domain specific 
 language) で記述するためです。しかし、このツールを使ってみたいからといって、知りもしない言語の
 お勉強から始めたいとは思わないでしょう。そのため、このマニュアルではサンプルをたくさん提示し、
-Common LISP の詳細には極力立ち入らないようにします{{fn:もともと LISPer だという方で DSL の詳細を知りたい方は、 \
+Common Lisp の詳細には極力立ち入らないようにします{{fn:もともと LISPer だという方で DSL の詳細を知りたい方は、 \
 申し訳ありませんがコードを直接参照してください。}}。
 
 <!-- anchor: SVG-ESSENTIALS-2ND -->
 <!-- autolink: [SVG本](A#SVG-ESSENTIALS-2ND) -->
 
-　${APPNAME} は、O'Reilly の「[SVG エッセンシャルズ 第二版](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwjxstvtvKL6AhUNUd4KHbdhCmAQFnoECA0QAQ&url=https%3A%2F%2Fwww.oreilly.co.jp%2Fbooks%2F9784873117973%2F&usg=AOvVaw0qe65qVh3tZyCnBnhoaC-V)」
+　kaavio は、O'Reilly の「[SVG エッセンシャルズ 第二版](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwjxstvtvKL6AhUNUd4KHbdhCmAQFnoECA0QAQ&url=https%3A%2F%2Fwww.oreilly.co.jp%2Fbooks%2F9784873117973%2F&usg=AOvVaw0qe65qVh3tZyCnBnhoaC-V)」
 を読んで作られています（この書籍に言及する時は「SVG本」と呼ぶことにします）。SVG 規格にあたることも
 時々ありますが、基本的にほとんどの情報はこの書籍から得ています。電子版もありますので興味のある方は
 手に取ってみてください。
@@ -69,14 +67,14 @@ Common LISP の詳細には極力立ち入らないようにします{{fn:もと
 
 ### インストール
 
-　${APPNAME} プロジェクトを git clone して、ASDF から `src/kaavio.asd` を利用できる
-ように設定してください。${APPNAME} をロードすれば、あとは `kaavio:diagram` マクロで
+　kaavio プロジェクトを git clone して、ASDF から `src/kaavio.asd` を利用できる
+ように設定してください。kaavio をロードすれば、あとは `kaavio:diagram` マクロで
 始まる図面データを実行することで SVG 図面を生成することができます。図面データ作成の詳細に
 ついては後述します。
 
 ### 実行可能バイナリの作成
 
-　${APPNAME} は実行可能バイナリの作成を想定して作られています。${APPNAME} が Common Lisp 
+　kaavio は実行可能バイナリの作成を想定して作られています。kaavio が Common Lisp 
 処理系で使えるように設定されている環境であれば、 `misc/` ディレクトリ配下で `make` 
 と言うだけで実行可能バイナリを作成できます。SBCL だけがインストールされている環境であれば、
 `make bare-build` と言うことでも実行可能バイナリを作成できます。ただし、これらの方法は現状 
@@ -89,25 +87,25 @@ SBCL でしか試しておらず、他の処理系では `misc/` 配下のファ
 できます。
 
 ```
-$ ${APPNAME} --sandbox
+$ kaavio --sandbox
 IN  : ./sandbox.lisp
 OUT : ./sandbox.html
 
 ```
 
-　sandbox mode では、${APPNAME} は 0.1 杪間隔で入力ファイル（上記の例では `sandbox.lisp` ）
+　sandbox mode では、kaavio は 0.1 杪間隔で入力ファイル（上記の例では `sandbox.lisp` ）
 を監視し続け、ファイルが更新されたらそれを入力として SVG 画像を生成して出力ファイル
 （上記の例では `sandbox.html` ）に保存します。この出力ファイルは SVG データを埋め
 込んだ HTML 形式ファイルで、ブラウザで開くと 2 杪間隔で自身をリロードするように
-なっています。${APPNAME} を sandbox mode で起動し、入力ファイルをテキストエディタで、
+なっています。kaavio を sandbox mode で起動し、入力ファイルをテキストエディタで、
 出力ファイルをブラウザで開いて並べることで、出力を（ほぼ）リアルタイムで確認しながら
-${APPNAME} のデータを編集することができます。
+kaavio のデータを編集することができます。
 
 　なお、sandbox mode を終了する場合は Ctrl+C を押下してください。
 
 ## 簡単なサンプル
 
-　簡単なサンプルから始めましょう。以下のような入力を ${APPNAME} に与えると、
+　簡単なサンプルから始めましょう。以下のような入力を kaavio に与えると、
 
 <!-- snippet: FIRST-SAMPLE
 (diagram (300 150)
@@ -132,26 +130,26 @@ ${BLANK_PARAGRAPH}
 Figure. 簡単なサンプル
 
 
-　「入力を ${APPNAME} に与える」というのは、具体的には入力データを記述したファイルの名前を
-パラメータとして ${APPNAME} を起動することを意味します。作成される SVG 画像は標準出力に
+　「入力を kaavio に与える」というのは、具体的には入力データを記述したファイルの名前を
+パラメータとして kaavio を起動することを意味します。作成される SVG 画像は標準出力に
 書き出されるので、ファイルにリダイレクトしてください。以下のように。
 
 ```sh
-${APPNAME} ./input.digram > ./output.svg
+kaavio ./input.digram > ./output.svg
 ```
 
-　入力ファイル名が与えられない場合、${APPNAME} は標準入力からデータを読み取ろうとします。そのため、
+　入力ファイル名が与えられない場合、kaavio は標準入力からデータを読み取ろうとします。そのため、
 以下のように書くこともできます。
 
 ```sh
-cat ./input.digram | ${APPNAME} > ./output.svg
+cat ./input.digram | kaavio > ./output.svg
 ```
 
 　余談ですが、SVG 画像には gzip 圧縮した svgz という形式もあります。以下のように出力を gzip に
 通してやれば作成できます。
 
 ```sh
-cat ./input.digram | ${APPNAME} | gzip > ./output.svgz
+cat ./input.digram | kaavio | gzip > ./output.svgz
 ```
 
 　では、先ほどの入力データをもう一度みてみましょう。
@@ -160,7 +158,7 @@ cat ./input.digram | ${APPNAME} | gzip > ./output.svgz
 <!-- expand: FIRST-SAMPLE -->
 ```
 
-　初めての ${APPNAME} データなので、順番に内容をみていきましょう。まずは雰囲気で理解してください。
+　初めての kaavio データなので、順番に内容をみていきましょう。まずは雰囲気で理解してください。
 
 * `diagram` で「幅 300、高さ 150」の画像を作成
 * `grid` で背景にグリッド線を描画
@@ -188,7 +186,7 @@ ${BLANK_PARAGRAPH}
 方法には色々ありますが、のちほど順番に説明します。
 
 　その後ろに続く `:fill :powderblue` や `:id :x` といったものは、全て「名前付きパラメータ
-{{fn:Lisper の方へ：要するにキーワードパラメータです。}}」です。${APPNAME} では多くの
+{{fn:Lisper の方へ：要するにキーワードパラメータです。}}」です。kaavio では多くの
 パラメータが省略可能で、それらの省略可能パラメータを指定する場合はパラメータ名も書いてあげる
 必要があります。なお、 `:fill` のようにコロンで始まる名前は「キーワード」と呼ばれるもので、
 省略可能パラメータの名前はキーワードで指定します。
@@ -216,7 +214,7 @@ ${BLANK_PARAGRAPH}
   (grid)
   (drop-shadow)
   (with-options (:filter :drop-shadow)
-    (textbox (y+ canvas.center 20) "${APPNAME}" :height 40 :fill :cornsilk :id :app)
+    (textbox (y+ canvas.center 20) "kaavio" :height 40 :fill :cornsilk :id :app)
     (with-options (:stroke '(:color :navy :width 2)
                    :fill   '(:color :skyblue :opacity 0.3))
       (document (x+ app.center -175) 80 60 "input~%file" :id :in)
@@ -245,7 +243,7 @@ Figure. 簡単なサンプル-2
 * drop-shadow という種類の「フィルタ」の使用を宣言
 * with-options でデフォルトのフィルタを drop-shadow に設定
     * textbox でテキストボックスを描画 : 場所は画像の中心（canvas.center）から y 軸方向に 20、 \
-テキストは "${APPNAME}"、これに app という ID を設定
+テキストは "kaavio"、これに app という ID を設定
     * with-options で、デフォルトの線を太さ 2 の `navy` に、デフォルトの塗りつぶしを不透明度 0.3 の `skyblue` にそれぞれ設定
         * document でドキュメントを描画 : 場所は app の中心（app.center）から x 軸方向に -175、 \
 幅と高さは 80 60、テキストは "input~%file"、これに in という ID を設定
@@ -2122,10 +2120,10 @@ ${BLANK_PARAGRAPH}
 ## その他の図形要素
 
 　ほしい図形要素がなければ、手間はかかりますがパスを使って実現できるかもしれません。図面の中に
-写真などのラスタ画像を含めることもできます。あるいは、${APPNAME} がサポートしていない SVG の
+写真などのラスタ画像を含めることもできます。あるいは、kaavio がサポートしていない SVG の
 機能を利用したければ生の SVG コードを挿入することもできます{{fn:生の SVG コードを挿入したとして、 \
 そしてそれが SVG 規格に完璧に適合していたとしても、お使いの（ブラウザなどの）SVG ビューワーで \
-「正しく」表示できるかどうかは別問題だということを常に念頭に置いて作業してください。${APPNAME} の \
+「正しく」表示できるかどうかは別問題だということを常に念頭に置いて作業してください。kaavio の \
 開発では「メジャーなブラウザでサポートされていない SVG の機能を避ける」ことに大きな注意と努力が \
 払われています。}}。
 
@@ -2711,10 +2709,10 @@ ${BLANK_PARAGRAPH}
 * BMP ( *.bmp )
 
 　典型的には、image マクロの使用は以下のような記述になるでしょう。必須パラメータは、画像を
-配置する中心位置と画像ファイル名だけです。画像のサイズは ${APPNAME} が自分で調べるため、
-基本的には指定する必要がありません{{fn:このことは、${APPNAME} が動作する時点で指定された画像ファイル \
+配置する中心位置と画像ファイル名だけです。画像のサイズは kaavio が自分で調べるため、
+基本的には指定する必要がありません{{fn:このことは、kaavio が動作する時点で指定された画像ファイル \
 が「そこにある」必要がある、ということを意味します。 `width, height` の両方が明示的に指定された場合に \
-限り、${APPNAME} は実際の画像サイズを調べません。}}。
+限り、kaavio は実際の画像サイズを調べません。}}。
 
 ```lisp
 (image '(400 400) "./foo.png")
@@ -2755,7 +2753,7 @@ ${BLANK_PARAGRAPH}
 
 ## 座標と位置
 
-　${APPNAME} では、座標系は左上端を原点としており、水平右方向に x 軸、垂直下方向に y 軸となって
+　kaavio では、座標系は左上端を原点としており、水平右方向に x 軸、垂直下方向に y 軸となって
 います。また、角度は時計回りになります。
 
 <!-- snippet: GEOMETRY-SAMPLE-1
@@ -2775,7 +2773,7 @@ ${BLANK_PARAGRAPH}
 ```kaavio
 <!-- expand: GEOMETRY-SAMPLE-1 -->
 ```
-Figure. ${APPNAME} における座標系
+Figure. kaavio における座標系
 
 <!-- collapse:begin -->
 　※上記画像のソースはこちら。
@@ -2787,10 +2785,10 @@ Figure. ${APPNAME} における座標系
 
 ${BLANK_PARAGRAPH}
 
-　${APPNAME} データの中で座標を指定する方法にはいくつかあります。以下に説明します。
+　kaavio データの中で座標を指定する方法にはいくつかあります。以下に説明します。
 
 　具体的な数値で座標を指定する場合、 `'(50 100)` といった要領で指定します。これは即値で
-座標を指定する場合の書き方ですが、Common LISP の変数に格納した数値から座標を作成したい
+座標を指定する場合の書き方ですが、Common Lisp の変数に格納した数値から座標を作成したい
 場合は make-point 関数が使えます。これは `(make-point x y)` の要領で使用してください
 {{fn:Lisper の方へ：ご想像通り、 `(list x y)` でもいいですし、バッククォートを使ってもかまいません。}}。
 
@@ -2896,7 +2894,7 @@ ${BLANK_PARAGRAPH}
 <!-- autolink: [キャンバス](#サブキャンバス) -->
 
 　[$@ 章](#座標と位置)では、座標指定のための ID 名として `canvas` を指定すると作成中の図全体の
-領域を指定できると説明しました。${APPNAME} では、これをキャンバスと読んでいますが、その一部を
+領域を指定できると説明しました。kaavio では、これをキャンバスと読んでいますが、その一部を
 独立したキャンバスとして描画を行うことができます。これをサブキャンバスと呼びます。
 
 　サブキャンバスを使う方法のひとつは、with-subcanvas マクロを使うことです。左上の座標と
@@ -2916,7 +2914,7 @@ ${BLANK_PARAGRAPH}
 <!-- expand: SUBCANVAS-SAMPLE-1 -->
 ```
 
-　上記のコードを ${APPNAME} に通すと以下が生成されます。2 回登場する circle は座標と半径が
+　上記のコードを kaavio に通すと以下が生成されます。2 回登場する circle は座標と半径が
 同じ `'(50 50) 20` で指定されていますが、実際に描画された場所は異なっています。これは、後者の
 （青い方の）circle が with-subcanvas マクロの配下にあるためで、このサブキャンバスの実際の領域
 は rect で示されています。
@@ -3025,8 +3023,6 @@ ${BLANK_PARAGRAPH}
 
 ## クリッピング
 <!-- autolink: [$$](#クリッピング) -->
-
-* ${{TODO}{レビュー作業、イマココ}}
 
 　クリッピング機能を使えば、図面の一部だけを切り取ったように描画することができま
 す。サブキャンバスからはみ出す部分が描画されないようにしたり、任意の形状（パス）
@@ -3189,7 +3185,7 @@ Figure. 文字を使ったクリッピングの例
 </svg>
 ```
 
-　以下のように、Common LISP 言語の機能を使用してループで処理することはできますが、入力データ
+　以下のように、Common Lisp 言語の機能を使用してループで処理することはできますが、入力データ
 が短くなっても出力される SVG が短くなるわけではありません。
 
 ```lisp
@@ -3356,7 +3352,7 @@ ${BLANK_PARAGRAPH}
 
 　defpattern には `x, y, units, content-units, view-box` などの名前付きパラメータが
 ありますが、現時点ではその詳細な説明は割愛します。今後説明を充実させる可能性はありますが、
-現時点では SVG本の８章をお読みください。${APPNAME} で SVG本の 8.1 節のサンプルを実現する
+現時点では SVG本の８章をお読みください。kaavio で SVG本の 8.1 節のサンプルを実現する
 コードを以下に提示しておきます。なお、現在 preserveAspectRatio 属性には対応していません。
 将来対応する可能性はありますが、未確定です。
 
@@ -3522,7 +3518,7 @@ Figure. グラデーションのサンプル - 2
 ${BLANK_PARAGRAPH}
 
 　defgradient には多くの名前付きパラメータがありますが、現時点ではその詳細な説明は割愛します。
-今後説明を充実させる可能性はありますが、現時点では SVG本の８章をお読みください。${APPNAME} で 
+今後説明を充実させる可能性はありますが、現時点では SVG本の８章をお読みください。kaavio で 
 SVG本の 8.2 節のサンプルを実現するコードを以下に提示しておきます。
 
 
@@ -3902,7 +3898,7 @@ ${BLANK_PARAGRAPH}
 <!-- autolink: [$$](#色の指定) -->
 <!-- autolink: [色名の指定](#色の指定) -->
 
-　${APPNAME} は SVG 形式で図形を生成するため、色の指定は SVG の規格に準拠します。
+　kaavio は SVG 形式で図形を生成するため、色の指定は SVG の規格に準拠します。
 
 * `#rrggbb` 表記による、6 桁の16進指定。rr、gg、bb は順に赤、緑、青の成分で、 00〜ff の範囲で \
 指定します。
@@ -3943,10 +3939,10 @@ ${BLANK_PARAGRAPH}
 
 　make-stroke 関数はその結果として「ストローク情報オブジェクト」を返しますが、そのストローク情報
 オブジェクトを make-stroke 関数自身に渡した場合、そのまま返すようになっています。そのため、自分で
-明示的に make-stroke 関数を使ってストローク情報オブジェクトを作成し、Common LISP 変数に格納して
+明示的に make-stroke 関数を使ってストローク情報オブジェクトを作成し、Common Lisp 変数に格納して
 複数の図形要素で使用する、ということも可能です。以下のように{{fn:これはあまり使わない方が良いテクニックかもしれません。 \
 図形要素別の「デフォルト設定」とは無関係に動作するので、慣れないと混乱するかもしれないからです。}}。
-この関数の詳細は「[$@ 節](#function make-stroke)」を参照してください。
+この関数の詳細は [$@ 節](#function make-stroke) を参照してください。
 
 ```lisp
 (let ((st (make-stroke :color :blue :width 4 :opacity 0.3)))
@@ -3993,11 +3989,11 @@ Figure. with-options によるデフォルトストロークの変更
 
 ${BLANK_PARAGRAPH}
 
-　C の四角形では「色しか指定していない」のに線の幅が 5 になっていることに注意してください。
-これは、「明示的に指定されていないものはデフォルトの設定が使用される」からです。with-options に
-よってデフォルト設定が変更されており、B の四角形では（ `:stroke` を省略することによって）全てが
-デフォルト設定で描画されました。C の四角形では、 `:stroke :brown` によってデフォルト設定をベース
-として色だけを変更している、というわけです。
+　C の四角形では「色しか指定していない」のに線が太くなっていることに注意してください。
+これは、「明示的に指定されていないものはデフォルトの設定が使用される」からです。
+with-options マクロによってデフォルト設定が変更されており、B の四角形では（ `:stroke` を
+省略することによって）全てがデフォルト設定で描画されました。C の四角形では、 
+`:stroke :brown` によってデフォルト設定をベースとして色だけを変更している、というわけです。
 
 　with-options マクロでは全体のデフォルト設定を変更しますが、図形要素によっては個別にデフォルト設定
 を持っています。たとえば、テキストボックスであれば with-textbox-options マクロでデフォルト設定を
@@ -4007,9 +4003,9 @@ ${BLANK_PARAGRAPH}
 
 #### linecap
 
-　`linecap` について説明します。これは butt, round, square から指定するもので、以下のように
-線の端の形状が変わります。butt は指定した開始点／終了点で線が切れますが、round / square では
-開始点／終了点を少しはみ出すことに注意してください。
+　`linecap` について説明します。これは `:butt :round :square` から指定するもので、
+以下のように線の端の形状が変わります。 `:butt` は指定した開始点／終了点で線が切れます
+が、 `:round :square` では開始点／終了点を少しはみ出すことに注意してください。
 
 ```kaavio
 (diagram (200 100)
@@ -4032,8 +4028,8 @@ ${BLANK_PARAGRAPH}
 
 #### linejoin と miterlimit
 
-　`linejoin` は、線が折れ曲る部分の形状を miter, round, bevel から指定するもので、以下のように
-角の形状が変わります。
+　`linejoin` は、線が折れ曲る部分の形状を `:miter :round :bevel` から指定するもので、
+以下のように角の形状が変わります。
 
 ```kaavio
 (diagram (300 100)
@@ -4172,10 +4168,10 @@ ${BLANK_PARAGRAPH}
 
 　make-fill 関数はその結果として「フィル情報オブジェクト」を返しますが、そのフィル情報オブジェクト
 を make-fill 関数自身に渡した場合、そのまま返すようになっています。そのため、自分で明示的に 
-make-fill 関数を使ってフィル情報オブジェクトを作成し、Common LISP 変数に格納して複数の図形要素
+make-fill 関数を使ってフィル情報オブジェクトを作成し、Common Lisp 変数に格納して複数の図形要素
 で使用する、ということも可能です。以下のように{{fn:これはあまり使わない方が良いテクニックかもしれません。 \
 図形要素別の「デフォルト設定」とは無関係に動作するので、慣れないと混乱するかもしれないからです。}}。
-この関数の詳細は「[$@ 節](#function make-fill)」を参照してください。
+この関数の詳細は [$@ 節](#function make-fill)を参照してください。
 
 ```lisp
 (let ((fl (make-fill :color :blue :opacity 0.3)))
@@ -4187,10 +4183,11 @@ ${BLANK_PARAGRAPH}
 
 #### フィルのデフォルト設定
 
-　ストロークの説明では「デフォルト設定がある」という話をしましたが、塗り潰しにおいてもデフォルト設定が
-あります。フィルはデフォルトで `:color :none` とされているため、図形を描画すると塗り潰し無し（つまり
-背景が透けて見える）になります。with-options を使えばこれを変更することができます。
-以下の例では４種類の四角形を描いていますが、B, C の四角形ではデフォルトのフィルを変更しています。
+　ストロークの説明では「デフォルト設定がある」という話をしましたが、塗り潰しにおいても
+デフォルト設定があります。フィルはデフォルトで `:color :none` とされているため、図形を
+描画すると塗り潰し無し（つまり背景が透けて見える）になります。with-options マクロを使え
+ばこれを変更することができます。以下の例では４種類の四角形を描いていますが、B, C の四角形
+ではデフォルトのフィルを変更しています。
 
 <!-- snippet: WITH-OPTIONS-FILL-SAMPLE
 (diagram (250 100)
@@ -4218,10 +4215,10 @@ Figure. with-options によるデフォルトフィルの変更
 ${BLANK_PARAGRAPH}
 
 　C の四角形では「色しか指定していない」のに半透明になっていることに注意してください。
-これは、「明示的に指定されていないものはデフォルトの設定が使用される」からです。with-options に
-よってデフォルト設定が変更されており、B の四角形では（ `:fill` を省略することによって）全てが
-デフォルト設定で描画されました。C の四角形では、 `:fill :blue` によってデフォルト設定をベース
-として色だけを変更している、というわけです。
+これは、「明示的に指定されていないものはデフォルトの設定が使用される」からです。
+with-options マクロによってデフォルト設定が変更されており、B の四角形では（ `:fill` を
+省略することによって）全てがデフォルト設定で描画されました。C の四角形では、 `:fill :blue` に
+よってデフォルト設定をベースとして色だけを変更している、というわけです。
 
 　with-options マクロでは全体のデフォルト設定を変更しますが、図形要素によっては個別にデフォルト設定
 を持っています。たとえば、テキストボックスであれば with-textbox-options マクロでデフォルト設定を
@@ -4231,8 +4228,8 @@ ${BLANK_PARAGRAPH}
 
 #### fill における rule パラメータ
 
-　`rule` パラメータについて説明します。これは nonezero, evenodd から指定するもので、以下のように
-複雑な図形の塗り潰し方が変わります。
+　`rule` パラメータについて説明します。これは `:nonezero :evenodd` から指定するもので、
+以下のように複雑な図形の塗り潰し方が変わります。
 
 <!-- snippet: FILL-RULE-SAMPLE
 (diagram (400 120)
@@ -4314,7 +4311,7 @@ ${BLANK_PARAGRAPH}
 ### フォント
 <!-- autolink: [$$](#フォント) -->
 
-　${APPNAME} では様々な図形要素にテキストを付与できます。おおむね Web におけるフォント指定と同じ
+　kaavio では様々な図形要素にテキストを付与できます。おおむね Web におけるフォント指定と同じ
 ですが、醜いハックも含まれています。
 
 　通常の使用では、 `:font 24` のようにサイズだけを指定したりします。もう少し複雑な場合、 
@@ -4326,9 +4323,9 @@ ${BLANK_PARAGRAPH}
 * `size` はフォントのサイズを指定します（厳密には違うらしいのですが、詳細は後述します）。
 * `fill` はフォントの塗り潰しを指定します。
 * `stroke` はフォントの輪郭線を指定します。フォントの場合、通常は塗り潰しのみで輪郭線は指定しません。
-* `style` はスタイルの指定です。 `:normal, :italic, :oblique` のいずれかから選択します。
-* `decoration` は装飾の指定です。 `:none, :underline, :overline, :line-through` のいずれかから選択します。
-* `weight` は文字の太さの指定です。 `:normal, :bold, :bolder, :lighter` のいずれか、または  \
+* `style` はスタイルの指定です。 `:normal :italic :oblique` のいずれかから選択します。
+* `decoration` は装飾の指定です。 `:none :underline :overline :line-through` のいずれかから選択します。
+* `weight` は文字の太さの指定です。 `:normal :bold :bolder :lighter` のいずれか、または  \
 100 200 300 400 500 600 700 800 900 のいずれかです。
 * `filter` はテキストに適用するフィルタの指定です。
 * `line-spacing` は、テキストが複数行になる場合の行間を指定します。
@@ -4343,10 +4340,10 @@ ${BLANK_PARAGRAPH}
 （複数要素からなる）リストの場合、名前付きパラメータの羅列として解釈します。
 
 　make-font 関数はその結果として「フォント情報オブジェクト」を返しますが、そのフォント情報
-オブジェクトを make-font 関数自身に渡した場合、そのまま返すようになっています。そのため、自分で
-明示的に make-font 関数を使ってフォント情報オブジェクトを作成し、Common LISP 変数に格納して
-複数の図形要素で使用する、ということも可能です。以下のように。この関数の詳細は「[$@ 節](#function make-font)」
-を参照してください。
+オブジェクトを make-font 関数自身に渡した場合、そのまま返すようになっています。そのため、
+自分で明示的に make-font 関数を使ってフォント情報オブジェクトを作成し、Common Lisp 変数に
+格納して複数の図形要素で使用する、ということも可能です。以下のように。この関数の
+詳細は [$@ 節](#function make-font)を参照してください。
 
 ```lisp
 (let ((fnt (make-font :family "Courier New, monospace" :size 12)))
@@ -4358,14 +4355,15 @@ ${BLANK_PARAGRAPH}
 
 #### フォントのデフォルト設定
 
-　実際のところ、作図をする上でそれぞれのテキストがバラバラなフォントで描かれることはないでしょう。
-わかりやすい図面というのは、同じ種類の図形要素は同じ種類の線で描画されているなど、統制が取れているものです。
-このことは、複数のテキストを含む作図においては「まったく同じフォントの指定を繰り返す場合が多い」ことを意味します。
-前述の方法でフォント情報オブジェクトを作成して使い回すことも可能ですが、もっとよい方法があります。
-それは「デフォルトフォントの変更」です。もともと、フォントはデフォルトで `:size 12 :fill :black` と
-されています{{fn:正確には `:size 12 :fill :black :width-spice 0.65 :line-spacing 2` です。}}が、
-with-options を使えばこれを変更することができます。以下の例では４種類のテキストを描いていますが、
-B, C のテキストはデフォルトフォントを変更しています。
+　実際のところ、作図をする上でそれぞれのテキストがバラバラなフォントで描かれることはない
+でしょう。わかりやすい図面というのは、同じ種類の図形要素は同じ種類の線で描画されているなど、
+統制が取れているものです。このことは、複数のテキストを含む作図においては「まったく同じ
+フォントの指定を繰り返す場合が多い」ことを意味します。前述の方法でフォント情報オブジェクト
+を作成して使い回すことも可能ですが、もっとよい方法があります。それは「デフォルトフォントの
+変更」です。もともと、フォントはデフォルトで `:size 12 :fill :black` とされています
+{{fn:正確には `:size 12 :fill :black :width-spice 0.65 :line-spacing 2` です。}}が、
+with-options マクロを使えばこれを変更することができます。以下の例では４種類のテキストを
+描いていますが、B, C のテキストはデフォルトフォントを変更しています。
 
 <!-- snippet: WITH-OPTIONS-FONT-SAMPLE
 (diagram (250 100)
@@ -4388,15 +4386,16 @@ Figure. with-options によるデフォルトフォントの変更
 
 ${BLANK_PARAGRAPH}
 
-　C のテキストでは「色しか指定していない」のに文字装飾が変更されていることに注意してください。
-これは、「明示的に指定されていないものはデフォルトの設定が使用される」からです。with-options に
-よってデフォルト設定が変更されており、B のテキストでは（ `:font` を省略することによって）全てが
-デフォルト設定で描画されました。C の四角形では、 `:font :brown` によってデフォルト設定をベース
-として色だけを変更している、というわけです。
+　C のテキストでは「色しか指定していない」のに文字装飾が変更されていることに注意して
+ください。これは、「明示的に指定されていないものはデフォルトの設定が使用される」から
+です。with-options マクロによってデフォルト設定が変更されており、B のテキストでは
+（ `:font` を省略することによって）全てがデフォルト設定で描画されました。C の四角形
+では、 `:font :brown` によってデフォルト設定をベースとして色だけを変更している、という
+わけです。
 
-　with-options マクロでは全体のデフォルト設定を変更しますが、図形要素によっては個別にデフォルト設定
-を持っています。たとえば、テキストボックスであれば with-textbox-options マクロでデフォルト設定を
-変更することができます。
+　with-options マクロでは全体のデフォルト設定を変更しますが、図形要素によっては個別に
+デフォルト設定を持っています。たとえば、テキストボックスであれば with-textbox-options マクロで
+デフォルト設定を変更することができます。
 
 ${BLANK_PARAGRAPH}
 
@@ -4456,7 +4455,7 @@ ${BLANK_PARAGRAPH}
 > 指定します（SVGでは、複数行の `<text>` の内容は自分自身で配置しなければならないので、この
 > 概念は少々空論的です）。
 
-　上記のようなわけで、${APPNAME} ではフォント情報の size は単純に「フォントの縦方向のサイズである」
+　上記のようなわけで、kaavio ではフォント情報の size は単純に「フォントの縦方向のサイズである」
 という立場をとっています。正確には、「文字の上端からベースラインまでの距離」です。そして、
 paragraph などで複数行を描画する場合の「ベースラインから次行の上端までの距離」を `line-spacing` で
 指定します。以下は、 `:font '(:size 50 :line-spacing 30)` で描画した場合のサンプルです。
@@ -4490,7 +4489,7 @@ ${BLANK_PARAGRAPH}
 
 #### width-spice
 
-　width-spice は、${APPNAME} におけるもっとも醜いハックです。簡単に言えば、「フォントサイズと
+　`width-spice` は、kaavio におけるもっとも醜いハックです。簡単に言えば、「フォントサイズと
 テキスト長にかける係数を指定可能にし、テキストの描画幅の計算に使う」というものです。というのも、
 「テキストがそのフォント設定で実際に描画される場合、どれだけの幅をとることになるかわからない」ためです。
 たとえば、テキストボックスでは明示的に幅を指定しない場合はテキストから幅を自動計算しようとしますが、
@@ -4540,7 +4539,7 @@ ${BLANK_PARAGRAPH}
 していますから、Courier New フォントがない環境で表示すれば monospace が使用されるでしょう。
 それによって、テキストの実際の描画幅は大きく変化してしまいます。
 
-　width-spice は ${APPNAME} の開発初期の段階で導入されたものですが、現在ではあまり良くない
+　width-spice は kaavio の開発初期の段階で導入されたものですが、現在ではあまり良くない
 アイデアとみなされています。テキストボックスなどでは幅を明示的に指定するのが現実的であり、
 その他テキストの描画幅においてもなんらかの仮定に依存するようなデザインをしないことが賢明でしょう
 {{fn:SVG 規格には `textLength` 属性というものがあって、指定されたスペースにテキストを収めることができるそうです。 \
@@ -4551,8 +4550,8 @@ ${BLANK_PARAGRAPH}
 
 ### IDと参照
 
-　たいていの場合、図中の要素は互いに関係しています。矢印などで接続されることも
-ありますし、それ以外の位置関係に意味があるかもしれません。${APPNAME} では、
+　たいていの場合、図中の要素は互いに関係しています。コネクタなどで接続されることも
+ありますし、それ以外の位置関係に意味があるかもしれません。kaavio では、
 個々の図形要素に ID を付与し、その ID を指定することで図形要素どうしを接続
 したり位置関係を指定したりできます。
 
@@ -4592,13 +4591,13 @@ connect での指定に利用しています。これが ID とその参照の�
   (connect :x :y :end2 :arrow))
 ```
 
-　この `$1` は、circle から見て「ひとつ前の図形要素」、つまり rect を参照して
+　この `$1` は、circle から見て「ひとつ前の図形要素」、つまり rect の `x` を参照して
 います。このような $N 記法は、$1 から $9 までが利用可能です。つまり、9 つ前まで
-の要素を ID なしで参照できるわけです。
+の要素を ID を使わずに参照できるわけです。
 
 　この `$1.center` といった記法は、ID 指定を省略した図形要素でも使用することが
 できます。しかし、connect はどうでしょう。connect では図形要素の ID そのもの
-を指定する必要があります。
+をキーワードで指定する必要があります。
 
 　まず、connect での ID 指定の話からしましょう。$N 記法を使うと、以下の
 ように書くことができます。
@@ -4611,8 +4610,8 @@ connect での指定に利用しています。これが ID とその参照の�
   (connect $2.id $1.id :end2 :arrow))
 ```
 
-　connect からみれば rect は 2 つ前なので $2、circle は 1 つ前なので $1 で参照し、
-$1.id とすることでその ID を参照しています。結局、これは `:x` や `:y` を指定している
+　connect からみれば rect は 2 つ前なので `$2` 、circle は 1 つ前なので `$1` で参照し、
+`$1.id` とすることでその ID を参照しています。結局、これは `:x` や `:y` を指定している
 のと同じことになります。
 
 　この説明からすると奇妙に思われるかもしれませんが、上記の状態になっていれば rect / circle から 
@@ -4627,7 +4626,7 @@ ID 指定は除去することができます。つまり、以下のように�
 ```
 
 　このコードでは、connect における `$2.id` といった記述は何を返すのでしょうか？　
-実は、${APPNAME} では ID 指定を省略された図形要素には、${APPNAME} が独自の ID を
+実は、kaavio では ID 指定を省略された図形要素には、kaavio が独自の ID を
 付与するようになっています{{fn:Lisper の方へ：要するに `gensym` を使っています。}}。
 この自動付与される ID はコード上には現われないため直接指定することはできませんが、
 connect での指定で $N.id とする場合には使用できます。
@@ -4663,7 +4662,7 @@ ${BLANK_PARAGRAPH}
 ### 回転
 <!-- autolink: [$$](#回転) -->
 
-　お望みなら、図形要素を回転させることができます。ただし、この機能は ${APPNAME} の他の機能とは
+　お望みなら、図形要素を回転させることができます。ただし、この機能は kaavio の他の機能とは
 あまり整合しないので注意が必要です。ひとまずのところ、 `:rotate` パラメータに角度を与えること
 で回転させることができます。以下のように。
 
@@ -4722,11 +4721,12 @@ ${BLANK_PARAGRAPH}
 <!-- autolink: [$$](#フィルタ) -->
 
 　フィルタは、SVG 規格における `<filter>` 要素の機能を利用するものの総称で、おおまかに言って
-図形要素に対してなんらかのグラフィカルな効果を及ぼす機能です。現在の ${APPNAME} における
+図形要素に対してなんらかのグラフィカルな効果を及ぼす機能です。現在の kaavio における
 フィルタ機能は極めて限定されたもので、包括的なサポートを行うかは未定です。
 
-　現在、drop-shadow と glow-shadow の２種類が利用できます。例を以下に示します。通常、冒頭で
-`(drop-shadow)` などの記述により使用を宣言し、図形要素の `:filter` パラメータで指定します。
+　現在、drop-shadow マクロと glow-shadow マクロの２種類が利用できます。例を以下に示します。
+通常、冒頭で `(drop-shadow)` などの記述により使用を宣言し、図形要素の `:filter` パラメータ
+で指定します。
 
 <!-- snippet: FILTER-SAMPLE
 (diagram (360 180)
@@ -4804,8 +4804,8 @@ ${BLANK_PARAGRAPH}
 ### レイヤー
 <!-- autolink: [$$](#レイヤー) -->
 
-　レイヤーは図形要素の表示順序を制御するための仕組みです。まずは以下の例をご覧ください。表示位置が
-重なる四角形を３つ描画しています。
+　レイヤーは図形要素の表示順序を制御するための仕組みです。まずは以下の例をご覧ください。
+表示位置が重なる四角形を３つ描画しています。
 
 <!-- snippet: LAYER-SAMPLE-1
 (diagram (160 160)
@@ -4820,17 +4820,18 @@ ${BLANK_PARAGRAPH}
 <!-- expand:LAYER-SAMPLE-1 -->
 ```
 
-　R2 は R1 に、R3 は R2 に、それぞれ座標指定において依存しているので、この順序で書く必要があり、
-結果として表示は以下のようになります。これが ${APPNAME} における描画の基本的なルール、「コード
-上で書いた順に描画される」です。
+　R2 は R1 に、R3 は R2 に、それぞれ座標指定において依存しているので、この順序で書く必要が
+あり、結果として表示は以下のようになります。これが kaavio における描画の基本的なルール、
+「コード上で書いた順に描画される」です。
 
 ```kaavio
 <!-- expand:LAYER-SAMPLE-1 -->
 ```
 
-　この描画順序を制御するのがレイヤーという機能です。レイヤーを使用するには、コードの冒頭で layer を
-使用してその名前とともに使用を宣言し、図形要素のパラメータ `:layer` で所属するレイヤーを指定します。
-以下の例では、3 つのレイヤーを導入し、それぞれの四角形を別のレイヤーに所属させています。
+　この描画順序を制御するのがレイヤーという機能です。レイヤーを使用するには、コードの冒頭で 
+layer 関数を使用してその名前とともに使用を宣言し、図形要素のパラメータ `:layer` で所属する
+レイヤーを指定します。以下の例では、3 つのレイヤーを導入し、それぞれの四角形を別のレイヤーに
+所属させています。
 
 <!-- snippet: LAYER-SAMPLE-2
 (diagram (160 160)
@@ -4848,17 +4849,17 @@ ${BLANK_PARAGRAPH}
 <!-- expand:LAYER-SAMPLE-2 -->
 ```
 
-　複数のレイヤーが存在する場合、その導入順で描画が行なわれます。上記の例では逆順になるようにレイヤー
-を指定しているので、以下のような描画になります。
+　複数のレイヤーが存在する場合、その導入順で描画が行なわれます。上記の例では逆順になるように
+レイヤーを指定しているので、以下のような描画になります。
 
 ```kaavio
 <!-- expand:LAYER-SAMPLE-2 -->
 ```
 Figure. レイヤーを使用した表示順序の制御
 
-　さらに、layer にはオプションの `display` 引数があります。これは省略時のデフォルト値は `:inline` で
-すが、 `:none` を指定することで「そのレイヤー全体を非表示にする」ことができます。先程の例に対してレイヤー 
-L2 を非表示にする例を以下に示します。
+　さらに、layer 関数にはオプションの `display` 引数があります。これは省略時のデフォルト値は 
+`:inline` ですが、 `:none` を指定することで「そのレイヤー全体を非表示にする」ことができます。
+先程の例に対してレイヤー L2 を非表示にする例を以下に示します。
 
 <!-- snippet: LAYER-SAMPLE-3
 (diagram (160 160)
@@ -4886,11 +4887,11 @@ ${BLANK_PARAGRAPH}
 　レイヤー機能について以下にまとめます。
 
 * レイヤーはその宣言順で描画される
-* レイヤー指定されない図形要素は「暗黙の背景レイヤー」として最初に描画される
+* レイヤー指定されない図形要素は「暗黙の背景レイヤー」として最初に（つまり一番下に）描画される
 * 同じレイヤーに所属する図形要素はコード上での登場順で描画される
-* layer でオプションの `display` パラメータに `:none` を指定するとレイヤーをまるごと非表示にできる \
-{{fn:ブラウザなどの SVG ビューワー上で動的にレイヤーの表示／非表示を切り替えることは可能ですが、${APPNAME} としては \
-現状サポートしていません。}}
+* layer 関数でオプションの `display` パラメータに `:none` を指定するとレイヤーをまるごと非表示にできる \
+{{fn:ブラウザなどの SVG ビューワー上で動的にレイヤーの表示／非表示を切り替えることは可能ですが、 \
+kaavio としては現状サポートしていません。}}
 
 ${BLANK_PARAGRAPH}
 
@@ -4898,7 +4899,7 @@ ${BLANK_PARAGRAPH}
 <!-- autolink: [$$](#リンク) -->
 
 　HTML で任意の文言にリンクを設定できるように、SVG では図形要素にリンクを設定することができます。
-${APPNAME} では、図形要素の `:link` パラメータで実現します。以下の例では、図中の四角形に
+kaavio では、図形要素の `:link` パラメータで実現します。以下の例では、図中の四角形に
 [目次](A#toc-link-target)へのリンクを設定しています。
 
 <!-- define: HASH_TOC = '[](A#toc-link-target)' -->
@@ -4919,13 +4920,14 @@ ${APPNAME} では、図形要素の `:link` パラメータで実現します。
 ```
 Figure. 図形要素へのリンクの設定例
 
-　この例では、 `:link` に続けて文字列でリンク先を指定しています（本文書では SVG 図面を HTML に
-直接埋め込んでいるので、これは HTML 文書内へのアンカーを指定したリンクです）。あるいは、
-`:link '(:url "${HASH_TOC}" :target :blank)` といった指定をする場合もあります。実はこれらは全て
-簡易的な指定方法で、リンクにはもう少し多くの情報が含まれています。以下に説明します。
+　この例では、 `:link` に続けて文字列でリンク先を指定しています（このマニュアルでは SVG 図面
+を HTML に直接埋め込んでいるので、これは HTML 文書内へのアンカーを指定したリンクです）。
+あるいは、 `:link '(:url "${HASH_TOC}" :target :blank)` といった指定をする場合もあります。
+実はこれらは全て簡易的な指定方法で、リンクにはもう少し多くの情報が含まれています。以下に
+説明します。
 
-* `url` はリンク先の URL を文字列で指定します。
-* `target` はターゲット指定です。 `:blank` などを指定します（[$@ 節](#function make-link)参照）。
+* `:url` はリンク先の URL を文字列で指定します。
+* `:target` はターゲット指定です。 `:blank` などを指定します（[$@ 節](#function make-link)参照）。
 
 ${BLANK_PARAGRAPH}
 
@@ -4937,15 +4939,15 @@ ${BLANK_PARAGRAPH}
 
 　make-link 関数はその結果として「リンク情報オブジェクト」を返しますが、そのリンク情報
 オブジェクトを make-link 関数自身に渡した場合、そのまま返すようになっています。そのため、
-自分で明示的に make-link 関数を使ってリンク情報オブジェクトを作成し、Common LISP 変数に
-格納して複数の図形要素で使用する、ということも可能です。この関数の詳細は「[$@ 節](#function make-link)」を
-参照してください。
+自分で明示的に make-link 関数を使ってリンク情報オブジェクトを作成し、Common Lisp 変数に
+格納して複数の図形要素で使用する、ということも可能です。この関数の詳細は [$@ 節](#function make-link)
+を参照してください。
 
 ${BLANK_PARAGRAPH}
 
-　複数の図形要素をまとめてリンク設定したい場合はどうすれば良いでしょうか。現状では、defgroup 
-によってグループ化し、use において `:link` パラメータを使うことになります。以下の例は、
-[$@ 章](#基本的な図形)冒頭の一覧から抜粋したものです。
+　複数の図形要素をまとめてリンク設定したい場合はどうすれば良いでしょうか。現状では、
+defgroup マクロによってグループ化し、use において `:link` パラメータを使うことになります。
+以下の例は、[$@ 章](#基本的な図形)冒頭の一覧から抜粋したものです。
 
 <!-- snippet: LINK-SAMPLE-2
 (diagram (100 120)
@@ -5028,11 +5030,11 @@ ${BLANK_PARAGRAPH}
 サイズなどと解釈します。そして `'(:type :arrow :size :small)` などの（複数要素からなる）リスト
 の場合、名前付きパラメータの羅列として解釈します。
 
-　make-endmark 関数はその結果として「終端マーク情報オブジェクト」を返しますが、その終端マーク情報
-オブジェクトを make-endmark 関数自身に渡した場合、そのまま返すようになっています。そのため、自分で
-明示的に make-endmark 関数を使って終端マーク情報オブジェクトを作成し、Common LISP 変数に格納して
-複数の図形要素で使用する、ということも可能です。以下のように。この関数の詳細は「[$@ 節](#function make-endmark)」
-を参照してください。
+　make-endmark 関数はその結果として「終端マーク情報オブジェクト」を返しますが、その終端マーク
+情報オブジェクトを make-endmark 関数自身に渡した場合、そのまま返すようになっています。そのため、
+自分で明示的に make-endmark 関数を使って終端マーク情報オブジェクトを作成し、Common Lisp 変数に
+格納して複数の図形要素で使用する、ということも可能です。以下のように。この関数の詳細は 
+[$@ 節](#function make-endmark)を参照してください。
 
 ```lisp
 (let ((em (make-endmark :type :triangle :size :small)))
@@ -5044,12 +5046,13 @@ ${BLANK_PARAGRAPH}
 
 #### 終端マークのデフォルト設定
 
-　実際のところ、作図をする上でそれぞれのコネクタの終端がバラバラな形状やサイズで描かれることはないでしょう。
-わかりやすい図面というのは、同じ種類の図形要素は同じ種類の線で描画されているなど、統制が取れているものです。
-このことは、多くの作図においては「まったく同じ終端マークの指定を繰り返す場合が多い」ことを意味します。
-前述の方法で終端マーク情報オブジェクトを作成して使い回すことも可能ですが、もっとよい方法があります。
-それは with-endmark-options マクロを使った「終端マークのデフォルト設定値の変更」です。以下の例では３つの
-コネクタを描いていますが、終端マークの種類は with-endmark-options マクロで指定しています。
+　実際のところ、作図をする上でそれぞれのコネクタの終端がバラバラな形状やサイズで描かれる
+ことはないでしょう。わかりやすい図面というのは、同じ種類の図形要素は同じ種類の線で描画され
+ているなど、統制が取れているものです。このことは、多くの作図においては「まったく同じ終端
+マークの指定を繰り返す場合が多い」ことを意味します。前述の方法で終端マーク情報オブジェクト
+を作成して使い回すことも可能ですが、もっとよい方法があります。それは with-endmark-options マクロ
+を使った「終端マークのデフォルト設定値の変更」です。以下の例では３つのコネクタを描いています
+が、終端マークの種類は with-endmark-options マクロで指定しています。
 
 <!-- with-endmark-options の :end[12] のみ指定する例 -->
 <!-- snippet: WITH-ENDMARK-OPTIONS-SAMPLE-1
@@ -5076,13 +5079,14 @@ Figure. with-endmark-options によるデフォルト終端マークの変更 - 
 
 ${BLANK_PARAGRAPH}
 
-　上記の場合、３つのコネクタ全てで `:end1 nil :end2 :triangle` と指定したのと同じことになります。結果
-として、それぞれの終端マークはそれぞれのコネクタのストロークで描画され、塗り潰しもストロークと同じ
-色になりました。
+　上記の場合、３つのコネクタ全てで `:end1 nil :end2 :triangle` と指定したのと同じことに
+なります。結果として、それぞれの終端マークはそれぞれのコネクタのストロークで描画され、
+塗り潰しもストロークと同じ色になりました。
 
-　種類は個別に指定して、塗り潰しやサイズのデフォルト値を変更したい場合は以下のようになります。この場合、
-それぞれのコネクタの `:end2` で指定指定された `:triangle` などのキーワードから終端マーク情報オブジェクト
-を作成する際、with-endmark-options マクロの `:size :small :fill :white` が適用されるイメージになります。
+　種類は個別に指定して、塗り潰しやサイズのデフォルト値を変更したい場合は以下のように
+なります。この場合、それぞれのコネクタの `:end2` で指定指定された `:triangle` などの
+キーワードから終端マーク情報オブジェクトを作成する際、with-endmark-options マクロの 
+`:size :small :fill :white` が適用されるイメージになります。
 
 <!-- with-endmark-options の :end[12] に「具体的な endmark」を指定する例 -->
 <!-- snippet: WITH-ENDMARK-OPTIONS-SAMPLE-2
@@ -5112,9 +5116,9 @@ ${BLANK_PARAGRAPH}
 ### ラベル
 <!-- autolink: [$$](#ラベル) -->
 
-　ラベルとは、直線やコネクタ、および一部の図形要素に付加できる簡易的なテキスト片のことです。明示的に
-位置を指定して text を配置するよりは楽にテキストを付加することができます。人物とコネクタを使った例を
-以下に示します。
+　ラベルとは、直線やコネクタ、および一部の図形要素に付加できる簡易的なテキスト片のことです。
+明示的に位置を指定して text マクロを使用するよりは楽にテキストを付加することができます。
+人物とコネクタを使った例を以下に示します。
 
 <!-- snippet: LABEL-SAMPLE-1
 (diagram (400 150)
@@ -5149,59 +5153,62 @@ Figure. ラベルの例
 
 * `position` はラベルの表示位置を指定します。 `:above :below :left :right` のいずれかを指定します。
 * `offset` はラベルの表示位置を調整する値を `(x y)` の要領で指定します。
-* `font` はラベルの描画に使用されるフォントを指定します。詳細は「[](#フォント)」を参照してください。
+* `font` はラベルの描画に使用されるフォントを指定します。詳細は [$@ 節](#フォント) を参照してください。
 
 ${BLANK_PARAGRAPH}
 
-　それぞれについて細かい説明を始める前に、 `:label "actor1"` といった記述がどのように扱われるのか
-を説明する必要があるでしょう。 `:label` によるこれらの指定は、実は全て make-label 関数
-に渡されます。make-label 関数は、渡されたのが単一の値の場合には、それをラベルテキストと解釈します。
-そして `'("text" :position :above :offset (-5 10))` などの（複数要素からなる）リストの場合、
-パラメータの羅列として解釈します。
+　それぞれについて細かい説明を始める前に、 `:label "actor1"` といった記述がどのように
+扱われるのかを説明する必要があるでしょう。 `:label` によるこれらの指定は、実は全て 
+make-label 関数に渡されます。make-label 関数は、渡されたのが単一の値の場合には、それを
+ラベルテキストと解釈します。そして `'("text" :position :above :offset (-5 10))` などの
+（複数要素からなる）リストの場合、パラメータの羅列として解釈します。
 
 　make-label 関数はその結果として「ラベル情報オブジェクト」を返しますが、そのラベル情報
-オブジェクトを make-label 関数自身に渡した場合、そのまま返すようになっています。そのため、自分で
-明示的に make-label 関数を使ってラベル情報オブジェクトを作成し、Common LISP 変数に格納して
-複数の図形要素で使用する、ということも可能です。以下のように。この関数の詳細は「[$@ 節](#function make-label)」
-を参照してください。
+オブジェクトを make-label 関数自身に渡した場合、そのまま返すようになっています。そのため、
+自分で明示的に make-label 関数を使ってラベル情報オブジェクトを作成し、Common Lisp 変数に
+格納して複数の図形要素で使用する、ということも可能です。以下のように。この関数の詳細は 
+[$@ 節](#function make-label)を参照してください。
 
 ```lisp
 (let ((txt (make-label "label" :position :above)))
   (connect  ... :label txt)
   (connect  ... :label txt))
 ```
-
+    
 #### position パラメータによるラベル位置の指定
 
-　position パラメータを使うことで、図形要素の上下左右のどこにラベルを配置するかを指定できます。
-[先ほどの例](F#ラベルの例)では、人物に対して `:label "actor1"` とすることで図形要素の下にラベルが
-表示され、 `:label '("actor2" :position :above)` によって上にラベルが表示されました。このように、
-position パラメータはラベルの表示位置を明示的に指定する場合に使用します。省略した場合の表示位置は
-label パラメータをサポートする図形要素によって異なります。
+　`:position` パラメータを使うことで、図形要素の上下左右のどこにラベルを配置するかを指定でき
+ます。[先ほどの例](F#ラベルの例)では、人物に対して `:label "actor1"` とすることで図形要素の
+下にラベルが表示され、 `:label '("actor2" :position :above)` によって上にラベルが表示され
+ました。このように、 `:position` パラメータはラベルの表示位置を明示的に指定する場合に使用
+します。省略した場合の表示位置はラベルをサポートする図形要素によって異なります。
 
-　position パラメータは、人物などの「幅と高さを持つ」図形要素でのみ有効であることに注意してください。
-直線やコネクタのような図形要素では position パラメータは単純に無視され、ラベルの配置は経路の中央付近
-に自動的に決定されます。どちらの場合でも、結果としてラベルが表示される位置に不満を感じるかもしれません。
-そのような場合は、offset パラメータで微調整をすることができます。
+　`:position` パラメータは、人物などの「幅と高さを持つ」図形要素でのみ有効であることに注意
+してください。直線やコネクタのような図形要素では `:position` パラメータは単純に無視され、
+ラベルの配置は経路の中央付近に自動的に決定されます。どちらの場合でも、結果としてラベルが表示
+される位置に不満を感じるかもしれません。そのような場合は、 `:offset` パラメータで微調整を
+することができます。これについては次節を参照してください。
 
 #### offset パラメータによるラベル位置の微調整
 
-　ラベルが配置される場所を微調整したい場合、offset パラメータを使うことができます。これは x 軸
-および y 軸方向にどれだけ移動させるかを指定する値を `(x y)` 形式、つまり座標指定と同じ方法で指定
-します。[先ほどの例](F#ラベルの例)では、コネクタに対して `:label '("connection" :offset (-40 -15))` と
-することでラベルの位置調整を行なっています。
+　ラベルが配置される場所を微調整したい場合、 `:offset` パラメータを使うことができます。
+これは x 軸および y 軸方向にどれだけ移動させるかを指定する値を `(x y)` 形式、つまり
+座標指定と同じ方法で指定するものです。[先ほどの例](F#ラベルの例)では、コネクタに対して 
+`:label '("connection" :offset (-40 -15))` とすることでラベルの位置調整を行なっています。
 
-　offset パラメータは「position パラメータ（または自動決定結果）による配置場所に対して調整をする」
-ものなので、周辺の状況が変化した場合などには、都度変更が必要になることに注意してください。
+　`:offset` パラメータは「 `:position` パラメータ（または自動決定結果）による配置場所に
+対して調整をする」ものなので、周辺の状況が変化した場合などには、都度変更が必要になること
+に注意してください。
 
 #### ラベルのデフォルト設定
 
-　実際のところ、作図をする上でそれぞれのラベルの位置やフォントがバラバラに指定されることはないでしょう。
-わかりやすい図面というのは、同じ種類の図形要素は同じ種類の線で描画されているなど、統制が取れているものです。
-このことは、多くの作図においては「まったく同じラベルの指定を繰り返す場合が多い」ことを意味します。
-前述の方法でラベル情報オブジェクトを作成して使い回すことも可能ですが、もっとよい方法があります。
-それは with-label-options マクロを使った「ラベルのデフォルト設定値の変更」です。以下の例では全部で６つの
-ラベルを描いていますが、そのフォントや位置は with-label-options マクロで指定しています。
+　実際のところ、作図をする上でそれぞれのラベルの位置やフォントがバラバラに指定されること
+はないでしょう。わかりやすい図面というのは、同じ種類の図形要素は同じ種類の線で描画されて
+いるなど、統制が取れているものです。このことは、多くの作図においては「まったく同じラベル
+の指定を繰り返す場合が多い」ことを意味します。前述の方法でラベル情報オブジェクトを作成して
+使い回すことも可能ですが、もっとよい方法があります。それは with-label-options マクロを
+使った「ラベルのデフォルト設定値の変更」です。以下の例では全部で６つのラベルを描いています
+が、そのフォントや位置は with-label-options マクロで指定しています。
 
 <!-- snippet: WITH-LABEL-OPTIONS-SAMPLE
 (diagram (300 150)
@@ -5231,7 +5238,7 @@ Figure. with-label-options によるラベル設定の変更
 ${BLANK_PARAGRAPH}
 
 　ラベルのテキストは通常それぞれで異なるため、with-label-options マクロで指定することはできません。
-指定可能なのは position, offset, font だけです{{fn:position もラベル毎に異なる場合が多いですが、 \
+指定可能なのは `:position :offset :font` だけです{{fn:`:position` もラベル毎に異なる場合が多いですが、 \
 きれいに整列した作図だと同じになる場合もあるので with-label-options マクロでサポートしています。}}。
 
 ${BLANK_PARAGRAPH}
@@ -5239,23 +5246,89 @@ ${BLANK_PARAGRAPH}
 ### 補助線
 <!-- autolink: [$$](#補助線) -->
 
-　円弧やベジェ曲線など、一部の要素はパラメータの指定が難しく感じられるかもしれません。これは、
-指定する位置（制御点など）と実際に描画されるもの（曲線など）が異なるからです。このような図形
-要素では、補助線の表示がサポートされています。これは作図を支援するための機能で、 `debug` パラ
-メータに色名を指定することで調整に役立つ線を表示してくれます。二次ベジェ曲線での例を以下に示し
-ます。
+　円弧やベジェ曲線など、一部の要素はパラメータの指定が難しく感じられるかもしれません。
+これは、指定する位置（制御点など）と実際に描画されるもの（曲線など）が異なるからです。
+このような図形要素では、補助線の表示がサポートされています。これは作図を支援するための
+機能で、 `:debug` パラメータに色名を指定することで調整に役立つ線を表示してくれます。
+二次ベジェ曲線での例を以下に示します。
 
 ```kaavio
 <!-- expand: 2D-CURVE-DEBUG-SAMPLE -->
 ```
 Figure. 二次ベジェ曲線での補助線の例
 
-　なお、色名の指定が面倒であれば `:debug t` とすることもできます。この場合、デフォルトの色が
-使用されます。
+　なお、色名の指定が面倒であれば `:debug t` とすることもできます。この場合、デフォルト
+の色が使用されます。
 
 ## UML
+
+　kaavio は、UML を（一部）サポートしています。
+
+* ${{TODO}{ここ、もうちょっと書く？}}
+* ${{TODO}{コミュニケーション図？}}
+* ${{TODO}{シーケンス図？}}
+
 ### アクティビティ図
 <!-- autolink: [$$](#アクティビティ図) -->
+
+　UML アクティビティ図の例を以下に示します。
+
+<!-- snippet: UML-ACTIVITY-DIAGRAM-SAMPLE
+(diagram (800 270)
+  (grid)
+  (with-theme (:uml-activity-default)
+    (uml-activity-start '(30 60) :id :start)
+    (uml-action   (x+ start.cc  90) "step1" :rake t :id :step1)
+    (uml-note (xy+ step1.cc -30 80) 130 60
+              "action with~%rake icon."
+              :targets :step1 :keyword "memo")
+    (uml-decision (x+ step1.cc 120)
+                  :text "check~%status" :width 80 :height 40 :id :check)
+    (uml-signal   (y+ check.center 100) :send
+                  "signal~%error" :direction :left :id :signal)
+    (uml-action (xy+ check.center 290 40) "step2"
+                :id :step2 :width 400 :height 160 :contents t)
+    (labels ((flow-chain (from &rest rest)
+               (when rest
+                 (uml-flow from (car rest))
+                 (apply #'flow-chain (car rest) (cdr rest)))))
+      (with-subcanvas-of (:step2)
+        (uml-activity-start (x+ canvas.cl 20) :id :start2)
+        (uml-fork           (x+ start2.cc 40) :h :id :fork)
+        (uml-action (xy+ $1.cc 80 -30)   "sub1" :id :sub1)
+        (uml-action (x+  $1.cc 120)      "sub2" :id :sub2)
+        (uml-action (xy+ fork.cc 140 30) "sub3" :id :sub3)
+        (uml-join           (xy+ sub2.cc 80 30) :h :id :join)
+        (uml-activity-final (x+  join.cc 40) :id :final2)
+        (flow-chain :start2 :fork :sub1 :sub2 :join :final2)
+        (flow-chain :fork :sub3 :join))
+      (uml-merge (y+ step2.bc 60) :id :merge)
+      (uml-activity-final (x+ merge.center 180) :id :final)
+      (flow-chain :start  :step1 :check)
+      (uml-flow   :check  :signal
+                  :spec '(:guard "NG" :offset ( 5 -15) :font 9))
+      (uml-flow   :check  :step2 :style :RL1
+                  :spec '(:guard "OK" :offset (-9   0) :font 9))
+      (uml-flow   :signal :merge :style :BL)
+      (flow-chain :step2  :merge :final))))
+-->
+
+```kaavio
+<!-- expand: UML-ACTIVITY-DIAGRAM-SAMPLE -->
+```
+Figure. UML アクティビティ図の例
+
+<!-- collapse:close -->
+※上記サンプルのソースはこちら。
+
+```lisp
+<!-- expand: UML-ACTIVITY-DIAGRAM-SAMPLE -->
+```
+<!-- collapse:end -->
+
+${BLANK_PARAGRAPH}
+
+　UML アクティビティ図で使用する構成要素は以下を参照してください。
 
 * [$$](#uml-action)
 * [$$](#uml-activity-final)
@@ -5278,6 +5351,55 @@ Figure. 二次ベジェ曲線での補助線の例
 ### クラス図
 <!-- autolink: [$$](#クラス図) -->
 
+　UML クラス図の例を以下に示します。
+
+<!-- snippet: UML-CLASS-DIAGRAM-SAMPLE
+(diagram (800 270)
+  (grid)
+  (with-theme (:uml-class-default)
+    (uml-package (y+ canvas.tc 100) "GUI"
+      :width 140 :height 110 :stroke :brown :fill :beige :id :gui
+      :contents
+      ((uml-class canvas.cc "Application" :id :app)))
+    (uml-package (xy+ canvas.tc 200 100) "sys"
+      :width 140 :height 110 :stroke :brown :fill :beige :id :sys
+      :contents
+      ((uml-class canvas.cc "Thread" :id :thread)))
+    (uml-class (y+ app.cc    120) "TheApp" :id :theapp
+      :width 120 :active t
+      :operations
+      ((:public "Run" :type :int)))
+    (uml-note (xy+ theapp.cc -180 -80) 130 60
+                "TheApp is~%active class."
+                :fill :ivory :stroke :olive
+                :targets :theapp :keyword "memo")
+    (uml-class (y+ thread.cc 120) "Worker" :keyword '("thread" :font 9) :id :worker)
+    (uml-generalization :theapp :app)
+    (uml-generalization :worker :thread)
+    (uml-aggregation :theapp :worker :arrow t)
+    (uml-interface (x+ theapp.cc -170) "LogReceiver" :fill :lightgray :id :logrcv)
+    (uml-class (x+ logrcv.cc -150) "Logger" :id :logger)
+    (uml-interface-request :theapp :logrcv)
+    (uml-association :logger :logrcv)))
+-->
+
+```kaavio
+<!-- expand: UML-CLASS-DIAGRAM-SAMPLE -->
+```
+Figure. UML クラス図の例
+
+<!-- collapse:close -->
+※上記サンプルのソースはこちら。
+
+```lisp
+<!-- expand: UML-CLASS-DIAGRAM-SAMPLE -->
+```
+<!-- collapse:end -->
+
+${BLANK_PARAGRAPH}
+
+　UML クラス図で使用する構成要素は以下を参照してください。
+
 * [$$](#uml-aggregation)
 * [$$](#uml-association)
 * [$$](#uml-class)
@@ -5286,17 +5408,127 @@ Figure. 二次ベジェ曲線での補助線の例
 * [$$](#uml-frame)
 * [$$](#uml-generalization)
 * [$$](#uml-interface)
-* [$$](#uml-keyword-info)
+* [$$](#uml-interface-request)
+* [$$](#uml-stereotype-info)
 * [$$](#uml-multiplicity-info)
 * [$$](#uml-note)
 * [$$](#uml-package)
 * [$$](#uml-realization)
 * [$$](#uml-role-info)
 
+### コンポーネント図
+<!-- autolink: [$$](#コンポーネント図) -->
+
+　UML コンポーネント図の例を以下に示します。これは書籍「UML モデリングのエッセンス第３版」の図を
+再現したものです。
+
+<!-- snippet: UML-COMPONENT-DIAGRAM-SAMPLE
+(diagram (700 400)
+  (grid)
+  (with-theme (:uml-component-default)
+    (with-options (:font 10)
+      (uml-component (xy+ canvas.tl 80 50) ": till" :id :till)
+      (uml-interface (xy+ $1.cc 0 70)
+                     '("sales message" :position :right :offset (5 0)) :id :sales-msg1)
+      (uml-component (xy+ $1.cc 0 60) "~%: message~%queue" :id :msg-que)
+      (uml-interface-request :till :sales-msg1)
+      (uml-association :msg-que :sales-msg1)
+      (uml-interface (xy+ msg-que.tr 50 (/ msg-que.height 4))
+                     '("sales~%message" :position :below :offset (0 5)) :id :sales-msg2)
+      (uml-interface-request :msg-que :sales-msg2 :style :R1L2)
+      (uml-component (xy+ sales-msg2.cc 270 0) ": Sales Server"
+                     :width 420 :height 150 :contents t :id :sales-svr)
+      (uml-port :sales-svr :L nil :id :port1)
+      (uml-association :port1 :sales-msg2)
+      (with-subcanvas-of (:sales-svr)
+        (uml-component (xy+ port1.cc 100 0)
+                       "~%: transaction~%processor" :height 70 :id :tran-proc)
+        (uml-interface (xy+ $1.cc  120 0) "" :id :tmp-interface)
+        (uml-component (xy+ $1.cc  120 0)
+                       "~%: accounting~%driver" :height 70 :id :account-drvr)
+        (uml-interface-request :tran-proc :tmp-interface)
+        (uml-association :account-drvr :tmp-interface)
+        (uml-dependency :port1 :tran-proc))
+      (uml-port :sales-svr '(:B3 25) nil :id :port2)
+      (uml-dependency :account-drvr :port2)
+      (uml-interface (xy+ port2.cc 0 45)
+                     '("receivables" :position :left :offset (-5 0)) :id :receivables)
+      (uml-interface-request :port2 :receivables)
+      (uml-component (xy+ receivables.cc 0 65)
+                     "~%: accounting~%system" :height 70 :id :account-sys)
+      (uml-association :account-sys :receivables))))
+-->
+
+```kaavio
+<!-- expand: UML-COMPONENT-DIAGRAM-SAMPLE -->
+```
+Figure. UML コンポーネント図の例
+
+<!-- collapse:close -->
+※上記サンプルのソースはこちら。
+
+```lisp
+<!-- expand: UML-COMPONENT-DIAGRAM-SAMPLE -->
+```
+<!-- collapse:end -->
+
+${BLANK_PARAGRAPH}
+
+* ${{TODO}{レビュー作業、イマココ}}
+
+　UML コンポーネント図で使用する構成要素は以下を参照してください。
+
+* [$$](#uml-component)
+* [$$](#uml-dependency)
+* [$$](#uml-frame)
+* [$$](#uml-stereotype-info)
+* [$$](#uml-note)
+* [$$](#uml-package)
+* [$$](#uml-port)
+* [$$](#uml-interface)
+* [$$](#uml-interface-request)
+* [$$](#uml-association)
+* [$$](#uml-realization)
+
 ### パッケージ図
 <!-- autolink: [$$](#パッケージ図) -->
 
-* [$$](#uml-keyword-info)
+　UML パッケージ図の例を以下に示します。
+
+<!-- snippet: UML-PACKAGE-DIAGRAM-SAMPLE
+(diagram (700 300)
+  (grid)
+  (with-theme (:uml-package-default)
+	(with-options (:font 10)
+	  (uml-package (xy+ canvas.tl 100  60) "Application")
+	  (uml-package (xy+ $1.cc     260   0) "Database~%Gateway" :id :db-gateway)
+	  (uml-dependency $2.id $1.id)
+	  (uml-package (xy+ $2.cc       0 160) "SQL Server~%Gateway")
+	  (uml-realization $1.id :db-gateway)
+	  (uml-package (xy+ $2.cc    -200   0) "Oracle~%Gateway")
+	  (uml-realization $1.id :db-gateway :style :TB1)
+	  (uml-package (xy+ $4.cc     200   0) "Tset Stub~%Gateway")
+	  (uml-realization $1.id :db-gateway :style :TB3))))
+-->
+
+```kaavio
+<!-- expand: UML-PACKAGE-DIAGRAM-SAMPLE -->
+```
+Figure. UML パッケージ図の例
+
+<!-- collapse:close -->
+※上記サンプルのソースはこちら。
+
+```lisp
+<!-- expand: UML-PACKAGE-DIAGRAM-SAMPLE -->
+```
+<!-- collapse:end -->
+
+${BLANK_PARAGRAPH}
+
+　UML パッケージ図で使用する構成要素は以下を参照してください。
+
+* [$$](#uml-stereotype-info)
 * [$$](#uml-dependency)
 * [$$](#uml-frame)
 * [$$](#uml-note)
@@ -5305,6 +5537,48 @@ Figure. 二次ベジェ曲線での補助線の例
 
 ### ステートマシーン図
 <!-- autolink: [$$](#ステートマシーン図) -->
+
+　UML ステートマシーン図の例を以下に示します。
+
+<!-- snippet: UML-STATEMACHINE-DIAGRAM-SAMPLE
+(diagram (600 300)
+  (grid)
+  (with-theme (:uml-statemachine-default)
+    (with-options (:font '(:width-spice 0.8))
+      (uml-state (xy+ canvas.tc   0  40) "Show~%Connections"        :id :s1 :width 100)
+      (uml-state (xy+ $1.cc       0 160) "Enter Connection Details"
+                 :id :s2 :width 560 :height 140 :contents t)
+      (with-subcanvas-of (:s2)
+        (uml-state-begin (x+ canvas.cl 30) :id :s3)
+        (uml-state (xy+ $1.cc  90 0) "Enter phone~%number"    :height 40 :id :s4)
+        (uml-state (xy+ $1.cc 180 0) "Choose shared~%or solo" :height 40 :id :s5)
+        (uml-state (xy+ $1.cc 180 0) "Enter name"             :height 40 :id :s6)
+        (uml-transition :s3 :s4)
+        (uml-transition :s4 :s5 :style :R1L1 :spec :next)
+        (uml-transition :s5 :s4 :style :L3R3 :spec :back)
+        (uml-transition :s5 :s6 :style :R1L1 :spec :next)
+        (uml-transition :s6 :s5 :style :L3R3 :spec :back))
+      (uml-transition :s1 (x+ s2.tc -25) :style :B1T :spec '(:trigger "new"    :offset (-30 -20)))
+      (uml-transition (x+ s2.tc  25) :s1 :style :TB3 :spec '(:trigger "cancel" :offset ( 50  20)))
+      (uml-transition :s6 :s1 :style :TR :spec '(:trigger :save :offset (20 50))))))
+-->
+
+```kaavio
+<!-- expand: UML-STATEMACHINE-DIAGRAM-SAMPLE -->
+```
+Figure. UML ステートマシーン図の例
+
+<!-- collapse:close -->
+※上記サンプルのソースはこちら。
+
+```lisp
+<!-- expand: UML-STATEMACHINE-DIAGRAM-SAMPLE -->
+```
+<!-- collapse:end -->
+
+${BLANK_PARAGRAPH}
+
+　UML ステートマシーン図で使用する構成要素は以下を参照してください。
 
 * [$$](#uml-frame)
 * [$$](#uml-note)
@@ -5318,12 +5592,87 @@ Figure. 二次ベジェ曲線での補助線の例
 ### ユースケース図
 <!-- autolink: [$$](#ユースケース図) -->
 
+　UML ユースケース図の例を以下に示します。
+
+<!-- snippet: UML-USECASE-DIAGRAM-SAMPLE
+(diagram (600 200)
+  (grid)
+  (with-theme (:uml-usecase-default)
+	(with-options (:font 10)
+	  (uml-actor   (xy+ canvas.tl 140  60) "user")
+	  (uml-usecase (xy+ $1.cc     200   0) "make diagram." :id :case1)
+	  (uml-association $2.id $1.id)
+	  (uml-usecase (xy+ $2.cc      80  80) "make UML~%diagram." :id :case2)
+	  (uml-generalization $1.id $3.id))))
+-->
+
+```kaavio
+<!-- expand: UML-USECASE-DIAGRAM-SAMPLE -->
+```
+Figure. UML ユースケース図の例
+
+<!-- collapse:close -->
+※上記サンプルのソースはこちら。
+
+```lisp
+<!-- expand: UML-USECASE-DIAGRAM-SAMPLE -->
+```
+<!-- collapse:end -->
+
+${BLANK_PARAGRAPH}
+
+　UML ユースケース図で使用する構成要素は以下を参照してください。
+
+
 * [$$](#uml-actor)
 * [$$](#uml-association)
 * [$$](#uml-frame)
 * [$$](#uml-generalization)
 * [$$](#uml-note)
 * [$$](#uml-usecase)
+
+### 配置図
+<!-- autolink: [$$](#配置図) -->
+
+　UML 配置図の例を以下に示します。
+
+<!-- snippet: UML-DEPLOYMENT-DIAGRAM-SAMPLE
+(diagram (600 300)
+  (grid)
+  (with-theme (:uml-deployment-default)
+    (uml-node (xy+ canvas.tl  80  70) "BrowserClient" :width 120 :id :n1)
+    (uml-node (xy+ canvas.tl 220  70) "Rich Client"   :width 120 :id :n2)
+    (uml-node (xy+ canvas.tl 150 220) "Web Server"    :width 120 :id :n3)
+    (uml-association :n3 :n1 :style :T1B :name '("http/internet" :offset (-30  0)))
+    (uml-association :n3 :n2 :style :T3B :name '("http/LAN"      :offset ( 30 23)))
+    (uml-node (xy+ n3.cc 280 -65) "Application Server" :width 160 :height 260 :contents t :id :n4)
+    (uml-association :n3 :n4 :style :RL3 :name '("Java RMI/LAN" :offset (0 5)))
+    (with-subcanvas-of (:n4)
+      (uml-artifact (y+ canvas.tc  40) "JoveGL.exe" :height 50)
+      (uml-node     (y+ $1.cc      70) "EJB Container" :width 130 :height 50 :id :n5)
+      (uml-node     (y+ $1.cc      80) "Oracle DBMS"   :width 130 :height 50 :id :n6)
+      (uml-association :n6 :n5 :name '("JDBC" :offset (-10 -5))))))
+-->
+
+```kaavio
+<!-- expand: UML-DEPLOYMENT-DIAGRAM-SAMPLE -->
+```
+Figure. UML 配置図の例
+
+<!-- collapse:close -->
+※上記サンプルのソースはこちら。
+
+```lisp
+<!-- expand: UML-DEPLOYMENT-DIAGRAM-SAMPLE -->
+```
+<!-- collapse:end -->
+
+${BLANK_PARAGRAPH}
+
+　UML 配置図で使用する構成要素は以下を参照してください。
+
+
+* ${{TODO}{まだ記述されていません。}}
 
 ### UML のダイアグラム要素
 #### uml-action
@@ -5445,10 +5794,17 @@ Figure. uml-activity-start のサンプル
 
 * ${{TODO}{まだ記述されていません。}}
 
+#### uml-artifact
+<!-- autolink: [$$](#uml-artifact) -->
+
+* ${{TODO}{まだ記述されていません。}}
+
 #### uml-class
 <!-- autolink: [$$](#uml-class) -->
 
 * ${{TODO}{まだ記述されていません。}}
+* ${{TODO}{クラスの属性情報の指定方法を説明する必要がある。}}
+* ${{TODO}{クラスの操作情報の指定方法を説明する必要がある。}}
 
 #### uml-component
 <!-- autolink: [$$](#uml-component) -->
@@ -5559,7 +5915,7 @@ height の指定、または with-uml-decision-merge-options マクロで指定�
   (drop-shadow)
   (with-theme (:uml-activity-default)
     (with-options (:filter :drop-shadow)
-      (uml-expansion-region canvas.center 260 160 :keyword :concurrent :font 10))))
+      (uml-expansion-region canvas.center 260 160 :keyword '(:concurrent :font 10)))))
 -->
 
 ```kaavio
@@ -5733,6 +6089,11 @@ uml-frame を使用する場合にスタイルを統一するために使用し�
 
 * ${{TODO}{まだ記述されていません。}}
 
+#### uml-interface-request
+<!-- autolink: [$$](#uml-interface-request) -->
+
+* ${{TODO}{まだ記述されていません。}}
+
 #### uml-join
 
 　uml-join は UML のアクティビティ図におけるフォークを表記するための図形要素です。見た目は
@@ -5770,11 +6131,6 @@ Figure. uml-join のサンプル
 
 * uml-join マクロ
 * with-uml-fork-join-options マクロ
-
-#### uml-keyword-info
-<!-- autolink: [$$](#uml-keyword-info) -->
-
-* ${{TODO}{まだ記述されていません。}}
 
 #### uml-merge
 
@@ -6023,6 +6379,11 @@ Figure. uml-pin のサンプル
 * uml-pin マクロ
 * with-uml-pin-options マクロ
 
+#### uml-port
+<!-- autolink: [$$](#uml-port) -->
+
+* ${{TODO}{まだ記述されていません。}}
+
 #### uml-realization
 <!-- autolink: [$$](#uml-realization) -->
 
@@ -6091,6 +6452,11 @@ Figure. uml-signal のサンプル
 
 #### uml-state
 <!-- autolink: [$$](#uml-state) -->
+
+* ${{TODO}{まだ記述されていません。}}
+
+#### uml-stereotype-info
+<!-- autolink: [$$](#uml-stereotype-info) -->
 
 * ${{TODO}{まだ記述されていません。}}
 
@@ -6336,7 +6702,7 @@ Figure. 色の名前とサンプル
 
 ${BLANK_PARAGRAPH}
 
-　${APPNAME} では、上記に加えて以下の名前も使用することができます。これらは規格に含まれていない
+　kaavio では、上記に加えて以下の名前も使用することができます。これらは規格に含まれていない
 ため、 `#RRGGBB` 形式に変換されて出力されます{{fn:[$@](F#色の名前とサンプル - 2) に記載されているのは、Emacs  \
 エディタで定義されている色名のうち、規格に含まれないものの一覧です。このうち、green(#00FF00), grey(#BEBEBE),  \
 maroon(#B03060), purple(#A020F0) については規格側にも同じ名前があるものの異なる値です。これらは「規格優先」 \

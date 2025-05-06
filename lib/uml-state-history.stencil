@@ -3,6 +3,8 @@
 (defparameter *uml-state-history-radius*     15)
 (defparameter *uml-state-history-fill*   :white)
 (defparameter *uml-state-history-stroke* :black)
+(defparameter *uml-state-history-filter*    nil)
+(defparameter *uml-state-history-layer*     nil)
 
 ;;------------------------------------------------------------------------------
 ;;
@@ -10,6 +12,19 @@
 ;;
 ;;------------------------------------------------------------------------------
 (defclass uml-state-history (kaavio:circle) ())
+
+
+(defmethod initialize-instance :after ((obj uml-state-history) &rest initargs)
+  (declare (ignore initargs))
+  ;;(format t "initialize-instance :after called.~%")
+  (with-slots (filter layer) obj
+    (setf filter  (if (eq filter :none)
+                      nil
+                      (or filter *uml-state-history-filter* *default-filter*)))
+    (setf layer  (if (eq layer :none)
+                     nil
+                     (or layer *uml-state-history-layer* *default-layer*))))
+  obj)
 
 (defmethod post-draw ((obj uml-state-history) writer)
   (with-slots (kaavio::stroke kaavio::clip-path) obj
@@ -34,27 +49,87 @@
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
-;;* ${{B}{uml-state-history}} position ${KEY} pivot radius fill stroke link layer id
+;;* ${{B}{uml-state-history}} position ${KEY} pivot radius fill stroke link layer filter id
 ;;
+;;${ARGS_AND_VALS}
+;;
+;;* `position` ---- 描画の基準点を指定します。詳細は「[](#座標と位置)」を参照してください。
+;;* `pivot` ---- `position` で指定した基準点が図形要素のどこにくるように描画するかを指定します。詳細は「[](#座標と位置)」を参照してください。
+;;* `radius` ---- 半径を数値で指定します。省略した場合のデフォルト値は 15 です。
+;;* `fill` ---- 内側の塗り潰しを指定します。省略した場合のデフォルト値は `:white` です。
+;;* `stroke` ---- 線を描画するストロークを指定します。省略した場合のデフォルト値は `:black` です。
+;;* `link` ---- リンクにする場合、リンク先を指定します。
+;;* `layer` ---- レイヤーを指定する場合、その ID をキーワードシンボルで指定します
+;;* `filter` ---- フィルタを適用したい場合、その ID をキーワードシンボルで指定します
+;;* `id` ---- ID を付与したい場合、その名前をキーワードシンボルで指定します
 ;;
 ;;<!-- stack:pop li -->
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　UML ステートマシーン図におけるヒストリアイコンを描画します。スタイルを統一したい場合、
+;;with-uml-state-history-options マクロを使うことができます。
 ;;
-;;${NO_SEE_ALSO}
+;;${SEE_ALSO}
+;;
+;;* [$$](#ステートマシーン図)
+;;* [$$](#uml-state-history)
+;;* with-uml-state-history-options マクロ
 ;;
 ;;${NO_NOTES}
 ;;
 ;;--------------------------------------------------------------------------------------- END TURNUP
-(defmacro uml-state-history (position &key pivot radius fill stroke link layer id)
+(defmacro uml-state-history (position &key pivot radius fill stroke link layer filter id)
   `(register-entity (make-instance 'uml-state-history
                                    :position ,position :pivot ,pivot
                                    :radius (or ,radius *uml-state-history-radius*)
                                    :fill   (or ,fill   *uml-state-history-fill*   *default-fill*)
                                    :stroke (or ,stroke *uml-state-history-stroke* *default-stroke*)
                                    :clip-path kaavio:*current-clip-path*
-                                   :link ,link :layer ,layer :id ,id)))
+                                   :link ,link :layer ,layer :filter ,filter :id ,id)))
+
+
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### macro with-uml-state-history-options
+;;
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
+;;
+;;* ${{B}{with-uml-state-history-options}} (${KEY} radius fill stroke filter layer) ${BODY} body
+;;
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　uml-state-history マクロで描画される図形要素のデフォルトオプションを変更します。キーワード
+;;パラメータ群の説明は uml-state-history マクロを参照してください。
+;;
+;;${SEE_ALSO}
+;;
+;;* uml-state-history マクロ
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
+(defmacro with-uml-state-history-options ((&key radius fill stroke filter layer) &rest body)
+  (labels ((impl (params acc)
+             (if (null params)
+                 acc
+                 (let ((value  (car  params))
+                       (symbol (cadr params)))
+                   (impl (cddr params)
+                         (if (null value)
+                             acc
+                             (push (list symbol value) acc)))))))
+    (let ((lst (impl (list radius   '*uml-state-history-radius*
+                           fill     '*uml-state-history-fill*
+                           stroke   '*uml-state-history-stroke*
+                           filter   '*uml-state-history-filter*
+                           layer    '*uml-state-history-layer*) nil)))
+      `(let ,lst
+         ,@body))))
+
+
 
 

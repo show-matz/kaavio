@@ -96,14 +96,32 @@
 ;;
 ;;* ${{B}{uml-time-event}} position ${KEY} label pivot width height fill stroke link filter layer id
 ;;
-;;
 ;;<!-- stack:pop li -->
+;;
+;;${ARGS_AND_VALS}
+;;
+;;* `position` ---- 描画の基準点を指定します。詳細は「[](#座標と位置)」を参照してください。
+;;* `label` ---- イベント名をラベル形式で指定します。
+;;* `pivot` ---- `position` で指定した基準点が図形要素のどこにくるように描画するかを指定します。詳細は「[](#座標と位置)」を参照してください。
+;;* `width` ---- 幅を自動決定せず、明示的に指定したい場合に数値で指定します。
+;;* `height` ---- 高さを自動決定せず、明示的に指定したい場合に数値で指定します。
+;;* `fill` ---- 内部の塗り潰しを指定します。
+;;* `stroke` ---- 外枠を描画するストロークを指定します
+;;* `link` ---- リンクにする場合、リンク先を指定します。
+;;* `filter` ---- フィルタを適用したい場合、その ID をキーワードシンボルで指定します
+;;* `layer` ---- レイヤーを指定する場合、その ID をキーワードシンボルで指定します
+;;* `id` ---- ID を付与したい場合、その名前をキーワードシンボルで指定します
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　UML アクティビティ図におけるタイムイベントを描画します。スタイルを統一
+;;したい場合、with-uml-time-event-options マクロを使うことができます。
 ;;
-;;${NO_SEE_ALSO}
+;;${SEE_ALSO}
+;;
+;;* [$$](#アクティビティ図)
+;;* [$$](#uml-time-event)
+;;* with-uml-time-event-options マクロ
 ;;
 ;;${NO_NOTES}
 ;;
@@ -126,14 +144,16 @@
 ;;
 ;;* ${{B}{with-uml-time-event-options}} (${KEY} fill stroke width height filter layer) ${BODY} body
 ;;
-;;
 ;;<!-- stack:pop li -->
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　uml-time-event マクロで描画される図形要素のデフォルトオプションを変更します。キーワード
+;;パラメータ群の説明は uml-time-event マクロを参照してください。
 ;;
-;;${NO_SEE_ALSO}
+;;${SEE_ALSO}
+;;
+;;* uml-time-event マクロ
 ;;
 ;;${NO_NOTES}
 ;;

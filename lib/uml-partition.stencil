@@ -136,7 +136,7 @@
             (let ((header (car cols)))
               (line `((,header 0) (,header ,height))))))
         (when (eq lines :max)
-          (rect (kaavio::canvas-dict-center canvas) width height :stroke stroke :fill :none))
+          (rect (canvas-center canvas) width height :stroke stroke :fill :none))
         ;; draw headers
         (labels ((textize (data)
                    (cond
@@ -173,14 +173,34 @@
 ;;
 ;;* ${{B}{uml-partition}} position rows cols ${KEY} pivot lines header fills stroke font layer id
 ;;
-;;
 ;;<!-- stack:pop li -->
+;;
+;;${ARGS_AND_VALS}
+;;
+;;* `position` ---- 描画の基準点を指定します。詳細は「[](#座標と位置)」を参照してください。
+;;* `rows` ---- 各レーンの名前と高さの情報をリストで与えるか、または全体の高さを数値で与えます。詳細は [$@ 節](#uml-partition)を参照してください。
+;;* `cols` ---- 各レーンの名前と幅の情報をリストで与えるか、または全体の幅を数値で与えます。詳細は [$@ 節](#uml-partition)を参照してください。
+;;* `pivot` ---- `position` で指定した基準点が図形要素のどこにくるように描画するかを指定します。詳細は「[](#座標と位置)」を参照してください。
+;;* `lines` ---- 枠線の描画の仕方を `:min :mid :max` のいずれかで指定します。それぞれのサンプルは [$@](F#uml-partition における lines パラメータのサンプル) を参照してください。
+;;* `header` ---- ${{TODO}{まだ記述されていません。}}
+;;* `fills` ---- ${{TODO}{まだ記述されていません。}}
+;;* `stroke` ---- 外枠を描画するストロークを指定します
+;;* `font` ---- フォントを指定します。
+;;* `layer` ---- レイヤーを指定する場合、その ID をキーワードシンボルで指定します
+;;* `id` ---- ID を付与したい場合、その名前をキーワードシンボルで指定します
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　UML アクティビティ図におけるパーティションを描画します。各レーン内部の描画には
+;;with-uml-partition-lane マクロを使用してください。また、スタイルを統一したい場合、
+;;with-uml-action-options マクロを使うことができます。
 ;;
-;;${NO_SEE_ALSO}
+;;${SEE_ALSO}
+;;
+;;* [$$](#アクティビティ図)
+;;* [$$](#uml-partition)
+;;* with-uml-partition-lane マクロ
+;;* with-uml-partition-options マクロ
 ;;
 ;;${NO_NOTES}
 ;;
@@ -251,14 +271,16 @@
 ;;
 ;;* ${{B}{with-uml-partition-options}} (${KEY} lines header font fill stroke layer) ${BODY} body
 ;;
-;;
 ;;<!-- stack:pop li -->
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　uml-partition マクロで描画される図形要素のデフォルトオプションを変更します。キーワード
+;;パラメータ群の説明は uml-partition マクロを参照してください。
 ;;
-;;${NO_SEE_ALSO}
+;;${SEE_ALSO}
+;;
+;;* uml-partition マクロ
 ;;
 ;;${NO_NOTES}
 ;;

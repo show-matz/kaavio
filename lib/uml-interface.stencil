@@ -1,4 +1,7 @@
+
 (in-package :kaavio-user)
+
+(load-stencil :uml-common-base)
 
 (defun calculate-degrees (center points degree)
   (labels ((reverse-degree (sin cos)
@@ -24,16 +27,19 @@
 ;;
 ;;------------------------------------------------------------------------------
 (defparameter *uml-interface-radius*     10)
+(defparameter *uml-interface-font*      nil)
 (defparameter *uml-interface-fill*   :white)
 (defparameter *uml-interface-stroke* :black)
+(defparameter *uml-interface-filter*    nil)
+(defparameter *uml-interface-layer*     nil)
 
 (defclass uml-interface (kaavio:circle)
-  ((name :initform nil :initarg :name)))    ; (or nil label-info)
+  ((name :initform nil :initarg :name)))    ; (or nil kaavio:label-info)
 
 (defmethod initialize-instance :after ((obj uml-interface) &rest initargs)
   (declare (ignore initargs))
   (with-slots (name) obj
-    (setf name   (and name (make-label name))))
+    (setf name (and name (uml-make-label *uml-interface-font* name))))
   obj)
 
 (defmethod check ((obj uml-interface) canvas dict)
@@ -60,21 +66,38 @@
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
-;;* ${{B}{uml-interface}} position name ${KEY} pivot fill stroke link layer id
-;;
+;;* ${{B}{uml-interface}} position name ${KEY} pivot fill stroke link filter layer id
 ;;
 ;;<!-- stack:pop li -->
 ;;
+;;${ARGS_AND_VALS}
+;;
+;;* `position` ---- 描画の基準点を指定します。詳細は「[](#座標と位置)」を参照してください。
+;;* `name` ---- インターフェース名をラベル形式で指定します。明示する必要が無い場合、 `nil` を指定してください。
+;;* `pivot` ---- `position` で指定した基準点が図形要素のどこにくるように描画するかを指定します。詳細は「[](#座標と位置)」を参照してください。
+;;* `fill` ---- 内部の塗り潰しを指定します。
+;;* `stroke` ---- 外枠を描画するストロークを指定します
+;;* `link` ---- リンクにする場合、リンク先を指定します。
+;;* `filter` ---- フィルタを適用したい場合、その ID をキーワードシンボルで指定します
+;;* `layer` ---- レイヤーを指定する場合、その ID をキーワードシンボルで指定します
+;;* `id` ---- ID を付与したい場合、その名前をキーワードシンボルで指定します
+;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　UML クラス図などで使用されるインターフェースを描画します。スタイルを統一したい場合、
+;;with-uml-interface-options マクロを使うことができます。
 ;;
-;;${NO_SEE_ALSO}
+;;${SEE_ALSO}
+;;
+;;* [$$](#クラス図)
+;;* [$$](#uml-interface)
+;;* [$$](#uml-interface-request)
+;;* with-uml-interface-options マクロ
 ;;
 ;;${NO_NOTES}
 ;;
 ;;--------------------------------------------------------------------------------------- END TURNUP
-(defmacro uml-interface (position name &key pivot fill stroke link layer id)
+(defmacro uml-interface (position name &key pivot fill stroke link filter layer id)
   `(register-entity (make-instance 'uml-interface
                                    :position ,position :pivot ,pivot
                                    :radius *uml-interface-radius*
@@ -82,126 +105,53 @@
                                    :fill   (or ,fill   *uml-interface-fill*)
                                    :stroke (or ,stroke *uml-interface-stroke*)
                                    :clip-path kaavio:*current-clip-path*
-                                   :link ,link :layer ,layer :id ,id)))
-
-
-;;------------------------------------------------------------------------------
-;;
-;; class uml-interface-socket
-;;
-;;------------------------------------------------------------------------------
-(defparameter *uml-interface-socket-stroke*   :black)
-(defparameter *uml-interface-socket-degree*      150)
-
-(defclass uml-interface-socket (kaavio:entity)
-  ((name            :initform nil :initarg :name)     ; (or nil label-inf)
-   (position        :initform nil :initarg :position) ; point
-   (from            :initform nil :initarg :from)     ; (or symbol point)
-   (style           :initform nil :initarg :style)    ; keyword - :(CC|[BLRT][123]?[BLRT][123]?) ( keyword -> list )
-   (spacing         :initform nil :initarg :spacing)  ; list
-   (stroke          :initform nil :initarg :stroke)   ; (or nil stroke-info)
-   (clip-path       :initform nil :initarg :clip-path) ; (or nil symbol)
-   (points          :initform nil)                    ; list
-   (canvas-cache    :initform nil)                    ; (or nil canvas)
-   (dummy-circle    :initform nil)                    ; (or nil circle)
-   (degree          :initform nil)))                  ; number
-
-(defmethod initialize-instance :after ((sock uml-interface-socket) &rest initargs)
-  (declare (ignore initargs))
-  (with-slots (name style stroke degree) sock
-    (setf name   (and name (make-label name)))
-    (setf style  (or style *default-connector-style* :CC))
-    (setf stroke (make-stroke (or stroke *uml-interface-socket-stroke* *default-stroke*)))
-    (setf degree *uml-interface-socket-degree*))
-  sock)
-
-(defmethod check ((sock uml-interface-socket) canvas dict)
-  ;; this method must call super class' one.
-  (call-next-method)
-  (with-slots (name position from style stroke clip-path spacing
-                    points canvas-cache dummy-circle #|degree|#) sock
-    (check-object name   canvas dict :nullable nil :class label-info)
-    (unless (point-p from)
-      (check-member from   :nullable nil :types symbol))
-    (check-member style  :nullable nil :types keyword)
-    (check-object stroke canvas dict :nullable nil :class stroke-info)
-    (check-member clip-path :nullable  t :types symbol)
-    (check-member spacing :nullable  t :types (or number list))
-    (setf spacing (if (numberp spacing) (list spacing) spacing))
-    (when (remove-if #'numberp spacing)
-      (throw-exception "Invalid spacing : '~A'." spacing))
-    (setf position (canvas-fix-point canvas position))
-    (setf style (kaavio::check-and-fix-connector-style style))
-    (setf canvas-cache (copy-canvas canvas))
-    (let ((from-target (if (point-p from)
-                           from
-                           (let ((entity (kaavio::dict-get-entity dict from)))
-                             (unless entity
-                               (throw-exception "Entity '~A' not found in dictionary." from))
-                             (unless (typep entity 'shape)
-                               (throw-exception "Entity '~A' is not shape object." from))
-                             entity))))
-      (setf dummy-circle (make-instance 'kaavio:circle
-                                        :position position
-                                        :radius *uml-interface-radius*))
-      (setf points (resolve-connector-points from-target dummy-circle style spacing))))
-  nil)
-
-
-(defmethod entity-composition-p ((sock uml-interface-socket))
-  (declare (ignore sock))
-  t)
-
-(defmethod draw-entity ((sock uml-interface-socket) writer)
-  (pre-draw sock writer)
-  (with-slots (name position stroke clip-path
-                canvas-cache dummy-circle points degree) sock
-    (let ((canvas canvas-cache))
-      (declare (special canvas))
-      (macrolet ((register-entity (entity)
-                   `(check-and-draw-local-entity ,entity canvas writer)))
-        (let ((*default-stroke* stroke)
-              (*current-clip-path*  clip-path))
-          (line points)
-          (multiple-value-bind (deg1 deg2)
-              (calculate-degrees (slot-value dummy-circle 'kaavio::position) points degree)
-            (when (<= 360 deg1) (decf deg1 360))
-            (when (<= 360 deg2) (decf deg2 360))
-            (let ((radius  (slot-value dummy-circle 'kaavio::radius)))
-              (arc position radius radius 0 deg1 deg2)))
-          (when name
-            (draw-label name dummy-circle clip-path writer))))))  ;;ToDo : font OK...?
-  (post-draw sock writer)
-  nil)
-          
-
-
+                                   :link ,link
+                                   :filter (or ,filter *uml-interface-filter*)
+                                   :layer  (or ,layer  *uml-interface-layer*)
+                                   :id ,id)))
+ 
+ 
 ;;------------------------------------------------------------------------------------- BEGIN TURNUP
-;;#### macro uml-interface-socket
+;;#### macro with-uml-interface-options
 ;;
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
-;;* ${{B}{uml-interface-socket}} position from name ${KEY} style spacing stroke layer id
+;;* ${{B}{with-uml-interface-options}} (${KEY} radius fill stroke filter layer) ${BODY} body
 ;;
 ;;
 ;;<!-- stack:pop li -->
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　uml-interface マクロで描画される図形要素のデフォルトオプションを変更します。キーワード
+;;パラメータ群の説明は uml-interface マクロを参照してください。
 ;;
-;;${NO_SEE_ALSO}
+;;${SEE_ALSO}
+;;
+;;* uml-interface マクロ
 ;;
 ;;${NO_NOTES}
 ;;
 ;;--------------------------------------------------------------------------------------- END TURNUP
-(defmacro uml-interface-socket (position from name &key style spacing stroke layer id)
-  `(register-entity (make-instance 'uml-interface-socket
-                                   :name ,name :position ,position :from ,from
-                                   :style ,style :spacing ,spacing
-                                   :clip-path *current-clip-path*
-                                   :stroke ,stroke :layer ,layer :id ,id)))
+(defmacro with-uml-interface-options ((&key radius font fill stroke filter layer) &rest body)
+  (labels ((impl (params acc)
+             (if (null params)
+                 acc
+                 (let ((value  (car  params))
+                       (symbol (cadr params)))
+                   (impl (cddr params)
+                         (if (null value)
+                             acc
+                             (push (list symbol value) acc)))))))
+    (let ((lst (impl (list radius     '*uml-interface-radius*
+                           font       '*uml-interface-font*
+                           fill       '*uml-interface-fill*
+                           stroke     '*uml-interface-stroke*
+                           filter     '*uml-interface-filter*
+                           layer      '*uml-interface-layer*) nil)))
+      `(let ,lst
+         ,@body))))
 
 
 ;;------------------------------------------------------------------------------
@@ -209,8 +159,13 @@
 ;; class uml-interface-request
 ;;
 ;;------------------------------------------------------------------------------
+(defparameter *uml-interface-request-font*              nil)
+(defparameter *uml-interface-request-dasharray*      '(3 3))
 (defparameter *uml-interface-request-stroke*         :black)
 (defparameter *uml-interface-request-degree*            150)
+(defparameter *uml-interface-request-filter*            nil)
+(defparameter *uml-interface-request-layer*             nil)
+(defparameter *uml-interface-request-arrow-size*    :medium)
 (defparameter *uml-interface-request-length-threshold*   40)
 (defparameter *uml-interface-request-maximum-dependency* 40)
 
@@ -254,26 +209,39 @@
 
 
 (defclass uml-interface-request (kaavio:connector)
-  ((arrow-p       :initform nil :initarg :arrow-p)    ; boolean value
-   (pt-cache      :initform nil)                      ; point
-   (canvas-cache  :initform nil)                      ; (or nil canvas)
-   (points-cache  :initform nil)                      ; list
-   (radius-cache  :initform nil)                      ; number
-   (degree-cache  :initform nil)))                    ; number
+  ((arrow-p          :initform nil :initarg :arrow-p)    ; boolean value
+   (name             :initform nil :initarg :name)       ; (or nil label-info)
+   (dasharray        :initform nil :initarg :dasharray)  ; list of integers
+   (pt-cache         :initform nil)                      ; point
+   (canvas-cache     :initform nil)                      ; (or nil canvas)
+   (points-cache     :initform nil)                      ; list
+   (arrow-size-cache :initform nil)                      ; number
+   (radius-cache     :initform nil)                      ; number
+   (degree-cache     :initform nil)))                    ; number
 
 (defmethod initialize-instance :after ((req uml-interface-request) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (radius-cache degree-cache) req
-    (setf radius-cache *uml-interface-radius*)
-    (setf degree-cache *uml-interface-request-degree*))
+  (with-slots (kaavio::to arrow-p name dasharray 
+                          arrow-size-cache radius-cache degree-cache) req
+    (setf name (and (kaavio:point-p kaavio::to)
+                    name
+                    (uml-make-label *uml-interface-request-font* name)))
+    (when (kaavio:point-p kaavio::to)
+      (setf arrow-p nil))
+    (setf dasharray        *uml-interface-request-dasharray*)
+    (setf arrow-size-cache *uml-interface-request-arrow-size*)
+    (setf radius-cache     *uml-interface-radius*)
+    (setf degree-cache     *uml-interface-request-degree*))
   req)
 
 
 (defmethod check ((req uml-interface-request) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (with-slots (arrow-p pt-cache
-                canvas-cache points-cache radius-cache) req
+  (with-slots (arrow-p name dasharray
+                       pt-cache canvas-cache points-cache radius-cache) req
+    (check-object name canvas dict :nullable t :class label-info)
+    (check-member dasharray :nullable nil :types list)
     (setf canvas-cache (copy-canvas canvas))
     (let ((new-points nil))
       (multiple-value-setq (new-points points-cache pt-cache)
@@ -292,23 +260,31 @@
   t)
 
 (defmethod post-draw ((req uml-interface-request) writer)
-  (with-slots (canvas-cache points-cache pt-cache
-                degree-cache radius-cache kaavio::stroke kaavio::clip-path) req
+  (with-slots (name dasharray canvas-cache points-cache
+                    pt-cache degree-cache arrow-size-cache
+                    radius-cache kaavio::stroke kaavio::clip-path kaavio::filter) req
     (let ((canvas canvas-cache))
       (declare (special canvas))
       (macrolet ((register-entity (entity)
                    `(check-and-draw-local-entity ,entity canvas writer)))
         (let ((*default-stroke* kaavio::stroke)
-              (*current-clip-path* kaavio::clip-path))
+              (*default-filter* kaavio::filter)
+              (*current-clip-path* kaavio::clip-path)
+              (point (point+ (canvas-topleft canvas) pt-cache)))
           (when points-cache
-            (line points-cache :end1 nil :end2 :arrow
-                               :stroke '(:dasharray (3 3)))) ; ToDo : fix ?
-              (multiple-value-bind (deg1 deg2)
-                  (calculate-degrees (point+ (canvas-topleft canvas) pt-cache)
-                                     (copy-list (slot-value req 'kaavio::points)) degree-cache)
-                (when (<= 360 deg1) (decf deg1 360))
-                (when (<= 360 deg2) (decf deg2 360))
-                (arc pt-cache radius-cache radius-cache 0 deg1 deg2))))))
+            (line points-cache :stroke `(:dasharray ,dasharray)
+                               :end1 nil
+                               :end2 (list :type :arrow :size arrow-size-cache)))
+          (multiple-value-bind (deg1 deg2)
+              (calculate-degrees point (copy-list (slot-value req 'kaavio::points)) degree-cache)
+            (when (<= 360 deg1) (decf deg1 360))
+            (when (<= 360 deg2) (decf deg2 360))
+            (arc (make-point (point-x pt-cache)
+                             (point-y pt-cache))
+                 radius-cache radius-cache 0 deg1 deg2))
+          (when name
+            (draw-label-with-point name (point-x point) (point-y point)
+                                        0 1 kaavio::clip-path writer))))))
   (call-next-method))
 
 
@@ -318,27 +294,109 @@
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
-;;* ${{B}{uml-interface-request}} from to ${KEY} arrow-p style spacing stroke layer id
+;;* ${{B}{uml-interface-request}} from to ${KEY} arrow-p name style spacing stroke filter layer id
+;;
+;;<!-- stack:pop li -->
+;;
+;;${ARGS_AND_VALS}
+;;
+;;* `from` ---- インターフェースを要求する側の図形要素の ID をキーワードで指定します。任意の座標を指定することも可能です。
+;;* `to` ---- 要求されるインターフェースの ID をキーワードで指定します。任意の座標を指定することも可能です。
+;;* `arrow-p` ---- 描画されるソケットから対象のインターフェースに依存関係の矢印を描画するか否かを真偽値で指定します。省略した場合のデフォルト値は nil です。
+;;* `name` ---- 要求するインターフェースの名前をラベル形式で指定します。インターフェース側で明示してある場合は指定する必要はありません。
+;;* `style` ---- 接続線のスタイルを指定します。詳細は [$@ 節](#コネクタ)を参照してください。
+;;* `spacing` ---- 接続線が折れ曲がる場合の調整を指定します。詳細は [$@ 節](#コネクタ)を参照してください。
+;;* `stroke` ---- 線を描画するストロークを指定します
+;;* `filter` ---- フィルタを適用したい場合、その ID をキーワードシンボルで指定します
+;;* `layer` ---- レイヤーを指定する場合、その ID をキーワードシンボルで指定します
+;;* `id` ---- ID を付与したい場合、その名前をキーワードシンボルで指定します
+;;
+;;${DESCRIPTION}
+;;
+;;　UML クラス図などで使用されるインターフェース要求を描画します。 `to` には uml-interface で
+;;描画されたインターフェースの ID を指定することが想定されています。スタイルを統一したい場合、
+;;with-uml-interface-request-options マクロを使うことができます。
+;;
+;;${SEE_ALSO}
+;;
+;;* [$$](#クラス図)
+;;* [$$](#uml-interface)
+;;* [$$](#uml-interface-request)
+;;* with-uml-interface-request-options マクロ
+;;
+;;${NOTES}
+;;
+;;　このマクロは２種類の使い方が想定されています。ひとつは uml-interface によるインターフェース
+;;アイコンに接続する方法で、この場合は `to` パラメータにインターフェースの ID をキーワードで
+;;指定します。この場合、名前はインターフェース側で明示してあることが想定されるため、 `name` 
+;;パラメータは無視されます。
+;;
+;;　もうひとつはソケットを単独で表記する方法で、この場合は `to` パラメータにソケットを描画する
+;;位置を座標値で指定します。この場合、依存関係の矢印を使う意味は無いため、 `arrow-p` は無視され
+;;ます。
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
+(defmacro uml-interface-request (from to &key arrow-p name style spacing stroke filter layer id)
+  `(register-entity (make-instance 'uml-interface-request
+                                   :from ,from :to ,to
+                                   :arrow-p ,arrow-p :name ,name
+                                   :style ,style :spacing ,spacing
+                                   :stroke (or ,stroke
+                                               *uml-interface-request-stroke*
+                                               *default-stroke* :black)
+                                   :clip-path *current-clip-path*
+                                   :end1 nil :end2 nil
+                                   :filter (or ,filter *uml-interface-request-filter*)
+                                   :layer  (or ,layer  *uml-interface-request-layer*)
+                                   :id ,id)))
+
+;;MEMO : uml-interface-socket は廃止され uml-interface-request に統合されたが、
+;;       互換性のために uml-interface-request への変換マクロが残されている
+(defmacro uml-interface-socket (position from name &key style spacing stroke filter layer id)
+  `(uml-interface-request ,from ,position :arrow-p nil :name ,name
+                                          :style ,style :spacing ,spacing
+                                          :stroke ,stroke :filter ,filter :layer ,layer :id ,id))
+
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### macro with-uml-interface-request-options
+;;
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
+;;
+;;* ${{B}{with-uml-interface-request-options}} (${KEY} font dasharray stroke degree arrow-size filter layer) ${BODY} body
 ;;
 ;;
 ;;<!-- stack:pop li -->
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　uml-interface-request マクロで描画される図形要素のデフォルトオプションを変更します。キーワード
+;;パラメータ群の説明は uml-interface-request マクロを参照してください。
 ;;
-;;${NO_SEE_ALSO}
+;;${SEE_ALSO}
+;;
+;;* uml-interface-request マクロ
 ;;
 ;;${NO_NOTES}
 ;;
 ;;--------------------------------------------------------------------------------------- END TURNUP
-(defmacro uml-interface-request (from to &key arrow-p style spacing stroke layer id)
-  `(register-entity (make-instance 'uml-interface-request
-                                   :from ,from :to ,to
-                                   :arrow-p ,arrow-p :style ,style :spacing ,spacing
-                                   :stroke (or ,stroke
-                                               *uml-interface-request-stroke*
-                                               *default-stroke* :black)
-                                   :clip-path *current-clip-path*
-                                   :end1 nil :end2 nil :layer ,layer :id ,id)))
-
+(defmacro with-uml-interface-request-options ((&key font dasharray stroke
+                                                    degree arrow-size filter layer) &rest body)
+  (labels ((impl (params acc)
+             (if (null params)
+                 acc
+                 (let ((value  (car  params))
+                       (symbol (cadr params)))
+                   (impl (cddr params)
+                         (if (null value)
+                             acc
+                             (push (list symbol value) acc)))))))
+    (let ((lst (impl (list font       '*uml-interface-request-font*
+                           dasharray  '*uml-interface-request-dasharray*
+                           stroke     '*uml-interface-request-stroke*
+                           degree     '*uml-interface-request-degree*
+                           arrow-size '*uml-interface-request-arrow-size*
+                           filter     '*uml-interface-request-filter*
+                           layer      '*uml-interface-request-layer*) nil)))
+      `(let ,lst
+         ,@body))))

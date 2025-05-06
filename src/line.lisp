@@ -61,6 +61,9 @@
             (setf pts (cdr pts)))
           (cons (first pts) (second pts))))))
 
+#|
+#|EXPORT|#                :line-get-center
+ |#
 ;; returns multi-value. x, y, and sin/cos in point (x, y).
 (defun line-get-center (ent)
   (labels ((make-lengths (lst acc)

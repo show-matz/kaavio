@@ -115,7 +115,7 @@
 ;;
 ;;<!-- stack:push li class='syntax' -->
 ;;
-;;* ${{B}{make-stroke}} ${KEY} color width opacity linecap linejoin miterlimit dasharray dashoffset url base)
+;;* ${{B}{make-stroke}} ${KEY} color width opacity linecap linejoin miterlimit dasharray dashoffset url base
 ;;
 ;;<!-- stack:pop li -->
 ;;

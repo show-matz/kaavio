@@ -18,7 +18,7 @@
 (defmethod initialize-instance :after ((obj uml-fork-join) &rest initargs)
   (declare (ignore initargs))
   (with-slots (spec filter layer) obj
-    ;;ToDo : spec で :position 指定が（実質的に）なければ join-v / join-h によって調整してやる？
+    ;;MEMO: 1OQMktJQ3oi : spec で :position 指定が（実質的に）なければ join-[vh] によって調整する？
     (setf spec (and spec (make-label spec)))
     (setf filter  (if (eq filter :none)
                       nil
@@ -52,21 +52,39 @@
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
-;;* ${{B}{uml-fork}} position direction ${KEY} pivot width length fill link filter layer id
-;;
+;;* ${{B}{uml-fork}} position direction ${KEY} pivot width length fill link layer filter id
 ;;
 ;;<!-- stack:pop li -->
 ;;
+;;${ARGS_AND_VALS}
+;;
+;;* `position` ---- 描画の基準点を指定します。詳細は「[](#座標と位置)」を参照してください。
+;;* `direction` ---- 向きを `:h` か `:v` で指定します。横方向に流れるフローで使用する場合は `:h` 、縦方向なら `:v` です。
+;;* `pivot` ---- `position` で指定した基準点が図形要素のどこにくるように描画するかを指定します。詳細は「[](#座標と位置)」を参照してください。
+;;* `width` ---- 幅を数値で指定します。省略した場合のデフォルト値は 10 です。
+;;* `length` ---- 長さを数値で指定します。省略した場合のデフォルト値は 40 です。
+;;* `fill` ---- 内部の塗り潰しを指定します。
+;;* `link` ---- リンクにする場合、リンク先を指定します。
+;;* `layer` ---- レイヤーを指定する場合、その ID をキーワードシンボルで指定します
+;;* `filter` ---- フィルタを適用したい場合、その ID をキーワードシンボルで指定します
+;;* `id` ---- ID を付与したい場合、その名前をキーワードシンボルで指定します
+;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　UML アクティビティ図におけるフォークを描画します。スタイルを統一したい場合、
+;;with-uml-fork-join-options マクロを使うことができます。
 ;;
-;;${NO_SEE_ALSO}
+;;${SEE_ALSO}
+;;
+;;* [$$](#アクティビティ図)
+;;* [$$](#uml-fork)
+;;* [$$](#uml-join)
+;;* with-uml-fork-join-options マクロ
 ;;
 ;;${NO_NOTES}
 ;;
 ;;--------------------------------------------------------------------------------------- END TURNUP
-(defmacro uml-fork (position direction &key pivot width length fill link filter layer id)
+(defmacro uml-fork (position direction &key pivot width length fill link layer filter id)
   (let ((gw (gensym "WIDTH"))
         (gh (gensym "HEIGHT")))
     `(let ((,gw (or ,width  *uml-fork-join-width*))
@@ -89,16 +107,33 @@
 ;;
 ;;* ${{B}{uml-join}} position direction ${KEY} pivot spec width length fill link filter layer id
 ;;
-;;
 ;;<!-- stack:pop li -->
+;;
+;;${ARGS_AND_VALS}
+;;
+;;* `position` ---- 描画の基準点を指定します。詳細は「[](#座標と位置)」を参照してください。
+;;* `direction` ---- 向きを `:h` か `:v` で指定します。横方向に流れるフローで使用する場合は `:h` 、縦方向なら `:v` です。
+;;* `pivot` ---- `position` で指定した基準点が図形要素のどこにくるように描画するかを指定します。詳細は「[](#座標と位置)」を参照してください。
+;;* `spec` ---- ジョイン使用の指定がある場合、そのテキストをラベル形式で指定します。指定方法は [$@ 節](#ラベル)を参照してください。
+;;* `width` ---- 幅を数値で指定します。省略した場合のデフォルト値は 10 です。
+;;* `length` ---- 長さを数値で指定します。省略した場合のデフォルト値は 40 です。
+;;* `fill` ---- 内部の塗り潰しを指定します。
+;;* `link` ---- リンクにする場合、リンク先を指定します。
+;;* `layer` ---- レイヤーを指定する場合、その ID をキーワードシンボルで指定します
+;;* `filter` ---- フィルタを適用したい場合、その ID をキーワードシンボルで指定します
+;;* `id` ---- ID を付与したい場合、その名前をキーワードシンボルで指定します
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　UML アクティビティ図におけるジョインを描画します。スタイルを統一したい場合、
+;;with-uml-fork-join-options マクロを使うことができます。
 ;;
-;;* ${{TODO}{spec パラメータの指定は、ラベルに準拠。}}
+;;${SEE_ALSO}
 ;;
-;;${NO_SEE_ALSO}
+;;* [$$](#アクティビティ図)
+;;* [$$](#uml-fork)
+;;* [$$](#uml-join)
+;;* with-uml-fork-join-options マクロ
 ;;
 ;;${NO_NOTES}
 ;;
@@ -126,14 +161,17 @@
 ;;
 ;;* ${{B}{with-uml-fork-join-options}} (${KEY} width length color filter layer) ${BODY} body
 ;;
-;;
 ;;<!-- stack:pop li -->
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　uml-fork マクロおよび uml-join マクロで描画される図形要素のデフォルトオプションを
+;;変更します。キーワードパラメータ群の説明はそれぞれのマクロを参照してください。
 ;;
-;;${NO_SEE_ALSO}
+;;${SEE_ALSO}
+;;
+;;* uml-fork マクロ
+;;* uml-join マクロ
 ;;
 ;;${NO_NOTES}
 ;;

@@ -1,7 +1,7 @@
 
 (in-package :kaavio-user)
 
-(load-stencil :uml-keyword-info)
+(load-stencil :uml-common-base)
 
 (defparameter *uml-signal-font*         nil)
 (defparameter *uml-signal-fill*      :white)
@@ -21,44 +21,38 @@
 ;;------------------------------------------------------------------------------
 (defclass uml-signal (kaavio:text-shape)
   ((type       :initform nil :initarg :type)       ; keyword - :send, :receive
-   (keyword    :initform nil :initarg :keyword)    ; (or nil uml-keyword-info)
+   (stereotype :initform nil :initarg :stereotype) ; (or nil uml-stereotype-info)
    (direction  :initform nil :initarg :direction)  ; keyword - :left, :right
    (depth      :initform nil :initarg :depth)      ; number
-   (filter     :initform nil :initarg :filter)     ; (or nil keyword)
-   (margin2    :initform nil)))                    ; number ( margin for keyword )
+   (filter     :initform nil :initarg :filter)))   ; (or nil keyword)
 
 (defmethod initialize-instance :after ((obj uml-signal) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (keyword direction filter layer margin2) obj
-    (setf keyword (and keyword (make-uml-keyword keyword)))
+  ;;(format t "initialize-instance :after called.~%")
+  (with-slots (stereotype direction filter layer) obj
+    (setf stereotype (and stereotype (make-uml-stereotype stereotype)))
     (setf filter  (if (eq filter :none)
                       nil
                       (or filter *uml-signal-filter* *default-filter*)))
     (setf layer  (if (eq layer :none)
                      nil
-                     (or layer *uml-signal-layer* *default-layer*)))
-    (setf margin2 (if (null keyword)
-                      0
-                      (or (and *uml-signal-font*
-                               (slot-value *uml-signal-font* 'kaavio::size))
-                          (and *default-font*
-                               (slot-value *default-font* 'kaavio::size))
-                          12))))    ;;ToDo : これはなんとかしないと。
+                     (or layer *uml-signal-layer* *default-layer*))))
   obj)
 
 (defmethod check ((obj uml-signal) canvas dict)
-  (with-slots (type keyword direction depth margin2) obj
+  ;; this method must call super class' one.
+  (call-next-method)
+  ;;(format t "check called.~%")
+  (with-slots (type stereotype direction depth filter) obj
     (check-member   type       :nullable nil :types keyword)
-    (check-object   keyword    canvas dict :nullable t :class uml-keyword-info)
+    (check-object   stereotype canvas dict :nullable t :class uml-stereotype-info)
     (check-member   direction  :nullable nil :types keyword)
     (check-member   depth      :nullable nil :types number)
-    (check-member   margin2    :nullable nil :types number)
+    (check-member   filter     :nullable   t :types keyword)
     (check-keywords type       :send :receive)
-    (check-keywords direction  :left :right))
-  ;; this method must call super class' one.
-  (call-next-method))
+    (check-keywords direction  :left :right)))
 
-;;ToDo : :CC の場合にちょっとマズいことになる‥‥‥
+;;MEMO: :CC の場合にちょっとマズいことになるが、これはあきらめる
 (defmethod shape-connect-point ((obj uml-signal) type1 type2 arg)
   (let ((pt (rectangle-connect-point (attribute-center obj)
                                      (attribute-width  obj)
@@ -81,21 +75,19 @@
 ;; override of group::draw-group
 (defmethod draw-group ((obj uml-signal) writer)
   (let ((canvas (group-get-canvas obj)))
-    (let ((top    (canvas-top    canvas))
-          (left   (canvas-left   canvas))
-          (width  (canvas-width  canvas))
+    (let ((width  (canvas-width  canvas))
           (height (canvas-height canvas)))
       (macrolet ((register-entity (entity)
                    `(check-and-draw-local-entity ,entity canvas writer)))
-        (with-slots (type direction keyword depth margin2 filter
-                        kaavio::margin kaavio::font
-                        kaavio::fill kaavio::stroke kaavio::clip-path) obj
-          (let ((half (/ depth 2))
-                (*default-filter* filter)
-                (*default-fill*   kaavio::fill)
-                (*default-stroke* kaavio::stroke)
-                (kaavio:*current-clip-path* kaavio::clip-path))
-            ;; draw body
+        (with-slots (type direction stereotype depth filter
+                      (text kaavio::text) (font kaavio::font) (margin kaavio::margin)
+                      (fill kaavio::fill) (stroke kaavio::stroke) (clip-path kaavio::clip-path)) obj
+          (let ((half                (/ depth 2))
+                (*default-filter*    filter)
+                (*default-fill*      fill)
+                (*default-stroke*    stroke)
+                (*current-clip-path* clip-path))
+            ;; draw signal body
             (if (eq type :send)
                 (if (eq direction :right)
                     (polygon `((0 0)
@@ -122,15 +114,14 @@
                                (,(- half) ,height)
                                (,width ,height)
                                (,width 0)
-                               (,(- half) 0))))))
-          ;; draw keyword
-          (when keyword
-            (uml-keyword-draw keyword
-                              (+ left (/ width 2))
-                              (+ top  kaavio::margin margin2)
-                              :center kaavio::font kaavio::clip-path writer))
-          ;; draw text
-          (call-next-method)))))
+                               (,(- half) 0)))))
+            ;; draw text
+            (let ((cv (uml-draw-textarea obj stereotype writer)))
+              (declare (ignorable cv))
+;              (rect (canvas-center cv)
+;                    (canvas-width cv) (canvas-height cv)
+;                    :fill '(:color :red :opacity 0.1) :stroke :red)
+              ))))))
   nil)
 
 ;for debug...
@@ -139,20 +130,28 @@
 ;  (draw-canvas-frame (shape-get-subcanvas obj) writer))
  
 (defmethod text-shape-calc-size ((obj uml-signal))
-  (multiple-value-bind (w h) (call-next-method)
-    (with-slots (margin2) obj
-      (values (cl:max w             *uml-signal-width*)
-              (cl:max (+ h margin2) *uml-signal-height*)))))
+  ;;(format t "text-shape-calc-size called.~%")
+  (multiple-value-bind (width height) (call-next-method)
+    (with-slots (stereotype contents-p (font kaavio::font) (margin kaavio::margin)) obj
+      ;; MEMO: 縦方向の margin は上記 call-next-method の結果に含まれている
+      ;(incf height (* margin 2))
+      ;; stereotype (if exists).
+      (when stereotype
+        (let ((font (or (slot-value stereotype 'font) font)))
+          (multiple-value-bind (w h)
+                (font-calc-textarea font (uml-stereotype-to-string stereotype))
+            (setf width (cl:max width (+ w (* margin 2))))
+            (incf height h)))))
+    (values (cl:max width  *uml-signal-width*)
+            (cl:max height *uml-signal-height*))))
 
 (defmethod text-shape-paragraph-area ((obj uml-signal))
-  (with-slots (direction depth margin2) obj
-    (let ((canvas (call-next-method)))
-      (incf (canvas-top    canvas) margin2)
-      (decf (canvas-height canvas) margin2)
-      (decf (canvas-width  canvas) (/ depth 2))
-      (when (eq direction :left)
-        (incf (canvas-left canvas) (/ depth 2)))
-      canvas)))
+  (shape-get-subcanvas obj))
+
+(defmethod shape-get-subcanvas ((obj uml-signal))
+  (make-canvas (attribute-topleft obj)
+               (attribute-width   obj)
+               (attribute-height  obj)))
 
 ;;------------------------------------------------------------------------------------- BEGIN TURNUP
 ;;#### macro uml-signal
@@ -160,31 +159,56 @@
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
-;;* ${{B}{uml-signal}} position type text ${KEY} pivot keyword width height direction depth font fill stroke margin link filter layer id
-;;
+;;* ${{B}{uml-signal}} position type text ${KEY} pivot stereotype keyword width height direction depth font fill stroke margin link filter layer id
 ;;
 ;;<!-- stack:pop li -->
 ;;
+;;${ARGS_AND_VALS}
+;;
+;;* `position` ---- 描画の基準点を指定します。詳細は「[](#座標と位置)」を参照してください。
+;;* `type` ---- シグナルの送信か受信かに応じて `:send` または `:receive` のいずれかを指定します。
+;;* `text` ---- 送信／受信アクションの名前を文字列で指定します。
+;;* `pivot` ---- `position` で指定した基準点が図形要素のどこにくるように描画するかを指定します。詳細は「[](#座標と位置)」を参照してください。
+;;* `stereotype` ---- ステレオタイプを明示する場合はステレオタイプ情報を指定します。詳細は [$@ 節](#uml-stereotype-info) を参照してください。
+;;* `keyword` ---- キーワードを明示する場合はステレオタイプ情報を指定します。 `stereotype` が指定されている場合は無視されます。詳細は [$@ 節](#uml-stereotype-info) を参照してください。
+;;* `width` ---- 幅を自動決定せず、明示的に指定したい場合に数値で指定します。
+;;* `height` ---- 高さを自動決定せず、明示的に指定したい場合に数値で指定します。
+;;* `direction` ---- 送信／受信を示す ＜ や Σ を描画する方向を `:left` または `:right` で指定します。
+;;* `depth` ---- 送信／受信を示す ＜ や Σ の大きさを数値で指定します。デフォルト値は 15 です。
+;;* `font` ---- フォントを指定します。
+;;* `fill` ---- 内部の塗り潰しを指定します。
+;;* `stroke` ---- 外枠を描画するストロークを指定します
+;;* `margin` ---- テキストの余白を指定します。幅や高さを明示的に指定した場合は無視されます。
+;;* `link` ---- リンクにする場合、リンク先を指定します。
+;;* `filter` ---- フィルタを適用したい場合、その ID をキーワードシンボルで指定します
+;;* `layer` ---- レイヤーを指定する場合、その ID をキーワードシンボルで指定します
+;;* `id` ---- ID を付与したい場合、その名前をキーワードシンボルで指定します
+;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　UML アクティビティ図におけるシグナルの送信／受信アクションを描画します。スタイルを統一
+;;したい場合、with-uml-signal-options マクロを使うことができます。
 ;;
-;;${NO_SEE_ALSO}
+;;${SEE_ALSO}
+;;
+;;* [$$](#アクティビティ図)
+;;* [$$](#uml-signal)
+;;* with-uml-signal-options マクロ
 ;;
 ;;${NO_NOTES}
 ;;
 ;;--------------------------------------------------------------------------------------- END TURNUP
-(defmacro uml-signal (position type text &key pivot keyword width height direction depth
+(defmacro uml-signal (position type text &key pivot stereotype keyword width height direction depth
                                               font fill stroke margin link filter layer id)
   `(register-entity
         (make-instance 'uml-signal
-                       :position ,position :pivot ,pivot :type ,type
-                       :width ,width :height ,height
-                       :text ,text :font ,font
-                       :keyword ,keyword
+                       :position ,position :pivot ,pivot
+                       :type ,type :width ,width :height ,height
+                       :text ,text :stereotype ,(or stereotype keyword) 
                        :direction (or ,direction *uml-signal-direction*)
                        :depth     (or ,depth     *uml-signal-depth*)
                        :margin   (or ,margin   *uml-signal-margin*)
+                       :font     (or ,font   *uml-signal-font*   *default-font*)
                        :fill     (or ,fill   *uml-signal-fill*   *default-fill*   :white)
                        :stroke   (or ,stroke *uml-signal-stroke* *default-stroke* :black)
                        :clip-path kaavio:*current-clip-path*
@@ -199,14 +223,16 @@
 ;;
 ;;* ${{B}{with-uml-signal-options}} (${KEY} font fill stroke width height direction depth margin filter layer) ${BODY} body
 ;;
-;;
 ;;<!-- stack:pop li -->
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　uml-signal マクロで描画される図形要素のデフォルトオプションを変更します。キーワード
+;;パラメータ群の説明は uml-signal マクロを参照してください。
 ;;
-;;${NO_SEE_ALSO}
+;;${SEE_ALSO}
+;;
+;;* uml-signal マクロ
 ;;
 ;;${NO_NOTES}
 ;;

@@ -1,29 +1,20 @@
 (in-package :kaavio-user)
 
-(load-stencil :uml-keyword-info)
+(load-stencil :uml-common-base)
 (load-stencil :uml-multiplicity-info)
 
 (defparameter *uml-class-font*           nil)
 (defparameter *uml-class-fill*        :white)
 (defparameter *uml-class-stroke*      :black)
+(defparameter *uml-class-filter*         nil)
+(defparameter *uml-class-layer*          nil)
 (defparameter *uml-class-width*           70)
 (defparameter *uml-class-height*          30)
 (defparameter *uml-class-name-margin*      5)
 (defparameter *uml-class-margin*           5)
 (defparameter *uml-class-draw-emptybox*  nil)
 
-(defun uml-stereotype-keyword-p (param)
-  (when (keywordp param)
-    (setf param (string-downcase (symbol-name param))))
-  (and (stringp param)
-       (let* ((len (length param)))
-         (and (< 4 len)
-              (char= (char param 0) #\<)
-              (char= (char param 1) #\<)
-              (char= (char param (- len 2)) #\>)
-              (char= (char param (- len 1)) #\>)
-              (subseq param 2 (- len 2))))))
-         
+
 ;;-------------------------------------------------------------------------------
 ;;
 ;; interface for attribute & operation.
@@ -31,18 +22,21 @@
 ;;-------------------------------------------------------------------------------
 (defclass uml-class-stuff () ())
 
-;;(defgeneric check (stuff canvas dict))    ;;use kaavio:check
-(defgeneric uml-class-stuff-class-scope-p (stuff))
-(defgeneric uml-class-stuff-abstract-p (stuff))
-(defgeneric uml-class-stuff-to-string (stuff))
+(defgeneric uml-class-stuff-class-scope-p (stuff)
+  (:method ((stuff uml-class-stuff))
+    nil))
+
+(defgeneric uml-class-stuff-abstract-p (stuff)
+  (:method ((stuff uml-class-stuff))
+    nil))
+
+(defgeneric uml-class-stuff-to-string (stuff)
+  (:method ((stuff uml-class-stuff))
+    ""))
 
 (defmethod check ((stuff uml-class-stuff) canvas dict)
   (declare (ignore canvas dict))
   nil)
-(defmethod uml-class-stuff-class-scope-p ((stuff uml-class-stuff)) nil)
-(defmethod uml-class-stuff-abstract-p    ((stuff uml-class-stuff)) nil)
-(defmethod uml-class-stuff-to-string     ((stuff uml-class-stuff))  "")
-
 
 ;;-------------------------------------------------------------------------------
 ;;
@@ -57,20 +51,20 @@
 
 ;;-------------------------------------------------------------------------------
 ;;
-;; class uml-class-keyword
+;; class uml-class-stereotype
 ;;
 ;;-------------------------------------------------------------------------------
-(defclass uml-class-keyword (uml-class-stuff)
-  ((info  :initform nil  :initarg  :info)))   ; uml-keyword-info
+(defclass uml-class-stereotype (uml-class-stuff)
+  ((info  :initform nil  :initarg  :info)))   ; uml-stereotype-info
 
-(defmethod check ((stuff uml-class-keyword) canvas dict)
+(defmethod check ((stuff uml-class-stereotype) canvas dict)
   (with-slots (info) stuff 
-    (check-object info canvas dict :nullable nil :class uml-keyword-info)
+    (check-object info canvas dict :nullable nil :class uml-stereotype-info)
     (check info canvas dict))
   nil)
 
-(defmethod uml-class-stuff-to-string ((stuff uml-class-keyword))
-  (uml-keyword-to-string (slot-value stuff 'info)))
+(defmethod uml-class-stuff-to-string ((stuff uml-class-stereotype))
+  (uml-stereotype-to-string (slot-value stuff 'info)))
 
 
 ;;-------------------------------------------------------------------------------
@@ -125,6 +119,62 @@
                    (when default-value (format-string " = " default-value))
                    (when property      (format-string "{"   property "}")))))
 
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### function make-uml-class-attribute
+;;
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
+;;
+;;* ${{B}{make-uml-class-attribute}} ${REST} params
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　指定されたパラメータでクラス属性情報を生成します。上記は簡潔な記述で柔軟なクラス属性情報
+;;の生成を可能にするためのもので、 `params` として渡されるパラメータ数に応じて以下のことを
+;;します。
+;;
+;;* パラメータ数が 1 の場合
+;;    * `:<<STEREOTYPE>>`  形式のキーワードシンボルがの場合、ステレオタイプ情報を作成して返します
+;;    * キーワードシンボル `:etc` の場合、文字列 `...` を表示する省略情報を作成して返します
+;;    * 上記のいずれでもないキーワードシンボルまたは文字列 `param` の場合、 `(make-uml-class-attribute :none param)` を返します
+;;    * クラス属性情報オブジェクト `obj` の場合、それをそのまま返します
+;;    * リスト lst が渡された場合、 `(apply #'make-uml-class-attribute lst)` を返します
+;;    * 上記のいずれでもない prm の場合、 `(make-uml-class-attribute :none param)` を返します
+;;* パラメータ数が 2 以上の場合
+;;    * 後述します
+;;
+;;　パラメータ数が 2 以上の場合、make-uml-class-attribute 関数は実質的に以下の関数であるかのように
+;;振舞います。
+;;
+;;<!-- stack:push li class='syntax' -->
+;;
+;;* ${{B}{make-uml-class-attribute}} visibility name ${KEY} type multiplicity default property scope
+;;
+;;<!-- stack:pop li -->
+;;
+;;　各パラメータの意味は以下の通りです。
+;;
+;;* `visibility` ---- 可視性を `:none :public :private :protected :package :derived` のいずれかで指定します。
+;;* `name` ---- 属性の名称を文字列またはキーワードシンボルで指定します。
+;;* `type` ---- 型を文字列またはキーワードシンボルで指定します。
+;;* `multiplicity` ---- 多重度を整数値または文字列で指定します。
+;;* `default` ---- 属性のデフォルト値を数値、文字列またはキーワードシンボルで指定します。
+;;* `property` ---- 属性のプロパティ値を文字列またはキーワードシンボルで指定します。
+;;* `scope` ---- 属性のスコープを `:instance :class` のいずれかで指定します。
+;;
+;;${SEE_ALSO}
+;;
+;;* make-uml-class-operation 関数
+;;
+;;${NOTES}
+;;
+;;　通常、この関数を明示的に使用する必要はありません。 `uml-class` マクロの `:attributes` に
+;;指定されたリストの要素は内部でこの関数に渡されるため、 `'(:private "m_data" :type :string)` 
+;;などといった記述でクラス属性情報を指定できます。
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
 (defun make-uml-class-attribute (&rest params)
   (labels ((name-p (param)
              (or (keywordp param) (stringp param))))
@@ -132,8 +182,10 @@
         (let* ((param (car params))
                (tmp   (uml-stereotype-keyword-p param)))
           (if tmp
-              (make-instance 'uml-class-keyword
-                             :info (make-instance 'uml-keyword-info :name tmp)) ; ToDo : font はどうする？
+              ;;MEMO : attributes 内部で :<<stereotype>> 形式でステレオタイプを指定する場合、フォントは
+              ;;       個別指定できない。これは実質的に問題にならないと思うので仕様とする。
+              (make-instance 'uml-class-stereotype
+                             :info (make-instance 'uml-stereotype-info :name tmp))
               (cond
                 ((eq param :etc) (make-instance 'uml-class-omission))
                 ((name-p param)  (make-uml-class-attribute :none param))
@@ -190,6 +242,54 @@
                    (when type (format-string ":" type))
                    (when default-value (format-string "=" default-value)))))
 
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### function make-uml-class-operation-param
+;;
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
+;;
+;;* ${{B}{make-uml-class-operation-param}} ${REST} params
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　指定されたパラメータでクラス操作パラメータ情報を生成します。上記は簡潔な記述で柔軟なクラス操作パラメータ情報
+;;の生成を可能にするためのもので、 `params` として渡されるパラメータ数に応じて以下のことを
+;;します。
+;;
+;;* パラメータ数が 1 の場合
+;;    * キーワードシンボル `:etc` の場合、文字列 `...` を表示する省略情報を作成して返します
+;;    * 上記に該当しないキーワードシンボルまたは文字列 `param` の場合、 `param` を名前とするクラス操作パラメータ情報を作成して返します
+;;    * クラス操作パラメータ情報オブジェクト `obj` の場合、それをそのまま返します
+;;    * リスト `lst` が渡された場合、 `(apply #'make-uml-class-operation-param lst)` を返します
+;;    * 上記のいずれでもない `prm` の場合、 `prm` を名前とするクラス操作パラメータ情報を作成して返します
+;;* パラメータ数が 2 以上の場合
+;;    * 後述します
+;;
+;;　パラメータ数が 2 以上の場合、make-uml-class-operation-param 関数は実質的に以下の関数であるかのように
+;;振舞います。
+;;
+;;<!-- stack:push li class='syntax' -->
+;;
+;;* ${{B}{make-uml-class-operation-param}} name ${KEY} io type default
+;;
+;;<!-- stack:pop li -->
+;;
+;;　各パラメータの意味は以下の通りです。
+;;
+;;* `name` ---- 操作パラメータの名称を文字列またはキーワードシンボルで指定します。
+;;* `io` ---- 入出力に関する指定を `:in :out :inout` のいずれかで 指定します。省略可能です。
+;;* `type` ---- 型を文字列またはキーワードシンボルで指定します。
+;;* `default` ---- パラメータのデフォルト値を数値、文字列またはキーワードシンボルで指定します。
+;;
+;;${SEE_ALSO}
+;;
+;;* make-uml-class-operation 関数
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
 (defun make-uml-class-operation-param (&rest params)
   (labels ((name-p (param)
              (or (keywordp param) (stringp param))))
@@ -197,10 +297,10 @@
         (let ((param (car params)))
           (cond
             ((eq param :etc) (make-instance 'uml-class-omission))
-            ((name-p param)  (make-uml-class-operation-param :name param))
+            ((name-p param)  (make-instance 'uml-class-operation-param :name param))
             ((typep param 'uml-class-operation-param) param)
             ((listp param)   (apply #'make-uml-class-operation-param param))
-            (t               (make-uml-class-operation-param :name param))))
+            (t               (make-instance 'uml-class-operation-param :name param))))
         (destructuring-bind (name &key io type default) params
           (make-instance 'uml-class-operation-param
                          :io            io
@@ -276,6 +376,63 @@
                      (when property (format-string "{" property "}"))))))
 
 
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### function make-uml-class-operation
+;;
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
+;;
+;;* ${{B}{make-uml-class-operation}} ${REST} params
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　指定されたパラメータでクラス操作情報を生成します。上記は簡潔な記述で柔軟なクラス操作情報
+;;の生成を可能にするためのもので、 `params` として渡されるパラメータ数に応じて以下のことを
+;;します。
+;;
+;;* パラメータ数が 1 の場合
+;;    * `:<<STEREOTYPE>>`  形式のキーワードシンボルがの場合、ステレオタイプ情報を作成して返します
+;;    * キーワードシンボル `:etc` の場合、文字列 `...` を表示する省略情報を作成して返します
+;;    * 上記のいずれでもないキーワードシンボルまたは文字列 `param` の場合、 `(make-uml-class-operation :none param)` を返します
+;;    * クラス操作情報オブジェクト `obj` の場合、それをそのまま返します
+;;    * リスト `lst` が渡された場合、 `(apply #'make-uml-class-operation lst)` を返します
+;;    * 上記のいずれでもない prm の場合、 `(make-uml-class-operation :none param)` を返します
+;;* パラメータ数が 2 以上の場合
+;;    * 後述します
+;;
+;;　パラメータ数が 2 以上の場合、make-uml-class-operation 関数は実質的に以下の関数であるかのように
+;;振舞います。
+;;
+;;<!-- stack:push li class='syntax' -->
+;;
+;;* ${{B}{make-uml-class-operation}} visibility name ${KEY} abstract parameters type property scope
+;;
+;;<!-- stack:pop li -->
+;;
+;;　各パラメータの意味は以下の通りです。
+;;
+;;* `visibility` ---- 可視性を `:none :public :private :protected :package` のいずれかで指定します。
+;;* `name` ---- 操作の名称を文字列またはキーワードシンボルで指定します。
+;;* `abstract` ---- 抽象操作か否かを真偽値で指定します。 `:scope` が `:class` の場合に真を指定するとエラーになります。
+;;* `parameters` ---- パラメータ情報をリストで指定します。このリストの各要素は `make-uml-class-operation-param` 関数に渡されます。詳細は [$@ 節](#function make-uml-class-operation-param) を参照してください。
+;;* `type` ---- 型を文字列またはキーワードシンボルで指定します。
+;;* `property` ---- 操作のプロパティ値を文字列またはキーワードシンボルで指定します。
+;;* `scope` ---- 操作のスコープを `:instance :class` のいずれかで指定します。
+;;
+;;${SEE_ALSO}
+;;
+;;* make-uml-class-operation-param 関数
+;;* make-uml-class-attribute 関数
+;;
+;;${NOTES}
+;;
+;;　通常、この関数を明示的に使用する必要はありません。 `uml-class` マクロの `:operations` に
+;;指定されたリストの要素は内部でこの関数に渡されるため、 `'(:public "DoSomething" :type :integer)` 
+;;などといった記述でクラス操作情報を指定できます。
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
 (defun make-uml-class-operation (&rest params)
   (labels ((name-p (param)
              (or (keywordp param) (stringp param))))
@@ -283,8 +440,10 @@
         (let* ((param (car params))
                (tmp   (uml-stereotype-keyword-p param)))
           (if tmp
-              (make-instance 'uml-class-keyword
-                             :info (make-instance 'uml-keyword-info :name tmp)) ;;ToDo : font はどうする？
+              ;;MEMO : operations 内部で :<<stereotype>> 形式でステレオタイプを指定する場合、フォントは
+              ;;       個別指定できない。これは実質的に問題にならないと思うので仕様とする。
+              (make-instance 'uml-class-stereotype
+                             :info (make-instance 'uml-stereotype-info :name tmp))
               (cond
                 ((eq param :etc) (make-instance 'uml-class-omission))
                 ((name-p param)  (make-uml-class-operation :none param))
@@ -309,7 +468,7 @@
 ;;-------------------------------------------------------------------------------
 (defclass uml-class (kaavio:group)
   ((name                :initform nil :initarg :name)               ; (or keyword string)
-   (keyword             :initform nil :initarg :keyword)            ; uml-keyword-info
+   (stereotype          :initform nil :initarg :stereotype)         ; uml-stereotype-info
    (multiplicity        :initform nil :initarg :multiplicity)       ; (or nil uml-multiplicity-info)
    (abstract-p          :initform nil :initarg :abstract-p)         ; boolean
    (active-p            :initform nil :initarg :active-p)           ; boolean
@@ -322,6 +481,7 @@
    (fill                :initform nil :initarg :fill)               ; (or nil fill-info)
    (stroke              :initform nil :initarg :stroke)             ; (or nil stroke-info)
    (clip-path           :initform nil :initarg :clip-path)          ; (or nil symbol)
+   (filter              :initform nil :initarg :filter)             ; (or nil keyword)
    (name-actual-height  :initform nil)                              ; number
    (heights-cache       :initform nil)    #|list of box heights|#   ; list
    (margin-cache        :initform nil)                              ; number
@@ -330,20 +490,26 @@
 
 (defmethod initialize-instance :after ((cls uml-class) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (keyword multiplicity
-                    font fill stroke
+  (with-slots (stereotype multiplicity
+                    font fill stroke filter layer
                     margin-cache name-margin-cache) cls
-    (setf keyword (and keyword (make-uml-keyword keyword)))
+    (setf stereotype (and stereotype (make-uml-stereotype stereotype)))
     (setf multiplicity (and multiplicity (make-uml-multiplicity multiplicity)))
     (setf font    (make-font   (or font   *uml-class-font*   *default-font*)))
     (setf fill    (make-fill   (or fill   *uml-class-fill*   *default-fill*)))
     (setf stroke  (make-stroke (or stroke *uml-class-stroke* *default-stroke*)))
+    (setf filter (if (eq filter :none)
+                     nil
+                     (or filter *uml-class-filter* *default-filter*)))
+    (setf layer  (if (eq layer :none)
+                     nil
+                     (or layer *uml-class-layer* *default-layer*)))
     (setf margin-cache      *uml-class-margin*)
     (setf name-margin-cache *uml-class-name-margin*))
   cls)
 
 (defun uml-class-caluculate-shapesize (cls)
-  (with-slots (name keyword font attributes operations active-p
+  (with-slots (name stereotype font attributes operations active-p
                 kaavio::width kaavio::height emptybox
                 responsibilities heights-cache margin-cache name-margin-cache) cls
     (let ((total-height  0)
@@ -354,7 +520,7 @@
           (spacing (slot-value font 'kaavio::line-spacing)))
       (setf heights-cache nil)
       (labels ((get-width (line margin)
-                 (+ (* 2 margin) (* (length line) size spice))) ;ToDo : what can I do ?
+                 (+ (* 2 margin) (* (length line) size spice)))
                (get-object-width (obj margin)
                  (get-width (uml-class-stuff-to-string obj) margin))
                (calc-box (lst fnc tail-p v-margin &optional h-margin)
@@ -369,8 +535,8 @@
                               (* (1- (length lst)) spacing))))))
         ;; name
         (let ((lst (kaavio::string/split (fix-name name) #\newline)))
-          (when keyword
-            (setf lst (cons (uml-keyword-to-string keyword) lst)))
+          (when stereotype
+            (setf lst (cons (uml-stereotype-to-string stereotype) lst)))
           (let ((w.h (calc-box lst #'get-width nil margin-cache
                                (+ margin-cache name-margin-cache))))
             (setf name-height  (cdr w.h))
@@ -390,7 +556,7 @@
           (incf total-height (cdr w.h))
           (push (cdr w.h) heights-cache))
         ;; responsibilities
-        (let* ((lst (when responsibilities (cons "Responcibilities"
+        (let* ((lst (when responsibilities (cons "Responsibilities"
                                                   responsibilities)))
                (w.h (calc-box lst #'get-width nil margin-cache)))
           (setf total-width  (max total-width (car w.h)))
@@ -405,10 +571,10 @@
 (defmethod check ((cls uml-class) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (with-slots (name keyword multiplicity attributes operations template 
+  (with-slots (name stereotype multiplicity attributes operations template 
                     responsibilities font fill stroke clip-path name-actual-height) cls
     (check-member name             :nullable nil :types (or string keyword))
-    (check-object keyword canvas dict :nullable t :class uml-keyword-info)
+    (check-object stereotype canvas dict :nullable t :class uml-stereotype-info)
     (check-object multiplicity canvas dict :nullable t :class uml-multiplicity-info)
     (check-member attributes       :nullable   t :types list)
     (check-member operations       :nullable   t :types list)
@@ -446,10 +612,10 @@
 ;; override of group::draw-group
 (defmethod draw-group ((cls uml-class) writer)
   (let ((canvas (group-get-canvas cls)))
-    (with-slots (name keyword multiplicity
+    (with-slots (name stereotype multiplicity
                   active-p abstract-p template
                   attributes operations responsibilities emptybox
-                  name-actual-height margin-cache heights-cache font fill stroke clip-path) cls
+                  name-actual-height margin-cache heights-cache font fill stroke filter clip-path) cls
       (with-canvas (cc width height) canvas
         (let ((font-size (slot-value font 'kaavio::size))
               (spice     (slot-value font 'kaavio::width-spice))
@@ -462,6 +628,7 @@
                   (*default-font*   font)
                   (*default-fill*   fill)
                   (*default-stroke* stroke)
+                  (*default-filter* filter)
                   (kaavio:*current-clip-path* clip-path))
               ;; draw whole box
               (rectangle (make-point (/ width 2) (/ height 2)) width height)
@@ -477,12 +644,12 @@
                 (let ((height (car heights-cache))
                       (names  (kaavio::string/split (fix-name name) #\newline)))
                   (setf y (+ (/ (- height name-actual-height) 2) margin-cache))
-                  ;; keyword and name
-                  (when keyword
+                  ;; stereotype and name
+                  (when stereotype
                     (incf y font-size)
-                    (uml-keyword-draw keyword
-                                      (+ (canvas-left canvas) center)
-                                      (+ (canvas-top  canvas) y) :center font clip-path writer)
+                    (uml-stereotype-draw stereotype
+                                         (+ (canvas-left canvas) center)
+                                         (+ (canvas-top  canvas) y) :center font clip-path writer)
                     (incf y spacing))
                   (dolist (name names)
                     (incf y font-size)
@@ -553,31 +720,60 @@
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
-;;* ${{B}{uml-class}} position name ${KEY} pivot width height keyword multiplicity abstract active template attributes operations responsibilities (emptybox nil emptybox-p) font fill stroke link layer id
-;;
+;;* ${{B}{uml-class}} position name ${KEY} pivot width height stereotype keyword multiplicity abstract active template attributes operations responsibilities emptybox font fill stroke link filter layer id
 ;;
 ;;<!-- stack:pop li -->
 ;;
+;;${ARGS_AND_VALS}
+;;
+;;* `position` ---- 描画の基準点を指定します。詳細は「[](#座標と位置)」を参照してください。
+;;* `name` ---- クラスの名前を文字列で指定します。
+;;* `pivot` ---- `position` で指定した基準点が図形要素のどこにくるように描画するかを指定します。詳細は「[](#座標と位置)」を参照してください。
+;;* `width` ---- 幅を自動決定せず、明示的に指定したい場合に数値で指定します。
+;;* `height` ---- 高さを自動決定せず、明示的に指定したい場合に数値で指定します。
+;;* `stereotype` ---- ステレオタイプを明示する場合はステレオタイプ情報を指定します。詳細は [$@ 節](#uml-stereotype-info) を参照してください。
+;;* `keyword` ---- キーワードを明示する場合はステレオタイプ情報を指定します。 `stereotype` が指定されている場合は無視されます。詳細は [$@ 節](#uml-stereotype-info) を参照してください。
+;;* `multiplicity` ---- 多重度を数値または文字列で指定します。
+;;* `abstract` ---- 抽象クラスであることを明示する場合は `t` を指定します。
+;;* `active` ---- アクティブクラスであることを明示する場合は `t` を指定します。
+;;* `template` ---- クラステンプレートの場合、そのテンプレート引数を文字列で指定します。
+;;* `attributes` ---- クラスの属性を明示する場合、クラス属性情報のリストを指定します。指定方法については [$@ 節](#uml-class)を参照してください。
+;;* `operations` ---- クラスの操作を明示する場合、クラス操作情報のリストを指定します。指定方法については [$@ 節](#uml-class)を参照してください。
+;;* `responsibilities` ---- クラスの責務を明示する場合、文字列で指定します。改行コードを含むことで複数行を記述できます。
+;;* `emptybox` ---- 属性、操作、責務で空になるボックスを描画する場合は `t` を指定します。
+;;* `font` ---- フォントを指定します。
+;;* `fill` ---- 内部の塗り潰しを指定します。
+;;* `stroke` ---- 外枠を描画するストロークを指定します
+;;* `link` ---- リンクにする場合、リンク先を指定します。
+;;* `filter` ---- フィルタを適用したい場合、その ID をキーワードシンボルで指定します
+;;* `layer` ---- レイヤーを指定する場合、その ID をキーワードシンボルで指定します
+;;* `id` ---- ID を付与したい場合、その名前をキーワードシンボルで指定します
+;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　UML クラス図などで使用されるクラスを描画します。スタイルを統一したい場合、
+;;with-uml-class-options マクロを使うことができます。
 ;;
-;;${NO_SEE_ALSO}
+;;${SEE_ALSO}
+;;
+;;* [$$](#クラス図)
+;;* [$$](#uml-class)
+;;* with-uml-class-options マクロ
 ;;
 ;;${NO_NOTES}
 ;;
 ;;--------------------------------------------------------------------------------------- END TURNUP
-(defmacro uml-class (position name &key pivot width height keyword
+(defmacro uml-class (position name &key pivot width height stereotype keyword
                                       multiplicity abstract active template
                                       attributes operations responsibilities
                                       (emptybox nil emptybox-p)
-                                      font fill stroke link layer id)
+                                      font fill stroke filter link layer id)
   `(register-entity (make-instance 'uml-class
                                    :position ,position :pivot ,pivot :name ,name
                                    :width  (or ,width  *uml-class-width*)
                                    :height (or ,height *uml-class-height*)
                                    :multiplicity ,multiplicity
-                                   :keyword ,keyword :abstract-p ,abstract
+                                   :stereotype ,(or stereotype keyword) :abstract-p ,abstract
                                    :active-p ,active :template ,template
                                    :attributes ',attributes
                                    :operations ',operations
@@ -587,5 +783,52 @@
                                                   '*uml-class-draw-emptybox*)
                                    :font ,font :fill ,fill :stroke ,stroke
                                    :clip-path *current-clip-path*
-                                   :link ,link :layer ,layer :id ,id)))
+                                   :link ,link :filter ,filter :layer ,layer :id ,id)))
+
+
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### macro with-uml-class-options
+;;
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
+;;
+;;* ${{B}{with-uml-class-options}} (${KEY} font fill stroke filter layer width height name-margin margin draw-emptybox) ${BODY} body
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　uml-class マクロで描画される図形要素のデフォルトオプションを変更します。キーワード
+;;パラメータ群の説明は uml-class マクロを参照してください。
+;;
+;;${SEE_ALSO}
+;;
+;;* uml-class マクロ
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
+(defmacro with-uml-class-options ((&key font fill stroke filter layer width height
+                                             name-margin margin draw-emptybox) &rest body)
+  (labels ((impl (params acc)
+             (if (null params)
+                 acc
+                 (let ((value  (car  params))
+                       (symbol (cadr params)))
+                   (impl (cddr params)
+                         (if (null value)
+                             acc
+                             (push (list symbol value) acc)))))))
+    (let ((lst (impl (list font          '*uml-class-font*
+                           fill          '*uml-class-fill*
+                           stroke        '*uml-class-stroke*
+                           filter        '*uml-class-filter*
+                           layer         '*uml-class-layer*
+                           width         '*uml-class-width*
+                           height        '*uml-class-height*
+                           name-margin   '*uml-class-name-margin*
+                           margin        '*uml-class-margin*
+                           draw-emptybox '*uml-class-draw-emptybox*) nil)))
+      `(let ,lst
+         ,@body))))
 

@@ -3,6 +3,12 @@
 
 (load-stencil :uml-association)
 
+(defparameter *uml-aggregation-stroke*      :black)
+(defparameter *uml-aggregation-arrow-size* :medium)
+(defparameter *uml-aggregation-filter*         nil)
+(defparameter *uml-aggregation-layer*          nil)
+(defparameter *uml-aggregation-font*           nil)
+
 ;;------------------------------------------------------------------------------
 ;;
 ;; class uml-aggregation
@@ -16,35 +22,107 @@
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
-;;* ${{B}{uml-aggregation}} from to ${KEY} arrow keyword name style spacing role1 mult1 role2 mult2 layer id
+;;* ${{B}{uml-aggregation}} from to ${KEY} arrow stereotype keyword name style spacing role1 role2 mult1 mult2 filter layer id
 ;;
+;;<!-- stack:pop li -->
+;;
+;;${ARGS_AND_VALS}
+;;
+;;* `from` ---- 接続元となる要素の ID をキーワードで指定します。point 値も指定できます。
+;;* `to` ---- 接続先となる要素の ID をキーワードで指定します。point 値も指定できます。
+;;* `arrow` ---- 集約関連の終端に矢印を描画する場合は `t` を指定します
+;;* `stereotype` ---- ステレオタイプを明示する場合はステレオタイプ情報を指定します。詳細は [$@ 節](#uml-stereotype-info) を参照してください。
+;;* `keyword` ---- キーワードを明示する場合はステレオタイプ情報を指定します。 `stereotype` が指定されている場合は無視されます。詳細は [$@ 節](#uml-stereotype-info) を参照してください。
+;;* `name` ---- 集約関連に名前をつける場合、ラベル形式で指定します。
+;;* `style` ---- 接続線の引き方を指定します。詳細は [$@ 節](#コネクタ)を参照してください。
+;;* `spacing` ---- 2 回以上折れ曲がる接続線における「自由な線分」の位置を調整するためのパラメータです。詳細は [$@ 節](#コネクタ)を参照してください。
+;;* `role1` ---- `from` 側にロールを明示する場合はロール情報を指定します。詳細は [$@ 節](#uml-role-info) を参照してください。
+;;* `role2` ---- `to` 側にロールを明示する場合はロール情報を指定します。詳細は [$@ 節](#uml-role-info) を参照してください。
+;;* `mult1` ---- `from` 側に多重度を明示する場合は多重度情報を指定します。詳細は [$@ 節](#uml-multiplicity-info) を参照してください。
+;;* `mult2` ---- `to` 側に多重度を明示する場合は多重度情報を指定します。詳細は [$@ 節](#uml-multiplicity-info) を参照してください。
+;;* `filter` ---- フィルタを適用したい場合、その ID をキーワードシンボルで指定します
+;;* `layer` ---- レイヤーを指定する場合、その ID をキーワードシンボルで指定します
+;;* `id` ---- ID を付与したい場合、その名前をキーワードシンボルで指定します
+;;
+;;${DESCRIPTION}
+;;
+;;　UML クラス図における集約関連を描画します。スタイルを統一したい場合、
+;;with-uml-aggregation-options マクロを使うことができます。
+;;
+;;${SEE_ALSO}
+;;
+;;* [$$](#クラス図)
+;;* [$$](#uml-aggregation)
+;;* with-uml-aggregation-options マクロ
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
+(defmacro uml-aggregation (from to &key arrow stereotype keyword name style spacing
+                                     role1 role2 mult1 mult2 filter layer id)
+  (let ((g-stype (gensym "STEREOTYPE"))
+        (g-name  (gensym "NAME")))
+    `(let ((,g-stype ,(or stereotype keyword))
+           (,g-name  ,name))
+       (register-entity (make-instance 'uml-aggregation
+                                       :from ,from :to ,to
+                                       :stereotype ,g-stype :style ,style :spacing ,spacing
+                                       :name (uml-make-label *uml-aggregation-font* ,g-name)
+                                       :label (and (or ,g-stype ,g-name)
+                                                   #'uml-connection-draw-label)
+                                       :stroke (or *uml-aggregation-stroke*
+                                                   *uml-association-stroke* *default-stroke*)
+                                       :clip-path *current-clip-path*
+                                       :end1 (list :type :diamond :fill :white
+                                                   :size *uml-aggregation-arrow-size*)
+                                       :end2 (and ,arrow
+                                                  (list :type :arrow
+                                                        :size *uml-aggregation-arrow-size*))
+                                       :role1 ,role1 :role2 ,role2
+                                       :mult1 ,mult1 :mult2 ,mult2
+                                       :filter (or ,filter *uml-aggregation-filter* *default-filter*)
+                                       :layer  (or ,layer  *uml-aggregation-layer*  *default-layer*)
+                                       :id ,id)))))
+
+
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### macro with-uml-aggregation-options
+;;
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
+;;
+;;* ${{B}{with-uml-aggregation-options}} (${KEY} stroke arrow-size font filter layer) ${BODY} body
 ;;
 ;;<!-- stack:pop li -->
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　uml-aggregation マクロで描画される図形要素のデフォルトオプションを変更します。キーワード
+;;パラメータ群の説明は uml-aggregation マクロを参照してください。
 ;;
-;;${NO_SEE_ALSO}
+;;${SEE_ALSO}
+;;
+;;* uml-aggregation マクロ
 ;;
 ;;${NO_NOTES}
 ;;
 ;;--------------------------------------------------------------------------------------- END TURNUP
-(defmacro uml-aggregation (from to &key arrow keyword name style spacing role1 mult1 role2 mult2 layer id)
-  (let ((g-kwd  (gensym "KEYWORD"))
-        (g-name (gensym "NAME")))
-    `(let ((,g-kwd  ,keyword)
-           (,g-name ,name))
-       (register-entity (make-instance 'uml-aggregation
-                                       :from ,from :to ,to
-                                       :keyword ,g-kwd :style ,style :spacing ,spacing
-                                       :name ,g-name
-                                       :label (and (or ,g-kwd ,g-name)
-                                                   #'uml-connection-draw-label)
-                                       :stroke (make-stroke :dasharray nil :base *default-stroke*)
-                                       :clip-path *current-clip-path*
-                                       :end1 '(:type :diamond :fill :white)
-                                       :end2 (and ,arrow :arrow)
-                                       :role1 ,role1 :role2 ,role2
-                                       :mult1 ,mult1 :mult2 ,mult2 :layer ,layer :id ,id)))))
+(defmacro with-uml-aggregation-options ((&key stroke arrow-size font filter layer) &rest body)
+  (labels ((impl (params acc)
+             (if (null params)
+                 acc
+                 (let ((value  (car  params))
+                       (symbol (cadr params)))
+                   (impl (cddr params)
+                         (if (null value)
+                             acc
+                             (push (list symbol value) acc)))))))
+    (let ((lst (impl (list  stroke     '*uml-aggregation-stroke*
+                            arrow-size '*uml-aggregation-arrow-size*
+                            font       '*uml-aggregation-font*
+                            filter     '*uml-aggregation-filter*
+                            layer      '*uml-aggregation-layer*) nil)))
+      `(let ,lst
+         ,@body))))
+ 
 

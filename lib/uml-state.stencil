@@ -1,8 +1,8 @@
 
 (in-package :kaavio-user)
 
-(load-stencil :uml-keyword-info)
-(load-stencil :uml-transition-spec)
+(load-stencil :uml-common-base)
+(load-stencil :uml-transition)
 
 (defparameter *uml-state-font*         nil)
 (defparameter *uml-state-fill*      :white)
@@ -10,7 +10,9 @@
 (defparameter *uml-state-width*         80)
 (defparameter *uml-state-height*        40)
 (defparameter *uml-state-corner-r*      10)
-(defparameter *uml-state-margin*         5)
+(defparameter *uml-state-margin*        10)
+(defparameter *uml-state-filter*       nil)
+(defparameter *uml-state-layer*        nil)
 
 ;;------------------------------------------------------------------------------
 ;;
@@ -18,80 +20,80 @@
 ;;
 ;;------------------------------------------------------------------------------
 (defclass uml-state (kaavio:text-shape)
-  ((keyword     :initform nil :initarg :keyword)     ; (or nil uml-keyword-info)
+  ((stereotype  :initform nil :initarg :stereotype)  ; (or nil uml-stereotype-info)
    (contents-p  :initform nil :initarg :contents-p)  ; boolean
    (activities  :initform nil :initarg :activities)  ; list of uml-transition-spec
    (corner-r    :initform   0 :initarg :corner-r)    ; number
-   (kwd-height  :initform   0)))                     ; number
+   (filter      :initform nil :initarg :filter)))    ; (or nil keyword)
 
-(defmethod initialize-instance :after ((state uml-state) &rest initargs)
+(defmethod initialize-instance :after ((obj uml-state) &rest initargs)
   (declare (ignore initargs))
   ;;(format t "initialize-instance :after called.~%")
-  (with-slots (keyword activities kwd-height contents-p) state
-    (setf keyword (and keyword (make-uml-keyword keyword)))
+  (with-slots (stereotype activities contents-p filter layer) obj
+    (setf stereotype (and stereotype (make-uml-stereotype stereotype)))
     (setf activities (mapcar (lambda (entry)
                                (make-uml-transition-spec entry)) activities))
     (setf contents-p (not (not (or activities contents-p))))
-    (setf kwd-height (if (null keyword)
-                         0
-                         (or (and *uml-state-font*  (slot-value *uml-state-font* 'kaavio::size))
-                             (and *default-font*    (slot-value *default-font*   'kaavio::size))
-                             12))))    ;;ToDo : これはなんとかしないと。
-  state)
+    (setf filter  (if (eq filter :none)
+                      nil
+                      (or filter *uml-state-filter* *default-filter*)))
+    (setf layer  (if (eq layer :none)
+                     nil
+                     (or layer *uml-state-layer* *default-layer*))))
+  obj)
 
-(defmethod check ((state uml-state) canvas dict)
+(defmethod check ((obj uml-state) canvas dict)
+  ;; this method must call super class' one.
+  (call-next-method)
   ;;(format t "check called.~%")
-  (with-slots (keyword activities corner-r kwd-height) state
-    (check-object keyword    canvas dict :nullable   t :class uml-keyword-info)
+  (with-slots (stereotype activities corner-r filter) obj
+    (check-object stereotype canvas dict :nullable   t :class uml-stereotype-info)
     (check-member activities :nullable   t :types list)
     (check-member corner-r   :nullable nil :types number)
-    (check-member kwd-height :nullable nil :types number)
+    (check-member filter     :nullable   t :types keyword)
     (dolist (activity activities)
-      (check-object activity canvas dict :class uml-transition-spec)))
-  ;; this method must call super class' one.
-  (call-next-method))
+      (check-object activity canvas dict :class uml-transition-spec))))
 
-(defmethod shape-connect-point ((state uml-state) type1 type2 arg)
-  (rectangle-connect-point (attribute-center state)
-                           (attribute-width  state)
-                           (attribute-height state) type1 type2 arg))
+(defmethod shape-connect-point ((obj uml-state) type1 type2 arg)
+  (rectangle-connect-point (attribute-center obj)
+                           (attribute-width  obj)
+                           (attribute-height obj) type1 type2 arg))
 
 ;;MEMO : use impelementation of group...
-;;(defmethod group-get-canvas ((state uml-state)) ...)
+;;(defmethod group-get-canvas ((obj uml-state)) ...)
 
 ;; override of group::draw-group
-(defmethod draw-group ((state uml-state) writer)
+(defmethod draw-group ((obj uml-state) writer)
   ;;(format t "draw-group called.~%")
-  (let ((canvas (group-get-canvas state)))
-    (let ((top    (canvas-top    canvas))
-          (left   (canvas-left   canvas))
-          (width  (canvas-width  canvas))
+  (let ((canvas (group-get-canvas obj)))
+    (let ((width  (canvas-width  canvas))
           (height (canvas-height canvas)))
       (macrolet ((register-entity (entity)
                    `(check-and-draw-local-entity ,entity canvas writer)))
-        (with-slots (keyword kwd-height corner-r activities contents-p
-                         kaavio::margin kaavio::font
-                         kaavio::fill kaavio::stroke kaavio::clip-path) state
-          (let ((kaavio:*current-clip-path* kaavio::clip-path))
+        (with-slots (stereotype corner-r filter activities contents-p
+                      (text kaavio::text) (font kaavio::font) (margin kaavio::margin)
+                      (fill kaavio::fill) (stroke kaavio::stroke) (clip-path kaavio::clip-path)) obj
+          (let ((*current-clip-path* clip-path))
             ;; draw state body
+            (writer-write writer "<g " (write-when filter "filter='url(#" it ")' ") ">")
+            (writer-incr-level writer)
+            ;; 
             (rectangle (make-point (/ width 2) (/ height 2))
-                       width height :rx corner-r :ry corner-r
-                       :fill kaavio::fill :stroke kaavio::stroke)
-            ;; draw keyword
-            (when keyword
-              (uml-keyword-draw keyword
-                                (+ left (/ width 2))
-                                (+ top  kaavio::margin kwd-height)
-                                :center kaavio::font kaavio::clip-path writer))
+                       width height :rx corner-r :fill fill :stroke stroke)
             ;; draw text
-            (call-next-method)
+            (let ((cv (uml-draw-textarea obj stereotype writer)))
+              (declare (ignorable cv))
+;              (rect (canvas-center cv)
+;                    (canvas-width cv) (canvas-height cv)
+;                    :fill '(:color :red :opacity 0.1) :stroke :red)
+              )
             ;;contents
             (when contents-p
-              (let ((y (canvas-height (text-shape-paragraph-area state))))
+              (let ((y (canvas-height (text-shape-paragraph-area obj))))
                 ;;draw partition line
-                (incf y kaavio::margin)
-                (line `((0 ,y) (,width ,y)))
-                (incf y kaavio::margin)
+                (incf y margin)
+                (line `((0 ,y) (,width ,y)) :stroke stroke)
+                (incf y margin)
                 ;;activities がある場合は順番に描画する必要がある
                 (dolist (act activities)
                   (when act
@@ -100,30 +102,33 @@
                         (with-slots ((fsize kaavio::size)
                                      (ls kaavio::line-spacing)) font
                           (incf y (+ ls fsize))
-                          (text `(,kaavio::margin ,y) txt :align :left :font font)))))))))))))
+                          (text `(,margin ,y) txt :align :left :font font))))))))
+            ;; 
+            (writer-decr-level writer)
+            (writer-write writer "</g>"))))))
   nil)
 
 
 ;for debug...
-;(defmethod post-draw ((state uml-state) writer)
+;(defmethod post-draw ((obj uml-state) writer)
 ;  ;;(format t "post-draw called.~%")
 ;  (call-next-method)
-;  (with-slots (contents-p) state
+;  (with-slots (contents-p) obj
 ;    (when contents-p
-;      (draw-canvas-frame (shape-get-subcanvas state) writer))))
+;      (draw-canvas-frame (shape-get-subcanvas obj) writer))))
  
-(defmethod text-shape-calc-size ((state uml-state))
+(defmethod text-shape-calc-size ((obj uml-state))
   ;;(format t "text-shape-calc-size called.~%")
   (multiple-value-bind (width height) (call-next-method)
-    (with-slots (keyword activities contents-p
-                         (margin kaavio::margin)) state
-      ;; ToDo : margin は上記 call-next-method の結果に含まれているはずだが、何故か必要。
-      (incf height (* margin 2))
-      ;; keyword (if exists).
-      (when keyword
-        (with-slots (font) keyword
+    (with-slots (stereotype activities contents-p
+                            (font kaavio::font) (margin kaavio::margin)) obj
+      ;; MEMO: 縦方向の margin は上記 call-next-method の結果に含まれている
+      ;(incf height (* margin 2))
+      ;; stereotype (if exists).
+      (when stereotype
+        (let ((font (or (slot-value stereotype 'font) font)))
           (multiple-value-bind (w h)
-                (font-calc-textarea font (uml-keyword-to-string keyword))
+                (font-calc-textarea font (uml-stereotype-to-string stereotype))
             (setf width (cl:max width (+ w (* margin 2))))
             (incf height h))))
       ;; contents
@@ -139,29 +144,39 @@
     (values (cl:max width  *uml-state-width*)
             (cl:max height *uml-state-height*))))
 
+;;MEMO : 下記 text-shape-paragraph-area / shape-get-subcanvas は contents 有無によって
+;;       どちらがどちらに依存するかが変わる。気持ち悪いかもしれないが、動作する。
 
-(defmethod text-shape-paragraph-area ((state uml-state))
+;;MEMO : uml-state の paragraph-area は以下のルール
+;;  * contents 無しの場合：サブキャンバスと同じ
+;;  * contents ありの場合：キーワード込みの textarea を計算し、margin を上下に足す。
+(defmethod text-shape-paragraph-area ((obj uml-state))
   ;;(format t "text-shape-paragraph-area called.~%")
-  (let ((canvas (call-next-method)))
-    (with-slots (text contents-p kwd-height
-                      kaavio::font kaavio::margin) state
-      (incf (canvas-top canvas) (/ kwd-height 2))
-      (when contents-p
-        (multiple-value-bind (w h)
-                (font-calc-textarea kaavio::font text)
+  (with-slots (stereotype contents-p
+                 (text kaavio::text) (font kaavio::font) (margin kaavio::margin)) obj
+    (if (not contents-p)
+        (shape-get-subcanvas obj)
+        (multiple-value-bind (w height) (uml-calc-textarea font text stereotype)
           (declare (ignore w))
-          (setf (canvas-height canvas)
-                (+ kwd-height (* 2 kaavio::margin) h)))))
-    canvas))
+          (incf height (* margin 2))
+          (make-canvas (attribute-topleft obj)
+                       (attribute-width   obj) height)))))
 
-(defmethod shape-get-subcanvas ((state uml-state))
+;;MEMO : uml-state のサブキャンバスは以下のルール
+;;  * contents 無しの場合：shape と同じ
+;;  * contents ありの場合：上記から paragraph-area を除いたもの
+(defmethod shape-get-subcanvas ((obj uml-state))
   ;;(format t "shape-get-subcanvas called.~%")
-  (with-slots (kaavio::margin) state
-    (let ((partition (+ kaavio::margin
-                        (canvas-height (text-shape-paragraph-area state)))))
-      (make-canvas (point/y+ (attribute-topleft state) partition)
-                   (attribute-width state)
-                   (- (attribute-height state) partition)))))
+  (with-slots (contents-p) obj
+    (let ((canvas (make-canvas (attribute-topleft obj)
+                               (attribute-width   obj)
+                               (attribute-height  obj))))
+      (if (not contents-p)
+          canvas
+          (let ((area (text-shape-paragraph-area obj)))
+            (incf (canvas-top    canvas) (canvas-height area))
+            (decf (canvas-height canvas) (canvas-height area))
+            canvas)))))
 
 
 ;;------------------------------------------------------------------------------------- BEGIN TURNUP
@@ -170,43 +185,120 @@
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
-;;* ${{B}{uml-state}} position text ${KEY} pivot keyword width height activities margin corner-r font fill stroke link layer id contents
+;;* ${{B}{uml-state}} position text ${KEY} pivot stereotype keyword width height activities margin corner-r font fill stroke link layer filter id contents
 ;;
+;;<!-- stack:pop li -->
+;;
+;;${ARGS_AND_VALS}
+;;
+;;* `position` ---- 描画の基準点を指定します。詳細は「[](#座標と位置)」を参照してください。
+;;* `text` ---- 状態名を文字列で指定します。
+;;* `pivot` ---- `position` で指定した基準点が図形要素のどこにくるように描画するかを指定します。詳細は「[](#座標と位置)」を参照してください。
+;;* `stereotype` ---- ステレオタイプを明示する場合はステレオタイプ情報を指定します。詳細は [$@ 節](#uml-stereotype-info) を参照してください。
+;;* `keyword` ---- キーワードを明示する場合はステレオタイプ情報を指定します。 `stereotype` が指定されている場合は無視されます。詳細は [$@ 節](#uml-stereotype-info) を参照してください。
+;;* `width` ---- 幅を自動決定せず、明示的に指定したい場合に数値で指定します。
+;;* `height` ---- 高さを自動決定せず、明示的に指定したい場合に数値で指定します。
+;;* `activities` ---- 状態にアクティビティの一覧を含める場合、遷移指定のリストを記述します。このリストの個々の要素は、uml-transition における `:spec` パラメータに指定するものと同じ形式です。[$@ 節](#macro uml-transition) を参照してください。
+;;* `margin` ---- テキスト描画における「余白」のサイズです。省略した場合のデフォルト値は 5 です。
+;;* `corner-r` ---- 角の丸みの半径を数値で指定します。省略した場合のデフォルト値は 6 です。
+;;* `font` ---- フォントを指定します。
+;;* `fill` ---- 内部の塗り潰しを指定します。
+;;* `stroke` ---- 外枠を描画するストロークを指定します
+;;* `link` ---- リンクにする場合、リンク先を指定します。
+;;* `layer` ---- レイヤーを指定する場合、その ID をキーワードシンボルで指定します
+;;* `filter` ---- フィルタを適用したい場合、その ID をキーワードシンボルで指定します
+;;* `id` ---- ID を付与したい場合、その名前をキーワードシンボルで指定します
+;;* `contents` ---- 内部をサブキャンバスとした描画をしたい場合、その内容を指定します。 `:contents t` とすることも可能です。詳細は後述します。
+;;
+;;${DESCRIPTION}
+;;
+;;　UML ステートマシーン図における状態を描画します。スタイルを統一したい場合、
+;;with-uml-state-options マクロを使うことができます。
+;;
+;;${SEE_ALSO}
+;;
+;;* [$$](#ステートマシーン図)
+;;* [$$](#uml-state)
+;;* with-uml-state-options マクロ
+;;
+;;${NOTES}
+;;
+;;* uml-state では `:contents` パラメータを指定した場合、 `tesxt` で指定されたテキストを（中央でなく）上部に描画します。しかし、（ `:contents` パラメータでなく）with-subcanvas-of マクロを使う場合、テキストは中央に描画されてしまいます。これを避けるためには、 `:contents t` を指定してください。これはテキストを上端付近に描画させる効果だけを持ちます。
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
+(defmacro uml-state (position text &key pivot stereotype keyword width height
+                                        activities margin corner-r
+                                        font fill stroke link layer filter id contents)
+  (let* ((contents-p (not (null contents)))
+         (code `(register-entity
+                     (make-instance 'uml-state
+                                    :position ,position :pivot ,pivot
+                                    :width ,width :height ,height
+                                    :text ,text :stereotype ,(or stereotype keyword)
+                                    :contents-p ,contents-p
+                                    :corner-r (or ,corner-r *uml-state-corner-r*)
+                                    :margin   (or ,margin   *uml-state-margin*)
+                                    :activities ',activities
+                                    :font ,font
+                                    :fill     (or ,fill *uml-state-fill*
+                                                  *default-fill*   :white)
+                                    :stroke   (or ,stroke *uml-state-stroke*
+                                                  *default-stroke* :black)
+                                    :clip-path kaavio:*current-clip-path*
+                                    :link ,link :layer ,layer :filter ,filter :id ,id))))
+    (if (or (null contents)
+            (not (listp contents)))
+        code
+        (let ((g-obj (gensym "OBJ")))
+          `(let* ((,g-obj ,code)
+                  (canvas (shape-get-subcanvas ,g-obj)))
+             (declare (special canvas))
+             ,@contents)))))
+
+
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### macro with-uml-state-options
+;;
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
+;;
+;;* ${{B}{with-uml-state-options}} (${KEY} font fill stroke width height corner-r margin rake filter layer) ${BODY} body
 ;;
 ;;<!-- stack:pop li -->
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　uml-state マクロで描画される図形要素のデフォルトオプションを変更します。キーワード
+;;パラメータ群の説明は uml-state マクロを参照してください。
 ;;
-;;${NO_SEE_ALSO}
+;;　なお、ここで指定する width および height はデフォルトの最低サイズとして使用されます。
+;;
+;;${SEE_ALSO}
+;;
+;;* uml-state マクロ
 ;;
 ;;${NO_NOTES}
 ;;
 ;;--------------------------------------------------------------------------------------- END TURNUP
-(defmacro uml-state (position text &key pivot keyword width height
-                                        activities margin corner-r
-                                        font fill stroke link layer id contents)
-  (let* ((contents-p (not (null contents)))
-         (code `(register-entity (make-instance 'uml-state
-                                                :position ,position :pivot ,pivot
-                                                :width ,width :height ,height
-                                                :text ,text :keyword ,keyword
-                                                :contents-p ,contents-p
-                                                :corner-r (or ,corner-r *uml-state-corner-r*)
-                                                :margin   (or ,margin   *uml-state-margin*)
-                                                :activities ',activities :font ,font
-                                                :fill     (or ,fill *uml-state-fill*
-                                                              *default-fill*   :white)
-                                                :stroke   (or ,stroke *uml-state-stroke*
-                                                              *default-stroke* :black)
-                                                :clip-path kaavio:*current-clip-path*
-                                                :link ,link :layer ,layer :id ,id))))
-    (if (null contents)
-        code
-          (let ((g-obj (gensym "OBJ")))
-            `(let* ((,g-obj ,code)
-                    (canvas (shape-get-subcanvas ,g-obj)))
-               (declare (special canvas))
-               ,@contents)))))
-
+(defmacro with-uml-state-options ((&key font fill stroke width height
+                                         corner-r margin filter layer) &rest body)
+  (labels ((impl (params acc)
+             (if (null params)
+                 acc
+                 (let ((value  (car  params))
+                       (symbol (cadr params)))
+                   (impl (cddr params)
+                         (if (null value)
+                             acc
+                             (push (list symbol value) acc)))))))
+    (let ((lst (impl (list font     '*uml-state-font*
+                           fill     '*uml-state-fill*
+                           stroke   '*uml-state-stroke*
+                           width    '*uml-state-width*
+                           height   '*uml-state-height*
+                           corner-r '*uml-state-corner-r*
+                           margin   '*uml-state-margin*
+                           filter   '*uml-state-filter*
+                           layer    '*uml-state-layer*) nil)))
+      `(let ,lst
+         ,@body))))

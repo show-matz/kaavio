@@ -1,0 +1,108 @@
+
+(in-package :kaavio-user)
+
+;;------------------------------------------------------------------------------
+;;
+;; class uml-stereotype-info
+;;
+;;------------------------------------------------------------------------------
+(defclass uml-stereotype-info ()
+  ((name    :initform nil :initarg :name)     ; (or keyword string)
+   (font    :initform nil :initarg :font)))   ; (or nil font-info)
+
+
+(defmethod initialize-instance :after ((obj uml-stereotype-info) &rest initargs)
+  (declare (ignore initargs))
+  (with-slots (font) obj
+    (setf font (make-font (or font *default-font*)))))
+
+(defmethod check ((obj uml-stereotype-info) canvas dict)
+  (with-slots (name font) obj
+    (check-member name  :nullable nil :types (or keyword string))
+    (check-object font canvas dict :nullable nil :class font-info))
+  nil)
+
+(defun uml-stereotype-to-string (stereotype)
+  (format-string "«" (slot-value stereotype 'name) "»"))
+
+(defun uml-stereotype-draw (stereotype x y align fallback-font clip-path writer)
+  (let ((txt (uml-stereotype-to-string stereotype)))
+    (with-slots (font) stereotype
+      (write-text-tag x y txt writer :align align
+                      :font (or font (make-font fallback-font)) :clip-path clip-path))))
+
+
+(defun uml-stereotype-draw-beside-line (stereotype line fallback-font clip-path writer)
+  (multiple-value-bind (x y sin cos) (kaavio:line-get-center line)
+    (declare (ignorable x y sin cos))
+    (with-slots (font) stereotype
+      (let* ((font   (or font (make-font fallback-font)))
+             (f-size (slot-value font 'kaavio::size))
+             (offset f-size)
+             (align (cond ((zerop sin) :center)
+                          ((<  0  sin) :left)
+                          (t           :right))))
+        (incf y (/ f-size 2))
+        (uml-stereotype-draw stereotype (+ x (* sin offset))
+                             (- y (* cos offset)) align font clip-path writer)))))
+
+
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### function make-uml-stereotype
+;;
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
+;;
+;;* ${{B}{make-uml-stereotype}} ${REST} params
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　指定されたパラメータでステレオタイプ情報を生成します。上記は簡潔な記述で柔軟なステレオタイプ情報
+;;の生成を可能にするためのもので、 `params` として渡されるパラメータ数に応じて以下のことを
+;;します。
+;;
+;;* パラメータ数が 1 の場合
+;;    * ステレオタイプ情報が渡された場合、それをそのまま返します
+;;    * リスト lst が渡された場合、 `(apply #'make-uml-stereotype lst)` を返します
+;;    * 上記のいずれでもない prm の場合、 `(make-uml-stereotype prm :font nil)` を返します
+;;* パラメータ数が 2 以上の場合
+;;    * 後述します
+;;
+;;　パラメータ数が 2 以上の場合、make-uml-stereotype 関数は実質的に以下の関数であるかのように
+;;振舞います。
+;;
+;;<!-- stack:push li class='syntax' -->
+;;
+;;* ${{B}{make-uml-stereotype}} name ${KEY} font
+;;
+;;<!-- stack:pop li -->
+;;
+;;　各パラメータの意味は以下の通りです。
+;;
+;;* `name` ---- ステレオタイプの名前をキーワードシンボルまたは文字列で指定します。
+;;* `font` ---- フォントを指定します。
+;;
+;;${SEE_ALSO}
+;;
+;;* [$$](#uml-stereotype-info)
+;;
+;;${NOTES}
+;;
+;;　通常、この関数を明示的に使用する必要はありません。各種マクロの `:stereotype` などに指定
+;;されたパラメータは内部でこの関数に渡されるため、 `:stereotype "concurrent"` あるいは 
+;;`:stereotype '("concurrent" :font 9)` といった記述でステレオタイプ情報を指定できます。
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
+(defun make-uml-stereotype (&rest params)
+  (if (= 1 (length params))
+      (let ((param (car params)))
+        (cond
+          ((typep param 'uml-stereotype-info) param)
+          ((listp param) (apply #'make-uml-stereotype param))
+          (t             (make-uml-stereotype param :font nil))))
+      (destructuring-bind (name &key font) params
+        (make-instance 'uml-stereotype-info
+                       :name name :font font))))
+

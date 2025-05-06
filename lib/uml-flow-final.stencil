@@ -54,14 +54,30 @@
 ;;
 ;;* ${{B}{uml-flow-final}} position ${KEY} pivot radius fill stroke link layer filter id
 ;;
-;;
 ;;<!-- stack:pop li -->
+;;
+;;${ARGS_AND_VALS}
+;;
+;;* `position` ---- 描画の基準点を指定します。詳細は「[](#座標と位置)」を参照してください。
+;;* `pivot` ---- `position` で指定した基準点が図形要素のどこにくるように描画するかを指定します。詳細は「[](#座標と位置)」を参照してください。
+;;* `radius` ---- 大きさを半径で指定します。
+;;* `fill` ---- 内部の塗り潰しを指定します。
+;;* `stroke` ---- 線を描画するストロークを指定します
+;;* `link` ---- リンクにする場合、リンク先を指定します。
+;;* `layer` ---- レイヤーを指定する場合、その ID をキーワードシンボルで指定します
+;;* `filter` ---- フィルタを適用したい場合、その ID をキーワードシンボルで指定します
+;;* `id` ---- ID を付与したい場合、その名前をキーワードシンボルで指定します
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　UML アクティビティ図におけるフロー終了を描画します。スタイルを統一したい場合、
+;;with-uml-flow-final-options マクロを使うことができます。
 ;;
-;;${NO_SEE_ALSO}
+;;${SEE_ALSO}
+;;
+;;* [$$](#アクティビティ図)
+;;* [$$](#uml-flow-final)
+;;* with-uml-flow-final-options マクロ
 ;;
 ;;${NO_NOTES}
 ;;
@@ -84,14 +100,16 @@
 ;;
 ;;* ${{B}{with-uml-flow-final-options}} (${KEY} radius fill stroke filter layer) ${BODY} body
 ;;
-;;
 ;;<!-- stack:pop li -->
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　uml-flow-final マクロで描画される図形要素のデフォルトオプションを変更します。
+;;キーワードパラメータ群の説明は uml-flow-final マクロを参照してください。
 ;;
-;;${NO_SEE_ALSO}
+;;${SEE_ALSO}
+;;
+;;* uml-flow-final マクロ
 ;;
 ;;${NO_NOTES}
 ;;

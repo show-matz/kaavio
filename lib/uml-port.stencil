@@ -1,14 +1,14 @@
 
 (in-package :kaavio-user)
 
-(defparameter *uml-pin-font*      nil)
-(defparameter *uml-pin-fill*   :white)
-(defparameter *uml-pin-stroke* :black)
-(defparameter *uml-pin-size*       10)
-(defparameter *uml-pin-filter*    nil)
-(defparameter *uml-pin-layer*     nil)
+(defparameter *uml-port-font*      nil)
+(defparameter *uml-port-fill*   :white)
+(defparameter *uml-port-stroke* :black)
+(defparameter *uml-port-size*       16)
+(defparameter *uml-port-filter*    nil)
+(defparameter *uml-port-layer*     nil)
 
-(defun uml-pin-fix-target (target)
+(defun uml-port-fix-target (target)
   (destructuring-bind (shape . position) target
     (if (not (listp position))
         (list shape position 0)
@@ -16,15 +16,14 @@
 
 ;;------------------------------------------------------------------------------
 ;;
-;; class uml-pin
+;; class uml-port
 ;;
 ;;------------------------------------------------------------------------------
-(defclass uml-pin (kaavio:group)
+(defclass uml-port (kaavio:group)
   ((name    :initform nil :initarg :name)        ; (or keyword string)
    (target  :initform nil :initarg :target)      ; (keyword keyword number)
    (size    :initform nil :initarg :size)        ; number
    (offset  :initform nil :initarg :offset)      ; (or nil list)
-   (multi   :initform nil :initarg :multi)       ; boolean
    (font    :initform nil :initarg :font)        ; (or nil font-info)
    (fill    :initform nil :initarg :fill)        ; (or nil fill-info)
    (stroke  :initform nil :initarg :stroke)      ; (or nil stroke-info)
@@ -32,24 +31,24 @@
    (filter  :initform nil :initarg :filter)))    ; (or nil keyword)
 
 
-(defmethod initialize-instance :after ((pin uml-pin) &rest initargs)
+(defmethod initialize-instance :after ((port uml-port) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (target offset fill stroke font filter layer) pin
-    (setf target  (uml-pin-fix-target target))
+  (with-slots (target offset fill stroke font filter layer) port
+    (setf target  (uml-port-fix-target target))
     (setf offset  (or offset (make-point 0 0)))
-    (setf fill    (make-fill   (or fill   *uml-pin-fill*   *default-fill*)))
-    (setf font    (make-font   (or font   *uml-pin-font*   *default-font*)))
-    (setf stroke  (make-stroke (or stroke *uml-pin-stroke* *default-stroke*)))
+    (setf fill    (make-fill   (or fill   *uml-port-fill*   *default-fill*)))
+    (setf font    (make-font   (or font   *uml-port-font*   *default-font*)))
+    (setf stroke  (make-stroke (or stroke *uml-port-stroke* *default-stroke*)))
     (setf filter  (if (eq filter :none)
                       nil
-                      (or filter *uml-pin-filter* *default-filter*)))
+                      (or filter *uml-port-filter* *default-filter*)))
     (setf layer  (if (eq layer :none)
                      nil
-                     (or layer *uml-pin-layer* *default-layer*))))
-  pin)
+                     (or layer *uml-port-layer* *default-layer*))))
+  port)
 
-(defmethod check ((pin uml-pin) canvas dict)
-  (with-slots (name target size offset multi font fill stroke clip-path) pin
+(defmethod check ((port uml-port) canvas dict)
+  (with-slots (name target size offset font fill stroke clip-path) port
     (check-member name               :nullable   t :types (or string keyword))
     (check-member size               :nullable nil :types              number)
     (check-member offset             :nullable   t :types                cons)
@@ -69,9 +68,9 @@
                  (let ((ent (kaavio::dict-get-entity dict target))
                        (pos (string-upcase (symbol-name position))))
                    (unless (typep ent 'kaavio:shape)
-                     (throw-exception "uml-pin : target is not shape object."))
+                     (throw-exception "uml-port : target is not shape object."))
                    (when (< 2 (length pos))
-                     (throw-exception "uml-pin : invalid position."))
+                     (throw-exception "uml-port : invalid position."))
                    (values ent
                            (ecase (char pos 0)
                              ((#\T) :top)
@@ -85,62 +84,54 @@
                                  ((#\2)  0)
                                  ((#\3)  1)))))))
         (multiple-value-bind (ent pos1 pos2) (entity-and-position)
-          (let ((half (/ (slot-value pin 'size) 2))
-                (pt   (shape-connect-point ent :from pos1 pos2))
-                (w4   (and multi (or (eq pos1 :top) (eq pos1 :bottom))))
-                (h4   (and multi (or (eq pos1 :left) (eq pos1 :right)))))
+          (let ((size (slot-value port 'size))
+                (pt   (shape-connect-point ent :from pos1 pos2)))
             (with-point (x y) pt
-                (unless (and multi (eq (type-of ent) 'uml-expansion-region))
-                  (ecase pos1
-                    ((:top)    (decf y half))
-                    ((:bottom) (incf y half))
-                    ((:left)   (decf x half))
-                    ((:right)  (incf x half))))
                 (unless (zerop delta)
                   (ecase pos1
                     ((:top)    (incf x delta))
                     ((:bottom) (incf x delta))
                     ((:left)   (incf y delta))
                     ((:right)  (incf y delta))))
-                (setf (slot-value pin 'kaavio::position) (make-point x y :absolute))
-                (setf (slot-value pin 'kaavio::width)    (* half 2 (if w4 4 1)))
-                (setf (slot-value pin 'kaavio::height)   (* half 2 (if h4 4 1)))))))))
+                (setf (slot-value port 'kaavio::position) (make-point x y :absolute))
+                (setf (slot-value port 'kaavio::width)    size)
+                (setf (slot-value port 'kaavio::height)   size)))))))
     ;; this method must call super class' one.
     (call-next-method))
 
-(defun uml-pin-locate-text-for-top (x y size offset font-size)
+(defun uml-port-locate-text-for-top (x y size offset font-size)
   (declare (ignore font-size))
-  ;; top の場合、基準点は pin box の左下から (-5 . -5)
+  ;; top の場合、基準点は port box の左下から (-5 . -5)
   (let ((px (+ (- x (/ size 2)) -5 (point-x offset)))
         (py (+ (+ y (/ size 2)) -5 (point-y offset))))
     (values px py
             (if (< px x) :right :left))))
 
-(defun uml-pin-locate-text-for-bottom (x y size offset font-size)
-  ;; bottom の場合、基準点は pin box の右上から (5 . 5)
+(defun uml-port-locate-text-for-bottom (x y size offset font-size)
+  ;; bottom の場合、基準点は port box の右上から (5 . 5)
   (let ((px (+ (+ x (/ size 2)) 5 (point-x offset)))
         (py (+ (- y (/ size 2)) 5 (point-y offset) (/ font-size 2))))
     (values px py
             (if (< px x) :right :left))))
 
-(defun uml-pin-locate-text-for-left (x y size offset font-size)
-  ;; left の場合、基準点は pin box の右下から (-5 . 5)
+(defun uml-port-locate-text-for-left (x y size offset font-size)
+  ;; left の場合、基準点は port box の右下から (-5 . 5)
   (let ((px (+ (+ x (/ size 2)) -5 (point-x offset)))
         (py (+ (+ y (/ size 2))  5 (point-y offset) (/ font-size 2))))
     (values px py :right)))
 
-(defun uml-pin-locate-text-for-right (x y size offset font-size)
+(defun uml-port-locate-text-for-right (x y size offset font-size)
   (declare (ignore font-size))
-  ;; right の場合、基準点は pin box の左上から (5 . -5)
+  ;; right の場合、基準点は port box の左上から (5 . -5)
   (let ((px (+ (- x (/ size 2))  5 (point-x offset)))
         (py (+ (- y (/ size 2)) -5 (point-y offset))))
     (values px py :left)))
   
 
 ;; override of group::draw-group
-(defmethod draw-group ((pin uml-pin) writer)
-  (let ((canvas (group-get-canvas pin)))
-    (with-slots (name size offset multi font fill stroke clip-path filter) pin
+(defmethod draw-group ((port uml-port) writer)
+  (let ((canvas (group-get-canvas port)))
+    (with-slots (name size offset font fill stroke clip-path filter) port
       (with-canvas (cc width height) canvas
         (let* ((x (/ width  2))
                (y (/ height 2))
@@ -149,25 +140,17 @@
           (labels ((locate-text ()
                      (let ((pos (string-upcase
                                  (symbol-name
-                                  (second (slot-value pin 'target))))))
+                                  (second (slot-value port 'target))))))
                        (ecase (char pos 0)
-                         ((#\T) (uml-pin-locate-text-for-top    x y size offset font-size))
-                         ((#\B) (uml-pin-locate-text-for-bottom x y size offset font-size))
-                         ((#\L) (uml-pin-locate-text-for-left   x y size offset font-size))
-                         ((#\R) (uml-pin-locate-text-for-right  x y size offset font-size))))))
+                         ((#\T) (uml-port-locate-text-for-top    x y size offset font-size))
+                         ((#\B) (uml-port-locate-text-for-bottom x y size offset font-size))
+                         ((#\L) (uml-port-locate-text-for-left   x y size offset font-size))
+                         ((#\R) (uml-port-locate-text-for-right  x y size offset font-size))))))
             (macrolet ((register-entity (entity)
                          `(check-and-draw-local-entity ,entity canvas writer)))
               (let ((*default-fill*   fill)
                     (*default-stroke* stroke))
-                (rectangle `(,x ,y) width height :filter filter)
-                (when multi
-                  (if (< width height)
-                      (path `((:move-to (0 ,(* size 1)) (,size ,(* size 1)))
-                              (:move-to (0 ,(* size 2)) (,size ,(* size 2)))
-                              (:move-to (0 ,(* size 3)) (,size ,(* size 3)))))
-                      (path `((:move-to (,(* size 1) 0) (,(* size 1) ,size))
-                              (:move-to (,(* size 2) 0) (,(* size 2) ,size))
-                              (:move-to (,(* size 3) 0) (,(* size 3) ,size)))))))
+                (rectangle `(,x ,y) width height :filter filter))
               (when name
                 (let ((*default-font*   font))
                   (multiple-value-bind (x y align) (locate-text)
@@ -175,28 +158,27 @@
   nil)
 
 ;;for debug...
-;(defmethod post-draw ((pin uml-pin) writer)
+;(defmethod post-draw ((port uml-port) writer)
 ;  (call-next-method)
-;  (draw-canvas-frame (group-get-canvas #|shape-get-subcanvas|# pin) writer))
+;  (draw-canvas-frame (group-get-canvas #|shape-get-subcanvas|# port) writer))
  
 
 ;;------------------------------------------------------------------------------------- BEGIN TURNUP
-;;#### macro uml-pin
+;;#### macro uml-port
 ;;
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
-;;* ${{B}{uml-pin}} target position name ${KEY} offset multi size fill stroke font filter layer id
+;;* ${{B}{uml-port}} target position name ${KEY} offset size fill stroke font filter layer id
 ;;
 ;;<!-- stack:pop li -->
 ;;
 ;;${ARGS_AND_VALS}
 ;;
-;;* `target` ---- ピンを追加する対象の ID をキーワードシンボルで指定します。
+;;* `target` ---- ポートを追加する対象の ID をキーワードシンボルで指定します。
 ;;* `position` ---- 対象にポートを追加する位置をキーワードシンボルで指定します。詳細は後述します。
-;;* `name` ---- ピンの名前を文字列またはキーワードシンボルで指定します。
-;;* `offset` ---- 名前の描画位置を調整するためのオフセット値を `(x y)` 形式で指定します。
-;;* `multi` ---- 拡張領域などに渡すマルチピンを使用する場合は `t` を指定します。
+;;* `name` ---- ポート名を文字列またはキーワードシンボルで指定します。
+;;* `offset` ---- ポート名の描画位置を調整するためのオフセット値を `(x y)` 形式で指定します。
 ;;* `size` ---- 描画されるポートのサイズを指定します。
 ;;* `fill` ---- 内部の塗り潰しを指定します。
 ;;* `stroke` ---- 外枠を描画するストロークを指定します
@@ -207,57 +189,57 @@
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　UML アクティビティ図におけるピンを描画します。スタイルを統一したい場合、
-;;with-uml-pin-options マクロを使うことができます。
+;;　UML コンポーネント図などにおけるポートを描画します。スタイルを統一したい場合、
+;;with-uml-port-options マクロを使うことができます。
 ;;
 ;;　`position` はコネクタにおける接続位置の指定と同じ要領で `:L` などと指定します
-;;（[$@ 節](#コネクタ)参照）。uml-pin においてはさらに `'(:L1 5)` などとして微調整が
+;;（[$@ 節](#コネクタ)参照）。uml-port においてはさらに `'(:L1 5)` などとして微調整が
 ;;可能です。
 ;;
 ;;${SEE_ALSO}
 ;;
-;;* [$$](#アクティビティ図)
-;;* [$$](#uml-pin)
-;;* with-uml-pin-options マクロ
+;;* [$$](#コンポーネント図)
+;;* [$$](#uml-port)
+;;* with-uml-port-options マクロ
 ;;
 ;;${NO_NOTES}
 ;;
 ;;--------------------------------------------------------------------------------------- END TURNUP
-(defmacro uml-pin (target position name &key offset multi size fill stroke font filter layer id)
-  `(register-entity (make-instance 'uml-pin
+(defmacro uml-port (target position name &key offset size fill stroke font filter layer id)
+  `(register-entity (make-instance 'uml-port
                                    :target (cons ,target ,position)
-                                   :name ,name :offset ,offset :multi ,multi
-                                   :size    (or ,size   *uml-pin-size*)
-                                   :font    (or ,font   *uml-pin-font*)
-                                   :fill    (or ,fill   *uml-pin-fill*)
-                                   :stroke  (or ,stroke *uml-pin-stroke*)
+                                   :name ,name :offset ,offset
+                                   :size    (or ,size   *uml-port-size*)
+                                   :font    (or ,font   *uml-port-font*)
+                                   :fill    (or ,fill   *uml-port-fill*)
+                                   :stroke  (or ,stroke *uml-port-stroke*)
                                    :clip-path *current-clip-path*
                                    :link nil :filter ,filter :layer ,layer :id ,id)))
 
 ;;------------------------------------------------------------------------------------- BEGIN TURNUP
-;;#### macro with-uml-pin-options
+;;#### macro with-uml-port-options
 ;;
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
-;;* ${{B}{with-uml-pin-options}} (${KEY} font fill stroke size filter layer) ${BODY} body
+;;* ${{B}{with-uml-port-options}} (${KEY} font fill stroke size filter layer) ${BODY} body
 ;;
 ;;
 ;;<!-- stack:pop li -->
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　uml-pin マクロで描画される図形要素のデフォルトオプションを変更します。キーワード
-;;パラメータ群の説明は uml-pin マクロを参照してください。
+;;　uml-port マクロで描画される図形要素のデフォルトオプションを変更します。キーワード
+;;パラメータ群の説明は uml-port マクロを参照してください。
 ;;
 ;;${SEE_ALSO}
 ;;
-;;* uml-pin マクロ
+;;* uml-port マクロ
 ;;
 ;;${NO_NOTES}
 ;;
 ;;--------------------------------------------------------------------------------------- END TURNUP
-(defmacro with-uml-pin-options ((&key font fill stroke
+(defmacro with-uml-port-options ((&key font fill stroke
                                       size filter layer) &rest body)
   (labels ((impl (params acc)
              (if (null params)
@@ -268,12 +250,12 @@
                          (if (null value)
                              acc
                              (push (list symbol value) acc)))))))
-    (let ((lst (impl (list font     '*uml-pin-font*
-                           fill     '*uml-pin-fill*
-                           stroke   '*uml-pin-stroke*
-                           size     '*uml-pin-size*
-                           filter   '*uml-pin-filter*
-                           layer    '*uml-pin-layer*) nil)))
+    (let ((lst (impl (list font     '*uml-port-font*
+                           fill     '*uml-port-fill*
+                           stroke   '*uml-port-stroke*
+                           size     '*uml-port-size*
+                           filter   '*uml-port-filter*
+                           layer    '*uml-port-layer*) nil)))
       `(let ,lst
          ,@body))))
 

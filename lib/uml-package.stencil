@@ -1,26 +1,19 @@
 
 (in-package :kaavio-user)
 
-(load-stencil :uml-keyword-info)
+(load-stencil :uml-common-base)
 
-(defparameter *uml-package-font*       nil)
-(defparameter *uml-package-fill*    :white)
-(defparameter *uml-package-stroke*  :black)
-(defparameter *uml-package-width*      100)
-(defparameter *uml-package-height*      80)
-(defparameter *uml-package-tab-width*   40)
-(defparameter *uml-package-tab-height*  15)
-(defparameter *uml-package-tab-margin*   4)
-
-
-(defun uml-package-calc-namearea-size (pkg)
-  (with-slots (keyword name font
-                       tab-width tab-height tab-margin) pkg
-    (let ((txt (with-output-to-string (s)
-                 (when keyword
-                   (format s "~A~%" (uml-keyword-to-string keyword)))
-                 (princ (fix-name name) s))))
-      (kaavio:font-calc-textarea font txt))))
+(defparameter *uml-package-font*           nil)
+(defparameter *uml-package-fill*        :white)
+(defparameter *uml-package-stroke*      :black)
+(defparameter *uml-package-width*          100)
+(defparameter *uml-package-height*          60)
+(defparameter *uml-package-tab-width*       40)
+(defparameter *uml-package-tab-height*      15)
+(defparameter *uml-package-tab-margin*       5)
+(defparameter *uml-package-margin*          10)
+(defparameter *uml-package-filter*         nil)
+(defparameter *uml-package-layer*          nil)
 
 
 ;;------------------------------------------------------------------------------
@@ -28,109 +21,142 @@
 ;; class uml-package
 ;;
 ;;------------------------------------------------------------------------------
-(defclass uml-package (kaavio:group)
-  ((name        :initform nil :initarg :name)        ; (or string keyword)
-   (keyword     :initform nil :initarg :keyword)     ; (or nil uml-keyword-info)
-   (contents-p  :initform nil :initarg :contents-p)  ; boolean
-   (font        :initform nil :initarg :font)        ; (or nil font-info)
-   (fill        :initform nil :initarg :fill)        ; (or nil fill-info)
-   (stroke      :initform nil :initarg :stroke)      ; (or nil stroke-info)
-   (clip-path   :initform nil :initarg :clip-path)   ; (or nil symbol)
-   (tab-width   :initform   0)                       ; number
-   (tab-height  :initform   0)                       ; number
-   (tab-margin  :initform   0)))                     ; number
+(defclass uml-package (kaavio:text-shape)
+  ((stereotype  :initform nil :initarg :stereotype)     ; (or nil uml-stereotype-info)
+   (contents-p  :initform nil :initarg :contents-p)     ; boolean
+   (filter      :initform nil :initarg :filter)         ; (or nil keyword)
+   (tab-width   :initform   0)                          ; number
+   (tab-height  :initform   0)                          ; number
+   (tab-margin  :initform   0)))                        ; number
 
-(defmethod initialize-instance :after ((pkg uml-package) &rest initargs)
+
+(defmethod initialize-instance :after ((obj uml-package) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (keyword font fill stroke tab-width tab-height tab-margin) pkg
-    (setf keyword (and keyword (make-uml-keyword keyword)))
-    (setf font    (make-font   (or font   *uml-package-font*   *default-font*  )))
-    (setf fill    (make-fill   (or fill   *uml-package-fill*   *default-fill*  )))
-    (setf stroke  (make-stroke (or stroke *uml-package-stroke* *default-stroke*)))
+  ;;(format t "initialize-instance :after called.~%")
+  (with-slots (stereotype filter layer tab-width tab-height tab-margin) obj
+    (setf stereotype (and stereotype (make-uml-stereotype stereotype)))
+    (setf filter  (if (eq filter :none)
+                      nil
+                      (or filter *uml-package-filter* *default-filter*)))
+    (setf layer  (if (eq layer :none)
+                     nil
+                     (or layer *uml-package-layer* *default-layer*)))
     (setf tab-width  *uml-package-tab-width*)
     (setf tab-height *uml-package-tab-height*)
     (setf tab-margin *uml-package-tab-margin*))
-  pkg)
+  obj)
 
-(defmethod check ((pkg uml-package) canvas dict)
+(defmethod check ((obj uml-package) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (with-slots (name keyword font fill stroke clip-path
-                    contents-p tab-width tab-height tab-margin) pkg
-    (check-member name       :nullable nil :types (or string keyword))
-    (check-object keyword    canvas dict :nullable t :class uml-keyword-info)
-    (check-object font       canvas dict :nullable t :class   font-info)
-    (check-object fill       canvas dict :nullable t :class   fill-info)
-    (check-object stroke     canvas dict :nullable t :class stroke-info)
-    (check-member clip-path   :nullable   t :types symbol)
+  ;;(format t "check called.~%")
+  (with-slots (stereotype filter contents-p tab-width tab-height tab-margin) obj 
+    (check-object stereotype  canvas dict :nullable t :class uml-stereotype-info)
+    (check-member filter      :nullable t   :types keyword)
     (check-member tab-width   :nullable nil :types number)
     (check-member tab-height  :nullable nil :types number)
     (check-member tab-margin  :nullable nil :types number)
-    (multiple-value-bind (name-area-width name-area-height)
-                                (uml-package-calc-namearea-size pkg)
-      (if contents-p
-          (progn
-            (setf tab-width  (max tab-width  (+ name-area-width  (* 2 tab-margin))))
-            (setf tab-height (max tab-height (+ name-area-height (* 2 tab-margin))))))))
+    (when contents-p
+      (let ((cv (text-shape-paragraph-area obj)))
+        (setf tab-width  (max tab-width  (canvas-width  cv)))
+        (setf tab-height (max tab-height (canvas-height cv))))))
   nil)
 
-(defmethod shape-connect-point ((pkg uml-package) type1 type2 arg)
-  ;;ToDo : 95KvWqh6oVU : タブ部分と交差する場合の考慮ができてない（まともにやると難しそう）
-  (with-slots (tab-height) pkg
-    (rectangle-connect-point (point/y+ (attribute-center pkg) (/ tab-height 2))
-                             (attribute-width     pkg)
-                             (- (attribute-height pkg) tab-height) type1 type2 arg)))
-  
-;;MEMO : use impelementation of group...
-;;(defmethod group-get-canvas ((pkg uml-package)) ...)
+;;MEMO: タブ部分と交差する場合の考慮ができてないが、これはあきらめる
+(defmethod shape-connect-point ((obj uml-package) type1 type2 arg)
+  (rectangle-connect-point (attribute-center obj)
+                           (attribute-width  obj)
+                           (attribute-height obj) type1 type2 arg))
 
-(defmethod shape-get-subcanvas ((pkg uml-package))
-  (with-slots (tab-height) pkg
-    ;;(format t "tab-height is ~A~%" tab-height)
-    (make-canvas (point/y+ (attribute-topleft pkg) tab-height)
-                 (attribute-width pkg)
-                 (- (attribute-height pkg) tab-height))))
+;;MEMO : use impelementation of group...
+;;(defmethod group-get-canvas ((obj uml-package)) ...)
 
 ;; override of group::draw-group
-(defmethod draw-group ((pkg uml-package) writer)
-  (let ((canvas (group-get-canvas pkg)))
-    (with-slots (name keyword contents-p font
-                      fill stroke clip-path tab-width tab-height tab-margin) pkg
-      (let* ((width     (canvas-width  canvas))
-             (height    (canvas-height canvas))
-             (kaavio:*current-clip-path* clip-path)
-             (font-size (slot-value font 'kaavio::size))
-             (spacing   (slot-value font 'kaavio::line-spacing)))
-        (macrolet ((register-entity (entity)
-                     `(check-and-draw-local-entity ,entity canvas writer)))
-          (let ((*default-fill*   fill)
-                (*default-stroke* stroke))
-            (rectangle `(,(/ width 2) ,(/ (+ height tab-height) 2)) width (- height tab-height))
-            (rectangle `(,(/ tab-width 2) ,(/ tab-height 2)) tab-width tab-height))
-          (let ((names (kaavio::string/split (fix-name name) #\newline)))
-            (let ((x (if contents-p (/ tab-width 2) (/ width 2)))
-                  (y (if contents-p
-                         tab-margin
-                         (multiple-value-bind (w h) (uml-package-calc-namearea-size pkg)
-                           (declare (ignore w))
-                           (+ tab-height (/ (- height tab-height h) 2))))))
-              (when keyword
-                (incf y font-size)
-                (uml-keyword-draw keyword
-                                  (+ (canvas-left canvas) x)
-                                  (+ (canvas-top  canvas) y) :center font clip-path writer)
-                (incf y spacing))
-              (dolist (name names)
-                (incf y font-size)
-                (text `(,x ,y) name :align :center :font font)
-                (incf y spacing))))))))
+(defmethod draw-group ((obj uml-package) writer)
+  (let ((canvas (group-get-canvas obj)))
+    (let ((width  (canvas-width  canvas))
+          (height (canvas-height canvas)))
+      (macrolet ((register-entity (entity)
+                   `(check-and-draw-local-entity ,entity canvas writer)))
+        (with-slots (stereotype filter contents-p tab-width tab-height tab-margin
+                      (text kaavio::text) (font kaavio::font) (margin kaavio::margin)
+                      (fill kaavio::fill) (stroke kaavio::stroke) (clip-path kaavio::clip-path)) obj
+          (let ((*current-clip-path* clip-path))
+            ;; draw package body
+            (writer-write writer "<g " (write-when filter "filter='url(#" it ")' ") ">")
+            (writer-incr-level writer)
+            ;;
+            (let* ((cc       (make-point (/ width 2) (/ height 2)))
+                   (tab-area (make-canvas (y+ (canvas-topleft canvas) (- tab-height))
+                                          tab-width tab-height)))
+              (let ((*mute-stroke* t))
+                (rectangle cc width height :fill fill)
+                (rectangle (canvas-topleft tab-area)
+                           (canvas-width   tab-area)
+                           (canvas-height  tab-area) :pivot :TL :fill fill :stroke stroke))
+              (line `(,(canvas-bottomright tab-area)
+                      ,(canvas-topright    tab-area)
+                      ,(canvas-topleft     tab-area)
+                      ,(canvas-bottomleft    canvas)
+                      ,(canvas-bottomright   canvas)
+                      ,(canvas-topright      canvas)
+                      ,(canvas-topleft       canvas)) :stroke stroke))
+            ;; draw text
+            (let ((cv (uml-draw-textarea obj stereotype writer ;;:debug :blue
+                                         :v-margin tab-margin :h-margin tab-margin)))
+              (declare (ignorable cv))
+;              (rect (canvas-center cv)
+;                    (canvas-width cv) (canvas-height cv)
+;                    :fill '(:color :red :opacity 0.1) :stroke :red)
+              )
+            (writer-decr-level writer)
+            (writer-write writer "</g>"))))))
   nil)
 
+
 ;;for debug...
-;(defmethod post-draw ((pkg uml-package) writer)
+;(defmethod post-draw ((obj uml-package) writer)
 ;  (call-next-method)
-;  (draw-canvas-frame (group-get-canvas #|shape-get-subcanvas|# pkg) writer))
+;  (draw-canvas-frame (group-get-canvas #|shape-get-subcanvas|# obj) writer)
+;  nil)
  
+
+(defmethod text-shape-calc-size ((obj uml-package))
+  ;;(format t "text-shape-calc-size called.~%")
+  (multiple-value-bind (width height) (call-next-method)
+    (with-slots (stereotype contents-p (font kaavio::font) (margin kaavio::margin)) obj
+      ;; MEMO: 縦方向の margin は上記 call-next-method の結果に含まれている
+      ;(incf height (* margin 2))
+      ;; stereotype (if exists).
+      (when stereotype
+        (let ((font (or (slot-value stereotype 'font) font)))
+          (multiple-value-bind (w h)
+                (font-calc-textarea font (uml-stereotype-to-string stereotype))
+            (setf width (cl:max width (+ w (* margin 2))))
+            (incf height h)))))
+    (values (cl:max width  *uml-package-width*)
+            (cl:max height *uml-package-height*))))
+
+;;MEMO : uml-package の paragraph-area は以下のルール
+;;  * contents 無しの場合：サブキャンバスと同じ
+;;  * contents ありの場合：キーワード込みの textarea を計算し、tab-margin を周囲に足してサブキャンバスの右上に配置
+(defmethod text-shape-paragraph-area ((obj uml-package))
+  ;;(format t "text-shape-paragraph-area called.~%")
+  (with-slots (stereotype contents-p
+                 (text kaavio::text) (font kaavio::font) tab-margin) obj
+    (if (not contents-p)
+        (shape-get-subcanvas obj)
+        (multiple-value-bind (width height) (uml-calc-textarea font text stereotype)
+          (incf width  (* tab-margin 2))
+          (incf height (* tab-margin 2))
+          (make-canvas (y+ (attribute-topleft obj) (- height)) width height)))))
+
+;;MEMO : uml-package のサブキャンバスは常に shape と同じ
+(defmethod shape-get-subcanvas ((obj uml-package))
+  ;;(format t "shape-get-subcanvas called.~%")
+  (make-canvas (attribute-topleft obj)
+               (attribute-width   obj)
+               (attribute-height  obj)))
 
 
 ;;------------------------------------------------------------------------------------- BEGIN TURNUP
@@ -139,33 +165,63 @@
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
-;;* ${{B}{uml-package}} position name ${KEY} pivot keyword width height font fill stroke link layer id contents
-;;
+;;* ${{B}{uml-package}} position name ${KEY} pivot stereotype keyword width height font fill stroke margin link layer filter id contents
 ;;
 ;;<!-- stack:pop li -->
 ;;
+;;${ARGS_AND_VALS}
+;;
+;;* `position` ---- 描画の基準点を指定します。詳細は「[](#座標と位置)」を参照してください。
+;;* `name` ---- アクションの名前を文字列で指定します。
+;;* `pivot` ---- `position` で指定した基準点が図形要素のどこにくるように描画するかを指定します。詳細は「[](#座標と位置)」を参照してください。
+;;* `stereotype` ---- ステレオタイプを明示する場合はステレオタイプ情報を指定します。詳細は [$@ 節](#uml-stereotype-info) を参照してください。
+;;* `keyword` ---- キーワードを明示する場合はステレオタイプ情報を指定します。 `stereotype` が指定されている場合は無視されます。詳細は [$@ 節](#uml-stereotype-info) を参照してください。
+;;* `width` ---- 幅を自動決定せず、明示的に指定したい場合に数値で指定します。
+;;* `height` ---- 高さを自動決定せず、明示的に指定したい場合に数値で指定します。
+;;* `font` ---- フォントを指定します。
+;;* `fill` ---- 内部の塗り潰しを指定します。
+;;* `stroke` ---- 外枠を描画するストロークを指定します
+;;* `margin` ---- テキストの余白を指定します。幅や高さを明示的に指定した場合は無視されます。
+;;* `link` ---- リンクにする場合、リンク先を指定します。
+;;* `filter` ---- フィルタを適用したい場合、その ID をキーワードシンボルで指定します
+;;* `layer` ---- レイヤーを指定する場合、その ID をキーワードシンボルで指定します
+;;* `id` ---- ID を付与したい場合、その名前をキーワードシンボルで指定します
+;;* `contents` ---- 内部をサブキャンバスとした描画をしたい場合、その内容を指定します。 `:contents t` とすることも可能です。詳細は後述します。
+;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　UML パッケージなどにおけるパッケージを描画します。スタイルを統一したい場合、
+;;with-uml-package-options マクロを使うことができます。
 ;;
-;;${NO_SEE_ALSO}
+;;${SEE_ALSO}
 ;;
-;;${NO_NOTES}
+;;* [$$](#パッケージ図)
+;;* uml-package マクロ
+;;* with-uml-package-options マクロ
+;;
+;;${NOTES}
+;;
+;;* uml-package では `:contents` パラメータを指定した場合、 `name` で指定されたテキストを（中央でなく）上部に描画します。しかし、（ `:contents` パラメータでなく）with-subcanvas-of マクロを使う場合、テキストは中央に描画されてしまいます。これを避けるためには、 `:contents t` を指定してください。これはテキストを上端付近に描画させる効果だけを持ちます。
 ;;
 ;;--------------------------------------------------------------------------------------- END TURNUP
-(defmacro uml-package (position name &key pivot keyword width height
-                                          font fill stroke link layer id contents)
+(defmacro uml-package (position name &key pivot stereotype keyword width height
+                                          font fill stroke margin link layer filter id contents)
   (let* ((contents-p (not (null contents)))
-         (code `(register-entity (make-instance 'uml-package
-                                               :position ,position :pivot ,pivot
-                                               :width  (or ,width  *uml-package-width*)
-                                               :height (or ,height *uml-package-height*)
-                                               :name ,name :keyword ,keyword
-                                               :contents-p ,contents-p
-                                               :font ,font :fill ,fill :stroke ,stroke
-                                               :clip-path *current-clip-path*
-                                               :link ,link :layer ,layer :id ,id))))
-    (if (null contents)
+         (code `(register-entity
+                 (make-instance 'uml-package
+                                :position ,position :pivot ,pivot
+                                :width  (or ,width  *uml-package-width*)
+                                :height (or ,height *uml-package-height*)
+                                :text ,name :stereotype ,(or stereotype keyword)
+                                :contents-p ,contents-p
+                                :margin (or ,margin *uml-package-margin*)
+                                :font ,font
+                                :fill (or ,fill *uml-package-fill* *default-fill* :lightgray)
+                                :stroke (or ,stroke *uml-package-stroke* *default-stroke* :black)
+                                :clip-path *current-clip-path*
+                                :link ,link :layer ,layer :filter ,filter :id ,id))))
+    (if (or (null contents)
+            (not (listp contents)))
         code
         (let ((g-obj (gensym "OBJ")))
           `(let* ((,g-obj ,code)
@@ -173,4 +229,52 @@
              (declare (special canvas))
              ,@contents)))))
 
+
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### macro with-uml-package-options
+;;
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
+;;
+;;* ${{B}{with-uml-package-options}} (${KEY} font fill stroke width height tab-width tab-height tab-margin margin filter layer) ${BODY} body
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　uml-package マクロで描画される図形要素のデフォルトオプションを変更します。キーワード
+;;パラメータ群の説明は uml-package マクロを参照してください。
+;;
+;;${SEE_ALSO}
+;;
+;;* uml-package マクロ
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
+(defmacro with-uml-package-options ((&key font fill stroke width height
+                                          tab-width tab-height
+                                          tab-margin margin filter layer) &rest body)
+  (labels ((impl (params acc)
+             (if (null params)
+                 acc
+                 (let ((value  (car  params))
+                       (symbol (cadr params)))
+                   (impl (cddr params)
+                         (if (null value)
+                             acc
+                             (push (list symbol value) acc)))))))
+    (let ((lst (impl (list font       '*uml-package-font*
+                           fill       '*uml-package-fill*
+                           stroke     '*uml-package-stroke*
+                           width      '*uml-package-width*
+                           height     '*uml-package-height*
+                           tab-width  '*uml-package-tab-width*
+                           tab-height '*uml-package-tab-height*
+                           tab-margin '*uml-package-tab-margin*
+                           margin     '*uml-package-margin*
+                           filter     '*uml-package-filter*
+                           layer      '*uml-package-layer*) nil)))
+      `(let ,lst
+         ,@body))))
 

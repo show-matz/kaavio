@@ -1,6 +1,7 @@
+
 (in-package :kaavio-user)
 
-(load-stencil :uml-keyword-info)
+(load-stencil :uml-stereotype-info)
 
 
 (defparameter *uml-flow-stroke*      :black)
@@ -47,13 +48,6 @@
                    (when action
                      (format-string "/" action)))))
 
-(defun uml-flow-spec-draw (obj x y align clip-path writer)
-  (let ((txt (uml-flow-spec-to-string obj)))
-    (with-slots (offset font) obj
-      (write-text-tag (+ x (point-x offset))
-                      (+ y (point-y offset))
-                      txt writer :align align :font font :clip-path clip-path))))
-
 (defun make-uml-flow-spec (&rest params)
   (if (= 1 (length params))
       (let ((param (car params)))
@@ -77,67 +71,81 @@
 ;;
 ;;------------------------------------------------------------------------------
 (defclass uml-flow (kaavio:connector)
-  ((keyword :initform nil :initarg :keyword)   ; (or nil uml-keyword-info)
-   (spec    :initform nil :initarg :spec)))    ; (or nil uml-flow-spec)
+  ((stereotype :initform nil :initarg :stereotype) ; (or nil uml-stereotype-info)
+   (spec       :initform nil :initarg :spec)))     ; (or nil uml-flow-spec)
 
 (defmethod initialize-instance :after ((flow uml-flow) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (keyword spec) flow
-    (setf keyword (and keyword (make-uml-keyword   keyword)))
-    (setf spec    (and spec    (make-uml-flow-spec spec))))
+  (with-slots (stereotype spec) flow
+    (setf stereotype (and stereotype (make-uml-stereotype stereotype)))
+    (setf spec       (and spec       (make-uml-flow-spec  spec))))
   flow)
 
 
 (defmethod check ((flow uml-flow) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (with-slots (keyword spec) flow 
-    (check-object keyword canvas dict :nullable t :class uml-keyword-info)
-    (check-object spec    canvas dict :nullable t :class uml-flow-spec))
+  (with-slots (stereotype spec) flow 
+    (check-object stereotype canvas dict :nullable t :class uml-stereotype-info)
+    (check-object spec       canvas dict :nullable t :class uml-flow-spec))
   nil)
 
 
 (defmethod entity-composition-p ((flow uml-flow))
-  (with-slots (keyword spec) flow
-    (or keyword
+  (with-slots (stereotype spec) flow
+    (or stereotype
         spec
         (call-next-method))))
 
-
+;;MEMO : uml-connection-draw-label と酷似している。共通化が可能なはずだがそこまで手が回ってない。
 (defun uml-flow-draw-spec (flow x y sin cos clip-path writer)
-  (with-slots (keyword spec) flow
+  (with-slots (spec stereotype) flow
     (labels ((calc-width-and-height ()
                (let* ((width   0)
                       (height  0)
+                      (lines   nil)
                       (offset  (if spec (slot-value spec 'offset) '(0 0)))
-                      (s-font  (and spec    (slot-value spec    'font)))
-                      (s-size  (if  s-font  (slot-value s-font  'kaavio::size) 0))
-                      (spacing (if  s-font  (slot-value s-font  'kaavio::line-spacing) 0)))
-                 (when keyword
+                      (st-font (and stereotype (slot-value stereotype 'font)))
+                      (sp-font (and spec       (slot-value spec       'font)))
+                      (sp-size (if  spec       (slot-value sp-font    'kaavio::size) 0))
+                      (spacing (if  spec       (slot-value sp-font    'kaavio::line-spacing) 0)))
+                 (when stereotype
                    (multiple-value-setq (width height)
-                                        (font-calc-textarea s-font
-                                                 (uml-keyword-to-string keyword))))
+                                        (font-calc-textarea st-font
+                                                            (uml-stereotype-to-string stereotype))))
                  (when spec
-                   (incf height spacing)
-                   (multiple-value-bind (w h)
-                       (font-calc-textarea s-font (uml-flow-spec-to-string spec))
-                     (setf width (max width w))
-                     (incf height h)))
-                 (values width height offset s-font s-size spacing))))
-      (multiple-value-bind (width height offset font font-size spacing) (calc-width-and-height)
+                   (let ((text (fix-name (uml-flow-spec-to-string spec))))
+                     (setf lines (kaavio::string/split text #\newline))
+                     (multiple-value-bind (w h) (font-calc-textarea sp-font text)
+                       (setf width (max width w))
+                       (incf height spacing)
+                       (incf height h))))
+                 (values width height offset lines st-font sp-font sp-size spacing))))
+      (multiple-value-bind (width height offset lines
+                                  stype-font spec-font spec-size spacing) (calc-width-and-height)
         (let (;(x (+ x (* sin height)))
               (y (- y (* cos height))))
           (decf y (/ height 2))
           (when (< 0 sin) (incf x (/ width 2)))
           (when (< sin 0) (decf x (/ width 2)))
-          (when keyword
-            (incf y font-size)
-            (uml-keyword-draw keyword (+ x (point-x offset))
-                                      (+ y (point-y offset)) :center font clip-path writer)
+          (when stereotype
+            (incf y (slot-value stype-font 'kaavio::size))
+            (uml-stereotype-draw stereotype (+ x (point-x offset))
+                                            (+ y (point-y offset))
+                                            :center
+                                            stype-font
+                                            clip-path
+                                            writer)
             (incf y spacing))
           (when spec
-            (incf y font-size)
-            (uml-flow-spec-draw spec x y :center clip-path writer)))))))
+            (let ((font-property (to-property-strings spec-font)))
+              (dolist (line lines)
+                (incf y spec-size)
+                (write-text-tag (+ x (point-x offset))
+                                (+ y (point-y offset))
+                                line writer :align :center
+                                :font font-property :clip-path clip-path)
+                (incf y spacing)))))))))
 
 
 ;;------------------------------------------------------------------------------------- BEGIN TURNUP
@@ -146,34 +154,68 @@
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
-;;* ${{B}{uml-flow}} from to ${KEY} keyword spec style spacing filter layer id
-;;
+;;* ${{B}{uml-flow}} from to ${KEY} stereotype keyword spec style spacing filter layer id
 ;;
 ;;<!-- stack:pop li -->
 ;;
+;;${ARGS_AND_VALS}
+;;
+;;* `from` ---- 接続元となる要素の ID をキーワードで指定します。point 値も指定できます。
+;;* `to` ---- 接続先となる要素の ID をキーワードで指定します。point 値も指定できます。
+;;* `stereotype` ---- ステレオタイプを明示する場合はステレオタイプ情報を指定します。詳細は [$@ 節](#uml-stereotype-info) を参照してください。
+;;* `keyword` ---- キーワードを明示する場合はステレオタイプ情報を指定します。 `stereotype` が指定されている場合は無視されます。詳細は [$@ 節](#uml-stereotype-info) を参照してください。
+;;* `spec` ---- フローにガード条件やアクションを明示する場合に指定します。詳細は後述します。
+;;* `style` ---- 接続線の引き方を指定します。詳細は [$@ 節](#コネクタ)を参照してください。
+;;* `spacing` ---- 2 回以上折れ曲がる接続線における「自由な線分」の位置を調整するためのパラメータです。詳細は [$@ 節](#コネクタ)を参照してください。
+;;* `filter` ---- フィルタを適用したい場合、その ID をキーワードシンボルで指定します。
+;;* `layer` ---- レイヤーを指定する場合、その ID をキーワードシンボルで指定します。
+;;* `id` ---- ID を付与したい場合、その名前をキーワードシンボルで指定します。
+;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　UML アクティビティ図におけるフローを描画します。スタイルを統一したい場合、
+;;with-uml-flow-options マクロを使うことができます。
 ;;
-;;${NO_SEE_ALSO}
+;;　`spec` パラメータに指定するフロー仕様は、 `:spec '(:guard "v = 666" :action "foo()")` と
+;;いった要領で指定します。リスト内に名前付きパラメータを並べる形式で、以下のパラメータが指定
+;;できます。
+;;
+;;<!-- stack:push li class='syntax' -->
+;;
+;;* ${KEY} guard action offset font
+;;
+;;<!-- stack:pop li -->
+;;
+;;　`:guard :action` はそれぞれガード条件とアクションで、それぞれ文字列で指定します。これに
+;;よって、先ほどの例で言えば `[v = 666]/foo()` といったフロー仕様が表示されることになります。 
+;;`:offset` は表示位置の調整を `(x y)` 形式で指定します。 `:font` はフォントの指定が必要な
+;;場合に使用します。フォントの指定を省略した場合、with-uml-flow-options マクロで指定されて
+;;いるフォントが使用されます。
+;;
+;;${SEE_ALSO}
+;;
+;;* [$$](#アクティビティ図)
+;;* [$$](#uml-flow)
+;;* with-uml-flow-options マクロ
 ;;
 ;;${NO_NOTES}
 ;;
 ;;--------------------------------------------------------------------------------------- END TURNUP
-(defmacro uml-flow (from to &key keyword spec style spacing filter layer id)
-  (let ((g-kwd  (gensym "KWD"))
-        (g-spec (gensym "SPEC")))
-    `(let ((,g-kwd  ,keyword)
-           (,g-spec ,spec))
+(defmacro uml-flow (from to &key stereotype keyword spec style spacing filter layer id)
+  (let ((g-stype (gensym "STEREOTYPE"))
+        (g-spec  (gensym "SPEC")))
+    `(let ((,g-stype ,(or stereotype keyword))
+           (,g-spec  ,spec))
        (register-entity (make-instance 'uml-flow
                                        :from ,from :to ,to
-                                       :keyword ,g-kwd :spec ,g-spec
-                                       :label (and (or ,g-kwd ,g-spec)
+                                       :stereotype ,g-stype :spec ,g-spec
+                                       :label (and (or ,g-stype ,g-spec)
                                                    #'uml-flow-draw-spec)
                                        :style ,style :spacing ,spacing
                                        :stroke (or *uml-flow-stroke* *default-stroke*)
                                        :clip-path *current-clip-path*
-                                       :end1 nil :end2 (list :type :arrow :size *uml-flow-arrow-size*)
+                                       :end1 nil
+                                       :end2 (list :type :arrow :size *uml-flow-arrow-size*)
                                        :filter (or ,filter *uml-flow-filter* *default-filter*)
                                        :layer  (or ,layer  *uml-flow-layer*  *default-layer*)
                                        :id ,id)))))
@@ -187,14 +229,16 @@
 ;;
 ;;* ${{B}{with-uml-flow-options}} (${KEY} stroke arrow-size font filter layer) ${BODY} body
 ;;
-;;
 ;;<!-- stack:pop li -->
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　uml-flow マクロで描画される図形要素のデフォルトオプションを変更します。キーワード
+;;パラメータ群の説明は uml-flow マクロを参照してください。
 ;;
-;;${NO_SEE_ALSO}
+;;${SEE_ALSO}
+;;
+;;* uml-flow マクロ
 ;;
 ;;${NO_NOTES}
 ;;

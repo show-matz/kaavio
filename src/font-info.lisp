@@ -206,11 +206,9 @@
 (defun font-calc-textarea (font text)
   (with-slots (size width-spice line-spacing) font
     (let* ((lst (string/split text #\newline))
-           (line-count (length lst))
-           (width-fnc  (lambda (line)
-                         (* (length line) size width-spice))))    ;ToDo : what can I do ?
-      ;;ToDo : implement... fix width-fnc.
-      (values (apply #'max (mapcar width-fnc lst))
+           (line-count (length lst)))
+      (values (apply #'max (mapcar (lambda (line)
+                                     (* (length line) size width-spice)) lst))
               (+ (* size line-count)
                  (* line-spacing (1- line-count)))))))
 

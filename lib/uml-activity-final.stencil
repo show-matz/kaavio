@@ -58,14 +58,31 @@
 ;;
 ;;* ${{B}{uml-activity-final}} position ${KEY} radius ratio pivot fill stroke link layer filter id
 ;;
-;;
 ;;<!-- stack:pop li -->
+;;
+;;${ARGS_AND_VALS}
+;;
+;;* `position` ---- 描画の基準点を指定します。詳細は「[](#座標と位置)」を参照してください。
+;;* `radius` ---- 終了アクションの半径を数値で指定します。省略した場合のデフォルト値は 15 です。
+;;* `ratio` ---- 内部の（塗り潰される）円の半径を `radius` に対する比で指定します。省略した場合のデフォルト値は 0.6 です。
+;;* `pivot` ---- `position` で指定した基準点が図形要素のどこにくるように描画するかを指定します。詳細は「[](#座標と位置)」を参照してください。
+;;* `fill` ---- 外側の円と内側の円の間を塗り潰す色を指定します。省略した場合のデフォルト値は `:white` です。
+;;* `stroke` ---- 外側の円を描画するストロークを指定します。内側の（塗り潰される）円の色としても使用されます。省略した場合のデフォルト値は `:black` です。
+;;* `link` ---- リンクにする場合、リンク先を指定します。
+;;* `layer` ---- レイヤーを指定する場合、その ID をキーワードシンボルで指定します
+;;* `filter` ---- フィルタを適用したい場合、その ID をキーワードシンボルで指定します
+;;* `id` ---- ID を付与したい場合、その名前をキーワードシンボルで指定します
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　UML アクティビティ図における終了アクションを描画します。スタイルを統一したい場合、
+;;with-uml-activity-final-options マクロを使うことができます。
 ;;
-;;${NO_SEE_ALSO}
+;;${SEE_ALSO}
+;;
+;;* [$$](#アクティビティ図)
+;;* [$$](#uml-activity-final)
+;;* with-uml-activity-final-options マクロ
 ;;
 ;;${NO_NOTES}
 ;;
@@ -87,16 +104,18 @@
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
-;;* ${{B}{with-uml-activity-final-options}} (${KEY} radius ratio fill stroke  filter layer) ${BODY} body
-;;
+;;* ${{B}{with-uml-activity-final-options}} (${KEY} radius ratio fill stroke filter layer) ${BODY} body
 ;;
 ;;<!-- stack:pop li -->
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　${{TODO}{まだ記述されていません。}}
+;;　uml-activity-final マクロで描画される図形要素のデフォルトオプションを変更します。
+;;キーワードパラメータ群の説明は uml-activity-final マクロを参照してください。
 ;;
-;;${NO_SEE_ALSO}
+;;${SEE_ALSO}
+;;
+;;* uml-activity-final マクロ
 ;;
 ;;${NO_NOTES}
 ;;
