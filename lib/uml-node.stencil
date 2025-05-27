@@ -168,7 +168,7 @@
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
-;;* ${{B}{uml-node}} position name ${KEY} pivot stereotype keyword width height margin font fill1 fill2 stroke link layer id contents
+;;* ${{B}{uml-node}} position name ${KEY} pivot stereotype keyword width height depth margin font fill1 fill2 stroke link layer id contents
 ;;
 ;;<!-- stack:pop li -->
 ;;
@@ -181,6 +181,7 @@
 ;;* `keyword` ---- キーワードを明示する場合はステレオタイプ情報を指定します。 `stereotype` が指定されている場合は無視されます。詳細は [$@ 節](#uml-stereotype-info) を参照してください。
 ;;* `width` ---- 幅を自動決定せず、明示的に指定したい場合に数値で指定します。
 ;;* `height` ---- 高さを自動決定せず、明示的に指定したい場合に数値で指定します。
+;;* `depth` ---- 上面および側面の大きさを明示的に指定したい場合に数値で指定します。
 ;;* `margin` ---- テキスト描画における「余白」のサイズです。省略した場合のデフォルト値は 5 です。
 ;;* `font` ---- フォントを指定します。
 ;;* `fill1` ---- 前面内部の塗り潰しを指定します。
@@ -208,7 +209,7 @@
 ;;* uml-node では `:contents` パラメータを指定した場合、 `name` で指定されたテキストを（中央でなく）上部に描画します。しかし、（ `:contents` パラメータでなく）with-subcanvas-of マクロを使う場合、テキストは中央に描画されてしまいます。これを避けるためには、 `:contents t` を指定してください。これはテキストを上端付近に描画させる効果だけを持ちます。
 ;;
 ;;--------------------------------------------------------------------------------------- END TURNUP
-(defmacro uml-node (position name &key pivot stereotype keyword width height margin
+(defmacro uml-node (position name &key pivot stereotype keyword width height depth margin
                                        font fill1 fill2 stroke link layer filter id contents)
   (let* ((contents-p (not (null contents)))
          (code `(register-entity
@@ -216,6 +217,7 @@
                                     :position ,position :pivot ,pivot
                                     :width  (or ,width  *uml-node-width*)
                                     :height (or ,height *uml-node-height*)
+                                    :depth  (or ,depth  *uml-node-depth*)
                                     :text ,name :stereotype ,(or stereotype keyword)
 
                                     :contents-p ,contents-p
@@ -242,7 +244,7 @@
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
-;;* ${{B}{with-uml-node-options}} (${KEY} font fill stroke size filter layer) ${BODY} body
+;;* ${{B}{with-uml-node-options}} (${KEY} font fill1 fill2 stroke width height depth margin filter layer) ${BODY} body
 ;;
 ;;<!-- stack:pop li -->
 ;;

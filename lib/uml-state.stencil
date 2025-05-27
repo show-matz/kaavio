@@ -82,27 +82,24 @@
                        width height :rx corner-r :fill fill :stroke stroke)
             ;; draw text
             (let ((cv (uml-draw-textarea obj stereotype writer)))
-              (declare (ignorable cv))
 ;              (rect (canvas-center cv)
 ;                    (canvas-width cv) (canvas-height cv)
 ;                    :fill '(:color :red :opacity 0.1) :stroke :red)
-              )
-            ;;contents
-            (when contents-p
-              (let ((y (canvas-height (text-shape-paragraph-area obj))))
+              (when contents-p
                 ;;draw partition line
-                (incf y margin)
-                (line `((0 ,y) (,width ,y)) :stroke stroke)
-                (incf y margin)
-                ;;activities がある場合は順番に描画する必要がある
-                (dolist (act activities)
-                  (when act
-                    (let ((txt (uml-transition-spec-to-string act)))
-                      (with-slots (font) act
-                        (with-slots ((fsize kaavio::size)
-                                     (ls kaavio::line-spacing)) font
-                          (incf y (+ ls fsize))
-                          (text `(,margin ,y) txt :align :left :font font))))))))
+                (line `(,(canvas-bottomleft  cv)
+                        ,(canvas-bottomright cv)) :stroke stroke)
+                (let ((y (canvas-height cv)))
+                  (incf y margin)
+                  ;;activities がある場合は順番に描画する必要がある
+                  (dolist (act activities)
+                    (when act
+                      (let ((txt (uml-transition-spec-to-string act)))
+                        (with-slots (font) act
+                          (with-slots ((fsize kaavio::size)
+                                       (ls kaavio::line-spacing)) font
+                            (incf y (+ ls fsize))
+                            (text `(,margin ,y) txt :align :left :font font)))))))))
             ;; 
             (writer-decr-level writer)
             (writer-write writer "</g>"))))))
@@ -212,12 +209,12 @@
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　UML ステートマシーン図における状態を描画します。スタイルを統一したい場合、
+;;　UML 状態マシン図における状態を描画します。スタイルを統一したい場合、
 ;;with-uml-state-options マクロを使うことができます。
 ;;
 ;;${SEE_ALSO}
 ;;
-;;* [$$](#ステートマシーン図)
+;;* [$$](#状態マシン図)
 ;;* [$$](#uml-state)
 ;;* with-uml-state-options マクロ
 ;;

@@ -67,12 +67,12 @@
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　UML ステートマシーン図におけるヒストリアイコンを描画します。スタイルを統一したい場合、
+;;　UML 状態マシン図におけるヒストリアイコンを描画します。スタイルを統一したい場合、
 ;;with-uml-state-history-options マクロを使うことができます。
 ;;
 ;;${SEE_ALSO}
 ;;
-;;* [$$](#ステートマシーン図)
+;;* [$$](#状態マシン図)
 ;;* [$$](#uml-state-history)
 ;;* with-uml-state-history-options マクロ
 ;;

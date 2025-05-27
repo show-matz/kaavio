@@ -49,12 +49,12 @@
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　UML ステートマシーン図における開始状態を描画します。スタイルを統一したい場合、
+;;　UML 状態マシン図における開始状態を描画します。スタイルを統一したい場合、
 ;;with-uml-state-begin-options マクロを使うことができます。
 ;;
 ;;${SEE_ALSO}
 ;;
-;;* [$$](#ステートマシーン図)
+;;* [$$](#状態マシン図)
 ;;* [$$](#uml-state-begin)
 ;;* with-uml-state-begin-options マクロ
 ;;

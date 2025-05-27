@@ -7,6 +7,14 @@
 (defparameter *uml-fork-join-filter*    nil)
 (defparameter *uml-fork-join-layer*     nil)
 
+
+(defun uml-fork-join-fix-spec (direction spec)
+  (when spec
+    (let ((kaavio::*default-label-position* (ecase direction
+                                              ((:h) :below)
+                                              ((:v) :right))))
+      (make-label spec))))
+  
 ;;------------------------------------------------------------------------------
 ;;
 ;; class uml-fork-join
@@ -17,9 +25,7 @@
 
 (defmethod initialize-instance :after ((obj uml-fork-join) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (spec filter layer) obj
-    ;;MEMO: 1OQMktJQ3oi : spec で :position 指定が（実質的に）なければ join-[vh] によって調整する？
-    (setf spec (and spec (make-label spec)))
+  (with-slots (filter layer) obj
     (setf filter  (if (eq filter :none)
                       nil
                       (or filter *uml-fork-join-filter* *default-filter*)))
@@ -114,7 +120,7 @@
 ;;* `position` ---- 描画の基準点を指定します。詳細は「[](#座標と位置)」を参照してください。
 ;;* `direction` ---- 向きを `:h` か `:v` で指定します。横方向に流れるフローで使用する場合は `:h` 、縦方向なら `:v` です。
 ;;* `pivot` ---- `position` で指定した基準点が図形要素のどこにくるように描画するかを指定します。詳細は「[](#座標と位置)」を参照してください。
-;;* `spec` ---- ジョイン使用の指定がある場合、そのテキストをラベル形式で指定します。指定方法は [$@ 節](#ラベル)を参照してください。
+;;* `spec` ---- ジョイン仕様の指定をする場合、そのテキストをラベル形式で指定します。指定方法は [$@ 節](#ラベル)を参照してください。
 ;;* `width` ---- 幅を数値で指定します。省略した場合のデフォルト値は 10 です。
 ;;* `length` ---- 長さを数値で指定します。省略した場合のデフォルト値は 40 です。
 ;;* `fill` ---- 内部の塗り潰しを指定します。
@@ -144,7 +150,8 @@
     `(let ((,gw (or ,width  *uml-fork-join-width*))
            (,gh (or ,length *uml-fork-join-length*)))
        (register-entity (make-instance 'uml-fork-join
-                                       :position ,position :pivot ,pivot :spec ,spec
+                                       :position ,position :pivot ,pivot
+                                       :spec (uml-fork-join-fix-spec ,direction ,spec)
                                        :width  (ecase ,direction ((:h) ,gw) ((:v) ,gh))
                                        :height (ecase ,direction ((:h) ,gh) ((:v) ,gw))
                                        :rx 0 :ry 0 :stroke :none

@@ -201,7 +201,12 @@
 ;;* [$$](#uml-note)
 ;;* with-uml-note-options マクロ
 ;;
-;;${NO_NOTES}
+;;${NOTES}
+;;
+;;　ノートから `targets` に引かれる点線は、 `stroke` で指定したストロークの `dasharray` を
+;;差し替えたものが使用されます。これはデフォルトで `'(3 3)` ですが、uml-note マクロではこれを
+;;個別に指定することはできません。 `dasharray` を変更したい場合、with-uml-note-options マクロ
+;;を使用してください。
 ;;
 ;;--------------------------------------------------------------------------------------- END TURNUP
 (defmacro uml-note (position width height text
@@ -236,16 +241,17 @@
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
-;;* ${{B}{with-uml-note-options}} (${KEY} font fill stroke margin crease dasharray filter layer) ${BODY} body
+;;* ${{B}{with-uml-note-options}} (${KEY} margin crease font fill stroke filter layer dasharray) ${BODY} body
 ;;
 ;;<!-- stack:pop li -->
 ;;
 ;;${DESCRIPTION}
 ;;
 ;;　uml-note マクロで描画される図形要素のデフォルトオプションを変更します。キーワード
-;;パラメータ群の説明は uml-note マクロを参照してください。
+;;パラメータ群の説明は uml-note マクロを参照してください。ただし、以下はこのマクロで
+;;のみ指定可能です。
 ;;
-;;* ${{TODO}{dasharray はここで説明してあげる必要がある。}}
+;;* `dasharray` ---- uml-note からその `targets` に引かれる点線の仕様を指定します。詳細は [$@ 節](#ストローク)を参照してください。
 ;;
 ;;${SEE_ALSO}
 ;;
@@ -254,8 +260,8 @@
 ;;${NO_NOTES}
 ;;
 ;;--------------------------------------------------------------------------------------- END TURNUP
-(defmacro with-uml-note-options ((&key font fill stroke margin
-                                       crease dasharray filter layer) &rest body)
+(defmacro with-uml-note-options ((&key margin crease font
+                                       fill stroke layer filter dasharray) &rest body)
   (labels ((impl (params acc)
              (if (null params)
                  acc
@@ -265,13 +271,13 @@
                          (if (null value)
                              acc
                              (push (list symbol value) acc)))))))
-    (let ((lst (impl (list font      '*uml-note-font*
+    (let ((lst (impl (list margin    '*uml-note-margin*
+                           crease    '*uml-note-crease*
+                           font      '*uml-note-font*
                            fill      '*uml-note-fill*
                            stroke    '*uml-note-stroke*
-                           margin    '*uml-note-margin*
-                           crease    '*uml-note-crease*
-                           dasharray '*uml-note-dasharray*
+                           layer     '*uml-note-layer*
                            filter    '*uml-note-filter*
-                           layer     '*uml-note-layer*) nil)))
+                           dasharray '*uml-note-dasharray*) nil)))
       `(let ,lst
          ,@body))))

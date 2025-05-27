@@ -7,9 +7,8 @@
 (defparameter *uml-frame-margin*      5)
 (defparameter *uml-frame-filter*    nil)
 (defparameter *uml-frame-layer*     nil)
+(defparameter *uml-frame-fragment-dasharray* '(4 4))
 
-
-;;MEMO: 0CmlEwGLQBg : uml-frame で alt をするときの「横点線と guard 条件」とかを組み込みたい
 
 ;;-------------------------------------------------------------------------------
 ;;
@@ -23,6 +22,7 @@
    (height   :initform   0 :initarg :height)      ; number
    (title    :initform nil :initarg :title)       ; (or keyword string)
    (margin   :initform   0 :initarg :margin)      ; number
+   (fragments :initform nil :initarg :fragments)  ; list of numbers
    (font     :initform nil :initarg :font)        ; (or nil font-info)
    (fill     :initform nil :initarg :fill)        ; (or nil fill-info)
    (stroke   :initform nil :initarg :stroke)      ; (or nil stroke-info)
@@ -31,9 +31,12 @@
 
 (defmethod initialize-instance :after ((obj uml-frame) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (pivot margin font fill stroke filter layer) obj
+  (with-slots (pivot margin fragments font fill stroke filter layer) obj
     (setf pivot  (or pivot :CC))
     (setf margin (or margin   *uml-frame-margin*))
+    (setf fragments (cond
+                      ((listp   fragments) fragments)
+                      (t             (list fragments))))
     (setf font   (make-font   (or font   *uml-frame-font*   *default-font*)))
     (setf fill   (make-fill   (or fill   *uml-frame-fill*   *default-fill*   :white)))
     (setf stroke (make-stroke (or stroke *uml-frame-stroke* *default-stroke* :black)))
@@ -48,7 +51,7 @@
 (defmethod check ((obj uml-frame) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (with-slots (position pivot width height title margin font fill stroke clip-path) obj
+  (with-slots (position pivot width height title margin fragments font fill stroke clip-path) obj
     (unless (point-p position)
       (throw-exception "position is not point."))
     (check-member pivot  :nullable nil :types keyword)
@@ -56,6 +59,9 @@
     (check-member height :nullable nil :types number)
     (check-member title  :nullable nil :types (or keyword string))
     (check-member margin :nullable nil :types number)
+    (check-member fragments :nullable   t :types list)
+    (dolist (item fragments)
+      (check-member item :nullable nil :types number))
     (check-object font         canvas dict :nullable   t :class font-info)
     (check-object fill         canvas dict :nullable   t :class fill-info)
     (check-object stroke       canvas dict :nullable   t :class stroke-info)
@@ -90,7 +96,7 @@
                              (attribute-width   obj)
                              (attribute-height  obj))))
     (with-slots (width height title
-                       margin font fill stroke filter clip-path) obj
+                       margin fragments font fill stroke filter clip-path) obj
       (macrolet ((register-entity (entity)
                    `(check-and-draw-local-entity ,entity canvas writer)))
         (writer-write writer "<g "
@@ -110,12 +116,33 @@
                     (,(+ w margin) 0)))))
         (writer-decr-level writer)
         (writer-write writer "</g>")
+        (when fragments
+          (let ((y  0)
+                (*default-stroke* (make-stroke :base stroke
+                                               :dasharray *uml-frame-fragment-dasharray*))
+                (kaavio:*current-clip-path* nil))
+            (dolist (h fragments)
+              (incf y h)
+              (line `((0 ,y) (,width ,y))))))
         (let ((kaavio:*current-clip-path* clip-path))
           (paragraph (make-point margin margin) title :align :left :valign :top :font font)))))
   (post-draw obj writer)
   nil)
 
 
+(defun uml-frame-get-fragment-canvas (obj index)
+  (labels ((recur (lst index canvas)
+             (let ((height (car lst)))
+               (if (zerop index)
+                   (progn
+                     (when height
+                       (setf (canvas-height canvas) height))
+                     canvas)
+                   (progn
+                       (incf (point-y (canvas-topleft canvas)) height)
+                       (decf (canvas-height canvas) height)
+                       (recur (cdr lst) (1- index) canvas))))))
+    (recur (slot-value obj 'fragments) index (shape-get-subcanvas obj))))
 
 ;;------------------------------------------------------------------------------------- BEGIN TURNUP
 ;;#### macro uml-frame
@@ -123,7 +150,7 @@
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
-;;* ${{B}{uml-frame}} position width height title ${KEY} pivot margin font fill stroke link layer filter id contents
+;;* ${{B}{uml-frame}} position width height title ${KEY} pivot margin fragments font fill stroke link layer filter id contents
 ;;
 ;;<!-- stack:pop li -->
 ;;
@@ -135,6 +162,7 @@
 ;;* `title` ---- 名前をキーワードまたは文字列で指定します。内部的にパラグラフとして処理されるため、改行を含む複数行の文字列が使用できます。
 ;;* `pivot` ---- `position` で指定した基準点が図形要素のどこにくるように描画するかを指定します。詳細は「[](#座標と位置)」を参照してください。
 ;;* `margin` ---- フレームの左上に表示される名前部分の余白の大きさを数値で指定します。
+;;* `fragments` ---- フレーム内部を点線で複数の領域に区切る場合、各領域の高さをリストで与えます。区切られた個々の領域には with-uml-frame-fragment マクロを使ってアクセスできます。
 ;;* `font` ---- フォントを指定します。
 ;;* `fill` ---- 内部の塗り潰しを指定します。
 ;;* `stroke` ---- 外枠を描画するストロークを指定します
@@ -152,17 +180,19 @@
 ;;${SEE_ALSO}
 ;;
 ;;* [$$](#uml-frame)
+;;* with-uml-frame-fragment マクロ
 ;;* with-uml-frame-options マクロ
 ;;
 ;;${NO_NOTES}
 ;;
 ;;--------------------------------------------------------------------------------------- END TURNUP
 (defmacro uml-frame (position width height title
-                              &key pivot margin font fill stroke link layer filter id contents)
+                          &key pivot margin fragments font fill stroke link layer filter id contents)
   (let ((code `(register-entity (make-instance 'uml-frame
                                                :position ,position :pivot ,pivot
                                                :width ,width :height ,height
                                                :title ,title :margin ,margin
+                                               :fragments ,fragments
                                                :font ,font :fill ,fill
                                                :stroke ,stroke :link ,link
                                                :clip-path *current-clip-path*
@@ -177,19 +207,61 @@
 
 
 ;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### macro with-uml-frame-fragment
+;;
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
+;;
+;;* ${{B}{with-uml-frame-fragment}} (id index) ${BODY} body
+;;
+;;<!-- stack:pop li -->
+;;
+;;${ARGS_AND_VALS}
+;;
+;;* `id` ---- 対象となる uml-frame の ID を指定します。
+;;* `index` ---- 対象となる領域のインデックスを上から順に０から始まる整数で指定します。
+;;* `body` ---- 対象となるサブキャンバス内で行なう描画コードを記述します。
+;;
+;;${DESCRIPTION}
+;;
+;;　uml-frame の指定された領域（マトリクス状のパーティションの場合はセル）を
+;;サブキャンバスとした描画を行ないます。
+;;
+;;${SEE_ALSO}
+;;
+;;* [$$](#uml-frame)
+;;* uml-frame マクロ
+;;
+;;${NOTES}
+;;
+;;　`index` で指定できる値は、uml-frame の `:fragments` で指定した要素数が上限となります。
+;;たとえば `:fragments '(50 40)` とした場合、点線が２本引かれて３つの領域に分割されるため、 
+;;`0 1 2` が指定できることになります。
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
+(defmacro with-uml-frame-fragment ((id index) &body body)
+  `(let* ((canvas (uml-frame-get-fragment-canvas
+                   (kaavio::dict-get-entity (kaavio::get-dictionary) ,id) ,index)))
+     (declare (special canvas))
+     ,@body))
+  
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
 ;;#### macro with-uml-frame-options
 ;;
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
-;;* ${{B}{with-uml-frame-options}} (${KEY} font fill stroke margin filter layer) ${BODY} body
+;;* ${{B}{with-uml-frame-options}} (${KEY} font fill stroke margin fragment-dasharray filter layer) ${BODY} body
 ;;
 ;;<!-- stack:pop li -->
 ;;
 ;;${DESCRIPTION}
 ;;
 ;;　uml-frame マクロで描画される図形要素のデフォルトオプションを変更します。キーワード
-;;パラメータ群の説明は uml-frame マクロを参照してください。
+;;パラメータ群の説明は uml-frame マクロを参照してください。ただし、以下はこのマクロで
+;;のみ指定可能です。
+;;
+;;* `fragment-dasharray` ---- `:fragments` パラメータで領域を区切る際に描画される点線の仕様を指定します。。詳細は [$@ 節](#ストローク)を参照してください。
 ;;
 ;;${SEE_ALSO}
 ;;
@@ -198,8 +270,8 @@
 ;;${NO_NOTES}
 ;;
 ;;--------------------------------------------------------------------------------------- END TURNUP
-(defmacro with-uml-frame-options ((&key font fill stroke
-                                          margin filter layer) &rest body)
+(defmacro with-uml-frame-options ((&key font fill stroke margin
+                                        filter layer fragment-dasharray) &rest body)
   (labels ((impl (params acc)
              (if (null params)
                  acc
@@ -214,7 +286,9 @@
                            stroke '*uml-frame-stroke*
                            margin '*uml-frame-margin*
                            filter '*uml-frame-filter*
-                           layer  '*uml-frame-layer*) nil)))
+                           layer  '*uml-frame-layer*
+                           fragment-dasharray '*uml-frame-fragment-dasharray*) nil)))
       `(let ,lst
          ,@body))))
+
 

@@ -636,11 +636,11 @@ ${SYNTAX}
 ${ARGS_AND_VALS}
 
 * `id` ---- ID をキーワードで指定します。
-* `x` ---- ${{TODO}{まだ記述されていません。}}
-* `y` ---- ${{TODO}{まだ記述されていません。}}
+* `x` ---- x 座標を数値で指定します。SVG の pattern タグにおける x 属性として使用されます。省略した場合のデフォルト値は 0 です。
+* `y` ---- y 座標を数値で指定します。SVG の pattern タグにおける y 属性として使用されます。省略した場合のデフォルト値は 0 です。
 * `width` ---- 幅を数値で指定します。
 * `height` ---- 高さを数値で指定します。
-* `href` ---- ${{TODO}{まだ記述されていません。}}
+* `href` ---- SVG の pattern タグにおける xlink:href 属性として使用されます。
 * `units` ---- patternUnits 属性を `:userSpaceOnUse` または `:objectBoundingBox` から選択します。
 * `content-units` ---- patternContentUnits 属性を `:userSpaceOnUse` または `:objectBoundingBox` から選択します。
 * `view-box` ---- viewBox 属性を 4 つの数値からなるリストで指定します。
@@ -1719,6 +1719,117 @@ ${NO_NOTES}
 
 ${BLANK_PARAGRAPH}
 
+#### function make-uml-flow-spec
+
+<!-- stack:push li class='syntax' -->
+${SYNTAX}
+
+* ${{B}{make-uml-flow-spec}} ${REST} params
+
+<!-- stack:pop li -->
+
+${DESCRIPTION}
+
+　指定されたパラメータでフロー仕様情報を生成します。上記は簡潔な記述で柔軟なフロー仕様情報
+の生成を可能にするためのもので、 `params` として渡されるパラメータ数に応じて以下のことを
+します。
+
+* パラメータ数が 1 の場合
+    * フロー仕様情報が渡された場合、それをそのまま返します
+    * リスト lst が渡された場合、 `(apply #'make-uml-flow-spec lst)` を返します
+    * 上記のいずれでもない prm の場合、 `(make-uml-flow-spec :guard prm)` を返します
+* パラメータ数が 2 以上の場合
+    * 後述します
+
+　パラメータ数が 2 以上の場合、make-uml-flow-spec 関数は実質的に以下の関数であるかのように
+振舞います。
+
+<!-- stack:push li class='syntax' -->
+
+* ${{B}{make-uml-flow-spec}} ${KEY} guard action offset font
+
+<!-- stack:pop li -->
+
+　各パラメータの意味は以下の通りです。
+
+* `guard` ---- ガード条件をキーワードシンボルまたは文字列で指定します。
+* `action` ---- 実行アクションをキーワードシンボルまたは文字列で指定します。
+* `offset` ---- 描画位置調整に使うオフセット情報を座標値で指定します。
+* `font` ---- フォントを指定します。
+
+${SEE_ALSO}
+
+* [$$](#uml-flow-spec)
+
+${NOTES}
+
+　通常、この関数を明示的に使用する必要はありません。uml-flow マクロの 
+`:spec` に指定されたパラメータは内部でこの関数に渡されるため、 
+`:spec '(:guard :when-idle :action :"OnIdle()"` といった記述でフロー仕様情報
+を指定できます。
+
+
+<!-- autolink: [make-uml-flow-spec 関数](#function make-uml-flow-spec) -->
+
+${BLANK_PARAGRAPH}
+
+#### function make-uml-icon-setting
+
+<!-- stack:push li class='syntax' -->
+${SYNTAX}
+
+* ${{B}{make-uml-icon-setting}} ${REST} params
+
+<!-- stack:pop li -->
+
+${DESCRIPTION}
+
+　指定されたパラメータでアイコン設定情報を生成します。上記は簡潔な記述で柔軟なアイコン設定情報
+の生成を可能にするためのもので、 `params` として渡されるパラメータ数に応じて以下のことを
+します。
+
+* パラメータ数が 1 の場合
+    * アイコン設定情報が渡された場合、それをそのまま返します
+    * 数値 N が渡された場合、 `(make-uml-icon-setting :size N)` を返します
+    * キーワードシンボル kwd が渡された場合、 `(make-uml-icon-setting :pivot kwd)` を返します
+    * リスト lst が渡された場合、 `(apply #'make-uml-icon-setting lst)` を返します
+    * 上記のいずれでもない prm の場合、 `(make-uml-icon-setting :size prm)` を返します
+* パラメータ数が 2 以上の場合
+    * 後述します
+
+　パラメータ数が 2 以上の場合、make-uml-icon-setting 関数は実質的に以下の関数であるかのように
+振舞います。
+
+<!-- stack:push li class='syntax' -->
+
+* ${{B}{make-uml-icon-setting}} ${KEY} fill stroke size pivot offset
+
+<!-- stack:pop li -->
+
+　各パラメータの意味は以下の通りです。
+
+* `fill` ---- アイコン内部の塗り潰しを指定します。
+* `stroke` ---- アイコンの線を描画するストロークを指定します。
+* `size` ---- アイコンのサイズを数値で指定します。デフォルト値は 14 です。
+* `pivot` ---- アイコンの描画位置を `:TL :TC :TR :CL :CC :CR :BL :BC :BR` のいずれかで指定します。デフォルト値は `:TR` です。
+* `offset` ---- アイコンの描画位置調整に使うオフセット情報を座標値で指定します。デフォルト値は `pivot` によって変化します。
+* `base` ---- アイコン設定情報の作成においてベースとする他のアイコン設定情報があれば指定します。
+
+${SEE_ALSO}
+
+* [$$](#uml-icon-setting)
+
+${NOTES}
+
+　通常、この関数を明示的に使用する必要はありません。各種マクロの `:icon` などに指定
+されたパラメータは内部でこの関数に渡されるため、 `:icon '(:fill :cyan :stroke :blue)` 
+といった記述でアイコン設定情報を指定できます。
+
+
+<!-- autolink: [make-uml-icon-setting 関数](#function make-uml-icon-setting) -->
+
+${BLANK_PARAGRAPH}
+
 #### function make-uml-multiplicity
 
 <!-- stack:push li class='syntax' -->
@@ -1734,7 +1845,7 @@ ${DESCRIPTION}
 可能にするためのもので、 `params` として渡されるパラメータ数に応じて以下のことをします。
 
 * パラメータ数が 1 の場合
-    * ドットリストを使った多重度指定（ car / cdr それぞれが `:*` または整数値） `cons` の場合、 `(make-uml-multiplicity :min (car param) prm :max (cdr param))` を返します。
+    * ドットリストを使った多重度指定（ car / cdr それぞれが `:*` または整数値） `cons` の場合、 `(make-uml-multiplicity :min (car param) :max (cdr param))` を返します。
     * 多重度情報が渡された場合、それをそのまま返します。
     * リスト lst が渡された場合、 `(apply #'make-uml-multiplicity lst)` を返します。
     * 上記のいずれでもない prm の場合、 `(make-uml-multiplicity :min prm :max prm)` を返します。
@@ -1876,6 +1987,61 @@ ${NOTES}
 
 
 <!-- autolink: [make-uml-stereotype 関数](#function make-uml-stereotype) -->
+
+${BLANK_PARAGRAPH}
+
+#### function make-uml-transition-spec
+
+<!-- stack:push li class='syntax' -->
+${SYNTAX}
+
+* ${{B}{make-uml-transition-spec}} ${REST} params
+
+<!-- stack:pop li -->
+
+${DESCRIPTION}
+
+　指定されたパラメータで遷移仕様情報を生成します。上記は簡潔な記述で柔軟な遷移仕様情報
+の生成を可能にするためのもので、 `params` として渡されるパラメータ数に応じて以下のことを
+します。
+
+* パラメータ数が 1 の場合
+    * 遷移仕様情報が渡された場合、それをそのまま返します
+    * リスト lst が渡された場合、 `(apply #'make-uml-transition-spec lst)` を返します
+    * 上記のいずれでもない prm の場合、 `(make-uml-transition-spec :trigger prm)` を返します
+* パラメータ数が 2 以上の場合
+    * 後述します
+
+　パラメータ数が 2 以上の場合、make-uml-transition-spec 関数は実質的に以下の関数であるかのように
+振舞います。
+
+<!-- stack:push li class='syntax' -->
+
+* ${{B}{make-uml-transition-spec}} ${KEY} trigger guard action offset font
+
+<!-- stack:pop li -->
+
+　各パラメータの意味は以下の通りです。
+
+* `trigger` ---- トリガー条件をキーワードシンボルまたは文字列で指定します。
+* `guard` ---- ガード条件をキーワードシンボルまたは文字列で指定します。
+* `action` ---- 実行アクションをキーワードシンボルまたは文字列で指定します。
+* `offset` ---- 描画位置調整に使うオフセット情報を座標値で指定します。
+* `font` ---- フォントを指定します。
+
+${SEE_ALSO}
+
+* [$$](#uml-transition-spec)
+
+${NOTES}
+
+　通常、この関数を明示的に使用する必要はありません。uml-transition マクロの 
+`:spec` に指定されたパラメータは内部でこの関数に渡されるため、 
+`:spec '(:trigger :on-click :action :"OnClick()"` といった記述で遷移仕様情報
+を指定できます。
+
+
+<!-- autolink: [make-uml-transition-spec 関数](#function make-uml-transition-spec) -->
 
 ${BLANK_PARAGRAPH}
 
@@ -2959,7 +3125,7 @@ ${BLANK_PARAGRAPH}
 <!-- stack:push li class='syntax' -->
 ${SYNTAX}
 
-* ${{B}{uml-action}} position name ${KEY} stereotype keyword pivot width height margin corner-r rake font fill stroke link layer filter id contents
+* ${{B}{uml-action}} position name ${KEY} stereotype keyword pivot width height margin corner-r rake font fill stroke icon link layer filter id contents
 
 <!-- stack:pop li -->
 
@@ -2974,10 +3140,11 @@ ${ARGS_AND_VALS}
 * `height` ---- 高さを自動決定せず、明示的に指定したい場合に数値で指定します。
 * `margin` ---- テキスト描画における「余白」のサイズです。省略した場合のデフォルト値は 5 です。
 * `corner-r` ---- 角の丸みの半径を数値で指定します。省略した場合のデフォルト値は 6 です。
-* `rake` ---- レーキアイコンを表示する場合は `t` を指定します。または、アイコンを表示する位置とサイズの情報をリストで指定することもできます。詳細は後述します。
+* `rake` ---- レーキアイコンを表示するか否かを真偽値で指定します。
 * `font` ---- フォントを指定します。
 * `fill` ---- 内部の塗り潰しを指定します。
 * `stroke` ---- 外枠を描画するストロークを指定します
+* `icon` ---- アイコンの描画設定を変更する場合は指定します。 [$@ 節](#function make-uml-icon-setting) を参照してください。
 * `link` ---- リンクにする場合、リンク先を指定します。
 * `layer` ---- レイヤーを指定する場合、その ID をキーワードシンボルで指定します
 * `filter` ---- フィルタを適用したい場合、その ID をキーワードシンボルで指定します
@@ -2997,7 +3164,6 @@ ${SEE_ALSO}
 
 ${NOTES}
 
-* `rake` パラメータで位置やサイズを指定する場合、数値 4 要素のリストを指定します。これは `(width height x-margin y-margin)` という並びで、それぞれレーキアイコンの幅、高さ、（右下から中心に向かっての）x 方向、y 方向のオフセットとなっています。 `:reke t` とした場合は `:rake '(10 14 4 4)` と等価です。
 * uml-action では `:contents` パラメータを指定した場合、 `name` で指定されたテキストを（中央でなく）上部に描画します。しかし、（ `:contents` パラメータでなく）with-subcanvas-of マクロを使う場合、テキストは中央に描画されてしまいます。これを避けるためには、 `:contents t` を指定してください。これはテキストを上端付近に描画させる効果だけを持ちます。
 
 
@@ -3088,16 +3254,16 @@ ${BLANK_PARAGRAPH}
 <!-- stack:push li class='syntax' -->
 ${SYNTAX}
 
-* ${{B}{uml-actor}} position name ${KEY} pivot width fill stroke link layer filter id
+* ${{B}{uml-actor}} position name ${KEY} pivot size fill stroke link layer filter id
 
 <!-- stack:pop li -->
 
 ${ARGS_AND_VALS}
 
 * `position` ---- 描画の基準点を指定します。詳細は「[](#座標と位置)」を参照してください。
-* `name` ---- アクターの名前を文字列で指定します。
+* `name` ---- アクターの名前をラベル形式で指定します。
 * `pivot` ---- `position` で指定した基準点が図形要素のどこにくるように描画するかを指定します。詳細は「[](#座標と位置)」を参照してください。
-* `width` ---- 大きさを明示的に指定したい場合に、幅を数値で指定します。高さは幅から自動的に決定されます。省略した場合のデフォルト値は 30 です。
+* `size` ---- 大きさを明示的に指定したい場合に、高さを数値で指定します。幅は高さから自動的に決定されます。省略した場合のデフォルト値は 40 です。
 * `fill` ---- 内部の塗り潰しを指定します。
 * `stroke` ---- 線を描画するストロークを指定します
 * `link` ---- リンクにする場合、リンク先を指定します。
@@ -3189,6 +3355,7 @@ ${ARGS_AND_VALS}
 * `font` ---- フォントを指定します。
 * `fill` ---- 内部の塗り潰しを指定します。
 * `stroke` ---- 外枠を描画するストロークを指定します
+* `icon` ---- アイコンの描画設定を変更する場合は指定します。 [$@ 節](#function make-uml-icon-setting) を参照してください。
 * `margin` ---- テキストの余白を指定します。幅や高さを明示的に指定した場合は無視されます。
 * `link` ---- リンクにする場合、リンク先を指定します。
 * `layer` ---- レイヤーを指定する場合、その ID をキーワードシンボルで指定します
@@ -3316,7 +3483,7 @@ ${BLANK_PARAGRAPH}
 <!-- stack:push li class='syntax' -->
 ${SYNTAX}
 
-* ${{B}{uml-component}} position name ${KEY} pivot stereotype keyword width height font fill stroke margin link layer filter id contents
+* ${{B}{uml-component}} position name ${KEY} pivot stereotype keyword width height font fill stroke icon margin link layer filter id contents
 
 <!-- stack:pop li -->
 
@@ -3332,6 +3499,7 @@ ${ARGS_AND_VALS}
 * `font` ---- フォントを指定します。
 * `fill` ---- 内部の塗り潰しを指定します。
 * `stroke` ---- 外枠を描画するストロークを指定します
+* `icon` ---- アイコンの描画設定を変更する場合は指定します。 [$@ 節](#function make-uml-icon-setting) を参照してください。
 * `margin` ---- テキストの余白を指定します。幅や高さを明示的に指定した場合は無視されます。
 * `link` ---- リンクにする場合、リンク先を指定します。
 * `layer` ---- レイヤーを指定する場合、その ID をキーワードシンボルで指定します
@@ -3537,7 +3705,7 @@ ${BLANK_PARAGRAPH}
 <!-- stack:push li class='syntax' -->
 ${SYNTAX}
 
-* ${{B}{uml-expansion-region}} position width height ${KEY} pivot stereotype keyword font offset corner-r fill stroke link layer filter id contents
+* ${{B}{uml-expansion-region}} position width height ${KEY} pivot stereotype keyword offset corner-r fill stroke link layer filter id contents
 
 <!-- stack:pop li -->
 
@@ -3721,7 +3889,7 @@ ${BLANK_PARAGRAPH}
 <!-- stack:push li class='syntax' -->
 ${SYNTAX}
 
-* ${{B}{uml-frame}} position width height title ${KEY} pivot margin font fill stroke link layer filter id contents
+* ${{B}{uml-frame}} position width height title ${KEY} pivot margin fragments font fill stroke link layer filter id contents
 
 <!-- stack:pop li -->
 
@@ -3733,6 +3901,7 @@ ${ARGS_AND_VALS}
 * `title` ---- 名前をキーワードまたは文字列で指定します。内部的にパラグラフとして処理されるため、改行を含む複数行の文字列が使用できます。
 * `pivot` ---- `position` で指定した基準点が図形要素のどこにくるように描画するかを指定します。詳細は「[](#座標と位置)」を参照してください。
 * `margin` ---- フレームの左上に表示される名前部分の余白の大きさを数値で指定します。
+* `fragments` ---- フレーム内部を点線で複数の領域に区切る場合、各領域の高さをリストで与えます。区切られた個々の領域には with-uml-frame-fragment マクロを使ってアクセスできます。
 * `font` ---- フォントを指定します。
 * `fill` ---- 内部の塗り潰しを指定します。
 * `stroke` ---- 外枠を描画するストロークを指定します
@@ -3750,6 +3919,7 @@ ${DESCRIPTION}
 ${SEE_ALSO}
 
 * [$$](#uml-frame)
+* with-uml-frame-fragment マクロ
 * with-uml-frame-options マクロ
 
 ${NO_NOTES}
@@ -3904,7 +4074,7 @@ ${ARGS_AND_VALS}
 * `position` ---- 描画の基準点を指定します。詳細は「[](#座標と位置)」を参照してください。
 * `direction` ---- 向きを `:h` か `:v` で指定します。横方向に流れるフローで使用する場合は `:h` 、縦方向なら `:v` です。
 * `pivot` ---- `position` で指定した基準点が図形要素のどこにくるように描画するかを指定します。詳細は「[](#座標と位置)」を参照してください。
-* `spec` ---- ジョイン使用の指定がある場合、そのテキストをラベル形式で指定します。指定方法は [$@ 節](#ラベル)を参照してください。
+* `spec` ---- ジョイン仕様の指定をする場合、そのテキストをラベル形式で指定します。指定方法は [$@ 節](#ラベル)を参照してください。
 * `width` ---- 幅を数値で指定します。省略した場合のデフォルト値は 10 です。
 * `length` ---- 長さを数値で指定します。省略した場合のデフォルト値は 40 です。
 * `fill` ---- 内部の塗り潰しを指定します。
@@ -3979,7 +4149,7 @@ ${BLANK_PARAGRAPH}
 <!-- stack:push li class='syntax' -->
 ${SYNTAX}
 
-* ${{B}{uml-node}} position name ${KEY} pivot stereotype keyword width height margin font fill1 fill2 stroke link layer id contents
+* ${{B}{uml-node}} position name ${KEY} pivot stereotype keyword width height depth margin font fill1 fill2 stroke link layer id contents
 
 <!-- stack:pop li -->
 
@@ -3992,6 +4162,7 @@ ${ARGS_AND_VALS}
 * `keyword` ---- キーワードを明示する場合はステレオタイプ情報を指定します。 `stereotype` が指定されている場合は無視されます。詳細は [$@ 節](#uml-stereotype-info) を参照してください。
 * `width` ---- 幅を自動決定せず、明示的に指定したい場合に数値で指定します。
 * `height` ---- 高さを自動決定せず、明示的に指定したい場合に数値で指定します。
+* `depth` ---- 上面および側面の大きさを明示的に指定したい場合に数値で指定します。
 * `margin` ---- テキスト描画における「余白」のサイズです。省略した場合のデフォルト値は 5 です。
 * `font` ---- フォントを指定します。
 * `fill1` ---- 前面内部の塗り潰しを指定します。
@@ -4063,7 +4234,12 @@ ${SEE_ALSO}
 * [$$](#uml-note)
 * with-uml-note-options マクロ
 
-${NO_NOTES}
+${NOTES}
+
+　ノートから `targets` に引かれる点線は、 `stroke` で指定したストロークの `dasharray` を
+差し替えたものが使用されます。これはデフォルトで `'(3 3)` ですが、uml-note マクロではこれを
+個別に指定することはできません。 `dasharray` を変更したい場合、with-uml-note-options マクロ
+を使用してください。
 
 
 <!-- autolink: [uml-note マクロ](#macro uml-note) -->
@@ -4134,8 +4310,8 @@ ${ARGS_AND_VALS}
 * `cols` ---- 各レーンの名前と幅の情報をリストで与えるか、または全体の幅を数値で与えます。詳細は [$@ 節](#uml-partition)を参照してください。
 * `pivot` ---- `position` で指定した基準点が図形要素のどこにくるように描画するかを指定します。詳細は「[](#座標と位置)」を参照してください。
 * `lines` ---- 枠線の描画の仕方を `:min :mid :max` のいずれかで指定します。それぞれのサンプルは [$@](F#uml-partition における lines パラメータのサンプル) を参照してください。
-* `header` ---- ${{TODO}{まだ記述されていません。}}
-* `fills` ---- ${{TODO}{まだ記述されていません。}}
+* `header` ---- ヘッダ部分の幅または高さを数値で指定します。省略した場合のデフォルト値は 30 です。
+* `fills` ---- パーティションをテーブルとして見た場合の、各セルの背景色を table マクロの `fills` パラメータの要領で指定します。詳細は [$@ 節](#macro table)を参照してください。
 * `stroke` ---- 外枠を描画するストロークを指定します
 * `font` ---- フォントを指定します。
 * `layer` ---- レイヤーを指定する場合、その ID をキーワードシンボルで指定します
@@ -4212,20 +4388,17 @@ ${BLANK_PARAGRAPH}
 <!-- stack:push li class='syntax' -->
 ${SYNTAX}
 
-* ${{B}{uml-port}} target position name ${KEY} offset size fill stroke font filter layer id
+* ${{B}{uml-port}} position ${KEY} name size fill stroke layer filter id
 
 <!-- stack:pop li -->
 
 ${ARGS_AND_VALS}
 
-* `target` ---- ポートを追加する対象の ID をキーワードシンボルで指定します。
-* `position` ---- 対象にポートを追加する位置をキーワードシンボルで指定します。詳細は後述します。
+* `position` ---- 描画の基準点を指定します。詳細は「[](#座標と位置)」を参照してください。
 * `name` ---- ポート名を文字列またはキーワードシンボルで指定します。
-* `offset` ---- ポート名の描画位置を調整するためのオフセット値を `(x y)` 形式で指定します。
 * `size` ---- 描画されるポートのサイズを指定します。
 * `fill` ---- 内部の塗り潰しを指定します。
 * `stroke` ---- 外枠を描画するストロークを指定します
-* `font` ---- フォントを指定します。
 * `filter` ---- フィルタを適用したい場合、その ID をキーワードシンボルで指定します
 * `layer` ---- レイヤーを指定する場合、その ID をキーワードシンボルで指定します
 * `id` ---- ID を付与したい場合、その名前をキーワードシンボルで指定します
@@ -4234,10 +4407,6 @@ ${DESCRIPTION}
 
 　UML コンポーネント図などにおけるポートを描画します。スタイルを統一したい場合、
 with-uml-port-options マクロを使うことができます。
-
-　`position` はコネクタにおける接続位置の指定と同じ要領で `:L` などと指定します
-（[$@ 節](#コネクタ)参照）。uml-port においてはさらに `'(:L1 5)` などとして微調整が
-可能です。
 
 ${SEE_ALSO}
 
@@ -4372,12 +4541,12 @@ ${ARGS_AND_VALS}
 
 ${DESCRIPTION}
 
-　UML ステートマシーン図における状態を描画します。スタイルを統一したい場合、
+　UML 状態マシン図における状態を描画します。スタイルを統一したい場合、
 with-uml-state-options マクロを使うことができます。
 
 ${SEE_ALSO}
 
-* [$$](#ステートマシーン図)
+* [$$](#状態マシン図)
 * [$$](#uml-state)
 * with-uml-state-options マクロ
 
@@ -4412,12 +4581,12 @@ ${ARGS_AND_VALS}
 
 ${DESCRIPTION}
 
-　UML ステートマシーン図における開始状態を描画します。スタイルを統一したい場合、
+　UML 状態マシン図における開始状態を描画します。スタイルを統一したい場合、
 with-uml-state-begin-options マクロを使うことができます。
 
 ${SEE_ALSO}
 
-* [$$](#ステートマシーン図)
+* [$$](#状態マシン図)
 * [$$](#uml-state-begin)
 * with-uml-state-begin-options マクロ
 
@@ -4452,12 +4621,12 @@ ${ARGS_AND_VALS}
 
 ${DESCRIPTION}
 
-　UML ステートマシーン図における終了状態を描画します。スタイルを統一したい場合、
+　UML 状態マシン図における終了状態を描画します。スタイルを統一したい場合、
 with-uml-state-end-options マクロを使うことができます。
 
 ${SEE_ALSO}
 
-* [$$](#ステートマシーン図)
+* [$$](#状態マシン図)
 * [$$](#uml-state-end)
 * with-uml-state-end-options マクロ
 
@@ -4491,12 +4660,12 @@ ${ARGS_AND_VALS}
 
 ${DESCRIPTION}
 
-　UML ステートマシーン図におけるヒストリアイコンを描画します。スタイルを統一したい場合、
+　UML 状態マシン図におけるヒストリアイコンを描画します。スタイルを統一したい場合、
 with-uml-state-history-options マクロを使うことができます。
 
 ${SEE_ALSO}
 
-* [$$](#ステートマシーン図)
+* [$$](#状態マシン図)
 * [$$](#uml-state-history)
 * with-uml-state-history-options マクロ
 
@@ -4572,7 +4741,7 @@ ${ARGS_AND_VALS}
 
 ${DESCRIPTION}
 
-　UML ステートマシーン図における遷移を描画します。スタイルを統一したい場合、
+　UML 状態マシン図における遷移を描画します。スタイルを統一したい場合、
 with-uml-transition-options マクロを使うことができます。
 
 　`spec` に指定する遷移仕様は、 `:spec '(:trigger "event" :guard "v = 666" :action "foo()")` と
@@ -4593,7 +4762,7 @@ with-uml-transition-options マクロを使うことができます。
 
 ${SEE_ALSO}
 
-* [$$](#ステートマシーン図)
+* [$$](#状態マシン図)
 * [$$](#uml-transition)
 * with-uml-transition-options マクロ
 
@@ -5437,7 +5606,7 @@ ${BLANK_PARAGRAPH}
 <!-- stack:push li class='syntax' -->
 ${SYNTAX}
 
-* ${{B}{with-uml-action-options}} (${KEY} font fill stroke width height corner-r margin rake filter layer) ${BODY} body
+* ${{B}{with-uml-action-options}} (${KEY} font fill stroke width height corner-r margin rake icon filter layer) ${BODY} body
 
 <!-- stack:pop li -->
 
@@ -5513,8 +5682,8 @@ ${BLANK_PARAGRAPH}
 
 <!-- stack:push li class='syntax' -->
 ${SYNTAX}
-
-* ${{B}{with-uml-actor-options}} (${KEY} fill stroke width height-ratio head-ratio shoulder-position thigh-position filter layer) ${BODY} body
+t
+* ${{B}{with-uml-actor-options}} (${KEY} fill stroke size width-ratio head-ratio shoulder-position thigh-position filter layer) ${BODY} body
 
 <!-- stack:pop li -->
 
@@ -5533,7 +5702,7 @@ ${NOTES}
 　uml-actor マクロのパラメータに対応しないものとして、以下があります。これらはアクター
 のアイコン形状を制御するものです。
 
-* `height-ratio` : `width` で指定する幅に対して高さを決定するための係数です。デフォルト値は 1.5 です。
+* `width-ratio` : `size` で指定するサイズに対して描画される人型の幅を決定するための係数です。デフォルト値は 0.620 です。
 * `head-ratio` : 頭部の円の大きさを高さに対する比で決定するための係数です。デフォルト値は 0.4 です。
 * `shoulder-position` : 「肩」の位置（つまり横棒で描画される腕の高さ）を決定するための係数です。デフォルト値は 0.5 です。
 * `thigh-position` : 「腰」の位置（つまり斜めの棒で描画される二本の脚が胴体から分岐する位置）を決定するための係数です。デフォルト値は 0.7 です。
@@ -5573,7 +5742,7 @@ ${BLANK_PARAGRAPH}
 <!-- stack:push li class='syntax' -->
 ${SYNTAX}
 
-* ${{B}{with-uml-artifact-options}} (${KEY} font fill stroke width height icon-fill icon-stroke icon-size icon-offset filter layer) ${BODY} body
+* ${{B}{with-uml-artifact-options}} (${KEY} font fill stroke width height icon margin filter layer) ${BODY} body
 
 <!-- stack:pop li -->
 
@@ -5589,15 +5758,7 @@ ${SEE_ALSO}
 
 * uml-artifact マクロ
 
-${NOTES}
-
-　uml-artifact マクロのパラメータに対応しないものとして、以下があります。これらは
-生成物のアイコン形状を制御するものです。
-
-* `icon-fill` : アイコン内部の塗り潰しを指定します。デフォルト値は `:white` です。
-* `icon-stroke` : アイコンの線を描画するストロークを指定します。デフォルト値は `:black` です。
-* `icon-size` : アイコンのサイズを数値で指定します。デフォルト値は 20 です。
-* `icon-offset` : アイコンの描画位置を図形要素左上からのオフセットで指定します。デフォルト値は 5 です。
+${NO_NOTES}
 
 
 <!-- autolink: [with-uml-artifact-options マクロ](#macro with-uml-artifact-options) -->
@@ -5659,7 +5820,7 @@ ${BLANK_PARAGRAPH}
 <!-- stack:push li class='syntax' -->
 ${SYNTAX}
 
-* ${{B}{with-uml-component-options}} (${KEY} font fill stroke width height icon-fill icon-stroke icon-size icon-offset filter layer) ${BODY} body
+* ${{B}{with-uml-component-options}} (${KEY} font fill stroke width height icon margin filter layer) ${BODY} body
 
 <!-- stack:pop li -->
 
@@ -5675,15 +5836,7 @@ ${SEE_ALSO}
 
 * uml-component マクロ
 
-${NOTES}
-
-　uml-component マクロのパラメータに対応しないものとして、以下があります。これらは
-コンポーネントのアイコン形状を制御するものです。
-
-* `icon-fill` : アイコン内部の塗り潰しを指定します。デフォルト値は `:white` です。
-* `icon-stroke` : アイコンの線を描画するストロークを指定します。デフォルト値は `:black` です。
-* `icon-size` : アイコンのサイズを数値で指定します。デフォルト値は 20 です。
-* `icon-offset` : アイコンの描画位置を図形要素左上からのオフセットで指定します。デフォルト値は 5 です。
+${NO_NOTES}
 
 
 <!-- autolink: [with-uml-component-options マクロ](#macro with-uml-component-options) -->
@@ -5800,7 +5953,7 @@ ${BLANK_PARAGRAPH}
 <!-- stack:push li class='syntax' -->
 ${SYNTAX}
 
-* ${{B}{with-uml-expansion-region-options}} (${KEY} font fill stroke corner-r filter layer) ${BODY} body
+* ${{B}{with-uml-expansion-region-options}} (${KEY} fill stroke corner-r filter layer) ${BODY} body
 
 <!-- stack:pop li -->
 
@@ -5808,8 +5961,6 @@ ${DESCRIPTION}
 
 　uml-expansion-region マクロで描画される図形要素のデフォルトオプションを変更します。
 キーワードパラメータ群の説明は uml-expansion-region マクロを参照してください。
-
-* ${{TODO}{font はキーワードのデフォルトフォントなのでここで説明する必要がある。}}
 
 ${SEE_ALSO}
 
@@ -5898,19 +6049,58 @@ ${NO_NOTES}
 
 ${BLANK_PARAGRAPH}
 
+#### macro with-uml-frame-fragment
+
+<!-- stack:push li class='syntax' -->
+${SYNTAX}
+
+* ${{B}{with-uml-frame-fragment}} (id index) ${BODY} body
+
+<!-- stack:pop li -->
+
+${ARGS_AND_VALS}
+
+* `id` ---- 対象となる uml-frame の ID を指定します。
+* `index` ---- 対象となる領域のインデックスを上から順に０から始まる整数で指定します。
+* `body` ---- 対象となるサブキャンバス内で行なう描画コードを記述します。
+
+${DESCRIPTION}
+
+　uml-frame の指定された領域（マトリクス状のパーティションの場合はセル）を
+サブキャンバスとした描画を行ないます。
+
+${SEE_ALSO}
+
+* [$$](#uml-frame)
+* uml-frame マクロ
+
+${NOTES}
+
+　`index` で指定できる値は、uml-frame の `:fragments` で指定した要素数が上限となります。
+たとえば `:fragments '(50 40)` とした場合、点線が２本引かれて３つの領域に分割されるため、 
+`0 1 2` が指定できることになります。
+
+
+<!-- autolink: [with-uml-frame-fragment マクロ](#macro with-uml-frame-fragment) -->
+
+${BLANK_PARAGRAPH}
+
 #### macro with-uml-frame-options
 
 <!-- stack:push li class='syntax' -->
 ${SYNTAX}
 
-* ${{B}{with-uml-frame-options}} (${KEY} font fill stroke margin filter layer) ${BODY} body
+* ${{B}{with-uml-frame-options}} (${KEY} font fill stroke margin fragment-dasharray filter layer) ${BODY} body
 
 <!-- stack:pop li -->
 
 ${DESCRIPTION}
 
 　uml-frame マクロで描画される図形要素のデフォルトオプションを変更します。キーワード
-パラメータ群の説明は uml-frame マクロを参照してください。
+パラメータ群の説明は uml-frame マクロを参照してください。ただし、以下はこのマクロで
+のみ指定可能です。
+
+* `fragment-dasharray` ---- `:fragments` パラメータで領域を区切る際に描画される点線の仕様を指定します。。詳細は [$@ 節](#ストローク)を参照してください。
 
 ${SEE_ALSO}
 
@@ -6005,7 +6195,7 @@ ${BLANK_PARAGRAPH}
 <!-- stack:push li class='syntax' -->
 ${SYNTAX}
 
-* ${{B}{with-uml-node-options}} (${KEY} font fill stroke size filter layer) ${BODY} body
+* ${{B}{with-uml-node-options}} (${KEY} font fill1 fill2 stroke width height depth margin filter layer) ${BODY} body
 
 <!-- stack:pop li -->
 
@@ -6030,16 +6220,17 @@ ${BLANK_PARAGRAPH}
 <!-- stack:push li class='syntax' -->
 ${SYNTAX}
 
-* ${{B}{with-uml-note-options}} (${KEY} font fill stroke margin crease dasharray filter layer) ${BODY} body
+* ${{B}{with-uml-note-options}} (${KEY} margin crease font fill stroke filter layer dasharray) ${BODY} body
 
 <!-- stack:pop li -->
 
 ${DESCRIPTION}
 
 　uml-note マクロで描画される図形要素のデフォルトオプションを変更します。キーワード
-パラメータ群の説明は uml-note マクロを参照してください。
+パラメータ群の説明は uml-note マクロを参照してください。ただし、以下はこのマクロで
+のみ指定可能です。
 
-* ${{TODO}{dasharray はここで説明してあげる必要がある。}}
+* `dasharray` ---- uml-note からその `targets` に引かれる点線の仕様を指定します。詳細は [$@ 節](#ストローク)を参照してください。
 
 ${SEE_ALSO}
 
@@ -6084,14 +6275,24 @@ ${SYNTAX}
 
 * ${{B}{with-uml-partition-lane}} (id name ${OPTIONAL} name2) ${BODY} body
 
-
 <!-- stack:pop li -->
+
+${ARGS_AND_VALS}
+
+* `id` ---- 対象となる uml-partition の ID を指定します。
+* `name` ---- 対象となるレーンの名前を文字列かキーワードシンボルで指定します。マトリクス状のパーティションの場合、行の名前を指定してください。
+* `name2` ---- マトリクス状のパーティションの場合、列の名前を文字列かキーワードシンボルで指定します。
+* `body` ---- 対象となるサブキャンバス内で行なう描画コードを記述します。
 
 ${DESCRIPTION}
 
-　${{TODO}{まだ記述されていません。}}
+　uml-partition の指定されたレーン（マトリクス状のパーティションの場合はセル）を
+サブキャンバスとした描画を行ないます。
 
-${NO_SEE_ALSO}
+${SEE_ALSO}
+
+* [$$](#uml-partition)
+* uml-partition マクロ
 
 ${NO_NOTES}
 
@@ -6156,7 +6357,7 @@ ${BLANK_PARAGRAPH}
 <!-- stack:push li class='syntax' -->
 ${SYNTAX}
 
-* ${{B}{with-uml-port-options}} (${KEY} font fill stroke size filter layer) ${BODY} body
+* ${{B}{with-uml-port-options}} (${KEY} fill stroke size filter layer) ${BODY} body
 
 
 <!-- stack:pop li -->

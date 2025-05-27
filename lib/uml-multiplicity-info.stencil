@@ -82,7 +82,7 @@
 ;;可能にするためのもので、 `params` として渡されるパラメータ数に応じて以下のことをします。
 ;;
 ;;* パラメータ数が 1 の場合
-;;    * ドットリストを使った多重度指定（ car / cdr それぞれが `:*` または整数値） `cons` の場合、 `(make-uml-multiplicity :min (car param) prm :max (cdr param))` を返します。
+;;    * ドットリストを使った多重度指定（ car / cdr それぞれが `:*` または整数値） `cons` の場合、 `(make-uml-multiplicity :min (car param) :max (cdr param))` を返します。
 ;;    * 多重度情報が渡された場合、それをそのまま返します。
 ;;    * リスト lst が渡された場合、 `(apply #'make-uml-multiplicity lst)` を返します。
 ;;    * 上記のいずれでもない prm の場合、 `(make-uml-multiplicity :min prm :max prm)` を返します。

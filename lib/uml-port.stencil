@@ -1,18 +1,11 @@
 
 (in-package :kaavio-user)
 
-(defparameter *uml-port-font*      nil)
 (defparameter *uml-port-fill*   :white)
 (defparameter *uml-port-stroke* :black)
 (defparameter *uml-port-size*       16)
 (defparameter *uml-port-filter*    nil)
 (defparameter *uml-port-layer*     nil)
-
-(defun uml-port-fix-target (target)
-  (destructuring-bind (shape . position) target
-    (if (not (listp position))
-        (list shape position 0)
-        (list shape (car position) (second position)))))
 
 ;;------------------------------------------------------------------------------
 ;;
@@ -20,11 +13,7 @@
 ;;
 ;;------------------------------------------------------------------------------
 (defclass uml-port (kaavio:group)
-  ((name    :initform nil :initarg :name)        ; (or keyword string)
-   (target  :initform nil :initarg :target)      ; (keyword keyword number)
-   (size    :initform nil :initarg :size)        ; number
-   (offset  :initform nil :initarg :offset)      ; (or nil list)
-   (font    :initform nil :initarg :font)        ; (or nil font-info)
+  ((name    :initform nil :initarg :name)        ; (or nil label-info)
    (fill    :initform nil :initarg :fill)        ; (or nil fill-info)
    (stroke  :initform nil :initarg :stroke)      ; (or nil stroke-info)
    (clip-path :initform nil :initarg :clip-path) ; (or nil symbol)
@@ -33,11 +22,9 @@
 
 (defmethod initialize-instance :after ((port uml-port) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (target offset fill stroke font filter layer) port
-    (setf target  (uml-port-fix-target target))
-    (setf offset  (or offset (make-point 0 0)))
+  (with-slots (name fill stroke filter layer) port
+    (setf name    (and name (make-label name)))
     (setf fill    (make-fill   (or fill   *uml-port-fill*   *default-fill*)))
-    (setf font    (make-font   (or font   *uml-port-font*   *default-font*)))
     (setf stroke  (make-stroke (or stroke *uml-port-stroke* *default-stroke*)))
     (setf filter  (if (eq filter :none)
                       nil
@@ -48,113 +35,29 @@
   port)
 
 (defmethod check ((port uml-port) canvas dict)
-  (with-slots (name target size offset font fill stroke clip-path) port
-    (check-member name               :nullable   t :types (or string keyword))
-    (check-member size               :nullable nil :types              number)
-    (check-member offset             :nullable   t :types                cons)
-    (when offset
-      (with-point (x y) offset
-        (check-member x              :nullable nil :types              number)
-        (check-member y              :nullable nil :types              number)))
-    (check-object font   canvas dict :nullable   t :class           font-info)
-    (check-object fill   canvas dict :nullable   t :class           fill-info)
-    (check-object stroke canvas dict :nullable   t :class         stroke-info)
-    (check-member clip-path          :nullable   t :types              symbol)
-    (destructuring-bind (target position delta) target
-      (check-member target   :nullable nil :types symbol)
-      (check-member position :nullable nil :types keyword)
-      (check-member delta    :nullable nil :types number)
-      (labels ((entity-and-position ()
-                 (let ((ent (kaavio::dict-get-entity dict target))
-                       (pos (string-upcase (symbol-name position))))
-                   (unless (typep ent 'kaavio:shape)
-                     (throw-exception "uml-port : target is not shape object."))
-                   (when (< 2 (length pos))
-                     (throw-exception "uml-port : invalid position."))
-                   (values ent
-                           (ecase (char pos 0)
-                             ((#\T) :top)
-                             ((#\B) :bottom)
-                             ((#\L) :left)
-                             ((#\R) :right))
-                           (if (= 1 (length pos))
-                               0
-                               (ecase (char pos 1)
-                                 ((#\1) -1)
-                                 ((#\2)  0)
-                                 ((#\3)  1)))))))
-        (multiple-value-bind (ent pos1 pos2) (entity-and-position)
-          (let ((size (slot-value port 'size))
-                (pt   (shape-connect-point ent :from pos1 pos2)))
-            (with-point (x y) pt
-                (unless (zerop delta)
-                  (ecase pos1
-                    ((:top)    (incf x delta))
-                    ((:bottom) (incf x delta))
-                    ((:left)   (incf y delta))
-                    ((:right)  (incf y delta))))
-                (setf (slot-value port 'kaavio::position) (make-point x y :absolute))
-                (setf (slot-value port 'kaavio::width)    size)
-                (setf (slot-value port 'kaavio::height)   size)))))))
+  (with-slots (name fill stroke clip-path) port
+    (check-object name   canvas dict :nullable   t :class  label-info)
+    (check-object fill   canvas dict :nullable   t :class   fill-info)
+    (check-object stroke canvas dict :nullable   t :class stroke-info)
+    (check-member clip-path          :nullable   t :types      symbol))
     ;; this method must call super class' one.
     (call-next-method))
-
-(defun uml-port-locate-text-for-top (x y size offset font-size)
-  (declare (ignore font-size))
-  ;; top の場合、基準点は port box の左下から (-5 . -5)
-  (let ((px (+ (- x (/ size 2)) -5 (point-x offset)))
-        (py (+ (+ y (/ size 2)) -5 (point-y offset))))
-    (values px py
-            (if (< px x) :right :left))))
-
-(defun uml-port-locate-text-for-bottom (x y size offset font-size)
-  ;; bottom の場合、基準点は port box の右上から (5 . 5)
-  (let ((px (+ (+ x (/ size 2)) 5 (point-x offset)))
-        (py (+ (- y (/ size 2)) 5 (point-y offset) (/ font-size 2))))
-    (values px py
-            (if (< px x) :right :left))))
-
-(defun uml-port-locate-text-for-left (x y size offset font-size)
-  ;; left の場合、基準点は port box の右下から (-5 . 5)
-  (let ((px (+ (+ x (/ size 2)) -5 (point-x offset)))
-        (py (+ (+ y (/ size 2))  5 (point-y offset) (/ font-size 2))))
-    (values px py :right)))
-
-(defun uml-port-locate-text-for-right (x y size offset font-size)
-  (declare (ignore font-size))
-  ;; right の場合、基準点は port box の左上から (5 . -5)
-  (let ((px (+ (- x (/ size 2))  5 (point-x offset)))
-        (py (+ (- y (/ size 2)) -5 (point-y offset))))
-    (values px py :left)))
-  
 
 ;; override of group::draw-group
 (defmethod draw-group ((port uml-port) writer)
   (let ((canvas (group-get-canvas port)))
-    (with-slots (name size offset font fill stroke clip-path filter) port
+    (with-slots (name size offset fill stroke clip-path filter) port
       (with-canvas (cc width height) canvas
         (let* ((x (/ width  2))
                (y (/ height 2))
-               (kaavio:*current-clip-path* clip-path)
-               (font-size (slot-value font 'kaavio::size)))
-          (labels ((locate-text ()
-                     (let ((pos (string-upcase
-                                 (symbol-name
-                                  (second (slot-value port 'target))))))
-                       (ecase (char pos 0)
-                         ((#\T) (uml-port-locate-text-for-top    x y size offset font-size))
-                         ((#\B) (uml-port-locate-text-for-bottom x y size offset font-size))
-                         ((#\L) (uml-port-locate-text-for-left   x y size offset font-size))
-                         ((#\R) (uml-port-locate-text-for-right  x y size offset font-size))))))
-            (macrolet ((register-entity (entity)
-                         `(check-and-draw-local-entity ,entity canvas writer)))
-              (let ((*default-fill*   fill)
-                    (*default-stroke* stroke))
-                (rectangle `(,x ,y) width height :filter filter))
-              (when name
-                (let ((*default-font*   font))
-                  (multiple-value-bind (x y align) (locate-text)
-                    (text `(,x ,y) name :align align))))))))))
+               (kaavio:*current-clip-path* clip-path))
+          (macrolet ((register-entity (entity)
+                       `(check-and-draw-local-entity ,entity canvas writer)))
+            (let ((*default-fill*   fill)
+                  (*default-stroke* stroke))
+              (rectangle `(,x ,y) width height :filter filter))
+            (when name
+              (draw-label name port clip-path writer)))))))
   nil)
 
 ;;for debug...
@@ -169,20 +72,17 @@
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
-;;* ${{B}{uml-port}} target position name ${KEY} offset size fill stroke font filter layer id
+;;* ${{B}{uml-port}} position ${KEY} name size fill stroke layer filter id
 ;;
 ;;<!-- stack:pop li -->
 ;;
 ;;${ARGS_AND_VALS}
 ;;
-;;* `target` ---- ポートを追加する対象の ID をキーワードシンボルで指定します。
-;;* `position` ---- 対象にポートを追加する位置をキーワードシンボルで指定します。詳細は後述します。
+;;* `position` ---- 描画の基準点を指定します。詳細は「[](#座標と位置)」を参照してください。
 ;;* `name` ---- ポート名を文字列またはキーワードシンボルで指定します。
-;;* `offset` ---- ポート名の描画位置を調整するためのオフセット値を `(x y)` 形式で指定します。
 ;;* `size` ---- 描画されるポートのサイズを指定します。
 ;;* `fill` ---- 内部の塗り潰しを指定します。
 ;;* `stroke` ---- 外枠を描画するストロークを指定します
-;;* `font` ---- フォントを指定します。
 ;;* `filter` ---- フィルタを適用したい場合、その ID をキーワードシンボルで指定します
 ;;* `layer` ---- レイヤーを指定する場合、その ID をキーワードシンボルで指定します
 ;;* `id` ---- ID を付与したい場合、その名前をキーワードシンボルで指定します
@@ -191,10 +91,6 @@
 ;;
 ;;　UML コンポーネント図などにおけるポートを描画します。スタイルを統一したい場合、
 ;;with-uml-port-options マクロを使うことができます。
-;;
-;;　`position` はコネクタにおける接続位置の指定と同じ要領で `:L` などと指定します
-;;（[$@ 節](#コネクタ)参照）。uml-port においてはさらに `'(:L1 5)` などとして微調整が
-;;可能です。
 ;;
 ;;${SEE_ALSO}
 ;;
@@ -205,16 +101,17 @@
 ;;${NO_NOTES}
 ;;
 ;;--------------------------------------------------------------------------------------- END TURNUP
-(defmacro uml-port (target position name &key offset size fill stroke font filter layer id)
+(defmacro uml-port (position &key name size fill stroke filter layer id)
   `(register-entity (make-instance 'uml-port
-                                   :target (cons ,target ,position)
-                                   :name ,name :offset ,offset
-                                   :size    (or ,size   *uml-port-size*)
-                                   :font    (or ,font   *uml-port-font*)
+                                   :position ,position :pivot :CC
+                                   :name ,name
+                                   :height  (or ,size   *uml-port-size*)
+                                   :width   (or ,size   *uml-port-size*)
                                    :fill    (or ,fill   *uml-port-fill*)
                                    :stroke  (or ,stroke *uml-port-stroke*)
                                    :clip-path *current-clip-path*
-                                   :link nil :filter ,filter :layer ,layer :id ,id)))
+                                   :link nil :layer ,layer
+                                   :filter ,filter :id ,id)))
 
 ;;------------------------------------------------------------------------------------- BEGIN TURNUP
 ;;#### macro with-uml-port-options
@@ -222,7 +119,7 @@
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
-;;* ${{B}{with-uml-port-options}} (${KEY} font fill stroke size filter layer) ${BODY} body
+;;* ${{B}{with-uml-port-options}} (${KEY} fill stroke size filter layer) ${BODY} body
 ;;
 ;;
 ;;<!-- stack:pop li -->
@@ -239,8 +136,7 @@
 ;;${NO_NOTES}
 ;;
 ;;--------------------------------------------------------------------------------------- END TURNUP
-(defmacro with-uml-port-options ((&key font fill stroke
-                                      size filter layer) &rest body)
+(defmacro with-uml-port-options ((&key fill stroke size filter layer) &rest body)
   (labels ((impl (params acc)
              (if (null params)
                  acc
@@ -250,8 +146,7 @@
                          (if (null value)
                              acc
                              (push (list symbol value) acc)))))))
-    (let ((lst (impl (list font     '*uml-port-font*
-                           fill     '*uml-port-fill*
+    (let ((lst (impl (list fill     '*uml-port-fill*
                            stroke   '*uml-port-stroke*
                            size     '*uml-port-size*
                            filter   '*uml-port-filter*

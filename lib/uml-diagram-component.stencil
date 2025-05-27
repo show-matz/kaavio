@@ -18,7 +18,9 @@
   (uml-frame             :fill :whitesmoke :stroke :darkslategray)
   (uml-package           :fill :beige      :stroke :maroon)
   (uml-port              :fill :seashell2  :stroke :black)
-  (uml-component         :fill :white      :stroke :black :icon-fill :lightgray :icon-stroke :dimgray)
+  (uml-component         :fill :white      :stroke :black
+                         :icon '(:fill :lightgray :stroke :dimgray
+                                 :size 14 :pivot :TR :offset (-15 15)))
   (uml-interface         :fill :beige      :stroke :maroon :radius 10)
   (uml-interface-request :arrow-size :small :stroke :black :degree 150)
   (uml-association       :arrow-size :small :stroke :black)

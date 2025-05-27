@@ -48,6 +48,57 @@
                    (when action
                      (format-string "/" action)))))
 
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### function make-uml-flow-spec
+;;
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
+;;
+;;* ${{B}{make-uml-flow-spec}} ${REST} params
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　指定されたパラメータでフロー仕様情報を生成します。上記は簡潔な記述で柔軟なフロー仕様情報
+;;の生成を可能にするためのもので、 `params` として渡されるパラメータ数に応じて以下のことを
+;;します。
+;;
+;;* パラメータ数が 1 の場合
+;;    * フロー仕様情報が渡された場合、それをそのまま返します
+;;    * リスト lst が渡された場合、 `(apply #'make-uml-flow-spec lst)` を返します
+;;    * 上記のいずれでもない prm の場合、 `(make-uml-flow-spec :guard prm)` を返します
+;;* パラメータ数が 2 以上の場合
+;;    * 後述します
+;;
+;;　パラメータ数が 2 以上の場合、make-uml-flow-spec 関数は実質的に以下の関数であるかのように
+;;振舞います。
+;;
+;;<!-- stack:push li class='syntax' -->
+;;
+;;* ${{B}{make-uml-flow-spec}} ${KEY} guard action offset font
+;;
+;;<!-- stack:pop li -->
+;;
+;;　各パラメータの意味は以下の通りです。
+;;
+;;* `guard` ---- ガード条件をキーワードシンボルまたは文字列で指定します。
+;;* `action` ---- 実行アクションをキーワードシンボルまたは文字列で指定します。
+;;* `offset` ---- 描画位置調整に使うオフセット情報を座標値で指定します。
+;;* `font` ---- フォントを指定します。
+;;
+;;${SEE_ALSO}
+;;
+;;* [$$](#uml-flow-spec)
+;;
+;;${NOTES}
+;;
+;;　通常、この関数を明示的に使用する必要はありません。uml-flow マクロの 
+;;`:spec` に指定されたパラメータは内部でこの関数に渡されるため、 
+;;`:spec '(:guard :when-idle :action :"OnIdle()"` といった記述でフロー仕様情報
+;;を指定できます。
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
 (defun make-uml-flow-spec (&rest params)
   (if (= 1 (length params))
       (let ((param (car params)))

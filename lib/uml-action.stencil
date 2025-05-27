@@ -2,6 +2,7 @@
 (in-package :kaavio-user)
 
 (load-stencil :uml-common-base)
+(load-stencil :uml-icon-setting)
 
 (defparameter *uml-action-font*               nil)
 (defparameter *uml-action-fill*            :white)
@@ -11,21 +12,14 @@
 (defparameter *uml-action-corner-r*             6)
 (defparameter *uml-action-margin*              10)
 (defparameter *uml-action-rake*               nil)
-(defparameter *uml-action-rake-data* '(10 14 4 4))
 (defparameter *uml-action-filter*             nil)
 (defparameter *uml-action-layer*              nil)
+(defparameter *uml-action-icon-setting* (make-uml-icon-setting :fill   :none
+                                                               :stroke '(:color :black :width 2)
+                                                               :size   14
+                                                               :pivot  :BR
+                                                               :offset '(-10 -10)))
 
-
-(defun uml-action-fix-rake-info (param)
-  (cond
-    ((null param) nil)
-    ((eq t param) *uml-action-rake-data*)
-    ((not (listp param)) param)
-    (t (destructuring-bind (&optional w h x y) param
-         (list (or w (first  *uml-action-rake-data*))
-               (or h (second *uml-action-rake-data*))
-               (or x (third  *uml-action-rake-data*))
-               (or y (fourth *uml-action-rake-data*)))))))
 
 ;;------------------------------------------------------------------------------
 ;;
@@ -37,17 +31,18 @@
    (contents-p  :initform nil  :initarg  :contents-p) ; boolean
    (rake        :initform nil  :initarg  :rake)       ; boolean
    (corner-r    :initform nil  :initarg  :corner-r)   ; number
-   (filter      :initform nil  :initarg  :filter)))   ; (or nil keyword)
+   (filter      :initform nil  :initarg  :filter)     ; (or nil keyword)
+   (icon        :initform nil  :initarg :icon)))      ; uml-icon-setting
 
 (defmethod initialize-instance :after ((action uml-action) &rest initargs)
   (declare (ignore initargs))
   ;;(format t "initialize-instance :after called.~%")
-  (with-slots (stereotype rake filter layer) action
+  (with-slots (stereotype filter icon layer) action
     (setf stereotype (and stereotype (make-uml-stereotype stereotype)))
-    (setf rake    (uml-action-fix-rake-info rake))
     (setf filter  (if (eq filter :none)
                       nil
                       (or filter *uml-action-filter* *default-filter*)))
+    (setf icon   (make-uml-icon-setting icon))
     (setf layer  (if (eq layer :none)
                      nil
                      (or layer *uml-action-layer* *default-layer*))))
@@ -57,18 +52,11 @@
   ;; this method must call super class' one.
   (call-next-method)
   ;;(format t "check called.~%")
-  (with-slots (stereotype rake corner-r filter) action
+  (with-slots (stereotype corner-r filter icon) action
     (check-object stereotype canvas dict :nullable t :class uml-stereotype-info)
-    (check-member rake     :nullable   t :types list)
-    (when rake
-      (destructuring-bind (&optional rake/width rake/height
-                                     rake/x-margin rake/y-margin) rake
-        (check-member rake/width    :nullable nil :types number)
-        (check-member rake/height   :nullable nil :types number)
-        (check-member rake/x-margin :nullable nil :types number)
-        (check-member rake/y-margin :nullable nil :types number)))
     (check-member corner-r :nullable nil :types number)
-    (check-member filter   :nullable   t :types keyword)))
+    (check-member filter   :nullable   t :types keyword)
+    (check-object icon     canvas dict :nullable nil :class uml-icon-setting)))
 
 (defmethod shape-connect-point ((action uml-action) type1 type2 arg)
   (rectangle-connect-point (attribute-center action)
@@ -85,7 +73,7 @@
           (height (canvas-height canvas)))
       (macrolet ((register-entity (entity)
                    `(check-and-draw-local-entity ,entity canvas writer)))
-        (with-slots (stereotype corner-r rake filter
+        (with-slots (stereotype corner-r rake filter icon
                       (text kaavio::text) (font kaavio::font) (margin kaavio::margin)
                       (fill kaavio::fill) (stroke kaavio::stroke) (clip-path kaavio::clip-path)) action
           (let ((*current-clip-path* clip-path))
@@ -97,9 +85,12 @@
                        width height :rx corner-r :stroke stroke :fill fill)
             ;; rake icon
             (when rake
-              (destructuring-bind (w h xm ym) rake
-                (let ((*default-stroke* (make-stroke :width 2 :base stroke)))
-                  (path `((:move-to (,(- width xm (/ w 2)) ,(- height ym h)))
+              (with-slots (stroke size pivot offset) icon
+                (let ((h size)
+                      (w (* size 5/7))
+                      (topleft (uml-icon-setting-decide-topleft width height pivot size offset))
+                      (kaavio:*default-stroke* stroke))
+                  (path `((:move-to ,(x+ topleft (/ size 2)))
                           :relative
                           (:line-to (0 ,h))
                           (:move-to (,(- (/ w 2)) 0))
@@ -183,7 +174,7 @@
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
-;;* ${{B}{uml-action}} position name ${KEY} stereotype keyword pivot width height margin corner-r rake font fill stroke link layer filter id contents
+;;* ${{B}{uml-action}} position name ${KEY} stereotype keyword pivot width height margin corner-r rake font fill stroke icon link layer filter id contents
 ;;
 ;;<!-- stack:pop li -->
 ;;
@@ -198,10 +189,11 @@
 ;;* `height` ---- 高さを自動決定せず、明示的に指定したい場合に数値で指定します。
 ;;* `margin` ---- テキスト描画における「余白」のサイズです。省略した場合のデフォルト値は 5 です。
 ;;* `corner-r` ---- 角の丸みの半径を数値で指定します。省略した場合のデフォルト値は 6 です。
-;;* `rake` ---- レーキアイコンを表示する場合は `t` を指定します。または、アイコンを表示する位置とサイズの情報をリストで指定することもできます。詳細は後述します。
+;;* `rake` ---- レーキアイコンを表示するか否かを真偽値で指定します。
 ;;* `font` ---- フォントを指定します。
 ;;* `fill` ---- 内部の塗り潰しを指定します。
 ;;* `stroke` ---- 外枠を描画するストロークを指定します
+;;* `icon` ---- アイコンの描画設定を変更する場合は指定します。 [$@ 節](#function make-uml-icon-setting) を参照してください。
 ;;* `link` ---- リンクにする場合、リンク先を指定します。
 ;;* `layer` ---- レイヤーを指定する場合、その ID をキーワードシンボルで指定します
 ;;* `filter` ---- フィルタを適用したい場合、その ID をキーワードシンボルで指定します
@@ -221,13 +213,12 @@
 ;;
 ;;${NOTES}
 ;;
-;;* `rake` パラメータで位置やサイズを指定する場合、数値 4 要素のリストを指定します。これは `(width height x-margin y-margin)` という並びで、それぞれレーキアイコンの幅、高さ、（右下から中心に向かっての）x 方向、y 方向のオフセットとなっています。 `:reke t` とした場合は `:rake '(10 14 4 4)` と等価です。
 ;;* uml-action では `:contents` パラメータを指定した場合、 `name` で指定されたテキストを（中央でなく）上部に描画します。しかし、（ `:contents` パラメータでなく）with-subcanvas-of マクロを使う場合、テキストは中央に描画されてしまいます。これを避けるためには、 `:contents t` を指定してください。これはテキストを上端付近に描画させる効果だけを持ちます。
 ;;
 ;;--------------------------------------------------------------------------------------- END TURNUP
 (defmacro uml-action (position name &key stereotype keyword pivot width height
-                                         margin corner-r rake
-                                         font fill stroke link layer filter id contents)
+                                         margin corner-r (rake nil rake-p)
+                                         font fill stroke icon link layer filter id contents)
   (let* ((contents-p (not (null contents)))
          (code `(register-entity
                      (make-instance 'uml-action
@@ -235,7 +226,7 @@
                                     :width ,width :height ,height
                                     :text ,name :stereotype ,(or stereotype keyword)
                                     :contents-p ,contents-p
-                                    :rake     (or ,rake     *uml-action-rake*)
+                                    :rake     (if ,rake-p ,rake *uml-action-rake*)
                                     :corner-r (or ,corner-r *uml-action-corner-r*)
                                     :margin   (or ,margin   *uml-action-margin*)
                                     :font     (or ,font *uml-action-font*  *default-font*)
@@ -244,6 +235,7 @@
                                     :stroke   (or ,stroke *uml-action-stroke*
                                                   *default-stroke* :black)
                                     :clip-path kaavio:*current-clip-path*
+                                    :icon     (or ,icon *uml-action-icon-setting*)
                                     :link ,link :layer ,layer :filter ,filter :id ,id))))
     (if (or (null contents)
             (not (listp contents)))
@@ -261,7 +253,7 @@
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
-;;* ${{B}{with-uml-action-options}} (${KEY} font fill stroke width height corner-r margin rake filter layer) ${BODY} body
+;;* ${{B}{with-uml-action-options}} (${KEY} font fill stroke width height corner-r margin rake icon filter layer) ${BODY} body
 ;;
 ;;<!-- stack:pop li -->
 ;;
@@ -280,7 +272,7 @@
 ;;
 ;;--------------------------------------------------------------------------------------- END TURNUP
 (defmacro with-uml-action-options ((&key font fill stroke width height
-                                         corner-r margin rake filter layer) &rest body)
+                                         corner-r margin rake icon filter layer) &rest body)
   (labels ((impl (params acc)
              (if (null params)
                  acc
@@ -298,6 +290,7 @@
                            corner-r '*uml-action-corner-r*
                            margin   '*uml-action-margin*
                            rake     '*uml-action-rake*
+                           icon     '*uml-action-icon-setting*
                            filter   '*uml-action-filter*
                            layer    '*uml-action-layer*) nil)))
       `(let ,lst

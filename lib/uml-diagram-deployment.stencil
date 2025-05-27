@@ -12,8 +12,9 @@
 (register-theme (:uml-deployment-default)
   (t                     :font '(:family "sans-serif" :size 10))
   (uml-node              :fill1 :grey97 :fill2 :grey85 :stroke :black)
-  (uml-artifact          :fill :white      :stroke :black
-                         :icon-stroke :darkgray :icon-fill :floralwhite)
+  (uml-artifact          :fill :white  :stroke :black
+                         :icon '(:fill :floralwhite :stroke :darkgray
+                                 :size 14 :pivot :TR :offset (-15 15)))
   (uml-note              :fill :ivory      :stroke :olive)
   (uml-frame             :fill :whitesmoke :stroke :darkslategray)
   (uml-association       :arrow-size :small :stroke :black)

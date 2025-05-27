@@ -1,0 +1,148 @@
+
+(in-package :kaavio-user)
+
+(defun uml-icon-setting-fix-offset (pivot offset)
+  (if offset
+      offset
+      (ecase pivot
+        (:TL (make-point  15  15))
+        (:TC (make-point   0  15))
+        (:TR (make-point -15  15))
+        (:CL (make-point  15   0))
+        (:CC (make-point   0   0))
+        (:CR (make-point -15   0))
+        (:BL (make-point  15 -15))
+        (:BC (make-point   0 -15))
+        (:BR (make-point -15 -15)))))
+          
+(defun uml-icon-setting-decide-topleft (width height pivot size offset)
+  (multiple-value-bind (x y) (ecase pivot
+                               (:TL (values 0           0))
+                               (:TC (values (/ width 2) 0))
+                               (:TR (values    width    0))
+                               (:CL (values 0           (/ height 2)))
+                               (:CC (values (/ width 2) (/ height 2)))
+                               (:CR (values    width    (/ height 2)))
+                               (:BL (values 0              height))
+                               (:BC (values (/ width 2)    height))
+                               (:BR (values    width       height)))
+    (make-point (- (+ x (point-x offset)) (/ size 2))
+                (- (+ y (point-y offset)) (/ size 2)))))
+
+;;------------------------------------------------------------------------------
+;;
+;; class uml-icon-setting
+;;
+;;------------------------------------------------------------------------------
+(defclass uml-icon-setting ()
+  ((fill    :initform nil :initarg :fill)     ; (or nil fill-info)
+   (stroke  :initform nil :initarg :stroke)   ; (or nil stroke-info)
+   (size    :initform nil :initarg :size)     ; number
+   (pivot   :initform nil :initarg :pivot)    ; keyword
+   (offset  :initform nil :initarg :offset))) ; (or nil list)
+
+
+(defmethod initialize-instance :after ((obj uml-icon-setting) &rest initargs)
+  (declare (ignore initargs))
+  (with-slots (fill stroke size pivot offset) obj
+    (setf fill   (make-fill   (or fill   *default-fill*  )))
+    (setf stroke (make-stroke (or stroke *default-stroke*)))
+    (setf size   (or size   14))
+    (setf pivot  (or pivot  :TR))
+    (setf offset (uml-icon-setting-fix-offset pivot offset))))
+
+(defmethod check ((obj uml-icon-setting) canvas dict)
+  (with-slots (fill stroke size pivot offset) obj
+    (check-object fill     canvas dict :nullable   t :class   fill-info)
+    (check-object stroke   canvas dict :nullable   t :class stroke-info)
+    (check-member size                 :nullable nil :types      number)
+    (check-member pivot  :nullable nil :types keyword)
+    (check-member offset :nullable nil :types cons)
+    (when offset
+      (with-point (x y) offset
+        (check-member x   :nullable nil :types number)
+        (check-member y   :nullable nil :types number))))
+  nil)
+
+
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### function make-uml-icon-setting
+;;
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
+;;
+;;* ${{B}{make-uml-icon-setting}} ${REST} params
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　指定されたパラメータでアイコン設定情報を生成します。上記は簡潔な記述で柔軟なアイコン設定情報
+;;の生成を可能にするためのもので、 `params` として渡されるパラメータ数に応じて以下のことを
+;;します。
+;;
+;;* パラメータ数が 1 の場合
+;;    * アイコン設定情報が渡された場合、それをそのまま返します
+;;    * 数値 N が渡された場合、 `(make-uml-icon-setting :size N)` を返します
+;;    * キーワードシンボル kwd が渡された場合、 `(make-uml-icon-setting :pivot kwd)` を返します
+;;    * リスト lst が渡された場合、 `(apply #'make-uml-icon-setting lst)` を返します
+;;    * 上記のいずれでもない prm の場合、 `(make-uml-icon-setting :size prm)` を返します
+;;* パラメータ数が 2 以上の場合
+;;    * 後述します
+;;
+;;　パラメータ数が 2 以上の場合、make-uml-icon-setting 関数は実質的に以下の関数であるかのように
+;;振舞います。
+;;
+;;<!-- stack:push li class='syntax' -->
+;;
+;;* ${{B}{make-uml-icon-setting}} ${KEY} fill stroke size pivot offset
+;;
+;;<!-- stack:pop li -->
+;;
+;;　各パラメータの意味は以下の通りです。
+;;
+;;* `fill` ---- アイコン内部の塗り潰しを指定します。
+;;* `stroke` ---- アイコンの線を描画するストロークを指定します。
+;;* `size` ---- アイコンのサイズを数値で指定します。デフォルト値は 14 です。
+;;* `pivot` ---- アイコンの描画位置を `:TL :TC :TR :CL :CC :CR :BL :BC :BR` のいずれかで指定します。デフォルト値は `:TR` です。
+;;* `offset` ---- アイコンの描画位置調整に使うオフセット情報を座標値で指定します。デフォルト値は `pivot` によって変化します。
+;;* `base` ---- アイコン設定情報の作成においてベースとする他のアイコン設定情報があれば指定します。
+;;
+;;${SEE_ALSO}
+;;
+;;* [$$](#uml-icon-setting)
+;;
+;;${NOTES}
+;;
+;;　通常、この関数を明示的に使用する必要はありません。各種マクロの `:icon` などに指定
+;;されたパラメータは内部でこの関数に渡されるため、 `:icon '(:fill :cyan :stroke :blue)` 
+;;といった記述でアイコン設定情報を指定できます。
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
+(defun make-uml-icon-setting (&rest params)
+  (if (= 1 (length params))
+      (let ((param (car params)))
+        (cond
+          ((typep    param 'uml-icon-setting) param)
+          ((null     param) (make-uml-icon-setting))
+          ((numberp  param) (make-uml-icon-setting :size param))
+          ((keywordp param) (make-uml-icon-setting :pivot param))
+          ((listp    param) (apply #'make-uml-icon-setting param))
+          (t                (make-uml-icon-setting param :font nil))))
+      (destructuring-bind (&key (fill   nil   fill-p)
+                                (stroke nil stroke-p)
+                                (size   nil   size-p)
+                                (pivot  nil  pivot-p)
+                                (offset nil offset-p) base) params
+        (labels ((fixval (val-p val slot-sym)
+                   (if val-p
+                       val
+                       (when base
+                         (slot-value base slot-sym)))))
+            (make-instance 'uml-icon-setting
+                           :fill   (fixval   fill-p fill   'fill)
+                           :stroke (fixval stroke-p stroke 'stroke)
+                           :size   (fixval   size-p size   'size)
+                           :pivot  (fixval  pivot-p pivot  'pivot)
+                           :offset (fixval offset-p offset 'offset))))))
+

@@ -122,11 +122,11 @@
 ;;${ARGS_AND_VALS}
 ;;
 ;;* `id` ---- ID をキーワードで指定します。
-;;* `x` ---- ${{TODO}{まだ記述されていません。}}
-;;* `y` ---- ${{TODO}{まだ記述されていません。}}
+;;* `x` ---- x 座標を数値で指定します。SVG の pattern タグにおける x 属性として使用されます。省略した場合のデフォルト値は 0 です。
+;;* `y` ---- y 座標を数値で指定します。SVG の pattern タグにおける y 属性として使用されます。省略した場合のデフォルト値は 0 です。
 ;;* `width` ---- 幅を数値で指定します。
 ;;* `height` ---- 高さを数値で指定します。
-;;* `href` ---- ${{TODO}{まだ記述されていません。}}
+;;* `href` ---- SVG の pattern タグにおける xlink:href 属性として使用されます。
 ;;* `units` ---- patternUnits 属性を `:userSpaceOnUse` または `:objectBoundingBox` から選択します。
 ;;* `content-units` ---- patternContentUnits 属性を `:userSpaceOnUse` または `:objectBoundingBox` から選択します。
 ;;* `view-box` ---- viewBox 属性を 4 つの数値からなるリストで指定します。

@@ -2,19 +2,21 @@
 (in-package :kaavio-user)
 
 (load-stencil :uml-common-base)
+(load-stencil :uml-icon-setting)
 
 (defparameter *uml-component-font*           nil)
 (defparameter *uml-component-fill*        :white)
 (defparameter *uml-component-stroke*      :black)
 (defparameter *uml-component-width*          100)
 (defparameter *uml-component-height*          50)
-(defparameter *uml-component-icon-fill*   :white)
-(defparameter *uml-component-icon-stroke* :black)
-(defparameter *uml-component-icon-size*       20)
-(defparameter *uml-component-icon-offset*      5)
 (defparameter *uml-component-margin*          10)
 (defparameter *uml-component-filter*         nil)
 (defparameter *uml-component-layer*          nil)
+(defparameter *uml-component-icon-setting* (make-uml-icon-setting :fill   :white
+                                                                  :stroke :black
+                                                                  :size   14
+                                                                  :pivot  :TR
+                                                                  :offset '(-15 15)))
 
 
 ;;------------------------------------------------------------------------------
@@ -26,21 +28,17 @@
   ((stereotype  :initform nil :initarg :stereotype)     ; (or nil uml-stereotype-info)
    (contents-p  :initform nil :initarg :contents-p)     ; boolean
    (filter      :initform nil :initarg :filter)         ; (or nil keyword)
-   (icon-fill   :initform nil :initarg :icon-fill)      ; (or nil fill-info)
-   (icon-stroke :initform nil :initarg :icon-stroke)    ; (or nil stroke-info)
-   (icon-size   :initform   0 :initarg :icon-size)      ; number
-   (icon-offset :initform   0 :initarg :icon-offset)))  ; number
+   (icon        :initform nil :initarg :icon)))         ; uml-icon-setting
 
 (defmethod initialize-instance :after ((obj uml-component) &rest initargs)
   (declare (ignore initargs))
   ;;(format t "initialize-instance :after called.~%")
-  (with-slots (stereotype filter icon-fill icon-stroke layer) obj
+  (with-slots (stereotype filter icon layer) obj
     (setf stereotype (and stereotype (make-uml-stereotype stereotype)))
     (setf filter  (if (eq filter :none)
                       nil
                       (or filter *uml-component-filter* *default-filter*)))
-    (setf icon-fill   (make-fill   (or icon-fill   :none)))
-    (setf icon-stroke (make-stroke (or icon-stroke :none)))
+    (setf icon   (make-uml-icon-setting icon))
     (setf layer  (if (eq layer :none)
                      nil
                      (or layer *uml-component-layer* *default-layer*))))
@@ -50,14 +48,10 @@
   ;; this method must call super class' one.
   (call-next-method)
   ;;(format t "check called.~%")
-  (with-slots (stereotype filter
-               icon-fill icon-stroke icon-size icon-offset) obj 
+  (with-slots (stereotype filter icon) obj 
     (check-object stereotype  canvas dict :nullable t :class uml-stereotype-info)
     (check-member filter      :nullable t   :types keyword)
-    (check-object icon-fill   canvas dict :nullable t :class   fill-info)
-    (check-object icon-stroke canvas dict :nullable t :class stroke-info)
-    (check-member icon-size   :nullable t   :types number)
-    (check-member icon-offset :nullable t   :types number)))
+    (check-object icon        canvas dict :nullable nil :class uml-icon-setting)))
 
 (defmethod shape-connect-point ((component uml-component) type1 type2 arg)
   (rectangle-connect-point (attribute-center component)
@@ -74,7 +68,7 @@
           (height (canvas-height canvas)))
       (macrolet ((register-entity (entity)
                    `(check-and-draw-local-entity ,entity canvas writer)))
-        (with-slots (stereotype filter icon-fill icon-stroke icon-size icon-offset
+        (with-slots (stereotype filter icon
                       (text kaavio::text) (font kaavio::font) (margin kaavio::margin)
                       (fill kaavio::fill) (stroke kaavio::stroke) (clip-path kaavio::clip-path)) obj
           (let ((*current-clip-path* clip-path))
@@ -84,16 +78,13 @@
             ;;
             (rectangle (make-point (/ width 2) (/ height 2)) width height :stroke stroke :fill fill)
             ;;draw component icon.
-            (let ((size   icon-size)
-                  (offset icon-offset)
-                  (kaavio:*default-fill* icon-fill)
-                  (kaavio:*default-stroke* icon-stroke))
-              (rectangle (make-point (- width (/ size 2) offset)
-                                     (+ (/ size 2) offset)) size size)
-              (rectangle (make-point (- width size offset)
-                                     (- (+ (/ size 2) offset) (/ size 5))) (* size 0.8) (/ size 4))
-              (rectangle (make-point (- width size offset)
-                                     (+ (+ (/ size 2) offset) (/ size 5))) (* size 0.8) (/ size 4))))
+            (with-slots (fill stroke size pivot offset) icon
+              (let ((topleft (uml-icon-setting-decide-topleft width height pivot size offset))
+                    (kaavio:*default-fill* fill)
+                    (kaavio:*default-stroke* stroke))
+                (rectangle (xy+ topleft (/ size 2) (/ size 2)) size size)
+                (rectangle (y+  topleft (- (/ size 2) (/ size 5))) (* size 0.75) (/ size 4))
+                (rectangle (y+  topleft (+ (/ size 2) (/ size 5))) (* size 0.75) (/ size 4))))
             ;; draw text
             (let ((cv (uml-draw-textarea obj stereotype writer)))
               (declare (ignorable cv))
@@ -102,7 +93,7 @@
 ;                    :fill '(:color :red :opacity 0.1) :stroke :red)
               )
             (writer-decr-level writer)
-            (writer-write writer "</g>")))))
+            (writer-write writer "</g>"))))))
   nil)
 
 
@@ -170,7 +161,7 @@
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
-;;* ${{B}{uml-component}} position name ${KEY} pivot stereotype keyword width height font fill stroke margin link layer filter id contents
+;;* ${{B}{uml-component}} position name ${KEY} pivot stereotype keyword width height font fill stroke icon margin link layer filter id contents
 ;;
 ;;<!-- stack:pop li -->
 ;;
@@ -186,6 +177,7 @@
 ;;* `font` ---- フォントを指定します。
 ;;* `fill` ---- 内部の塗り潰しを指定します。
 ;;* `stroke` ---- 外枠を描画するストロークを指定します
+;;* `icon` ---- アイコンの描画設定を変更する場合は指定します。 [$@ 節](#function make-uml-icon-setting) を参照してください。
 ;;* `margin` ---- テキストの余白を指定します。幅や高さを明示的に指定した場合は無視されます。
 ;;* `link` ---- リンクにする場合、リンク先を指定します。
 ;;* `layer` ---- レイヤーを指定する場合、その ID をキーワードシンボルで指定します
@@ -207,8 +199,8 @@
 ;;${NO_NOTES}
 ;;
 ;;--------------------------------------------------------------------------------------- END TURNUP
-(defmacro uml-component (position name &key pivot stereotype keyword width height font fill stroke
-                                            icon-fill icon-stroke margin link layer filter id contents)
+(defmacro uml-component (position name &key pivot stereotype keyword width height
+                                            font fill stroke icon margin link layer filter id contents)
   (let* ((contents-p (not (null contents)))
          (code `(register-entity
                      (make-instance 'uml-component
@@ -223,14 +215,7 @@
                                     :stroke   (or ,stroke *uml-component-stroke*
                                                   *default-stroke* :black)
                                     :clip-path kaavio:*current-clip-path*
-                                    :icon-fill   (or ,icon-fill
-                                                     *uml-component-icon-fill*
-                                                     *uml-component-fill* *default-fill* :none)
-                                    :icon-stroke (or ,icon-stroke
-                                                     *uml-component-icon-stroke*
-                                                     *uml-component-stroke* *default-stroke* :none)
-                                    :icon-size   *uml-component-icon-size*
-                                    :icon-offset *uml-component-icon-offset*
+                                    :icon     (or ,icon *uml-component-icon-setting*)
                                     :link ,link :layer ,layer :filter ,filter :id ,id))))
     (if (or (null contents)
             (not (listp contents)))
@@ -248,7 +233,7 @@
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
-;;* ${{B}{with-uml-component-options}} (${KEY} font fill stroke width height icon-fill icon-stroke icon-size icon-offset filter layer) ${BODY} body
+;;* ${{B}{with-uml-component-options}} (${KEY} font fill stroke width height icon margin filter layer) ${BODY} body
 ;;
 ;;<!-- stack:pop li -->
 ;;
@@ -264,20 +249,11 @@
 ;;
 ;;* uml-component マクロ
 ;;
-;;${NOTES}
-;;
-;;　uml-component マクロのパラメータに対応しないものとして、以下があります。これらは
-;;コンポーネントのアイコン形状を制御するものです。
-;;
-;;* `icon-fill` : アイコン内部の塗り潰しを指定します。デフォルト値は `:white` です。
-;;* `icon-stroke` : アイコンの線を描画するストロークを指定します。デフォルト値は `:black` です。
-;;* `icon-size` : アイコンのサイズを数値で指定します。デフォルト値は 20 です。
-;;* `icon-offset` : アイコンの描画位置を図形要素左上からのオフセットで指定します。デフォルト値は 5 です。
+;;${NO_NOTES}
 ;;
 ;;--------------------------------------------------------------------------------------- END TURNUP
-(defmacro with-uml-component-options ((&key font fill stroke width height
-                                            icon-fill icon-stroke
-                                            icon-size icon-offset margin filter layer) &rest body)
+(defmacro with-uml-component-options ((&key font fill stroke
+                                            width height icon margin filter layer) &rest body)
   (labels ((impl (params acc)
              (if (null params)
                  acc
@@ -292,10 +268,7 @@
                            stroke      '*uml-component-stroke*
                            width       '*uml-component-width*
                            height      '*uml-component-height*
-                           icon-fill   '*uml-component-icon-fill*
-                           icon-stroke '*uml-component-icon-stroke*
-                           icon-size   '*uml-component-icon-size*
-                           icon-offset '*uml-component-icon-offset*
+                           icon        '*uml-component-icon-setting*
                            margin      '*uml-component-margin*
                            filter      '*uml-component-filter*
                            layer       '*uml-component-layer*) nil)))

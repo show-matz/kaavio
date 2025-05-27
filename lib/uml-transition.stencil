@@ -49,6 +49,58 @@
                    (when action
                      (format-string "/" action)))))
 
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### function make-uml-transition-spec
+;;
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
+;;
+;;* ${{B}{make-uml-transition-spec}} ${REST} params
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　指定されたパラメータで遷移仕様情報を生成します。上記は簡潔な記述で柔軟な遷移仕様情報
+;;の生成を可能にするためのもので、 `params` として渡されるパラメータ数に応じて以下のことを
+;;します。
+;;
+;;* パラメータ数が 1 の場合
+;;    * 遷移仕様情報が渡された場合、それをそのまま返します
+;;    * リスト lst が渡された場合、 `(apply #'make-uml-transition-spec lst)` を返します
+;;    * 上記のいずれでもない prm の場合、 `(make-uml-transition-spec :trigger prm)` を返します
+;;* パラメータ数が 2 以上の場合
+;;    * 後述します
+;;
+;;　パラメータ数が 2 以上の場合、make-uml-transition-spec 関数は実質的に以下の関数であるかのように
+;;振舞います。
+;;
+;;<!-- stack:push li class='syntax' -->
+;;
+;;* ${{B}{make-uml-transition-spec}} ${KEY} trigger guard action offset font
+;;
+;;<!-- stack:pop li -->
+;;
+;;　各パラメータの意味は以下の通りです。
+;;
+;;* `trigger` ---- トリガー条件をキーワードシンボルまたは文字列で指定します。
+;;* `guard` ---- ガード条件をキーワードシンボルまたは文字列で指定します。
+;;* `action` ---- 実行アクションをキーワードシンボルまたは文字列で指定します。
+;;* `offset` ---- 描画位置調整に使うオフセット情報を座標値で指定します。
+;;* `font` ---- フォントを指定します。
+;;
+;;${SEE_ALSO}
+;;
+;;* [$$](#uml-transition-spec)
+;;
+;;${NOTES}
+;;
+;;　通常、この関数を明示的に使用する必要はありません。uml-transition マクロの 
+;;`:spec` に指定されたパラメータは内部でこの関数に渡されるため、 
+;;`:spec '(:trigger :on-click :action :"OnClick()"` といった記述で遷移仕様情報
+;;を指定できます。
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
 (defun make-uml-transition-spec (&rest params)
   (if (= 1 (length params))
       (let ((param (car params)))
@@ -174,7 +226,7 @@
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　UML ステートマシーン図における遷移を描画します。スタイルを統一したい場合、
+;;　UML 状態マシン図における遷移を描画します。スタイルを統一したい場合、
 ;;with-uml-transition-options マクロを使うことができます。
 ;;
 ;;　`spec` に指定する遷移仕様は、 `:spec '(:trigger "event" :guard "v = 666" :action "foo()")` と
@@ -195,7 +247,7 @@
 ;;
 ;;${SEE_ALSO}
 ;;
-;;* [$$](#ステートマシーン図)
+;;* [$$](#状態マシン図)
 ;;* [$$](#uml-transition)
 ;;* with-uml-transition-options マクロ
 ;;

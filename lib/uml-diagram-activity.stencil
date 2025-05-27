@@ -19,7 +19,9 @@
   (t                   :font '(:family "sans-serif" :size 10))
   (uml-note            :fill :ivory      :stroke :olive)
   (uml-frame           :fill :whitesmoke :stroke :darkslategray)
-  (uml-action          :fill :wheat      :stroke :brown  :width 80 :height 40)
+  (uml-action          :fill :wheat      :stroke :brown  :width 80 :height 40
+                       :icon '(:stroke (:color :brown :width 2)
+                               :size   14 :pivot  :BR :offset (-10 -10)))
   (uml-decision-merge  :fill :wheat      :stroke :brown  :width 40 :height 30)
   (uml-activity-start  :fill :maroon)
   (uml-activity-final  :fill :linen      :stroke :maroon)
