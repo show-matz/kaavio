@@ -95,7 +95,7 @@
 ;;
 ;;<!-- stack:push li class='syntax' -->
 ;;
-;;* ${{B}{make-uml-icon-setting}} ${KEY} fill stroke size pivot offset
+;;* ${{B}{make-uml-icon-setting}} ${KEY} fill stroke size pivot offset base
 ;;
 ;;<!-- stack:pop li -->
 ;;
@@ -128,7 +128,7 @@
           ((numberp  param) (make-uml-icon-setting :size param))
           ((keywordp param) (make-uml-icon-setting :pivot param))
           ((listp    param) (apply #'make-uml-icon-setting param))
-          (t                (make-uml-icon-setting param :font nil))))
+          (t                (make-uml-icon-setting :size param))))
       (destructuring-bind (&key (fill   nil   fill-p)
                                 (stroke nil stroke-p)
                                 (size   nil   size-p)
@@ -146,3 +146,17 @@
                            :pivot  (fixval  pivot-p pivot  'pivot)
                            :offset (fixval offset-p offset 'offset))))))
 
+
+(defun make-uml-icon-setting2 (base &rest params)
+  (if (= 1 (length params))
+      (let ((param (car params)))
+        (cond
+          ((typep    param 'uml-icon-setting)    param)
+          ((null     param) base)
+          ((numberp  param) (make-uml-icon-setting :size  param :base base))
+          ((keywordp param) (make-uml-icon-setting :pivot param :base base))
+          ((listp    param) (apply #'make-uml-icon-setting      :base base param))
+          (t                (make-uml-icon-setting :size  param :base base))))
+      (if (null base)
+          (apply #'make-uml-icon-setting params)
+          (apply #'make-uml-icon-setting :base base params))))

@@ -182,25 +182,24 @@
 #|
 #|EXPORT|#                :with-document-options
  |#
-(defmacro with-document-options ((&key align valign margin
-                                       font fill stroke filter layer) &rest body)
-  (labels ((impl (params acc)
-             (if (null params)
-                 acc
-                 (let ((value  (car  params))
-                       (symbol (cadr params)))
-                   (impl (cddr params)
-                         (if (null value)
-                             acc
-                             (push (list symbol value) acc)))))))
-    (let ((lst (impl (list align  '*default-document-align*
-                           valign '*default-document-valign*
-                           margin '*default-document-margin*
-                           font   '*default-document-font*
-                           fill   '*default-document-fill*
-                           stroke '*default-document-stroke*
-                           filter '*default-document-filter*
-                           layer  '*default-document-layer*) nil)))
-      `(let ,lst
-         ,@body))))
-
+(defmacro with-document-options ((&key (align  nil align-p)
+                                       (valign nil valign-p)
+                                       (margin nil margin-p)
+                                       (font   nil font-p)
+                                       (fill   nil fill-p)
+                                       (stroke nil stroke-p)
+                                       (filter nil filter-p)
+                                       (layer  nil layer-p)) &rest body)
+  (let ((bindings nil))
+    (labels ((impl (arg-p binding)
+               (when arg-p (push binding bindings))))
+      (impl align-p  `(*default-document-align*  ,align))
+      (impl valign-p `(*default-document-valign* ,valign))
+      (impl margin-p `(*default-document-margin* ,margin))
+      (impl font-p   `(*default-document-font*   (make-font2   *default-document-font*   ,font)))
+      (impl fill-p   `(*default-document-fill*   (make-fill2   *default-document-fill*   ,fill)))
+      (impl stroke-p `(*default-document-stroke* (make-stroke2 *default-document-stroke* ,stroke)))
+      (impl filter-p `(*default-document-filter* ,filter))
+      (impl layer-p  `(*default-document-layer*  ,layer)))
+    `(let ,(nreverse bindings)
+       ,@body)))

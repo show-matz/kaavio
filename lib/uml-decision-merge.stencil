@@ -236,24 +236,24 @@
 ;;${NO_NOTES}
 ;;
 ;;--------------------------------------------------------------------------------------- END TURNUP
-(defmacro with-uml-decision-merge-options ((&key font fill stroke width height
-                                                 margin filter layer) &rest body)
-  (labels ((impl (params acc)
-             (if (null params)
-                 acc
-                 (let ((value  (car  params))
-                       (symbol (cadr params)))
-                   (impl (cddr params)
-                         (if (null value)
-                             acc
-                             (push (list symbol value) acc)))))))
-    (let ((lst (impl (list font     '*uml-decision-merge-font*
-                           fill     '*uml-decision-merge-fill*
-                           stroke   '*uml-decision-merge-stroke*
-                           width    '*uml-decision-merge-width*
-                           height   '*uml-decision-merge-height*
-                           margin   '*uml-decision-merge-margin*
-                           filter   '*uml-decision-merge-filter*
-                           layer    '*uml-decision-merge-layer*) nil)))
-      `(let ,lst
-         ,@body))))
+(defmacro with-uml-decision-merge-options ((&key (font   nil font-p)
+                                                 (fill   nil fill-p)
+                                                 (stroke nil stroke-p)
+                                                 (width  nil width-p)
+                                                 (height nil height-p)
+                                                 (margin nil margin-p)
+                                                 (filter nil filter-p)
+                                                 (layer  nil layer-p)) &rest body)
+  (let ((bindings nil))
+    (labels ((impl (arg-p binding)
+               (when arg-p (push binding bindings))))
+      (impl font-p   `(*uml-decision-merge-font*   (make-font2   *uml-decision-merge-font*   ,font)))
+      (impl fill-p   `(*uml-decision-merge-fill*   (make-fill2   *uml-decision-merge-fill*   ,fill)))
+      (impl stroke-p `(*uml-decision-merge-stroke* (make-stroke2 *uml-decision-merge-stroke* ,stroke)))
+      (impl width-p  `(*uml-decision-merge-width*  ,width))
+      (impl height-p `(*uml-decision-merge-height* ,height))
+      (impl margin-p `(*uml-decision-merge-margin* ,margin))
+      (impl filter-p `(*uml-decision-merge-filter* ,filter))
+      (impl layer-p  `(*uml-decision-merge-layer*  ,layer)))
+    `(let ,(nreverse bindings)
+       ,@body)))

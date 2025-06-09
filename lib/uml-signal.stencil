@@ -237,28 +237,28 @@
 ;;${NO_NOTES}
 ;;
 ;;--------------------------------------------------------------------------------------- END TURNUP
-(defmacro with-uml-signal-options ((&key font fill stroke
-                                                 width height direction
-                                                 depth margin filter layer) &rest body)
-  (labels ((impl (params acc)
-             (if (null params)
-                 acc
-                 (let ((value  (car  params))
-                       (symbol (cadr params)))
-                   (impl (cddr params)
-                         (if (null value)
-                             acc
-                             (push (list symbol value) acc)))))))
-    (let ((lst (impl (list font      '*uml-signal-font*
-                           fill      '*uml-signal-fill*
-                           stroke    '*uml-signal-stroke*
-                           width     '*uml-signal-width*
-                           height    '*uml-signal-height*
-                           direction '*uml-signal-direction*
-                           depth     '*uml-signal-depth*
-                           margin    '*uml-signal-margin*
-                           filter    '*uml-signal-filter*
-                           layer     '*uml-signal-layer*) nil)))
-      `(let ,lst
-         ,@body))))
-
+(defmacro with-uml-signal-options ((&key (font       nil font-p)
+                                         (fill       nil fill-p)
+                                         (stroke     nil stroke-p)
+                                         (width      nil width-p)
+                                         (height     nil height-p)
+                                         (direction  nil direction-p)
+                                         (depth      nil depth-p)
+                                         (margin     nil margin-p)
+                                         (filter     nil filter-p)
+                                         (layer      nil layer-p)) &rest body)
+  (let ((bindings nil))
+    (labels ((impl (arg-p binding)
+               (when arg-p (push binding bindings))))
+      (impl font-p       `(*uml-signal-font*       (make-font2   *uml-signal-font*   ,font)))
+      (impl fill-p       `(*uml-signal-fill*       (make-fill2   *uml-signal-fill*   ,fill)))
+      (impl stroke-p     `(*uml-signal-stroke*     (make-stroke2 *uml-signal-stroke* ,stroke)))
+      (impl width-p      `(*uml-signal-width*      ,width))
+      (impl height-p     `(*uml-signal-height*     ,height))
+      (impl direction-p  `(*uml-signal-direction*  ,direction))
+      (impl depth-p      `(*uml-signal-depth*      ,depth))
+      (impl margin-p     `(*uml-signal-margin*     ,margin))
+      (impl filter-p     `(*uml-signal-filter*     ,filter))
+      (impl layer-p      `(*uml-signal-layer*      ,layer)))
+    `(let ,(nreverse bindings)
+       ,@body)))

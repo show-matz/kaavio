@@ -224,26 +224,28 @@
 #|
 #|EXPORT|#                :with-cube-options
  |#
-(defmacro with-cube-options ((&key depth align valign margin
-                                   font fill fill2 stroke filter layer) &rest body)
-  (labels ((impl (params acc)
-             (if (null params)
-                 acc
-                 (let ((value  (car  params))
-                       (symbol (cadr params)))
-                   (impl (cddr params)
-                         (if (null value)
-                             acc
-                             (push (list symbol value) acc)))))))
-    (let ((lst (impl (list depth  '*default-cube-depth*
-                           align  '*default-cube-align*
-                           valign '*default-cube-valign*
-                           margin '*default-cube-margin*
-                           font   '*default-cube-font*
-                           fill   '*default-cube-fill*
-                           fill2  '*default-cube-fill2*
-                           stroke '*default-cube-stroke*
-                           filter '*default-cube-filter*
-                           layer  '*default-cube-layer*) nil)))
-      `(let ,lst
-         ,@body))))
+(defmacro with-cube-options ((&key (depth  nil depth-p)
+                                   (align  nil align-p)
+                                   (valign nil valign-p)
+                                   (margin nil margin-p)
+                                   (font   nil font-p)
+                                   (fill   nil fill-p)
+                                   (fill2  nil fill2-p)
+                                   (stroke nil stroke-p)
+                                   (filter nil filter-p)
+                                   (layer  nil layer-p)) &rest body)
+  (let ((bindings nil))
+    (labels ((impl (arg-p binding)
+               (when arg-p (push binding bindings))))
+      (impl depth-p  `(*default-cube-depth*  ,depth))
+      (impl align-p  `(*default-cube-align*  ,align))
+      (impl valign-p `(*default-cube-valign* ,valign))
+      (impl margin-p `(*default-cube-margin* ,margin))
+      (impl font-p   `(*default-cube-font*   (make-font2   *default-cube-font*   ,font)))
+      (impl fill-p   `(*default-cube-fill*   (make-fill2   *default-cube-fill*   ,fill)))
+      (impl fill2-p  `(*default-cube-fill2*  (make-fill2   *default-cube-fill2*  ,fill2)))
+      (impl stroke-p `(*default-cube-stroke* (make-stroke2 *default-cube-stroke* ,stroke)))
+      (impl filter-p `(*default-cube-filter* ,filter))
+      (impl layer-p  `(*default-cube-layer*  ,layer)))
+    `(let ,(nreverse bindings)
+       ,@body)))

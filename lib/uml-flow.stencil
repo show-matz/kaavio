@@ -294,20 +294,19 @@
 ;;${NO_NOTES}
 ;;
 ;;--------------------------------------------------------------------------------------- END TURNUP
-(defmacro with-uml-flow-options ((&key stroke arrow-size font filter layer) &rest body)
-  (labels ((impl (params acc)
-             (if (null params)
-                 acc
-                 (let ((value  (car  params))
-                       (symbol (cadr params)))
-                   (impl (cddr params)
-                         (if (null value)
-                             acc
-                             (push (list symbol value) acc)))))))
-    (let ((lst (impl (list  stroke     '*uml-flow-stroke*
-                            arrow-size '*uml-flow-arrow-size*
-                            font       '*uml-flow-font*
-                            filter     '*uml-flow-filter*
-                            layer      '*uml-flow-layer*) nil)))
-      `(let ,lst
-         ,@body))))
+(defmacro with-uml-flow-options ((&key (stroke     nil stroke-p)
+                                       (arrow-size nil arrow-size-p)
+                                       (font       nil font-p)
+                                       (filter     nil filter-p)
+                                       (layer      nil layer-p)) &rest body)
+  (let ((bindings nil))
+    (labels ((impl (arg-p binding)
+               (when arg-p (push binding bindings))))
+      (impl arrow-size-p `(*uml-flow-arrow-size* ,arrow-size))
+      (impl stroke-p     `(*uml-flow-stroke*     (make-stroke2 *uml-flow-stroke* ,stroke)))
+      (impl font-p       `(*uml-flow-font*       (make-font2   *uml-flow-font*   ,font)))
+      (impl filter-p     `(*uml-flow-filter*     ,filter))
+      (impl layer-p      `(*uml-flow-layer*      ,layer)))
+    `(let ,(nreverse bindings)
+       ,@body)))
+

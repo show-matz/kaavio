@@ -6,13 +6,13 @@
 (defparameter *uml-class-font*           nil)
 (defparameter *uml-class-fill*        :white)
 (defparameter *uml-class-stroke*      :black)
-(defparameter *uml-class-filter*         nil)
-(defparameter *uml-class-layer*          nil)
 (defparameter *uml-class-width*           70)
 (defparameter *uml-class-height*          30)
 (defparameter *uml-class-name-margin*      5)
 (defparameter *uml-class-margin*           5)
 (defparameter *uml-class-draw-emptybox*  nil)
+(defparameter *uml-class-filter*         nil)
+(defparameter *uml-class-layer*          nil)
 
 
 ;;-------------------------------------------------------------------------------
@@ -808,27 +808,28 @@
 ;;${NO_NOTES}
 ;;
 ;;--------------------------------------------------------------------------------------- END TURNUP
-(defmacro with-uml-class-options ((&key font fill stroke filter layer width height
-                                             name-margin margin draw-emptybox) &rest body)
-  (labels ((impl (params acc)
-             (if (null params)
-                 acc
-                 (let ((value  (car  params))
-                       (symbol (cadr params)))
-                   (impl (cddr params)
-                         (if (null value)
-                             acc
-                             (push (list symbol value) acc)))))))
-    (let ((lst (impl (list font          '*uml-class-font*
-                           fill          '*uml-class-fill*
-                           stroke        '*uml-class-stroke*
-                           filter        '*uml-class-filter*
-                           layer         '*uml-class-layer*
-                           width         '*uml-class-width*
-                           height        '*uml-class-height*
-                           name-margin   '*uml-class-name-margin*
-                           margin        '*uml-class-margin*
-                           draw-emptybox '*uml-class-draw-emptybox*) nil)))
-      `(let ,lst
-         ,@body))))
-
+(defmacro with-uml-class-options ((&key (font          nil font-p)
+                                        (fill          nil fill-p)
+                                        (stroke        nil stroke-p)
+                                        (width         nil width-p)
+                                        (height        nil height-p)
+                                        (name-margin   nil name-margin-p)
+                                        (margin        nil margin-p)
+                                        (draw-emptybox nil draw-emptybox-p)
+                                        (filter        nil filter-p)
+                                        (layer         nil layer-p)) &rest body)
+  (let ((bindings nil))
+    (labels ((impl (arg-p binding)
+               (when arg-p (push binding bindings))))
+      (impl font-p          `(*uml-class-font*          (make-font2   *uml-class-font*   ,font)))
+      (impl fill-p          `(*uml-class-fill*          (make-fill2   *uml-class-fill*   ,fill)))
+      (impl stroke-p        `(*uml-class-stroke*        (make-stroke2 *uml-class-stroke* ,stroke)))
+      (impl width-p         `(*uml-class-width*         ,width))
+      (impl height-p        `(*uml-class-height*        ,height))
+      (impl name-margin-p   `(*uml-class-name-margin*   ,name-margin))
+      (impl margin-p        `(*uml-class-margin*        ,margin))
+      (impl draw-emptybox-p `(*uml-class-draw-emptybox* ,draw-emptybox))
+      (impl filter-p        `(*uml-class-filter*        ,filter))
+      (impl layer-p         `(*uml-class-layer*         ,layer)))
+    `(let ,(nreverse bindings)
+       ,@body)))

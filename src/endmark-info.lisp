@@ -293,20 +293,18 @@
 #|
 #|EXPORT|#                :with-endmark-options
  |#
-(defmacro with-endmark-options ((&key type size fill end1 end2) &rest body)
-  (labels ((impl (params acc)
-             (if (null params)
-                 acc
-                 (let ((value  (car  params))
-                       (symbol (cadr params)))
-                   (impl (cddr params)
-                         (if (null value)
-                             acc
-                             (push (list symbol value) acc)))))))
-    (let ((lst (impl (list type '*default-endmark-type*
-                           size '*default-endmark-size*
-                           fill '*default-endmark-fill*
-                           end1 '*default-endmark-1*
-                           end2 '*default-endmark-2*) nil)))
-      `(let ,lst
-         ,@body))))
+(defmacro with-endmark-options ((&key (type nil type-p)
+                                      (size nil size-p)
+                                      (fill nil fill-p)
+                                      (end1 nil end1-p)
+                                      (end2 nil end2-p)) &rest body)
+  (let ((bindings nil))
+    (labels ((impl (arg-p binding)
+               (when arg-p (push binding bindings))))
+      (impl type-p `(*default-endmark-type* ,type))
+      (impl size-p `(*default-endmark-size* ,size))
+      (impl fill-p `(*default-endmark-fill* (make-fill2 *default-endmark-fill* ,fill)))
+      (impl end1-p `(*default-endmark-1*    ,end1))
+      (impl end2-p `(*default-endmark-2*    ,end2)))
+    `(let ,(nreverse bindings)
+       ,@body)))

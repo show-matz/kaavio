@@ -1,9 +1,9 @@
 
 (in-package :kaavio-user)
 
+(defparameter *uml-fork-join-fill*   :black)
 (defparameter *uml-fork-join-width*      10)
 (defparameter *uml-fork-join-length*     40)
-(defparameter *uml-fork-join-color*  :black)
 (defparameter *uml-fork-join-filter*    nil)
 (defparameter *uml-fork-join-layer*     nil)
 
@@ -100,7 +100,7 @@
                                        :width  (ecase ,direction ((:h) ,gw) ((:v) ,gh))
                                        :height (ecase ,direction ((:h) ,gh) ((:v) ,gw))
                                        :rx 0 :ry 0 :stroke :none
-                                       :fill   (or ,fill *uml-fork-join-color* *default-fill*)
+                                       :fill   (or ,fill *uml-fork-join-fill* *default-fill*)
                                        :clip-path *current-clip-path*
                                        :link ,link :filter ,filter :layer ,layer :id ,id)))))
 
@@ -155,7 +155,7 @@
                                        :width  (ecase ,direction ((:h) ,gw) ((:v) ,gh))
                                        :height (ecase ,direction ((:h) ,gh) ((:v) ,gw))
                                        :rx 0 :ry 0 :stroke :none
-                                       :fill   (or ,fill *uml-fork-join-color* *default-fill*)
+                                       :fill   (or ,fill *uml-fork-join-fill* *default-fill*)
                                        :clip-path *current-clip-path*
                                        :link ,link :filter ,filter :layer ,layer :id ,id)))))
 
@@ -166,7 +166,7 @@
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
-;;* ${{B}{with-uml-fork-join-options}} (${KEY} width length color filter layer) ${BODY} body
+;;* ${{B}{with-uml-fork-join-options}} (${KEY} fill width length filter layer) ${BODY} body
 ;;
 ;;<!-- stack:pop li -->
 ;;
@@ -183,22 +183,18 @@
 ;;${NO_NOTES}
 ;;
 ;;--------------------------------------------------------------------------------------- END TURNUP
-(defmacro with-uml-fork-join-options ((&key width length
-                                            color filter layer) &rest body)
-  (labels ((impl (params acc)
-             (if (null params)
-                 acc
-                 (let ((value  (car  params))
-                       (symbol (cadr params)))
-                   (impl (cddr params)
-                         (if (null value)
-                             acc
-                             (push (list symbol value) acc)))))))
-    (let ((lst (impl (list width   '*uml-fork-join-width*
-                           length  '*uml-fork-join-length*
-                           color   '*uml-fork-join-color*
-                           filter  '*uml-fork-join-filter*
-                           layer   '*uml-fork-join-layer*) nil)))
-      `(let ,lst
-         ,@body))))
-
+(defmacro with-uml-fork-join-options ((&key (fill   nil fill-p)
+                                            (width  nil width-p)
+                                            (length nil length-p)
+                                            (filter nil filter-p)
+                                            (layer  nil layer-p)) &rest body)
+  (let ((bindings nil))
+    (labels ((impl (arg-p binding)
+               (when arg-p (push binding bindings))))
+      (impl fill-p   `(*uml-fork-join-fill*   (make-fill2 *uml-fork-join-fill* ,fill)))
+      (impl width-p  `(*uml-fork-join-width*  ,width))
+      (impl length-p `(*uml-fork-join-length* ,length))
+      (impl filter-p `(*uml-fork-join-filter* ,filter))
+      (impl layer-p  `(*uml-fork-join-layer*  ,layer)))
+    `(let ,(nreverse bindings)
+       ,@body)))

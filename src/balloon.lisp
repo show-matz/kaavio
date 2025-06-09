@@ -262,25 +262,27 @@
 #|
 #|EXPORT|#                :with-balloon-options
  |#
-(defmacro with-balloon-options ((&key round align valign margin
-                                      font fill stroke filter layer) &rest body)
-  (labels ((impl (params acc)
-             (if (null params)
-                 acc
-                 (let ((value  (car  params))
-                       (symbol (cadr params)))
-                   (impl (cddr params)
-                         (if (null value)
-                             acc
-                             (push (list symbol value) acc)))))))
-    (let ((lst (impl (list round  '*default-balloon-round*
-                           align  '*default-balloon-align*
-                           valign '*default-balloon-valign*
-                           margin '*default-balloon-margin*
-                           font   '*default-balloon-font*
-                           fill   '*default-balloon-fill*
-                           stroke '*default-balloon-stroke*
-                           filter '*default-balloon-filter*
-                           layer  '*default-balloon-layer*) nil)))
-      `(let ,lst
-         ,@body))))
+(defmacro with-balloon-options ((&key (round  nil round-p)
+                                      (align  nil align-p)
+                                      (valign nil valign-p)
+                                      (margin nil margin-p)
+                                      (font   nil font-p)
+                                      (fill   nil fill-p)
+                                      (stroke nil stroke-p)
+                                      (filter nil filter-p)
+                                      (layer  nil layer-p)) &rest body)
+  (let ((bindings nil))
+    (labels ((impl (arg-p binding)
+               (when arg-p (push binding bindings))))
+      (impl round-p  `(*default-balloon-round*  ,round))
+      (impl align-p  `(*default-balloon-align*  ,align))
+      (impl valign-p `(*default-balloon-valign* ,valign))
+      (impl margin-p `(*default-balloon-margin* ,margin))
+      (impl font-p   `(*default-balloon-font*   (make-font2   *default-balloon-font*   ,font)))
+      (impl fill-p   `(*default-balloon-fill*   (make-fill2   *default-balloon-fill*   ,fill)))
+      (impl stroke-p `(*default-balloon-stroke* (make-stroke2 *default-balloon-stroke* ,stroke)))
+      (impl filter-p `(*default-balloon-filter* ,filter))
+      (impl layer-p  `(*default-balloon-layer*  ,layer)))
+    `(let ,(nreverse bindings)
+       ,@body)))
+

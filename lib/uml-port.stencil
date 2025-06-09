@@ -136,21 +136,18 @@
 ;;${NO_NOTES}
 ;;
 ;;--------------------------------------------------------------------------------------- END TURNUP
-(defmacro with-uml-port-options ((&key fill stroke size filter layer) &rest body)
-  (labels ((impl (params acc)
-             (if (null params)
-                 acc
-                 (let ((value  (car  params))
-                       (symbol (cadr params)))
-                   (impl (cddr params)
-                         (if (null value)
-                             acc
-                             (push (list symbol value) acc)))))))
-    (let ((lst (impl (list fill     '*uml-port-fill*
-                           stroke   '*uml-port-stroke*
-                           size     '*uml-port-size*
-                           filter   '*uml-port-filter*
-                           layer    '*uml-port-layer*) nil)))
-      `(let ,lst
-         ,@body))))
-
+(defmacro with-uml-port-options ((&key (fill   nil fill-p)
+                                       (stroke nil stroke-p)
+                                       (size   nil size-p)
+                                       (filter nil filter-p)
+                                       (layer  nil layer-p)) &rest body)
+  (let ((bindings nil))
+    (labels ((impl (arg-p binding)
+               (when arg-p (push binding bindings))))
+      (impl fill-p   `(*uml-port-fill*   (make-fill2   *uml-port-fill*   ,fill)))
+      (impl stroke-p `(*uml-port-stroke* (make-stroke2 *uml-port-stroke* ,stroke)))
+      (impl size-p   `(*uml-port-size*   ,size))
+      (impl filter-p `(*uml-port-filter* ,filter))
+      (impl layer-p  `(*uml-port-layer*  ,layer)))
+    `(let ,(nreverse bindings)
+       ,@body)))

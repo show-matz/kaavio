@@ -12,11 +12,11 @@
 (defparameter *uml-artifact-margin*          10)
 (defparameter *uml-artifact-filter*         nil)
 (defparameter *uml-artifact-layer*          nil)
-(defparameter *uml-artifact-icon-setting* (make-uml-icon-setting :fill   :white
-                                                                 :stroke :black
-                                                                 :size   14
-                                                                 :pivot  :TR
-                                                                 :offset '(-15 15)))
+(defparameter *uml-artifact-icon* (make-uml-icon-setting :fill   :white
+                                                         :stroke :black
+                                                         :size   14
+                                                         :pivot  :TR
+                                                         :offset '(-15 15)))
 
 
 ;;------------------------------------------------------------------------------
@@ -223,7 +223,7 @@
                                     :stroke   (or ,stroke *uml-artifact-stroke*
                                                   *default-stroke* :black)
                                     :clip-path kaavio:*current-clip-path*
-                                    :icon     (or ,icon *uml-artifact-icon-setting*)
+                                    :icon     (or ,icon *uml-artifact-icon*)
                                     :link ,link :layer ,layer :filter ,filter :id ,id))))
     (if (or (null contents)
             (not (listp contents)))
@@ -241,7 +241,7 @@
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
-;;* ${{B}{with-uml-artifact-options}} (${KEY} font fill stroke width height icon margin filter layer) ${BODY} body
+;;* ${{B}{with-uml-artifact-options}} (${KEY} font fill stroke icon width height margin filter layer) ${BODY} body
 ;;
 ;;<!-- stack:pop li -->
 ;;
@@ -260,25 +260,26 @@
 ;;${NO_NOTES}
 ;;
 ;;--------------------------------------------------------------------------------------- END TURNUP
-(defmacro with-uml-artifact-options ((&key font fill stroke
-                                           width height icon margin filter layer) &rest body)
-  (labels ((impl (params acc)
-             (if (null params)
-                 acc
-                 (let ((value  (car  params))
-                       (symbol (cadr params)))
-                   (impl (cddr params)
-                         (if (null value)
-                             acc
-                             (push (list symbol value) acc)))))))
-    (let ((lst (impl (list font        '*uml-artifact-font*
-                           fill        '*uml-artifact-fill*
-                           stroke      '*uml-artifact-stroke*
-                           width       '*uml-artifact-width*
-                           height      '*uml-artifact-height*
-                           icon        '*uml-artifact-icon-setting*
-                           margin      '*uml-artifact-margin*
-                           filter      '*uml-artifact-filter*
-                           layer       '*uml-artifact-layer*) nil)))
-      `(let ,lst
-         ,@body))))
+(defmacro with-uml-artifact-options ((&key (font   nil font-p)
+                                           (fill   nil fill-p)
+                                           (stroke nil stroke-p)
+                                           (icon   nil icon-p)
+                                           (width  nil width-p)
+                                           (height nil height-p)
+                                           (margin nil margin-p)
+                                           (filter nil filter-p)
+                                           (layer  nil layer-p)) &rest body)
+  (let ((bindings nil))
+    (labels ((impl (arg-p binding)
+               (when arg-p (push binding bindings))))
+      (impl font-p   `(*uml-artifact-font*   (make-font2   *uml-artifact-font*   ,font)))
+      (impl fill-p   `(*uml-artifact-fill*   (make-fill2   *uml-artifact-fill*   ,fill)))
+      (impl stroke-p `(*uml-artifact-stroke* (make-stroke2 *uml-artifact-stroke* ,stroke)))
+      (impl icon-p   `(*uml-artifact-icon*   (make-uml-icon-setting2 *uml-artifact-icon* ,icon)))
+      (impl width-p  `(*uml-artifact-width*  ,width))
+      (impl height-p `(*uml-artifact-height* ,height))
+      (impl margin-p `(*uml-artifact-margin* ,margin))
+      (impl filter-p `(*uml-artifact-filter* ,filter))
+      (impl layer-p  `(*uml-artifact-layer*  ,layer)))
+    `(let ,(nreverse bindings)
+       ,@body)))

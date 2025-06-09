@@ -16,14 +16,18 @@
          
 (defun uml-make-label (default-font &rest params)
   (if (null default-font)
+      ;; default-font 未指定なら単純に kaavio:make-label するだけ
       (apply #'kaavio:make-label params)
-      (if (and (= 1 (length params))
-               (listp (car params)))
-          (apply #'uml-make-label default-font (car params))
-          (destructuring-bind (text &key position offset font) params
-            (declare (ignore font))
-            (kaavio:make-label text :position position :offset offset :font default-font)))))
-      
+      ;; 上記以外の場合
+      (progn
+        (when (and (= 1 (length params)) (listp (car params)))
+          (setf params (car params)))
+        (destructuring-bind (text &key position offset font) params
+          (kaavio:make-label text :position position :offset offset
+                             :font (if (atom font)
+                                       (make-font2 default-font font)
+                                       (apply #'make-font2 default-font font)))))))
+
 ;; stereotype を伴う（場合がある）複数行テキストの描画に必要な領域の幅と高さを計算して返す
 (defun uml-calc-textarea (font text stereotype)
   (multiple-value-bind (w h) (kaavio:font-calc-textarea font text)

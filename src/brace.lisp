@@ -228,19 +228,16 @@
 #|
 #|EXPORT|#                :with-brace-options
  |#
-(defmacro with-brace-options ((&key font stroke filter layer) &rest body)
-  (labels ((impl (params acc)
-             (if (null params)
-                 acc
-                 (let ((value  (car  params))
-                       (symbol (cadr params)))
-                   (impl (cddr params)
-                         (if (null value)
-                             acc
-                             (push (list symbol value) acc)))))))
-    (let ((lst (impl (list font   '*default-brace-font*
-                           stroke '*default-brace-stroke*
-                           filter '*default-brace-filter*
-                           layer  '*default-brace-layer*) nil)))
-      `(let ,lst
-         ,@body))))
+(defmacro with-brace-options ((&key (font   nil font-p)
+                                    (stroke nil stroke-p)
+                                    (filter nil filter-p)
+                                    (layer  nil layer-p)) &rest body)
+  (let ((bindings nil))
+    (labels ((impl (arg-p binding)
+               (when arg-p (push binding bindings))))
+      (impl font-p   `(*default-brace-font*   (make-font2   *default-brace-font*   ,font)))
+      (impl stroke-p `(*default-brace-stroke* (make-stroke2 *default-brace-stroke* ,stroke)))
+      (impl filter-p `(*default-brace-filter* ,filter))
+      (impl layer-p  `(*default-brace-layer*  ,layer)))
+    `(let ,(nreverse bindings)
+       ,@body)))

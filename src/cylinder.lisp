@@ -191,25 +191,26 @@
 #|
 #|EXPORT|#                :with-cylinder-options
  |#
-(defmacro with-cylinder-options ((&key depth align valign margin
-                                       font fill stroke filter layer) &rest body)
-  (labels ((impl (params acc)
-             (if (null params)
-                 acc
-                 (let ((value  (car  params))
-                       (symbol (cadr params)))
-                   (impl (cddr params)
-                         (if (null value)
-                             acc
-                             (push (list symbol value) acc)))))))
-    (let ((lst (impl (list depth  '*default-cylinder-depth*
-                           align  '*default-cylinder-align*
-                           valign '*default-cylinder-valign*
-                           margin '*default-cylinder-margin*
-                           font   '*default-cylinder-font*
-                           fill   '*default-cylinder-fill*
-                           stroke '*default-cylinder-stroke*
-                           filter '*default-cylinder-filter*
-                           layer  '*default-cylinder-layer*) nil)))
-      `(let ,lst
-         ,@body))))
+(defmacro with-cylinder-options ((&key (depth  nil depth-p)
+                                       (align  nil align-p)
+                                       (valign nil valign-p)
+                                       (margin nil margin-p)
+                                       (font   nil font-p)
+                                       (fill   nil fill-p)
+                                       (stroke nil stroke-p)
+                                       (filter nil filter-p)
+                                       (layer  nil layer-p)) &rest body)
+  (let ((bindings nil))
+    (labels ((impl (arg-p binding)
+               (when arg-p (push binding bindings))))
+      (impl depth-p  `(*default-cylinder-depth*  ,depth))
+      (impl align-p  `(*default-cylinder-align*  ,align))
+      (impl valign-p `(*default-cylinder-valign* ,valign))
+      (impl margin-p `(*default-cylinder-margin* ,margin))
+      (impl font-p   `(*default-cylinder-font*   (make-font2   *default-cylinder-font*   ,font)))
+      (impl fill-p   `(*default-cylinder-fill*   (make-fill2   *default-cylinder-fill*   ,fill)))
+      (impl stroke-p `(*default-cylinder-stroke* (make-stroke2 *default-cylinder-stroke* ,stroke)))
+      (impl filter-p `(*default-cylinder-filter* ,filter))
+      (impl layer-p  `(*default-cylinder-layer*  ,layer)))
+    `(let ,(nreverse bindings)
+       ,@body)))

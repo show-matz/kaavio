@@ -112,24 +112,18 @@
 ;;${NO_NOTES}
 ;;
 ;;--------------------------------------------------------------------------------------- END TURNUP
-(defmacro with-uml-state-history-options ((&key radius fill stroke filter layer) &rest body)
-  (labels ((impl (params acc)
-             (if (null params)
-                 acc
-                 (let ((value  (car  params))
-                       (symbol (cadr params)))
-                   (impl (cddr params)
-                         (if (null value)
-                             acc
-                             (push (list symbol value) acc)))))))
-    (let ((lst (impl (list radius   '*uml-state-history-radius*
-                           fill     '*uml-state-history-fill*
-                           stroke   '*uml-state-history-stroke*
-                           filter   '*uml-state-history-filter*
-                           layer    '*uml-state-history-layer*) nil)))
-      `(let ,lst
-         ,@body))))
-
-
-
-
+(defmacro with-uml-state-history-options ((&key (radius nil radius-p)
+                                                (fill   nil fill-p)
+                                                (stroke nil stroke-p)
+                                                (filter nil filter-p)
+                                                (layer  nil layer-p)) &rest body)
+  (let ((bindings nil))
+    (labels ((impl (arg-p binding)
+               (when arg-p (push binding bindings))))
+      (impl radius-p `(*uml-state-history-radius* ,radius))
+      (impl fill-p   `(*uml-state-history-fill*   (make-fill2   *uml-state-history-fill*   ,fill)))
+      (impl stroke-p `(*uml-state-history-stroke* (make-stroke2 *uml-state-history-stroke* ,stroke)))
+      (impl filter-p `(*uml-state-history-filter* ,filter))
+      (impl layer-p  `(*uml-state-history-layer*  ,layer)))
+    `(let ,(nreverse bindings)
+       ,@body)))

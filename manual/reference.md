@@ -351,12 +351,14 @@ ${ARGS_AND_VALS}
 
 ${DESCRIPTION}
 
-　図形要素同士を接続します。
+　図形要素同士を接続します。スタイルを統一したい場合、with-connector-options マクロを
+使うことができます。
 
 ${SEE_ALSO}
 
 * コネクタ
 * 終端マーク
+* with-connector-options マクロ
 
 ${NO_NOTES}
 
@@ -1802,7 +1804,7 @@ ${DESCRIPTION}
 
 <!-- stack:push li class='syntax' -->
 
-* ${{B}{make-uml-icon-setting}} ${KEY} fill stroke size pivot offset
+* ${{B}{make-uml-icon-setting}} ${KEY} fill stroke size pivot offset base
 
 <!-- stack:pop li -->
 
@@ -5036,6 +5038,33 @@ ${NOTES}
 
 ${BLANK_PARAGRAPH}
 
+#### macro with-connector-options
+
+<!-- stack:push li class='syntax' -->
+${SYNTAX}
+
+* ${{B}{with-connector-options}} (${KEY} style spacing stroke filter layer) ${BODY} body
+
+
+<!-- stack:pop li -->
+
+${DESCRIPTION}
+
+　connect マクロで描画されるコネクタのデフォルトオプションを変更します。キーワードパラメータ
+群の説明は connect マクロを参照してください。
+
+${SEE_ALSO}
+
+* コネクタ
+* connector マクロ
+
+${NO_NOTES}
+
+
+<!-- autolink: [with-connector-options マクロ](#macro with-connector-options) -->
+
+${BLANK_PARAGRAPH}
+
 #### macro with-cross-options
 
 <!-- stack:push li class='syntax' -->
@@ -5334,6 +5363,33 @@ ${NO_NOTES}
 
 ${BLANK_PARAGRAPH}
 
+#### macro with-paragraph-options
+
+<!-- stack:push li class='syntax' -->
+${SYNTAX}
+
+* ${{B}{with-paragraph-options}} (${KEY} align valign font layer) ${BODY} body
+
+
+<!-- stack:pop li -->
+
+${DESCRIPTION}
+
+　paragraph マクロで描画されるドキュメントのデフォルトオプションを変更します。キーワード
+パラメータ群の説明は paragraph マクロを参照してください。
+
+${SEE_ALSO}
+
+* ドキュメント
+* paragraph マクロ
+
+${NO_NOTES}
+
+
+<!-- autolink: [with-paragraph-options マクロ](#macro with-paragraph-options) -->
+
+${BLANK_PARAGRAPH}
+
 #### macro with-person-options
 
 <!-- stack:push li class='syntax' -->
@@ -5606,7 +5662,7 @@ ${BLANK_PARAGRAPH}
 <!-- stack:push li class='syntax' -->
 ${SYNTAX}
 
-* ${{B}{with-uml-action-options}} (${KEY} font fill stroke width height corner-r margin rake icon filter layer) ${BODY} body
+* ${{B}{with-uml-action-options}} (${KEY} font fill stroke icon width height corner-r margin filter layer) ${BODY} body
 
 <!-- stack:pop li -->
 
@@ -5742,7 +5798,7 @@ ${BLANK_PARAGRAPH}
 <!-- stack:push li class='syntax' -->
 ${SYNTAX}
 
-* ${{B}{with-uml-artifact-options}} (${KEY} font fill stroke width height icon margin filter layer) ${BODY} body
+* ${{B}{with-uml-artifact-options}} (${KEY} font fill stroke icon width height margin filter layer) ${BODY} body
 
 <!-- stack:pop li -->
 
@@ -5820,7 +5876,7 @@ ${BLANK_PARAGRAPH}
 <!-- stack:push li class='syntax' -->
 ${SYNTAX}
 
-* ${{B}{with-uml-component-options}} (${KEY} font fill stroke width height icon margin filter layer) ${BODY} body
+* ${{B}{with-uml-component-options}} (${KEY} font fill stroke icon width height margin filter layer) ${BODY} body
 
 <!-- stack:pop li -->
 
@@ -6028,7 +6084,7 @@ ${BLANK_PARAGRAPH}
 <!-- stack:push li class='syntax' -->
 ${SYNTAX}
 
-* ${{B}{with-uml-fork-join-options}} (${KEY} width length color filter layer) ${BODY} body
+* ${{B}{with-uml-fork-join-options}} (${KEY} fill width length filter layer) ${BODY} body
 
 <!-- stack:pop li -->
 
@@ -6169,15 +6225,20 @@ ${BLANK_PARAGRAPH}
 <!-- stack:push li class='syntax' -->
 ${SYNTAX}
 
-* ${{B}{with-uml-interface-request-options}} (${KEY} font dasharray stroke degree arrow-size filter layer) ${BODY} body
-
+* ${{B}{with-uml-interface-request-options}} (${KEY} stroke filter layer font degree dasharray arrow-size) ${BODY} body
 
 <!-- stack:pop li -->
 
 ${DESCRIPTION}
 
 　uml-interface-request マクロで描画される図形要素のデフォルトオプションを変更します。キーワード
-パラメータ群の説明は uml-interface-request マクロを参照してください。
+パラメータ群の説明は uml-interface-request マクロを参照してください。ただし、以下はこのマクロで
+のみ指定可能です。
+
+* `font` ---- `name` で指定するラベルのフォント指定を省略した場合に使用されるデフォルト設定です。
+* `degree` ---- ソケットの円弧の角度です。
+* `dasharray` ---- 依存関係矢印を描画する場合の点線を指定する dasharray パラメータです。
+* `arrow-size` ---- 依存関係矢印を描画する場合の矢印のサイズです。
 
 ${SEE_ALSO}
 
@@ -6306,7 +6367,7 @@ ${BLANK_PARAGRAPH}
 <!-- stack:push li class='syntax' -->
 ${SYNTAX}
 
-* ${{B}{with-uml-partition-options}} (${KEY} lines header font fill stroke layer) ${BODY} body
+* ${{B}{with-uml-partition-options}} (${KEY} font fill stroke lines header layer) ${BODY} body
 
 <!-- stack:pop li -->
 
@@ -6510,7 +6571,7 @@ ${BLANK_PARAGRAPH}
 <!-- stack:push li class='syntax' -->
 ${SYNTAX}
 
-* ${{B}{with-uml-state-options}} (${KEY} font fill stroke width height corner-r margin rake filter layer) ${BODY} body
+* ${{B}{with-uml-state-options}} (${KEY} font fill stroke width height corner-r margin filter layer) ${BODY} body
 
 <!-- stack:pop li -->
 

@@ -181,26 +181,29 @@
 #|
 #|EXPORT|#                :with-textbox-options
  |#
-(defmacro with-textbox-options ((&key rx ry align valign margin
-                                      font fill stroke filter layer) &rest body)
-  (labels ((impl (params acc)
-             (if (null params)
-                 acc
-                 (let ((value  (car  params))
-                       (symbol (cadr params)))
-                   (impl (cddr params)
-                         (if (null value)
-                             acc
-                             (push (list symbol value) acc)))))))
-    (let ((lst (impl (list rx     '*default-textbox-rx*
-                           ry     '*default-textbox-ry*
-                           align  '*default-textbox-align*
-                           valign '*default-textbox-valign*
-                           margin '*default-textbox-margin*
-                           font   '*default-textbox-font*
-                           fill   '*default-textbox-fill*
-                           stroke '*default-textbox-stroke*
-                           filter '*default-textbox-filter*
-                           layer  '*default-textbox-layer*) nil)))
-      `(let ,lst
-         ,@body))))
+(defmacro with-textbox-options ((&key (rx     nil rx-p)
+                                      (ry     nil ry-p)
+                                      (align  nil align-p)
+                                      (valign nil valign-p)
+                                      (margin nil margin-p)
+                                      (font   nil font-p)
+                                      (fill   nil fill-p)
+                                      (stroke nil stroke-p)
+                                      (filter nil filter-p)
+                                      (layer  nil layer-p)) &rest body)
+  (let ((bindings nil))
+    (labels ((impl (arg-p binding)
+               (when arg-p (push binding bindings))))
+      (impl rx-p     `(*default-textbox-rx*     ,rx))
+      (impl ry-p     `(*default-textbox-ry*     ,ry))
+      (impl align-p  `(*default-textbox-align*  ,align))
+      (impl valign-p `(*default-textbox-valign* ,valign))
+      (impl margin-p `(*default-textbox-margin* ,margin))
+      (impl font-p   `(*default-textbox-font*   (make-font2   *default-textbox-font*   ,font)))
+      (impl fill-p   `(*default-textbox-fill*   (make-fill2   *default-textbox-fill*   ,fill)))
+      (impl stroke-p `(*default-textbox-stroke* (make-stroke2 *default-textbox-stroke* ,stroke)))
+      (impl filter-p `(*default-textbox-filter* ,filter))
+      (impl layer-p  `(*default-textbox-layer*  ,layer)))
+    `(let ,(nreverse bindings)
+       ,@body)))
+

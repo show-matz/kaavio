@@ -158,23 +158,20 @@
 ;;${NO_NOTES}
 ;;
 ;;--------------------------------------------------------------------------------------- END TURNUP
-(defmacro with-uml-time-event-options ((&key fill stroke width
-                                             height filter layer) &rest body)
-  (labels ((impl (params acc)
-             (if (null params)
-                 acc
-                 (let ((value  (car  params))
-                       (symbol (cadr params)))
-                   (impl (cddr params)
-                         (if (null value)
-                             acc
-                             (push (list symbol value) acc)))))))
-    (let ((lst (impl (list fill      '*uml-time-event-fill*
-                           stroke    '*uml-time-event-stroke*
-                           width     '*uml-time-event-width*
-                           height    '*uml-time-event-height*
-                           filter    '*uml-time-event-filter*
-                           layer     '*uml-time-event-layer*) nil)))
-      `(let ,lst
-         ,@body))))
-
+(defmacro with-uml-time-event-options ((&key (fill   nil fill-p)
+                                             (stroke nil stroke-p)
+                                             (width  nil width-p)
+                                             (height nil height-p)
+                                             (filter nil filter-p)
+                                             (layer  nil layer-p)) &rest body)
+  (let ((bindings nil))
+    (labels ((impl (arg-p binding)
+               (when arg-p (push binding bindings))))
+      (impl fill-p   `(*uml-time-event-fill*   (make-fill2   *uml-time-event-fill*   ,fill)))
+      (impl stroke-p `(*uml-time-event-stroke* (make-stroke2 *uml-time-event-stroke* ,stroke)))
+      (impl width-p  `(*uml-time-event-width*  ,width))
+      (impl height-p `(*uml-time-event-height* ,height))
+      (impl filter-p `(*uml-time-event-filter* ,filter))
+      (impl layer-p  `(*uml-time-event-layer*  ,layer)))
+    `(let ,(nreverse bindings)
+       ,@body)))

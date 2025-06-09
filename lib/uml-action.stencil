@@ -11,14 +11,13 @@
 (defparameter *uml-action-height*              40)
 (defparameter *uml-action-corner-r*             6)
 (defparameter *uml-action-margin*              10)
-(defparameter *uml-action-rake*               nil)
 (defparameter *uml-action-filter*             nil)
 (defparameter *uml-action-layer*              nil)
-(defparameter *uml-action-icon-setting* (make-uml-icon-setting :fill   :none
-                                                               :stroke '(:color :black :width 2)
-                                                               :size   14
-                                                               :pivot  :BR
-                                                               :offset '(-10 -10)))
+(defparameter *uml-action-icon* (make-uml-icon-setting :fill   :none
+                                                       :stroke '(:color :black :width 2)
+                                                       :size   14
+                                                       :pivot  :BR
+                                                       :offset '(-10 -10)))
 
 
 ;;------------------------------------------------------------------------------
@@ -217,7 +216,7 @@
 ;;
 ;;--------------------------------------------------------------------------------------- END TURNUP
 (defmacro uml-action (position name &key stereotype keyword pivot width height
-                                         margin corner-r (rake nil rake-p)
+                                         margin corner-r rake
                                          font fill stroke icon link layer filter id contents)
   (let* ((contents-p (not (null contents)))
          (code `(register-entity
@@ -226,7 +225,7 @@
                                     :width ,width :height ,height
                                     :text ,name :stereotype ,(or stereotype keyword)
                                     :contents-p ,contents-p
-                                    :rake     (if ,rake-p ,rake *uml-action-rake*)
+                                    :rake     ,rake
                                     :corner-r (or ,corner-r *uml-action-corner-r*)
                                     :margin   (or ,margin   *uml-action-margin*)
                                     :font     (or ,font *uml-action-font*  *default-font*)
@@ -235,7 +234,7 @@
                                     :stroke   (or ,stroke *uml-action-stroke*
                                                   *default-stroke* :black)
                                     :clip-path kaavio:*current-clip-path*
-                                    :icon     (or ,icon *uml-action-icon-setting*)
+                                    :icon     (or ,icon *uml-action-icon*)
                                     :link ,link :layer ,layer :filter ,filter :id ,id))))
     (if (or (null contents)
             (not (listp contents)))
@@ -253,7 +252,7 @@
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
-;;* ${{B}{with-uml-action-options}} (${KEY} font fill stroke width height corner-r margin rake icon filter layer) ${BODY} body
+;;* ${{B}{with-uml-action-options}} (${KEY} font fill stroke icon width height corner-r margin filter layer) ${BODY} body
 ;;
 ;;<!-- stack:pop li -->
 ;;
@@ -271,27 +270,28 @@
 ;;${NO_NOTES}
 ;;
 ;;--------------------------------------------------------------------------------------- END TURNUP
-(defmacro with-uml-action-options ((&key font fill stroke width height
-                                         corner-r margin rake icon filter layer) &rest body)
-  (labels ((impl (params acc)
-             (if (null params)
-                 acc
-                 (let ((value  (car  params))
-                       (symbol (cadr params)))
-                   (impl (cddr params)
-                         (if (null value)
-                             acc
-                             (push (list symbol value) acc)))))))
-    (let ((lst (impl (list font     '*uml-action-font*
-                           fill     '*uml-action-fill*
-                           stroke   '*uml-action-stroke*
-                           width    '*uml-action-width*
-                           height   '*uml-action-height*
-                           corner-r '*uml-action-corner-r*
-                           margin   '*uml-action-margin*
-                           rake     '*uml-action-rake*
-                           icon     '*uml-action-icon-setting*
-                           filter   '*uml-action-filter*
-                           layer    '*uml-action-layer*) nil)))
-      `(let ,lst
-         ,@body))))
+(defmacro with-uml-action-options ((&key (font     nil font-p)
+                                         (fill     nil fill-p)
+                                         (stroke   nil stroke-p)
+                                         (icon     nil icon-p)
+                                         (width    nil width-p)
+                                         (height   nil height-p)
+                                         (corner-r nil corner-r-p)
+                                         (margin   nil margin-p)
+                                         (filter   nil filter-p)
+                                         (layer    nil layer-p)) &rest body)
+  (let ((bindings nil))
+    (labels ((impl (arg-p binding)
+               (when arg-p (push binding bindings))))
+      (impl font-p     `(*uml-action-font*     (make-font2   *uml-action-font*   ,font)))
+      (impl fill-p     `(*uml-action-fill*     (make-fill2   *uml-action-fill*   ,fill)))
+      (impl stroke-p   `(*uml-action-stroke*   (make-stroke2 *uml-action-stroke* ,stroke)))
+      (impl icon-p     `(*uml-action-icon*     (make-uml-icon-setting2 *uml-action-icon* ,icon)))
+      (impl width-p    `(*uml-action-width*    ,width))
+      (impl height-p   `(*uml-action-height*   ,height))
+      (impl corner-r-p `(*uml-action-corner-r* ,corner-r))
+      (impl margin-p   `(*uml-action-margin*   ,margin))
+      (impl filter-p   `(*uml-action-filter*   ,filter))
+      (impl layer-p    `(*uml-action-layer*    ,layer)))
+    `(let ,(nreverse bindings)
+       ,@body)))

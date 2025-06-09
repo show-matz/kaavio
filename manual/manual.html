@@ -5817,12 +5817,12 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p>　register-theme において、「ベースとする既存の<a class='autolink' href='#4z8VHZK3CSo'>テーマ</a>」を指定することで、差分だけを指定したカスタム<a class='autolink' href='#4z8VHZK3CSo'>テーマ</a>を作成することができます。以下の例では、default <a class='autolink' href='#4z8VHZK3CSo'>テーマ</a>をベースとして my-theme という<a class='autolink' href='#4z8VHZK3CSo'>テーマ</a>を作成しています。</p>
 <pre class='code'>
 (register-theme (<span class='keyword3'>:my-theme</span> <span class='keyword3'>:default</span>)
-  (t <span class='keyword3'>:stroke</span> 3 <span class='keyword3'>:fill</span> '(<span class='keyword3'>:opacity</span> 0.4) <span class='keyword3'>:font</span> '(<span class='keyword3'>:weight</span> <span class='keyword3'>:bold</span>))
+  (cylinder <span class='keyword3'>:stroke</span> <span class='keyword3'>:maroon</span> <span class='keyword3'>:fill</span> <span class='keyword3'>:beige</span>)
   (cross <span class='keyword3'>:stroke</span> <span class='keyword3'>:purple</span> <span class='keyword3'>:fill</span> <span class='keyword3'>:lavender</span>))
 </pre>
 <p class='fig_title'><a name='lxaclItxO4a'></a>Figure.11-3 register-theme でベーステーマを指定する例</p>
 <p>　　</p>
-<p>　上記の my-theme を使用して <a href='#eA7AkqA2hXb'>Figure.11-1</a> と同じ図面を描画した結果を以下に示します。カスタマイズした部分（全体の<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>幅や<a class='autolink' href='#dBUd7L4C3dx'>フィル</a>の不透明度、<a class='autolink' href='#3kZ9FkounyK'>フォント</a>、およびcross のスタイル設定）が反映されていることがわかります。</p>
+<p>　上記の my-theme を使用して <a href='#eA7AkqA2hXb'>Figure.11-1</a> と同じ図面を描画した結果を以下に示します。カスタマイズした内容が反映されていることがわかります。</p>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='500' height='300'>
@@ -5834,50 +5834,50 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 	</pattern>
 	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
 	<!-- document -->
-	<path fill='whitesmoke' fill-opacity='0.4' stroke='darkslategray' stroke-width='3' d='M 25 25 L 25 75 A 23.333334 16.666666 0 0 0 60 75 A 23.333334 16.666666 1 0 1 95 75 L 95 25 Z' />
-	<text x='60' y='56' text-anchor='middle' font-family='sans-serif' font-size='12pt' fill='black' font-weight='bold' >doc</text>
+	<path fill='whitesmoke' stroke='darkslategray' stroke-width='1' d='M 25 25 L 25 75 A 23.333334 16.666666 0 0 0 60 75 A 23.333334 16.666666 1 0 1 95 75 L 95 25 Z' />
+	<text x='60' y='56' text-anchor='middle' font-family='sans-serif' font-size='12pt' fill='black' >doc</text>
 	<!-- folder -->
-	<g fill='cornsilk' fill-opacity='0.4' stroke='darkkhaki' stroke-width='3' >
+	<g fill='cornsilk' stroke='darkkhaki' stroke-width='1' >
 		<polygon points='145.0,25.0 145.0,75.0 225.0,75.0 225.0,35.0 215.0,25.0 195.0,25.0 185.0,15.0 155.0,15.0 145.0,25.0' />
 		<polygon points='145.0,25.0 155.0,35.0 185.0,35.0 195.0,25.0 185.0,15.0 155.0,15.0 145.0,25.0' />
 	</g>
-	<text x='185' y='56' text-anchor='middle' font-family='sans-serif' font-size='12pt' fill='black' font-weight='bold' >folder</text>
+	<text x='185' y='56' text-anchor='middle' font-family='sans-serif' font-size='12pt' fill='black' >folder</text>
 	<!-- person -->
-	<path fill='linen' fill-opacity='0.4' stroke='maroon' stroke-width='3' d='M 300 80 A 15 30 0 1 1 330 80 L 300 80 M 315 50 A 15 15 0 0 1 315 20 A 15 15 0 0 1 315 50' />
-	<text x='315' y='94' text-anchor='middle' font-family='sans-serif' font-size='12pt' fill='black' font-weight='bold' >person</text>
+	<path fill='linen' stroke='maroon' stroke-width='1' d='M 300 80 A 15 30 0 1 1 330 80 L 300 80 M 315 50 A 15 15 0 0 1 315 20 A 15 15 0 0 1 315 50' />
+	<text x='315' y='94' text-anchor='middle' font-family='sans-serif' font-size='12pt' fill='black' >person</text>
 	<!-- balloon -->
-	<path fill='azure' fill-opacity='0.4' stroke='navy' stroke-width='3' d='M 410 30 L 410 10 L 426.66666 30 L 470 30 A 10 10 1 0 1 480 40 L 480 60 A 10 10 1 0 1 470 70 L 410 70 A 10 10 1 0 1 400 60 L 400 40 A 10 10 1 0 1 410 30 Z' />
-	<text x='440' y='56' text-anchor='middle' font-family='sans-serif' font-size='12pt' fill='black' font-weight='bold' >balloon</text>
+	<path fill='azure' stroke='navy' stroke-width='1' d='M 410 30 L 410 10 L 426.66666 30 L 470 30 A 10 10 1 0 1 480 40 L 480 60 A 10 10 1 0 1 470 70 L 410 70 A 10 10 1 0 1 400 60 L 400 40 A 10 10 1 0 1 410 30 Z' />
+	<text x='440' y='56' text-anchor='middle' font-family='sans-serif' font-size='12pt' fill='black' >balloon</text>
 	<!-- memo -->
 	<g stroke='none' >
-		<polygon fill='mintcream' fill-opacity='0.4' points='20.0,125.0 20.0,175.0 70.0,175.0 80.0,155.0 100.0,160.0 100.0,125.0' />
-		<polygon fill='#7CCD7C' fill-opacity='0.4' points='70.0,175.0 100.0,160.0 80.0,155.0' />
-		<g fill='none' stroke='darkgreen' stroke-width='3' >
+		<polygon fill='mintcream' points='20.0,125.0 20.0,175.0 70.0,175.0 80.0,155.0 100.0,160.0 100.0,125.0' />
+		<polygon fill='#7CCD7C' points='70.0,175.0 100.0,160.0 80.0,155.0' />
+		<g fill='none' stroke='darkgreen' stroke-width='1' >
 			<polyline fill='none' points=' 20.0,150.0 20.0,125.0 100.0,125.0 100.0,160.0 70.0,175.0 20.0,175.0 20.0,150.0' />
 			<polyline fill='none' points=' 100.0,160.0 80.0,155.0 70.0,175.0' />
 		</g>
 	</g>
-	<text x='30' y='147' text-anchor='start' font-family='sans-serif' font-size='12pt' fill='black' font-weight='bold' >memo</text>
+	<text x='30' y='147' text-anchor='start' font-family='sans-serif' font-size='12pt' fill='black' >memo</text>
 	<!-- cube -->
 	<g stroke='none' >
-		<polygon fill='darkgray' fill-opacity='0.4' points='150.0,126.0 162.0,114.0 226.0,114.0 226.0,168.0 214.0,180.0 214.0,126.0' />
-		<rect x='150' y='126' width='64' height='54' fill='lightgray' fill-opacity='0.4' />
-		<path fill='none' stroke='black' stroke-width='3' d='M 150 126 L 214 126 L 214 180 L 150 180 L 150 126 L 162 114 L 226 114 L 226 168 L 214 180 M 214 126 L 226 114' />
+		<polygon fill='darkgray' points='150.0,126.0 162.0,114.0 226.0,114.0 226.0,168.0 214.0,180.0 214.0,126.0' />
+		<rect x='150' y='126' width='64' height='54' fill='lightgray' />
+		<path fill='none' stroke='black' stroke-width='1' d='M 150 126 L 214 126 L 214 180 L 150 180 L 150 126 L 162 114 L 226 114 L 226 168 L 214 180 M 214 126 L 226 114' />
 	</g>
-	<text x='182' y='159' text-anchor='middle' font-family='sans-serif' font-size='12pt' fill='black' font-weight='bold' >cube</text>
+	<text x='182' y='159' text-anchor='middle' font-family='sans-serif' font-size='12pt' fill='black' >cube</text>
 	<!-- cylinder -->
-	<g stroke='black' stroke-width='3' >
-		<path fill='white' fill-opacity='0.4' d='M 280 120 L 280 180 A 35 6 0 0 0 350 180 L 350 120 A 35 6 0 0 0 280 120' />
+	<g stroke='maroon' stroke-width='1' >
+		<path fill='beige' d='M 280 120 L 280 180 A 35 6 0 0 0 350 180 L 350 120 A 35 6 0 0 0 280 120' />
 		<path fill='none' d='M 280 120 A 35 6 0 0 0 350 120' />
 	</g>
-	<text x='315' y='156' text-anchor='middle' font-family='sans-serif' font-size='12pt' fill='black' font-weight='bold' >cylinder</text>
+	<text x='315' y='156' text-anchor='middle' font-family='sans-serif' font-size='12pt' fill='black' >cylinder</text>
 	<!-- explosion -->
-	<polygon fill='pink' fill-opacity='0.4' stroke='red' stroke-width='3' points='387.2,114.0 409.2,136.5 386.1,140.1 404.8,153.6 386.1,165.3 414.7,163.5 410.3,177.0 424.6,170.70001 427.9,194.1 438.9,167.1 453.2,186.9 457.6,165.3 477.4,179.7 470.8,158.1 493.9,159.9 474.1,149.1 492.8,139.2 469.7,135.6 478.5,123.9 456.5,127.5 458.7,105.0 440.0,129.3 427.9,115.8 422.4,131.1' />
-	<text x='440' y='156' text-anchor='middle' font-family='sans-serif' font-size='12pt' fill='black' font-weight='bold' >explosion</text>
+	<polygon fill='pink' stroke='red' stroke-width='1' points='387.2,114.0 409.2,136.5 386.1,140.1 404.8,153.6 386.1,165.3 414.7,163.5 410.3,177.0 424.6,170.70001 427.9,194.1 438.9,167.1 453.2,186.9 457.6,165.3 477.4,179.7 470.8,158.1 493.9,159.9 474.1,149.1 492.8,139.2 469.7,135.6 478.5,123.9 456.5,127.5 458.7,105.0 440.0,129.3 427.9,115.8 422.4,131.1' />
+	<text x='440' y='156' text-anchor='middle' font-family='sans-serif' font-size='12pt' fill='black' >explosion</text>
 	<!-- cross -->
-	<path fill='lavender' fill-opacity='0.4' stroke='purple' stroke-width='3' d='M 50 215 V 240 H 25 V 260 H 50 V 285 H 70 V 260 H 95 V 240 H 70 V 215 z' />
+	<path fill='lavender' stroke='purple' stroke-width='1' d='M 50 215 V 240 H 25 V 260 H 50 V 285 H 70 V 260 H 95 V 240 H 70 V 215 z' />
 	<!-- block-arrow -->
-	<polygon fill='skyblue' fill-opacity='0.4' stroke='navy' stroke-width='3' points='150.0,260.0 150.0,240.0 190.0,240.0 190.0,230.0 230.0,250.0 190.0,270.0 190.0,260.0' />
+	<polygon fill='skyblue' stroke='navy' stroke-width='1' points='150.0,260.0 150.0,240.0 190.0,240.0 190.0,230.0 230.0,250.0 190.0,270.0 190.0,260.0' />
 
 </svg>
 </div>
@@ -12016,11 +12016,12 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li><code>id</code> ---- ID を付与したい場合、その名前をキーワードシンボルで指定します。</li>
 </ul>
 <p><strong>Description:</strong></p>
-<p>　図形要素同士を接続します。</p>
+<p>　図形要素同士を接続します。スタイルを統一したい場合、<a class='autolink' href='#cUyjBymyiAi'>with-connector-options マクロ</a>を使うことができます。</p>
 <p><strong>See Also:</strong></p>
 <ul>
 <li><a class='autolink' href='#eFhVs4WwYUG'>コネクタ</a></li>
 <li><a class='autolink' href='#9MB3lirlqL9'>終端マーク</a></li>
+<li><a class='autolink' href='#cUyjBymyiAi'>with-connector-options マクロ</a></li>
 </ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
@@ -13080,7 +13081,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p>　パラメータ数が 2 以上の場合、<a class='autolink' href='#1ZEGenUynXh'>make-uml-icon-setting 関数</a>は実質的に以下の関数であるかのように振舞います。</p>
 <ul>
-<li class='syntax'><span style='font-weight:bold;'>make-uml-icon-setting</span> <span style='color:navy;'>&key</span> fill stroke size pivot offset</li>
+<li class='syntax'><span style='font-weight:bold;'>make-uml-icon-setting</span> <span style='color:navy;'>&key</span> fill stroke size pivot offset base</li>
 </ul>
 <p>　各パラメータの意味は以下の通りです。</p>
 <ul>
@@ -15265,7 +15266,21 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p><strong>Notes:</strong></p>
 <p>　<code>id</code> で指定する図形要素の ID は、その図形要素の記述において明示的に指定されていなければなりません。たとえば<a class='autolink' href='#eFhVs4WwYUG'>コネクタ</a>などでは <code>$1.id</code> といった記述で ID が明示的に指定されていない図形要素を指定できますが、 <a class='autolink' href='#gOfMxQSeeNJ'>with-clipping-use マクロ</a>ではそれはできません<sup><a name='footnote_ref20' href='#footnote20'>20</a></sup>。</p>
 <p>　　</p>
-<h4><a name='hUUF8VmJZqf'></a>14.1.124 macro with-cross-options</h4>
+<h4><a name='cUyjBymyiAi'></a>14.1.124 macro with-connector-options</h4>
+<p><strong>Syntax:</strong></p>
+<ul>
+<li class='syntax'><span style='font-weight:bold;'>with-connector-options</span> (<span style='color:navy;'>&key</span> style spacing stroke filter layer) <span style='color:navy;'>&body</span> body</li>
+</ul>
+<p><strong>Description:</strong></p>
+<p>　<a class='autolink' href='#dUJMfsL520O'>connect マクロ</a>で描画される<a class='autolink' href='#eFhVs4WwYUG'>コネクタ</a>のデフォルトオプションを変更します。キーワードパラメータ群の説明は <a class='autolink' href='#dUJMfsL520O'>connect マクロ</a>を参照してください。</p>
+<p><strong>See Also:</strong></p>
+<ul>
+<li><a class='autolink' href='#eFhVs4WwYUG'>コネクタ</a></li>
+<li>connector マクロ</li>
+</ul>
+<p><strong>Notes:</strong> None.</p>
+<p>　　</p>
+<h4><a name='hUUF8VmJZqf'></a>14.1.125 macro with-cross-options</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>with-cross-options</span> (<span style='color:navy;'>&key</span> fill stroke filter layer) <span style='color:navy;'>&body</span> body</li>
@@ -15279,7 +15294,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
-<h4><a name='gj4u2NRMqLq'></a>14.1.125 macro with-cube-options</h4>
+<h4><a name='gj4u2NRMqLq'></a>14.1.126 macro with-cube-options</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>with-cube-options</span> (<span style='color:navy;'>&key</span> depth align valign margin font fill fill2 stroke filter layer) <span style='color:navy;'>&body</span> body</li>
@@ -15293,7 +15308,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
-<h4><a name='ibXCLOBvHnZ'></a>14.1.126 macro with-current-canvas</h4>
+<h4><a name='ibXCLOBvHnZ'></a>14.1.127 macro with-current-canvas</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>with-current-canvas</span> (<span style='color:navy;'>&rest</span> vars) <span style='color:navy;'>&body</span> body</li>
@@ -15311,7 +15326,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
-<h4><a name='0EzzPQAHjpS'></a>14.1.127 macro with-cylinder-options</h4>
+<h4><a name='0EzzPQAHjpS'></a>14.1.128 macro with-cylinder-options</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>with-cylinder-options</span> (<span style='color:navy;'>&key</span> depth align valign margin font fill stroke filter layer) <span style='color:navy;'>&body</span> body</li>
@@ -15325,7 +15340,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
-<h4><a name='7UW0pe7NluY'></a>14.1.128 macro with-document-options</h4>
+<h4><a name='7UW0pe7NluY'></a>14.1.129 macro with-document-options</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>with-document-options</span> (<span style='color:navy;'>&key</span> align valign margin font fill stroke filter layer) <span style='color:navy;'>&body</span> body</li>
@@ -15339,7 +15354,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
-<h4><a name='i3AN3FOExuU'></a>14.1.129 macro with-endmark-options</h4>
+<h4><a name='i3AN3FOExuU'></a>14.1.130 macro with-endmark-options</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>with-endmark-options</span> (<span style='color:navy;'>&key</span> type size fill end1 end2) <span style='color:navy;'>&body</span> body</li>
@@ -15352,7 +15367,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
-<h4><a name='2N1LVsx5TAj'></a>14.1.130 macro with-explosion-options</h4>
+<h4><a name='2N1LVsx5TAj'></a>14.1.131 macro with-explosion-options</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>with-explosion-options</span> (<span style='color:navy;'>&key</span> font fill stroke filter layer) <span style='color:navy;'>&body</span> body</li>
@@ -15367,7 +15382,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
-<h4><a name='hbg0Di1qYwi'></a>14.1.131 macro with-folder-options</h4>
+<h4><a name='hbg0Di1qYwi'></a>14.1.132 macro with-folder-options</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>with-folder-options</span> (<span style='color:navy;'>&key</span> tab-width tab-height align valign margin font fill stroke filter layer) <span style='color:navy;'>&body</span> body</li>
@@ -15381,7 +15396,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
-<h4><a name='3s1ciXCdtTy'></a>14.1.132 macro with-label-options</h4>
+<h4><a name='3s1ciXCdtTy'></a>14.1.133 macro with-label-options</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>with-label-options</span> (<span style='color:navy;'>&key</span> position offset font) <span style='color:navy;'>&body</span> body</li>
@@ -15394,7 +15409,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
-<h4><a name='3Z6ItFChKPn'></a>14.1.133 macro with-memo-options</h4>
+<h4><a name='3Z6ItFChKPn'></a>14.1.134 macro with-memo-options</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>with-memo-options</span> (<span style='color:navy;'>&key</span> crease align valign margin font fill fill2 stroke filter layer) <span style='color:navy;'>&body</span> body</li>
@@ -15408,7 +15423,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
-<h4><a name='cTbK0huuMTl'></a>14.1.134 macro with-options</h4>
+<h4><a name='cTbK0huuMTl'></a>14.1.135 macro with-options</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>with-options</span> (<span style='color:navy;'>&key</span> fill stroke font filter layer) <span style='color:navy;'>&body</span> body</li>
@@ -15426,7 +15441,21 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p><strong>See Also:</strong> None.</p>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
-<h4><a name='kLuOHuyuzKQ'></a>14.1.135 macro with-person-options</h4>
+<h4><a name='aLgBKwLpsap'></a>14.1.136 macro with-paragraph-options</h4>
+<p><strong>Syntax:</strong></p>
+<ul>
+<li class='syntax'><span style='font-weight:bold;'>with-paragraph-options</span> (<span style='color:navy;'>&key</span> align valign font layer) <span style='color:navy;'>&body</span> body</li>
+</ul>
+<p><strong>Description:</strong></p>
+<p>　<a class='autolink' href='#cVVbsretg1q'>paragraph マクロ</a>で描画される<a class='autolink' href='#jRjILbbJATV'>ドキュメント</a>のデフォルトオプションを変更します。キーワードパラメータ群の説明は <a class='autolink' href='#cVVbsretg1q'>paragraph マクロ</a>を参照してください。</p>
+<p><strong>See Also:</strong></p>
+<ul>
+<li><a class='autolink' href='#jRjILbbJATV'>ドキュメント</a></li>
+<li><a class='autolink' href='#cVVbsretg1q'>paragraph マクロ</a></li>
+</ul>
+<p><strong>Notes:</strong> None.</p>
+<p>　　</p>
+<h4><a name='kLuOHuyuzKQ'></a>14.1.137 macro with-person-options</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>with-person-options</span> (<span style='color:navy;'>&key</span> fill stroke layer filter) <span style='color:navy;'>&body</span> body</li>
@@ -15440,7 +15469,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
-<h4><a name='lbAdsfqVtbS'></a>14.1.136 macro with-point</h4>
+<h4><a name='lbAdsfqVtbS'></a>14.1.138 macro with-point</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>with-point</span> (sym-x sym-y) pt <span style='color:navy;'>&body</span> body</li>
@@ -15457,7 +15486,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p><strong>See Also:</strong> None.</p>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
-<h4><a name='5cY34BaMQhr'></a>14.1.137 macro with-subcanvas</h4>
+<h4><a name='5cY34BaMQhr'></a>14.1.139 macro with-subcanvas</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>with-subcanvas</span> (top-left width height <span style='color:navy;'>&key</span> debug) <span style='color:navy;'>&body</span> body</li>
@@ -15479,7 +15508,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
-<h4><a name='c9lZIyRpbeF'></a>14.1.138 macro with-subcanvas-of</h4>
+<h4><a name='c9lZIyRpbeF'></a>14.1.140 macro with-subcanvas-of</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>with-subcanvas-of</span> (id) <span style='color:navy;'>&body</span> body</li>
@@ -15498,7 +15527,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
-<h4><a name='8rELk1LL2bC'></a>14.1.139 macro with-table-cell</h4>
+<h4><a name='8rELk1LL2bC'></a>14.1.141 macro with-table-cell</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>with-table-cell</span> (id r c) <span style='color:navy;'>&body</span> body</li>
@@ -15518,7 +15547,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
-<h4><a name='50lQokEAysO'></a>14.1.140 macro with-table-options</h4>
+<h4><a name='50lQokEAysO'></a>14.1.142 macro with-table-options</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>with-table-options</span> (<span style='color:navy;'>&key</span> font fill stroke layer) <span style='color:navy;'>&body</span> body</li>
@@ -15532,7 +15561,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
-<h4><a name='8n9SABCEJKZ'></a>14.1.141 macro with-table-range</h4>
+<h4><a name='8n9SABCEJKZ'></a>14.1.143 macro with-table-range</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>with-table-range</span> (id range) <span style='color:navy;'>&body</span> body</li>
@@ -15551,7 +15580,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
-<h4><a name='5oL7bKJkowz'></a>14.1.142 macro with-textbox-options</h4>
+<h4><a name='5oL7bKJkowz'></a>14.1.144 macro with-textbox-options</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>with-textbox-options</span> (<span style='color:navy;'>&key</span> rx ry align valign margin font fill stroke filter layer) <span style='color:navy;'>&body</span> body</li>
@@ -15565,7 +15594,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
-<h4><a name='24jZuSCTwIB'></a>14.1.143 macro with-theme</h4>
+<h4><a name='24jZuSCTwIB'></a>14.1.145 macro with-theme</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>with-theme</span> (name) <span style='color:navy;'>&body</span> body</li>
@@ -15583,10 +15612,10 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
-<h4><a name='kqRLmxG6cu2'></a>14.1.144 macro with-uml-action-options</h4>
+<h4><a name='kqRLmxG6cu2'></a>14.1.146 macro with-uml-action-options</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
-<li class='syntax'><span style='font-weight:bold;'>with-uml-action-options</span> (<span style='color:navy;'>&key</span> font fill stroke width height corner-r margin rake icon filter layer) <span style='color:navy;'>&body</span> body</li>
+<li class='syntax'><span style='font-weight:bold;'>with-uml-action-options</span> (<span style='color:navy;'>&key</span> font fill stroke icon width height corner-r margin filter layer) <span style='color:navy;'>&body</span> body</li>
 </ul>
 <p><strong>Description:</strong></p>
 <p>　<a class='autolink' href='#h5Ic0bvUIs7'>uml-action マクロ</a>で描画される図形要素のデフォルトオプションを変更します。キーワードパラメータ群の説明は <a class='autolink' href='#h5Ic0bvUIs7'>uml-action マクロ</a>を参照してください。</p>
@@ -15597,7 +15626,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
-<h4><a name='ixy0Rc930O0'></a>14.1.145 macro with-uml-activity-final-options</h4>
+<h4><a name='ixy0Rc930O0'></a>14.1.147 macro with-uml-activity-final-options</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>with-uml-activity-final-options</span> (<span style='color:navy;'>&key</span> radius ratio fill stroke filter layer) <span style='color:navy;'>&body</span> body</li>
@@ -15610,7 +15639,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
-<h4><a name='fiKYEk7l3vl'></a>14.1.146 macro with-uml-activity-start-options</h4>
+<h4><a name='fiKYEk7l3vl'></a>14.1.148 macro with-uml-activity-start-options</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>with-uml-activity-start-options</span> (<span style='color:navy;'>&key</span> radius fill filter layer) <span style='color:navy;'>&body</span> body</li>
@@ -15623,7 +15652,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
-<h4><a name='6E6RgdGy314'></a>14.1.147 macro with-uml-actor-options</h4>
+<h4><a name='6E6RgdGy314'></a>14.1.149 macro with-uml-actor-options</h4>
 <p><strong>Syntax:</strong>t* <span style='font-weight:bold;'>with-uml-actor-options</span> (<span style='color:navy;'>&key</span> fill stroke size width-ratio head-ratio shoulder-position thigh-position filter layer) <span style='color:navy;'>&body</span> body</p>
 <p><strong>Description:</strong></p>
 <p>　<a class='autolink' href='#0jrm0BGl279'>uml-actor マクロ</a>で描画される図形要素のデフォルトオプションを変更します。キーワードパラメータ群の説明は <a class='autolink' href='#0jrm0BGl279'>uml-actor マクロ</a>を参照してください。<a class='autolink' href='#0jrm0BGl279'>uml-actor マクロ</a>に現れないパラメータについては後述します。</p>
@@ -15640,7 +15669,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li><code>thigh-position</code> : 「腰」の位置（つまり斜めの棒で描画される二本の脚が胴体から分岐する位置）を決定するための係数です。デフォルト値は 0.7 です。</li>
 </ul>
 <p>　　</p>
-<h4><a name='g2Q9l90IWR5'></a>14.1.148 macro with-uml-aggregation-options</h4>
+<h4><a name='g2Q9l90IWR5'></a>14.1.150 macro with-uml-aggregation-options</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>with-uml-aggregation-options</span> (<span style='color:navy;'>&key</span> stroke arrow-size font filter layer) <span style='color:navy;'>&body</span> body</li>
@@ -15653,10 +15682,10 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
-<h4><a name='lbGYWLxwRmP'></a>14.1.149 macro with-uml-artifact-options</h4>
+<h4><a name='lbGYWLxwRmP'></a>14.1.151 macro with-uml-artifact-options</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
-<li class='syntax'><span style='font-weight:bold;'>with-uml-artifact-options</span> (<span style='color:navy;'>&key</span> font fill stroke width height icon margin filter layer) <span style='color:navy;'>&body</span> body</li>
+<li class='syntax'><span style='font-weight:bold;'>with-uml-artifact-options</span> (<span style='color:navy;'>&key</span> font fill stroke icon width height margin filter layer) <span style='color:navy;'>&body</span> body</li>
 </ul>
 <p><strong>Description:</strong></p>
 <p>　<a class='autolink' href='#29j3NypNjE1'>uml-artifact マクロ</a>で描画される図形要素のデフォルトオプションを変更します。キーワードパラメータ群の説明は <a class='autolink' href='#29j3NypNjE1'>uml-artifact マクロ</a>を参照してください。<a class='autolink' href='#29j3NypNjE1'>uml-artifact マクロ</a>に現れないパラメータについては後述します。</p>
@@ -15667,7 +15696,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
-<h4><a name='76cvwodLVQW'></a>14.1.150 macro with-uml-association-options</h4>
+<h4><a name='76cvwodLVQW'></a>14.1.152 macro with-uml-association-options</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>with-uml-association-options</span> (<span style='color:navy;'>&key</span> stroke arrow-size font filter layer) <span style='color:navy;'>&body</span> body</li>
@@ -15680,7 +15709,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
-<h4><a name='8POSSKTKzFu'></a>14.1.151 macro with-uml-class-options</h4>
+<h4><a name='8POSSKTKzFu'></a>14.1.153 macro with-uml-class-options</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>with-uml-class-options</span> (<span style='color:navy;'>&key</span> font fill stroke filter layer width height name-margin margin draw-emptybox) <span style='color:navy;'>&body</span> body</li>
@@ -15693,10 +15722,10 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
-<h4><a name='40gYpXP3NCx'></a>14.1.152 macro with-uml-component-options</h4>
+<h4><a name='40gYpXP3NCx'></a>14.1.154 macro with-uml-component-options</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
-<li class='syntax'><span style='font-weight:bold;'>with-uml-component-options</span> (<span style='color:navy;'>&key</span> font fill stroke width height icon margin filter layer) <span style='color:navy;'>&body</span> body</li>
+<li class='syntax'><span style='font-weight:bold;'>with-uml-component-options</span> (<span style='color:navy;'>&key</span> font fill stroke icon width height margin filter layer) <span style='color:navy;'>&body</span> body</li>
 </ul>
 <p><strong>Description:</strong></p>
 <p>　<a class='autolink' href='#cC1mrTiDRg0'>uml-component マクロ</a>で描画される図形要素のデフォルトオプションを変更します。キーワードパラメータ群の説明は <a class='autolink' href='#cC1mrTiDRg0'>uml-component マクロ</a>を参照してください。<a class='autolink' href='#cC1mrTiDRg0'>uml-component マクロ</a>に現れないパラメータについては後述します。</p>
@@ -15707,7 +15736,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
-<h4><a name='8xVEIr1yYBY'></a>14.1.153 macro with-uml-composition-options</h4>
+<h4><a name='8xVEIr1yYBY'></a>14.1.155 macro with-uml-composition-options</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>with-uml-composition-options</span> (<span style='color:navy;'>&key</span> stroke arrow-size font filter layer) <span style='color:navy;'>&body</span> body</li>
@@ -15720,7 +15749,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
-<h4><a name='cjmXVBgVQzD'></a>14.1.154 macro with-uml-connector-options</h4>
+<h4><a name='cjmXVBgVQzD'></a>14.1.156 macro with-uml-connector-options</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>with-uml-connector-options</span> (<span style='color:navy;'>&key</span> font fill stroke size filter layer) <span style='color:navy;'>&body</span> body</li>
@@ -15733,7 +15762,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
-<h4><a name='izhz8eDjPe0'></a>14.1.155 macro with-uml-decision-merge-options</h4>
+<h4><a name='izhz8eDjPe0'></a>14.1.157 macro with-uml-decision-merge-options</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>with-uml-decision-merge-options</span> (<span style='color:navy;'>&key</span> font fill stroke width height margin filter layer) <span style='color:navy;'>&body</span> body</li>
@@ -15747,7 +15776,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
-<h4><a name='8I8CeZX7FA2'></a>14.1.156 macro with-uml-dependency-options</h4>
+<h4><a name='8I8CeZX7FA2'></a>14.1.158 macro with-uml-dependency-options</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>with-uml-dependency-options</span> (<span style='color:navy;'>&key</span> stroke arrow-size font filter layer) <span style='color:navy;'>&body</span> body</li>
@@ -15760,7 +15789,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
-<h4><a name='8SWwZSuNPRo'></a>14.1.157 macro with-uml-expansion-region-options</h4>
+<h4><a name='8SWwZSuNPRo'></a>14.1.159 macro with-uml-expansion-region-options</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>with-uml-expansion-region-options</span> (<span style='color:navy;'>&key</span> fill stroke corner-r filter layer) <span style='color:navy;'>&body</span> body</li>
@@ -15773,7 +15802,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
-<h4><a name='iBvtd62FNd1'></a>14.1.158 macro with-uml-flow-final-options</h4>
+<h4><a name='iBvtd62FNd1'></a>14.1.160 macro with-uml-flow-final-options</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>with-uml-flow-final-options</span> (<span style='color:navy;'>&key</span> radius fill stroke filter layer) <span style='color:navy;'>&body</span> body</li>
@@ -15786,7 +15815,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
-<h4><a name='eSqOz44b8wF'></a>14.1.159 macro with-uml-flow-options</h4>
+<h4><a name='eSqOz44b8wF'></a>14.1.161 macro with-uml-flow-options</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>with-uml-flow-options</span> (<span style='color:navy;'>&key</span> stroke arrow-size font filter layer) <span style='color:navy;'>&body</span> body</li>
@@ -15799,10 +15828,10 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
-<h4><a name='aT9JaFCRs0a'></a>14.1.160 macro with-uml-fork-join-options</h4>
+<h4><a name='aT9JaFCRs0a'></a>14.1.162 macro with-uml-fork-join-options</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
-<li class='syntax'><span style='font-weight:bold;'>with-uml-fork-join-options</span> (<span style='color:navy;'>&key</span> width length color filter layer) <span style='color:navy;'>&body</span> body</li>
+<li class='syntax'><span style='font-weight:bold;'>with-uml-fork-join-options</span> (<span style='color:navy;'>&key</span> fill width length filter layer) <span style='color:navy;'>&body</span> body</li>
 </ul>
 <p><strong>Description:</strong></p>
 <p>　<a class='autolink' href='#fF3E03hjzKt'>uml-fork マクロ</a>および <a class='autolink' href='#bmxOutyzIGv'>uml-join マクロ</a>で描画される図形要素のデフォルトオプションを変更します。キーワードパラメータ群の説明はそれぞれのマクロを参照してください。</p>
@@ -15813,7 +15842,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
-<h4><a name='aqZzAjhns3j'></a>14.1.161 macro with-uml-frame-fragment</h4>
+<h4><a name='aqZzAjhns3j'></a>14.1.163 macro with-uml-frame-fragment</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>with-uml-frame-fragment</span> (id index) <span style='color:navy;'>&body</span> body</li>
@@ -15834,7 +15863,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p><strong>Notes:</strong></p>
 <p>　<code>index</code> で指定できる値は、<a class='autolink' href='#1cJtoPoE2w0'>uml-frame</a> の <code>:fragments</code> で指定した要素数が上限となります。たとえば <code>:fragments '(50 40)</code> とした場合、点線が２本引かれて３つの領域に分割されるため、 <code>0 1 2</code> が指定できることになります。</p>
 <p>　　</p>
-<h4><a name='bKkNt5lQdCz'></a>14.1.162 macro with-uml-frame-options</h4>
+<h4><a name='bKkNt5lQdCz'></a>14.1.164 macro with-uml-frame-options</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>with-uml-frame-options</span> (<span style='color:navy;'>&key</span> font fill stroke margin fragment-dasharray filter layer) <span style='color:navy;'>&body</span> body</li>
@@ -15850,7 +15879,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
-<h4><a name='9voMgsjpww9'></a>14.1.163 macro with-uml-generalization-options</h4>
+<h4><a name='9voMgsjpww9'></a>14.1.165 macro with-uml-generalization-options</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>with-uml-generalization-options</span> (<span style='color:navy;'>&key</span> stroke fill arrow-size font filter layer) <span style='color:navy;'>&body</span> body</li>
@@ -15863,7 +15892,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
-<h4><a name='ilshLKYJM4Y'></a>14.1.164 macro with-uml-interface-options</h4>
+<h4><a name='ilshLKYJM4Y'></a>14.1.166 macro with-uml-interface-options</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>with-uml-interface-options</span> (<span style='color:navy;'>&key</span> radius fill stroke filter layer) <span style='color:navy;'>&body</span> body</li>
@@ -15876,20 +15905,26 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
-<h4><a name='cyCw9NM4rtX'></a>14.1.165 macro with-uml-interface-request-options</h4>
+<h4><a name='cyCw9NM4rtX'></a>14.1.167 macro with-uml-interface-request-options</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
-<li class='syntax'><span style='font-weight:bold;'>with-uml-interface-request-options</span> (<span style='color:navy;'>&key</span> font dasharray stroke degree arrow-size filter layer) <span style='color:navy;'>&body</span> body</li>
+<li class='syntax'><span style='font-weight:bold;'>with-uml-interface-request-options</span> (<span style='color:navy;'>&key</span> stroke filter layer font degree dasharray arrow-size) <span style='color:navy;'>&body</span> body</li>
 </ul>
 <p><strong>Description:</strong></p>
-<p>　<a class='autolink' href='#gOnL4iRiMam'>uml-interface-request マクロ</a>で描画される図形要素のデフォルトオプションを変更します。キーワードパラメータ群の説明は <a class='autolink' href='#gOnL4iRiMam'>uml-interface-request マクロ</a>を参照してください。</p>
+<p>　<a class='autolink' href='#gOnL4iRiMam'>uml-interface-request マクロ</a>で描画される図形要素のデフォルトオプションを変更します。キーワードパラメータ群の説明は <a class='autolink' href='#gOnL4iRiMam'>uml-interface-request マクロ</a>を参照してください。ただし、以下はこのマクロでのみ指定可能です。</p>
+<ul>
+<li><code>font</code> ---- <code>name</code> で指定する<a class='autolink' href='#lpCVEZ9kMoP'>ラベル</a>の<a class='autolink' href='#3kZ9FkounyK'>フォント</a>指定を省略した場合に使用されるデフォルト設定です。</li>
+<li><code>degree</code> ---- ソケットの<a class='autolink' href='#cp2F91gKG7W'>円弧</a>の角度です。</li>
+<li><code>dasharray</code> ---- 依存関係矢印を描画する場合の点線を指定する dasharray パラメータです。</li>
+<li><code>arrow-size</code> ---- 依存関係矢印を描画する場合の矢印のサイズです。</li>
+</ul>
 <p><strong>See Also:</strong></p>
 <ul>
 <li><a class='autolink' href='#gOnL4iRiMam'>uml-interface-request マクロ</a></li>
 </ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
-<h4><a name='8ofUYOHf2dy'></a>14.1.166 macro with-uml-node-options</h4>
+<h4><a name='8ofUYOHf2dy'></a>14.1.168 macro with-uml-node-options</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>with-uml-node-options</span> (<span style='color:navy;'>&key</span> font fill1 fill2 stroke width height depth margin filter layer) <span style='color:navy;'>&body</span> body</li>
@@ -15902,7 +15937,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
-<h4><a name='bKpfdfxlm28'></a>14.1.167 macro with-uml-note-options</h4>
+<h4><a name='bKpfdfxlm28'></a>14.1.169 macro with-uml-note-options</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>with-uml-note-options</span> (<span style='color:navy;'>&key</span> margin crease font fill stroke filter layer dasharray) <span style='color:navy;'>&body</span> body</li>
@@ -15918,7 +15953,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
-<h4><a name='5W98YlueCaH'></a>14.1.168 macro with-uml-package-options</h4>
+<h4><a name='5W98YlueCaH'></a>14.1.170 macro with-uml-package-options</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>with-uml-package-options</span> (<span style='color:navy;'>&key</span> font fill stroke width height tab-width tab-height tab-margin margin filter layer) <span style='color:navy;'>&body</span> body</li>
@@ -15931,7 +15966,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
-<h4><a name='gdVz9m0bWf1'></a>14.1.169 macro with-uml-partition-lane</h4>
+<h4><a name='gdVz9m0bWf1'></a>14.1.171 macro with-uml-partition-lane</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>with-uml-partition-lane</span> (id name <span style='color:navy;'>&optional</span> name2) <span style='color:navy;'>&body</span> body</li>
@@ -15952,10 +15987,10 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
-<h4><a name='3188U3eHIfD'></a>14.1.170 macro with-uml-partition-options</h4>
+<h4><a name='3188U3eHIfD'></a>14.1.172 macro with-uml-partition-options</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
-<li class='syntax'><span style='font-weight:bold;'>with-uml-partition-options</span> (<span style='color:navy;'>&key</span> lines header font fill stroke layer) <span style='color:navy;'>&body</span> body</li>
+<li class='syntax'><span style='font-weight:bold;'>with-uml-partition-options</span> (<span style='color:navy;'>&key</span> font fill stroke lines header layer) <span style='color:navy;'>&body</span> body</li>
 </ul>
 <p><strong>Description:</strong></p>
 <p>　<a class='autolink' href='#cPEgYZoifRN'>uml-partition マクロ</a>で描画される図形要素のデフォルトオプションを変更します。キーワードパラメータ群の説明は <a class='autolink' href='#cPEgYZoifRN'>uml-partition マクロ</a>を参照してください。</p>
@@ -15965,7 +16000,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
-<h4><a name='iKNb1fFHcnJ'></a>14.1.171 macro with-uml-pin-options</h4>
+<h4><a name='iKNb1fFHcnJ'></a>14.1.173 macro with-uml-pin-options</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>with-uml-pin-options</span> (<span style='color:navy;'>&key</span> font fill stroke size filter layer) <span style='color:navy;'>&body</span> body</li>
@@ -15978,7 +16013,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
-<h4><a name='4gpOhhEbKrc'></a>14.1.172 macro with-uml-port-options</h4>
+<h4><a name='4gpOhhEbKrc'></a>14.1.174 macro with-uml-port-options</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>with-uml-port-options</span> (<span style='color:navy;'>&key</span> fill stroke size filter layer) <span style='color:navy;'>&body</span> body</li>
@@ -15991,7 +16026,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
-<h4><a name='dhb9h5mcHOW'></a>14.1.173 macro with-uml-realization-options</h4>
+<h4><a name='dhb9h5mcHOW'></a>14.1.175 macro with-uml-realization-options</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>with-uml-realization-options</span> (<span style='color:navy;'>&key</span> stroke fill arrow-size font filter layer) <span style='color:navy;'>&body</span> body</li>
@@ -16004,7 +16039,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
-<h4><a name='kTp6nsb6qSq'></a>14.1.174 macro with-uml-signal-options</h4>
+<h4><a name='kTp6nsb6qSq'></a>14.1.176 macro with-uml-signal-options</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>with-uml-signal-options</span> (<span style='color:navy;'>&key</span> font fill stroke width height direction depth margin filter layer) <span style='color:navy;'>&body</span> body</li>
@@ -16017,7 +16052,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
-<h4><a name='dhjnYKCmHBq'></a>14.1.175 macro with-uml-state-begin-options</h4>
+<h4><a name='dhjnYKCmHBq'></a>14.1.177 macro with-uml-state-begin-options</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>with-uml-state-begin-options</span> (<span style='color:navy;'>&key</span> radius fill filter layer) <span style='color:navy;'>&body</span> body</li>
@@ -16030,7 +16065,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
-<h4><a name='egMWtW3cQM9'></a>14.1.176 macro with-uml-state-end-options</h4>
+<h4><a name='egMWtW3cQM9'></a>14.1.178 macro with-uml-state-end-options</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>with-uml-state-end-options</span> (<span style='color:navy;'>&key</span> radius ratio fill stroke filter layer) <span style='color:navy;'>&body</span> body</li>
@@ -16043,7 +16078,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
-<h4><a name='btmvKFXWMnJ'></a>14.1.177 macro with-uml-state-history-options</h4>
+<h4><a name='btmvKFXWMnJ'></a>14.1.179 macro with-uml-state-history-options</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>with-uml-state-history-options</span> (<span style='color:navy;'>&key</span> radius fill stroke filter layer) <span style='color:navy;'>&body</span> body</li>
@@ -16056,10 +16091,10 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
-<h4><a name='gm96ZIuYlAQ'></a>14.1.178 macro with-uml-state-options</h4>
+<h4><a name='gm96ZIuYlAQ'></a>14.1.180 macro with-uml-state-options</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
-<li class='syntax'><span style='font-weight:bold;'>with-uml-state-options</span> (<span style='color:navy;'>&key</span> font fill stroke width height corner-r margin rake filter layer) <span style='color:navy;'>&body</span> body</li>
+<li class='syntax'><span style='font-weight:bold;'>with-uml-state-options</span> (<span style='color:navy;'>&key</span> font fill stroke width height corner-r margin filter layer) <span style='color:navy;'>&body</span> body</li>
 </ul>
 <p><strong>Description:</strong></p>
 <p>　<a class='autolink' href='#5YyIF89m1Hw'>uml-state マクロ</a>で描画される図形要素のデフォルトオプションを変更します。キーワードパラメータ群の説明は <a class='autolink' href='#5YyIF89m1Hw'>uml-state マクロ</a>を参照してください。</p>
@@ -16070,7 +16105,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
-<h4><a name='6F3g2ZSN0ck'></a>14.1.179 macro with-uml-time-event-options</h4>
+<h4><a name='6F3g2ZSN0ck'></a>14.1.181 macro with-uml-time-event-options</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>with-uml-time-event-options</span> (<span style='color:navy;'>&key</span> fill stroke width height filter layer) <span style='color:navy;'>&body</span> body</li>
@@ -16083,7 +16118,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
-<h4><a name='exkjsBfuS1B'></a>14.1.180 macro with-uml-transition-options</h4>
+<h4><a name='exkjsBfuS1B'></a>14.1.182 macro with-uml-transition-options</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>with-uml-transition-options</span> (<span style='color:navy;'>&key</span> stroke arrow-size font filter layer) <span style='color:navy;'>&body</span> body</li>
@@ -16096,7 +16131,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
-<h4><a name='7BxCmPuBmA9'></a>14.1.181 macro with-uml-usecase-options</h4>
+<h4><a name='7BxCmPuBmA9'></a>14.1.183 macro with-uml-usecase-options</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>with-uml-usecase-options</span> (<span style='color:navy;'>&key</span> font fill stroke margin filter layer) <span style='color:navy;'>&body</span> body</li>
@@ -16109,7 +16144,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
-<h4><a name='kJ410pmJGOY'></a>14.1.182 function x+</h4>
+<h4><a name='kJ410pmJGOY'></a>14.1.184 function x+</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>x+</span> pt x =&gt; result</li>
@@ -16125,7 +16160,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p><strong>See Also:</strong> None.</p>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
-<h4><a name='9z5A8nE5AJQ'></a>14.1.183 function xy+</h4>
+<h4><a name='9z5A8nE5AJQ'></a>14.1.185 function xy+</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>xy+</span> pt x y =&gt; result</li>
@@ -16142,7 +16177,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p><strong>See Also:</strong> None.</p>
 <p><strong>Notes:</strong> None.</p>
 <p>　　</p>
-<h4><a name='6ObRbdq5rIQ'></a>14.1.184 function y+</h4>
+<h4><a name='6ObRbdq5rIQ'></a>14.1.186 function y+</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
 <li class='syntax'><span style='font-weight:bold;'>y+</span> pt y =&gt; result</li>
@@ -18864,6 +18899,11 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li>ENHANCE : UML 周辺の実装課題をさらに解消。</li>
 </ul>
 </li>
+<li><strong>2025/06/10 - version 0.030</strong>
+<ul>
+<li>BUGFIX : with- 系マクロの問題を解消</li>
+</ul>
+</li>
 </ul>
 <h2><a name='1iQ3KRF8uJQ'></a>16 図表一覧</h2>
 <ul>
@@ -19329,6 +19369,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li class='idx_x'><a class='autolink' href='#juKAz8erPO0'>with-canvas マクロ</a></li>
 <li class='idx_x'><a class='autolink' href='#2GafnTjbeAv'>with-clipping-current-canvas マクロ</a></li>
 <li class='idx_x'><a class='autolink' href='#gOfMxQSeeNJ'>with-clipping-use マクロ</a></li>
+<li class='idx_x'><a class='autolink' href='#cUyjBymyiAi'>with-connector-options マクロ</a></li>
 <li class='idx_x'><a class='autolink' href='#hUUF8VmJZqf'>with-cross-options マクロ</a></li>
 <li class='idx_x'><a class='autolink' href='#gj4u2NRMqLq'>with-cube-options マクロ</a></li>
 <li class='idx_x'><a class='autolink' href='#ibXCLOBvHnZ'>with-current-canvas マクロ</a></li>
@@ -19340,6 +19381,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li class='idx_x'><a class='autolink' href='#3s1ciXCdtTy'>with-label-options マクロ</a></li>
 <li class='idx_x'><a class='autolink' href='#3Z6ItFChKPn'>with-memo-options マクロ</a></li>
 <li class='idx_x'><a class='autolink' href='#cTbK0huuMTl'>with-options マクロ</a></li>
+<li class='idx_x'><a class='autolink' href='#aLgBKwLpsap'>with-paragraph-options マクロ</a></li>
 <li class='idx_x'><a class='autolink' href='#kLuOHuyuzKQ'>with-person-options マクロ</a></li>
 <li class='idx_x'><a class='autolink' href='#lbAdsfqVtbS'>with-point マクロ</a></li>
 <li class='idx_x'><a class='autolink' href='#5cY34BaMQhr'>with-subcanvas マクロ</a></li>

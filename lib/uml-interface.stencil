@@ -26,10 +26,10 @@
 ;; class uml-interface
 ;;
 ;;------------------------------------------------------------------------------
-(defparameter *uml-interface-radius*     10)
 (defparameter *uml-interface-font*      nil)
 (defparameter *uml-interface-fill*   :white)
 (defparameter *uml-interface-stroke* :black)
+(defparameter *uml-interface-radius*     10)
 (defparameter *uml-interface-filter*    nil)
 (defparameter *uml-interface-layer*     nil)
 
@@ -134,24 +134,23 @@
 ;;${NO_NOTES}
 ;;
 ;;--------------------------------------------------------------------------------------- END TURNUP
-(defmacro with-uml-interface-options ((&key radius font fill stroke filter layer) &rest body)
-  (labels ((impl (params acc)
-             (if (null params)
-                 acc
-                 (let ((value  (car  params))
-                       (symbol (cadr params)))
-                   (impl (cddr params)
-                         (if (null value)
-                             acc
-                             (push (list symbol value) acc)))))))
-    (let ((lst (impl (list radius     '*uml-interface-radius*
-                           font       '*uml-interface-font*
-                           fill       '*uml-interface-fill*
-                           stroke     '*uml-interface-stroke*
-                           filter     '*uml-interface-filter*
-                           layer      '*uml-interface-layer*) nil)))
-      `(let ,lst
-         ,@body))))
+(defmacro with-uml-interface-options ((&key (font   nil font-p)
+                                            (fill   nil fill-p)
+                                            (stroke nil stroke-p)
+                                            (radius nil radius-p)
+                                            (filter nil filter-p)
+                                            (layer  nil layer-p)) &rest body)
+  (let ((bindings nil))
+    (labels ((impl (arg-p binding)
+               (when arg-p (push binding bindings))))
+      (impl font-p   `(*uml-interface-font*   (make-font2   *uml-interface-font*   ,font)))
+      (impl fill-p   `(*uml-interface-fill*   (make-fill2   *uml-interface-fill*   ,fill)))
+      (impl stroke-p `(*uml-interface-stroke* (make-stroke2 *uml-interface-stroke* ,stroke)))
+      (impl radius-p `(*uml-interface-radius* ,radius))
+      (impl filter-p `(*uml-interface-filter* ,filter))
+      (impl layer-p  `(*uml-interface-layer*  ,layer)))
+    `(let ,(nreverse bindings)
+       ,@body)))
 
 
 ;;------------------------------------------------------------------------------
@@ -159,15 +158,15 @@
 ;; class uml-interface-request
 ;;
 ;;------------------------------------------------------------------------------
-(defparameter *uml-interface-request-font*              nil)
-(defparameter *uml-interface-request-dasharray*      '(3 3))
-(defparameter *uml-interface-request-stroke*         :black)
-(defparameter *uml-interface-request-degree*            150)
-(defparameter *uml-interface-request-filter*            nil)
-(defparameter *uml-interface-request-layer*             nil)
-(defparameter *uml-interface-request-arrow-size*    :medium)
-(defparameter *uml-interface-request-length-threshold*   40)
-(defparameter *uml-interface-request-maximum-dependency* 40)
+(defparameter *uml-interface-request-stroke*         :black) ;; stroke のデフォルト設定
+(defparameter *uml-interface-request-filter*            nil) ;; filter のデフォルト設定
+(defparameter *uml-interface-request-layer*             nil) ;; layer  のデフォルト設定
+(defparameter *uml-interface-request-font*              nil) ;; name ラベルのデフォルトフォント
+(defparameter *uml-interface-request-degree*            150) ;; ソケットの円弧の角度
+(defparameter *uml-interface-request-dasharray*      '(3 3)) ;; 依存関係矢印の dasharray
+(defparameter *uml-interface-request-arrow-size*    :medium) ;; 依存関係矢印のサイズ
+(defparameter *uml-interface-request-length-threshold*   40) ;; 依存関係矢印の描画基準
+(defparameter *uml-interface-request-max-dependency*     40) ;; 依存関係矢印の最大長
 
 
 
@@ -197,8 +196,8 @@
             (decf (point-y tail) (* radius sin))
             (setf last2 nil))
           (let ((half (/ len 2)))
-            (when (< *uml-interface-request-maximum-dependency* half)
-              (setf half (- len *uml-interface-request-maximum-dependency*)))
+            (when (< *uml-interface-request-max-dependency* half)
+              (setf half (- len *uml-interface-request-max-dependency*)))
             (setf x (+ (point-x (car last2)) (* half cos)))
             (setf y (+ (point-y (car last2)) (* half sin)))
             (setf (point-x tail) (- x (* radius cos)))
@@ -363,15 +362,20 @@
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
-;;* ${{B}{with-uml-interface-request-options}} (${KEY} font dasharray stroke degree arrow-size filter layer) ${BODY} body
-;;
+;;* ${{B}{with-uml-interface-request-options}} (${KEY} stroke filter layer font degree dasharray arrow-size) ${BODY} body
 ;;
 ;;<!-- stack:pop li -->
 ;;
 ;;${DESCRIPTION}
 ;;
 ;;　uml-interface-request マクロで描画される図形要素のデフォルトオプションを変更します。キーワード
-;;パラメータ群の説明は uml-interface-request マクロを参照してください。
+;;パラメータ群の説明は uml-interface-request マクロを参照してください。ただし、以下はこのマクロで
+;;のみ指定可能です。
+;;
+;;* `font` ---- `name` で指定するラベルのフォント指定を省略した場合に使用されるデフォルト設定です。
+;;* `degree` ---- ソケットの円弧の角度です。
+;;* `dasharray` ---- 依存関係矢印を描画する場合の点線を指定する dasharray パラメータです。
+;;* `arrow-size` ---- 依存関係矢印を描画する場合の矢印のサイズです。
 ;;
 ;;${SEE_ALSO}
 ;;
@@ -380,23 +384,28 @@
 ;;${NO_NOTES}
 ;;
 ;;--------------------------------------------------------------------------------------- END TURNUP
-(defmacro with-uml-interface-request-options ((&key font dasharray stroke
-                                                    degree arrow-size filter layer) &rest body)
-  (labels ((impl (params acc)
-             (if (null params)
-                 acc
-                 (let ((value  (car  params))
-                       (symbol (cadr params)))
-                   (impl (cddr params)
-                         (if (null value)
-                             acc
-                             (push (list symbol value) acc)))))))
-    (let ((lst (impl (list font       '*uml-interface-request-font*
-                           dasharray  '*uml-interface-request-dasharray*
-                           stroke     '*uml-interface-request-stroke*
-                           degree     '*uml-interface-request-degree*
-                           arrow-size '*uml-interface-request-arrow-size*
-                           filter     '*uml-interface-request-filter*
-                           layer      '*uml-interface-request-layer*) nil)))
-      `(let ,lst
-         ,@body))))
+(defmacro with-uml-interface-request-options ((&key (stroke     nil stroke-p)
+                                                    (filter     nil filter-p)
+                                                    (layer      nil layer-p)
+                                                    (font       nil font-p)
+                                                    (degree     nil degree-p)
+                                                    (dasharray  nil dasharray-p) 
+                                                    (arrow-size nil arrow-size-p)) &rest body)
+  ;;MEMO : 現状では、以下２つはユーザーが変更する方法を提供していない。
+  ;;
+  ;;    - *uml-interface-request-length-threshold*
+  ;;    - *uml-interface-request-max-dependency*
+  ;;
+  (let ((bindings nil))
+    (labels ((impl (arg-p binding)
+               (when arg-p (push binding bindings))))
+      (impl stroke-p     `(*uml-interface-request-stroke*
+                             (make-stroke2 *uml-interface-request-stroke* ,stroke)))
+      (impl filter-p     `(*uml-interface-request-filter*     ,filter))
+      (impl layer-p      `(*uml-interface-request-layer*      ,layer))
+      (impl font-p       `(*uml-interface-request-font*       ,font))
+      (impl degree-p     `(*uml-interface-request-degree*     ,degree))
+      (impl dasharray-p  `(*uml-interface-request-dasharray*  ,dasharray))
+      (impl arrow-size-p `(*uml-interface-request-arrow-size* ,arrow-size)))
+    `(let ,(nreverse bindings)
+       ,@body)))

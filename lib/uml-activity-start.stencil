@@ -92,19 +92,16 @@
 ;;${NO_NOTES}
 ;;
 ;;--------------------------------------------------------------------------------------- END TURNUP
-(defmacro with-uml-activity-start-options ((&key radius fill filter layer) &rest body)
-  (labels ((impl (params acc)
-             (if (null params)
-                 acc
-                 (let ((value  (car  params))
-                       (symbol (cadr params)))
-                   (impl (cddr params)
-                         (if (null value)
-                             acc
-                             (push (list symbol value) acc)))))))
-    (let ((lst (impl (list radius   '*uml-activity-start-radius*
-                           fill     '*uml-activity-start-fill*
-                           filter   '*uml-activity-start-filter*
-                           layer    '*uml-activity-start-layer*) nil)))
-      `(let ,lst
-         ,@body))))
+(defmacro with-uml-activity-start-options ((&key (radius nil radius-p)
+                                                 (fill   nil fill-p)
+                                                 (filter nil filter-p)
+                                                 (layer  nil layer-p)) &rest body)
+  (let ((bindings nil))
+    (labels ((impl (arg-p binding)
+               (when arg-p (push binding bindings))))
+      (impl radius-p `(*uml-activity-start-radius* ,radius))
+      (impl fill-p   `(*uml-activity-start-fill*   (make-fill2 *uml-activity-start-fill* ,fill)))
+      (impl filter-p `(*uml-activity-start-filter* ,filter))
+      (impl layer-p  `(*uml-activity-start-layer*  ,layer)))
+    `(let ,(nreverse bindings)
+       ,@body)))

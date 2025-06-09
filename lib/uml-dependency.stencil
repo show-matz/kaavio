@@ -126,21 +126,18 @@
 ;;${NO_NOTES}
 ;;
 ;;--------------------------------------------------------------------------------------- END TURNUP
-(defmacro with-uml-dependency-options ((&key stroke arrow-size font filter layer) &rest body)
-  (labels ((impl (params acc)
-             (if (null params)
-                 acc
-                 (let ((value  (car  params))
-                       (symbol (cadr params)))
-                   (impl (cddr params)
-                         (if (null value)
-                             acc
-                             (push (list symbol value) acc)))))))
-    (let ((lst (impl (list  stroke     '*uml-dependency-stroke*
-                            arrow-size '*uml-dependency-arrow-size*
-                            font       '*uml-dependency-font*
-                            filter     '*uml-dependency-filter*
-                            layer      '*uml-dependency-layer*) nil)))
-      `(let ,lst
-         ,@body))))
- 
+(defmacro with-uml-dependency-options ((&key (stroke     nil stroke-p)
+                                             (arrow-size nil arrow-size-p)
+                                             (font       nil font-p)
+                                             (filter     nil filter-p)
+                                             (layer      nil layer-p)) &rest body)
+  (let ((bindings nil))
+    (labels ((impl (arg-p binding)
+               (when arg-p (push binding bindings))))
+      (impl arrow-size-p `(*uml-dependency-arrow-size* ,arrow-size))
+      (impl stroke-p     `(*uml-dependency-stroke*     (make-stroke2 *uml-dependency-stroke* ,stroke)))
+      (impl font-p       `(*uml-dependency-font*       (make-font2   *uml-dependency-font*   ,font)))
+      (impl filter-p     `(*uml-dependency-filter*     ,filter))
+      (impl layer-p      `(*uml-dependency-layer*      ,layer)))
+    `(let ,(nreverse bindings)
+       ,@body)))

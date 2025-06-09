@@ -27,7 +27,7 @@
   (uml-activity-final  :fill :linen      :stroke :maroon)
   (uml-flow                              :stroke :black  :arrow-size :small)
   (uml-flow-final      :fill :linen      :stroke :maroon)
-  (uml-fork-join       :color :maroon)
+  (uml-fork-join       :fill :maroon)
   (uml-signal          :fill :powderblue :stroke :darkslateblue :width 80 :height 40)
   (uml-time-event      :fill :powderblue :stroke :darkslateblue :width 30 :height 40)
   (uml-connector       :fill :wheat      :stroke :brown :size 20 :font 10)

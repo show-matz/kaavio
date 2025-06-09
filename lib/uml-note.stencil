@@ -260,24 +260,24 @@
 ;;${NO_NOTES}
 ;;
 ;;--------------------------------------------------------------------------------------- END TURNUP
-(defmacro with-uml-note-options ((&key margin crease font
-                                       fill stroke layer filter dasharray) &rest body)
-  (labels ((impl (params acc)
-             (if (null params)
-                 acc
-                 (let ((value  (car  params))
-                       (symbol (cadr params)))
-                   (impl (cddr params)
-                         (if (null value)
-                             acc
-                             (push (list symbol value) acc)))))))
-    (let ((lst (impl (list margin    '*uml-note-margin*
-                           crease    '*uml-note-crease*
-                           font      '*uml-note-font*
-                           fill      '*uml-note-fill*
-                           stroke    '*uml-note-stroke*
-                           layer     '*uml-note-layer*
-                           filter    '*uml-note-filter*
-                           dasharray '*uml-note-dasharray*) nil)))
-      `(let ,lst
-         ,@body))))
+(defmacro with-uml-note-options ((&key (margin    nil margin-p)
+                                       (crease    nil crease-p)
+                                       (font      nil font-p)
+                                       (fill      nil fill-p)
+                                       (stroke    nil stroke-p)
+                                       (filter    nil filter-p)
+                                       (layer     nil layer-p)
+                                       (dasharray nil dasharray-p)) &rest body)
+  (let ((bindings nil))
+    (labels ((impl (arg-p binding)
+               (when arg-p (push binding bindings))))
+      (impl margin-p    `(*uml-note-margin*    ,margin))
+      (impl crease-p    `(*uml-note-crease*    ,crease))
+      (impl font-p      `(*uml-note-font*      (make-font2   *uml-note-font*   ,font)))
+      (impl fill-p      `(*uml-note-fill*      (make-fill2   *uml-note-fill*   ,fill)))
+      (impl stroke-p    `(*uml-note-stroke*    (make-stroke2 *uml-note-stroke* ,stroke)))
+      (impl filter-p    `(*uml-note-filter*    ,filter))
+      (impl layer-p     `(*uml-note-layer*     ,layer))
+      (impl dasharray-p `(*uml-note-dasharray* ,dasharray)))
+    `(let ,(nreverse bindings)
+       ,@body)))

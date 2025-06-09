@@ -107,22 +107,18 @@
 ;;${NO_NOTES}
 ;;
 ;;--------------------------------------------------------------------------------------- END TURNUP
-(defmacro with-uml-aggregation-options ((&key stroke arrow-size font filter layer) &rest body)
-  (labels ((impl (params acc)
-             (if (null params)
-                 acc
-                 (let ((value  (car  params))
-                       (symbol (cadr params)))
-                   (impl (cddr params)
-                         (if (null value)
-                             acc
-                             (push (list symbol value) acc)))))))
-    (let ((lst (impl (list  stroke     '*uml-aggregation-stroke*
-                            arrow-size '*uml-aggregation-arrow-size*
-                            font       '*uml-aggregation-font*
-                            filter     '*uml-aggregation-filter*
-                            layer      '*uml-aggregation-layer*) nil)))
-      `(let ,lst
-         ,@body))))
- 
-
+(defmacro with-uml-aggregation-options ((&key (stroke     nil stroke-p)
+                                              (arrow-size nil arrow-size-p)
+                                              (font       nil font-p)
+                                              (filter     nil filter-p)
+                                              (layer      nil layer-p)) &rest body)
+  (let ((bindings nil))
+    (labels ((impl (arg-p binding)
+               (when arg-p (push binding bindings))))
+      (impl arrow-size-p `(*uml-aggregation-arrow-size* ,arrow-size))
+      (impl stroke-p    `(*uml-aggregation-stroke*   (make-stroke2 *uml-aggregation-stroke* ,stroke)))
+      (impl font-p      `(*uml-aggregation-font*     (make-font2   *uml-aggregation-font*   ,font)))
+      (impl filter-p    `(*uml-aggregation-filter*   ,filter))
+      (impl layer-p     `(*uml-aggregation-layer*    ,layer)))
+    `(let ,(nreverse bindings)
+       ,@body)))

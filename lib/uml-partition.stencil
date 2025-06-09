@@ -1,11 +1,11 @@
 
 (in-package :kaavio-user)
 
-(defparameter *uml-partition-lines*     :mid)
-(defparameter *uml-partition-header*      30)
 (defparameter *uml-partition-font*       nil)
 (defparameter *uml-partition-fill*    :white)
 (defparameter *uml-partition-stroke*  :black)
+(defparameter *uml-partition-lines*     :mid)
+(defparameter *uml-partition-header*      30)
 (defparameter *uml-partition-layer*      nil)
 
 
@@ -279,7 +279,7 @@
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
-;;* ${{B}{with-uml-partition-options}} (${KEY} lines header font fill stroke layer) ${BODY} body
+;;* ${{B}{with-uml-partition-options}} (${KEY} font fill stroke lines header layer) ${BODY} body
 ;;
 ;;<!-- stack:pop li -->
 ;;
@@ -295,22 +295,20 @@
 ;;${NO_NOTES}
 ;;
 ;;--------------------------------------------------------------------------------------- END TURNUP
-(defmacro with-uml-partition-options ((&key lines header
-                                            font fill stroke layer) &rest body)
-  (labels ((impl (params acc)
-             (if (null params)
-                 acc
-                 (let ((value  (car  params))
-                       (symbol (cadr params)))
-                   (impl (cddr params)
-                         (if (null value)
-                             acc
-                             (push (list symbol value) acc)))))))
-    (let ((lst (impl (list lines    '*uml-partition-lines*
-                           header   '*uml-partition-header*
-                           font     '*uml-partition-font*
-                           fill     '*uml-partition-fill*
-                           stroke   '*uml-partition-stroke*
-                           layer    '*uml-partition-layer*) nil)))
-      `(let ,lst
-         ,@body))))
+(defmacro with-uml-partition-options ((&key (font   nil font-p)
+                                            (fill   nil fill-p)
+                                            (stroke nil stroke-p)
+                                            (lines  nil lines-p)
+                                            (header nil header-p)
+                                            (layer  nil layer-p)) &rest body)
+  (let ((bindings nil))
+    (labels ((impl (arg-p binding)
+               (when arg-p (push binding bindings))))
+      (impl font-p   `(*uml-partition-font*   (make-font2   *uml-partition-font*   ,font)))
+      (impl fill-p   `(*uml-partition-fill*   (make-fill2   *uml-partition-fill*   ,fill)))
+      (impl stroke-p `(*uml-partition-stroke* (make-stroke2 *uml-partition-stroke* ,stroke)))
+      (impl lines-p  `(*uml-partition-lines*  ,lines))
+      (impl header-p `(*uml-partition-header* ,header))
+      (impl layer-p  `(*uml-partition-layer*  ,layer)))
+    `(let ,(nreverse bindings)
+       ,@body)))

@@ -259,7 +259,7 @@
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
-;;* ${{B}{with-uml-state-options}} (${KEY} font fill stroke width height corner-r margin rake filter layer) ${BODY} body
+;;* ${{B}{with-uml-state-options}} (${KEY} font fill stroke width height corner-r margin filter layer) ${BODY} body
 ;;
 ;;<!-- stack:pop li -->
 ;;
@@ -277,25 +277,26 @@
 ;;${NO_NOTES}
 ;;
 ;;--------------------------------------------------------------------------------------- END TURNUP
-(defmacro with-uml-state-options ((&key font fill stroke width height
-                                         corner-r margin filter layer) &rest body)
-  (labels ((impl (params acc)
-             (if (null params)
-                 acc
-                 (let ((value  (car  params))
-                       (symbol (cadr params)))
-                   (impl (cddr params)
-                         (if (null value)
-                             acc
-                             (push (list symbol value) acc)))))))
-    (let ((lst (impl (list font     '*uml-state-font*
-                           fill     '*uml-state-fill*
-                           stroke   '*uml-state-stroke*
-                           width    '*uml-state-width*
-                           height   '*uml-state-height*
-                           corner-r '*uml-state-corner-r*
-                           margin   '*uml-state-margin*
-                           filter   '*uml-state-filter*
-                           layer    '*uml-state-layer*) nil)))
-      `(let ,lst
-         ,@body))))
+(defmacro with-uml-state-options ((&key (font     nil font-p)
+                                        (fill     nil fill-p)
+                                        (stroke   nil stroke-p)
+                                        (width    nil width-p)
+                                        (height   nil height-p)
+                                        (corner-r nil corner-r-p)
+                                        (margin   nil margin-p)
+                                        (filter   nil filter-p)
+                                        (layer    nil layer-p)) &rest body)
+  (let ((bindings nil))
+    (labels ((impl (arg-p binding)
+               (when arg-p (push binding bindings))))
+      (impl font-p     `(*uml-state-font*     (make-font2   *uml-state-font*   ,font)))
+      (impl fill-p     `(*uml-state-fill*     (make-fill2   *uml-state-fill*   ,fill)))
+      (impl stroke-p   `(*uml-state-stroke*   (make-stroke2 *uml-state-stroke* ,stroke)))
+      (impl width-p    `(*uml-state-width*    ,width))
+      (impl height-p   `(*uml-state-height*   ,height))
+      (impl corner-r-p `(*uml-state-corner-r* ,corner-r))
+      (impl margin-p   `(*uml-state-margin*   ,margin))
+      (impl filter-p   `(*uml-state-filter*   ,filter))
+      (impl layer-p    `(*uml-state-layer*    ,layer)))
+    `(let ,(nreverse bindings)
+       ,@body)))

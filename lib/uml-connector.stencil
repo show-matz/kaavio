@@ -193,22 +193,20 @@
 ;;${NO_NOTES}
 ;;
 ;;--------------------------------------------------------------------------------------- END TURNUP
-(defmacro with-uml-connector-options ((&key font fill stroke
-                                            size filter layer) &rest body)
-  (labels ((impl (params acc)
-             (if (null params)
-                 acc
-                 (let ((value  (car  params))
-                       (symbol (cadr params)))
-                   (impl (cddr params)
-                         (if (null value)
-                             acc
-                             (push (list symbol value) acc)))))))
-    (let ((lst (impl (list font     '*uml-connector-font*
-                           fill     '*uml-connector-fill*
-                           stroke   '*uml-connector-stroke*
-                           size     '*uml-connector-size*
-                           filter   '*uml-connector-filter*
-                           layer    '*uml-connector-layer*) nil)))
-      `(let ,lst
-         ,@body))))
+(defmacro with-uml-connector-options ((&key (font   nil font-p)
+                                            (fill   nil fill-p)
+                                            (stroke nil stroke-p)
+                                            (size   nil size-p)
+                                            (filter nil filter-p)
+                                            (layer  nil layer-p)) &rest body)
+  (let ((bindings nil))
+    (labels ((impl (arg-p binding)
+               (when arg-p (push binding bindings))))
+      (impl font-p   `(*uml-connector-font*   (make-font2   *uml-connector-font*   ,font)))
+      (impl fill-p   `(*uml-connector-fill*   (make-fill2   *uml-connector-fill*   ,fill)))
+      (impl stroke-p `(*uml-connector-stroke* (make-stroke2 *uml-connector-stroke* ,stroke)))
+      (impl size-p   `(*uml-connector-size*   ,size))
+      (impl filter-p `(*uml-connector-filter* ,filter))
+      (impl layer-p  `(*uml-connector-layer*  ,layer)))
+    `(let ,(nreverse bindings)
+       ,@body)))

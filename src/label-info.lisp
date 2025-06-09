@@ -222,18 +222,14 @@
 #|
 #|EXPORT|#                :with-label-options
  |#
-(defmacro with-label-options ((&key position offset font) &rest body)
-  (labels ((impl (params acc)
-             (if (null params)
-                 acc
-                 (let ((value  (car  params))
-                       (symbol (cadr params)))
-                   (impl (cddr params)
-                         (if (null value)
-                             acc
-                             (push (list symbol value) acc)))))))
-    (let ((lst (impl (list position '*default-label-position*
-                           offset   '*default-label-offset*
-                           font     '*default-label-font*) nil)))
-      `(let ,lst
-         ,@body))))
+(defmacro with-label-options ((&key (position nil position-p)
+                                    (offset   nil offset-p)
+                                    (font     nil font-p)) &rest body)
+  (let ((bindings nil))
+    (labels ((impl (arg-p binding)
+               (when arg-p (push binding bindings))))
+      (impl position-p `(*default-label-position* ,position))
+      (impl offset-p   `(*default-label-offset*   ,offset))
+      (impl font-p     `(*default-label-font*     (make-font2 *default-label-font* ,font))))
+    `(let ,(nreverse bindings)
+       ,@body)))

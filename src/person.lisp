@@ -159,19 +159,16 @@
 #|
 #|EXPORT|#                :with-person-options
  |#
-(defmacro with-person-options ((&key fill stroke filter layer) &rest body)
-  (labels ((impl (params acc)
-             (if (null params)
-                 acc
-                 (let ((value  (car  params))
-                       (symbol (cadr params)))
-                   (impl (cddr params)
-                         (if (null value)
-                             acc
-                             (push (list symbol value) acc)))))))
-    (let ((lst (impl (list fill   '*default-person-fill*
-                           stroke '*default-person-stroke*
-                           filter '*default-person-filter*
-                           layer  '*default-person-layer*) nil)))
-      `(let ,lst
-         ,@body))))
+(defmacro with-person-options ((&key (fill   nil fill-p)
+                                     (stroke nil stroke-p)
+                                     (filter nil filter-p)
+                                     (layer  nil layer-p)) &rest body)
+  (let ((bindings nil))
+    (labels ((impl (arg-p binding)
+               (when arg-p (push binding bindings))))
+      (impl fill-p   `(*default-person-fill*   (make-fill2   *default-person-fill*   ,fill)))
+      (impl stroke-p `(*default-person-stroke* (make-stroke2 *default-person-stroke* ,stroke)))
+      (impl filter-p `(*default-person-filter* ,filter))
+      (impl layer-p  `(*default-person-layer*  ,layer)))
+    `(let ,(nreverse bindings)
+       ,@body)))

@@ -173,22 +173,20 @@
 ;;${NO_NOTES}
 ;;
 ;;--------------------------------------------------------------------------------------- END TURNUP
-(defmacro with-uml-usecase-options ((&key font fill stroke
-                                       margin filter layer) &rest body)
-  (labels ((impl (params acc)
-             (if (null params)
-                 acc
-                 (let ((value  (car  params))
-                       (symbol (cadr params)))
-                   (impl (cddr params)
-                         (if (null value)
-                             acc
-                             (push (list symbol value) acc)))))))
-    (let ((lst (impl (list font     '*uml-usecase-font*
-                           fill     '*uml-usecase-fill*
-                           stroke   '*uml-usecase-stroke*
-                           margin   '*uml-usecase-margin*
-                           filter   '*uml-usecase-filter*
-                           layer    '*uml-usecase-layer*) nil)))
-      `(let ,lst
-         ,@body))))
+(defmacro with-uml-usecase-options ((&key (font   nil font-p)
+                                          (fill   nil fill-p)
+                                          (stroke nil stroke-p)
+                                          (margin nil margin-p)
+                                          (filter nil filter-p)
+                                          (layer  nil layer-p)) &rest body)
+  (let ((bindings nil))
+    (labels ((impl (arg-p binding)
+               (when arg-p (push binding bindings))))
+      (impl font-p   `(*uml-usecase-font*   (make-font2   *uml-usecase-font*   ,font)))
+      (impl fill-p   `(*uml-usecase-fill*   (make-fill2   *uml-usecase-fill*   ,fill)))
+      (impl stroke-p `(*uml-usecase-stroke* (make-stroke2 *uml-usecase-stroke* ,stroke)))
+      (impl margin-p `(*uml-usecase-margin* ,margin))
+      (impl filter-p `(*uml-usecase-filter* ,filter))
+      (impl layer-p  `(*uml-usecase-layer*  ,layer)))
+    `(let ,(nreverse bindings)
+       ,@body)))

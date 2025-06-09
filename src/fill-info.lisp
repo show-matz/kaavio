@@ -129,6 +129,8 @@
                                     (rule    nil    rule-p)
                                     (url     nil     url-p) base) params
             (let ((base (or base *default-fill*)))
+              (when base
+                (setf base (make-fill base)))
               (labels ((fixval (val-p val slot-sym default)
                          (if val-p
                              val
@@ -139,6 +141,20 @@
                                :opacity (fixval opacity-p opacity 'opacity  nil)
                                :rule    (fixval rule-p    rule    'rule     nil)
                                :url     (fixval url-p     url     'url      nil))))))))
+
+
+#|
+#|EXPORT|#                :make-fill2
+ |#
+(defun make-fill2 (base &rest params)
+  (if (= 1 (length params))
+      (let ((param (car params)))
+        (cond
+          ((typep param 'fill-info) param)
+          ((listp param) (apply #'make-fill      :base base param))
+          (t             (make-fill :color param :base base))))
+      (let ((base (or base *default-fill*)))
+        (apply #'make-fill :base base params))))
 
 
 (setf *default-fill* (make-fill :color :none

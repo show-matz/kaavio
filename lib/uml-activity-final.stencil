@@ -120,23 +120,20 @@
 ;;${NO_NOTES}
 ;;
 ;;--------------------------------------------------------------------------------------- END TURNUP
-(defmacro with-uml-activity-final-options ((&key radius ratio
-                                                 fill stroke filter layer) &rest body)
-  (labels ((impl (params acc)
-             (if (null params)
-                 acc
-                 (let ((value  (car  params))
-                       (symbol (cadr params)))
-                   (impl (cddr params)
-                         (if (null value)
-                             acc
-                             (push (list symbol value) acc)))))))
-    (let ((lst (impl (list radius   '*uml-activity-final-radius*
-                           ratio    '*uml-activity-final-ratio*
-                           fill     '*uml-activity-final-fill*
-                           stroke   '*uml-activity-final-stroke*
-                           filter   '*uml-activity-final-filter*
-                           layer    '*uml-activity-final-layer*) nil)))
-      `(let ,lst
-         ,@body))))
-
+(defmacro with-uml-activity-final-options ((&key (radius nil radius-p)
+                                                 (ratio  nil ratio-p)
+                                                 (fill   nil fill-p)
+                                                 (stroke nil stroke-p)
+                                                 (filter nil filter-p)
+                                                 (layer  nil layer-p)) &rest body)
+  (let ((bindings nil))
+    (labels ((impl (arg-p binding)
+               (when arg-p (push binding bindings))))
+      (impl radius-p `(*uml-activity-final-radius* ,radius))
+      (impl ratio-p  `(*uml-activity-final-ratio*  ,ratio))
+      (impl fill-p   `(*uml-activity-final-fill*   (make-fill2   *uml-activity-final-fill*   ,fill)))
+      (impl stroke-p `(*uml-activity-final-stroke* (make-stroke2 *uml-activity-final-stroke* ,stroke)))
+      (impl filter-p `(*uml-activity-final-filter* ,filter))
+      (impl layer-p  `(*uml-activity-final-layer*  ,layer)))
+    `(let ,(nreverse bindings)
+       ,@body)))

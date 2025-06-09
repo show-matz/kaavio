@@ -162,6 +162,8 @@
                                     (dashoffset nil dashoffset-p)
                                     (url        nil        url-p) base) params
             (let ((base (or base *default-stroke*)))
+              (when base
+                (setf base (make-stroke base)))
               (labels ((fixval (val-p val slot-sym default)
                          (if val-p
                              val
@@ -178,6 +180,20 @@
                                :dashoffset (fixval dashoffset-p dashoffset 'dashoffset nil)
                                :url        (fixval url-p        url        'url        nil))))))))
 
+#|
+#|EXPORT|#                :make-stroke2
+ |#
+(defun make-stroke2 (base &rest params)
+  (if (= 1 (length params))
+      (let ((param (car params)))
+        (cond
+          ((typep    param 'stroke-info) param)
+          ((numberp  param) (make-stroke :width  param :base base))
+          ((listp    param) (apply #'make-stroke       :base base param))
+          (t                (make-stroke :color  param :base base))))
+      (let ((base (or base *default-stroke*)))
+        (apply #'make-stroke :base base params))))
+          
 
 
 (setf *default-stroke* (make-stroke :color   :black

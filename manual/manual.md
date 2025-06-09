@@ -3919,7 +3919,7 @@ ${BLANK_PARAGRAPH}
 
 ```lisp
 (register-theme (:my-theme :default)
-  (t :stroke 3 :fill '(:opacity 0.4) :font '(:weight :bold))
+  (cylinder :stroke :maroon :fill :beige)
   (cross :stroke :purple :fill :lavender))
 ```
 Figure. register-theme でベーステーマを指定する例
@@ -3928,12 +3928,11 @@ ${BLANK_PARAGRAPH}
 
 
 　上記の my-theme を使用して [$@](F#デフォルトテーマの使用例) と同じ図面を描画した結果を
-以下に示します。カスタマイズした部分（全体のストローク幅やフィルの不透明度、フォント、および
-cross のスタイル設定）が反映されていることがわかります。
+以下に示します。カスタマイズした内容が反映されていることがわかります。
 
 ```kaavio
 (register-theme (:my-theme :default)
-  (t :stroke 3 :fill '(:opacity 0.4) :font '(:weight :bold))
+  (cylinder :stroke :maroon :fill :beige)
   (cross :stroke :purple :fill :lavender))
 
 (diagram (500 300)
@@ -8423,7 +8422,8 @@ Figure. 色の名前とサンプル - 2
     * ENHANCE : UML 周辺の実装課題を解消。
 * __2025/05/27 - version 0.029__
     * ENHANCE : UML 周辺の実装課題をさらに解消。
-
+* __2025/06/10 - version 0.030__
+    * BUGFIX : with- 系マクロの問題を解消
 
 ## 図表一覧
 <!-- embed:figure-list -->

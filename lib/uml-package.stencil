@@ -252,29 +252,30 @@
 ;;${NO_NOTES}
 ;;
 ;;--------------------------------------------------------------------------------------- END TURNUP
-(defmacro with-uml-package-options ((&key font fill stroke width height
-                                          tab-width tab-height
-                                          tab-margin margin filter layer) &rest body)
-  (labels ((impl (params acc)
-             (if (null params)
-                 acc
-                 (let ((value  (car  params))
-                       (symbol (cadr params)))
-                   (impl (cddr params)
-                         (if (null value)
-                             acc
-                             (push (list symbol value) acc)))))))
-    (let ((lst (impl (list font       '*uml-package-font*
-                           fill       '*uml-package-fill*
-                           stroke     '*uml-package-stroke*
-                           width      '*uml-package-width*
-                           height     '*uml-package-height*
-                           tab-width  '*uml-package-tab-width*
-                           tab-height '*uml-package-tab-height*
-                           tab-margin '*uml-package-tab-margin*
-                           margin     '*uml-package-margin*
-                           filter     '*uml-package-filter*
-                           layer      '*uml-package-layer*) nil)))
-      `(let ,lst
-         ,@body))))
-
+(defmacro with-uml-package-options ((&key (font       nil font-p)
+                                          (fill       nil fill-p)
+                                          (stroke     nil stroke-p)
+                                          (width      nil width-p)
+                                          (height     nil height-p)
+                                          (tab-width  nil tab-width-p)
+                                          (tab-height nil tab-height-p)
+                                          (tab-margin nil tab-margin-p)
+                                          (margin     nil margin-p)
+                                          (filter     nil filter-p)
+                                          (layer      nil layer-p)) &rest body)
+  (let ((bindings nil))
+    (labels ((impl (arg-p binding)
+               (when arg-p (push binding bindings))))
+      (impl font-p       `(*uml-package-font*       (make-font2   *uml-package-font*   ,font)))
+      (impl fill-p       `(*uml-package-fill*       (make-fill2   *uml-package-fill*   ,fill)))
+      (impl stroke-p     `(*uml-package-stroke*     (make-stroke2 *uml-package-stroke* ,stroke)))
+      (impl width-p      `(*uml-package-width*      ,width))
+      (impl height-p     `(*uml-package-height*     ,height))
+      (impl tab-width-p  `(*uml-package-tab-width*  ,tab-width))
+      (impl tab-height-p `(*uml-package-tab-height* ,tab-height))
+      (impl tab-margin-p `(*uml-package-tab-margin* ,tab-margin))
+      (impl margin-p     `(*uml-package-margin*     ,margin))
+      (impl filter-p     `(*uml-package-filter*     ,filter))
+      (impl layer-p      `(*uml-package-layer*      ,layer)))
+    `(let ,(nreverse bindings)
+       ,@body)))

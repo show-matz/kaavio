@@ -353,22 +353,19 @@
 #|
 #|EXPORT|#                :with-table-options
  |#
-(defmacro with-table-options ((&key font fill stroke layer) &rest body)
-  (labels ((impl (params acc)
-             (if (null params)
-                 acc
-                 (let ((value  (car  params))
-                       (symbol (cadr params)))
-                   (impl (cddr params)
-                         (if (null value)
-                             acc
-                             (push (list symbol value) acc)))))))
-    (let ((lst (impl (list font   '*default-table-font*
-                           fill   '*default-table-fill*
-                           stroke '*default-table-stroke*
-                           layer  '*default-table-layer*) nil)))
-      `(let ,lst
-         ,@body))))
+(defmacro with-table-options ((&key (font   nil font-p)
+                                    (fill   nil fill-p)
+                                    (stroke nil stroke-p)
+                                    (layer  nil layer-p)) &rest body)
+  (let ((bindings nil))
+    (labels ((impl (arg-p binding)
+               (when arg-p (push binding bindings))))
+      (impl font-p   `(*default-table-font*   (make-font2   *default-table-font*   ,font)))
+      (impl fill-p   `(*default-table-fill*   (make-fill2   *default-table-fill*   ,fill)))
+      (impl stroke-p `(*default-table-stroke* (make-stroke2 *default-table-stroke* ,stroke)))
+      (impl layer-p  `(*default-table-layer*  ,layer)))
+    `(let ,(nreverse bindings)
+       ,@body)))
 
 ;;------------------------------------------------------------------------------------- BEGIN TURNUP
 ;;#### macro with-table-cell

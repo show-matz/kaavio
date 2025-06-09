@@ -290,20 +290,18 @@
 #|
 #|EXPORT|#                :with-explosion-options
  |#
-(defmacro with-explosion-options ((&key font fill stroke filter layer) &rest body)
-  (labels ((impl (params acc)
-             (if (null params)
-                 acc
-                 (let ((value  (car  params))
-                       (symbol (cadr params)))
-                   (impl (cddr params)
-                         (if (null value)
-                             acc
-                             (push (list symbol value) acc)))))))
-    (let ((lst (impl (list font   '*default-explosion-font*
-                           fill   '*default-explosion-fill*
-                           stroke '*default-explosion-stroke*
-                           filter '*default-explosion-filter*
-                           layer  '*default-explosion-layer*) nil)))
-      `(let ,lst
-         ,@body))))
+(defmacro with-explosion-options ((&key (font   nil font-p)
+                                        (fill   nil fill-p)
+                                        (stroke nil stroke-p)
+                                        (filter nil filter-p)
+                                        (layer  nil layer-p)) &rest body)
+  (let ((bindings nil))
+    (labels ((impl (arg-p binding)
+               (when arg-p (push binding bindings))))
+      (impl font-p   `(*default-explosion-font*   (make-font2   *default-explosion-font*   ,font)))
+      (impl fill-p   `(*default-explosion-fill*   (make-fill2   *default-explosion-fill*   ,fill)))
+      (impl stroke-p `(*default-explosion-stroke* (make-stroke2 *default-explosion-stroke* ,stroke)))
+      (impl filter-p `(*default-explosion-filter* ,filter))
+      (impl layer-p  `(*default-explosion-layer*  ,layer)))
+    `(let ,(nreverse bindings)
+       ,@body)))

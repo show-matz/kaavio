@@ -120,24 +120,20 @@
 ;;${NO_NOTES}
 ;;
 ;;--------------------------------------------------------------------------------------- END TURNUP
-(defmacro with-uml-state-end-options ((&key radius ratio
-                                                 fill stroke filter layer) &rest body)
-  (labels ((impl (params acc)
-             (if (null params)
-                 acc
-                 (let ((value  (car  params))
-                       (symbol (cadr params)))
-                   (impl (cddr params)
-                         (if (null value)
-                             acc
-                             (push (list symbol value) acc)))))))
-    (let ((lst (impl (list radius   '*uml-state-end-radius*
-                           ratio    '*uml-state-end-ratio*
-                           fill     '*uml-state-end-fill*
-                           stroke   '*uml-state-end-stroke*
-                           filter   '*uml-state-end-filter*
-                           layer    '*uml-state-end-layer*) nil)))
-      `(let ,lst
-         ,@body))))
-
-
+(defmacro with-uml-state-end-options ((&key (radius nil radius-p)
+                                            (ratio  nil ratio-p)
+                                            (fill   nil fill-p)
+                                            (stroke nil stroke-p)
+                                            (filter nil filter-p)
+                                            (layer  nil layer-p)) &rest body)
+  (let ((bindings nil))
+    (labels ((impl (arg-p binding)
+               (when arg-p (push binding bindings))))
+      (impl radius-p `(*uml-state-end-radius* ,radius))
+      (impl ratio-p  `(*uml-state-end-ratio*  ,ratio))
+      (impl fill-p   `(*uml-state-end-fill*   (make-fill2   *uml-state-end-fill*   ,fill)))
+      (impl stroke-p `(*uml-state-end-stroke* (make-stroke2 *uml-state-end-stroke* ,stroke)))
+      (impl filter-p `(*uml-state-end-filter* ,filter))
+      (impl layer-p  `(*uml-state-end-layer*  ,layer)))
+    `(let ,(nreverse bindings)
+       ,@body)))

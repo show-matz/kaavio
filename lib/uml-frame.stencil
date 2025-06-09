@@ -270,25 +270,22 @@
 ;;${NO_NOTES}
 ;;
 ;;--------------------------------------------------------------------------------------- END TURNUP
-(defmacro with-uml-frame-options ((&key font fill stroke margin
-                                        filter layer fragment-dasharray) &rest body)
-  (labels ((impl (params acc)
-             (if (null params)
-                 acc
-                 (let ((value  (car  params))
-                       (symbol (cadr params)))
-                   (impl (cddr params)
-                         (if (null value)
-                             acc
-                             (push (list symbol value) acc)))))))
-    (let ((lst (impl (list font   '*uml-frame-font*
-                           fill   '*uml-frame-fill*
-                           stroke '*uml-frame-stroke*
-                           margin '*uml-frame-margin*
-                           filter '*uml-frame-filter*
-                           layer  '*uml-frame-layer*
-                           fragment-dasharray '*uml-frame-fragment-dasharray*) nil)))
-      `(let ,lst
-         ,@body))))
-
-
+(defmacro with-uml-frame-options ((&key (font               nil font-p)
+                                        (fill               nil fill-p)
+                                        (stroke             nil stroke-p)
+                                        (margin             nil margin-p)
+                                        (filter             nil filter-p)
+                                        (layer              nil layer-p)
+                                        (fragment-dasharray nil fragment-dasharray-p)) &rest body)
+  (let ((bindings nil))
+    (labels ((impl (arg-p binding)
+               (when arg-p (push binding bindings))))
+      (impl font-p               `(*uml-frame-font*   (make-font2   *uml-frame-font*   ,font)))
+      (impl fill-p               `(*uml-frame-fill*   (make-fill2   *uml-frame-fill*   ,fill)))
+      (impl stroke-p             `(*uml-frame-stroke* (make-stroke2 *uml-frame-stroke* ,stroke)))
+      (impl margin-p             `(*uml-frame-margin*             ,margin))
+      (impl filter-p             `(*uml-frame-filter*             ,filter))
+      (impl layer-p              `(*uml-frame-layer*              ,layer))
+      (impl fragment-dasharray-p `(*uml-frame-fragment-dasharray* ,fragment-dasharray)))
+    `(let ,(nreverse bindings)
+       ,@body)))

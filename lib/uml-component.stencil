@@ -12,11 +12,11 @@
 (defparameter *uml-component-margin*          10)
 (defparameter *uml-component-filter*         nil)
 (defparameter *uml-component-layer*          nil)
-(defparameter *uml-component-icon-setting* (make-uml-icon-setting :fill   :white
-                                                                  :stroke :black
-                                                                  :size   14
-                                                                  :pivot  :TR
-                                                                  :offset '(-15 15)))
+(defparameter *uml-component-icon*   (make-uml-icon-setting :fill   :white
+                                                            :stroke :black
+                                                            :size   14
+                                                            :pivot  :TR
+                                                            :offset '(-15 15)))
 
 
 ;;------------------------------------------------------------------------------
@@ -215,7 +215,7 @@
                                     :stroke   (or ,stroke *uml-component-stroke*
                                                   *default-stroke* :black)
                                     :clip-path kaavio:*current-clip-path*
-                                    :icon     (or ,icon *uml-component-icon-setting*)
+                                    :icon     (or ,icon *uml-component-icon*)
                                     :link ,link :layer ,layer :filter ,filter :id ,id))))
     (if (or (null contents)
             (not (listp contents)))
@@ -233,7 +233,7 @@
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
-;;* ${{B}{with-uml-component-options}} (${KEY} font fill stroke width height icon margin filter layer) ${BODY} body
+;;* ${{B}{with-uml-component-options}} (${KEY} font fill stroke icon width height margin filter layer) ${BODY} body
 ;;
 ;;<!-- stack:pop li -->
 ;;
@@ -252,25 +252,26 @@
 ;;${NO_NOTES}
 ;;
 ;;--------------------------------------------------------------------------------------- END TURNUP
-(defmacro with-uml-component-options ((&key font fill stroke
-                                            width height icon margin filter layer) &rest body)
-  (labels ((impl (params acc)
-             (if (null params)
-                 acc
-                 (let ((value  (car  params))
-                       (symbol (cadr params)))
-                   (impl (cddr params)
-                         (if (null value)
-                             acc
-                             (push (list symbol value) acc)))))))
-    (let ((lst (impl (list font        '*uml-component-font*
-                           fill        '*uml-component-fill*
-                           stroke      '*uml-component-stroke*
-                           width       '*uml-component-width*
-                           height      '*uml-component-height*
-                           icon        '*uml-component-icon-setting*
-                           margin      '*uml-component-margin*
-                           filter      '*uml-component-filter*
-                           layer       '*uml-component-layer*) nil)))
-      `(let ,lst
-         ,@body))))
+(defmacro with-uml-component-options ((&key (font   nil font-p)
+                                            (fill   nil fill-p)
+                                            (stroke nil stroke-p)
+                                            (icon   nil icon-p)
+                                            (width  nil width-p)
+                                            (height nil height-p)
+                                            (margin nil margin-p)
+                                            (filter nil filter-p)
+                                            (layer  nil layer-p)) &rest body)
+  (let ((bindings nil))
+    (labels ((impl (arg-p binding)
+               (when arg-p (push binding bindings))))
+      (impl font-p   `(*uml-component-font*   (make-font2   *uml-component-font*   ,font)))
+      (impl fill-p   `(*uml-component-fill*   (make-fill2   *uml-component-fill*   ,fill)))
+      (impl stroke-p `(*uml-component-stroke* (make-stroke2 *uml-component-stroke* ,stroke)))
+      (impl icon-p   `(*uml-component-icon*   (make-uml-icon-setting2 *uml-component-icon* ,icon)))
+      (impl width-p  `(*uml-component-width*  ,width))
+      (impl height-p `(*uml-component-height* ,height))
+      (impl margin-p `(*uml-component-margin* ,margin))
+      (impl filter-p `(*uml-component-filter* ,filter))
+      (impl layer-p  `(*uml-component-layer*  ,layer)))
+    `(let ,(nreverse bindings)
+       ,@body)))

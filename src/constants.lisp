@@ -46,9 +46,15 @@
 #|
 #|EXPORT|#                :*default-connector-style*
 #|EXPORT|#                :*default-connector-spacing*
+#|EXPORT|#                :*default-connector-stroke*
+#|EXPORT|#                :*default-connector-layer*
+#|EXPORT|#                :*default-connector-filter*
  |#
 (defparameter *default-connector-style*   :CC)
 (defparameter *default-connector-spacing*  30)
+(defparameter *default-connector-stroke*  nil)
+(defparameter *default-connector-layer*   nil)
+(defparameter *default-connector-filter*  nil)
 
 ;; default parameter for rectangle
 #|
@@ -68,9 +74,13 @@
 #|
 #|EXPORT|#                :*default-paragraph-align*
 #|EXPORT|#                :*default-paragraph-valign*
+#|EXPORT|#                :*default-paragraph-font*
+#|EXPORT|#                :*default-paragraph-layer*
  |#
-(defparameter *default-paragraph-align*        :left)
-(defparameter *default-paragraph-valign*       :top)
+(defparameter *default-paragraph-align*    :left)
+(defparameter *default-paragraph-valign*    :top)
+(defparameter *default-paragraph-font*       nil)
+(defparameter *default-paragraph-layer*      nil)
 
 #|
 #|EXPORT|#                :*default-history-count*

@@ -620,8 +620,14 @@
 
 (defmethod initialize-instance :after ((ent connector) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (style) ent
-    (setf style (or style *default-connector-style* :CC)))
+  (with-slots (style filter layer) ent
+    (setf style  (or style *default-connector-style* :CC))
+    (setf filter (if (eq filter :none)
+                     nil
+                     (or filter *default-connector-filter* *default-filter*)))
+    (setf layer  (if (eq layer :none)
+                     nil
+                     (or layer *default-connector-layer* *default-layer*))))
   ent)
 
 (defmethod check ((ent connector) canvas dict)
@@ -686,12 +692,14 @@
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　図形要素同士を接続します。
+;;　図形要素同士を接続します。スタイルを統一したい場合、with-connector-options マクロを
+;;使うことができます。
 ;;
 ;;${SEE_ALSO}
 ;;
 ;;* コネクタ
 ;;* 終端マーク
+;;* with-connector-options マクロ
 ;;
 ;;${NO_NOTES}
 ;;
@@ -705,7 +713,8 @@
                                    :style ,style :spacing ,spacing
                                    :label ,label :end1 ,end1 :end2 ,end2
                                    :clip-path *current-clip-path*
-                                   :stroke ,stroke :filter ,filter :layer ,layer :id ,id)))
+                                   :stroke (or ,stroke *default-connector-stroke* *default-stroke*)
+                                   :filter ,filter :layer ,layer :id ,id)))
 
 #|
 #|EXPORT|#                :connect
@@ -716,6 +725,49 @@
                                    :style ,style :spacing ,spacing
                                    :label ,label :end1 ,end1 :end2 ,end2
                                    :clip-path *current-clip-path*
-                                   :stroke ,stroke :filter ,filter :layer ,layer :id ,id)))
+                                   :stroke (or ,stroke *default-connector-stroke* *default-stroke*)
+                                   :filter ,filter :layer ,layer :id ,id)))
 
 
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### macro with-connector-options
+;;
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
+;;
+;;* ${{B}{with-connector-options}} (${KEY} style spacing stroke filter layer) ${BODY} body
+;;
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　connect マクロで描画されるコネクタのデフォルトオプションを変更します。キーワードパラメータ
+;;群の説明は connect マクロを参照してください。
+;;
+;;${SEE_ALSO}
+;;
+;;* コネクタ
+;;* connector マクロ
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
+#|
+#|EXPORT|#                :with-connector-options
+ |#
+(defmacro with-connector-options ((&key (style   nil style-p)
+                                        (spacing nil spacing-p)
+                                        (stroke  nil stroke-p)
+                                        (filter  nil filter-p)
+                                        (layer   nil layer-p)) &rest body)
+  (let ((bindings nil))
+    (labels ((impl (arg-p binding)
+               (when arg-p (push binding bindings))))
+      (impl style-p   `(*default-connector-style*   ,style))
+      (impl spacing-p `(*default-connector-spacing* ,spacing))
+      (impl stroke-p  `(*default-connector-stroke*  (make-stroke2 *default-connector-stroke* ,stroke)))
+      (impl filter-p  `(*default-connector-filter*  ,filter))
+      (impl layer-p   `(*default-connector-layer*   ,layer)))
+    `(let ,(nreverse bindings)
+       ,@body)))

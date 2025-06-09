@@ -260,27 +260,28 @@
 ;;${NO_NOTES}
 ;;
 ;;--------------------------------------------------------------------------------------- END TURNUP
-(defmacro with-uml-node-options ((&key font fill1 fill2 stroke
-                                       width height depth margin filter layer) &rest body)
-  (labels ((impl (params acc)
-             (if (null params)
-                 acc
-                 (let ((value  (car  params))
-                       (symbol (cadr params)))
-                   (impl (cddr params)
-                         (if (null value)
-                             acc
-                             (push (list symbol value) acc)))))))
-    (let ((lst (impl (list font     '*uml-node-font*
-                           fill1    '*uml-node-fill1*
-                           fill2    '*uml-node-fill2*
-                           stroke   '*uml-node-stroke*
-                           width    '*uml-node-width*
-                           height   '*uml-node-height*
-                           depth    '*uml-node-depth*
-                           margin   '*uml-node-margin*
-                           filter   '*uml-node-filter*
-                           layer    '*uml-node-layer*) nil)))
-      `(let ,lst
-         ,@body))))
-
+(defmacro with-uml-node-options ((&key (font   nil font-p)
+                                       (fill1  nil fill1-p)
+                                       (fill2  nil fill2-p)
+                                       (stroke nil stroke-p)
+                                       (width  nil width-p)
+                                       (height nil height-p)
+                                       (depth  nil depth-p)
+                                       (margin nil margin-p)
+                                       (filter nil filter-p)
+                                       (layer  nil layer-p)) &rest body)
+  (let ((bindings nil))
+    (labels ((impl (arg-p binding)
+               (when arg-p (push binding bindings))))
+      (impl font-p   `(*uml-node-font*   (make-font2   *uml-node-font*   ,font)))
+      (impl fill1-p  `(*uml-node-fill1*  (make-fill2   *uml-node-fill1*  ,fill1)))
+      (impl fill2-p  `(*uml-node-fill2*  (make-fill2   *uml-node-fill2*  ,fill2)))
+      (impl stroke-p `(*uml-node-stroke* (make-stroke2 *uml-node-stroke* ,stroke)))
+      (impl width-p  `(*uml-node-width*  ,width))
+      (impl height-p `(*uml-node-height* ,height))
+      (impl depth-p  `(*uml-node-depth*  ,depth))
+      (impl margin-p `(*uml-node-margin* ,margin))
+      (impl filter-p `(*uml-node-filter* ,filter))
+      (impl layer-p  `(*uml-node-layer*  ,layer)))
+    `(let ,(nreverse bindings)
+       ,@body)))

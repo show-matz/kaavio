@@ -182,6 +182,8 @@
                                     (width-spice  nil  width-spice-p)
                                     (line-spacing nil line-spacing-p) base) params
             (let ((base (or base *default-font*)))
+              (when base
+                (setf base (make-font base)))
               (labels ((fixval (val-p val slot-sym default)
                          (if val-p
                              val
@@ -200,6 +202,21 @@
                                :line-spacing (fixval line-spacing-p line-spacing 'line-spacing   2))))))))
 
 
+#|
+#|EXPORT|#                :make-font2
+ |#
+(defun make-font2 (base &rest params)
+  (if (= 1 (length params))
+      (let ((param (car params)))
+        (cond
+          ((typep    param 'font-info) param)
+          ((numberp  param) (make-font :size   param :base base))
+          ((keywordp param) (make-font :fill   param :base base))
+          ((listp    param) (apply #'make-font       :base base param))
+          (t                (make-font :family param :base base))))
+      (let ((base (or base *default-font*)))
+        (apply #'make-font :base base params))))
+          
 #|
 #|EXPORT|#                :font-calc-textarea
  |#

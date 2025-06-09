@@ -114,22 +114,18 @@
 ;;${NO_NOTES}
 ;;
 ;;--------------------------------------------------------------------------------------- END TURNUP
-(defmacro with-uml-flow-final-options ((&key radius fill
-                                             stroke filter layer) &rest body)
-  (labels ((impl (params acc)
-             (if (null params)
-                 acc
-                 (let ((value  (car  params))
-                       (symbol (cadr params)))
-                   (impl (cddr params)
-                         (if (null value)
-                             acc
-                             (push (list symbol value) acc)))))))
-    (let ((lst (impl (list radius   '*uml-flow-final-radius*
-                           fill     '*uml-flow-final-fill*
-                           stroke   '*uml-flow-final-stroke*
-                           filter   '*uml-flow-final-filter*
-                           layer    '*uml-flow-final-layer*) nil)))
-      `(let ,lst
-         ,@body))))
-
+(defmacro with-uml-flow-final-options ((&key (radius nil radius-p)
+                                             (fill   nil fill-p)
+                                             (stroke nil stroke-p)
+                                             (filter nil filter-p)
+                                             (layer  nil layer-p)) &rest body)
+  (let ((bindings nil))
+    (labels ((impl (arg-p binding)
+               (when arg-p (push binding bindings))))
+      (impl radius-p `(*uml-flow-final-radius* ,radius))
+      (impl fill-p   `(*uml-flow-final-fill*   (make-fill2   *uml-flow-final-fill*   ,fill)))
+      (impl stroke-p `(*uml-flow-final-stroke* (make-stroke2 *uml-flow-final-stroke* ,stroke)))
+      (impl filter-p `(*uml-flow-final-filter* ,filter))
+      (impl layer-p  `(*uml-flow-final-layer*  ,layer)))
+    `(let ,(nreverse bindings)
+       ,@body)))

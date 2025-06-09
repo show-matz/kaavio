@@ -257,23 +257,20 @@
 ;;${NO_NOTES}
 ;;
 ;;--------------------------------------------------------------------------------------- END TURNUP
-(defmacro with-uml-pin-options ((&key font fill stroke
-                                      size filter layer) &rest body)
-  (labels ((impl (params acc)
-             (if (null params)
-                 acc
-                 (let ((value  (car  params))
-                       (symbol (cadr params)))
-                   (impl (cddr params)
-                         (if (null value)
-                             acc
-                             (push (list symbol value) acc)))))))
-    (let ((lst (impl (list font     '*uml-pin-font*
-                           fill     '*uml-pin-fill*
-                           stroke   '*uml-pin-stroke*
-                           size     '*uml-pin-size*
-                           filter   '*uml-pin-filter*
-                           layer    '*uml-pin-layer*) nil)))
-      `(let ,lst
-         ,@body))))
-
+(defmacro with-uml-pin-options ((&key (font   nil font-p)
+                                      (fill   nil fill-p)
+                                      (stroke nil stroke-p)
+                                      (size   nil size-p)
+                                      (filter nil filter-p)
+                                      (layer  nil layer-p)) &rest body)
+  (let ((bindings nil))
+    (labels ((impl (arg-p binding)
+               (when arg-p (push binding bindings))))
+      (impl font-p   `(*uml-pin-font*   (make-font2   *uml-pin-font*   ,font)))
+      (impl fill-p   `(*uml-pin-fill*   (make-fill2   *uml-pin-fill*   ,fill)))
+      (impl stroke-p `(*uml-pin-stroke* (make-stroke2 *uml-pin-stroke* ,stroke)))
+      (impl size-p   `(*uml-pin-size*   ,size))
+      (impl filter-p `(*uml-pin-filter* ,filter))
+      (impl layer-p  `(*uml-pin-layer*  ,layer)))
+    `(let ,(nreverse bindings)
+       ,@body)))

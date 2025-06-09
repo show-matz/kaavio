@@ -246,23 +246,22 @@
 #|
 #|EXPORT|#                :with-block-arrow-options
  |#
-(defmacro with-block-arrow-options ((&key length size margin
-                                          fill stroke filter layer) &rest body)
-  (labels ((impl (params acc)
-             (if (null params)
-                 acc
-                 (let ((value  (car  params))
-                       (symbol (cadr params)))
-                   (impl (cddr params)
-                         (if (null value)
-                             acc
-                             (push (list symbol value) acc)))))))
-    (let ((lst (impl (list length '*default-block-arrow-length*
-                           size   '*default-block-arrow-size*
-                           margin '*default-block-arrow-margin*
-                           fill   '*default-block-arrow-fill*
-                           stroke '*default-block-arrow-stroke*
-                           filter '*default-block-arrow-filter*
-                           layer  '*default-block-arrow-layer*) nil)))
-      `(let ,lst
-         ,@body))))
+(defmacro with-block-arrow-options ((&key (length nil length-p)
+                                          (size   nil size-p)
+                                          (margin nil margin-p)
+                                          (fill   nil fill-p)
+                                          (stroke nil stroke-p)
+                                          (filter nil filter-p)
+                                          (layer  nil layer-p)) &rest body)
+  (let ((bindings nil))
+    (labels ((impl (arg-p binding)
+               (when arg-p (push binding bindings))))
+      (impl length-p `(*default-block-arrow-length* ,length))
+      (impl size-p   `(*default-block-arrow-size*   ,size))
+      (impl margin-p `(*default-block-arrow-margin* ,margin))
+      (impl fill-p   `(*default-block-arrow-fill*   (make-fill2   *default-block-arrow-fill*   ,fill)))
+      (impl stroke-p `(*default-block-arrow-stroke* (make-stroke2 *default-block-arrow-stroke* ,stroke)))
+      (impl filter-p `(*default-block-arrow-filter* ,filter))
+      (impl layer-p  `(*default-block-arrow-layer*  ,layer)))
+    `(let ,(nreverse bindings)
+       ,@body)))

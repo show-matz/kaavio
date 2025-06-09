@@ -205,26 +205,28 @@
 #|
 #|EXPORT|#                :with-folder-options
  |#
-(defmacro with-folder-options ((&key tab-width tab-height align valign
-                                     margin font fill stroke filter layer) &rest body)
-  (labels ((impl (params acc)
-             (if (null params)
-                 acc
-                 (let ((value  (car  params))
-                       (symbol (cadr params)))
-                   (impl (cddr params)
-                         (if (null value)
-                             acc
-                             (push (list symbol value) acc)))))))
-    (let ((lst (impl (list tab-width  '*default-folder-tabwidth*
-                           tab-height '*default-folder-tabheight*
-                           align      '*default-folder-align*
-                           valign     '*default-folder-valign*
-                           margin     '*default-folder-margin*
-                           font       '*default-folder-font*
-                           fill       '*default-folder-fill*
-                           stroke     '*default-folder-stroke*
-                           filter     '*default-folder-filter*
-                           layer      '*default-folder-layer*) nil)))
-      `(let ,lst
-         ,@body))))
+(defmacro with-folder-options ((&key (tab-width  nil tab-width-p)
+                                     (tab-height nil tab-height-p)
+                                     (align      nil align-p)
+                                     (valign     nil valign-p)
+                                     (margin     nil margin-p)
+                                     (font       nil font-p)
+                                     (fill       nil fill-p)
+                                     (stroke     nil stroke-p)
+                                     (filter     nil filter-p)
+                                     (layer      nil layer-p)) &rest body)
+  (let ((bindings nil))
+    (labels ((impl (arg-p binding)
+               (when arg-p (push binding bindings))))
+      (impl tab-width-p  `(*default-folder-tabwidth*   ,tab-width))
+      (impl tab-height-p `(*default-folder-tabheight*  ,tab-height))
+      (impl align-p      `(*default-folder-align*      ,align))
+      (impl valign-p     `(*default-folder-valign*     ,valign))
+      (impl margin-p     `(*default-folder-margin*     ,margin))
+      (impl font-p       `(*default-folder-font*       (make-font2   *default-folder-font*   ,font)))
+      (impl fill-p       `(*default-folder-fill*       (make-fill2   *default-folder-fill*   ,fill)))
+      (impl stroke-p     `(*default-folder-stroke*     (make-stroke2 *default-folder-stroke* ,stroke)))
+      (impl filter-p     `(*default-folder-filter*     ,filter))
+      (impl layer-p      `(*default-folder-layer*      ,layer)))
+    `(let ,(nreverse bindings)
+       ,@body)))

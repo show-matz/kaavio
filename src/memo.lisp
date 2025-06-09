@@ -236,26 +236,28 @@
 #|
 #|EXPORT|#                :with-memo-options
  |#
-(defmacro with-memo-options ((&key crease align valign margin
-                                   font fill fill2 stroke filter layer) &rest body)
-  (labels ((impl (params acc)
-             (if (null params)
-                 acc
-                 (let ((value  (car  params))
-                       (symbol (cadr params)))
-                   (impl (cddr params)
-                         (if (null value)
-                             acc
-                             (push (list symbol value) acc)))))))
-    (let ((lst (impl (list crease '*default-memo-crease*
-                           align  '*default-memo-align*
-                           valign '*default-memo-valign*
-                           margin '*default-memo-margin*
-                           font   '*default-memo-font*
-                           fill   '*default-memo-fill*
-                           fill2  '*default-memo-fill2*
-                           stroke '*default-memo-stroke*
-                           filter '*default-memo-filter*
-                           layer  '*default-memo-layer*) nil)))
-      `(let ,lst
-         ,@body))))
+(defmacro with-memo-options ((&key (crease nil crease-p)
+                                   (align  nil align-p)
+                                   (valign nil valign-p)
+                                   (margin nil margin-p)
+                                   (font   nil font-p)
+                                   (fill   nil fill-p)
+                                   (fill2  nil fill2-p)
+                                   (stroke nil stroke-p)
+                                   (filter nil filter-p)
+                                   (layer  nil layer-p)) &rest body)
+  (let ((bindings nil))
+    (labels ((impl (arg-p binding)
+               (when arg-p (push binding bindings))))
+      (impl crease-p   `(*default-memo-crease*  ,crease))
+      (impl align-p    `(*default-memo-align*   ,align))
+      (impl valign-p   `(*default-memo-valign*  ,valign))
+      (impl margin-p   `(*default-memo-margin*  ,margin))
+      (impl font-p     `(*default-memo-font*    (make-font2   *default-memo-font*   ,font)))
+      (impl fill-p     `(*default-memo-fill*    (make-fill2   *default-memo-fill*   ,fill)))
+      (impl fill2-p    `(*default-memo-fill2*   (make-fill2   *default-memo-fill2*  ,fill2)))
+      (impl stroke-p   `(*default-memo-stroke*  (make-stroke2 *default-memo-stroke* ,stroke)))
+      (impl filter-p   `(*default-memo-filter*  ,filter))
+      (impl layer-p    `(*default-memo-layer*   ,layer)))
+    `(let ,(nreverse bindings)
+       ,@body)))

@@ -82,6 +82,7 @@
                 :resolve-connector-points
                 :connector
                 :connect
+                :with-connector-options
                 ;constants.lisp
                 :*default-link-target*
                 :*default-endmark-1*
@@ -94,11 +95,16 @@
                 :*default-label-offset*
                 :*default-connector-style*
                 :*default-connector-spacing*
+                :*default-connector-stroke*
+                :*default-connector-layer*
+                :*default-connector-filter*
                 :*default-rectangle-rx*
                 :*default-rectangle-ry*
                 :*default-text-align*
                 :*default-paragraph-align*
                 :*default-paragraph-valign*
+                :*default-paragraph-font*
+                :*default-paragraph-layer*
                 :*default-history-count*
                 :*default-layer*
                 ;create-svg.lisp
@@ -215,6 +221,7 @@
                 :*mute-fill*
                 :fill-info
                 :make-fill
+                :make-fill2
                 ;filter.lisp
                 :*default-filter*
                 :filter
@@ -240,6 +247,7 @@
                 :*default-font-filter*
                 :font-info
                 :make-font
+                :make-font2
                 :font-calc-textarea
                 ;grid.lisp
                 :grid
@@ -319,6 +327,7 @@
                 :with-memo-options
                 ;paragraph.lisp
                 :paragraph
+                :with-paragraph-options
                 ;parallelogram.lisp
                 :parallelogram-connect-point
                 :parallelogram
@@ -384,6 +393,7 @@
                 :*mute-stroke*
                 :stroke-info
                 :make-stroke
+                :make-stroke2
                 ;table.lisp
                 :*default-table-font*
                 :*default-table-stroke*
@@ -894,14 +904,20 @@
 #|
 #|EXPORT|#                :with-options
  |#
-(defmacro with-options ((&key fill stroke font filter layer) &rest body)
-  (let ((lst nil))
-    (when font   (setf lst (push `(*default-font*   (make-font   ,font))   lst)))
-    (when fill   (setf lst (push `(*default-fill*   (make-fill   ,fill))   lst)))
-    (when stroke (setf lst (push `(*default-stroke* (make-stroke ,stroke)) lst)))
-    (when filter (setf lst (push `(*default-filter* ,filter) lst)))
-    (when layer  (setf lst (push `(*default-layer*  ,layer) lst)))
-    `(let ,lst
+(defmacro with-options ((&key (fill   nil fill-p)
+                              (stroke nil stroke-p)
+                              (font   nil font-p)
+                              (filter nil filter-p)
+                              (layer  nil layer-p)) &rest body)
+  (let ((bindings nil))
+    (labels ((impl (arg-p binding)
+               (when arg-p (push binding bindings))))
+      (impl fill-p   `(*default-fill*   (make-fill2   *default-fill*   ,fill)))
+      (impl stroke-p `(*default-stroke* (make-stroke2 *default-stroke* ,stroke)))
+      (impl font-p   `(*default-font*   (make-font2   *default-font*   ,font)))
+      (impl filter-p `(*default-filter* ,filter))
+      (impl layer-p  `(*default-layer*  ,layer)))
+    `(let ,(nreverse bindings)
        ,@body)))
 
 

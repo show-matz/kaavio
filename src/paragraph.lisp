@@ -42,10 +42,13 @@
 
 (defmethod initialize-instance :after ((shp paragraph) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (align valign font) shp
+  (with-slots (align valign font layer) shp
     (setf align  (or align  *default-paragraph-align*))
     (setf valign (or valign *default-paragraph-valign*))
-    (setf font   (make-font (or font *default-font*))))
+    (setf font   (make-font (or font *default-font*)))
+    (setf layer  (if (eq layer :none)
+                     nil
+                     (or layer *default-paragraph-layer* *default-layer*))))
   shp)
 
 (defmethod check ((shp paragraph) canvas dict)
@@ -180,5 +183,46 @@
                                    :position ,position :text ,text
                                    :align ,align :valign ,valign :rotate ,rotate
                                    :clip-path *current-clip-path*
-                                   :font ,font :link ,link :layer ,layer :id ,id)))
+                                   :font (or ,font *default-paragraph-font*)
+                                   :link ,link :layer ,layer :id ,id)))
 
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### macro with-paragraph-options
+;;
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
+;;
+;;* ${{B}{with-paragraph-options}} (${KEY} align valign font layer) ${BODY} body
+;;
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　paragraph マクロで描画されるドキュメントのデフォルトオプションを変更します。キーワード
+;;パラメータ群の説明は paragraph マクロを参照してください。
+;;
+;;${SEE_ALSO}
+;;
+;;* ドキュメント
+;;* paragraph マクロ
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
+#|
+#|EXPORT|#                :with-paragraph-options
+ |#
+(defmacro with-paragraph-options ((&key (align  nil align-p)
+                                        (valign nil valign-p)
+                                        (font   nil font-p)
+                                        (layer  nil layer-p)) &rest body)
+  (let ((bindings nil))
+    (labels ((impl (arg-p binding)
+               (when arg-p (push binding bindings))))
+      (impl align-p  `(*default-paragraph-align*  ,align))
+      (impl valign-p `(*default-paragraph-valign* ,valign))
+      (impl font-p   `(*default-paragraph-font*   (make-font2 *default-paragraph-font* ,font)))
+      (impl layer-p  `(*default-paragraph-layer*  ,layer)))
+    `(let ,(nreverse bindings)
+       ,@body)))

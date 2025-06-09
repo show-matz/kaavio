@@ -162,22 +162,18 @@
 ;;${NO_NOTES}
 ;;
 ;;--------------------------------------------------------------------------------------- END TURNUP
-(defmacro with-uml-expansion-region-options ((&key fill stroke
-                                                   corner-r filter layer) &rest body)
-  (labels ((impl (params acc)
-             (if (null params)
-                 acc
-                 (let ((value  (car  params))
-                       (symbol (cadr params)))
-                   (impl (cddr params)
-                         (if (null value)
-                             acc
-                             (push (list symbol value) acc)))))))
-    (let ((lst (impl (list fill     '*uml-expansion-region-fill*
-                           stroke   '*uml-expansion-region-stroke*
-                           corner-r '*uml-expansion-region-corner-r*
-                           filter   '*uml-expansion-region-filter*
-                           layer    '*uml-expansion-region-layer*) nil)))
-      `(let ,lst
-         ,@body))))
-
+(defmacro with-uml-expansion-region-options ((&key (fill     nil fill-p)
+                                                   (stroke   nil stroke-p)
+                                                   (corner-r nil corner-r-p)
+                                                   (filter   nil filter-p)
+                                                   (layer    nil layer-p)) &rest body)
+  (let ((bindings nil))
+    (labels ((impl (arg-p binding)
+               (when arg-p (push binding bindings))))
+      (impl fill-p     `(*uml-expansion-region-fill*     (make-fill2   *uml-expansion-region-fill*   ,fill)))
+      (impl stroke-p   `(*uml-expansion-region-stroke*   (make-stroke2 *uml-expansion-region-stroke* ,stroke)))
+      (impl corner-r-p `(*uml-expansion-region-corner-r* ,corner-r))
+      (impl filter-p   `(*uml-expansion-region-filter*   ,filter))
+      (impl layer-p    `(*uml-expansion-region-layer*    ,layer)))
+    `(let ,(nreverse bindings)
+       ,@body)))
