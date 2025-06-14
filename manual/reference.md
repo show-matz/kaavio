@@ -2991,6 +2991,58 @@ ${NO_NOTES}
 
 ${BLANK_PARAGRAPH}
 
+#### function sandbox-start
+
+<!-- stack:push li class='syntax' -->
+${SYNTAX}
+
+* ${{B}{sandbox-start}} file-spec
+
+<!-- stack:pop li -->
+
+${ARGS_AND_VALS}
+
+* `file-spec` ---- 保存するファイルを指定します。
+
+${DESCRIPTION}
+
+　`file-spec` で指定した名前のファイルを使用してサンドボックスモードを開始します。
+
+${SEE_ALSO}
+
+* sandbox-stop 関数
+
+${NO_NOTES}
+
+
+<!-- autolink: [sandbox-start 関数](#function sandbox-start) -->
+
+${BLANK_PARAGRAPH}
+
+#### function sandbox-stop
+
+<!-- stack:push li class='syntax' -->
+${SYNTAX}
+
+* ${{B}{sandbox-stop}}
+
+<!-- stack:pop li -->
+
+${DESCRIPTION}
+
+　サンドボックスモードを終了します。
+
+${SEE_ALSO}
+
+* sandbox-start 関数
+
+${NO_NOTES}
+
+
+<!-- autolink: [sandbox-stop 関数](#function sandbox-stop) -->
+
+${BLANK_PARAGRAPH}
+
 #### macro table
 
 <!-- stack:push li class='syntax' -->

@@ -82,8 +82,9 @@ SBCL でしか試しておらず、他の処理系では `misc/` 配下のファ
 思います。
 
 ### sandbox mode
+<!-- autolink: [$$](#sandbox mode) -->
 
-　`--sandbox` を指定して 実行可能バイナリを起動すれば、sandbox mode を利用することが
+　`--sandbox` を指定して実行可能バイナリを起動すれば、sandbox mode を利用することが
 できます。
 
 ```
@@ -102,6 +103,25 @@ OUT : ./sandbox.html
 kaavio のデータを編集することができます。
 
 　なお、sandbox mode を終了する場合は Ctrl+C を押下してください。
+
+${BLANK_PARAGRAPH}
+
+<!-- collapse:begin -->
+　※Common Lisp 処理系上での sandbox mode についてはこちら。
+
+　上記とは別に、Common Lisp 処理系で kaavio をロードした環境で利用できる sandbox mode も
+あります。処理系で kaavio をロードした後、出力 HTML ファイル名を指定して sandbox-start 関数
+をコールしてください。これによって、diagram マクロの評価で HTML ファイルを生成するように
+なります。この状態を元に戻すには、sandbox-stop 関数をコールしてください。Emacs+SLIME の
+ような環境を使っていれば、コード補完を利用しつつ kaavio のデータを編集できるでしょう。
+
+```lisp
+* (require :kaavio)
+* (kaavio:sandbox-start "~/sandbox.html")
+* 
+```
+<!-- collapse:end -->
+
 
 ## 簡単なサンプル
 
@@ -8424,6 +8444,8 @@ Figure. 色の名前とサンプル - 2
     * ENHANCE : UML 周辺の実装課題をさらに解消。
 * __2025/06/10 - version 0.030__
     * BUGFIX : with- 系マクロの問題を解消
+* __2025/06/14 - version 0.031__
+    * ENHANCE : Common Lisp 処理系の REPL から利用できる sandbox mode を追加
 
 ## 図表一覧
 <!-- embed:figure-list -->

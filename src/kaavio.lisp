@@ -108,6 +108,8 @@
                 :*default-history-count*
                 :*default-layer*
                 ;create-svg.lisp
+                :sandbox-start
+                :sandbox-stop
                 :create-svg
                 :diagram
                 :register-entity

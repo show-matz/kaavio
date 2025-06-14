@@ -16,6 +16,81 @@
 
 (in-package :kaavio)
 
+(defparameter *sandbox-file* nil)
+
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### function sandbox-start
+;;
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
+;;
+;;* ${{B}{sandbox-start}} file-spec
+;;
+;;<!-- stack:pop li -->
+;;
+;;${ARGS_AND_VALS}
+;;
+;;* `file-spec` ---- 保存するファイルを指定します。
+;;
+;;${DESCRIPTION}
+;;
+;;　`file-spec` で指定した名前のファイルを使用してサンドボックスモードを開始します。
+;;
+;;${SEE_ALSO}
+;;
+;;* sandbox-stop 関数
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
+#|
+#|EXPORT|#                :sandbox-start
+ |#
+(defun sandbox-start (file-spec)
+  (setf *sandbox-file* file-spec))
+
+
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### function sandbox-stop
+;;
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
+;;
+;;* ${{B}{sandbox-stop}}
+;;
+;;<!-- stack:pop li -->
+;;
+;;${DESCRIPTION}
+;;
+;;　サンドボックスモードを終了します。
+;;
+;;${SEE_ALSO}
+;;
+;;* sandbox-start 関数
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
+#|
+#|EXPORT|#                :sandbox-stop
+ |#
+(defun sandbox-stop ()
+  (setf *sandbox-file* nil))
+
+
+(defun sandbox-save-file (file-spec svg-code)
+  (with-open-file (out file-spec :direction :output :if-exists :supersede)
+    (format out "<html>~%")
+    (format out "<head>~%")
+    (format out "  <meta charset='UTF-8'>~%")
+    (format out "  <meta http-equiv='refresh' content='2; URL='>~%")
+    (format out "  <title>kaavio sandbox</title>~%")
+    (format out "</head>~%")
+    (format out "<body>~%")
+    (write-string svg-code out)
+    (format out "</body>~%")
+    (format out "</html>~%"))
+  (values))
 
 ;;------------------------------------------------------------------------------------- BEGIN TURNUP
 ;;#### macro diagram
@@ -51,7 +126,10 @@
 #|EXPORT|#                :height
  |#
 (defmacro diagram ((width height &key fill) &rest body)
-  `(create-svg (,width ,height :fill ,fill) ,@body))
+  `(let ((svg-code (create-svg (,width ,height :fill ,fill) ,@body)))
+     (if (null *sandbox-file*)
+         svg-code
+         (sandbox-save-file *sandbox-file* svg-code))))
 
 (defmacro create-svg ((width height &key fill desc) &rest body)
   (let ((g-layer-mgr (gensym "LAYER-MGR"))
