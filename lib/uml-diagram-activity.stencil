@@ -11,6 +11,7 @@
 (load-stencil :uml-fork-join)
 (load-stencil :uml-frame)
 (load-stencil :uml-note)
+(load-stencil :uml-partition)
 (load-stencil :uml-pin)
 (load-stencil :uml-signal)
 (load-stencil :uml-time-event)
