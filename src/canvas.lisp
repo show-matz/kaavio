@@ -193,8 +193,9 @@
 ;;${DESCRIPTION}
 ;;
 ;;　`canvas` の中心、幅、および高さを変数で直接参照できるかのようなレキシカル環境を確立し、
-;;コード `body` を実行します。コード `body` 内では、 `sym-center sym-width sym-height` 
-;;それぞれで指定した名前の変数で値の取得が可能です。
+;;コード `body` を実行します。
+;;コード `body` 内では、 `sym-center sym-width sym-height` それぞれで指定した名前の
+;;変数で値の取得が可能です。
 ;;
 ;;${NO_SEE_ALSO}
 ;;

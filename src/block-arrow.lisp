@@ -77,7 +77,7 @@
 (defclass block-arrow (polygon)
   ((pt1 :initform nil :initarg :pt1)    ; point
    (pt2 :initform nil :initarg :pt2)))  ; point
-  
+
 
 
 (defmethod attribute-center ((ent block-arrow))
@@ -150,7 +150,7 @@
                                    :filter (or ,filter
                                                *default-block-arrow-filter*
                                                *default-filter*)
-                                   :layer  (or ,layer 
+                                   :layer  (or ,layer
                                                *default-block-arrow-layer*
                                                *default-layer*)
                                    :link ,link :id ,id)))
@@ -213,7 +213,7 @@
                                    :filter (or ,filter
                                                *default-block-arrow-filter*
                                                *default-filter*)
-                                   :layer  (or ,layer 
+                                   :layer  (or ,layer
                                                *default-block-arrow-layer*
                                                *default-layer*)
                                    :link ,link :id ,id)))

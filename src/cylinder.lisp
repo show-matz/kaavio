@@ -38,7 +38,7 @@
 (defclass cylinder (text-shape)
   ((depth  :initform nil :initarg :depth)    ; number
    (filter :initform nil :initarg :filter))) ; (or nil keyword)
-  
+
 (defmethod initialize-instance :after ((cyl cylinder) &rest initargs)
   (declare (ignore initargs))
   (with-slots (filter layer) cyl
@@ -49,7 +49,7 @@
                      nil
                      (or layer *default-cylinder-layer* *default-layer*))))
   cyl)
-   
+
 (defmethod check ((cyl cylinder) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
@@ -71,7 +71,7 @@
         (writer-incr-level writer)
         (let ((*mute-stroke* t)
               (*current-clip-path* clip-path))
-          ;; draw 
+          ;; draw
           (path `((:move-to (0  0))
                   (:line-to (0 ,h))
                   (:arc-to ,(/ w 2) ,(/ depth 2) 0 0 0 (,w ,h))

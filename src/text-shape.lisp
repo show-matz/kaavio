@@ -105,7 +105,7 @@
 ;(defmethod post-draw ((obj text-shape) writer)
 ;  (call-next-method)
 ;  (draw-canvas-frame (shape-get-subcanvas obj) writer))
- 
+
 
 (defmethod text-shape-calc-size ((txtshp text-shape))
   (with-slots (text margin font) txtshp

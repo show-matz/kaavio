@@ -30,7 +30,7 @@ in the file system since they always return names in `directory normal
 form'."
   (flet ((component-present-p (value)
            (and value (not (eql value :unspecific)))))
-    (and 
+    (and
      (not (component-present-p (pathname-name p)))
      (not (component-present-p (pathname-type p)))
      p)))

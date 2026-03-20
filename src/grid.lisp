@@ -18,7 +18,7 @@
   ((size    :initform nil  :initarg  :size)        ; number
    (bgcolor :initform nil  :initarg  :bgcolor)     ; (or keyword string)
    (stroke  :initform nil  :initarg  :stroke)))    ; (or nil stroke-info)
-  
+
 
 (defmethod initialize-instance :after ((grd grid) &rest initargs)
   (declare (ignore initargs))

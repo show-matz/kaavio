@@ -131,7 +131,7 @@
                                  (push (canvas-fix-point canvas pt) acc))))))
       (setf points (fix-points points nil))))
   nil)
- 
+
 (defmethod entity-composition-p ((ent line))
   (or (slot-value ent 'end1)
       (slot-value ent 'end2)
@@ -170,7 +170,7 @@
         (draw-endmark end2 (line-get-endpoints ent :dest) stroke clip-path writer))
       (post-draw ent writer)))
   nil)
-  
+
 
 (defmethod attribute-center ((ent line))
   (multiple-value-bind (x y) (line-get-center ent)

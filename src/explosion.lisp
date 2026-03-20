@@ -79,7 +79,7 @@
                      (,(* w 0.40) ,(* h 0.30))))
      (t nil)))
 
-  
+
 
 ;;------------------------------------------------------------------------------
 ;;
@@ -89,7 +89,7 @@
 (defclass explosion (text-shape)
   ((pattern :initform nil :initarg :pattern)  ; number
    (filter  :initform nil :initarg :filter))) ; (or nil keyword)
-  
+
 (defmethod initialize-instance :after ((exp explosion) &rest initargs)
   (declare (ignore initargs))
   (with-slots (layer filter) exp
@@ -100,7 +100,7 @@
                      nil
                      (or filter *default-explosion-filter* *default-filter*))))
   exp)
-   
+
 (defmethod check ((exp explosion) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
@@ -117,7 +117,7 @@
     (macrolet ((register-entity (entity)
                  `(check-and-draw-local-entity ,entity canvas writer)))
       (with-slots (pattern fill stroke filter clip-path) exp
-        ;; draw 
+        ;; draw
         (let ((*current-clip-path* clip-path))
           (polygon (explosion-get-points pattern width height)
                                          :stroke stroke :fill fill :filter filter)))))

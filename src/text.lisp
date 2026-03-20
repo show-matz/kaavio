@@ -149,7 +149,7 @@
 (defmacro text (position text &key align font link layer id)
   `(register-entity (make-instance 'kaavio:text
                                    :position ,position :text ,text
-                                   :align ,align :font ,font 
+                                   :align ,align :font ,font
                                    :clip-path *current-clip-path*
                                    :link ,link :layer ,layer :id ,id)))
 

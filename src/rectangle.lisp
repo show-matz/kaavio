@@ -82,7 +82,7 @@
 
 ;;MEMO : use impelementation of shape...
 ;;(defmethod shape-connect-point ((shp rectangle) type1 type2 arg) ...)
-  
+
 ;;MEMO : use impelementation of shape...
 ;;(defmethod shape-get-subcanvas ((shp rectangle)) ...)
 
@@ -108,7 +108,7 @@
                     "/>")
       (post-draw rct writer)))
   nil)
-  
+
 
 ;;------------------------------------------------------------------------------------- BEGIN TURNUP
 ;;#### macro rect

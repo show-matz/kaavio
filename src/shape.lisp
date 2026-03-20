@@ -171,7 +171,7 @@
   (rectangle-connect-point (attribute-center shp)
                            (attribute-width  shp)
                            (attribute-height shp) type1 type2 arg))
-  
+
 
 (defmethod pre-draw ((shp shape) writer)
   (when (entity-composition-p shp)
@@ -208,5 +208,5 @@
     (check-member rotate :nullable t :types number)
     (check-object link  canvas dict :nullable t :class link-info))
   nil)
-  
+
 

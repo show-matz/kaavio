@@ -59,19 +59,19 @@
 
 ;;MEMO : use impelementation of shape...
 ;;(defmethod shape-connect-point ((grp group) type1 type2 arg) ...)
-  
+
 ;;MEMO : use impelementation of shape...
 ;;(defmethod shape-get-subcanvas ((grp group)) ...)
 
 (defmethod entity-composition-p ((grp group))
-  t)  
+  t)
 
 (defmethod draw-entity ((grp group) writer)
     (pre-draw   grp writer)
     (draw-group grp writer)
     (post-draw  grp writer)
   nil)
-                      
+
 
 (defmethod group-get-canvas ((grp group))
   (make-canvas (attribute-topleft grp)

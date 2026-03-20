@@ -74,8 +74,8 @@
          (height (+ (* cnt font-size) (* (1- cnt) spacing))))
     (values :left
             (point+ (point/y+ pt (- font-size (/ height 2))) offset))))
-  
-  
+
+
 #|
 #|EXPORT|#                :draw-label-with-point
  |#
@@ -128,8 +128,8 @@
             (write-text-tag (point-x pt)
                             (point-y pt) line writer :align align :font font :clip-path clip-path)
             (incf (point-y pt) (+ spacing size))))))))
-  
-  
+
+
 ;;------------------------------------------------------------------------------------- BEGIN TURNUP
 ;;#### function make-label
 ;;

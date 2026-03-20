@@ -98,8 +98,8 @@
 ;;${DESCRIPTION}
 ;;
 ;;　指定されたパラメータでストローク情報を生成します。ストローク情報の詳細は「[](#ストローク)」を
-;;参照してください。上記は簡潔な記述で柔軟なストローク情報の生成を可能にするためのもので、 
-;;`params` として渡されるパラメータ数に応じて以下のことをします。
+;;参照してください。上記は簡潔な記述で柔軟なストローク情報の生成を可能にするためのもので、 `params` として
+;;渡されるパラメータ数に応じて以下のことをします。
 ;;
 ;;* パラメータ数が 0 の場合
 ;;    * デフォルトのストローク情報を返します
@@ -193,7 +193,7 @@
           (t                (make-stroke :color  param :base base))))
       (let ((base (or base *default-stroke*)))
         (apply #'make-stroke :base base params))))
-          
+
 
 
 (setf *default-stroke* (make-stroke :color   :black

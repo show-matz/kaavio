@@ -52,7 +52,7 @@
                      nil
                      (or layer *default-folder-layer* *default-layer*))))
   fldr)
-  
+
 (defmethod check ((fldr folder) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)

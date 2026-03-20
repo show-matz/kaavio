@@ -97,7 +97,7 @@
 
 ;;MEMO : use impelementation of shape...
 ;;(defmethod entity-composition-p ((crs cross)) ...)
-  
+
 (defmethod draw-entity ((crs cross) writer)
   (pre-draw crs writer)
   (with-slots (width height size size-v intersection fill stroke filter clip-path) crs

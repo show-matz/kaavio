@@ -152,13 +152,13 @@
   (ellipse-connect-point (attribute-center   shp)
                          (slot-value shp 'radius-x)
                          (slot-value shp 'radius-y) type1 type2 arg))
-  
+
 ;;MEMO : use impelementation of shape...
 ;;(defmethod shape-get-subcanvas ((shp ellipse)) ...)
 
 ;;MEMO : use impelementation of shape...
 ;;(defmethod entity-composition-p ((shp ellipse)) ...)
-  
+
 (defmethod draw-entity ((shp ellipse) writer)
   (with-slots (radius-x radius-y fill stroke clip-path filter) shp
     (let ((id (and (not (entity-composition-p shp))

@@ -31,7 +31,7 @@
    (stroke  :initform nil :initarg :stroke)      ; (or nil stroke-info)
    (clip-path :initform nil :initarg :clip-path) ; (or nil symbol)
    (filter  :initform nil :initarg :filter)))    ; (or nil keyword)
-  
+
 (defmethod initialize-instance :after ((prsn person) &rest initargs)
   (declare (ignore initargs))
   (with-slots (label fill stroke filter layer) prsn

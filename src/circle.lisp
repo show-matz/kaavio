@@ -101,13 +101,13 @@
 (defmethod shape-connect-point ((shp circle) type1 type2 arg)
   (circle-connect-point (attribute-center shp)
                         (slot-value shp 'radius) type1 type2 arg))
-  
+
 ;;MEMO : use impelementation of shape...
 ;;(defmethod shape-get-subcanvas ((shp circle)) ...)
 
 ;;MEMO : use impelementation of shape...
 ;;(defmethod entity-composition-p ((shp circle)) ...)
-  
+
 (defmethod draw-entity ((shp circle) writer)
   (with-slots (radius fill stroke clip-path filter) shp
     (let ((id (and (not (entity-composition-p shp))

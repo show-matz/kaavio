@@ -235,7 +235,7 @@
                      nil
                      (or layer *default-layer*))))
   ent)
-  
+
 (defmethod check ((ent path) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)

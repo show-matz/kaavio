@@ -43,7 +43,7 @@
   t)
 
 (defmethod draw-entity ((ent group-definition) writer)
-  (with-slots (id data width height) ent
+  (with-slots (data) ent
     (writer-write writer "<defs>")
     (writer-incr-level writer)
     (pre-draw ent writer)
@@ -139,6 +139,4 @@
                                        :data   data
                                        :width  ,width
                                        :height ,height)))))
-                                       
-
 

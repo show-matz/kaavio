@@ -37,7 +37,7 @@
 (defclass document (text-shape)
   ((depth  :initform nil :initarg :depth)    ; number
    (filter :initform nil :initarg :filter))) ; (or nil keyword)
-  
+
 (defmethod initialize-instance :after ((doc document) &rest initargs)
   (declare (ignore initargs))
   (with-slots (filter layer) doc
@@ -48,7 +48,7 @@
                      nil
                      (or filter *default-document-filter* *default-filter*))))
   doc)
-   
+
 (defmethod check ((doc document) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
@@ -66,7 +66,7 @@
     (macrolet ((register-entity (entity)
                  `(check-and-draw-local-entity ,entity canvas writer)))
       (with-slots (depth fill stroke filter clip-path) doc
-        ;; draw 
+        ;; draw
         (let ((*current-clip-path* clip-path))
           (path `((:move-to ( 0  0))
                   (:line-to ( 0 ,h))

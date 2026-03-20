@@ -189,7 +189,7 @@
     (unless id
       (setf id (gensym "ENTITY")))
     (check-member layer :nullable t :types keyword)))
-  
+
 
 
 

@@ -136,7 +136,7 @@
                                  (push (canvas-fix-point canvas pt) acc))))))
       (setf points (fix-points points nil))))
   nil)
- 
+
 (defmethod entity-composition-p ((ent 3d-curve))
   (or (slot-value ent 'end1)
       (slot-value ent 'end2)))

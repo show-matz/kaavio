@@ -90,7 +90,7 @@
         (writer-incr-level writer)))))
 
 (defmethod draw-entity ((ptn pattern-definition) writer)
-  (with-slots (id data width height) ptn
+  (with-slots (data) ptn
     (writer-write writer "<defs>")
     (writer-incr-level writer)
     (pre-draw ptn writer)
@@ -199,4 +199,5 @@
                                        :href ,href :units ,units
                                        :content-units ,content-units
                                        :view-box ,view-box :transform ,transform)))))
-                                       
+
+

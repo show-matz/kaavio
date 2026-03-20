@@ -37,7 +37,7 @@
              #|x4|# (- (/ w 2) (abs offs))           ;;     (x2 y2)  |        (x1 y1)
              #|y4|# (- (/ h 2))))
     ((and (eq dir :v) (<= 0 offs))
-     (values #|x1|# (/ w 2)                          ;;   (x3 y3)    |------* (x4 y4)  
+     (values #|x1|# (/ w 2)                          ;;   (x3 y3)    |------* (x4 y4)
              #|y1|# (- (/ h 2) offs)                 ;;       *------|      |
              #|x2|# (- (/ w 2))                      ;;       |      |      |
              #|y2|# (/ h 2)                          ;;    ---|------+------|---
@@ -219,7 +219,7 @@
   (with-slots (width height direction offset) shp
     (parallelogram-connect-point (attribute-center shp)
                                  width height direction offset type1 type2 arg)))
-  
+
 ;;MEMO : use impelementation of shape...
 ;;(defmethod shape-get-subcanvas ((shp parallelogram)) ...)
 
@@ -263,7 +263,7 @@
                         "/>")
           (post-draw obj writer))))
     nil))
-  
+
 
 ;;------------------------------------------------------------------------------------- BEGIN TURNUP
 ;;#### macro parallelogram

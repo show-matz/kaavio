@@ -1,6 +1,7 @@
 <!-- title:kaavio readme -->
 <!-- style:./default.css -->
 
+<!-- config:embed-stylesheet -->
 <!-- config:write-comment -->
 <!-- config:header-numbering 2 5 -->
 <!-- config:entity-numbering-depth 1 -->
@@ -8446,6 +8447,8 @@ Figure. 色の名前とサンプル - 2
     * BUGFIX : with- 系マクロの問題を解消
 * __2025/06/14 - version 0.031__
     * ENHANCE : Common Lisp 処理系の REPL から利用できる sandbox mode を追加
+* __2026/03/20 - version 0.032__
+    * DOCUMENT : マニュアル（この文書）に CSS を埋め込む方式に変更
 
 ## 図表一覧
 <!-- embed:figure-list -->

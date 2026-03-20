@@ -70,7 +70,7 @@
   ((crease  :initform nil :initarg :crease)   ; number
    (fill2   :initform nil :initarg :fill2)    ; (or nil fill-info)
    (filter  :initform nil :initarg :filter))) ; (or nil keyword)
-  
+
 (defmethod initialize-instance :after ((obj memo) &rest initargs)
   (declare (ignore initargs))
   (with-slots (crease fill2 filter layer) obj
@@ -83,7 +83,7 @@
                      nil
                      (or layer *default-memo-layer* *default-layer*))))
   obj)
-   
+
 (defmethod check ((obj memo) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)

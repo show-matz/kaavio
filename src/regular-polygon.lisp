@@ -80,7 +80,7 @@
 (defmethod shape-connect-point ((shp regular-polygon) type1 type2 arg)
   (circle-connect-point (attribute-center shp)
                         (slot-value shp 'radius) type1 type2 arg))
-  
+
 ;;MEMO : use impelementation of shape...
 ;;(defmethod shape-get-subcanvas ((shp regular-polygon)) ...)
 

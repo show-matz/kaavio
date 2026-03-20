@@ -41,7 +41,7 @@
                      nil
                      (or layer *default-layer*))))
   ent)
-  
+
 (defmethod check ((ent polygon) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)

@@ -94,7 +94,7 @@
   (with-slots (text) shp
     (or (< 1 (length text))
         (call-next-method))))
-  
+
 (defmethod pre-draw ((shp paragraph) writer)
   (call-next-method)
   (with-slots (text) shp
@@ -136,7 +136,7 @@
               (incf y line-spacing)))
         (post-draw shp writer))))
   nil)
-                      
+
 
 
 ;;------------------------------------------------------------------------------------- BEGIN TURNUP

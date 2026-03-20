@@ -19,7 +19,7 @@
   ((current  :initform nil :initarg :current)  ; (or nil keyword symbol)
    (counter  :initform   0 :initarg :counter)  ; integer
    (map      :initform nil :initarg :map)))    ; hashtable
-             
+
 (defun layer-create-manager ()
   (make-instance 'layer-manager
                  :current nil

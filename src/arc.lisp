@@ -74,7 +74,7 @@
 
 (defun arc-draw-endmarks (ent clip-path writer)
   (with-slots (pt1 pt2 rx ry x-axis-rotation
-                  degree1 degree2 end1 end2 stroke debug) ent
+                  degree1 degree2 end1 end2 stroke) ent
     (let ((sin-d1 (math/sin1 x-axis-rotation))
           (cos-d1 (math/cos1 x-axis-rotation)))
       ;; 原点中心、回転なしの正規化されたベース楕円で始点 (k1 m1)、終点 (k2 m2) を再計算

@@ -60,12 +60,12 @@
            (if (= bc-size 40)
                (values (bin/read-value :uint32 reader :endian :little)
                        (bin/read-value :uint32 reader :endian :little))
-               (if (= bc-size 12)
-                   (values (bin/read-value :uint16 reader :endian :little)
-                           (bin/read-value :uint16 reader :endian :little)))))))
+               (when (= bc-size 12)
+                 (values (bin/read-value :uint16 reader :endian :little)
+                         (bin/read-value :uint16 reader :endian :little)))))))
 
       (t (values nil nil)))))
-       
+
 
 
 ;;------------------------------------------------------------------------------
@@ -146,7 +146,7 @@
 
 ;;MEMO : use impelementation of shape...
 ;;(defmethod shape-connect-point ((img image) type1 type2 arg) ...)
-  
+
 ;;MEMO : use impelementation of shape...
 ;;(defmethod shape-get-subcanvas ((img image)) ...)
 

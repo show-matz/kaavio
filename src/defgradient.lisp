@@ -37,8 +37,8 @@
         (color   (slot-value stop 'color))
         (opacity (slot-value stop 'opacity)))
     (writer-write writer
-                  "<stop offset='" offset "' " 
-                        "stop-color='" color "' " 
+                  "<stop offset='" offset "' "
+                        "stop-color='" color "' "
                     (write-when opacity
                         "stop-opacity='" opacity "' ")
                   "/>")))
@@ -159,10 +159,10 @@
 #|EXPORT|#                :radial-gradient-definition
  |#
 (defclass radial-gradient-definition (gradient-definition)
-  ((cx     :initform nil :initarg :cx)    
-   (cy     :initform nil :initarg :cy)    
-   (fx     :initform nil :initarg :fx)    
-   (fy     :initform nil :initarg :fy)    
+  ((cx     :initform nil :initarg :cx)
+   (cy     :initform nil :initarg :cy)
+   (fx     :initform nil :initarg :fx)
+   (fy     :initform nil :initarg :fy)
    (radius :initform nil :initarg :radius)))
 
 (defmethod check ((obj radial-gradient-definition) canvas dict)
@@ -220,9 +220,9 @@
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　与えられたパラメータでグラデーションを定義します。グラデーションの詳細は 
-;;[$@ 節](#グラデーション)を参照してください。説明不足ですが、基本的に SVG 規格に沿って
-;;いますので必要に応じて書籍や規格にあたってください。
+;;　与えられたパラメータでグラデーションを定義します。グラデーションの詳細は [$@ 節](#グラデーション)を
+;;参照してください。説明不足ですが、基本的に SVG 規格に沿っていますので必要に応じて書籍や規格にあたって
+;;ください。
 ;;
 ;;　`params` はグラデーションの種類（linear/radial）によって異なりますが、いずれの場合でも
 ;;名前付きパラメータとして扱われます。まず、共通のパラメータを以下に示します。

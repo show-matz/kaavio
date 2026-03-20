@@ -145,4 +145,4 @@
                                         :height  (canvas-height  canvas)))
        (let ((*current-clip-path* ',g-clippath-id))
          ,@body))))
-  
+

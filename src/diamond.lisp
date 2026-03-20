@@ -131,7 +131,7 @@
   (diamond-connect-point (attribute-center   shp)
                          (slot-value shp 'width)
                          (slot-value shp 'height) type1 type2 arg))
-  
+
 ;;MEMO : use impelementation of shape...
 ;;(defmethod shape-get-subcanvas ((shp diamond)) ...)
 
@@ -168,7 +168,7 @@
                       "/>")
         (post-draw rct writer))))
   nil)
-  
+
 
 ;;------------------------------------------------------------------------------------- BEGIN TURNUP
 ;;#### macro diamond

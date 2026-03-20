@@ -31,7 +31,7 @@
                  :hist-top  nil
                  :hist-size 0
                  :map       (make-hash-table :test 'eq)))
-                 
+
 
 (defun dict-register (dict entity)
   (with-slots (history-max history-top history-size map) dict
@@ -56,7 +56,7 @@
                      (parse-integer str :start 1 :junk-allowed t)
                    (when (= end (length str))
                      idx))))))
-    (with-slots (history-max history-top history-size map) dict
+    (with-slots (history-top history-size map) dict
       (let ((index (history-kwd-p id)))
         (if (null index)
             (gethash id map)

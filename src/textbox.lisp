@@ -42,7 +42,7 @@
    (rx        :initform nil :initarg       :rx)    ; number
    (ry        :initform nil :initarg       :ry)    ; number
    (filter    :initform nil :initarg   :filter)))  ; (or nil keyword)
-  
+
 (defmethod initialize-instance :after ((box textbox) &rest initargs)
   (declare (ignore initargs))
   (with-slots (filter layer) box
@@ -53,7 +53,7 @@
                      nil
                      (or layer *default-textbox-layer* *default-layer*))))
   box)
-   
+
 ;; override of group::draw-group
 (defmethod draw-group ((box textbox) writer)
   (let* ((canvas (group-get-canvas box))

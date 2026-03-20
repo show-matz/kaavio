@@ -75,7 +75,7 @@
 ;; override of group::draw-group
 (defmethod draw-group ((cb cube) writer)
   (let ((canvas (group-get-canvas cb)))
-    (with-slots (depth contents-p fill fill2 stroke filter clip-path) cb
+    (with-slots (depth fill fill2 stroke filter clip-path) cb
       (let* ((width     (canvas-width  canvas))
              (height    (canvas-height canvas))
              (x         (/ width  2))

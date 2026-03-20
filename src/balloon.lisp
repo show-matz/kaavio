@@ -112,7 +112,7 @@
   ((round   :initform nil :initarg :round)    ; number
    (anchor  :initform nil :initarg :anchor)   ; point
    (filter  :initform nil :initarg :filter))) ; (or nil keyword)
-  
+
 (defmethod initialize-instance :after ((bln balloon) &rest initargs)
   (declare (ignore initargs))
   (with-slots (layer filter) bln
@@ -123,7 +123,7 @@
                      nil
                      (or filter *default-balloon-filter* *default-filter*))))
   bln)
-   
+
 (defmethod check ((bln balloon) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
