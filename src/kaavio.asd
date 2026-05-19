@@ -267,6 +267,11 @@
                                                                 "constants"
                                                                 "clipping"
                                                                 "path"))
+                (:file "pipe"                      :depends-on ("kaavio"
+                                                                "constants"
+                                                                "path"
+                                                                "filter"
+                                                                "text-shape"))
                 (:file "point"                     :depends-on ("kaavio"))
                 (:file "polygon"                   :depends-on ("kaavio"
                                                                 "constants"

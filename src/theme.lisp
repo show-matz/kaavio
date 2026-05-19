@@ -32,6 +32,7 @@
                     :fill2  :palegreen3    :crease 30 :align :left :valign :top)
       (:cube        :stroke :black         :fill :lightgray :fill2 :darkgray)
       (:cylinder    :stroke :black         :fill :white)
+      (:pipe        :stroke :black         :fill :lightgray)
       (:explosion   :stroke :red           :fill :pink)
       (:cross       :stroke :black         :fill :white)
       (:block-arrow :stroke :navy          :fill :skyblue))))

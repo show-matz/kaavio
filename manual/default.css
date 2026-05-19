@@ -79,17 +79,17 @@ kbd, samp { color: #000; background:#eee;
 code { color: #000;
        line-height:1.2em;
        _font-family: monospace, monospace;
-       font-family: 'Courier New', monospace; font-size: 0.98em; }
+       font-family: 'Courier New', monospace; font-size: 1.10em; }
 
 /* normal pre block */
 pre {
-    background:    #eee;
-    color:         #000;
-    font-size:     0.98em;
-    border:        1px solid #ccc;
-    border-radius: 8px;
-    margin-left:   2em;
-    margin-right:  2em;
+    background:     #eee;
+    color:          #000;
+    font-size:      12px;
+    border:         1px solid #ccc;
+    border-radius:  8px;
+    margin-left:    2em;
+    margin-right:   2em;
     padding:       .5em;
 
     white-space: pre;
@@ -128,14 +128,14 @@ td { vertical-align: top; padding: 3px; border: 1px solid black;}
 
 /* for filters */
 pre.diff {
-    background:      #334;
-    color:           #fff;
-    font-size:       14px;
-    border:          1px solid #000;
-    border-radius:   8px;
-    margin-left:     2em;
-    margin-right:    2em;
-    padding:        .5em;
+    background:     #334;
+    color:          #fff;
+    font-size:      12px;
+    border:         1px solid #000;
+    border-radius:  8px;
+    margin-left:    2em;
+    margin-right:   2em;
+    padding:       .5em;
 }
 span.diff_head { color: #FF88FF; background: #550055; font-weight: bold; }
 span.diff_line { color: #CCCCFF; background: #000077; font-weight: bold; }
@@ -143,24 +143,46 @@ span.diff_add  { color: #DCFBDC; background: #004400; font-weight: bold; }
 span.diff_del  { color: #FBDCDC; background: #550000; font-weight: bold; }
 
 pre.code {
-    background:      #334;
-    color:           #fff;
-    font-size:       14px;
-    border:          1px solid #000;
-    border-radius:   8px;
-    margin-left:     2em;
-    margin-right:    2em;
-    padding:        .5em;
+    background:     #e0eaee;
+    color:          #000000;
+    font-size:      14px;
+    border:         1px solid #aaa;
+    border-radius:  8px;
+    margin-left:    2em;
+    margin-right:   2em;
+    padding:       .5em;
 }
-span.comment  { color: darkorange; }
-span.keyword1 { color: cyan; }
-span.keyword2 { color: lime; }
-span.keyword3 { color: aquamarine; }
-span.keyword4 { color: yellow; }
-span.keyword5 { color: skyblue; }
-span.keyword6 { color: lightgray; }
-span.literal  { color: salmon; }
+span.comment  { color: brown; }
+span.keyword1 { color: blue; }
+span.keyword2 { color: green; }
+span.keyword3 { color: darkslateblue; }
+span.keyword4 { color: #b07e00; }
+span.keyword5 { color: purple; }
+span.keyword6 { color: gray; }
+span.literal  { color: #bf0303; }
 
+
+/* for highlight */
+pre.hl	{ color:#000000; background-color:#e0eaee; font-size:11pt; font-family:'Courier New',monospace; white-space: pre-wrap; }
+.hl.num { color:#b07e00; }
+.hl.esc { color:#ff00ff; }
+.hl.sng { color:#bf0303; }
+.hl.pps { color:#818100; }
+.hl.slc { color:#838183; font-style:italic; }
+.hl.com { color:#838183; font-style:italic; }
+.hl.ppc { color:#008200; }
+.hl.opt { color:#000000; }
+.hl.ipl { color:#0057ae; }
+.hl.lin { color:#555555; user-select: none; }
+.hl.hvr { cursor:help; }
+.hl.erm { color:#ff0000; font-weight:bold; border:solid 1px red; margin-left: 3em; }
+.hl.err { color:#ff0000; font-weight:bold; }
+.hl.kwa { color:#000000; font-weight:bold; }
+.hl.kwb { color:#0057ae; }
+.hl.kwc { color:#000000; }
+.hl.kwd { color:#010181; }
+.hl.kwe { color:#0d5bc3; }
+.hl.kwf { color:#750dc3; }
 
 /* for collapse */
 details {

@@ -7,8 +7,7 @@
 <!-- config:entity-numbering-depth 1 -->
 <!-- <!-- config:term-link-in-header -->
 
-<!-- filter:kaavio   = bash ./kaavio.sh   %in %out -->
-<!-- filter:plantuml = bash ./plantuml.sh %in %out -->
+<!-- filter:kaavio   = /opt/turnup/filters.sh kaavio    %in %out      -->
 
 <!-- define: BLANK_PARAGRAPH = '　　' -->
 <!-- define: TODO = '@((background:red;color:white;)(ToDo : %1))' -->
@@ -949,6 +948,7 @@ ${BLANK_PARAGRAPH}
 <!-- define: HASH_CYLINDER   = '[](#円柱)' -->
 <!-- define: HASH_EXPLOSION  = '[](#爆発)' -->
 <!-- define: HASH_CROSS      = '[](#十字)' -->
+<!-- define: HASH_PIPE       = '[](#パイプ)' -->
 <!-- define: HASH_BLOCKARROW = '[](#ブロック矢印)' -->
 <!-- define: HASH_BRACE      = '[](#波括弧)' -->
 <!-- define: HASH_TABLE      = '[](#テーブル)' -->
@@ -1018,6 +1018,10 @@ ${BLANK_PARAGRAPH}
       (cross (y+ canvas.center -10) (- canvas.width 30) (- canvas.height 30) 20 
                                        :stroke :purple :fill :plum)
       (text `(,(/ w 2) ,(- h 5)) "十字" :align :center))
+    (defgroup (w h :pipe-grp)
+      (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
+      (pipe '(50 40) :h 80 :stroke :black :fill :lightgray :label '("pipe" :offset (0 18)))
+      (text `(,(/ w 2) ,(- h 5)) "パイプ" :align :center))
     (defgroup (w h :blockarrow-grp)
       (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
       (block-arrow1 '(0 40) '(100 40) 20 :margin 5 :stroke :brown :fill :burlywood)
@@ -1042,9 +1046,10 @@ ${BLANK_PARAGRAPH}
     (use :cylinder-grp   '(460 180) :link "${HASH_CYLINDER}")
     (use :explosion-grp  '(590 180) :link "${HASH_EXPLOSION}")
     (use :cross-grp      '(720 180) :link "${HASH_CROSS}")
-    (use :blockarrow-grp '( 70 300) :link "${HASH_BLOCKARROW}")
-    (use :brace-grp      '(200 300) :link "${HASH_BRACE}")
-    (use :table-grp      '(330 300) :link "${HASH_TABLE}")))
+    (use :pipe-grp       '( 70 300) :link "${HASH_PIPE}")
+    (use :blockarrow-grp '(200 300) :link "${HASH_BLOCKARROW}")
+    (use :brace-grp      '(330 300) :link "${HASH_BRACE}")
+    (use :table-grp      '(460 300) :link "${HASH_TABLE}")))
 ```
 
 ### コネクタ
@@ -1771,6 +1776,55 @@ ${BLANK_PARAGRAPH}
 <!-- expand: WITH-CROSS-OPTIONS-SAMPLE -->
 ```
 Figure. with-cross-options のサンプル
+
+### パイプ
+<!-- autolink: [$$](#パイプ) -->
+
+<!-- snippet: PIPE-SAMPLE
+(diagram (300 150)
+  (grid)
+  (with-options (:fill :skyblue
+                 :stroke '(:color :navy :width 2))
+    (pipe '( 50 75) :v  90 :width 30 :label "pipe1")
+    (pipe '(180 75) :h 150 :depth 16 :label '("pipe2" :offset (0 18)))))
+-->
+
+　pipe マクロにより、縦方向または横方向に伸びる細長いパイプを描画できます。
+
+```kaavio
+<!-- expand: PIPE-SAMPLE -->
+```
+Figure. パイプのサンプル
+
+　上記サンプルのソースは以下の通りです。パラメータの詳細については pipe マクロを参照して
+ください。
+
+```lisp
+<!-- expand: PIPE-SAMPLE -->
+```
+
+${BLANK_PARAGRAPH}
+
+　図の中でパイプのスタイルを統一する作業を簡単にするために、with-pipe-options マクロが
+用意されています。これを以下のように使用することで、複数のパイプのスタイルを一箇所で指定
+することができます。
+
+<!-- snippet: WITH-PIPE-OPTIONS-SAMPLE
+(diagram (300 100)
+  (grid)
+  (with-pipe-options (:stroke :orangered3 :fill :thistle1)
+    (pipe '( 50 50) :v  40 :label "pipe1")
+    (pipe '(180 50) :h 150 :label '("pipe2" :offset (0 18)))))
+-->
+
+```lisp
+<!-- expand: WITH-PIPE-OPTIONS-SAMPLE -->
+```
+
+```kaavio
+<!-- expand: WITH-PIPE-OPTIONS-SAMPLE -->
+```
+Figure. with-pipe-options のサンプル
 
 ### ブロック矢印
 <!-- autolink: [$$](#ブロック矢印) -->
@@ -3196,7 +3250,7 @@ Figure. with-clipping-current-canvas マクロの例
 Figure. with-clipping-use マクロの例
 
 　より複雑なパスでクリッピングを行なうことも可能です。以下では、文字を使ってクリッピング
-をています。
+をしています。
 
 <!-- snippet: DEFS-CLIPPING-SAMPLE-4
 (diagram (280 160)
@@ -3844,7 +3898,8 @@ ${BLANK_PARAGRAPH}
       (cylinder     (xy+ cc   65    0)  70 60 "cylinder")
       (explosion1   (xy+ cc  190    0) 110 90 "explosion")
       (cross        (xy+ cc -190  100)  70 70 20)
-      (block-arrow1 (xy+ cc -100  100) (xy+ cc -20 100) 20))))
+      (block-arrow1 (xy+ cc -100  100) (xy+ cc -20 100) 20)
+      (pipe         (xy+ cc   65  100) :h 80 :label "pipe"))))
 -->
 
 ```lisp
@@ -3969,7 +4024,8 @@ ${BLANK_PARAGRAPH}
       (cylinder     (xy+ cc   65    0)  70 60 "cylinder")
       (explosion1   (xy+ cc  190    0) 110 90 "explosion")
       (cross        (xy+ cc -190  100)  70 70 20)
-      (block-arrow1 (xy+ cc -100  100) (xy+ cc -20 100) 20))))
+      (block-arrow1 (xy+ cc -100  100) (xy+ cc -20 100) 20)
+      (pipe         (xy+ cc   65  100) :h 80 :label "pipe"))))
 ```
 Figure. テーマのカスタマイズ例
 
@@ -8449,6 +8505,8 @@ Figure. 色の名前とサンプル - 2
     * ENHANCE : Common Lisp 処理系の REPL から利用できる sandbox mode を追加
 * __2026/03/20 - version 0.032__
     * DOCUMENT : マニュアル（この文書）に CSS を埋め込む方式に変更
+* __2026/05/19 - version 0.033__
+    * ENHANCE : [$$](#パイプ)を追加
 
 ## 図表一覧
 <!-- embed:figure-list -->

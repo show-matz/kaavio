@@ -343,6 +343,18 @@
                 :*default-person-layer*
                 :person
                 :with-person-options
+                ;pipe.lisp
+                :*default-pipe-depth*
+                :*default-pipe-align*
+                :*default-pipe-valign*
+                :*default-pipe-margin*
+                :*default-pipe-font*
+                :*default-pipe-fill*
+                :*default-pipe-stroke*
+                :*default-pipe-filter*
+                :*default-pipe-layer*
+                :pipe
+                :with-pipe-options
                 ;point.lisp
                 :make-point
                 :copy-point

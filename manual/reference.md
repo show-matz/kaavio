@@ -2248,6 +2248,49 @@ ${NO_NOTES}
 
 ${BLANK_PARAGRAPH}
 
+#### macro pipe
+
+<!-- stack:push li class='syntax' -->
+${SYNTAX}
+
+* ${{B}{pipe}} position direction length ${KEY} width pivot depth fill stroke label link rotate layer filter id
+
+<!-- stack:pop li -->
+
+${ARGS_AND_VALS}
+
+* `position` ---- 描画の基準点を指定します。詳細は「[](#座標と位置)」を参照してください。
+* `direction` ---- パイプの向きを `:h` か `:v` で指定します。横方向に伸びるパイプは `:h` 、縦方向なら `:v` です。
+* `length` ----  パイプの長さを数値で指定します。
+* `width` ----  パイプの幅を数値で指定します。
+* `pivot` ----  基準点がパイプのどこにくるように描画するかを指定します。詳細は「[](#座標と位置)」を参照してください。
+* `depth` ----  曲線部分のサイズを指定します。
+* `fill` ----  内部の塗り潰しを指定します。
+* `stroke` ----  外枠を描画する線を指定します。
+* `label` ---- ラベルを付ける場合は指定します。
+* `link` ----  リンクにする場合、リンク先を指定します。
+* `rotate` ----  回転させたい場合に、その角度を指定します。
+* `layer` ---- レイヤーを指定する場合、その ID をキーワードシンボルで指定します
+* `filter` ---- フィルタを適用したい場合、その ID をキーワードシンボルで指定します
+* `id` ---- ID を付与したい場合、その名前をキーワードシンボルで指定します
+
+${DESCRIPTION}
+
+　パイプを描画します。複数のパイプでスタイルを統一したい場合、with-pipe-options マクロを
+使うことができます。
+
+${SEE_ALSO}
+
+* パイプ
+* with-pipe-options マクロ
+
+${NO_NOTES}
+
+
+<!-- autolink: [pipe マクロ](#macro pipe) -->
+
+${BLANK_PARAGRAPH}
+
 #### function point*
 
 <!-- stack:push li class='syntax' -->
@@ -5467,6 +5510,33 @@ ${NO_NOTES}
 
 
 <!-- autolink: [with-person-options マクロ](#macro with-person-options) -->
+
+${BLANK_PARAGRAPH}
+
+#### macro with-pipe-options
+
+<!-- stack:push li class='syntax' -->
+${SYNTAX}
+
+* ${{B}{with-pipe-options}} (${KEY} depth width fill stroke filter layer) ${BODY} body
+
+
+<!-- stack:pop li -->
+
+${DESCRIPTION}
+
+　pipe マクロで描画されるパイプのデフォルトオプションを変更します。キーワードパラメータ
+群の説明は pipe マクロを参照してください。
+
+${SEE_ALSO}
+
+* パイプ
+* pipe マクロ
+
+${NO_NOTES}
+
+
+<!-- autolink: [with-pipe-options マクロ](#macro with-pipe-options) -->
 
 ${BLANK_PARAGRAPH}
 
