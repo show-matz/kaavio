@@ -2694,6 +2694,47 @@ ${NO_NOTES}
 
 ${BLANK_PARAGRAPH}
 
+#### macro prohibition
+
+<!-- stack:push li class='syntax' -->
+${SYNTAX}
+
+* ${{B}{prohibition}} position size ${KEY} width pivot fill stroke label link rotate layer filter id
+
+<!-- stack:pop li -->
+
+${ARGS_AND_VALS}
+
+* `position` ---- 描画の基準点を指定します。詳細は「[](#座標と位置)」を参照してください。
+* `size` ---- 禁止マークのサイズを数値で指定します。
+* `bar-width` ----  禁止マークのバーの太さを数値で指定します。省略した場合は `size` の 8 分の 1 が使用されます。
+* `pivot` ----  基準点が禁止マークのどこにくるように描画するかを指定します。詳細は「[](#座標と位置)」を参照してください。
+* `fill` ----  内部の塗り潰しを指定します。
+* `stroke` ----  外枠を描画する線を指定します。
+* `label` ---- ラベルを付ける場合は指定します。
+* `link` ----  リンクにする場合、リンク先を指定します。
+* `rotate` ----  回転させたい場合に、その角度を指定します。
+* `layer` ---- レイヤーを指定する場合、その ID をキーワードシンボルで指定します
+* `filter` ---- フィルタを適用したい場合、その ID をキーワードシンボルで指定します
+* `id` ---- ID を付与したい場合、その名前をキーワードシンボルで指定します
+
+${DESCRIPTION}
+
+　禁止マークを描画します。複数の禁止マークでスタイルを統一したい場合、with-prohibition-options マクロを
+使うことができます。
+
+${SEE_ALSO}
+
+* 禁止マーク
+* with-prohibition-options マクロ
+
+${NO_NOTES}
+
+
+<!-- autolink: [prohibition マクロ](#macro prohibition) -->
+
+${BLANK_PARAGRAPH}
+
 #### function pt*
 
 <!-- stack:push li class='syntax' -->
@@ -5629,6 +5670,33 @@ ${NO_NOTES}
 
 
 <!-- autolink: [with-point マクロ](#macro with-point) -->
+
+${BLANK_PARAGRAPH}
+
+#### macro with-prohibition-options
+
+<!-- stack:push li class='syntax' -->
+${SYNTAX}
+
+* ${{B}{with-prohibition-options}} (${KEY} fill stroke filter layer) ${BODY} body
+
+
+<!-- stack:pop li -->
+
+${DESCRIPTION}
+
+　prohibition マクロで描画される禁止マークのデフォルトオプションを変更します。キーワードパラメータ
+群の説明は prohibition マクロを参照してください。
+
+${SEE_ALSO}
+
+* 禁止マーク
+* prohibition マクロ
+
+${NO_NOTES}
+
+
+<!-- autolink: [with-prohibition-options マクロ](#macro with-prohibition-options) -->
 
 ${BLANK_PARAGRAPH}
 

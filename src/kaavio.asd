@@ -281,6 +281,10 @@
                                                                 "clipping"
                                                                 "filter"
                                                                 "writer"))
+                (:file "prohibition"               :depends-on ("kaavio"
+                                                                "constants"
+                                                                "clipping"
+                                                                "path"))
                 (:file "raw-svg"                   :depends-on ("kaavio"
                                                                 "constants"
                                                                 "entity"

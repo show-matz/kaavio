@@ -378,6 +378,13 @@
                 :with-point
                 ;polygon.lisp
                 :polygon
+                ;prohibition.lisp
+                :*default-prohibition-fill*
+                :*default-prohibition-stroke*
+                :*default-prohibition-filter*
+                :*default-prohibition-layer*
+                :prohibition
+                :with-prohibition-options
                 ;raw-svg.lisp
                 :raw-svg
                 ;rectangle.lisp

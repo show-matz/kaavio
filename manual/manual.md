@@ -951,6 +951,7 @@ ${BLANK_PARAGRAPH}
 <!-- define: HASH_CROSS      = '[](#十字)' -->
 <!-- define: HASH_PIPE       = '[](#パイプ)' -->
 <!-- define: HASH_BLOCKARROW = '[](#ブロック矢印)' -->
+<!-- define: HASH_PROHIBITION = '[](#禁止マーク)' -->
 <!-- define: HASH_BRACE      = '[](#波括弧)' -->
 <!-- define: HASH_TABLE      = '[](#テーブル)' -->
 
@@ -1032,6 +1033,10 @@ ${BLANK_PARAGRAPH}
       (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
       (block-arrow1 '(0 40) '(100 40) 20 :margin 5 :stroke :brown :fill :burlywood)
       (text `(,(/ w 2) ,(- h 5)) "ブロック矢印" :align :center))
+    (defgroup (w h :prohibit-grp)
+      (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
+      (prohibition '(50 40) 60 :stroke :red :fill :pink)
+      (text `(,(/ w 2) ,(- h 5)) "禁止マーク" :align :center))
     (defgroup (w h :brace-grp)
       (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
       (brace (y+ canvas.center -20) :upper 80 30 :r 10 :text "this is brace." :stroke :navy)
@@ -1055,8 +1060,9 @@ ${BLANK_PARAGRAPH}
     (use :cross-grp      '( 70 300) :link "${HASH_CROSS}")
     (use :pipe-grp       '(200 300) :link "${HASH_PIPE}")
     (use :blockarrow-grp '(330 300) :link "${HASH_BLOCKARROW}")
-    (use :brace-grp      '(460 300) :link "${HASH_BRACE}")
-    (use :table-grp      '(590 300) :link "${HASH_TABLE}")))
+    (use :prohibit-grp   '(460 300) :link "${HASH_PROHIBITION}")
+    (use :brace-grp      '(590 300) :link "${HASH_BRACE}")
+    (use :table-grp      '(720 300) :link "${HASH_TABLE}")))
 ```
 
 ### コネクタ
@@ -1982,6 +1988,56 @@ ${BLANK_PARAGRAPH}
 <!-- expand: WITH-BLOCK-ARROW-OPTIONS-SAMPLE -->
 ```
 Figure. with-block-arrow-options のサンプル
+
+### 禁止マーク
+<!-- autolink: [$$](#禁止マーク) -->
+
+<!-- snippet: PROHIBITION-SAMPLE
+(diagram (300 150)
+  (grid)
+  (drop-shadow)
+  (prohibition '( 80 60) 100 :stroke :red     :fill :pink   :filter :drop-shadow)
+  (prohibition '(220 60) 100 :stroke :crimson :fill :salmon :label "with label."))
+-->
+
+　prohibition マクロにより、禁止マークを描画できます。
+
+```kaavio
+<!-- expand: PROHIBITION-SAMPLE -->
+```
+Figure. 禁止マークのサンプル
+
+　上記サンプルのソースは以下の通りです。パラメータの詳細については prohibition マクロを参照して
+ください。
+
+```lisp
+<!-- expand: PROHIBITION-SAMPLE -->
+```
+
+${BLANK_PARAGRAPH}
+
+　図の中で禁止マークのスタイルを統一する作業を簡単にするために、with-prohibition-options マクロが
+用意されています。これを以下のように使用することで、複数の禁止マークのスタイルを一箇所で指定
+することができます。
+
+<!-- snippet: WITH-PROHIBITION-OPTIONS-SAMPLE
+(diagram (300 110)
+  (grid)
+  (drop-shadow)
+  (with-prohibition-options (:fill :pink
+                             :stroke '(:color :crimson :width 2))
+    (prohibition '( 80 40) 60 :filter :drop-shadow)
+    (prohibition '(220 40) 60 :label "with label.")))
+-->
+
+```lisp
+<!-- expand: WITH-PROHIBITION-OPTIONS-SAMPLE -->
+```
+
+```kaavio
+<!-- expand: WITH-PROHIBITION-OPTIONS-SAMPLE -->
+```
+Figure. with-prohibition-options のサンプル
 
 ### 波括弧
 <!-- autolink: [$$](#波括弧) -->
@@ -3952,9 +4008,9 @@ ${BLANK_PARAGRAPH}
       (cube         (xy+ cc  -65    0)  70 60 "cube")
       (cylinder     (xy+ cc   65    0)  70 60 "cylinder")
       (explosion1   (xy+ cc  190    0) 110 90 "explosion")
-      (star         (xy+ cc -190  100)  70 70 "star")
-      (cross        (xy+ cc -100  100)  70 70 20)
-      (block-arrow1 (xy+ cc   65  100) (xy+ cc -20 100) 20)
+      (star         (xy+ cc -190  100) 5 70 70 "star")
+      (cross        (xy+ cc  -65  100)  70 70 20)
+      (block-arrow1 (xy+ cc  105  100) (xy+ cc 25 100) 20)
       (pipe         (xy+ cc  190  100) :h 80 :label "pipe"))))
 -->
 
@@ -4079,9 +4135,9 @@ ${BLANK_PARAGRAPH}
       (cube         (xy+ cc  -65    0)  70 60 "cube")
       (cylinder     (xy+ cc   65    0)  70 60 "cylinder")
       (explosion1   (xy+ cc  190    0) 110 90 "explosion")
-      (star         (xy+ cc -190  100)  70 70 "star")
-      (cross        (xy+ cc -100  100)  70 70 20)
-      (block-arrow1 (xy+ cc   65  100) (xy+ cc -20 100) 20)
+      (star         (xy+ cc -190  100) 5 70 70 "star")
+      (cross        (xy+ cc  -65  100)  70 70 20)
+      (block-arrow1 (xy+ cc  105  100) (xy+ cc 25 100) 20)
       (pipe         (xy+ cc  190  100) :h 80 :label "pipe"))))
 ```
 Figure. テーマのカスタマイズ例
@@ -8564,8 +8620,9 @@ Figure. 色の名前とサンプル - 2
     * DOCUMENT : マニュアル（この文書）に CSS を埋め込む方式に変更
 * __2026/05/19 - version 0.033__
     * ENHANCE : [$$](#パイプ)を追加
-* __2026/05/?? - version 0.034__
+* __2026/05/22 - version 0.034__
     * ENHANCE : [$$](#星型)を追加
+    * ENHANCE : [$$](#禁止マーク)を追加
 
 ## 図表一覧
 <!-- embed:figure-list -->
