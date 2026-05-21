@@ -34,6 +34,7 @@
       (:cylinder    :stroke :black         :fill :white)
       (:pipe        :stroke :black         :fill :lightgray)
       (:explosion   :stroke :red           :fill :pink)
+      (:star        :stroke :brown         :fill :khaki)
       (:cross       :stroke :black         :fill :white)
       (:block-arrow :stroke :navy          :fill :skyblue))))
 

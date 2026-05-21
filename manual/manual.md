@@ -947,6 +947,7 @@ ${BLANK_PARAGRAPH}
 <!-- define: HASH_CUBE       = '[](#キューブ)' -->
 <!-- define: HASH_CYLINDER   = '[](#円柱)' -->
 <!-- define: HASH_EXPLOSION  = '[](#爆発)' -->
+<!-- define: HASH_STAR       = '[](#星型)' -->
 <!-- define: HASH_CROSS      = '[](#十字)' -->
 <!-- define: HASH_PIPE       = '[](#パイプ)' -->
 <!-- define: HASH_BLOCKARROW = '[](#ブロック矢印)' -->
@@ -1013,6 +1014,11 @@ ${BLANK_PARAGRAPH}
       (explosion1 (y+ canvas.center -10) 90 80 "bomb!!" 
                                        :stroke :red :fill :lightpink)
       (text `(,(/ w 2) ,(- h 5)) "爆発" :align :center))
+    (defgroup (w h :star-grp)
+      (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
+      (star (y+ canvas.center -10) 5 80 80 "star" 
+                                       :stroke :brown :fill :khaki)
+      (text `(,(/ w 2) ,(- h 5)) "星型" :align :center))
     (defgroup (w h :cross-grp)
       (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
       (cross (y+ canvas.center -10) (- canvas.width 30) (- canvas.height 30) 20 
@@ -1045,11 +1051,12 @@ ${BLANK_PARAGRAPH}
     (use :cube-grp       '(330 180) :link "${HASH_CUBE}")
     (use :cylinder-grp   '(460 180) :link "${HASH_CYLINDER}")
     (use :explosion-grp  '(590 180) :link "${HASH_EXPLOSION}")
-    (use :cross-grp      '(720 180) :link "${HASH_CROSS}")
-    (use :pipe-grp       '( 70 300) :link "${HASH_PIPE}")
-    (use :blockarrow-grp '(200 300) :link "${HASH_BLOCKARROW}")
-    (use :brace-grp      '(330 300) :link "${HASH_BRACE}")
-    (use :table-grp      '(460 300) :link "${HASH_TABLE}")))
+    (use :star-grp       '(720 180) :link "${HASH_STAR}")
+    (use :cross-grp      '( 70 300) :link "${HASH_CROSS}")
+    (use :pipe-grp       '(200 300) :link "${HASH_PIPE}")
+    (use :blockarrow-grp '(330 300) :link "${HASH_BLOCKARROW}")
+    (use :brace-grp      '(460 300) :link "${HASH_BRACE}")
+    (use :table-grp      '(590 300) :link "${HASH_TABLE}")))
 ```
 
 ### コネクタ
@@ -1725,6 +1732,54 @@ ${BLANK_PARAGRAPH}
 <!-- expand: WITH-EXPLOSION-OPTIONS-SAMPLE -->
 ```
 Figure. with-explosion-options のサンプル
+
+### 星型
+<!-- autolink: [$$](#星型) -->
+
+<!-- snippet: STAR-SAMPLE
+(diagram (300 150)
+  (grid)
+  (star '( 80 75) 7 100 100 "star1" :stroke :brown :fill :khaki)
+  (star '(220 75) 5 120 120 "star2" :stroke :navy  :fill :azure :tilt 10))
+-->
+
+　star マクロにより、星型を描画できます。
+
+```kaavio
+<!-- expand: STAR-SAMPLE -->
+```
+Figure. 星型のサンプル
+
+　上記サンプルのソースは以下の通りです。パラメータの詳細については star マクロを参照して
+ください。
+
+```lisp
+<!-- expand: STAR-SAMPLE -->
+```
+
+${BLANK_PARAGRAPH}
+
+　図の中で星型のスタイルを統一する作業を簡単にするために、with-star-options マクロが
+用意されています。これを以下のように使用することで、複数の星型のスタイルを一箇所で指定
+することができます。
+
+<!-- snippet: WITH-STAR-OPTIONS-SAMPLE
+(diagram (300 100)
+  (grid)
+  (drop-shadow)
+  (with-star-options (:stroke :brown :fill :khaki :filter :drop-shadow)
+    (star '( 80 50) 6 80 80 "star1")
+    (star '(220 50) 5 80 80 "star2")))
+-->
+
+```lisp
+<!-- expand: WITH-STAR-OPTIONS-SAMPLE -->
+```
+
+```kaavio
+<!-- expand: WITH-STAR-OPTIONS-SAMPLE -->
+```
+Figure. with-star-options のサンプル
 
 ### 十字
 <!-- autolink: [$$](#十字) -->
@@ -3897,9 +3952,10 @@ ${BLANK_PARAGRAPH}
       (cube         (xy+ cc  -65    0)  70 60 "cube")
       (cylinder     (xy+ cc   65    0)  70 60 "cylinder")
       (explosion1   (xy+ cc  190    0) 110 90 "explosion")
-      (cross        (xy+ cc -190  100)  70 70 20)
-      (block-arrow1 (xy+ cc -100  100) (xy+ cc -20 100) 20)
-      (pipe         (xy+ cc   65  100) :h 80 :label "pipe"))))
+      (star         (xy+ cc -190  100)  70 70 "star")
+      (cross        (xy+ cc -100  100)  70 70 20)
+      (block-arrow1 (xy+ cc   65  100) (xy+ cc -20 100) 20)
+      (pipe         (xy+ cc  190  100) :h 80 :label "pipe"))))
 -->
 
 ```lisp
@@ -4023,9 +4079,10 @@ ${BLANK_PARAGRAPH}
       (cube         (xy+ cc  -65    0)  70 60 "cube")
       (cylinder     (xy+ cc   65    0)  70 60 "cylinder")
       (explosion1   (xy+ cc  190    0) 110 90 "explosion")
-      (cross        (xy+ cc -190  100)  70 70 20)
-      (block-arrow1 (xy+ cc -100  100) (xy+ cc -20 100) 20)
-      (pipe         (xy+ cc   65  100) :h 80 :label "pipe"))))
+      (star         (xy+ cc -190  100)  70 70 "star")
+      (cross        (xy+ cc -100  100)  70 70 20)
+      (block-arrow1 (xy+ cc   65  100) (xy+ cc -20 100) 20)
+      (pipe         (xy+ cc  190  100) :h 80 :label "pipe"))))
 ```
 Figure. テーマのカスタマイズ例
 
@@ -8507,6 +8564,8 @@ Figure. 色の名前とサンプル - 2
     * DOCUMENT : マニュアル（この文書）に CSS を埋め込む方式に変更
 * __2026/05/19 - version 0.033__
     * ENHANCE : [$$](#パイプ)を追加
+* __2026/05/?? - version 0.034__
+    * ENHANCE : [$$](#星型)を追加
 
 ## 図表一覧
 <!-- embed:figure-list -->

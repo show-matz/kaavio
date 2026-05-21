@@ -3086,6 +3086,67 @@ ${NO_NOTES}
 
 ${BLANK_PARAGRAPH}
 
+#### macro star
+
+<!-- stack:push li class='syntax' -->
+${SYNTAX}
+
+* ${{B}{star}} position n width height text ${KEY} pivot font fill stroke link rotate layer id filter contents
+
+<!-- stack:pop li -->
+
+${ARGS_AND_VALS}
+
+* `position` ---- 描画の基準点を指定します。詳細は「[](#座標と位置)」を参照してください。
+* `n` ----  頂点の数を指定します。現在、3 以上 24 以下が使用できます。
+* `width` ----  幅を数値で指定します。
+* `height` ----  高さを数値で指定します。
+* `text` ----  内部に描画するテキストを文字列で指定します。改行は "~%" で表現します。
+* `tilt` ----  星型の傾きを角度で指定します。 `rotate` とは異なり、テキストは回転しません。
+* `ratio` ----  頂点の鋭さを指定します。0.00 より大きく 1.00 より小さい数値を指定します。詳細は後述します。
+* `pivot` ----  基準点が星型のどこにくるように描画するかを指定します。詳細は「[](#座標と位置)」を参照してください。
+* `font` ----  フォントを指定します。
+* `fill` ----  内部の塗り潰しを指定します。
+* `stroke` ----  外枠を描画する線を指定します。
+* `link` ----  リンクにする場合、リンク先を指定します。
+* `rotate` ----  回転させたい場合に、その角度を指定します。
+* `layer` ---- レイヤーを指定する場合、その ID をキーワードシンボルで指定します
+* `id` ---- ID を付与したい場合、その名前をキーワードシンボルで指定します
+* `filter` ---- フィルタを適用したい場合、その ID をキーワードシンボルで指定します
+* `contents` ---- 内部をサブキャンバスとした描画をしたい場合、その内容を指定します。
+
+${DESCRIPTION}
+
+　星型を描画します。複数の星型でスタイルを統一したい場合、with-star-options マクロを
+使うことができます。
+
+${SEE_ALSO}
+
+* 星型
+* with-star-options マクロ
+
+${NOTES}
+
+　`ratio` について説明します。これは「凹んでいる頂点の中心からの距離を、尖っている部分の
+中心からの距離に対する比率で表したもの」です。省略した場合のデフォルト値は n の値に応じて
+以下のように変化します。
+
+| n   | default value |
+|:---:|:-------------:|
+| 3   | 0.100         |
+| 4   | 0.200         |
+| 5   | 0.380         |
+| 6   | 0.580         |
+| 7   | 0.695         |
+| 8   | 0.770         |
+| 9   | 0.816         |
+| 10+ | 0.850         |
+
+
+<!-- autolink: [star マクロ](#macro star) -->
+
+${BLANK_PARAGRAPH}
+
 #### macro table
 
 <!-- stack:push li class='syntax' -->
@@ -5568,6 +5629,33 @@ ${NO_NOTES}
 
 
 <!-- autolink: [with-point マクロ](#macro with-point) -->
+
+${BLANK_PARAGRAPH}
+
+#### macro with-star-options
+
+<!-- stack:push li class='syntax' -->
+${SYNTAX}
+
+* ${{B}{with-star-options}} (${KEY} font fill stroke filter layer) ${BODY} body
+
+
+<!-- stack:pop li -->
+
+${DESCRIPTION}
+
+　star マクロで描画される星型のデフォルトオプションを変更します。キーワードパラメータ
+群の説明は star マクロを参照してください。
+
+${SEE_ALSO}
+
+* 星型
+* star マクロ
+
+${NO_NOTES}
+
+
+<!-- autolink: [with-star-options マクロ](#macro with-star-options) -->
 
 ${BLANK_PARAGRAPH}
 

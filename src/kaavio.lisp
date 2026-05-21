@@ -345,10 +345,7 @@
                 :with-person-options
                 ;pipe.lisp
                 :*default-pipe-depth*
-                :*default-pipe-align*
-                :*default-pipe-valign*
-                :*default-pipe-margin*
-                :*default-pipe-font*
+                :*default-pipe-width*
                 :*default-pipe-fill*
                 :*default-pipe-stroke*
                 :*default-pipe-filter*
@@ -397,6 +394,14 @@
                 :shape-get-subcanvas
                 :shape-cc-center
                 :shape-connect-point
+                ;star.lisp
+                :*default-star-font*
+                :*default-star-fill*
+                :*default-star-stroke*
+                :*default-star-filter*
+                :*default-star-layer*
+                :star
+                :with-star-options
                 ;stencil.lisp
                 :*include-paths*
                 :*stencil-suffix*

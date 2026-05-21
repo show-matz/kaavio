@@ -40,6 +40,7 @@
 (load "../src/cube.lisp")
 (load "../src/cylinder.lisp")
 (load "../src/pipe.lisp")
+(load "../src/star.lisp")
 (load "../src/defgradient.lisp")
 (load "../src/defgroup.lisp")
 (load "../src/defpattern.lisp")

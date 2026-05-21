@@ -269,9 +269,8 @@
                                                                 "path"))
                 (:file "pipe"                      :depends-on ("kaavio"
                                                                 "constants"
-                                                                "path"
-                                                                "filter"
-                                                                "text-shape"))
+                                                                "clipping"
+                                                                "path"))
                 (:file "point"                     :depends-on ("kaavio"))
                 (:file "polygon"                   :depends-on ("kaavio"
                                                                 "constants"
@@ -316,6 +315,11 @@
                                                                 "mathutil"
                                                                 "entity"
                                                                 "link-info"))
+                (:file "star"                      :depends-on ("kaavio"
+                                                                "constants"
+                                                                "path"
+                                                                "filter"
+                                                                "text-shape"))
                 (:file "stencil"                   :depends-on ("kaavio"
                                                                 "pathutil"))
                 (:file "stroke-info"               :depends-on ("kaavio"
