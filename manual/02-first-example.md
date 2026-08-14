@@ -20,10 +20,11 @@ ${BLANK_PARAGRAPH}
 
 　以下のような画像が生成されます。
 
+<!-- figure:  簡単なサンプル -->
 ```kaavio
 <!-- expand: FIRST-SAMPLE -->
 ```
-Figure. 簡単なサンプル
+<!-- figure:end -->
 
 
 　「入力を kaavio に与える」というのは、具体的には入力データを記述したファイルの名前を
@@ -121,10 +122,11 @@ ${BLANK_PARAGRAPH}
       (balloon (xy+ app.center 110 -60) "Made with LISP." app.topright))))
 -->
 
+<!-- figure:  簡単なサンプル-2 -->
 ```kaavio
 <!-- expand: SECOND-SAMPLE -->
 ```
-Figure. 簡単なサンプル-2
+<!-- figure:end -->
 
 
 　このサンプルは、以下のコードで生成されています。

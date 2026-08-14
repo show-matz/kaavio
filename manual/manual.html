@@ -488,6 +488,7 @@ OUT : ./sandbox.html
 </pre>
 <p>　　</p>
 <p>　以下のような画像が生成されます。</p>
+<a name='euwIyAjslFq'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='150'>
@@ -509,7 +510,8 @@ OUT : ./sandbox.html
 </svg>
 </div>
 
-<p class='fig_title'><a name='euwIyAjslFq'></a>Figure.2-1 簡単なサンプル</p>
+</a>
+<p class='fig_title'>Figure.2-1 簡単なサンプル</p>
 <p>　「入力を kaavio に与える」というのは、具体的には入力データを記述したファイルの名前をパラメータとして kaavio を起動することを意味します。作成される SVG 画像は標準出力に書き出されるので、ファイルにリダイレクトしてください。以下のように。</p>
 <pre class='code'>
 kaavio ./input.digram &gt; ./output.svg
@@ -568,6 +570,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p>　先頭の <code>defmacro</code> はひとまず気にしないでください。rect に続く括弧の中がパラメータの全体で、 <code>position width height</code> が必須パラメータ、 <code>&amp;key</code> 以降の全てが省略可能なパラメータです。 <code>:fill</code> と <code>:id</code> はもう使いました。その他のパラメータについてはまた別のところで説明します。</p>
 <p>　　</p>
 <p>　次のサンプルはもう少し複雑です。</p>
+<a name='aw36ReN8sMQ'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='450' height='150'>
@@ -619,7 +622,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='aw36ReN8sMQ'></a>Figure.2-2 簡単なサンプル-2</p>
+</a>
+<p class='fig_title'>Figure.2-2 簡単なサンプル-2</p>
 <p>　このサンプルは、以下のコードで生成されています。</p>
 <pre class='code'>
 (diagram (450 150)
@@ -907,6 +911,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 
 <h3><a name='kJonRG8GtHF'></a>3.1 四角形</h3>
 <p>　<a class='autolink' href='#hxiiGsQsLt4'>rect マクロ</a>によって<a class='autolink' href='#kJonRG8GtHF'>四角形</a>を描画できます。角を丸くすることもできます。</p>
+<a name='hnnMjGYKwdS'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='100'>
@@ -923,7 +928,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='hnnMjGYKwdS'></a>Figure.3-1 rect のサンプル</p>
+</a>
+<p class='fig_title'>Figure.3-1 rect のサンプル</p>
 <p>　上記サンプルのソースは以下の通りです。パラメータの詳細については <a class='autolink' href='#hxiiGsQsLt4'>rect マクロ</a>を参照してください。</p>
 <pre class='code'>
 (diagram (300 100)
@@ -933,6 +939,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p>　　</p>
 <h3><a name='8UQowBxrcaE'></a>3.2 正円</h3>
 <p>　<a class='autolink' href='#bZBKta7QcXj'>circle マクロ</a>によって<a class='autolink' href='#8UQowBxrcaE'>正円</a>を描画できます。<a class='autolink' href='#7YzIcjhyGKN'>楕円</a>を描画したい場合は <a class='autolink' href='#hsg6m1zvfoj'>ellipse マクロ</a>を使用してください。</p>
+<a name='aWrJqk5Knkk'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='100'>
@@ -949,7 +956,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='aWrJqk5Knkk'></a>Figure.3-2 circle のサンプル</p>
+</a>
+<p class='fig_title'>Figure.3-2 circle のサンプル</p>
 <p>　上記サンプルのソースは以下の通りです。パラメータの詳細については <a class='autolink' href='#bZBKta7QcXj'>circle マクロ</a>を参照してください。</p>
 <pre class='code'>
 (diagram (300 100)
@@ -959,6 +967,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p>　　</p>
 <h3><a name='7YzIcjhyGKN'></a>3.3 楕円</h3>
 <p>　<a class='autolink' href='#hsg6m1zvfoj'>ellipse マクロ</a>によって<a class='autolink' href='#7YzIcjhyGKN'>楕円</a>を描画できます。<a class='autolink' href='#8UQowBxrcaE'>正円</a>を描画したい場合は <a class='autolink' href='#bZBKta7QcXj'>circle マクロ</a>を使用してください。</p>
+<a name='hO4QoInAXK4'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='100'>
@@ -975,7 +984,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='hO4QoInAXK4'></a>Figure.3-3 ellipse のサンプル</p>
+</a>
+<p class='fig_title'>Figure.3-3 ellipse のサンプル</p>
 <p>　上記サンプルのソースは以下の通りです。パラメータの詳細については <a class='autolink' href='#hsg6m1zvfoj'>ellipse マクロ</a>を参照してください。</p>
 <pre class='code'>
 (diagram (300 100)
@@ -985,6 +995,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p>　　</p>
 <h3><a name='6eeF43U3xPh'></a>3.4 正多角形</h3>
 <p>　<a class='autolink' href='#jLTDopnLqyT'>regular-polygon マクロ</a>によって<a class='autolink' href='#6eeF43U3xPh'>正多角形</a>、すなわち五角形や六角形などを描画できます。</p>
+<a name='6AEEehp4CXn'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='400' height='100'>
@@ -1005,7 +1016,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='6AEEehp4CXn'></a>Figure.3-4 regular-polygon のサンプル</p>
+</a>
+<p class='fig_title'>Figure.3-4 regular-polygon のサンプル</p>
 <p>　上記サンプルのソースは以下の通りです。パラメータの詳細については <a class='autolink' href='#jLTDopnLqyT'>regular-polygon マクロ</a>を参照してください。</p>
 <pre class='code'>
 (diagram (400 100)
@@ -1017,6 +1029,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p>　　</p>
 <h3><a name='5vGRm9AMypB'></a>3.5 多角形</h3>
 <p>　<a class='autolink' href='#dyrXpT32Rg1'>polygon マクロ</a>によって<a class='autolink' href='#5vGRm9AMypB'>多角形</a>、すなわち複数の<a class='autolink' href='#fv4OUML78x4'>直線</a>からなる形状を描画できます。<a class='autolink' href='#6eeF43U3xPh'>正多角形</a>を描画する場合には <a class='autolink' href='#jLTDopnLqyT'>regular-polygon マクロ</a>を使用した方が良いでしょう。</p>
+<a name='2vjK1SnIRle'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='100'>
@@ -1033,7 +1046,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='2vjK1SnIRle'></a>Figure.3-5 polygon のサンプル</p>
+</a>
+<p class='fig_title'>Figure.3-5 polygon のサンプル</p>
 <p>　上記サンプルのソースは以下の通りです。パラメータの詳細については <a class='autolink' href='#dyrXpT32Rg1'>polygon マクロ</a>を参照してください。</p>
 <pre class='code'>
 (diagram (300 100)
@@ -1046,6 +1060,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p>　　</p>
 <h3><a name='fv4OUML78x4'></a>3.6 直線</h3>
 <p>　<a class='autolink' href='#doyrJWCDQyn'>line マクロ</a>によって<a class='autolink' href='#fv4OUML78x4'>直線</a>（または複数の<a class='autolink' href='#fv4OUML78x4'>直線</a>からなる折線）を描画できます。図形要素どうしを接続したい場合は<a class='autolink' href='#eFhVs4WwYUG'>コネクタ</a>を使用した方が良いでしょう。</p>
+<a name='9sslZHcYmCd'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='100'>
@@ -1062,7 +1077,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='9sslZHcYmCd'></a>Figure.3-6 line のサンプル</p>
+</a>
+<p class='fig_title'>Figure.3-6 line のサンプル</p>
 <p>　上記サンプルのソースは以下の通りです。パラメータの詳細については <a class='autolink' href='#doyrJWCDQyn'>line マクロ</a>を参照してください。</p>
 <pre class='code'>
 (diagram (300 100)
@@ -1076,6 +1092,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p>　　</p>
 <h3><a name='cp2F91gKG7W'></a>3.7 円弧</h3>
 <p>　<a class='autolink' href='#7Ru23zWD1UC'>arc マクロ</a>によって<a class='autolink' href='#cp2F91gKG7W'>円弧</a>を描画できます。<a class='autolink' href='#4qgt62QVDZl'>パス</a>における <code>:arc-to</code> の機能を単独の図形要素にしたものです。端点に<a class='autolink' href='#9MB3lirlqL9'>終端マーク</a>をつけることもできます。</p>
+<a name='lt4PUsUrfps'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='100'>
@@ -1092,7 +1109,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='lt4PUsUrfps'></a>Figure.3-7 arc のサンプル</p>
+</a>
+<p class='fig_title'>Figure.3-7 arc のサンプル</p>
 <p>　上記サンプルのソースは以下の通りです。</p>
 <pre class='code'>
 (diagram (300 100)
@@ -1101,6 +1119,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </pre>
 <p>　パラメータの詳細については <a class='autolink' href='#7Ru23zWD1UC'>arc マクロ</a>を参照してください。ここでは、必須パラメータに限定して簡単に説明します。 <code>(arc center rx ry x-axis-rotation degree1 degree2)</code> とした場合、 <code>center</code> を中心とした x 半径 <code>rx</code> 、y 半径 <code>ry</code> の<a class='autolink' href='#7YzIcjhyGKN'>楕円</a>を <code>x-axis-rotation</code> だけ<a class='autolink' href='#heEi5Lc5BX9'>回転</a>させたものの上で、角度 <code>degree1</code> から（時計回りに） <code>degree2</code> までの部分弧を描きます。</p>
 <p>　以下に例を示します。 <code>(100 50)</code> を中心とした <code>rx=40, ry=30</code> の<a class='autolink' href='#7YzIcjhyGKN'>楕円</a>を 45 度<a class='autolink' href='#heEi5Lc5BX9'>回転</a>させたものをベースとします。これはライトグレーの太い<a class='autolink' href='#7YzIcjhyGKN'>楕円</a>で描画されています。このうち、0 度から 90 度までの部分を<a class='autolink' href='#cp2F91gKG7W'>円弧</a>として（赤い線で）描画しています。つまり、これは <code>(arc '(100 50) 40 30 45 0 90)</code> による描画となります。</p>
+<a name='bSd48Y8N0w0'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='200' height='100'>
@@ -1127,11 +1146,13 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='bSd48Y8N0w0'></a>Figure.3-8 arc のサンプル - 2</p>
+</a>
+<p class='fig_title'>Figure.3-8 arc のサンプル - 2</p>
 <p>　<a class='autolink' href='#8UQowBxrcaE'>正円</a>をベースとした<a class='autolink' href='#cp2F91gKG7W'>円弧</a>を描画したい場合、 <code>rx</code> と <code>ry</code> を同じ値に指定します。この場合、<a class='autolink' href='#heEi5Lc5BX9'>回転</a>させることに意味はないので、 <code>x-axis-rotation</code> は 0 にしてください。</p>
 <p>　marcro arc を使用した<a class='autolink' href='#cp2F91gKG7W'>円弧</a>の描画は、「中心と角度」が明らかな場合に使用します。そうではなく、<a class='autolink' href='#cp2F91gKG7W'>円弧</a>の開始点と終了点が明らかな場合は、<a class='autolink' href='#akKCr0fEV12'>path マクロ</a>を使用した方が良いでしょう。</p>
 <p>　　</p>
 <p>　<a class='autolink' href='#2tO36YvJCgK'>補助線</a>を表示する場合のサンプルを以下に示します。 <code>debug</code> パラメータにキーワードで色名を与えると、<a class='autolink' href='#cp2F91gKG7W'>円弧</a>のベースとなる<a class='autolink' href='#7YzIcjhyGKN'>楕円</a>の中心と、<a class='autolink' href='#cp2F91gKG7W'>円弧</a>の始点・終点を結ぶ<a class='autolink' href='#fv4OUML78x4'>直線</a>を明示します。 <code>:debug t</code> とすればデフォルトの赤色が使用されます。調整の際に使用すると便利です。</p>
+<a name='4DiBfZ1gVHn'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='400' height='200'>
@@ -1157,7 +1178,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='4DiBfZ1gVHn'></a>Figure.3-9 arc における補助線のサンプル</p>
+</a>
+<p class='fig_title'>Figure.3-9 arc における補助線のサンプル</p>
 <details>
 <summary>　※上記サンプルのソースはこちら。</summary>
 <pre class='code'>
@@ -1169,6 +1191,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </details>
 <p>　　</p>
 <p>　最後に、arc で<a class='autolink' href='#9MB3lirlqL9'>終端マーク</a>を使用する場合の注意点について説明します。<a class='autolink' href='#9MB3lirlqL9'>終端マーク</a>はその端点の向きにあわせて描画されますが、<a class='autolink' href='#9MB3lirlqL9'>終端マーク</a>そのものの形状は考慮されません。その結果として、arc が描く曲線の端点付近のカーブが急な場合、望ましくない結果になる場合があります。以下の例では、横長の<a class='autolink' href='#7YzIcjhyGKN'>楕円</a>ベースで 0° から 90° の<a class='autolink' href='#cp2F91gKG7W'>円弧</a>を描いて <code>:triangle</code> 指定の<a class='autolink' href='#9MB3lirlqL9'>終端マーク</a>を付加していますが、始点側の<a class='autolink' href='#9MB3lirlqL9'>終端マーク</a>は矢印に見えない状態になってしまっています。現状では、これは注意が必要ではあるものの仕様として扱われます。arc で<a class='autolink' href='#9MB3lirlqL9'>終端マーク</a>を使用する場合は注意してください。</p>
+<a name='0gIWVS7WQn6'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='200' height='100'>
@@ -1189,10 +1212,12 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='0gIWVS7WQn6'></a>Figure.3-10 arc における終端マークの例</p>
+</a>
+<p class='fig_title'>Figure.3-10 arc における終端マークの例</p>
 <p>　　</p>
 <h3><a name='cTdCvBeU6ZJ'></a>3.8 テキスト</h3>
 <p>　<a class='autolink' href='#cSks5rQ0qHz'>text マクロ</a>によって<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>を描画できます。</p>
+<a name='7uvPIQqWhZy'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='100'>
@@ -1209,7 +1234,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='7uvPIQqWhZy'></a>Figure.3-11 text のサンプル</p>
+</a>
+<p class='fig_title'>Figure.3-11 text のサンプル</p>
 <p>　上記サンプルのソースは以下の通りです。パラメータの詳細については <a class='autolink' href='#cSks5rQ0qHz'>text マクロ</a>を参照してください。</p>
 <pre class='code'>
 (diagram (300 100)
@@ -1220,6 +1246,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </pre>
 <p>　　</p>
 <p>　position と align の関係を以下に示します。以下において、赤い点が position で、align 指定は<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>で示されています。</p>
+<a name='5BXk9aTPHsl'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='100'>
@@ -1246,10 +1273,12 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='5BXk9aTPHsl'></a>Figure.3-12 テキストの position とアライメント指定の関係</p>
+</a>
+<p class='fig_title'>Figure.3-12 テキストの position とアライメント指定の関係</p>
 <p>　　</p>
 <h3><a name='4dFMjynUMYw'></a>3.9 ひし形</h3>
 <p>　<a class='autolink' href='#dhcYablOIIY'>diamond マクロ</a>によって<a class='autolink' href='#4dFMjynUMYw'>ひし形</a>を描画できます。</p>
+<a name='2sQudXmWdXy'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='100'>
@@ -1266,7 +1295,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='2sQudXmWdXy'></a>Figure.3-13 diamond のサンプル</p>
+</a>
+<p class='fig_title'>Figure.3-13 diamond のサンプル</p>
 <p>　上記サンプルのソースは以下の通りです。パラメータの詳細については <a class='autolink' href='#dhcYablOIIY'>diamond マクロ</a>を参照してください。</p>
 <pre class='code'>
 (diagram (300 100)
@@ -1276,6 +1306,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p>　　</p>
 <h3><a name='8YR8CiywoW8'></a>3.10 平行四辺形</h3>
 <p>　<a class='autolink' href='#4ol8IRIe1gI'>parallelogram マクロ</a>によって<a class='autolink' href='#8YR8CiywoW8'>平行四辺形</a>を描画できます。</p>
+<a name='by41YHJgt3q'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='200' height='100'>
@@ -1292,7 +1323,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='by41YHJgt3q'></a>Figure.3-14 parallelogram のサンプル</p>
+</a>
+<p class='fig_title'>Figure.3-14 parallelogram のサンプル</p>
 <p>　上記サンプルのソースは以下の通りです。パラメータの詳細については <a class='autolink' href='#4ol8IRIe1gI'>parallelogram マクロ</a>を参照してください。</p>
 <pre class='code'>
 (diagram (200 100)
@@ -1303,6 +1335,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </pre>
 <p>　　</p>
 <p>　<code>direction</code> および <code>offset</code> パラメータについて説明します。 <code>direction</code> が <code>:H</code> の場合、上側の角を右または左方向に押して変形させたような形になります。その長さを指定するのが <code>offset</code> です。 <code>offset</code> が０以上の場合は左上の角を右方向に、負数の場合は右上の角を左方向に押すイメージです。 <code>direction</code> が <code>:V</code> の場合は、同じ要領で左側の角を上または下に押すイメージになります。以下のように。</p>
+<a name='67lJneaqrLn'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='400' height='280'>
@@ -1356,11 +1389,13 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='67lJneaqrLn'></a>Figure.3-15 parallelogram における direction と offset</p>
+</a>
+<p class='fig_title'>Figure.3-15 parallelogram における direction と offset</p>
 <p>　ただし、 <code>width / height</code> で指定されたサイズはあくまで赤い点線の矩形であることに注意してください。また、<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>や<a class='autolink' href='#eFhVs4WwYUG'>コネクタ</a>による接続点は現状では赤い点線の矩形ベースで計算されますが、この挙動は将来変更される可能性があります。</p>
 <p>　　</p>
 <h3><a name='iTkYd8KXLYO'></a>3.11 二次ベジェ曲線</h3>
 <p>　<a class='autolink' href='#kdlPtqqvFfP'>2d-curve マクロ</a>によって<a class='autolink' href='#iTkYd8KXLYO'>二次ベジェ曲線</a>を描画できます。<a class='autolink' href='#4qgt62QVDZl'>パス</a>における <code>:2d-curve-to</code> の機能を単独の図形要素にしたものです。端点に<a class='autolink' href='#9MB3lirlqL9'>終端マーク</a>をつけることもできます。</p>
+<a name='9ykZFla1Nux'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='100'>
@@ -1379,7 +1414,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='9ykZFla1Nux'></a>Figure.3-16 2d-curve のサンプル</p>
+</a>
+<p class='fig_title'>Figure.3-16 2d-curve のサンプル</p>
 <p>　上記サンプルのソースは以下の通りです。パラメータの詳細については <a class='autolink' href='#kdlPtqqvFfP'>2d-curve マクロ</a>を参照してください。</p>
 <pre class='code'>
 (diagram (300 100)
@@ -1393,6 +1429,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </pre>
 <p>　　</p>
 <p>　<a class='autolink' href='#2tO36YvJCgK'>補助線</a>を表示する場合のサンプルを以下に示します。 <code>debug</code> パラメータにキーワードで色名を与えると、<a class='autolink' href='#iTkYd8KXLYO'>二次ベジェ曲線</a>を構成する点とそれらを結ぶ<a class='autolink' href='#fv4OUML78x4'>直線</a>を明示します。 <code>:debug t</code> とすればデフォルトの赤色が使用されます。通常は目に見えない制御点も可視化されるので、調整の際に使用すると便利です。</p>
+<a name='56m7PNYG5Ij'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='500' height='250'>
@@ -1424,7 +1461,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='56m7PNYG5Ij'></a>Figure.3-17 2d-curve における補助線のサンプル</p>
+</a>
+<p class='fig_title'>Figure.3-17 2d-curve における補助線のサンプル</p>
 <details>
 <summary>　※上記サンプルのソースはこちら。</summary>
 <pre class='code'>
@@ -1443,6 +1481,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p>　　</p>
 <h3><a name='8PFAoBpi4A9'></a>3.12 三次ベジェ曲線</h3>
 <p>　<a class='autolink' href='#96OcmgsUNzD'>3d-curve マクロ</a>によって<a class='autolink' href='#8PFAoBpi4A9'>三次ベジェ曲線</a>を描画できます。<a class='autolink' href='#4qgt62QVDZl'>パス</a>における <code>:3d-curve-to</code> の機能を単独の図形要素にしたものです。端点に<a class='autolink' href='#9MB3lirlqL9'>終端マーク</a>をつけることもできます。</p>
+<a name='ctB3IKZPSD2'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='100'>
@@ -1461,7 +1500,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='ctB3IKZPSD2'></a>Figure.3-18 3d-curve のサンプル</p>
+</a>
+<p class='fig_title'>Figure.3-18 3d-curve のサンプル</p>
 <p>　上記サンプルのソースは以下の通りです。パラメータの詳細については <a class='autolink' href='#96OcmgsUNzD'>3d-curve マクロ</a>を参照してください。</p>
 <pre class='code'>
 (diagram (300 100)
@@ -1476,6 +1516,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </pre>
 <p>　　</p>
 <p>　<a class='autolink' href='#2tO36YvJCgK'>補助線</a>を表示する場合のサンプルを以下に示します。 <code>debug</code> パラメータにキーワードで色名を与えると、<a class='autolink' href='#8PFAoBpi4A9'>三次ベジェ曲線</a>を構成する点とそれらを結ぶ<a class='autolink' href='#fv4OUML78x4'>直線</a>を明示します。 <code>:debug t</code> とすればデフォルトの赤色が使用されます。通常は目に見えない制御点も可視化されるので、調整の際に使用すると便利です。</p>
+<a name='eyqtgpABguK'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='400' height='220'>
@@ -1510,7 +1551,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='eyqtgpABguK'></a>Figure.3-19 3d-curve における補助線の サンプル</p>
+</a>
+<p class='fig_title'>Figure.3-19 3d-curve における補助線の サンプル</p>
 <details>
 <summary>　※上記サンプルのソースはこちら。</summary>
 <pre class='code'>
@@ -1920,6 +1962,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 
 <h3><a name='eFhVs4WwYUG'></a>4.1 コネクタ</h3>
 <p>　<a class='autolink' href='#dUJMfsL520O'>connect マクロ</a>によって図形要素どうしを接続することができます。また、終端に矢印などのマークをつけたり、<a class='autolink' href='#lpCVEZ9kMoP'>ラベル</a>を付与することもできます。</p>
+<a name='4gGy4q3tl7a'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='400' height='150'>
@@ -1957,7 +2000,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='4gGy4q3tl7a'></a>Figure.4-1 コネクタのサンプル</p>
+</a>
+<p class='fig_title'>Figure.4-1 コネクタのサンプル</p>
 <p>　上記サンプルのソースは以下の通りです。</p>
 <pre class='code'>
 (diagram (400 150)
@@ -1975,6 +2019,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p>　パラメータの詳細については <a class='autolink' href='#dUJMfsL520O'>connect マクロ</a>を参照してください。ここでは、 <code>:style</code> パラメータについて説明します。まず、 <code>:style</code> のデフォルト値でもある <code>:CC</code> は「Center to Center」という意味で、対象図形の中心どうしを結ぶような一本の<a class='autolink' href='#fv4OUML78x4'>直線</a>で接続をします。これは <a href='#4gGy4q3tl7a'>Figure.4-1</a> における R2 と R3 の接続のイメージです。</p>
 <p>　<code>:CC</code> 以外の接続方法は、 <code>T B L R</code> のいずれか 2 つを使って接続位置を指定する方法になります。これはそれぞれ <code>Top Bottom Left Right</code> の頭文字で、たとえば <code>:BL</code> であれば「Bottom to Left」という意味になり、これは from 側の下端と to 側の左端を接続する、ということを意味します。これは <a href='#4gGy4q3tl7a'>Figure.4-1</a> における R1 と R2 の接続のイメージです。</p>
 <p>　さらに細かく接続位置を制御したい場合、それぞれの <code>T B L R</code> の後ろに 1 ～ 3 のインデックスを指定することができます。先程の <code>:BL</code> という指定は、実は <code>:B2L2</code> の省略記法です。インデックスと実際の接続位置の関係を以下に示します。</p>
+<a name='iS4fHSfl5nF'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='160'>
@@ -2039,9 +2084,11 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='iS4fHSfl5nF'></a>Figure.4-2 コネクタにおける接続点の指定</p>
+</a>
+<p class='fig_title'>Figure.4-2 コネクタにおける接続点の指定</p>
 <p>　なお、上記は接続対象として図形要素の ID を指定した場合の話です。ID でなく point 値を指定した場合、指定位置に「大きさが（ほぼ）ゼロの<a class='autolink' href='#kJonRG8GtHF'>四角形</a>」があるかのように処理されます。</p>
 <p>　<code>:style</code> パラメータを使って <code>:CC</code> 以外の接続を指定すると、<a class='autolink' href='#eFhVs4WwYUG'>コネクタ</a>は接続対象の図形要素の位置関係を調べて適切な折れ線を描画します。たとえば、以下は <code>:style :LR</code> で接続しています。</p>
+<a name='5cNBVVOciY7'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='120'>
@@ -2062,8 +2109,10 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='5cNBVVOciY7'></a>Figure.4-3 コネクタによる接続経路決定</p>
+</a>
+<p class='fig_title'>Figure.4-3 コネクタによる接続経路決定</p>
 <p>　この、位置関係を考慮した接続線の自動決定は、接続対象でない他の図形要素の位置を「考慮しない」ことに注意してください。以下のように、先程の接続経路上に他の要素があったとしても、それを迂回するほどには賢くありません。</p>
+<a name='kui5wtIKl5y'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='120'>
@@ -2086,8 +2135,10 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='kui5wtIKl5y'></a>Figure.4-4 コネクタによる接続経路決定は他の要素を迂回しない</p>
+</a>
+<p class='fig_title'>Figure.4-4 コネクタによる接続経路決定は他の要素を迂回しない</p>
 <p>　上記のような場合に役に立つ（かもしれない）のが <code>:spacing</code> パラメータです。これは、2 回以上折れ曲がる接続線において、「自由な線分の調整を行う」ものです。<a href='#kui5wtIKl5y'>Figure.4-4</a> の接続線を見てください。4 回折れ曲がっていて、5 本の線分でできています。このうち、接続対象に直接触れている線分は（ <code>:style :LR</code> 指定のため）動かせませんが、残り 3 つの線分はそれぞれ x 軸方向または y 軸方向に移動させられそうなことがわかるでしょう。つまり、以下で赤くした部分です。</p>
+<a name='hHTLHAEc9Gs'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='120'>
@@ -2116,8 +2167,10 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='hHTLHAEc9Gs'></a>Figure.4-5 コネクタの接続経路における「自由な線分」</p>
+</a>
+<p class='fig_title'>Figure.4-5 コネクタの接続経路における「自由な線分」</p>
 <p>　<code>:spacing</code> パラメータでは、上記のような「自由な線分」それぞれについて、どれだけズラすかを指定できます。from 側から順番にどれだけズラすかの値を並べたリストで指定します（ズラす方向が x 軸方向なのか y 軸方向なのかは線分毎に自動的に決まります）。ここでは、自由な線分のうち 2 番目の長い線分を下方向に思い切りズラしてしまいましょう。つまり、 <code>:spacing '(0 60 0)</code> と指定します。すると、以下のようになります。</p>
+<a name='23eQZDKkLDn'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='140'>
@@ -2140,10 +2193,12 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='23eQZDKkLDn'></a>Figure.4-6 spacing パラメータによるコネクタ接続経路の調整</p>
+</a>
+<p class='fig_title'>Figure.4-6 spacing パラメータによるコネクタ接続経路の調整</p>
 <p>　<code>:spacing</code> パラメータは、最初の自由な線分を指定するだけの場合にはリストでなくてもかまいません。その場合は、 <code>:spacing 30</code> のように数値で指定できます。なお、 <code>:spacing</code> パラメータは「<a class='autolink' href='#eFhVs4WwYUG'>コネクタ</a>による自動的な経路の決定結果を調整する」ものなので、たとえば接続対象の位置関係が大きく変化した場合などには、都度再調整が必要になることに注意してください。</p>
 <h3><a name='4WyMTv59pvw'></a>4.2 パラグラフ</h3>
 <p>　<a class='autolink' href='#cVVbsretg1q'>paragraph マクロ</a>によって複数行に渡る<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>を描画できます。</p>
+<a name='8WHetxNhOq8'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='200' height='100'>
@@ -2163,7 +2218,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='8WHetxNhOq8'></a>Figure.4-7 パラグラフのサンプル</p>
+</a>
+<p class='fig_title'>Figure.4-7 パラグラフのサンプル</p>
 <p>　上記サンプルのソースは以下の通りです。パラメータの詳細については <a class='autolink' href='#cVVbsretg1q'>paragraph マクロ</a>を参照してください。</p>
 <pre class='code'>
 (diagram (200 100)
@@ -2173,6 +2229,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </pre>
 <p>　　</p>
 <p>　<code>position</code> と <code>align</code> および <code>valign</code> の関係を以下に示します。以下において、赤い点が <code>position</code> で、アライメント指定は<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>で示されています。</p>
+<a name='4qhyBjYZYlG'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='500' height='180'>
@@ -2250,10 +2307,12 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='4qhyBjYZYlG'></a>Figure.4-8 パラグラフの position とアライメント指定の関係</p>
+</a>
+<p class='fig_title'>Figure.4-8 パラグラフの position とアライメント指定の関係</p>
 <p>　　</p>
 <h3><a name='e7hkC2YUaKe'></a>4.3 テキストボックス</h3>
 <p>　<a class='autolink' href='#hmTTSZjUX3S'>textbox マクロ</a>によって<a class='autolink' href='#e7hkC2YUaKe'>テキストボックス</a>を描画できます。<a class='autolink' href='#e7hkC2YUaKe'>テキストボックス</a>は<a href='#kJonRG8GtHF'>四角形</a> と <a href='#4WyMTv59pvw'>パラグラフ</a> を組み合わせたようなものです。<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>からサイズを自動決定しますが、明示的にボックスのサイズを指定することも可能です。</p>
+<a name='4NTtjXsX7EZ'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='200' height='100'>
@@ -2274,7 +2333,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='4NTtjXsX7EZ'></a>Figure.4-9 テキストボックスのサンプル</p>
+</a>
+<p class='fig_title'>Figure.4-9 テキストボックスのサンプル</p>
 <p>　上記サンプルのソースは以下の通りです。パラメータの詳細については <a class='autolink' href='#hmTTSZjUX3S'>textbox マクロ</a>を参照してください。</p>
 <pre class='code'>
 (diagram (200 100)
@@ -2284,6 +2344,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </pre>
 <p>　　</p>
 <p>　<code>align</code> と <code>valign</code> の効果を以下に示します。以下のように、<a class='autolink' href='#e7hkC2YUaKe'>テキストボックス</a>の内部で水平方向、および垂直方向にそれぞれどう寄せるかが変化します。</p>
+<a name='96V371pW4hW'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='550' height='220'>
@@ -2352,7 +2413,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='96V371pW4hW'></a>Figure.4-10 テキストボックスにおける align と valign</p>
+</a>
+<p class='fig_title'>Figure.4-10 テキストボックスにおける align と valign</p>
 <p>　　</p>
 <p>　図の中で<a class='autolink' href='#e7hkC2YUaKe'>テキストボックス</a>のスタイルを統一する作業を簡単にするために、<a class='autolink' href='#5oL7bKJkowz'>with-textbox-options マクロ</a>が用意されています。これを以下のように使用することで、複数の<a class='autolink' href='#e7hkC2YUaKe'>テキストボックス</a>のスタイルを一箇所で指定することができます。</p>
 <pre class='code'>
@@ -2362,6 +2424,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
     (textbox '( 50 50) <span class='literal'>"first~%textbox"</span>)
     (textbox '(150 50) <span class='literal'>"second~%textbox"</span>)))
 </pre>
+<a name='fIT9kBEu2gr'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='200' height='100'>
@@ -2388,9 +2451,11 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='fIT9kBEu2gr'></a>Figure.4-11 with-textbox-options のサンプル</p>
+</a>
+<p class='fig_title'>Figure.4-11 with-textbox-options のサンプル</p>
 <h3><a name='jRjILbbJATV'></a>4.4 ドキュメント</h3>
 <p>　<a class='autolink' href='#8otKibFY5LC'>document マクロ</a>によって<a class='autolink' href='#jRjILbbJATV'>ドキュメント</a>を描画できます。<a class='autolink' href='#jRjILbbJATV'>ドキュメント</a>は<a class='autolink' href='#e7hkC2YUaKe'>テキストボックス</a>と良く似ていますが、サイズは自動計算されないため、幅と高さを指定する必要があります。</p>
+<a name='dvJBi2mFjs2'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='200' height='100'>
@@ -2411,7 +2476,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='dvJBi2mFjs2'></a>Figure.4-12 ドキュメントのサンプル</p>
+</a>
+<p class='fig_title'>Figure.4-12 ドキュメントのサンプル</p>
 <p>　上記サンプルのソースは以下の通りです。パラメータの詳細については <a class='autolink' href='#8otKibFY5LC'>document マクロ</a>を参照してください。</p>
 <pre class='code'>
 (diagram (200 100)
@@ -2429,6 +2495,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
     (document '( 60 50) 100 70 <span class='literal'>"first~%document"</span>)
     (document '(180 50) 100 70 <span class='literal'>"second~%document"</span>)))
 </pre>
+<a name='47EMqNZNXWt'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='240' height='100'>
@@ -2464,9 +2531,11 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='47EMqNZNXWt'></a>Figure.4-13 with-document-options のサンプル</p>
+</a>
+<p class='fig_title'>Figure.4-13 with-document-options のサンプル</p>
 <h3><a name='5ZT843xJDiq'></a>4.5 フォルダ</h3>
 <p>　<a class='autolink' href='#jYqT4ybxQgU'>folder マクロ</a>によって<a class='autolink' href='#5ZT843xJDiq'>フォルダ</a>を描画できます。</p>
+<a name='bB2F9DVM9ic'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='200' height='100'>
@@ -2490,7 +2559,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='bB2F9DVM9ic'></a>Figure.4-14 フォルダのサンプル</p>
+</a>
+<p class='fig_title'>Figure.4-14 フォルダのサンプル</p>
 <p>　上記サンプルのソースは以下の通りです。パラメータの詳細については <a class='autolink' href='#jYqT4ybxQgU'>folder マクロ</a>を参照してください。</p>
 <pre class='code'>
 (diagram (200 100)
@@ -2509,6 +2579,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
     (folder '( 60 50) <span class='literal'>"first~%folder"</span>  <span class='keyword3'>:width</span> 100 <span class='keyword3'>:height</span> 70)
     (folder '(180 50) <span class='literal'>"second~%folder"</span> <span class='keyword3'>:width</span> 100 <span class='keyword3'>:height</span> 70)))
 </pre>
+<a name='0MavWGofA5A'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='240' height='100'>
@@ -2550,9 +2621,11 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='0MavWGofA5A'></a>Figure.4-15 with-folder-options のサンプル</p>
+</a>
+<p class='fig_title'>Figure.4-15 with-folder-options のサンプル</p>
 <h3><a name='03WwbeGq0eH'></a>4.6 人物</h3>
 <p>　<a class='autolink' href='#jsvIhwcwkMd'>person マクロ</a>を使うと、<a class='autolink' href='#03WwbeGq0eH'>人物</a>の形を描画することができます。縦横比は一定のため座標とサイズを指定する必要があり、<a class='autolink' href='#lpCVEZ9kMoP'>ラベル</a>を添えることができます。</p>
+<a name='hhPIA8JVdPh'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='200' height='120'>
@@ -2573,7 +2646,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='hhPIA8JVdPh'></a>Figure.4-16 人物のサンプル</p>
+</a>
+<p class='fig_title'>Figure.4-16 人物のサンプル</p>
 <p>　上記サンプルのソースは以下の通りです。パラメータの詳細については <a class='autolink' href='#jsvIhwcwkMd'>person マクロ</a>を参照してください。</p>
 <pre class='code'>
 (diagram (200 120)
@@ -2593,6 +2667,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
     (person '( 50 50) 40)
     (person '(150 50) 40)))
 </pre>
+<a name='lnnHMVYKIVe'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='200' height='100'>
@@ -2620,9 +2695,11 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='lnnHMVYKIVe'></a>Figure.4-17 with-person-options のサンプル</p>
+</a>
+<p class='fig_title'>Figure.4-17 with-person-options のサンプル</p>
 <h3><a name='5IHcv4bxjLU'></a>4.7 吹き出し</h3>
 <p>　<a class='autolink' href='#cpOh7beESsS'>balloon マクロ</a>によって<a class='autolink' href='#5IHcv4bxjLU'>吹き出し</a>を描画できます。<a class='autolink' href='#e7hkC2YUaKe'>テキストボックス</a>と良く似ていますが、指定した位置への引き出し線が描画されます。</p>
+<a name='bnZSVtbTzuH'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='200' height='100'>
@@ -2645,7 +2722,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='bnZSVtbTzuH'></a>Figure.4-18 吹き出しのサンプル</p>
+</a>
+<p class='fig_title'>Figure.4-18 吹き出しのサンプル</p>
 <p>　上記サンプルのソースは以下の通りです。パラメータの詳細については <a class='autolink' href='#cpOh7beESsS'>balloon マクロ</a>を参照してください。</p>
 <pre class='code'>
 (diagram (200 100)
@@ -2665,6 +2743,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
     (balloon '( 60 60) <span class='literal'>"first~%balloon"</span>  $1.left  <span class='keyword3'>:width</span> 90)
     (balloon '(240 40) <span class='literal'>"second~%balloon"</span> $2.right <span class='keyword3'>:width</span> 90)))
 </pre>
+<a name='loJcJRs9CQ6'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='100'>
@@ -2702,9 +2781,11 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='loJcJRs9CQ6'></a>Figure.4-19 with-balloon-options のサンプル</p>
+</a>
+<p class='fig_title'>Figure.4-19 with-balloon-options のサンプル</p>
 <h3><a name='0AVJhEKnK1M'></a>4.8 メモ</h3>
 <p>　<a class='autolink' href='#0Bkt6LtbRAO'>memo マクロ</a>によって<a class='autolink' href='#0AVJhEKnK1M'>メモ</a>を描画できます。<a class='autolink' href='#e7hkC2YUaKe'>テキストボックス</a>と良く似ていますが、右下に折り目が描画されます。</p>
+<a name='2VCrzOuGHtM'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='200' height='100'>
@@ -2732,7 +2813,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='2VCrzOuGHtM'></a>Figure.4-20 メモのサンプル</p>
+</a>
+<p class='fig_title'>Figure.4-20 メモのサンプル</p>
 <p>　上記サンプルのソースは以下の通りです。パラメータの詳細については <a class='autolink' href='#0Bkt6LtbRAO'>memo マクロ</a>を参照してください。</p>
 <pre class='code'>
 (diagram (200 100)
@@ -2752,6 +2834,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
     (memo '( 60 50) <span class='literal'>"first~%memo"</span>  <span class='keyword3'>:width</span> 80 <span class='keyword3'>:height</span> 60)
     (memo '(180 50) <span class='literal'>"second~%memo"</span> <span class='keyword3'>:width</span> 80 <span class='keyword3'>:height</span> 60)))
 </pre>
+<a name='85PzRyM9ubb'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='240' height='100'>
@@ -2801,9 +2884,11 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='85PzRyM9ubb'></a>Figure.4-21 with-memo-options のサンプル</p>
+</a>
+<p class='fig_title'>Figure.4-21 with-memo-options のサンプル</p>
 <h3><a name='hja1QJC0Ivb'></a>4.9 キューブ</h3>
 <p>　<a class='autolink' href='#eBspaEdxwbc'>cube マクロ</a>によって<a class='autolink' href='#hja1QJC0Ivb'>キューブ</a>を描画できます。<a class='autolink' href='#e7hkC2YUaKe'>テキストボックス</a>とは異なり、サイズは自動計算されないため、幅と高さを指定する必要があります。</p>
+<a name='j4GYjsfbdqP'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='200' height='100'>
@@ -2828,7 +2913,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='j4GYjsfbdqP'></a>Figure.4-22 キューブのサンプル</p>
+</a>
+<p class='fig_title'>Figure.4-22 キューブのサンプル</p>
 <p>　上記サンプルのソースは以下の通りです。パラメータの詳細については <a class='autolink' href='#eBspaEdxwbc'>cube マクロ</a>を参照してください。</p>
 <pre class='code'>
 (diagram (200 100)
@@ -2848,6 +2934,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
     (cube '( 60 50) 80 60 <span class='literal'>"first~%cube"</span> )
     (cube '(180 50) 80 60 <span class='literal'>"second~%cube"</span>)))
 </pre>
+<a name='3SJFdpOYlvc'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='240' height='100'>
@@ -2891,9 +2978,11 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='3SJFdpOYlvc'></a>Figure.4-23 with-cube-options のサンプル</p>
+</a>
+<p class='fig_title'>Figure.4-23 with-cube-options のサンプル</p>
 <h3><a name='5ME1Xv0K4sM'></a>4.10 円柱</h3>
 <p>　<a class='autolink' href='#0kdw9fTRleF'>cylinder マクロ</a>によって<a class='autolink' href='#5ME1Xv0K4sM'>円柱</a>を描画できます。<a class='autolink' href='#e7hkC2YUaKe'>テキストボックス</a>とは異なり、サイズは自動計算されないため、幅と高さを指定する必要があります。</p>
+<a name='c33W6fj0jlH'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='200' height='100'>
@@ -2917,7 +3006,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='c33W6fj0jlH'></a>Figure.4-24 円柱のサンプル</p>
+</a>
+<p class='fig_title'>Figure.4-24 円柱のサンプル</p>
 <p>　上記サンプルのソースは以下の通りです。パラメータの詳細については <a class='autolink' href='#0kdw9fTRleF'>cylinder マクロ</a>を参照してください。</p>
 <pre class='code'>
 (diagram (200 100)
@@ -2936,6 +3026,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
     (cylinder '( 60 50) 80 60 <span class='literal'>"first~%cylinder"</span> )
     (cylinder '(180 50) 80 60 <span class='literal'>"second~%cylinder"</span>)))
 </pre>
+<a name='6qpOLVQEU9p'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='240' height='100'>
@@ -2977,9 +3068,11 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='6qpOLVQEU9p'></a>Figure.4-25 with-cylinder-options のサンプル</p>
+</a>
+<p class='fig_title'>Figure.4-25 with-cylinder-options のサンプル</p>
 <h3><a name='hjZ26isLw42'></a>4.11 爆発</h3>
 <p>　<a class='autolink' href='#b1mSpvnCg7y'>explosion1 マクロ</a>および <a class='autolink' href='#gIBWNJYTozi'>explosion2 マクロ</a>によって<a class='autolink' href='#hjZ26isLw42'>爆発</a>を描画できます。<a class='autolink' href='#e7hkC2YUaKe'>テキストボックス</a>とは異なり、サイズは自動計算されないため、幅と高さを指定する必要があります<sup><a name='footnote_ref5' href='#footnote5'>5</a></sup>。</p>
+<a name='alxN8u8h3HH'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='350' height='150'>
@@ -3006,7 +3099,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='alxN8u8h3HH'></a>Figure.4-26 爆発のサンプル</p>
+</a>
+<p class='fig_title'>Figure.4-26 爆発のサンプル</p>
 <p>　上記サンプルのソースは以下の通りです。パラメータの詳細については <a class='autolink' href='#b1mSpvnCg7y'>explosion1 マクロ</a>または<a class='autolink' href='#gIBWNJYTozi'>explosion2 マクロ</a>を参照してください。</p>
 <pre class='code'>
 (diagram (350 150)
@@ -3025,6 +3119,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
     (explosion1 '( 80 50) 140 100 <span class='literal'>"first~%explosion"</span> )
     (explosion2 '(220 50) 140 100 <span class='literal'>"second~%explosion"</span>)))
 </pre>
+<a name='6vhSWl4Z51P'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='100'>
@@ -3060,9 +3155,11 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='6vhSWl4Z51P'></a>Figure.4-27 with-explosion-options のサンプル</p>
+</a>
+<p class='fig_title'>Figure.4-27 with-explosion-options のサンプル</p>
 <h3><a name='0bmJsUEFpID'></a>4.12 星型</h3>
 <p>　<a class='autolink' href='#lIVUf3A6GGx'>star マクロ</a>により、<a class='autolink' href='#0bmJsUEFpID'>星型</a>を描画できます。</p>
+<a name='0mECg5BWM3W'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='150'>
@@ -3083,7 +3180,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='0mECg5BWM3W'></a>Figure.4-28 星型のサンプル</p>
+</a>
+<p class='fig_title'>Figure.4-28 星型のサンプル</p>
 <p>　上記サンプルのソースは以下の通りです。パラメータの詳細については <a class='autolink' href='#lIVUf3A6GGx'>star マクロ</a>を参照してください。</p>
 <pre class='code'>
 (diagram (300 150)
@@ -3101,6 +3199,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
     (star '( 80 50) 6 80 80 <span class='literal'>"star1"</span>)
     (star '(220 50) 5 80 80 <span class='literal'>"star2"</span>)))
 </pre>
+<a name='0xR7ZykIYRN'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='100'>
@@ -3130,9 +3229,11 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='0xR7ZykIYRN'></a>Figure.4-29 with-star-options のサンプル</p>
+</a>
+<p class='fig_title'>Figure.4-29 with-star-options のサンプル</p>
 <h3><a name='4cZRWkwhYNO'></a>4.13 十字</h3>
 <p>　<a class='autolink' href='#3B5moS1yMrX'>cross マクロ</a>によって<a class='autolink' href='#4cZRWkwhYNO'>十字</a>を描画できます。幅と高さ、太さを指定でき、<a class='autolink' href='#heEi5Lc5BX9'>回転</a>させれば×印にもなります。また、縦横で太さを変えたり、交差する位置をズラすこともできます。</p>
+<a name='i6ogP2K90yF'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='400' height='100'>
@@ -3155,7 +3256,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='i6ogP2K90yF'></a>Figure.4-30 十字のサンプル</p>
+</a>
+<p class='fig_title'>Figure.4-30 十字のサンプル</p>
 <p>　上記サンプルのソースは以下の通りです。パラメータの詳細については <a class='autolink' href='#3B5moS1yMrX'>cross マクロ</a>を参照してください。</p>
 <pre class='code'>
 (diagram (400 100)
@@ -3175,6 +3277,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
     (cross '( 80 50) 80 80 20)
     (cross '(220 50) 80 80 20 <span class='keyword3'>:rotate</span> 45)))
 </pre>
+<a name='aRp5j4797s7'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='100'>
@@ -3204,9 +3307,11 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='aRp5j4797s7'></a>Figure.4-31 with-cross-options のサンプル</p>
+</a>
+<p class='fig_title'>Figure.4-31 with-cross-options のサンプル</p>
 <h3><a name='6maeVrGkwuF'></a>4.14 パイプ</h3>
 <p>　<a class='autolink' href='#hoZmBoEl3rh'>pipe マクロ</a>により、縦方向または横方向に伸びる細長い<a class='autolink' href='#6maeVrGkwuF'>パイプ</a>を描画できます。</p>
+<a name='cGh0InI0wq6'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='150'>
@@ -3233,7 +3338,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='cGh0InI0wq6'></a>Figure.4-32 パイプのサンプル</p>
+</a>
+<p class='fig_title'>Figure.4-32 パイプのサンプル</p>
 <p>　上記サンプルのソースは以下の通りです。パラメータの詳細については <a class='autolink' href='#hoZmBoEl3rh'>pipe マクロ</a>を参照してください。</p>
 <pre class='code'>
 (diagram (300 150)
@@ -3252,6 +3358,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
     (pipe '( 50 50) <span class='keyword3'>:v</span>  40 <span class='keyword3'>:label</span> <span class='literal'>"pipe1"</span>)
     (pipe '(180 50) <span class='keyword3'>:h</span> 150 <span class='keyword3'>:label</span> '(<span class='literal'>"pipe2"</span> <span class='keyword3'>:offset</span> (0 18)))))
 </pre>
+<a name='e5CozIh4P1y'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='100'>
@@ -3278,9 +3385,11 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='e5CozIh4P1y'></a>Figure.4-33 with-pipe-options のサンプル</p>
+</a>
+<p class='fig_title'>Figure.4-33 with-pipe-options のサンプル</p>
 <h3><a name='49KKf97828b'></a>4.15 ブロック矢印</h3>
 <p>　<a class='autolink' href='#fPXJtSPEV1e'>block-arrow1 マクロ</a>および <a class='autolink' href='#lwcwjW0h2Fi'>block-arrow2 マクロ</a>により、指定した２点を結ぶ大きな矢印を描画できます。block-arrow1 は終端側だけに矢印が描画されますが、block-arrow2 を使えば双方向の矢印になります。</p>
+<a name='eIwQ5AwuV7t'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='150'>
@@ -3299,7 +3408,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='eIwQ5AwuV7t'></a>Figure.4-34 ブロック矢印のサンプル</p>
+</a>
+<p class='fig_title'>Figure.4-34 ブロック矢印のサンプル</p>
 <p>　上記サンプルのソースは以下の通りです。パラメータの詳細については <a class='autolink' href='#fPXJtSPEV1e'>block-arrow1 マクロ</a>および <a class='autolink' href='#lwcwjW0h2Fi'>block-arrow2 マクロ</a>を参照してください。</p>
 <pre class='code'>
 (diagram (300 150)
@@ -3311,6 +3421,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </pre>
 <p>　　</p>
 <p>　いくつかのパラメータは直感的に判りにくいため、以下で説明します。<code>(block-arrow1 pt1 pt2 width :length length :size size :margin margin)</code> とした場合、それぞれのパラメータは以下のように使用されます。</p>
+<a name='htsQptREwXf'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='400' height='120'>
@@ -3381,7 +3492,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='htsQptREwXf'></a>Figure.4-35 ブロック矢印のパラメータ</p>
+</a>
+<p class='fig_title'>Figure.4-35 ブロック矢印のパラメータ</p>
 <ul>
 <li><code>size</code> が省略された場合、デフォルト値として <code>width</code> の２倍が使用されます</li>
 <li><code>length</code> が省略された場合、デフォルト値として <code>size</code> と同じ値が使用されます</li>
@@ -3398,6 +3510,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
     (block-arrow1 '(30 25) '(170 25) 20)
     (block-arrow2 '(30 75) '(170 75) 20)))
 </pre>
+<a name='joIBAKcJmZU'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='200' height='100'>
@@ -3425,9 +3538,11 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='joIBAKcJmZU'></a>Figure.4-36 with-block-arrow-options のサンプル</p>
+</a>
+<p class='fig_title'>Figure.4-36 with-block-arrow-options のサンプル</p>
 <h3><a name='k52CkqHw8JE'></a>4.16 禁止マーク</h3>
 <p>　<a class='autolink' href='#2fNUS5JgXBc'>prohibition マクロ</a>により、<a class='autolink' href='#k52CkqHw8JE'>禁止マーク</a>を描画できます。</p>
+<a name='07RMYkOOHcW'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='150'>
@@ -3456,7 +3571,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='07RMYkOOHcW'></a>Figure.4-37 禁止マークのサンプル</p>
+</a>
+<p class='fig_title'>Figure.4-37 禁止マークのサンプル</p>
 <p>　上記サンプルのソースは以下の通りです。パラメータの詳細については <a class='autolink' href='#2fNUS5JgXBc'>prohibition マクロ</a>を参照してください。</p>
 <pre class='code'>
 (diagram (300 150)
@@ -3476,6 +3592,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
     (prohibition '( 80 40) 60 <span class='keyword3'>:filter</span> <span class='keyword3'>:drop-shadow</span>)
     (prohibition '(220 40) 60 <span class='keyword3'>:label</span> <span class='literal'>"with label."</span>)))
 </pre>
+<a name='2FUI2T9zzjm'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='110'>
@@ -3504,9 +3621,11 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='2FUI2T9zzjm'></a>Figure.4-38 with-prohibition-options のサンプル</p>
+</a>
+<p class='fig_title'>Figure.4-38 with-prohibition-options のサンプル</p>
 <h3><a name='lBS33hNe32a'></a>4.17 波括弧</h3>
 <p>　<a class='autolink' href='#h2iZ4O9D92X'>brace マクロ</a>により、大きな<a class='autolink' href='#lBS33hNe32a'>波括弧</a>を描画することができます。<a class='autolink' href='#lBS33hNe32a'>波括弧</a>には<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>を添えることができます。</p>
+<a name='jKClDFWGMjM'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='400' height='220'>
@@ -3533,7 +3652,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='jKClDFWGMjM'></a>Figure.4-39 波括弧のサンプル</p>
+</a>
+<p class='fig_title'>Figure.4-39 波括弧のサンプル</p>
 <p>　上記サンプルのソースは以下の通りです。パラメータの詳細については <a class='autolink' href='#h2iZ4O9D92X'>brace マクロ</a>を参照してください。</p>
 <pre class='code'>
 (diagram (400 220)
@@ -3547,6 +3667,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </pre>
 <p>　　</p>
 <p>　いくつかのパラメータは直感的に判りにくいため、以下で説明します。<code>(brace position direction width height :r r :point point)</code> とした場合、それぞれのパラメータは以下のように使用されます。</p>
+<a name='eWywNaFqjwP'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='400' height='150'>
@@ -3599,7 +3720,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='eWywNaFqjwP'></a>Figure.4-40 波括弧のパラメータ</p>
+</a>
+<p class='fig_title'>Figure.4-40 波括弧のパラメータ</p>
 <ul>
 <li><code>r</code> が省略された場合、デフォルト値として <code>height</code> （縦向きの場合は <code>width</code> ）の 1/3 が指定されます</li>
 <li><code>point</code> が省略された場合、デフォルト値として <code>width</code> （縦向きの場合は <code>height</code> ）の 1/2 が指定されます</li>
@@ -3617,6 +3739,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
        (brace '( 30 110) <span class='keyword3'>:left</span>    40 120 <span class='keyword3'>:r</span> 10 <span class='keyword3'>:point</span>  40 <span class='keyword3'>:text</span> <span class='literal'>"left brace"</span>  )
        (brace '(370 110) <span class='keyword3'>:right</span>   40 120 <span class='keyword3'>:r</span> 10 <span class='keyword3'>:point</span>  80 <span class='keyword3'>:text</span> <span class='literal'>"right brace"</span> )))
 </pre>
+<a name='hnkBV0wrSv5'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='400' height='220'>
@@ -3643,9 +3766,11 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='hnkBV0wrSv5'></a>Figure.4-41 with-brace-options のサンプル</p>
+</a>
+<p class='fig_title'>Figure.4-41 with-brace-options のサンプル</p>
 <h3><a name='g6xjP526KX7'></a>4.18 テーブル</h3>
 <p>　<a class='autolink' href='#hqebcMypbfk'>table マクロ</a>を使うことで、表を描画することができます。以下の例では、３行４列の表を作成しています。</p>
+<a name='4p5NTDB8bf1'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='320' height='120'>
@@ -3681,7 +3806,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='4p5NTDB8bf1'></a>Figure.4-42 テーブルのサンプル</p>
+</a>
+<p class='fig_title'>Figure.4-42 テーブルのサンプル</p>
 <p>　上記サンプルのソースは以下の通りです。パラメータの詳細については <a class='autolink' href='#hqebcMypbfk'>table マクロ</a>を参照してください。</p>
 <pre class='code'>
 (diagram (320 120)
@@ -3707,6 +3833,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li><a class='autolink' href='#3kZ9FkounyK'>フォント</a>は、 <code>:font</code> に続けて<a class='autolink' href='#3kZ9FkounyK'>フォント</a>情報を指定します。これを省略した場合、その時点でのデフォルト<a class='autolink' href='#3kZ9FkounyK'>フォント</a>が使用されます。</li>
 </ul>
 <p>　<code>:align</code> および <code>:valign</code> のサンプルを以下に示します。</p>
+<a name='0EEfXZqu18P'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='480' height='240'>
@@ -3755,7 +3882,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='0EEfXZqu18P'></a>Figure.4-43 テーブルにおけるテキストの align と valign パラメータ</p>
+</a>
+<p class='fig_title'>Figure.4-43 テーブルにおけるテキストの align と valign パラメータ</p>
 <details>
 <summary>　※上記サンプルのソースはこちら。</summary>
 <pre class='code'>
@@ -3785,6 +3913,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p>　データを（リストでなく）直接指定した場合でも、デフォルトの設定として数値ならば右寄せ、文字列ならば左寄せ、シンボルならば中央揃えという措置が行なわれるため、多くの場合で個別セルの<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>データ指定をリストで行なう必要は無いでしょう。キーワードを使うと全て大文字で表示されてしまいますが、 <code>:|Foo|</code> のようにバーティカルバーで括ると文字の大小を維持したまま表示されます（<a href='#0EEfXZqu18P'>Figure.4-43</a> のコードを参照）。</p>
 <h4><a name='3qNm5uHdKTZ'></a>4.18.1 with-table-cell を使ったセル内描画</h4>
 <p>　table の id とセルの行・列番号を指定して <a class='autolink' href='#8rELk1LL2bC'>with-table-cell マクロ</a>を使用することで、該当するセルを<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>とした描画ができます。以下の例では、2 x 2 の空の<a class='autolink' href='#g6xjP526KX7'>テーブル</a>を作成し、そのうちの２つのセル内部に図形を描画しています。</p>
+<a name='knawwdhRtbI'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='220' height='220'>
@@ -3810,7 +3939,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='knawwdhRtbI'></a>Figure.4-44 with-table-cell の使用例</p>
+</a>
+<p class='fig_title'>Figure.4-44 with-table-cell の使用例</p>
 <p>　上記のサンプルは以下のコードで生成されています。</p>
 <pre class='code'>
 (diagram (220 220)
@@ -3825,6 +3955,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p>　　</p>
 <h4><a name='2sVUYL4zgkO'></a>4.18.2 with-table-range を使った範囲取得</h4>
 <p>　<a class='autolink' href='#8n9SABCEJKZ'>with-table-range マクロ</a>を使用することで、<a class='autolink' href='#g6xjP526KX7'>テーブル</a>内の指定範囲を<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>として取得することができます。範囲は、 <code>fills</code> パラメータと同じ形式のキーワードで指定します。以下の例では、4 x 5 の<a class='autolink' href='#g6xjP526KX7'>テーブル</a>を作成し、その一部をマスクするために <a class='autolink' href='#8n9SABCEJKZ'>with-table-range マクロ</a>を使用しています。</p>
+<a name='jRS2A9pCmbY'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='100'>
@@ -3861,7 +3992,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='jRS2A9pCmbY'></a>Figure.4-45 with-table-range の使用例</p>
+</a>
+<p class='fig_title'>Figure.4-45 with-table-range の使用例</p>
 <p>　上記のサンプルは以下のコードで生成されています。</p>
 <pre class='code'>
 (diagram (300 100)
@@ -3876,6 +4008,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p>　<a class='autolink' href='#8n9SABCEJKZ'>with-table-range マクロ</a>は事実上、<a class='autolink' href='#g6xjP526KX7'>テーブル</a>の指定領域を指定した <a class='autolink' href='#5cY34BaMQhr'>with-subcanvas マクロ</a>として機能します。そのため、 <code>canvas</code> を使ってその中心座標や幅、高さ情報にアクセスできます。</p>
 <h4><a name='jQfA1iRJRbN'></a>4.18.3 テーブルの罫線を細かく制御するには</h4>
 <p>　基本的に、<a class='autolink' href='#g6xjP526KX7'>テーブル</a>の罫線は <code>:stroke</code> パラメータで一種類しか指定できません。外枠、縦線、横線などを細かく制御したい場合、少しコードを書いてあげる必要があります。以下に例を示します。</p>
+<a name='eSvvXxmJwyH'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='400' height='100'>
@@ -3916,7 +4049,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='eSvvXxmJwyH'></a>Figure.4-46 テーブルの罫線を描き分けるサンプル</p>
+</a>
+<p class='fig_title'>Figure.4-46 テーブルの罫線を描き分けるサンプル</p>
 <p>　上記サンプルのコードは以下の通りです。<a class='autolink' href='#hqebcMypbfk'>table マクロ</a>では <code>:stroke :none</code> によって罫線なしにしておき、その後 <a class='autolink' href='#8n9SABCEJKZ'>with-table-range マクロ</a>を複数回使って罫線を個別に描画しています。</p>
 <pre class='code'>
 (diagram (400 100)
@@ -3941,6 +4075,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p>　ほしい図形要素がなければ、手間はかかりますが<a class='autolink' href='#4qgt62QVDZl'>パス</a>を使って実現できるかもしれません。図面の中に写真などのラスタ画像を含めることもできます。あるいは、kaavio がサポートしていない SVG の機能を利用したければ生の SVG コードを挿入することもできます<sup><a name='footnote_ref6' href='#footnote6'>6</a></sup>。</p>
 <h3><a name='4qgt62QVDZl'></a>5.1 パス</h3>
 <p>　<a class='autolink' href='#akKCr0fEV12'>path マクロ</a>によって<a class='autolink' href='#fv4OUML78x4'>直線</a>や曲線からなる複雑な図形を描画できます。<a class='autolink' href='#dyrXpT32Rg1'>polygon マクロ</a>は<a class='autolink' href='#fv4OUML78x4'>直線</a>からなる<a class='autolink' href='#5vGRm9AMypB'>多角形</a>でしたが、<a class='autolink' href='#4qgt62QVDZl'>パス</a>では複雑な曲線を含む図形を描画できます。ただ、その分構文も複雑です。</p>
+<a name='1wjNTIzAXUb'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='100'>
@@ -3957,7 +4092,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='1wjNTIzAXUb'></a>Figure.5-1 パスのサンプル</p>
+</a>
+<p class='fig_title'>Figure.5-1 パスのサンプル</p>
 <p>　上記サンプルのソースは以下の通りです。パラメータの詳細については <a class='autolink' href='#akKCr0fEV12'>path マクロ</a>を参照してください。</p>
 <pre class='code'>
 (diagram (300 100)
@@ -3968,7 +4104,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </pre>
 <p>　　</p>
 <p>　ここでは、 <code>(path data...)</code> とした場合の <code>data</code> パラメータについて説明します。これは以下のような <strong>ディレクティブ</strong> キーワードを要素とするリストで指定します。点や値の指定を伴うディレクティブは、それ自体をリストにする必要があります。</p>
-<p class='tbl_title'><a name='f7wEYjGUqWE'></a>Table.5-1 path の data で使用できるディレクティブ</p>
+<p class='tbl_title'>Table.5-1 path の data で使用できるディレクティブ</p>
+<a name='f7wEYjGUqWE'>
 <table align='center'>
 <tr style="font-size: 14;"><th>ディレクティブ</th><th>説明</th></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>:move-to</code></td><td align='left'>指定した点に（線を描くことなく）移動します。</td></tr>
@@ -3982,6 +4119,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <tr style="font-size: 14;"><td nowrap align='left'><code>:relative</code></td><td align='left'>後続のディレクティブを、現在の点に対する相対座標として処理します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>:close-path</code></td><td align='left'><a class='autolink' href='#4qgt62QVDZl'>パス</a>を閉じます。すなわち、現在の点から先頭の点までを結ぶ<a class='autolink' href='#fv4OUML78x4'>直線</a>を引きます。</td></tr>
 </table>
+</a>
 <p>　　</p>
 <p>　多くの場合、開始点に移動してから<a class='autolink' href='#fv4OUML78x4'>直線</a>や曲線を描いて、最後には開始点に戻ることで図形を描くことになります。たとえば、正方形を描く場合の data パラメータは以下のようなリストになるでしょう。</p>
 <pre class='code'>
@@ -3993,6 +4131,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p>　以下に、各ディレクティブの詳細について説明します。</p>
 <h4><a name='g0Dr3NCI4V0'></a>5.1.1 :move-to ディレクティブ</h4>
 <p>　<code>(:move-to pt)</code> という記述により、線を描くことなく指定した点 pt に移動します。また、 <code>(:move-to pt1 pt2 pt3 ...)</code> のように複数の点を記述することができ、これは <code>(:move-to pt1) (:line-to pt2 pt3 ...)</code> と等価になります。以下に例を示します。</p>
+<a name='b5nHW1IvOL5'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='400' height='100'>
@@ -4014,10 +4153,12 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='b5nHW1IvOL5'></a>Figure.5-2 :move-to ディレクティブのサンプル</p>
+</a>
+<p class='fig_title'>Figure.5-2 :move-to ディレクティブのサンプル</p>
 <p>　なお、<a class='autolink' href='#g0Dr3NCI4V0'>:move-to</a> で指定する点は <a class='autolink' href='#dakC66hrAaS'>:absolute</a> および <a class='autolink' href='#9DKrZhbLEFX'>:relative</a> の影響を受けます。</p>
 <h4><a name='cUdEKyCDebd'></a>5.1.2 :line-to ディレクティブ</h4>
 <p>　<code>(:line-to pt)</code> という記述により、現在の点から<a class='autolink' href='#fv4OUML78x4'>直線</a>を描きながら指定した点 pt に移動します。<code>(:line-to pt1 pt2 pt3 ...)</code> のように複数の点を記述することができます。これは現在の点から順番に<a class='autolink' href='#fv4OUML78x4'>直線</a>を描きながら移動します。</p>
+<a name='i7V67Cjuavz'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='400' height='100'>
@@ -4039,10 +4180,12 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='i7V67Cjuavz'></a>Figure.5-3 :line-to ディレクティブのサンプル</p>
+</a>
+<p class='fig_title'>Figure.5-3 :line-to ディレクティブのサンプル</p>
 <p>　なお、<a class='autolink' href='#cUdEKyCDebd'>:line-to</a> で指定する点は <a class='autolink' href='#dakC66hrAaS'>:absolute</a> および <a class='autolink' href='#9DKrZhbLEFX'>:relative</a> の影響を受けます。</p>
 <h4><a name='4Dfw1F7JwVj'></a>5.1.3 :h-line-to ディレクティブ</h4>
 <p>　<code>(:h-line-to x)</code> という記述により、現在の点から指定した x 座標まで水平線を描きながら移動します。</p>
+<a name='hJ1SRWaSqTh'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='150'>
@@ -4067,10 +4210,12 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='hJ1SRWaSqTh'></a>Figure.5-4 :h-line-to ディレクティブのサンプル</p>
+</a>
+<p class='fig_title'>Figure.5-4 :h-line-to ディレクティブのサンプル</p>
 <p>　なお、<a class='autolink' href='#4Dfw1F7JwVj'>:h-line-to</a> で指定する点は <a class='autolink' href='#dakC66hrAaS'>:absolute</a> および <a class='autolink' href='#9DKrZhbLEFX'>:relative</a> の影響を受けます。</p>
 <h4><a name='1B0JCoNzfxs'></a>5.1.4 :v-line-to ディレクティブ</h4>
 <p>　<code>(:v-line-to y)</code> という記述により、現在の点から指定した y 座標まで垂<a class='autolink' href='#fv4OUML78x4'>直線</a>を描きながら移動します。</p>
+<a name='aSaBFWoqy84'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='150'>
@@ -4095,10 +4240,12 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='aSaBFWoqy84'></a>Figure.5-5 :v-line-to ディレクティブのサンプル</p>
+</a>
+<p class='fig_title'>Figure.5-5 :v-line-to ディレクティブのサンプル</p>
 <p>　なお、 <a class='autolink' href='#1B0JCoNzfxs'>:v-line-to</a> で指定する点は <a class='autolink' href='#dakC66hrAaS'>:absolute</a> および <a class='autolink' href='#9DKrZhbLEFX'>:relative</a> の影響を受けます。</p>
 <h4><a name='7RszlFbOHcp'></a>5.1.5 :arc-to ディレクティブ</h4>
 <p>　<a class='autolink' href='#7RszlFbOHcp'>:arc-to</a> ディレクティブにより、現在の点から<a class='autolink' href='#7YzIcjhyGKN'>楕円</a>弧を描きながら指定した点 pt に移動します。</p>
+<a name='0iNBCVKyFlO'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='130'>
@@ -4124,13 +4271,15 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='0iNBCVKyFlO'></a>Figure.5-6 :arc-to ディレクティブのサンプル</p>
+</a>
+<p class='fig_title'>Figure.5-6 :arc-to ディレクティブのサンプル</p>
 <p>　<a class='autolink' href='#7RszlFbOHcp'>:arc-to</a> は<a class='autolink' href='#cp2F91gKG7W'>円弧</a>と考え方はほぼ同じですが、指定はやや複雑です。まず、パラメータ構成は以下の通りです。</p>
 <pre class='code'>
 (<span class='keyword3'>:arc-to</span> rx ry x-axis-rotation large-arc-flag sweep-flag pt)
 </pre>
 <p>　<code>rx, ry, x-axis-rotation</code> は<a class='autolink' href='#cp2F91gKG7W'>円弧</a>での指定と同じもので、ベースとなる<a class='autolink' href='#7YzIcjhyGKN'>楕円</a>の x 半径、y 半径、および x 軸に対する<a class='autolink' href='#7YzIcjhyGKN'>楕円</a>の<a class='autolink' href='#heEi5Lc5BX9'>回転</a>角です。<a class='autolink' href='#7RszlFbOHcp'>:arc-to</a> では、この 3 つの値で決まる<a class='autolink' href='#7YzIcjhyGKN'>楕円</a>の一部を使って、「現在の点から点 <code>pt</code> に至る曲線」を描画します。</p>
 <p>　以下のように、そのような<a class='autolink' href='#7YzIcjhyGKN'>楕円</a>を使って 2 点を通る<a class='autolink' href='#cp2F91gKG7W'>円弧</a>は 4 種類描けることがわかります。</p>
+<a name='aNyY2PIidIC'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='400' height='140'>
@@ -4161,8 +4310,10 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='aNyY2PIidIC'></a>Figure.5-7 :arc-to における rx, ry, x-axis-rotation</p>
+</a>
+<p class='fig_title'>Figure.5-7 :arc-to における rx, ry, x-axis-rotation</p>
 <p>　この 4 種類の<a class='autolink' href='#cp2F91gKG7W'>円弧</a>のうち、どれを使うのかを指定するのが <code>large-arc-flag</code> と <code>sweep-flag</code> です。いずれも 0 または 1 を指定するもので、 <code>large-arc-flag</code> は「1 ならば大きい方の<a class='autolink' href='#cp2F91gKG7W'>円弧</a>、0 ならば小さい方の<a class='autolink' href='#cp2F91gKG7W'>円弧</a>」を使うという意味で、 <code>sweep-flag</code> は「1 ならば時計回り、0 ならば反時計回り」です。このイメージを以下に示します。</p>
+<a name='9yTsBifBw1F'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='510' height='220'>
@@ -4223,11 +4374,13 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='9yTsBifBw1F'></a>Figure.5-8 :arc-to における large-arc-flag, sweep-flag</p>
+</a>
+<p class='fig_title'>Figure.5-8 :arc-to における large-arc-flag, sweep-flag</p>
 <p>　<a class='autolink' href='#4qgt62QVDZl'>パス</a>における <a class='autolink' href='#7RszlFbOHcp'>:arc-to</a> は、始点と終点が決まっている状態で指定された形状の<a class='autolink' href='#7YzIcjhyGKN'>楕円</a>を位置あわせするようなやり方なのでわかりにくいかもしれません。<a class='autolink' href='#cp2F91gKG7W'>円弧</a>のベースとなる<a class='autolink' href='#7YzIcjhyGKN'>楕円</a>の中心点や始点・終点の角度が明らかな場合は <a class='autolink' href='#7Ru23zWD1UC'>arc マクロ</a>の使用を検討してください。</p>
 <h4><a name='00Vj4Quxjg3'></a>5.1.6 :2d-curve-to ディレクティブ</h4>
 <p>　<a class='autolink' href='#00Vj4Quxjg3'>:2d-curve-to</a> ディレクティブにより、現在の点から<a class='autolink' href='#iTkYd8KXLYO'>二次ベジェ曲線</a>を描きながら指定した点 pt に移動します。</p>
 <p>　<a class='autolink' href='#00Vj4Quxjg3'>:2d-curve-to</a> の基本形は <code>(:2d-curve-to ptC pt2)</code> です。現在の点を <code>pt1</code> とした時に、 <code>ptC</code> を制御点として <code>pt2</code> に至る<a class='autolink' href='#iTkYd8KXLYO'>二次ベジェ曲線</a>を描きます。</p>
+<a name='bqBMR0NsHfw'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='100'>
@@ -4260,7 +4413,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='bqBMR0NsHfw'></a>Figure.5-9 :2d-curve-to ディレクティブのサンプル</p>
+</a>
+<p class='fig_title'>Figure.5-9 :2d-curve-to ディレクティブのサンプル</p>
 <details>
 <summary>　※上記サンプルのソースはこちら。</summary>
 <pre class='code'>
@@ -4284,6 +4438,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </pre>
 </details>
 <p>　<a class='autolink' href='#00Vj4Quxjg3'>:2d-curve-to</a> では、任意の数の点を追加することができます。つまり、 <code>(:2d-curve-to ptC pt2 pt3 pt4...)</code> という要領で、必要な制御点は自動的に計算されます。以下に例を示します。</p>
+<a name='8mWonS8i74W'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='400' height='200'>
@@ -4333,7 +4488,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='8mWonS8i74W'></a>Figure.5-10 :2d-curve-to ディレクティブのサンプル - 2</p>
+</a>
+<p class='fig_title'>Figure.5-10 :2d-curve-to ディレクティブのサンプル - 2</p>
 <details>
 <summary>　※上記サンプルのソースはこちら。</summary>
 <pre class='code'>
@@ -4368,6 +4524,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <h4><a name='ewUXtISm3SD'></a>5.1.7 :3d-curve-to ディレクティブ</h4>
 <p>　<a class='autolink' href='#ewUXtISm3SD'>:3d-curve-to</a> ディレクティブにより、現在の点から<a class='autolink' href='#8PFAoBpi4A9'>三次ベジェ曲線</a>を描きながら指定した点 pt に移動します。</p>
 <p>　<a class='autolink' href='#ewUXtISm3SD'>:3d-curve-to</a> の基本形は <code>(:3d-curve-to ptC1 ptC2 pt2)</code> です。現在の点を <code>pt1</code> とした時に、 <code>ptC1</code> および <code>ptC2</code> を制御点として <code>pt2</code> に至る<a class='autolink' href='#8PFAoBpi4A9'>三次ベジェ曲線</a>を描きます。</p>
+<a name='ce2nwKyFetY'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='160'>
@@ -4404,7 +4561,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='ce2nwKyFetY'></a>Figure.5-11 :3d-curve-to ディレクティブのサンプル</p>
+</a>
+<p class='fig_title'>Figure.5-11 :3d-curve-to ディレクティブのサンプル</p>
 <details>
 <summary>　※上記サンプルのソースはこちら。</summary>
 <pre class='code'>
@@ -4431,6 +4589,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </pre>
 </details>
 <p>　<a class='autolink' href='#00Vj4Quxjg3'>:2d-curve-to</a> と比較すると、<a class='autolink' href='#ewUXtISm3SD'>:3d-curve-to</a> は複雑な曲線を描くことができます。<a class='autolink' href='#l10jSaJeUDk'>SVG本</a>のサンプルと同じものを以下に示します。</p>
+<a name='4LyqhFSeu8o'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='450' height='200'>
@@ -4577,7 +4736,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='4LyqhFSeu8o'></a>Figure.5-12 :3d-curve-to ディレクティブのサンプル -2</p>
+</a>
+<p class='fig_title'>Figure.5-12 :3d-curve-to ディレクティブのサンプル -2</p>
 <details>
 <summary>　※上記サンプルのソースはこちら。</summary>
 <pre class='code'>
@@ -4610,6 +4770,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </pre>
 </details>
 <p>　<a class='autolink' href='#ewUXtISm3SD'>:3d-curve-to</a> では、任意の数の制御点と移動先の組みを追加することができます。つまり、 <code>(:3d-curve-to ptC1 ptC2 pt2 ptC3 pt3 ptC4 pt4...)</code> という要領で、必要な制御点は自動的に計算されます。以下に例を示します。</p>
+<a name='lPPONTNSIlV'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='250' height='150'>
@@ -4663,7 +4824,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='lPPONTNSIlV'></a>Figure.5-13 :3d-curve-to ディレクティブのサンプル - 3</p>
+</a>
+<p class='fig_title'>Figure.5-13 :3d-curve-to ディレクティブのサンプル - 3</p>
 <details>
 <summary>　※上記サンプルのソースはこちら。</summary>
 <pre class='code'>
@@ -4702,6 +4864,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p>　上の例では追加で制御点 ptC3 と点 pt3 を指定しており、そのために必要な制御点 pt2C' は自動的に計算されています。具体的には、「直前の制御点を、直前の点に対して鏡映した点」が次の制御点になります。上の例であれば ptC2' は ptC2 を pt2 に対して鏡映した点です。</p>
 <h4><a name='dakC66hrAaS'></a>5.1.8 :absolute ディレクティブ</h4>
 <p>　後続のディレクティブを、現在の<a class='autolink' href='#kgs1vf3AbTN'>キャンバス</a>に対する絶対座標として処理します。以下の例では、三角形の描画を <a class='autolink' href='#dakC66hrAaS'>:absolute</a> 指定によって描画しています。同じ図形を <a class='autolink' href='#9DKrZhbLEFX'>:relative</a> で描画する <a href='#2cRykcOGGkY'>Figure.5-15</a> と比較してみてください。</p>
+<a name='fh3ghDl4UuV'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='150'>
@@ -4726,9 +4889,11 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='fh3ghDl4UuV'></a>Figure.5-14 :absolute ディレクティブのサンプル</p>
+</a>
+<p class='fig_title'>Figure.5-14 :absolute ディレクティブのサンプル</p>
 <h4><a name='9DKrZhbLEFX'></a>5.1.9 :relative ディレクティブ</h4>
 <p>　後続のディレクティブを、現在の点に対する相対座標として処理します。以下の例では、三角形の描画を <a class='autolink' href='#9DKrZhbLEFX'>:relative</a> 指定によって描画しています。同じ図形を <a class='autolink' href='#dakC66hrAaS'>:absolute</a> で描画する <a href='#fh3ghDl4UuV'>Figure.5-14</a> と比較してみてください。</p>
+<a name='2cRykcOGGkY'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='150'>
@@ -4753,9 +4918,11 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='2cRykcOGGkY'></a>Figure.5-15 :relative ディレクティブのサンプル</p>
+</a>
+<p class='fig_title'>Figure.5-15 :relative ディレクティブのサンプル</p>
 <h4><a name='eYtPrg88Qb0'></a>5.1.10 :close-path ディレクティブ</h4>
 <p>　現在の点から現在のサブ<a class='autolink' href='#4qgt62QVDZl'>パス</a>（<a class='autolink' href='#g0Dr3NCI4V0'>:move-to</a> によって開始された一連の描画）の開始点まで<a class='autolink' href='#fv4OUML78x4'>直線</a>を描きながら移動します。以下の例では、１回の<a class='autolink' href='#4qgt62QVDZl'>パス</a>で 2 つの三角形を描画していますが、それぞれの三角形の最後の<a class='autolink' href='#fv4OUML78x4'>直線</a>を <a class='autolink' href='#eYtPrg88Qb0'>:close-path</a> で描画しています。</p>
+<a name='iPFjMa8UP1c'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='150'>
@@ -4781,7 +4948,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='iPFjMa8UP1c'></a>Figure.5-16 :close-path ディレクティブのサンプル</p>
+</a>
+<p class='fig_title'>Figure.5-16 :close-path ディレクティブのサンプル</p>
 <p>　　</p>
 <h3><a name='kSyxpJZzQjY'></a>5.2 画像ファイルの埋め込み</h3>
 <p>　<a class='autolink' href='#8X1qKGWyF0t'>image マクロ</a>を使うことで、SVG 図面の中に他の画像を埋め込むことができます。以下の形式の画像ファイルをサポートします。</p>
@@ -4805,6 +4973,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
   (raw-svg <span class='literal'>"&lt;rect x='50' y='25' width='100' height='50' fill='linen' stroke='brown' stroke-width='1' /&gt;"</span>))
 </pre>
 <p>　文字列として raw-svg に渡したコード片がそのまま挿入されます。パラメータの詳細については <a class='autolink' href='#44CYyox6BTR'>raw-svg マクロ</a>を参照してください。</p>
+<a name='f0G61WmPR5j'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='200' height='100'>
@@ -4821,7 +4990,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='f0G61WmPR5j'></a>Figure.5-17 raw-svg のサンプル</p>
+</a>
+<p class='fig_title'>Figure.5-17 raw-svg のサンプル</p>
 <p>　　</p>
 <h2><a name='2QhgoP1QBEQ'></a>6 パラメータの詳細</h2>
 <h3><a name='1rpUB3fre67'></a>6.1 色の指定</h3>
@@ -4868,6 +5038,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
   (text '(150 90) <span class='literal'>"C"</span> <span class='keyword3'>:align</span> <span class='keyword3'>:center</span>)
   (text '(200 90) <span class='literal'>"D"</span> <span class='keyword3'>:align</span> <span class='keyword3'>:center</span>))
 </pre>
+<a name='g39KVcpoX7B'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='250' height='100'>
@@ -4898,13 +5069,15 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='g39KVcpoX7B'></a>Figure.6-1 with-options によるデフォルトストロークの変更</p>
+</a>
+<p class='fig_title'>Figure.6-1 with-options によるデフォルトストロークの変更</p>
 <p>　　</p>
 <p>　C の<a class='autolink' href='#kJonRG8GtHF'>四角形</a>では「色しか指定していない」のに線が太くなっていることに注意してください。これは、「明示的に指定されていないものはデフォルトの設定が使用される」からです。<a class='autolink' href='#cTbK0huuMTl'>with-options マクロ</a>によってデフォルト設定が変更されており、B の<a class='autolink' href='#kJonRG8GtHF'>四角形</a>では（ <code>:stroke</code> を省略することによって）全てがデフォルト設定で描画されました。C の<a class='autolink' href='#kJonRG8GtHF'>四角形</a>では、 <code>:stroke :brown</code> によってデフォルト設定をベースとして色だけを変更している、というわけです。</p>
 <p>　<a class='autolink' href='#cTbK0huuMTl'>with-options マクロ</a>では全体のデフォルト設定を変更しますが、図形要素によっては個別にデフォルト設定を持っています。たとえば、<a class='autolink' href='#e7hkC2YUaKe'>テキストボックス</a>であれば <a class='autolink' href='#5oL7bKJkowz'>with-textbox-options マクロ</a>でデフォルト設定を変更することができます。</p>
 <p>　　</p>
 <h4><a name='62KpZHJ4mOR'></a>6.2.2 linecap</h4>
 <p>　<code>linecap</code> について説明します。これは <code>:butt :round :square</code> から指定するもので、以下のように線の端の形状が変わります。 <code>:butt</code> は指定した開始点／終了点で線が切れますが、 <code>:round :square</code> では開始点／終了点を少しはみ出すことに注意してください。</p>
+<a name='eXOpfZPd3Nn'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='200' height='100'>
@@ -4935,10 +5108,12 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='eXOpfZPd3Nn'></a>Figure.6-2 linecap のサンプル</p>
+</a>
+<p class='fig_title'>Figure.6-2 linecap のサンプル</p>
 <p>　　</p>
 <h4><a name='kp3HeQv7roH'></a>6.2.3 linejoin と miterlimit</h4>
 <p>　<code>linejoin</code> は、線が折れ曲る部分の形状を <code>:miter :round :bevel</code> から指定するもので、以下のように角の形状が変わります。</p>
+<a name='hP90ozCer2U'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='100'>
@@ -4965,11 +5140,13 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='hP90ozCer2U'></a>Figure.6-3 linejoin のサンプル</p>
+</a>
+<p class='fig_title'>Figure.6-3 linejoin のサンプル</p>
 <p>　　</p>
 <details>
 <summary><strong>miterlimit についての説明は暫定です（作者自身 SVG 規格における miterlimit の意味が良くわかっていない）。</strong></summary>
 <p>　<code>miterlimit</code> は、 <code>linejoin</code> が <code>:miter</code> の場合における、結合される線の太さに対する結合部の長さの比率を数値で指定します。デフォルト値は 4 です。</p>
+<a name='6vs2Vz9sOKj'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='600' height='100'>
@@ -5008,11 +5185,13 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='6vs2Vz9sOKj'></a>Figure.6-4 miterlimit のサンプル</p>
+</a>
+<p class='fig_title'>Figure.6-4 miterlimit のサンプル</p>
 </details>
 <p>　　</p>
 <h4><a name='9Kl09MlELdq'></a>6.2.4 dasharray と dashoffset</h4>
 <p>　<code>dasharray</code> と <code>dashoffset</code> は点線や破線を描画する際に指定します。 <code>dasharray</code> は繰り返される線の幅と間隔の幅を数値でリストにしたものを渡します。通常は <code>dasharray</code> で指定された点線・破線を最初から描画しますが、 <code>dashoffset</code> を指定すると開始するオフセットを指定できます。以下に例を示します。</p>
+<a name='dpbOii37pGP'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='400' height='120'>
@@ -5063,10 +5242,12 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='dpbOii37pGP'></a>Figure.6-5 dasharray, dashoffset のサンプル</p>
+</a>
+<p class='fig_title'>Figure.6-5 dasharray, dashoffset のサンプル</p>
 <p>　　</p>
 <h4><a name='cPNmZfLmh3t'></a>6.2.5 ストロークにおけるパターンとグラデーションの指定</h4>
 <p>　<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>でできるのは、単色で線や点線をひくことだけではありません。<a class='autolink' href='#dmYFJAv81Kl'>パターン</a>や<a class='autolink' href='#4p1J7EWjD3m'>グラデーション</a>を定義して、それを使うこともできます。たとえば以下では、赤色から青色に変化する<a class='autolink' href='#4p1J7EWjD3m'>グラデーション</a>を作成し、<a class='autolink' href='#kJonRG8GtHF'>四角形</a>の<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>で使用しています。</p>
+<a name='4csTWXsTuKW'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='140' height='70'>
@@ -5090,7 +5271,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='4csTWXsTuKW'></a>Figure.6-6 グラデーションを使ったストロークのサンプル</p>
+</a>
+<p class='fig_title'>Figure.6-6 グラデーションを使ったストロークのサンプル</p>
 <p>　　</p>
 <p>　上記のサンプルを生成するコードは以下になります。<a class='autolink' href='#dmYFJAv81Kl'>パターン</a>と<a class='autolink' href='#4p1J7EWjD3m'>グラデーション</a>の詳細については <a href='#kfrwaPRQE9I'>7.5  節</a>を参照してください。定義された<a class='autolink' href='#4p1J7EWjD3m'>グラデーション</a>を指定するために、 <code>:stroke '(:url :gradient1 :width 4)</code> という記述をしています。</p>
 <pre class='code'>
@@ -5135,6 +5317,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
   (text '(150 90) <span class='literal'>"C"</span> <span class='keyword3'>:align</span> <span class='keyword3'>:center</span>)
   (text '(200 90) <span class='literal'>"D"</span> <span class='keyword3'>:align</span> <span class='keyword3'>:center</span>))
 </pre>
+<a name='3bmxM1d5ylR'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='250' height='100'>
@@ -5165,13 +5348,15 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='3bmxM1d5ylR'></a>Figure.6-7 with-options によるデフォルトフィルの変更</p>
+</a>
+<p class='fig_title'>Figure.6-7 with-options によるデフォルトフィルの変更</p>
 <p>　　</p>
 <p>　C の<a class='autolink' href='#kJonRG8GtHF'>四角形</a>では「色しか指定していない」のに半透明になっていることに注意してください。これは、「明示的に指定されていないものはデフォルトの設定が使用される」からです。<a class='autolink' href='#cTbK0huuMTl'>with-options マクロ</a>によってデフォルト設定が変更されており、B の<a class='autolink' href='#kJonRG8GtHF'>四角形</a>では（ <code>:fill</code> を省略することによって）全てがデフォルト設定で描画されました。C の<a class='autolink' href='#kJonRG8GtHF'>四角形</a>では、 <code>:fill :blue</code> によってデフォルト設定をベースとして色だけを変更している、というわけです。</p>
 <p>　<a class='autolink' href='#cTbK0huuMTl'>with-options マクロ</a>では全体のデフォルト設定を変更しますが、図形要素によっては個別にデフォルト設定を持っています。たとえば、<a class='autolink' href='#e7hkC2YUaKe'>テキストボックス</a>であれば <a class='autolink' href='#5oL7bKJkowz'>with-textbox-options マクロ</a>でデフォルト設定を変更することができます。</p>
 <p>　　</p>
 <h4><a name='kF4odxGhtYL'></a>6.3.2 fill における rule パラメータ</h4>
 <p>　<code>rule</code> パラメータについて説明します。これは <code>:nonezero :evenodd</code> から指定するもので、以下のように複雑な図形の<a class='autolink' href='#dBUd7L4C3dx'>塗り潰し</a>方が変わります。</p>
+<a name='9n3NgPBJGzS'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='400' height='120'>
@@ -5188,7 +5373,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='9n3NgPBJGzS'></a>Figure.6-8 fill における rule のサンプル</p>
+</a>
+<p class='fig_title'>Figure.6-8 fill における rule のサンプル</p>
 <details>
 <summary><a href='#9n3NgPBJGzS'>Figure.6-8</a> のソースはこちら</summary>
 <pre class='code'>
@@ -5212,6 +5398,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p>　　</p>
 <h4><a name='7K8A5tBrYlW'></a>6.3.3 フィルにおけるパターンとグラデーションの指定</h4>
 <p>　<a class='autolink' href='#dBUd7L4C3dx'>フィル</a>でできるのは、単色で塗り潰すことだけではありません。<a class='autolink' href='#dmYFJAv81Kl'>パターン</a>や<a class='autolink' href='#4p1J7EWjD3m'>グラデーション</a>を定義して、それを使うこともできます。たとえば以下では、細い斜め線の<a class='autolink' href='#dmYFJAv81Kl'>パターン</a>を作成し、<a class='autolink' href='#kJonRG8GtHF'>四角形</a>の中に敷き詰めています。</p>
+<a name='6bZICAqfljz'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='140' height='70'>
@@ -5230,7 +5417,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='6bZICAqfljz'></a>Figure.6-9 パターンを使った塗り潰しのサンプル</p>
+</a>
+<p class='fig_title'>Figure.6-9 パターンを使った塗り潰しのサンプル</p>
 <p>　　</p>
 <p>　上記のサンプルを生成するコードは以下になります。<a class='autolink' href='#dmYFJAv81Kl'>パターン</a>と<a class='autolink' href='#4p1J7EWjD3m'>グラデーション</a>の詳細については <a href='#kfrwaPRQE9I'>7.5  節</a>を参照してください。定義された<a class='autolink' href='#dmYFJAv81Kl'>パターン</a>を指定するために、 <code>:fill '(:url :tile)</code> という記述をしています。</p>
 <pre class='code'>
@@ -5276,6 +5464,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
     (text '(130 70) <span class='literal'>"C"</span> <span class='keyword3'>:font</span> '(<span class='keyword3'>:fill</span> <span class='keyword3'>:brown</span>)))
   (text '(190 70) <span class='literal'>"D"</span> <span class='keyword3'>:font</span> '(<span class='keyword3'>:size</span> 36 <span class='keyword3'>:fill</span> <span class='keyword3'>:brown</span>)))
 </pre>
+<a name='aImv1ABfsGj'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='250' height='100'>
@@ -5298,7 +5487,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='aImv1ABfsGj'></a>Figure.6-10 with-options によるデフォルトフォントの変更</p>
+</a>
+<p class='fig_title'>Figure.6-10 with-options によるデフォルトフォントの変更</p>
 <p>　　</p>
 <p>　C の<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>では「色しか指定していない」のに文字装飾が変更されていることに注意してください。これは、「明示的に指定されていないものはデフォルトの設定が使用される」からです。<a class='autolink' href='#cTbK0huuMTl'>with-options マクロ</a>によってデフォルト設定が変更されており、B の<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>では（ <code>:font</code> を省略することによって）全てがデフォルト設定で描画されました。C の<a class='autolink' href='#kJonRG8GtHF'>四角形</a>では、 <code>:font :brown</code> によってデフォルト設定をベースとして色だけを変更している、というわけです。</p>
 <p>　<a class='autolink' href='#cTbK0huuMTl'>with-options マクロ</a>では全体のデフォルト設定を変更しますが、図形要素によっては個別にデフォルト設定を持っています。たとえば、<a class='autolink' href='#e7hkC2YUaKe'>テキストボックス</a>であれば <a class='autolink' href='#5oL7bKJkowz'>with-textbox-options マクロ</a>でデフォルト設定を変更することができます。</p>
@@ -5312,6 +5502,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p>　　</p>
 <h4><a name='8v1oWuXm6mt'></a>6.4.3 フォントにおける stroke と fill</h4>
 <p>　前述の通り、<a class='autolink' href='#3kZ9FkounyK'>フォント</a>では通常 stroke を指定しません。しかし、逆に fill を無し（あるいは背景色同等）にして stroke を指定することで縁取られた<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>を描画することもできます。以下に例を示します。</p>
+<a name='gbHwYj2Ai06'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='400' height='190'>
@@ -5344,7 +5535,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='gbHwYj2Ai06'></a>Figure.6-11 font における stroke と fill</p>
+</a>
+<p class='fig_title'>Figure.6-11 font における stroke と fill</p>
 <p>　　</p>
 <h4><a name='fxm5l02ul2O'></a>6.4.4 size と line-spacing</h4>
 <p>　<a class='autolink' href='#3kZ9FkounyK'>フォント</a>の size 情報については、まず <a class='autolink' href='#l10jSaJeUDk'>SVG本</a>の説明を引用しておきましょう。</p>
@@ -5353,6 +5545,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p>この値には、<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>が複数行になる場合の、ベースラインからベースラインまでのグリフの距離を指定します（SVGでは、複数行の <code>&lt;text&gt;</code> の内容は自分自身で配置しなければならないので、この概念は少々空論的です）。</p>
 </blockquote>
 <p>　上記のようなわけで、kaavio では<a class='autolink' href='#3kZ9FkounyK'>フォント</a>情報の size は単純に「<a class='autolink' href='#3kZ9FkounyK'>フォント</a>の縦方向のサイズである」という立場をとっています。正確には、「文字の上端からベースラインまでの距離」です。そして、paragraph などで複数行を描画する場合の「ベースラインから次行の上端までの距離」を <code>line-spacing</code> で指定します。以下は、 <code>:font '(:size 50 :line-spacing 30)</code> で描画した場合のサンプルです。</p>
+<a name='8UprDrMi9gT'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='400' height='170'>
@@ -5394,12 +5587,14 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='8UprDrMi9gT'></a>Figure.6-12 font における size と line-spacing</p>
+</a>
+<p class='fig_title'>Figure.6-12 font における size と line-spacing</p>
 <p>　　</p>
 <p>　見ての通り、文字によってはベースラインよりも下に描画されることがありますから、 <code>size</code> によって <code>line-spacing</code> も調整する必要があります。</p>
 <p>　　</p>
 <h4><a name='iFx6Ice5zu7'></a>6.4.5 width-spice</h4>
 <p>　<code>width-spice</code> は、kaavio におけるもっとも醜いハックです。簡単に言えば、「<a class='autolink' href='#3kZ9FkounyK'>フォント</a>サイズと<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>長にかける係数を指定可能にし、<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>の描画幅の計算に使う」というものです。というのも、「<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>がその<a class='autolink' href='#3kZ9FkounyK'>フォント</a>設定で実際に描画される場合、どれだけの幅をとることになるかわからない」ためです。たとえば、<a class='autolink' href='#e7hkC2YUaKe'>テキストボックス</a>では明示的に幅を指定しない場合は<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>から幅を自動計算しようとしますが、width-spice の値によって結果は以下のように変わります。</p>
+<a name='1Z9lqmEkvJx'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='450' height='200'>
@@ -5442,7 +5637,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='1Z9lqmEkvJx'></a>Figure.6-13 width-spice のサンプル</p>
+</a>
+<p class='fig_title'>Figure.6-13 width-spice のサンプル</p>
 <details>
 <summary><a href='#1Z9lqmEkvJx'>Figure.6-13</a> のソースはこちら</summary>
 <pre class='code'>
@@ -5519,7 +5715,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </pre>
 <p>　このコードでは、connect における <code>$2.id</code> といった記述は何を返すのでしょうか？　実は、kaavio では ID 指定を省略された図形要素には、kaavio が独自の ID を付与するようになっています<sup><a name='footnote_ref13' href='#footnote13'>13</a></sup>。この自動付与される ID はコード上には現われないため直接指定することはできませんが、connect での指定で $N.id とする場合には使用できます。</p>
 <p>　最後に、ID に . を続けることで参照できる属性の一覧を示しておきます。座標参照の正確な位置については <a href='#7mETQwj0yso'>Figure.7-2</a> を参照してください。</p>
-<p class='tbl_title'><a name='ju0HQrRY8oT'></a>Table.6-1 ID 指定で参照できる属性の一覧</p>
+<p class='tbl_title'>Table.6-1 ID 指定で参照できる属性の一覧</p>
+<a name='ju0HQrRY8oT'>
 <table align='center'>
 <tr style="font-size: 14;"><th>属性</th><th>説明</th></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>id</code></td><td align='left'>図形要素の ID を参照します。</td></tr>
@@ -5537,6 +5734,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <tr style="font-size: 14;"><td nowrap align='left'><code>end1</code></td><td align='left'><a class='autolink' href='#fv4OUML78x4'>直線</a>や<a class='autolink' href='#eFhVs4WwYUG'>コネクタ</a>の端点（始点）の座標を参照します。</td></tr>
 <tr style="font-size: 14;"><td nowrap align='left'><code>end2</code></td><td align='left'><a class='autolink' href='#fv4OUML78x4'>直線</a>や<a class='autolink' href='#eFhVs4WwYUG'>コネクタ</a>の端点（終点）の座標を参照します。</td></tr>
 </table>
+</a>
 <p>　　</p>
 <h3><a name='heEi5Lc5BX9'></a>6.6 回転</h3>
 <p>　お望みなら、図形要素を<a class='autolink' href='#heEi5Lc5BX9'>回転</a>させることができます。ただし、この機能は kaavio の他の機能とはあまり整合しないので注意が必要です。ひとまずのところ、 <code>:rotate</code> パラメータに角度を与えることで<a class='autolink' href='#heEi5Lc5BX9'>回転</a>させることができます。以下のように。</p>
@@ -5546,6 +5744,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
   (rect canvas.center 150 100 <span class='keyword3'>:fill</span> <span class='keyword3'>:lightgray</span> <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span> <span class='keyword3'>:rotate</span> 30))
 </pre>
 <p>　このコードは以下の図を生成します。</p>
+<a name='h7K5JgIwvZY'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='200'>
@@ -5564,8 +5763,10 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='h7K5JgIwvZY'></a>Figure.6-14 回転のサンプル</p>
+</a>
+<p class='fig_title'>Figure.6-14 回転のサンプル</p>
 <p>　見た目は問題なく<a class='autolink' href='#heEi5Lc5BX9'>回転</a>できていますが、この<a class='autolink' href='#kJonRG8GtHF'>四角形</a>に<a class='autolink' href='#eFhVs4WwYUG'>コネクタ</a>を接続しようとすると何がどう「整合しない」のかがわかります。以下のように、接続点は<a class='autolink' href='#heEi5Lc5BX9'>回転</a>には追従しないのです。</p>
+<a name='9DgdURPyOHh'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='200'>
@@ -5629,7 +5830,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='9DgdURPyOHh'></a>Figure.6-15 回転しても図形要素の属性は変化しない</p>
+</a>
+<p class='fig_title'>Figure.6-15 回転しても図形要素の属性は変化しない</p>
 <p>　接続点だけではありません。<a href='#ju0HQrRY8oT'>Table.6-1</a> で紹介した属性についても、すべて<a class='autolink' href='#heEi5Lc5BX9'>回転</a>前の状態のままとなります。これら全てを<a class='autolink' href='#heEi5Lc5BX9'>回転</a>に追従させることも開発途上で検討されましたが、すっきりとした仕様に落とし込むことができなかったため、<a class='autolink' href='#heEi5Lc5BX9'>回転</a>の機能は「図形要素の見た目だけを<a class='autolink' href='#heEi5Lc5BX9'>回転</a>させるもの」とされました。</p>
 <p>　　</p>
 <h3><a name='gPGlqSbIfdL'></a>6.7 フィルタ</h3>
@@ -5646,6 +5848,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
         <span class='keyword3'>:align</span> <span class='keyword3'>:center</span> <span class='keyword3'>:font</span> (make-font <span class='keyword3'>:size</span> 36 <span class='keyword3'>:filter</span> <span class='keyword3'>:glow-shadow</span>)))
 </pre>
 <p>　上記のコードは以下の画像を生成します。<a class='autolink' href='#kJonRG8GtHF'>四角形</a>の右下にできている影が drop-shadow で、<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>の周囲に広がるような影が glow-shadow です。</p>
+<a name='9Z8wQykrThD'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='360' height='180'>
@@ -5681,9 +5884,11 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='9Z8wQykrThD'></a>Figure.6-16 フィルタのサンプル</p>
+</a>
+<p class='fig_title'>Figure.6-16 フィルタのサンプル</p>
 <p>　　</p>
 <p>　これらのシャドウは通常図面内で１種類しか使用しないため、ID もデフォルト値を使用可能になっています。複数のシャドウを導入する場合には、ID を明示的に指定して区別することができます。以下の例では、<code>color-matrix</code> を指定して異なる色のシャドウを導入しています。</p>
+<a name='fVptn2Tiqv7'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='400' height='200'>
@@ -5730,7 +5935,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='fVptn2Tiqv7'></a>Figure.6-17 フィルタのサンプル - 2</p>
+</a>
+<p class='fig_title'>Figure.6-17 フィルタのサンプル - 2</p>
 <details>
 <summary>上記サンプルのコードはこちら。</summary>
 <pre class='code'>
@@ -5801,6 +6007,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
     (rect (xy+ R2.center 30 30) 60 60 <span class='keyword3'>:fill</span> <span class='keyword3'>:palegreen</span> <span class='keyword3'>:id</span> <span class='keyword3'>:R3</span> <span class='keyword3'>:layer</span> <span class='keyword3'>:L1</span>)))
 </pre>
 <p>　複数の<a class='autolink' href='#1ovJxG7Ie9O'>レイヤー</a>が存在する場合、その導入順で描画が行なわれます。上記の例では逆順になるように<a class='autolink' href='#1ovJxG7Ie9O'>レイヤー</a>を指定しているので、以下のような描画になります。</p>
+<a name='69T4cxkHZWY'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='160' height='160'>
@@ -5830,7 +6037,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='69T4cxkHZWY'></a>Figure.6-18 レイヤーを使用した表示順序の制御</p>
+</a>
+<p class='fig_title'>Figure.6-18 レイヤーを使用した表示順序の制御</p>
 <p>　さらに、<a class='autolink' href='#5Ymxg2NeQNs'>layer 関数</a>にはオプションの <code>display</code> 引数があります。これは省略時のデフォルト値は <code>:inline</code> ですが、 <code>:none</code> を指定することで「その<a class='autolink' href='#1ovJxG7Ie9O'>レイヤー</a>全体を非表示にする」ことができます。先程の例に対して<a class='autolink' href='#1ovJxG7Ie9O'>レイヤー</a> L2 を非表示にする例を以下に示します。</p>
 <pre class='code'>
 (diagram (160 160)
@@ -5843,6 +6051,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
     (rect (xy+ R1.center 30 30) 60 60 <span class='keyword3'>:fill</span> <span class='keyword3'>:lightpink</span> <span class='keyword3'>:id</span> <span class='keyword3'>:R2</span> <span class='keyword3'>:layer</span> <span class='keyword3'>:L2</span>)
     (rect (xy+ R2.center 30 30) 60 60 <span class='keyword3'>:fill</span> <span class='keyword3'>:palegreen</span> <span class='keyword3'>:id</span> <span class='keyword3'>:R3</span> <span class='keyword3'>:layer</span> <span class='keyword3'>:L1</span>)))
 </pre>
+<a name='lvFSgV5aS35'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='160' height='160'>
@@ -5872,7 +6081,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='lvFSgV5aS35'></a>Figure.6-19 レイヤーを非表示にする例</p>
+</a>
+<p class='fig_title'>Figure.6-19 レイヤーを非表示にする例</p>
 <p>　　</p>
 <p>　<a class='autolink' href='#1ovJxG7Ie9O'>レイヤー</a>機能について以下にまとめます。</p>
 <ul>
@@ -5891,6 +6101,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
   (with-options (<span class='keyword3'>:stroke</span> <span class='keyword3'>:navy</span> <span class='keyword3'>:fill</span> <span class='keyword3'>:lightcyan</span>)
     (rect canvas.center  60 60 <span class='keyword3'>:link</span> <span class='literal'>"#3DDQkfdwVQl"</span>)))
 </pre>
+<a name='64zrFTxyK0i'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='200' height='100'>
@@ -5909,7 +6120,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='64zrFTxyK0i'></a>Figure.6-20 図形要素へのリンクの設定例</p>
+</a>
+<p class='fig_title'>Figure.6-20 図形要素へのリンクの設定例</p>
 <p>　この例では、 <code>:link</code> に続けて文字列で<a class='autolink' href='#fbLcMRTVXac'>リンク</a>先を指定しています（このマニュアルでは SVG 図面を HTML に直接埋め込んでいるので、これは HTML 文書内へのアンカーを指定した<a class='autolink' href='#fbLcMRTVXac'>リンク</a>です）。あるいは、 <code>:link '(:url "#3DDQkfdwVQl" :target :blank)</code> といった指定をする場合もあります。実はこれらは全て簡易的な指定方法で、<a class='autolink' href='#fbLcMRTVXac'>リンク</a>にはもう少し多くの情報が含まれています。以下に説明します。</p>
 <ul>
 <li><code>:url</code> は<a class='autolink' href='#fbLcMRTVXac'>リンク</a>先の URL を文字列で指定します。</li>
@@ -5931,6 +6143,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
       (text `(,(/ w 2) ,(- h 5)) <span class='literal'>"四角形"</span> <span class='keyword3'>:align</span> <span class='keyword3'>:center</span>))
     (use <span class='keyword3'>:rect-grp</span> canvas.center <span class='keyword3'>:link</span> <span class='literal'>"#kJonRG8GtHF"</span>)))
 </pre>
+<a name='dzS2BoL9Ae0'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='100' height='120'>
@@ -5955,10 +6168,12 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='dzS2BoL9Ae0'></a>Figure.6-21 グループ化と use におけるリンク設定の例</p>
+</a>
+<p class='fig_title'>Figure.6-21 グループ化と use におけるリンク設定の例</p>
 <p>　　</p>
 <h3><a name='9MB3lirlqL9'></a>6.10 終端マーク</h3>
 <p>　<a class='autolink' href='#9MB3lirlqL9'>終端マーク</a>とは、<a class='autolink' href='#fv4OUML78x4'>直線</a>や<a class='autolink' href='#eFhVs4WwYUG'>コネクタ</a>、および<a class='autolink' href='#cp2F91gKG7W'>円弧</a>の端点に描画するマークを指定する情報です。<a class='autolink' href='#eFhVs4WwYUG'>コネクタ</a>を使った例を以下に示します。</p>
+<a name='dCXVPZYpqQz'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='210'>
@@ -6000,7 +6215,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='dCXVPZYpqQz'></a>Figure.6-22 終端マークの例</p>
+</a>
+<p class='fig_title'>Figure.6-22 終端マークの例</p>
 <details>
 <summary>※上記サンプルのソースはこちら。</summary>
 <pre class='code'>
@@ -6053,6 +6269,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
       (connect <span class='keyword3'>:C2</span> <span class='keyword3'>:C3</span> <span class='keyword3'>:stroke</span> <span class='keyword3'>:green</span>)
       (connect <span class='keyword3'>:C3</span> <span class='keyword3'>:C1</span> <span class='keyword3'>:stroke</span> <span class='keyword3'>:blue</span>))))
 </pre>
+<a name='4SdD3hnRhh0'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='150'>
@@ -6082,7 +6299,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='4SdD3hnRhh0'></a>Figure.6-23 with-endmark-options によるデフォルト終端マークの変更 - 1</p>
+</a>
+<p class='fig_title'>Figure.6-23 with-endmark-options によるデフォルト終端マークの変更 - 1</p>
 <p>　　</p>
 <p>　上記の場合、３つの<a class='autolink' href='#eFhVs4WwYUG'>コネクタ</a>全てで <code>:end1 nil :end2 :triangle</code> と指定したのと同じことになります。結果として、それぞれの<a class='autolink' href='#9MB3lirlqL9'>終端マーク</a>はそれぞれの<a class='autolink' href='#eFhVs4WwYUG'>コネクタ</a>の<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>で描画され、<a class='autolink' href='#dBUd7L4C3dx'>塗り潰し</a>も<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>と同じ色になりました。</p>
 <p>　種類は個別に指定して、<a class='autolink' href='#dBUd7L4C3dx'>塗り潰し</a>やサイズのデフォルト値を変更したい場合は以下のようになります。この場合、それぞれの<a class='autolink' href='#eFhVs4WwYUG'>コネクタ</a>の <code>:end2</code> で指定指定された <code>:triangle</code> などのキーワードから<a class='autolink' href='#9MB3lirlqL9'>終端マーク</a>情報オブジェクトを作成する際、<a class='autolink' href='#i3AN3FOExuU'>with-endmark-options マクロ</a>の <code>:size :small :fill :white</code> が適用されるイメージになります。</p>
@@ -6099,6 +6317,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
       (connect <span class='keyword3'>:C2</span> <span class='keyword3'>:C3</span> <span class='keyword3'>:stroke</span> <span class='keyword3'>:green</span> <span class='keyword3'>:end2</span> <span class='keyword3'>:diamond</span>)
       (connect <span class='keyword3'>:C3</span> <span class='keyword3'>:C1</span> <span class='keyword3'>:stroke</span> <span class='keyword3'>:blue</span>  <span class='keyword3'>:end2</span> <span class='keyword3'>:circle</span>))))
 </pre>
+<a name='atVRmHYlVjQ'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='150'>
@@ -6128,10 +6347,12 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='atVRmHYlVjQ'></a>Figure.6-24 with-endmark-options によるデフォルト終端マークの変更 - 2</p>
+</a>
+<p class='fig_title'>Figure.6-24 with-endmark-options によるデフォルト終端マークの変更 - 2</p>
 <p>　　</p>
 <h3><a name='lpCVEZ9kMoP'></a>6.11 ラベル</h3>
 <p>　<a class='autolink' href='#lpCVEZ9kMoP'>ラベル</a>とは、<a class='autolink' href='#fv4OUML78x4'>直線</a>や<a class='autolink' href='#eFhVs4WwYUG'>コネクタ</a>、および一部の図形要素に付加できる簡易的な<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>片のことです。明示的に位置を指定して <a class='autolink' href='#cSks5rQ0qHz'>text マクロ</a>を使用するよりは楽に<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>を付加することができます。<a class='autolink' href='#03WwbeGq0eH'>人物</a>と<a class='autolink' href='#eFhVs4WwYUG'>コネクタ</a>を使った例を以下に示します。</p>
+<a name='7hvJUTgyFyn'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='400' height='150'>
@@ -6155,7 +6376,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='7hvJUTgyFyn'></a>Figure.6-25 ラベルの例</p>
+</a>
+<p class='fig_title'>Figure.6-25 ラベルの例</p>
 <details>
 <summary>※上記サンプルのソースはこちら。</summary>
 <pre class='code'>
@@ -6207,6 +6429,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
         (connect <span class='keyword3'>:P1</span> <span class='keyword3'>:P3</span> <span class='keyword3'>:end2</span> <span class='keyword3'>:arrow</span> <span class='keyword3'>:label</span> <span class='literal'>"P1 - P3"</span>)
         (connect <span class='keyword3'>:P2</span> <span class='keyword3'>:P4</span> <span class='keyword3'>:end2</span> <span class='keyword3'>:arrow</span> <span class='keyword3'>:label</span> <span class='literal'>"P2 - P4"</span>)))))
 </pre>
+<a name='iVJA6wcGHlP'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='150'>
@@ -6249,12 +6472,14 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='iVJA6wcGHlP'></a>Figure.6-26 with-label-options によるラベル設定の変更</p>
+</a>
+<p class='fig_title'>Figure.6-26 with-label-options によるラベル設定の変更</p>
 <p>　　</p>
 <p>　<a class='autolink' href='#lpCVEZ9kMoP'>ラベル</a>の<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>は通常それぞれで異なるため、<a class='autolink' href='#3s1ciXCdtTy'>with-label-options マクロ</a>で指定することはできません。指定可能なのは <code>:position :offset :font</code> だけです<sup><a name='footnote_ref15' href='#footnote15'>15</a></sup>。</p>
 <p>　　</p>
 <h3><a name='2tO36YvJCgK'></a>6.12 補助線</h3>
 <p>　<a class='autolink' href='#cp2F91gKG7W'>円弧</a>やベジェ曲線など、一部の要素はパラメータの指定が難しく感じられるかもしれません。これは、指定する位置（制御点など）と実際に描画されるもの（曲線など）が異なるからです。このような図形要素では、<a class='autolink' href='#2tO36YvJCgK'>補助線</a>の表示がサポートされています。これは作図を支援するための機能で、 <code>:debug</code> パラメータに色名を指定することで調整に役立つ線を表示してくれます。<a class='autolink' href='#iTkYd8KXLYO'>二次ベジェ曲線</a>での例を以下に示します。</p>
+<a name='6nX9Svj7TD9'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='500' height='250'>
@@ -6286,12 +6511,14 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='6nX9Svj7TD9'></a>Figure.6-27 二次ベジェ曲線での補助線の例</p>
+</a>
+<p class='fig_title'>Figure.6-27 二次ベジェ曲線での補助線の例</p>
 <p>　なお、<a class='autolink' href='#1rpUB3fre67'>色名の指定</a>が面倒であれば <code>:debug t</code> とすることもできます。この場合、デフォルトの色が使用されます。</p>
 <p>　　</p>
 <h2><a name='0ZPzxpUxDTl'></a>7 いくつかの概念と機能</h2>
 <h3><a name='h1RNMQY1C0b'></a>7.1 座標と位置</h3>
 <p>　kaavio では、座標系は左上端を原点としており、水平右方向に x 軸、垂直下方向に y 軸となっています。また、角度は時計回りになります。</p>
+<a name='bdrJmRrH79B'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='150'>
@@ -6331,7 +6558,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='bdrJmRrH79B'></a>Figure.7-1 kaavio における座標系</p>
+</a>
+<p class='fig_title'>Figure.7-1 kaavio における座標系</p>
 <details>
 <summary>　※上記画像のソースはこちら。</summary>
 <pre class='code'>
@@ -6352,6 +6580,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p>　kaavio データの中で座標を指定する方法にはいくつかあります。以下に説明します。</p>
 <p>　具体的な数値で座標を指定する場合、 <code>'(50 100)</code> といった要領で指定します。これは即値で座標を指定する場合の書き方ですが、Common Lisp の変数に格納した数値から座標を作成したい場合は <a class='autolink' href='#2S1kQeXPgCc'>make-point 関数</a>が使えます。これは <code>(make-point x y)</code> の要領で使用してください<sup><a name='footnote_ref16' href='#footnote16'>16</a></sup>。</p>
 <p>　具体的な数値を指定するのでなく、「すでに登場した要素の属性を利用して位置を指定する」こともできます。<a href='#9LLncE6hWlx'>2  章</a>の 2 つめのサンプルでは、 <code>app.center</code> や <code>in.right</code> という表記が登場しました。これは、図形要素を記述する際に指定した ID を使ってその中心座標などを参照するものです。幅や高さを持つ図形要素では９種類あり、その名前と具体的な場所は以下の通りです<sup><a name='footnote_ref17' href='#footnote17'>17</a></sup>。図では <code>topleft(tl)</code> などの記載がありますが、括弧内の <code>tl</code> は簡略記法で、 <code>foo.topleft</code> を <code>foo.tl</code> と書くこともできることを意味しています。</p>
+<a name='7mETQwj0yso'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='420' height='170'>
@@ -6404,9 +6633,11 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='7mETQwj0yso'></a>Figure.7-2 図形要素の座標参照 - 1</p>
+</a>
+<p class='fig_title'>Figure.7-2 図形要素の座標参照 - 1</p>
 <p>　　</p>
 <p>　さらに、<a class='autolink' href='#eFhVs4WwYUG'>コネクタ</a>の <code>:style</code> パラメータ指定で使う <code>L1</code> や <code>T3</code> といった記法も使用できます。</p>
+<a name='1YSNZvyxqVa'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='420' height='170'>
@@ -6471,10 +6702,12 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='1YSNZvyxqVa'></a>Figure.7-3 図形要素の座標参照 - 2</p>
+</a>
+<p class='fig_title'>Figure.7-3 図形要素の座標参照 - 2</p>
 <p>　　</p>
 <p>　上記の記法は全て座標値を返しますが、これらにさらに <code>.x</code> や <code>.y</code> をつけて x 軸や y 軸の座標値を取得することができます。これを利用すると、 <code>(rect (make-point obj1.cc.x obj2.cc.y) ...)</code>　などの記述によって「縦方向を obj1 にあわせ、横方向を obj2 にあわせる」といったことができます。</p>
 <p>　このようにして指定する座標を使う局面としてもっとも一般的なのは図形要素の位置指定です。たとえば<a class='autolink' href='#kJonRG8GtHF'>四角形</a> rect などは <code>position</code> パラメータで座標値を取ります。これは通常「その図形要素の中心点」として使用されますが、 <code>pivot</code> パラメータがある場合はこれを中心点以外で使用することができます。<code>pivot</code> に指定できるのは <code>:TL :TC :TR :CL :CC :CR :BL :BC :BR</code> のいずれかで、デフォルト値は <code>:CC</code> です。この指定により、 <code>position</code> で指定した座標が図形要素のどこに来るように描画されるかを制御できます。以下の例では、<a class='autolink' href='#kJonRG8GtHF'>四角形</a> <code>rct</code> に対して <code>(diamond rct.cr 60 40 :pivot :CL)</code> とすることで「<a class='autolink' href='#4dFMjynUMYw'>ひし形</a>の左端が<a class='autolink' href='#kJonRG8GtHF'>四角形</a>の右端にくるように位置指定」しています。</p>
+<a name='a8bQ0cphetD'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='200' height='100'>
@@ -6495,8 +6728,10 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='a8bQ0cphetD'></a>Figure.7-4 pivot パラメータの利用例</p>
+</a>
+<p class='fig_title'>Figure.7-4 pivot パラメータの利用例</p>
 <p>　<a class='autolink' href='#fv4OUML78x4'>直線</a>や<a class='autolink' href='#cp2F91gKG7W'>円弧</a>、<a class='autolink' href='#eFhVs4WwYUG'>コネクタ</a>、および<a class='autolink' href='#49KKf97828b'>ブロック矢印</a>では、 <code>center</code> および線の端点として <code>end1, end2</code> が利用できます。以下のように、この場合の <code>center</code> は線の総延長のちょうど半分にあたる位置になります（<a class='autolink' href='#cp2F91gKG7W'>円弧</a>の場合はベースとなる<a class='autolink' href='#7YzIcjhyGKN'>楕円</a>の中心です）。</p>
+<a name='3ye7tm07fAs'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='110'>
@@ -6525,7 +6760,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='3ye7tm07fAs'></a>Figure.7-5 図形要素の座標参照 - 3</p>
+</a>
+<p class='fig_title'>Figure.7-5 図形要素の座標参照 - 3</p>
 <p>　　</p>
 <p>　前述の <code>app.center</code> という記法は、座標を指定すべきところではたいてい使用できますが、これを <code>(attr :app :center)</code> という記法で代替することもできます<sup><a name='footnote_ref18' href='#footnote18'>18</a></sup>。</p>
 <p>　<code>app.center</code> の記法において要素名のところに <code>canvas</code> を指定することで、<a class='autolink' href='#kgs1vf3AbTN'>キャンバス</a>全体をひとつの図形要素のように扱うことができます。つまり、 <code>canvas.cc</code> とすれば SVG 画像の中心点を指定できますし、 <code>canvas.width</code> と言えば SVG 画像の幅を取得することができます。実際には、この <code>canvas</code> が意味するのは「現在の<a class='autolink' href='#kgs1vf3AbTN'>キャンバス</a>」なのですが、これについては「<a href='#kgs1vf3AbTN'>7.2  サブキャンバス</a>」で説明します。</p>
@@ -6552,6 +6788,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
     (circle '(50 50) 20 <span class='keyword3'>:stroke</span> <span class='keyword3'>:navy</span> <span class='keyword3'>:fill</span> <span class='keyword3'>:skyblue</span>)))
 </pre>
 <p>　上記のコードを kaavio に通すと以下が生成されます。2 回登場する circle は座標と半径が同じ <code>'(50 50) 20</code> で指定されていますが、実際に描画された場所は異なっています。これは、後者の（青い方の）circle が <a class='autolink' href='#5cY34BaMQhr'>with-subcanvas マクロ</a>の配下にあるためで、この<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>の実際の領域は rect で示されています。</p>
+<a name='kV8JVeAiwLR'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='150'>
@@ -6572,9 +6809,11 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='kV8JVeAiwLR'></a>Figure.7-6 サブキャンバスのサンプル</p>
+</a>
+<p class='fig_title'>Figure.7-6 サブキャンバスのサンプル</p>
 <p>　<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>は入力データの一部分で独自の座標系を一時的に作成するもので、それ以外の効果はありません。たとえば、描画順序を制御する<a class='autolink' href='#1ovJxG7Ie9O'>レイヤー</a>とは無関係ですし、<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>の矩形で描画内容を<a class='autolink' href='#8VfZIeFiMsb'>クリッピング</a>することもしません。つまり、<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>の機能自体には実質的に原点をズラす効果しかありません<sup><a name='footnote_ref19' href='#footnote19'>19</a></sup>。<a class='autolink' href='#8VfZIeFiMsb'>クリッピング</a>を行ないたい場合は <a href='#8VfZIeFiMsb'>7.3  節</a>を参照してください。</p>
 <p>　<a class='autolink' href='#5cY34BaMQhr'>with-subcanvas マクロ</a>で明示的に<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>を作成するのでなく、作成した図形要素の内部を<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>とすることもできます。これには、 <code>:contents</code> パラメータを使用します。たとえば、先程の例と同じ作図をするには以下のように書きます。この場合、先程とは違って rect の中に circle が置かれることになります（rect が動けば circle も動く）。</p>
+<a name='5maEWPLcbWX'>
 <pre class='code'>
 (diagram (300 150)
   (grid)
@@ -6583,7 +6822,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
      <span class='keyword3'>:contents</span>
      ((circle '(50 50) 20 <span class='keyword3'>:stroke</span> <span class='keyword3'>:navy</span> <span class='keyword3'>:fill</span> <span class='keyword3'>:skyblue</span>))))
 </pre>
-<p class='fig_title'><a name='5maEWPLcbWX'></a>Figure.7-7 contents パラメータを使ったサブキャンバス</p>
+</a>
+<p class='fig_title'>Figure.7-7 contents パラメータを使ったサブキャンバス</p>
 <p>　<code>:contents</code> パラメータによる<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>は、その図形要素の幅と高さからなる<a class='autolink' href='#kJonRG8GtHF'>四角形</a>になるのが原則です。つまり、円や<a class='autolink' href='#7YzIcjhyGKN'>楕円</a>の場合は以下のように<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>の方が大きくなりますので注意してください。</p>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
@@ -6635,6 +6875,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </div>
 
 <p>　なお、 <code>:contents</code> パラメータを使わずに図形要素の<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>を利用する方法として、<a class='autolink' href='#c9lZIyRpbeF'>with-subcanvas-of マクロ</a>が用意されています。これは既出の図形要素の ID を指定して<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>を確立するものです。<a href='#kV8JVeAiwLR'>Figure.7-6</a> と同じ（つまり <a href='#5maEWPLcbWX'>Figure.7-7</a> とも同じ）作図をするサンプルを以下に示します。</p>
+<a name='04Bhkv1vkfw'>
 <pre class='code'>
 (diagram (300 150)
   (grid)
@@ -6643,9 +6884,11 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
   (with-subcanvas-of (<span class='keyword3'>:rct</span>)
      (circle '(50 50) 20 <span class='keyword3'>:stroke</span> <span class='keyword3'>:navy</span> <span class='keyword3'>:fill</span> <span class='keyword3'>:skyblue</span>)))
 </pre>
-<p class='fig_title'><a name='04Bhkv1vkfw'></a>Figure.7-8 with-subcanvas-of を使ったサブキャンバス</p>
+</a>
+<p class='fig_title'>Figure.7-8 with-subcanvas-of を使ったサブキャンバス</p>
 <p>　　</p>
 <p>　最後に <a class='autolink' href='#ibXCLOBvHnZ'>with-current-canvas マクロ</a>を紹介しておきます。<a class='autolink' href='#5cY34BaMQhr'>with-subcanvas マクロ</a>と <a class='autolink' href='#c9lZIyRpbeF'>with-subcanvas-of マクロ</a>は新しい<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>を確立するものでしたが、<a class='autolink' href='#ibXCLOBvHnZ'>with-current-canvas マクロ</a>は「現在の<a class='autolink' href='#kgs1vf3AbTN'>キャンバス</a>へのアクセスを簡単にする」ものです。<a class='autolink' href='#kgs1vf3AbTN'>キャンバス</a>を使っていると、 <code>canvas.center, canvas.width, canvas.height</code> などを頻繁に使うことになりますが、これらに短い名前でアクセスできるようにします。たとえば、<a href='#kgs1vf3AbTN'>本節冒頭の例</a>は、以下のように書き換えることができます（１回ずつしか使ってないのでメリットがわかりにくいですが）。</p>
+<a name='fIhw6603jDc'>
 <pre class='code'>
 (diagram (300 150)
   (grid)
@@ -6655,7 +6898,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
       (rect cc w h <span class='keyword3'>:stroke</span> <span class='keyword3'>:gray</span> <span class='keyword3'>:fill</span> <span class='keyword3'>:none</span>)
       (circle '(50 50) 20 <span class='keyword3'>:stroke</span> <span class='keyword3'>:navy</span> <span class='keyword3'>:fill</span> <span class='keyword3'>:skyblue</span>))))
 </pre>
-<p class='fig_title'><a name='fIhw6603jDc'></a>Figure.7-9 with-current-canvas の使用</p>
+</a>
+<p class='fig_title'>Figure.7-9 with-current-canvas の使用</p>
 <p>　　</p>
 <h3><a name='8VfZIeFiMsb'></a>7.3 クリッピング</h3>
 <p>　<a class='autolink' href='#8VfZIeFiMsb'>クリッピング</a>機能を使えば、図面の一部だけを切り取ったように描画することができます。<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>からはみ出す部分が描画されないようにしたり、任意の形状（<a class='autolink' href='#4qgt62QVDZl'>パス</a>）で<a class='autolink' href='#8VfZIeFiMsb'>クリッピング</a>することもできます。</p>
@@ -6719,6 +6963,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
       (regular-polygon '(150  90)  5 28 <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span>     <span class='keyword3'>:fill</span> <span class='keyword3'>:lightgray</span>))))
 </pre>
 <p>　結果は以下のようになります。</p>
+<a name='0wFPSSB7qFm'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='280' height='160'>
@@ -6753,7 +6998,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='0wFPSSB7qFm'></a>Figure.7-10 with-clipping-current-canvas マクロの例</p>
+</a>
+<p class='fig_title'>Figure.7-10 with-clipping-current-canvas マクロの例</p>
 <p>　<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>は常に矩形なので、たとえば円形の領域で上記の方法を使うと期待通りにはいきません。その場合、<a class='autolink' href='#gOfMxQSeeNJ'>with-clipping-use マクロ</a>が使えるかもしれません。以下の例では、<a class='autolink' href='#7YzIcjhyGKN'>楕円</a>で<a class='autolink' href='#8VfZIeFiMsb'>クリッピング</a>をしています。</p>
 <pre class='code'>
 (diagram (280 160)
@@ -6767,6 +7013,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
     (regular-polygon '(210 120)  5 28 <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span>     <span class='keyword3'>:fill</span> <span class='keyword3'>:lightgray</span>)))
 </pre>
 <p>　結果は以下のようになります。<a class='autolink' href='#gOfMxQSeeNJ'>with-clipping-use マクロ</a>は<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>とは無関係なので、この例では（<a class='autolink' href='#8VfZIeFiMsb'>クリッピング</a>される）4 つの図形要素の位置指定がこれまでと異なることに注意してください。</p>
+<a name='cfNMG45u3Cb'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='280' height='160'>
@@ -6801,7 +7048,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='cfNMG45u3Cb'></a>Figure.7-11 with-clipping-use マクロの例</p>
+</a>
+<p class='fig_title'>Figure.7-11 with-clipping-use マクロの例</p>
 <p>　より複雑な<a class='autolink' href='#4qgt62QVDZl'>パス</a>で<a class='autolink' href='#8VfZIeFiMsb'>クリッピング</a>を行なうことも可能です。以下では、文字を使って<a class='autolink' href='#8VfZIeFiMsb'>クリッピング</a>をしています。</p>
 <pre class='code'>
 (diagram (280 160)
@@ -6812,6 +7060,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
   (with-clipping-use (<span class='keyword3'>:char</span>)
     (explosion1 (y+ canvas.cc 10) 110 110 <span class='literal'>""</span> <span class='keyword3'>:fill</span> <span class='keyword3'>:pink</span> <span class='keyword3'>:stroke</span> <span class='keyword3'>:red</span>)))
 </pre>
+<a name='9vhIn1PotpA'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='280' height='160'>
@@ -6831,7 +7080,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='9vhIn1PotpA'></a>Figure.7-12 文字を使ったクリッピングの例</p>
+</a>
+<p class='fig_title'>Figure.7-12 文字を使ったクリッピングの例</p>
 <h3><a name='hwRhCz9Gn9t'></a>7.4 定義と再使用</h3>
 <p>　<a class='autolink' href='#5hmH4Z1JfiN'>defgroup マクロ</a>と <a class='autolink' href='#3ABOLb3a4Yl'>use マクロ</a>を使うことによって、複数の図形要素をひとつにまとめ、図面の中で繰り返し使用することができます。要点を明確にするために、まずは同じ図形（ちょっと装飾のついた<a class='autolink' href='#kJonRG8GtHF'>四角形</a>）を３回描画することを考えてみてください。まずは単純に記述を３回繰り返します。座標以外は完全に同じ内容です。</p>
 <pre class='code'>
@@ -6955,6 +7205,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
        ((text (y+ canvas.center 10) <span class='literal'>"frame 2"</span> <span class='keyword3'>:align</span> <span class='keyword3'>:center</span>)))
   (connect <span class='keyword3'>:frame1</span> <span class='keyword3'>:frame2</span> <span class='keyword3'>:end2</span> <span class='keyword3'>:arrow</span>))
 </pre>
+<a name='eY4WMx1X8UT'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='150'>
@@ -6990,7 +7241,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='eY4WMx1X8UT'></a>Figure.7-13 defgroup と use のサンプル</p>
+</a>
+<p class='fig_title'>Figure.7-13 defgroup と use のサンプル</p>
 <p>　　</p>
 <p>　注意してほしいのは、<a class='autolink' href='#5hmH4Z1JfiN'>defgroup マクロ</a>で作成する定義に指定する ID と、図形要素を描画する時に指定する ID は別モノだということです。上記の例で言えば、 <code>:frame</code> は定義の ID なので、<a class='autolink' href='#3ABOLb3a4Yl'>use マクロ</a>の最初のパラメータには使えますが<a class='autolink' href='#eFhVs4WwYUG'>コネクタ</a>の接続対象としては指定できません。逆も同様で、たとえば rect を描いた後にその ID を指定して use することはできません。</p>
 <ul>
@@ -7008,6 +7260,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
   (rect canvas.center 100 50 <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span> <span class='keyword3'>:fill</span> '(<span class='keyword3'>:url</span> <span class='keyword3'>:tile</span>)))
 </pre>
 <p>　上記のコードは以下の図を生成します。defpattern で定義した<a class='autolink' href='#dmYFJAv81Kl'>パターン</a>に <code>:tile</code> というID をつけ、後続の rect の <a href='#dBUd7L4C3dx'>fill パラメータ</a>で <code>'(:url :tile)</code> という指定をすることで<a class='autolink' href='#dmYFJAv81Kl'>パターン</a>の使用を指示しています。</p>
+<a name='hMyYNXGygmb'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='140' height='70'>
@@ -7026,9 +7279,11 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='hMyYNXGygmb'></a>Figure.7-14 単純なパターンのサンプル</p>
+</a>
+<p class='fig_title'>Figure.7-14 単純なパターンのサンプル</p>
 <p>　　</p>
 <p>　せっかくなのでサンプルをもうひとつ。センス云々はともかくとして、お望みならこんなカラフルな<a class='autolink' href='#dmYFJAv81Kl'>パターン</a>も作成できます。</p>
+<a name='iUL0e8M4mDl'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='140' height='140'>
@@ -7055,7 +7310,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='iUL0e8M4mDl'></a>Figure.7-15 パターンのサンプル - 2</p>
+</a>
+<p class='fig_title'>Figure.7-15 パターンのサンプル - 2</p>
 <details>
 <summary>　※上記画像のソースはこちら。</summary>
 <pre class='code'>
@@ -7252,6 +7508,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
   (rect canvas.center 100 50 <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span> <span class='keyword3'>:fill</span> '(<span class='keyword3'>:url</span> <span class='keyword3'>:gradient1</span>)))
 </pre>
 <p>　上記のコードは以下の図を生成します。defgradient で定義した<a class='autolink' href='#4p1J7EWjD3m'>グラデーション</a>に <code>:gradient1</code> というID をつけ、後続の rect の <a href='#dBUd7L4C3dx'>fill パラメータ</a>で <code>'(:url :gradient1)</code> という指定をすることで<a class='autolink' href='#4p1J7EWjD3m'>グラデーション</a>の使用を指示しています。</p>
+<a name='fMuRXwcCVRN'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='140' height='70'>
@@ -7269,9 +7526,11 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='fMuRXwcCVRN'></a>Figure.7-16 単純なグラデーションのサンプル</p>
+</a>
+<p class='fig_title'>Figure.7-16 単純なグラデーションのサンプル</p>
 <p>　　</p>
 <p>　もうひとつのサンプルは円形<a class='autolink' href='#4p1J7EWjD3m'>グラデーション</a>です。今度は単色で不透明度を変化させています。</p>
+<a name='04QAFmYhXse'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='140' height='140'>
@@ -7295,7 +7554,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='04QAFmYhXse'></a>Figure.7-17 グラデーションのサンプル - 2</p>
+</a>
+<p class='fig_title'>Figure.7-17 グラデーションのサンプル - 2</p>
 <details>
 <summary>　※上記画像のソースはこちら。</summary>
 <pre class='code'>
@@ -7748,6 +8008,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </pre>
 <p>　　</p>
 <p>描画結果は以下のようなものになります。これは 3 行目の with-theme で default <a class='autolink' href='#4z8VHZK3CSo'>テーマ</a>を指定したことによる効果です。</p>
+<a name='eA7AkqA2hXb'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='500' height='300'>
@@ -7816,7 +8077,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='eA7AkqA2hXb'></a>Figure.7-18 デフォルトテーマの使用例</p>
+</a>
+<p class='fig_title'>Figure.7-18 デフォルトテーマの使用例</p>
 <p>　　</p>
 <p>　この 3 行目の <code>(with-theme (:default) ...)</code> というコードは、以下と等価です。<a class='autolink' href='#4z8VHZK3CSo'>テーマ</a>を利用することで、これらをすべて記述する手間を省くことができるわけです。なお、<a href='#2msfXdtEc6a'>3  章</a>の図形要素は、どちらかというと複雑な図形を組み立てるための部品のため、default <a class='autolink' href='#4z8VHZK3CSo'>テーマ</a>による設定はありません。</p>
 <pre class='code'>
@@ -7843,6 +8105,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <h4><a name='dY1SXtflNNS'></a>7.6.2 新しいテーマの作成</h4>
 <p>　register-theme を使えば、新しい<a class='autolink' href='#4z8VHZK3CSo'>テーマ</a>を作成することができます。以下は、default <a class='autolink' href='#4z8VHZK3CSo'>テーマ</a>を定義している register-theme の使用例です。</p>
+<a name='ejNFOP6Lepj'>
 <pre class='code'>
 (register-theme (<span class='keyword3'>:default</span>)
   (t           <span class='keyword3'>:font</span> '(<span class='keyword3'>:family</span> <span class='literal'>"sans-serif"</span>))
@@ -7859,7 +8122,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
   (cross       <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span>         <span class='keyword3'>:fill</span> <span class='keyword3'>:white</span>)
   (block-arrow <span class='keyword3'>:stroke</span> <span class='keyword3'>:navy</span>          <span class='keyword3'>:fill</span> <span class='keyword3'>:skyblue</span>))
 </pre>
-<p class='fig_title'><a name='ejNFOP6Lepj'></a>Figure.7-19 register-theme によるテーマの作成</p>
+</a>
+<p class='fig_title'>Figure.7-19 register-theme によるテーマの作成</p>
 <p>　　</p>
 <p>　register-theme に続けて、括弧内に<a class='autolink' href='#4z8VHZK3CSo'>テーマ</a>名をキーワードで指定します。続けて、各図形要素に指定するスタイルを指定します。このとき、</p>
 <ul>
@@ -7873,14 +8137,17 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <h4><a name='fgQNJlpxlTm'></a>7.6.3 テーマのカスタマイズ</h4>
 <p>　register-theme において、「ベースとする既存の<a class='autolink' href='#4z8VHZK3CSo'>テーマ</a>」を指定することで、差分だけを指定したカスタム<a class='autolink' href='#4z8VHZK3CSo'>テーマ</a>を作成することができます。以下の例では、default <a class='autolink' href='#4z8VHZK3CSo'>テーマ</a>をベースとして my-theme という<a class='autolink' href='#4z8VHZK3CSo'>テーマ</a>を作成しています。</p>
+<a name='lxaclItxO4a'>
 <pre class='code'>
 (register-theme (<span class='keyword3'>:my-theme</span> <span class='keyword3'>:default</span>)
   (cylinder <span class='keyword3'>:stroke</span> <span class='keyword3'>:maroon</span> <span class='keyword3'>:fill</span> <span class='keyword3'>:beige</span>)
   (cross <span class='keyword3'>:stroke</span> <span class='keyword3'>:purple</span> <span class='keyword3'>:fill</span> <span class='keyword3'>:lavender</span>))
 </pre>
-<p class='fig_title'><a name='lxaclItxO4a'></a>Figure.7-20 register-theme でベーステーマを指定する例</p>
+</a>
+<p class='fig_title'>Figure.7-20 register-theme でベーステーマを指定する例</p>
 <p>　　</p>
 <p>　上記の my-theme を使用して <a href='#eA7AkqA2hXb'>Figure.7-18</a> と同じ図面を描画した結果を以下に示します。カスタマイズした内容が反映されていることがわかります。</p>
+<a name='9n1DDDTm5Ta'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='500' height='300'>
@@ -7949,12 +8216,14 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='9n1DDDTm5Ta'></a>Figure.7-21 テーマのカスタマイズ例</p>
+</a>
+<p class='fig_title'>Figure.7-21 テーマのカスタマイズ例</p>
 <p>　　</p>
 <h2><a name='2CSYEsoWlWE'></a>8 UML</h2>
 <p>　kaavio は、UML を（一部）サポートしています。</p>
 <h3><a name='8ya1jqc5cZQ'></a>8.1 アクティビティ図</h3>
 <p>　UML <a class='autolink' href='#8ya1jqc5cZQ'>アクティビティ図</a>の例を以下に示します。</p>
+<a name='47w9hCS30sC'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='800' height='270'>
@@ -8098,7 +8367,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='47w9hCS30sC'></a>Figure.8-1 UML アクティビティ図の例</p>
+</a>
+<p class='fig_title'>Figure.8-1 UML アクティビティ図の例</p>
 <details>
 <summary>※上記サンプルのソースはこちら。</summary>
 <pre class='code'>
@@ -8164,6 +8434,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <h3><a name='khgkJB6xK95'></a>8.2 クラス図</h3>
 <p>　UML <a class='autolink' href='#khgkJB6xK95'>クラス図</a>の例を以下に示します。</p>
+<a name='2nfepGo8CeS'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='800' height='270'>
@@ -8257,7 +8528,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='2nfepGo8CeS'></a>Figure.8-2 UML クラス図の例</p>
+</a>
+<p class='fig_title'>Figure.8-2 UML クラス図の例</p>
 <details>
 <summary>※上記サンプルのソースはこちら。</summary>
 <pre class='code'>
@@ -8311,6 +8583,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <h3><a name='evUs70Itwyp'></a>8.3 コンポーネント図</h3>
 <p>　UML <a class='autolink' href='#evUs70Itwyp'>コンポーネント図</a>の例を以下に示します。これは書籍「UML モデリングのエッセンス第３版」の図を再現したものです。</p>
+<a name='5njTon1Y568'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='700' height='400'>
@@ -8456,7 +8729,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='5njTon1Y568'></a>Figure.8-3 UML コンポーネント図の例</p>
+</a>
+<p class='fig_title'>Figure.8-3 UML コンポーネント図の例</p>
 <details>
 <summary>※上記サンプルのソースはこちら。</summary>
 <pre class='code'>
@@ -8513,6 +8787,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <h3><a name='la7Xa1OTF3W'></a>8.4 パッケージ図</h3>
 <p>　UML <a class='autolink' href='#la7Xa1OTF3W'>パッケージ図</a>の例を以下に示します。</p>
+<a name='8LCq1lJWOf6'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='700' height='300'>
@@ -8588,7 +8863,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='8LCq1lJWOf6'></a>Figure.8-4 UML パッケージ図の例</p>
+</a>
+<p class='fig_title'>Figure.8-4 UML パッケージ図の例</p>
 <details>
 <summary>※上記サンプルのソースはこちら。</summary>
 <pre class='code'>
@@ -8619,6 +8895,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <h3><a name='kYsauEETY6n'></a>8.5 状態マシン図</h3>
 <p>　UML <a class='autolink' href='#kYsauEETY6n'>状態マシン図</a>の例を以下に示します。</p>
+<a name='ethEYgcWcsm'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='600' height='300'>
@@ -8711,7 +8988,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='ethEYgcWcsm'></a>Figure.8-5 UML 状態マシン図の例</p>
+</a>
+<p class='fig_title'>Figure.8-5 UML 状態マシン図の例</p>
 <details>
 <summary>※上記サンプルのソースはこちら。</summary>
 <pre class='code'>
@@ -8754,6 +9032,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <h3><a name='e57rLpXY8ah'></a>8.6 ユースケース図</h3>
 <p>　UML <a class='autolink' href='#e57rLpXY8ah'>ユースケース図</a>の例を以下に示します。</p>
+<a name='3fo8qztJ9j0'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='600' height='200'>
@@ -8796,7 +9075,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='3fo8qztJ9j0'></a>Figure.8-6 UML ユースケース図の例</p>
+</a>
+<p class='fig_title'>Figure.8-6 UML ユースケース図の例</p>
 <details>
 <summary>※上記サンプルのソースはこちら。</summary>
 <pre class='code'>
@@ -8823,6 +9103,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <h3><a name='6DAfYJjISDb'></a>8.7 配置図</h3>
 <p>　UML <a class='autolink' href='#6DAfYJjISDb'>配置図</a>の例を以下に示します。</p>
+<a name='4PuNJlu58fE'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='600' height='300'>
@@ -8911,7 +9192,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='4PuNJlu58fE'></a>Figure.8-7 UML 配置図の例</p>
+</a>
+<p class='fig_title'>Figure.8-7 UML 配置図の例</p>
 <details>
 <summary>※上記サンプルのソースはこちら。</summary>
 <pre class='code'>
@@ -8945,6 +9227,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <h3><a name='cyQMjgm73rg'></a>8.8 UML のダイアグラム要素</h3>
 <h4><a name='5kkSlhsbaIn'></a>8.8.1 uml-action</h4>
 <p>　<a class='autolink' href='#5kkSlhsbaIn'>uml-action</a> は UML の<a class='autolink' href='#8ya1jqc5cZQ'>アクティビティ図</a>におけるアクションを表記するための図形要素です。ほぼ<a class='autolink' href='#e7hkC2YUaKe'>テキストボックス</a>と同じように使えますが、<a class='autolink' href='#fbLcMRTVXac'>リンク</a>明示のためのレーキアイコンなどが用意されています。</p>
+<a name='jUTz0MAjqS8'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='400' height='220'>
@@ -9011,7 +9294,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='jUTz0MAjqS8'></a>Figure.8-8 uml-action のサンプル</p>
+</a>
+<p class='fig_title'>Figure.8-8 uml-action のサンプル</p>
 <p>　上記の作図は以下のコードで行なっています。</p>
 <pre class='code'>
 (diagram (400 220)
@@ -9039,6 +9323,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <h4><a name='gfsl4uecBoY'></a>8.8.2 uml-activity-final</h4>
 <p>　<a class='autolink' href='#gfsl4uecBoY'>uml-activity-final</a> は UML の<a class='autolink' href='#8ya1jqc5cZQ'>アクティビティ図</a>における終了状態を表記するための図形要素です。</p>
+<a name='avZmIPquQ5d'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='200' height='80'>
@@ -9066,7 +9351,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='avZmIPquQ5d'></a>Figure.8-9 uml-activity-final のサンプル</p>
+</a>
+<p class='fig_title'>Figure.8-9 uml-activity-final のサンプル</p>
 <p>　上記の作図は以下のコードで行なっています。</p>
 <pre class='code'>
 (diagram (200 80)
@@ -9083,6 +9369,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <h4><a name='gr8RKSxFalf'></a>8.8.3 uml-activity-start</h4>
 <p>　<a class='autolink' href='#gr8RKSxFalf'>uml-activity-start</a> は UML の<a class='autolink' href='#8ya1jqc5cZQ'>アクティビティ図</a>における開始状態を表記するための図形要素です。</p>
+<a name='fR31UaSYV5i'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='200' height='80'>
@@ -9109,7 +9396,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='fR31UaSYV5i'></a>Figure.8-10 uml-activity-start のサンプル</p>
+</a>
+<p class='fig_title'>Figure.8-10 uml-activity-start のサンプル</p>
 <p>　上記の作図は以下のコードで行なっています。</p>
 <pre class='code'>
 (diagram (200 80)
@@ -9127,6 +9415,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <h4><a name='4rUQqcq4sKb'></a>8.8.4 uml-actor</h4>
 <p>　<a class='autolink' href='#4rUQqcq4sKb'>uml-actor</a> は UML の<a class='autolink' href='#e57rLpXY8ah'>ユースケース図</a>におけるアクターを表記するための図形要素です。</p>
 <!-- このダイアグラムは uml-usecase のところでも使われてることに注意。 -->
+<a name='dKmzvNQH31B'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='240' height='80'>
@@ -9158,7 +9447,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='dKmzvNQH31B'></a>Figure.8-11 uml-actor のサンプル</p>
+</a>
+<p class='fig_title'>Figure.8-11 uml-actor のサンプル</p>
 <p>　上記の作図は以下のコードで行なっています。</p>
 <pre class='code'>
 (diagram (240 80)
@@ -9176,6 +9466,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <h4><a name='881rvOpGoim'></a>8.8.5 uml-aggregation</h4>
 <p>　<a class='autolink' href='#881rvOpGoim'>uml-aggregation</a> は UML の<a class='autolink' href='#khgkJB6xK95'>クラス図</a>などにおける集約関連を表記するための図形要素です。</p>
+<a name='3LIgWeQQNi9'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='400' height='80'>
@@ -9210,7 +9501,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='3LIgWeQQNi9'></a>Figure.8-12 uml-aggregation のサンプル</p>
+</a>
+<p class='fig_title'>Figure.8-12 uml-aggregation のサンプル</p>
 <p>　上記の作図は以下のコードで行なっています。</p>
 <pre class='code'>
 (diagram (400 80)
@@ -9235,6 +9527,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <h4><a name='0A70k6t8D8T'></a>8.8.6 uml-association</h4>
 <p>　<a class='autolink' href='#0A70k6t8D8T'>uml-association</a> は UML の<a class='autolink' href='#khgkJB6xK95'>クラス図</a>などにおける関連を表記するための図形要素です。</p>
+<a name='4eHCRyuZjkq'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='400' height='80'>
@@ -9268,7 +9561,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='4eHCRyuZjkq'></a>Figure.8-13 uml-association のサンプル</p>
+</a>
+<p class='fig_title'>Figure.8-13 uml-association のサンプル</p>
 <p>　上記の作図は以下のコードで行なっています。</p>
 <pre class='code'>
 (diagram (400 80)
@@ -9294,6 +9588,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <h4><a name='1ryiWMoWWul'></a>8.8.7 uml-artifact</h4>
 <p>　<a class='autolink' href='#1ryiWMoWWul'>uml-artifact</a> は UML の<a class='autolink' href='#6DAfYJjISDb'>配置図</a>における生成物を表記するための図形要素です。</p>
+<a name='15gwZ4l2t0k'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='240' height='120'>
@@ -9324,7 +9619,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='15gwZ4l2t0k'></a>Figure.8-14 uml-artifact のサンプル</p>
+</a>
+<p class='fig_title'>Figure.8-14 uml-artifact のサンプル</p>
 <p>　上記の作図は以下のコードで行なっています。</p>
 <pre class='code'>
 (diagram (240 120)
@@ -9342,6 +9638,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <h4><a name='fkYROSV9994'></a>8.8.8 uml-class</h4>
 <p>　<a class='autolink' href='#fkYROSV9994'>uml-class</a> は UML の<a class='autolink' href='#khgkJB6xK95'>クラス図</a>におけるクラスを表記するための図形要素です。 クラス名だけの単純なボックスでも、属性・操作・責務などの記述を伴ったボックスでも描画できます。</p>
+<a name='dwJuaQgXaIx'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='500' height='180'>
@@ -9393,7 +9690,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='dwJuaQgXaIx'></a>Figure.8-15 uml-class のサンプル</p>
+</a>
+<p class='fig_title'>Figure.8-15 uml-class のサンプル</p>
 <p>　上記の作図は以下のコードで行なっています。</p>
 <pre class='code'>
 (diagram (500 180)
@@ -9427,6 +9725,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <h4><a name='ilyzpkPZT4a'></a>8.8.9 uml-class-attribute</h4>
 <p>　<a class='autolink' href='#ilyzpkPZT4a'>uml-class-attribute</a> は UML のクラス表記における属性欄を記述するための、可視性、名前、型、多重度などからなる情報です。以下に例を示します。</p>
+<a name='jLagPUaVQa5'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='150'>
@@ -9452,7 +9751,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='jLagPUaVQa5'></a>Figure.8-16 uml-class-attribute のサンプル</p>
+</a>
+<p class='fig_title'>Figure.8-16 uml-class-attribute のサンプル</p>
 <p>　上記の作図は以下のコードで行なっています。</p>
 <pre class='code'>
 (diagram (300 150)
@@ -9493,6 +9793,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <h4><a name='5PbBv7nZ2KR'></a>8.8.10 uml-class-operation</h4>
 <p>　<a class='autolink' href='#5PbBv7nZ2KR'>uml-class-operation</a> は UML のクラス表記における操作欄を記述するための、可視性、名前、パラメータ、型などからなる情報です。以下に例を示します。</p>
+<a name='bRTDU2yRUHK'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='170'>
@@ -9519,7 +9820,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='bRTDU2yRUHK'></a>Figure.8-17 uml-class-operation のサンプル</p>
+</a>
+<p class='fig_title'>Figure.8-17 uml-class-operation のサンプル</p>
 <p>　上記の作図は以下のコードで行なっています。</p>
 <pre class='code'>
 (diagram (300 170)
@@ -9562,6 +9864,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <h4><a name='bmlwXPORm6W'></a>8.8.11 uml-class-operation-param</h4>
 <p>　<a class='autolink' href='#bmlwXPORm6W'>uml-class-operation-param</a> は UML のクラス操作情報におけるパラメータを記述するための、名前、型、デフォルト値などからなる情報です。以下に例を示します。</p>
+<a name='lz50RmgVDbe'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='400' height='100'>
@@ -9581,7 +9884,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='lz50RmgVDbe'></a>Figure.8-18 uml-class-operation-param のサンプル</p>
+</a>
+<p class='fig_title'>Figure.8-18 uml-class-operation-param のサンプル</p>
 <p>　上記の作図は以下のコードで行なっています。</p>
 <pre class='code'>
 (diagram (400 100)
@@ -9616,6 +9920,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <h4><a name='hlJEas6GjYs'></a>8.8.12 uml-component</h4>
 <p>　<a class='autolink' href='#hlJEas6GjYs'>uml-component</a> は UML の<a class='autolink' href='#evUs70Itwyp'>コンポーネント図</a>などにおけるコンポーネントを表記するための図形要素です。</p>
+<a name='lbLUrKsYU8x'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='240' height='120'>
@@ -9647,7 +9952,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='lbLUrKsYU8x'></a>Figure.8-19 uml-component のサンプル</p>
+</a>
+<p class='fig_title'>Figure.8-19 uml-component のサンプル</p>
 <p>　上記の作図は以下のコードで行なっています。</p>
 <pre class='code'>
 (diagram (240 120)
@@ -9665,6 +9971,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <h4><a name='jswiRdMw2Be'></a>8.8.13 uml-composition</h4>
 <p>　<a class='autolink' href='#jswiRdMw2Be'>uml-composition</a> は UML の<a class='autolink' href='#khgkJB6xK95'>クラス図</a>などにおけるコンポジション関連を表記するための図形要素です。</p>
+<a name='bym1gthn40y'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='400' height='80'>
@@ -9699,7 +10006,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='bym1gthn40y'></a>Figure.8-20 uml-composition のサンプル</p>
+</a>
+<p class='fig_title'>Figure.8-20 uml-composition のサンプル</p>
 <p>　上記の作図は以下のコードで行なっています。</p>
 <pre class='code'>
 (diagram (400 80)
@@ -9724,6 +10032,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <h4><a name='lgLGZTmFJ4a'></a>8.8.14 uml-connector</h4>
 <p>　<a class='autolink' href='#lgLGZTmFJ4a'>uml-connector</a> は UML の<a class='autolink' href='#8ya1jqc5cZQ'>アクティビティ図</a>における<a href='#lgLGZTmFJ4a'>コネクタ</a>を表記するための図形要素です。あまり使用されませんが、接続線がどうしても交差してしまう場合には便利です。</p>
+<a name='9mR0oZ4J9iT'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='120'>
@@ -9765,7 +10074,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='9mR0oZ4J9iT'></a>Figure.8-21 uml-connector のサンプル</p>
+</a>
+<p class='fig_title'>Figure.8-21 uml-connector のサンプル</p>
 <p>　上記の作図は以下のコードで行なっています。</p>
 <pre class='code'>
 (diagram (300 120)
@@ -9785,6 +10095,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <h4><a name='4gZkeXtP8bm'></a>8.8.15 uml-decision</h4>
 <p>　<a class='autolink' href='#4gZkeXtP8bm'>uml-decision</a> は UML の<a class='autolink' href='#8ya1jqc5cZQ'>アクティビティ図</a>における判断を表記するための図形要素です。以下の例では左端の check status という<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>を伴った要素が <a class='autolink' href='#4gZkeXtP8bm'>uml-decision</a> です。<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>を指定しなければ <a class='autolink' href='#ikpYK2ZSZov'>uml-merge</a> と同じように<a class='autolink' href='#4dFMjynUMYw'>ひし形</a>が描画されます。</p>
+<a name='jNVPfxjHUcC'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='400' height='150'>
@@ -9852,7 +10163,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='jNVPfxjHUcC'></a>Figure.8-22 uml-decision のサンプル</p>
+</a>
+<p class='fig_title'>Figure.8-22 uml-decision のサンプル</p>
 <p>　上記の作図は以下のコードで行なっています。</p>
 <pre class='code'>
 (diagram (400 150)
@@ -9879,6 +10191,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <h4><a name='f40Gf0pqB5B'></a>8.8.16 uml-dependency</h4>
 <p>　<a class='autolink' href='#f40Gf0pqB5B'>uml-dependency</a> は UML の各種ダイアグラムにおける依存関係を表記するための図形要素です。</p>
+<a name='gdWF6ah8eK6'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='400' height='80'>
@@ -9908,7 +10221,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='gdWF6ah8eK6'></a>Figure.8-23 uml-dependency のサンプル</p>
+</a>
+<p class='fig_title'>Figure.8-23 uml-dependency のサンプル</p>
 <p>　上記の作図は以下のコードで行なっています。</p>
 <pre class='code'>
 (diagram (400 80)
@@ -9927,6 +10241,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <h4><a name='gbfzFbCEQb7'></a>8.8.17 uml-expansion-region</h4>
 <p>　<a class='autolink' href='#gbfzFbCEQb7'>uml-expansion-region</a> は UML の<a class='autolink' href='#8ya1jqc5cZQ'>アクティビティ図</a>における拡張領域を表記するための図形要素です。</p>
+<a name='5uEj5boHvy4'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='200'>
@@ -9953,7 +10268,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='5uEj5boHvy4'></a>Figure.8-24 uml-expansion-region のサンプル</p>
+</a>
+<p class='fig_title'>Figure.8-24 uml-expansion-region のサンプル</p>
 <p>　上記の作図は以下のコードで行なっています。 <code>stereotype</code> または <code>keyword</code> パラメータを指定した場合、デフォルトでは左上に表示されます。この位置は <code>offset</code> パラメータで調整することができます。</p>
 <ul>
 <li><span style='background:red;color:white;'>ToDo : 上記の調整方法について改善タスクが起票されている。</span></li>
@@ -9973,6 +10289,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <h4><a name='8l54mEIg2yA'></a>8.8.18 uml-flow-final</h4>
 <p>　<a class='autolink' href='#8l54mEIg2yA'>uml-flow-final</a> は UML の<a class='autolink' href='#8ya1jqc5cZQ'>アクティビティ図</a>におけるフロー終了を表記するための図形要素です。</p>
+<a name='hbCYwWh5EVR'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='200' height='80'>
@@ -10001,7 +10318,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='hbCYwWh5EVR'></a>Figure.8-25 uml-flow-final のサンプル</p>
+</a>
+<p class='fig_title'>Figure.8-25 uml-flow-final のサンプル</p>
 <p>　上記の作図は以下のコードで行なっています。</p>
 <pre class='code'>
 (diagram (200 80)
@@ -10018,6 +10336,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <h4><a name='602QxE3z6rZ'></a>8.8.19 uml-flow</h4>
 <p>　<a class='autolink' href='#602QxE3z6rZ'>uml-flow</a> は UML の<a class='autolink' href='#8ya1jqc5cZQ'>アクティビティ図</a>におけるアクション間の遷移を表記するための図形要素です。</p>
+<a name='4WwY2tJcwxx'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='400' height='100'>
@@ -10059,7 +10378,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='4WwY2tJcwxx'></a>Figure.8-26 uml-flow のサンプル</p>
+</a>
+<p class='fig_title'>Figure.8-26 uml-flow のサンプル</p>
 <p>　上記の作図は以下のコードで行なっています。</p>
 <pre class='code'>
 (diagram (400 100)
@@ -10079,6 +10399,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <h4><a name='jG6cW6e7gyu'></a>8.8.20 uml-flow-spec</h4>
 <p>　<a class='autolink' href='#jG6cW6e7gyu'>uml-flow-spec</a> は UML の<a class='autolink' href='#8ya1jqc5cZQ'>アクティビティ図</a>におけるフロー仕様を記述するための、ガード条件、アクションなどからなる情報です。以下に例を示します。</p>
+<a name='aIqYEOfOopd'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='400' height='190'>
@@ -10138,7 +10459,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='aIqYEOfOopd'></a>Figure.8-27 uml-flow-spec のサンプル</p>
+</a>
+<p class='fig_title'>Figure.8-27 uml-flow-spec のサンプル</p>
 <p>　上記の作図は以下のコードで行なっています。</p>
 <pre class='code'>
 (diagram (400 190)
@@ -10166,6 +10488,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <h4><a name='dI34u24Hxh3'></a>8.8.21 uml-fork</h4>
 <p>　<a class='autolink' href='#dI34u24Hxh3'>uml-fork</a> は UML の<a class='autolink' href='#8ya1jqc5cZQ'>アクティビティ図</a>におけるフォークを表記するための図形要素です。</p>
+<a name='2HkfRE5l33M'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='340' height='150'>
@@ -10223,7 +10546,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='2HkfRE5l33M'></a>Figure.8-28 uml-fork のサンプル</p>
+</a>
+<p class='fig_title'>Figure.8-28 uml-fork のサンプル</p>
 <p>　上記の作図は以下のコードで行なっています。</p>
 <pre class='code'>
 (diagram (340 150)
@@ -10246,6 +10570,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <h4><a name='1cJtoPoE2w0'></a>8.8.22 uml-frame</h4>
 <p>　<a class='autolink' href='#1cJtoPoE2w0'>uml-frame</a> は UML において汎用的に使用される区分要素です。ダイアグラム全体を包む場合もありますし、別図面への<a class='autolink' href='#fbLcMRTVXac'>リンク</a>を提示して詳細を省略したりします。</p>
+<a name='g4Ps2obm0X8'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='150'>
@@ -10293,7 +10618,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='g4Ps2obm0X8'></a>Figure.8-29 uml-frame のサンプル</p>
+</a>
+<p class='fig_title'>Figure.8-29 uml-frame のサンプル</p>
 <p>　上記の作図は以下のコードで行なっています。</p>
 <pre class='code'>
 (diagram (300 150)
@@ -10309,6 +10635,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
   (connector <span class='keyword3'>:act1</span> <span class='keyword3'>:final</span> <span class='keyword3'>:end2</span> <span class='keyword3'>:arrow</span>))
 </pre>
 <p>　<code>:fragments</code> パラメータを使用することで、フレームを複数の領域に分割することができます。以下に例を示します。分割された個々の領域には、<a class='autolink' href='#aqZzAjhns3j'>with-uml-frame-fragment マクロ</a>を使ってアクセスできます。</p>
+<a name='7E6tTd25Xwb'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='700' height='220'>
@@ -10352,7 +10679,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='7E6tTd25Xwb'></a>Figure.8-30 fragments パラメータを使った uml-frame のサンプル</p>
+</a>
+<p class='fig_title'>Figure.8-30 fragments パラメータを使った uml-frame のサンプル</p>
 <p>　上記の作図は以下のコードで行なっています。</p>
 <pre class='code'>
 (diagram (700 220)
@@ -10381,6 +10709,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <h4><a name='i8NSsns8du9'></a>8.8.23 uml-generalization</h4>
 <p>　<a class='autolink' href='#i8NSsns8du9'>uml-generalization</a> は UML の<a class='autolink' href='#khgkJB6xK95'>クラス図</a>などにおける汎化関係を表記するための図形要素です。</p>
+<a name='0JpthcuLAtL'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='400' height='80'>
@@ -10410,7 +10739,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='0JpthcuLAtL'></a>Figure.8-31 uml-generalization のサンプル</p>
+</a>
+<p class='fig_title'>Figure.8-31 uml-generalization のサンプル</p>
 <p>　上記の作図は以下のコードで行なっています。</p>
 <pre class='code'>
 (diagram (400 80)
@@ -10429,6 +10759,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <h4><a name='dlZiBdOIRvM'></a>8.8.24 uml-icon-setting</h4>
 <p>　<a class='autolink' href='#dlZiBdOIRvM'>uml-icon-setting</a> は UML の描画要素において使用されるアイコンの設定をするための要素です。以下に例を示します。</p>
+<a name='hccBhwXyWO1'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='400' height='110'>
@@ -10459,7 +10790,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='hccBhwXyWO1'></a>Figure.8-32 uml-icon-setting のサンプル</p>
+</a>
+<p class='fig_title'>Figure.8-32 uml-icon-setting のサンプル</p>
 <p>　上記の作図は以下のコードで行なっています。</p>
 <pre class='code'>
 (diagram (400 110)
@@ -10476,6 +10808,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <h4><a name='7DqwJ3CtaoY'></a>8.8.25 uml-interface</h4>
 <p>　<a class='autolink' href='#7DqwJ3CtaoY'>uml-interface</a> は UML の<a class='autolink' href='#khgkJB6xK95'>クラス図</a>などにおけるインターフェースを表記するための図形要素です。</p>
+<a name='lNHV28za0bO'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='360' height='100'>
@@ -10498,7 +10831,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='lNHV28za0bO'></a>Figure.8-33 uml-interface のサンプル</p>
+</a>
+<p class='fig_title'>Figure.8-33 uml-interface のサンプル</p>
 <p>　上記の作図は以下のコードで行なっています。</p>
 <pre class='code'>
 (diagram (360 100)
@@ -10514,6 +10848,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <h4><a name='iND5crw5iJu'></a>8.8.26 uml-interface-request</h4>
 <p>　<a class='autolink' href='#iND5crw5iJu'>uml-interface-request</a> は UML の<a class='autolink' href='#khgkJB6xK95'>クラス図</a>などにおけるインターフェースのソケットを表記するための図形要素です。</p>
+<a name='8Ppt9eXm4N2'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='360' height='150'>
@@ -10552,7 +10887,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='8Ppt9eXm4N2'></a>Figure.8-34 uml-interface-request のサンプル</p>
+</a>
+<p class='fig_title'>Figure.8-34 uml-interface-request のサンプル</p>
 <p>　上記の作図は以下のコードで行なっています。</p>
 <pre class='code'>
 (diagram (360 150)
@@ -10574,6 +10910,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <h4><a name='eTHeBBfGtFF'></a>8.8.27 uml-join</h4>
 <p>　<a class='autolink' href='#eTHeBBfGtFF'>uml-join</a> は UML の<a class='autolink' href='#8ya1jqc5cZQ'>アクティビティ図</a>におけるフォークを表記するための図形要素です。見た目は<a href='#dI34u24Hxh3'>uml-fork</a> と同じですが、ジョイン仕様を指定することができます。</p>
+<a name='ctRzvw94nYe'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='340' height='150'>
@@ -10632,7 +10969,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='ctRzvw94nYe'></a>Figure.8-35 uml-join のサンプル</p>
+</a>
+<p class='fig_title'>Figure.8-35 uml-join のサンプル</p>
 <p>　上記の作図は以下のコードで行なっています。</p>
 <pre class='code'>
 (diagram (340 150)
@@ -10656,6 +10994,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <h4><a name='ikpYK2ZSZov'></a>8.8.28 uml-merge</h4>
 <p>　<a class='autolink' href='#ikpYK2ZSZov'>uml-merge</a> は UML の<a class='autolink' href='#8ya1jqc5cZQ'>アクティビティ図</a>において判断による分岐の終了を表記するための図形要素です。以下の例では右端の<a class='autolink' href='#4dFMjynUMYw'>ひし形</a>の要素が <a class='autolink' href='#ikpYK2ZSZov'>uml-merge</a> です。<a class='autolink' href='#4gZkeXtP8bm'>uml-decision</a> とは異なり、<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>を指定することはできません。</p>
+<a name='6yptTOoW7np'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='400' height='150'>
@@ -10723,7 +11062,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='6yptTOoW7np'></a>Figure.8-36 uml-merge のサンプル</p>
+</a>
+<p class='fig_title'>Figure.8-36 uml-merge のサンプル</p>
 <p>　上記の作図は以下のコードで行なっています。</p>
 <pre class='code'>
 (diagram (400 150)
@@ -10752,6 +11092,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li><span style='background:red;color:white;'>ToDo : uml-class では uml-multiplicity-info の offset が利用されていない疑いあり。</span></li>
 </ul>
 <p>　<a class='autolink' href='#g6kEHGpHjhy'>uml-multiplicity-info</a> は UML のクラスや関連において使用される多重度の記述をするための要素です。以下に例を示します。</p>
+<a name='kzMXfyDkRUO'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='140'>
@@ -10789,7 +11130,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='kzMXfyDkRUO'></a>Figure.8-37 uml-multiplicity-info のサンプル</p>
+</a>
+<p class='fig_title'>Figure.8-37 uml-multiplicity-info のサンプル</p>
 <p>　上記の作図は以下のコードで行なっています。</p>
 <pre class='code'>
 (diagram (300 140)
@@ -10808,6 +11150,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <h4><a name='jOvc70hxXQE'></a>8.8.30 uml-node</h4>
 <p>　<a class='autolink' href='#jOvc70hxXQE'>uml-node</a> は UML の<a class='autolink' href='#6DAfYJjISDb'>配置図</a>などにおけるノードを表記するための図形要素です。</p>
+<a name='dCWihE5tKQQ'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='160'>
@@ -10851,7 +11194,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='dCWihE5tKQQ'></a>Figure.8-38 uml-node のサンプル</p>
+</a>
+<p class='fig_title'>Figure.8-38 uml-node のサンプル</p>
 <p>　上記の作図は以下のコードで行なっています。</p>
 <pre class='code'>
 (diagram (300 160)
@@ -10872,6 +11216,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <h4><a name='jFViCKeUWqC'></a>8.8.31 uml-note</h4>
 <p>　<a class='autolink' href='#jFViCKeUWqC'>uml-note</a> は UML において汎用的にノートを付加させる図形要素です。ほぼ<a class='autolink' href='#0AVJhEKnK1M'>メモ</a>と同じように使えますが、targets パラメータによって複数の図形要素に接続することが可能です。</p>
+<a name='i2gBN2RhnHw'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='400' height='170'>
@@ -10918,7 +11263,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='i2gBN2RhnHw'></a>Figure.8-39 uml-note のサンプル</p>
+</a>
+<p class='fig_title'>Figure.8-39 uml-note のサンプル</p>
 <p>　上記の作図は以下のコードで行なっています。targets パラメータは、単一の要素だけを指定する場合はリストである必要はありません。また、図面中で <a class='autolink' href='#jFViCKeUWqC'>uml-note</a> のスタイルを統一するために <a class='autolink' href='#bKpfdfxlm28'>with-uml-note-options マクロ</a>を使用しています。</p>
 <pre class='code'>
 (diagram (400 170)
@@ -10941,6 +11287,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <h4><a name='algAxSoZB1Z'></a>8.8.32 uml-package</h4>
 <p>　<a class='autolink' href='#algAxSoZB1Z'>uml-package</a> は UML の<a class='autolink' href='#la7Xa1OTF3W'>パッケージ図</a>などにおけるパッケージを表記するための図形要素です。</p>
+<a name='4tLfM2uCDx0'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='160'>
@@ -10983,7 +11330,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='4tLfM2uCDx0'></a>Figure.8-40 uml-package のサンプル</p>
+</a>
+<p class='fig_title'>Figure.8-40 uml-package のサンプル</p>
 <p>　上記の作図は以下のコードで行なっています。</p>
 <pre class='code'>
 (diagram (300 160)
@@ -11004,6 +11352,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <h4><a name='hDY1LBkmvKv'></a>8.8.33 uml-partition</h4>
 <p>　<a class='autolink' href='#hDY1LBkmvKv'>uml-partition</a> は UML の<a class='autolink' href='#8ya1jqc5cZQ'>アクティビティ図</a>における区画（パーティション）を表記するための図形要素です。</p>
+<a name='ciTM0GPrOeW'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='560' height='300'>
@@ -11099,7 +11448,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='ciTM0GPrOeW'></a>Figure.8-41 uml-partition のサンプル</p>
+</a>
+<p class='fig_title'>Figure.8-41 uml-partition のサンプル</p>
 <p>　上記の作図は以下のコードで行なっています。</p>
 <pre class='code'>
 (diagram (560 300)
@@ -11126,6 +11476,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </pre>
 <p>　　</p>
 <p>　<a class='autolink' href='#hDY1LBkmvKv'>uml-partition</a> のパラメータとして必須なのは <code>center rows cols</code> の３つで、 <code>rows cols</code> の指定の仕方で垂直・水平方向のスイムレーンとマトリクス状の区画を作成することができます。以下に例を示します。</p>
+<a name='az9Gf58gMEB'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='600' height='140'>
@@ -11194,7 +11545,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='az9Gf58gMEB'></a>Figure.8-42 uml-partition のサンプル - 2</p>
+</a>
+<p class='fig_title'>Figure.8-42 uml-partition のサンプル - 2</p>
 <p>　上記の作図は以下のコードで行なっています。左の縦方向のスイムレーンでは、 <code>cols</code> に <code>'((A 60) (B 60) (C 60))</code> を、 <code>rows</code> に <code>120</code> を指定しています。中央の横方向のスイムレーンでは、 <code>cols</code> に <code>180</code> を、 <code>rows</code> に <code>'((X 40) (Y 40) (Z 40))</code> を指定しています。このように <code>rows cols</code> の一方を数値にして他方をリストにすると縦または横のスイムレーンになります。両方をリストにするとマトリクス状の区画になります。</p>
 <pre class='code'>
 (diagram (600 140)
@@ -11225,6 +11577,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <p>　　</p>
 <p>　<a class='autolink' href='#hDY1LBkmvKv'>uml-partition</a> は<a class='autolink' href='#g6xjP526KX7'>テーブル</a>をベースに作成されていますが、描画される「罫線」は <code>lines</code> パラメータによってカスタマイズすることができます。指定する値は <code>:min :mid :max</code> のいずれかです。区画の形状別のサンプルを以下に示します。</p>
+<a name='52lWmm72SQc'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='630' height='450'>
@@ -11402,7 +11755,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='52lWmm72SQc'></a>Figure.8-43 uml-partition における lines パラメータのサンプル</p>
+</a>
+<p class='fig_title'>Figure.8-43 uml-partition における lines パラメータのサンプル</p>
 <p>　詳細は以下を参照してください。</p>
 <ul>
 <li><a class='autolink' href='#cPEgYZoifRN'>uml-partition マクロ</a></li>
@@ -11411,6 +11765,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <h4><a name='axhW9kmgXg3'></a>8.8.34 uml-pin</h4>
 <p>　<a class='autolink' href='#axhW9kmgXg3'>uml-pin</a> は UML の<a class='autolink' href='#8ya1jqc5cZQ'>アクティビティ図</a>におけるピンを表記するための図形要素です。</p>
+<a name='2vEaeqb4vdx'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='620' height='120'>
@@ -11500,7 +11855,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='2vEaeqb4vdx'></a>Figure.8-44 uml-pin のサンプル</p>
+</a>
+<p class='fig_title'>Figure.8-44 uml-pin のサンプル</p>
 <p>　上記の作図は以下のコードで行なっています。ピンはフローの接続点に付けるものなので、対象アクションの位置とその接続点を指定します。接続点は、<a class='autolink' href='#eFhVs4WwYUG'>コネクタ</a>であれば <code>:RL</code> などと記述する表記の片側分なので、 <code>:R</code> や <code>:T3</code> などと記述することになります。また、通常は<a href='#gbfzFbCEQb7'>拡張領域</a>に渡すことになる入出力コレクションは <code>:multi t</code> とすることで表現できます。</p>
 <pre class='code'>
 (diagram (620 120)
@@ -11529,6 +11885,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <h4><a name='froC5uEo6hu'></a>8.8.35 uml-port</h4>
 <p>　<a class='autolink' href='#froC5uEo6hu'>uml-port</a> は UML の<a class='autolink' href='#evUs70Itwyp'>コンポーネント図</a>などにおけるポートを表記するための図形要素です。</p>
+<a name='gg8F0vevaD8'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='400' height='200'>
@@ -11578,7 +11935,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='gg8F0vevaD8'></a>Figure.8-45 uml-port のサンプル</p>
+</a>
+<p class='fig_title'>Figure.8-45 uml-port のサンプル</p>
 <p>　上記の作図は以下のコードで行なっています。</p>
 <pre class='code'>
 (diagram (400 200)
@@ -11601,6 +11959,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <h4><a name='bn5BLn6Qb3Y'></a>8.8.36 uml-realization</h4>
 <p>　<a class='autolink' href='#bn5BLn6Qb3Y'>uml-realization</a> は UML の<a class='autolink' href='#khgkJB6xK95'>クラス図</a>などにおける実現関係を表記するための図形要素です。</p>
+<a name='1ssaGju1LmT'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='400' height='80'>
@@ -11630,7 +11989,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='1ssaGju1LmT'></a>Figure.8-46 uml-realization のサンプル</p>
+</a>
+<p class='fig_title'>Figure.8-46 uml-realization のサンプル</p>
 <p>　上記の作図は以下のコードで行なっています。</p>
 <pre class='code'>
 (diagram (400 80)
@@ -11649,6 +12009,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <h4><a name='9ugZNtgVL4J'></a>8.8.37 uml-role-info</h4>
 <p>　<a class='autolink' href='#9ugZNtgVL4J'>uml-role-info</a> は UML の関連などにおいて使用されるロール情報の記述をするための要素です。以下に例を示します。</p>
+<a name='cIrUa9Rtvoh'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='340' height='100'>
@@ -11683,7 +12044,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='cIrUa9Rtvoh'></a>Figure.8-47 uml-role-info のサンプル</p>
+</a>
+<p class='fig_title'>Figure.8-47 uml-role-info のサンプル</p>
 <p>　上記の作図は以下のコードで行なっています。</p>
 <pre class='code'>
 (diagram (340 100)
@@ -11701,6 +12063,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <h4><a name='9eWb5bnq5W3'></a>8.8.38 uml-signal</h4>
 <p>　<a class='autolink' href='#9eWb5bnq5W3'>uml-signal</a> は UML の<a class='autolink' href='#8ya1jqc5cZQ'>アクティビティ図</a>におけるシグナル送受信を表記するための図形要素です。ほぼ<a class='autolink' href='#e7hkC2YUaKe'>テキストボックス</a>と同じように使えますが、少なくとも送信か受信かの区別をパラメータで与える必要があります。また、形状は <code>:direction</code> パラメータで <code>:left</code> か <code>:right</code> で与えます。</p>
+<a name='eIatijW5Ws3'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='400' height='160'>
@@ -11754,7 +12117,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='eIatijW5Ws3'></a>Figure.8-48 uml-signal のサンプル</p>
+</a>
+<p class='fig_title'>Figure.8-48 uml-signal のサンプル</p>
 <p>　上記の作図は以下のコードで行なっています。</p>
 <pre class='code'>
 (diagram (400 160)
@@ -11779,6 +12143,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <h4><a name='4Fe1V46854v'></a>8.8.39 uml-state-begin</h4>
 <p>　<a class='autolink' href='#4Fe1V46854v'>uml-state-begin</a> は UML の<a class='autolink' href='#kYsauEETY6n'>状態マシン図</a>における開始状態を表記するための図形要素です。</p>
+<a name='gFYxvYPqfFI'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='200' height='80'>
@@ -11805,7 +12170,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='gFYxvYPqfFI'></a>Figure.8-49 uml-state-begin のサンプル</p>
+</a>
+<p class='fig_title'>Figure.8-49 uml-state-begin のサンプル</p>
 <p>　上記の作図は以下のコードで行なっています。</p>
 <pre class='code'>
 (diagram (200 80)
@@ -11822,6 +12188,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <h4><a name='6dfRecys5K7'></a>8.8.40 uml-state-end</h4>
 <p>　<a class='autolink' href='#6dfRecys5K7'>uml-state-end</a> は UML の<a class='autolink' href='#kYsauEETY6n'>状態マシン図</a>における終了状態を表記するための図形要素です。</p>
+<a name='0Vovxfelmu4'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='200' height='80'>
@@ -11849,7 +12216,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='0Vovxfelmu4'></a>Figure.8-50 uml-state-end のサンプル</p>
+</a>
+<p class='fig_title'>Figure.8-50 uml-state-end のサンプル</p>
 <p>　上記の作図は以下のコードで行なっています。</p>
 <pre class='code'>
 (diagram (200 80)
@@ -11866,6 +12234,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <h4><a name='dZcuFEPgREn'></a>8.8.41 uml-state-history</h4>
 <p>　<a class='autolink' href='#dZcuFEPgREn'>uml-state-history</a> は UML の<a class='autolink' href='#kYsauEETY6n'>状態マシン図</a>における履歴状態を表記するための図形要素です。</p>
+<a name='aAMCxPsrVD5'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='500' height='180'>
@@ -11938,7 +12307,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='aAMCxPsrVD5'></a>Figure.8-51 uml-state-history のサンプル</p>
+</a>
+<p class='fig_title'>Figure.8-51 uml-state-history のサンプル</p>
 <p>　上記の作図は以下のコードで行なっています。</p>
 <pre class='code'>
 (diagram (500 180)
@@ -11967,6 +12337,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <h4><a name='a7K2CBytplo'></a>8.8.42 uml-state</h4>
 <p>　<a class='autolink' href='#a7K2CBytplo'>uml-state</a> は UML の<a class='autolink' href='#kYsauEETY6n'>状態マシン図</a>における状態を表記するための図形要素です。</p>
+<a name='fPYRjBngVB2'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='400' height='220'>
@@ -12033,7 +12404,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='fPYRjBngVB2'></a>Figure.8-52 uml-state のサンプル</p>
+</a>
+<p class='fig_title'>Figure.8-52 uml-state のサンプル</p>
 <p>　上記の作図は以下のコードで行なっています。</p>
 <pre class='code'>
 (diagram (400 220)
@@ -12061,6 +12433,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <h4><a name='dd6qYwERoK0'></a>8.8.43 uml-stereotype-info</h4>
 <p>　<a class='autolink' href='#dd6qYwERoK0'>uml-stereotype-info</a> は UML の各種要素において使用されるステレオタイプおよびキーワードの指定をするための要素です。以下に例を示します。</p>
+<a name='cyqVvx7h6f1'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='340' height='100'>
@@ -12095,7 +12468,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='cyqVvx7h6f1'></a>Figure.8-53 uml-stereotype-info のサンプル</p>
+</a>
+<p class='fig_title'>Figure.8-53 uml-stereotype-info のサンプル</p>
 <p>　上記の作図は以下のコードで行なっています。</p>
 <pre class='code'>
 (diagram (340 100)
@@ -12113,6 +12487,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <h4><a name='dkYATTKFF3X'></a>8.8.44 uml-time-event</h4>
 <p>　<a class='autolink' href='#dkYATTKFF3X'>uml-time-event</a> は UML の<a class='autolink' href='#8ya1jqc5cZQ'>アクティビティ図</a>における時間シグナルを表記するための図形要素です。</p>
+<a name='fBmyddlzNhV'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='300' height='100'>
@@ -12151,7 +12526,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='fBmyddlzNhV'></a>Figure.8-54 uml-time-event のサンプル</p>
+</a>
+<p class='fig_title'>Figure.8-54 uml-time-event のサンプル</p>
 <p>　上記の作図は以下のコードで行なっています。</p>
 <pre class='code'>
 (diagram (300 100)
@@ -12170,6 +12546,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <h4><a name='8h222SLEnVx'></a>8.8.45 uml-transition</h4>
 <p>　<a class='autolink' href='#8h222SLEnVx'>uml-transition</a> は UML の<a class='autolink' href='#kYsauEETY6n'>状態マシン図</a>における状態間の遷移を表記するための図形要素です。</p>
+<a name='1tOFL0hPsvz'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='400' height='100'>
@@ -12211,7 +12588,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='1tOFL0hPsvz'></a>Figure.8-55 uml-transition のサンプル</p>
+</a>
+<p class='fig_title'>Figure.8-55 uml-transition のサンプル</p>
 <p>　上記の作図は以下のコードで行なっています。</p>
 <pre class='code'>
 (diagram (400 100)
@@ -12233,6 +12611,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <h4><a name='aiNf7xsL8zY'></a>8.8.46 uml-transition-spec</h4>
 <p>　<a class='autolink' href='#aiNf7xsL8zY'>uml-transition-spec</a> は UML の<a class='autolink' href='#kYsauEETY6n'>状態マシン図</a>における遷移仕様を記述するための、トリガー、ガード条件、アクションなどからなる情報です。以下に例を示します。</p>
+<a name='gIdIDB020Dj'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='400' height='190'>
@@ -12292,7 +12671,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='gIdIDB020Dj'></a>Figure.8-56 uml-transition-spec のサンプル</p>
+</a>
+<p class='fig_title'>Figure.8-56 uml-transition-spec のサンプル</p>
 <p>　上記の作図は以下のコードで行なっています。</p>
 <pre class='code'>
 (diagram (400 190)
@@ -12321,6 +12701,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </ul>
 <h4><a name='44mEhv2hQcS'></a>8.8.47 uml-usecase</h4>
 <p>　<a class='autolink' href='#44mEhv2hQcS'>uml-usecase</a> は UML の<a class='autolink' href='#e57rLpXY8ah'>ユースケース図</a>におけるユースケースを表記するための図形要素です。</p>
+<a name='1a6tENexGp7'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='240' height='80'>
@@ -12352,7 +12733,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='1a6tENexGp7'></a>Figure.8-57 uml-usecase のサンプル</p>
+</a>
+<p class='fig_title'>Figure.8-57 uml-usecase のサンプル</p>
 <p>　上記の作図は以下のコードで行なっています。</p>
 <pre class='code'>
 (diagram (240 80)
@@ -16976,6 +17358,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <p>　　</p>
 <h3><a name='dR01Jh257Q6'></a>9.2 色の名前</h3>
 <p> <a href='#1rpUB3fre67'>6.1  節</a>ではいくつかの<a class='autolink' href='#1rpUB3fre67'>色の指定</a>方法を紹介しています。ここでは、そのうち色の名前について使用できるものを紹介します。まず、以下は SVG 規格に記載されている色名のサンプルです<sup><a name='footnote_ref21' href='#footnote21'>21</a></sup>。</p>
+<a name='2sDmAkevog1'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='750' height='1000'>
@@ -17573,7 +17956,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='2sDmAkevog1'></a>Figure.9-1 色の名前とサンプル</p>
+</a>
+<p class='fig_title'>Figure.9-1 色の名前とサンプル</p>
 <details>
 <summary><a href='#2sDmAkevog1'>Figure.9-1</a> のソースはこちら</summary>
 <pre class='code'>
@@ -17744,6 +18128,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </details>
 <p>　　</p>
 <p>　kaavio では、上記に加えて以下の名前も使用することができます。これらは規格に含まれていないため、 <code>#RRGGBB</code> 形式に変換されて出力されます<sup><a name='footnote_ref22' href='#footnote22'>22</a></sup>。</p>
+<a name='6tYSz371NWb'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='760' height='2140'>
@@ -19437,7 +19822,8 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </svg>
 </div>
 
-<p class='fig_title'><a name='6tYSz371NWb'></a>Figure.9-2 色の名前とサンプル - 2</p>
+</a>
+<p class='fig_title'>Figure.9-2 色の名前とサンプル - 2</p>
 <p>　　</p>
 <h2><a name='dGdSPnvay5N'></a>10 更新履歴</h2>
 <p>　更新履歴です。</p>

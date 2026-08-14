@@ -20,10 +20,11 @@
     (text '(130  85) "θ" :align :left)))
 -->
 
+<!-- figure:  kaavio における座標系 -->
 ```kaavio
 <!-- expand: GEOMETRY-SAMPLE-1 -->
 ```
-Figure. kaavio における座標系
+<!-- figure:end -->
 
 <!-- collapse:begin -->
 　※上記画像のソースはこちら。
@@ -50,6 +51,7 @@ ${BLANK_PARAGRAPH}
 使用しません。}}。図では `topleft(tl)` などの記載がありますが、括弧内の `tl` は簡略記法で、 
 `foo.topleft` を `foo.tl` と書くこともできることを意味しています。
 
+<!-- figure:  図形要素の座標参照 - 1 -->
 ```kaavio
 (diagram (420 170)
   (grid)
@@ -65,12 +67,13 @@ ${BLANK_PARAGRAPH}
     (circle rct.BC 3) (text (y+  $1.bottom      13) "bottom(bc)"      :align :center)
     (circle rct.BR 3) (text (y+  $1.bottomright 13) "bottomright(br)" :align :left)))
 ```
-Figure. 図形要素の座標参照 - 1
+<!-- figure:end -->
 
 ${BLANK_PARAGRAPH}
 
 　さらに、コネクタの `:style` パラメータ指定で使う `L1` や `T3` といった記法も使用できます。
 
+<!-- figure:  図形要素の座標参照 - 2 -->
 ```kaavio
 (diagram (420 170)
   (grid)
@@ -89,7 +92,7 @@ ${BLANK_PARAGRAPH}
     (circle rct.R2 3) (text (xy+ $1.R2  3  7) "R2" :align :left)
     (circle rct.R3 3) (text (xy+ $1.R3  3  7) "R3" :align :left)))
 ```
-Figure. 図形要素の座標参照 - 2
+<!-- figure:end -->
 
 ${BLANK_PARAGRAPH}
 
@@ -105,6 +108,7 @@ ${BLANK_PARAGRAPH}
 を制御できます。以下の例では、四角形 `rct` に対して `(diamond rct.cr 60 40 :pivot :CL)` と
 することで「ひし形の左端が四角形の右端にくるように位置指定」しています。
 
+<!-- figure:  pivot パラメータの利用例 -->
 ```kaavio
 (diagram (200 100)
   (grid)
@@ -112,13 +116,14 @@ ${BLANK_PARAGRAPH}
   (diamond rct.cr  60 40 :pivot :CL)
   (circle rct.cr 3 :stroke :none :fill :red))
 ```
-Figure. pivot パラメータの利用例
+<!-- figure:end -->
 
 
 　直線や円弧、コネクタ、およびブロック矢印では、 `center` および線の端点として `end1, end2` が
 利用できます。以下のように、この場合の `center` は線の総延長のちょうど半分にあたる位置になります
 （円弧の場合はベースとなる楕円の中心です）。
 
+<!-- figure:  図形要素の座標参照 - 3 -->
 ```kaavio
 (diagram (300 110)
   (grid)
@@ -132,7 +137,7 @@ Figure. pivot パラメータの利用例
     (text (xy+ line.center 0 -10) "center(cc)" :align :left)
     (text (xy+ line.end2   0 -10) "end2"       :align :center)))
 ```
-Figure. 図形要素の座標参照 - 3
+<!-- figure:end -->
 
 ${BLANK_PARAGRAPH}
 
@@ -193,10 +198,11 @@ ${BLANK_PARAGRAPH}
 （青い方の）circle が with-subcanvas マクロの配下にあるためで、このサブキャンバスの実際の領域
 は rect で示されています。
 
+<!-- figure:  サブキャンバスのサンプル -->
 ```kaavio
 <!-- expand: SUBCANVAS-SAMPLE-1 -->
 ```
-Figure. サブキャンバスのサンプル
+<!-- figure:end -->
 
 　サブキャンバスは入力データの一部分で独自の座標系を一時的に作成するもので、それ以外の効果は
 ありません。たとえば、描画順序を制御するレイヤーとは無関係ですし、サブキャンバスの矩形で
@@ -211,6 +217,7 @@ Figure. サブキャンバスのサンプル
 先程の例と同じ作図をするには以下のように書きます。この場合、先程とは違って rect の中に 
 circle が置かれることになります（rect が動けば circle も動く）。
 
+<!-- figure:  contents パラメータを使ったサブキャンバス -->
 ```lisp
 (diagram (300 150)
   (grid)
@@ -219,7 +226,7 @@ circle が置かれることになります（rect が動けば circle も動く
      :contents
      ((circle '(50 50) 20 :stroke :navy :fill :skyblue))))
 ```
-Figure. contents パラメータを使ったサブキャンバス
+<!-- figure:end -->
 
 
 　`:contents` パラメータによるサブキャンバスは、その図形要素の幅と高さからなる四角形に
@@ -260,6 +267,7 @@ with-subcanvas-of マクロが用意されています。これは既出の図�
 （つまり [$@](F#contents パラメータを使ったサブキャンバス) とも同じ）作図をする
 サンプルを以下に示します。
 
+<!-- figure:  with-subcanvas-of を使ったサブキャンバス -->
 ```lisp
 (diagram (300 150)
   (grid)
@@ -268,7 +276,7 @@ with-subcanvas-of マクロが用意されています。これは既出の図�
   (with-subcanvas-of (:rct)
      (circle '(50 50) 20 :stroke :navy :fill :skyblue)))
 ```
-Figure. with-subcanvas-of を使ったサブキャンバス
+<!-- figure:end -->
 
 ${BLANK_PARAGRAPH}
 
@@ -281,6 +289,7 @@ with-current-canvas マクロは「現在のキャンバスへのアクセスを
 [本節冒頭の例](#サブキャンバス)は、以下のように書き換えることができます
 （１回ずつしか使ってないのでメリットがわかりにくいですが）。
 
+<!-- figure:  with-current-canvas の使用 -->
 ```lisp
 (diagram (300 150)
   (grid)
@@ -290,7 +299,7 @@ with-current-canvas マクロは「現在のキャンバスへのアクセスを
       (rect cc w h :stroke :gray :fill :none)
       (circle '(50 50) 20 :stroke :navy :fill :skyblue))))
 ```
-Figure. with-current-canvas の使用
+<!-- figure:end -->
 
 
 ${BLANK_PARAGRAPH}
@@ -351,10 +360,11 @@ with-clipping-current-canvas マクロを使用して、4 つの要素を描画�
 
 　結果は以下のようになります。
 
+<!-- figure:  with-clipping-current-canvas マクロの例 -->
 ```kaavio
 <!-- expand: DEFS-CLIPPING-SAMPLE-2 -->
 ```
-Figure. with-clipping-current-canvas マクロの例
+<!-- figure:end -->
 
 
 <!-- snippet: DEFS-CLIPPING-SAMPLE-3
@@ -381,10 +391,11 @@ Figure. with-clipping-current-canvas マクロの例
 この例では（クリッピングされる）4 つの図形要素の位置指定がこれまでと異なることに注意
 してください。
 
+<!-- figure:  with-clipping-use マクロの例 -->
 ```kaavio
 <!-- expand: DEFS-CLIPPING-SAMPLE-3 -->
 ```
-Figure. with-clipping-use マクロの例
+<!-- figure:end -->
 
 　より複雑なパスでクリッピングを行なうことも可能です。以下では、文字を使ってクリッピング
 をしています。
@@ -403,10 +414,11 @@ Figure. with-clipping-use マクロの例
 <!-- expand: DEFS-CLIPPING-SAMPLE-4 -->
 ```
 
+<!-- figure:  文字を使ったクリッピングの例 -->
 ```kaavio
 <!-- expand: DEFS-CLIPPING-SAMPLE-4 -->
 ```
-Figure. 文字を使ったクリッピングの例
+<!-- figure:end -->
 
 ### 定義と再使用
 
@@ -544,10 +556,11 @@ line を 2 本描いています。しかしこれは defgroup マクロの中�
 <!-- expand: DEFGROUP-USE-SAMPLE -->
 ```
 
+<!-- figure:  defgroup と use のサンプル -->
 ```kaavio
 <!-- expand: DEFGROUP-USE-SAMPLE -->
 ```
-Figure. defgroup と use のサンプル
+<!-- figure:end -->
 
 ${BLANK_PARAGRAPH}
 
@@ -588,10 +601,11 @@ ${BLANK_PARAGRAPH}
 ID をつけ、後続の rect の [fill パラメータ](#フィル)で `'(:url :tile)` という
 指定をすることでパターンの使用を指示しています。
 
+<!-- figure:  単純なパターンのサンプル -->
 ```kaavio
 <!-- expand: PATTERN-1ST-SAMPLE -->
 ```
-Figure. 単純なパターンのサンプル
+<!-- figure:end -->
 
 ${BLANK_PARAGRAPH}
 
@@ -609,10 +623,11 @@ ${BLANK_PARAGRAPH}
   (rect canvas.center 120 120 :stroke :black :fill '(:url :crazy)))
 -->
 
+<!-- figure:  パターンのサンプル - 2 -->
 ```kaavio
 <!-- expand: PATTERN-2ND-SAMPLE -->
 ```
-Figure. パターンのサンプル - 2
+<!-- figure:end -->
 
 <!-- collapse:begin -->
 　※上記画像のソースはこちら。
@@ -757,10 +772,11 @@ rect の中でそれを利用しています。
 いうID をつけ、後続の rect の [fill パラメータ](#フィル)で `'(:url :gradient1)` という
 指定をすることでグラデーションの使用を指示しています。
 
+<!-- figure:  単純なグラデーションのサンプル -->
 ```kaavio
 <!-- expand: GRADIENT-1ST-SAMPLE -->
 ```
-Figure. 単純なグラデーションのサンプル
+<!-- figure:end -->
 
 ${BLANK_PARAGRAPH}
 
@@ -776,10 +792,11 @@ ${BLANK_PARAGRAPH}
   (rect '(70 70) 100 100 :stroke :black :fill '(:url :gradient2)))
 -->
 
+<!-- figure:  グラデーションのサンプル - 2 -->
 ```kaavio
 <!-- expand: GRADIENT-2ND-SAMPLE -->
 ```
-Figure. グラデーションのサンプル - 2
+<!-- figure:end -->
 
 <!-- collapse:begin -->
 　※上記画像のソースはこちら。
@@ -1049,10 +1066,11 @@ ${BLANK_PARAGRAPH}
 描画結果は以下のようなものになります。これは 3 行目の with-theme で default テーマを
 指定したことによる効果です。
 
+<!-- figure:  デフォルトテーマの使用例 -->
 ```kaavio
 <!-- expand: THEME-SAMPLE-1 -->
 ```
-Figure. デフォルトテーマの使用例
+<!-- figure:end -->
 
 ${BLANK_PARAGRAPH}
 
@@ -1096,6 +1114,7 @@ ${BLANK_PARAGRAPH}
 　register-theme を使えば、新しいテーマを作成することができます。以下は、default テーマを
 定義している register-theme の使用例です。
 
+<!-- figure:  register-theme によるテーマの作成 -->
 ```lisp
 (register-theme (:default)
   (t           :font '(:family "sans-serif"))
@@ -1112,7 +1131,7 @@ ${BLANK_PARAGRAPH}
   (cross       :stroke :black         :fill :white)
   (block-arrow :stroke :navy          :fill :skyblue))
 ```
-Figure. register-theme によるテーマの作成
+<!-- figure:end -->
 
 ${BLANK_PARAGRAPH}
 
@@ -1131,12 +1150,13 @@ ${BLANK_PARAGRAPH}
 カスタムテーマを作成することができます。以下の例では、default テーマをベースとして my-theme と
 いうテーマを作成しています。
 
+<!-- figure:  register-theme でベーステーマを指定する例 -->
 ```lisp
 (register-theme (:my-theme :default)
   (cylinder :stroke :maroon :fill :beige)
   (cross :stroke :purple :fill :lavender))
 ```
-Figure. register-theme でベーステーマを指定する例
+<!-- figure:end -->
 
 ${BLANK_PARAGRAPH}
 
@@ -1144,6 +1164,7 @@ ${BLANK_PARAGRAPH}
 　上記の my-theme を使用して [$@](F#デフォルトテーマの使用例) と同じ図面を描画した結果を
 以下に示します。カスタマイズした内容が反映されていることがわかります。
 
+<!-- figure:  テーマのカスタマイズ例 -->
 ```kaavio
 (register-theme (:my-theme :default)
   (cylinder :stroke :maroon :fill :beige)
@@ -1166,7 +1187,7 @@ ${BLANK_PARAGRAPH}
       (block-arrow1 (xy+ cc  105  100) (xy+ cc 25 100) 20)
       (pipe         (xy+ cc  190  100) :h 80 :label "pipe"))))
 ```
-Figure. テーマのカスタマイズ例
+<!-- figure:end -->
 
 ${BLANK_PARAGRAPH}
 

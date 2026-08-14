@@ -23,10 +23,11 @@
 　path マクロによって直線や曲線からなる複雑な図形を描画できます。polygon マクロは直線からなる
 多角形でしたが、パスでは複雑な曲線を含む図形を描画できます。ただ、その分構文も複雑です。
 
+<!-- figure:  パスのサンプル -->
 ```kaavio
 <!-- expand: PATH-SAMPLE -->
 ```
-Figure. パスのサンプル
+<!-- figure:end -->
 
 　上記サンプルのソースは以下の通りです。パラメータの詳細については path マクロを参照して
 ください。
@@ -43,7 +44,7 @@ ${BLANK_PARAGRAPH}
 
 <!-- stack:push tr style="font-size: 14;" -->
 
-Table. path の data で使用できるディレクティブ
+<!-- table: path の data で使用できるディレクティブ -->
 | ディレクティブ  | 説明                                                                  |
 |:===============|:----------------------------------------------------------------------|
 | `:move-to`     | 指定した点に（線を描くことなく）移動します。                             |
@@ -56,7 +57,7 @@ Table. path の data で使用できるディレクティブ
 | `:absolute`    | 後続のディレクティブを、現在のキャンバスに対する絶対座標として処理します。 |
 | `:relative`    | 後続のディレクティブを、現在の点に対する相対座標として処理します。         |
 | `:close-path`  | パスを閉じます。すなわち、現在の点から先頭の点までを結ぶ直線を引きます。   |
-
+<!-- table:end -->
 <!-- stack:pop tr -->
 
 ${BLANK_PARAGRAPH}
@@ -80,6 +81,7 @@ ${BLANK_PARAGRAPH}
 `(:move-to pt1 pt2 pt3 ...)` のように複数の点を記述することができ、これは `(:move-to pt1)  \
 (:line-to pt2 pt3 ...)` と等価になります。以下に例を示します。
 
+<!-- figure:  :move-to ディレクティブのサンプル -->
 ```kaavio
 (diagram (400 100)
   (grid)
@@ -89,7 +91,7 @@ ${BLANK_PARAGRAPH}
     (textbox '(170 80) "(:move-to (200 10) (230 50)
           (170 50) (200 10))" :no-frame t :align :left )))
 ```
-Figure. :move-to ディレクティブのサンプル
+<!-- figure:end -->
 
 　なお、:move-to で指定する点は :absolute および :relative の影響を受けます。
 
@@ -100,6 +102,7 @@ Figure. :move-to ディレクティブのサンプル
 `(:line-to pt1 pt2 pt3 ...)` のように複数の点を記述することができます。これは現在の点から
 順番に直線を描きながら移動します。
 
+<!-- figure:  :line-to ディレクティブのサンプル -->
 ```kaavio
 (diagram (400 100)
   (grid)
@@ -110,7 +113,7 @@ Figure. :move-to ディレクティブのサンプル
     (textbox '(170 80) "(:move-to (200 10))
 (:line-to (230 50) (170 50) (200 10))" :no-frame t :align :left )))
 ```
-Figure. :line-to ディレクティブのサンプル
+<!-- figure:end -->
 
 　なお、:line-to で指定する点は :absolute および :relative の影響を受けます。
 
@@ -119,6 +122,7 @@ Figure. :line-to ディレクティブのサンプル
 
 　`(:h-line-to x)` という記述により、現在の点から指定した x 座標まで水平線を描きながら移動します。
 
+<!-- figure:  :h-line-to ディレクティブのサンプル -->
 ```kaavio
 (diagram (300 150)
   (grid)
@@ -134,7 +138,7 @@ Figure. :line-to ディレクティブのサンプル
 (:h-line-to 100)
 (:v-line-to  10)" :width 200 :font "Courier New" :no-frame t :align :left ))
 ```
-Figure. :h-line-to ディレクティブのサンプル
+<!-- figure:end -->
 
 　なお、:h-line-to で指定する点は :absolute および :relative の影響を受けます。
 
@@ -143,6 +147,7 @@ Figure. :h-line-to ディレクティブのサンプル
 
 　`(:v-line-to y)` という記述により、現在の点から指定した y 座標まで垂直線を描きながら移動します。
 
+<!-- figure:  :v-line-to ディレクティブのサンプル -->
 ```kaavio
 (diagram (300 150)
   (grid)
@@ -158,7 +163,7 @@ Figure. :h-line-to ディレクティブのサンプル
 (:h-line-to 100)
 (:v-line-to  10)" :width 200 :font "Courier New" :no-frame t :align :left ))
 ```
-Figure. :v-line-to ディレクティブのサンプル
+<!-- figure:end -->
 
 　なお、 :v-line-to で指定する点は :absolute および :relative の影響を受けます。
 
@@ -167,6 +172,7 @@ Figure. :v-line-to ディレクティブのサンプル
 
 　:arc-to ディレクティブにより、現在の点から楕円弧を描きながら指定した点 pt に移動します。
 
+<!-- figure:  :arc-to ディレクティブのサンプル -->
 ```kaavio
 (diagram (300 130)
   (grid)
@@ -182,7 +188,7 @@ Figure. :v-line-to ディレクティブのサンプル
       (textbox '(120 110) "(:move-to (100 50))
 (:arc-to 30 30 0 0 1 (200 80))" :no-frame t :align :left))))
 ```
-Figure. :arc-to ディレクティブのサンプル
+<!-- figure:end -->
 
 　:arc-to は円弧と考え方はほぼ同じですが、指定はやや複雑です。まず、パラメータ構成は以下の
 通りです。
@@ -197,6 +203,7 @@ Figure. :arc-to ディレクティブのサンプル
 
 　以下のように、そのような楕円を使って 2 点を通る円弧は 4 種類描けることがわかります。
 
+<!-- figure:  :arc-to における rx, ry, x-axis-rotation -->
 ```kaavio
 (diagram (400 140)
   (grid)
@@ -214,13 +221,14 @@ Figure. :arc-to ディレクティブのサンプル
       (text (xy+ pt1 -10 -5) "pt1" :align :right)
       (text (xy+ pt2  10 15) "pt2" :align :left))))
 ```
-Figure. :arc-to における rx, ry, x-axis-rotation
+<!-- figure:end -->
 
 　この 4 種類の円弧のうち、どれを使うのかを指定するのが `large-arc-flag` と `sweep-flag` です。
 いずれも 0 または 1 を指定するもので、 `large-arc-flag` は「1 ならば大きい方の円弧、0 ならば
 小さい方の円弧」を使うという意味で、 `sweep-flag` は「1 ならば時計回り、0 ならば反時計回り」
 です。このイメージを以下に示します。
 
+<!-- figure:  :arc-to における large-arc-flag, sweep-flag -->
 ```kaavio
 (diagram (510 220)
   (grid)
@@ -256,7 +264,7 @@ Figure. :arc-to における rx, ry, x-axis-rotation
           (text '(115 65) "large-arc-flag : 1" :align :left)
           (text '(115 80) "sweep-flag : 0"     :align :left)))))
 ```
-Figure. :arc-to における large-arc-flag, sweep-flag
+<!-- figure:end -->
 
 
 　パスにおける :arc-to は、始点と終点が決まっている状態で指定された形状の楕円を位置あわせするような
@@ -291,10 +299,11 @@ Figure. :arc-to における large-arc-flag, sweep-flag
     (text (xy+ ptC 10  5) "ptC" :align :left)))
 -->
 
+<!-- figure:  :2d-curve-to ディレクティブのサンプル -->
 ```kaavio
 <!-- expand: 2D-CURVE-TO-SAMPLE-1 -->
 ```
-Figure. :2d-curve-to ディレクティブのサンプル
+<!-- figure:end -->
 
 <!-- collapse:begin -->
 　※上記サンプルのソースはこちら。
@@ -335,10 +344,11 @@ Figure. :2d-curve-to ディレクティブのサンプル
       (text (xy+ ptC3 10  7) "ptC''" :align :left))))
 -->
 
+<!-- figure:  :2d-curve-to ディレクティブのサンプル - 2 -->
 ```kaavio
 <!-- expand: 2D-CURVE-TO-SAMPLE-2 -->
 ```
-Figure. :2d-curve-to ディレクティブのサンプル - 2
+<!-- figure:end -->
 
 
 <!-- collapse:begin -->
@@ -384,10 +394,11 @@ Figure. :2d-curve-to ディレクティブのサンプル - 2
     (text (xy+ ptC2 10  5) "ptC2" :align :left)))
 -->
 
+<!-- figure:  :3d-curve-to ディレクティブのサンプル -->
 ```kaavio
 <!-- expand: 3D-CURVE-TO-SAMPLE-1 -->
 ```
-Figure. :3d-curve-to ディレクティブのサンプル
+<!-- figure:end -->
 
 <!-- collapse:begin -->
 　※上記サンプルのソースはこちら。
@@ -429,10 +440,11 @@ Figure. :3d-curve-to ディレクティブのサンプル
     (use :sample6 '(375 150))))
 -->
 
+<!-- figure:  :3d-curve-to ディレクティブのサンプル -2 -->
 ```kaavio
 <!-- expand: 3D-CURVE-TO-SAMPLE-2 -->
 ```
-Figure. :3d-curve-to ディレクティブのサンプル -2
+<!-- figure:end -->
 
 <!-- collapse:begin -->
 　※上記サンプルのソースはこちら。
@@ -481,10 +493,11 @@ Figure. :3d-curve-to ディレクティブのサンプル -2
         (text (xy+ ptC3  10  7) "ptC3"  :align :left)))))
 -->
 
+<!-- figure:  :3d-curve-to ディレクティブのサンプル - 3 -->
 ```kaavio
 <!-- expand: 3D-CURVE-TO-SAMPLE-3 -->
 ```
-Figure. :3d-curve-to ディレクティブのサンプル - 3
+<!-- figure:end -->
 
 
 <!-- collapse:begin -->
@@ -507,6 +520,7 @@ Figure. :3d-curve-to ディレクティブのサンプル - 3
 三角形の描画を :absolute 指定によって描画しています。同じ図形を :relative で描画する 
 [$@](F#:relative ディレクティブのサンプル) と比較してみてください。
 
+<!-- figure:  :absolute ディレクティブのサンプル -->
 ```kaavio
 (diagram (300 150)
   (grid)
@@ -522,7 +536,7 @@ Figure. :3d-curve-to ディレクティブのサンプル - 3
 (:line-to (150 50))
 :close-path" :width 200 :font "Courier New" :no-frame t :align :left ))
 ```
-Figure. :absolute ディレクティブのサンプル
+<!-- figure:end -->
 
 
 #### :relative ディレクティブ
@@ -532,6 +546,7 @@ Figure. :absolute ディレクティブのサンプル
 :relative 指定によって描画しています。同じ図形を :absolute で描画する [$@](F#:absolute ディレクティブのサンプル) 
 と比較してみてください。
 
+<!-- figure:  :relative ディレクティブのサンプル -->
 ```kaavio
 (diagram (300 150)
   (grid)
@@ -547,7 +562,7 @@ Figure. :absolute ディレクティブのサンプル
 (:line-to (-30 40))
 :close-path" :width 200 :font "Courier New" :no-frame t :align :left ))
 ```
-Figure. :relative ディレクティブのサンプル
+<!-- figure:end -->
 
 #### :close-path ディレクティブ
 <!-- autolink: [:close-path](#:close-path ディレクティブ) -->
@@ -556,6 +571,7 @@ Figure. :relative ディレクティブのサンプル
 ながら移動します。以下の例では、１回のパスで 2 つの三角形を描画していますが、それぞれの三角形の
 最後の直線を :close-path で描画しています。
 
+<!-- figure:  :close-path ディレクティブのサンプル -->
 ```kaavio
 (diagram (300 150)
   (grid)
@@ -575,7 +591,7 @@ Figure. :relative ディレクティブのサンプル
 :close-path"
  :width 280 :font "Courier New" :no-frame t :align :left ))
 ```
-Figure. :close-path ディレクティブのサンプル
+<!-- figure:end -->
 
 ${BLANK_PARAGRAPH}
 
@@ -626,10 +642,11 @@ ${BLANK_PARAGRAPH}
 　文字列として raw-svg に渡したコード片がそのまま挿入されます。パラメータの詳細については 
 raw-svg マクロを参照してください。
 
+<!-- figure:  raw-svg のサンプル -->
 ```kaavio
 <!-- expand: RAW-SVG-SAMPLE -->
 ```
-Figure. raw-svg のサンプル
+<!-- figure:end -->
 
 ${BLANK_PARAGRAPH}
 

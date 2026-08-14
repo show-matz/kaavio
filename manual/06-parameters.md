@@ -88,10 +88,11 @@ ${BLANK_PARAGRAPH}
 <!-- expand: WITH-OPTIONS-STROKE-SAMPLE -->
 ```
 
+<!-- figure:  with-options によるデフォルトストロークの変更 -->
 ```kaavio
 <!-- expand: WITH-OPTIONS-STROKE-SAMPLE -->
 ```
-Figure. with-options によるデフォルトストロークの変更
+<!-- figure:end -->
 
 ${BLANK_PARAGRAPH}
 
@@ -113,6 +114,7 @@ ${BLANK_PARAGRAPH}
 以下のように線の端の形状が変わります。 `:butt` は指定した開始点／終了点で線が切れます
 が、 `:round :square` では開始点／終了点を少しはみ出すことに注意してください。
 
+<!-- figure:  linecap のサンプル -->
 ```kaavio
 (diagram (200 100)
   (grid)
@@ -128,7 +130,7 @@ ${BLANK_PARAGRAPH}
     (line '(( 50  0) ( 50 100)))
     (line '((150  0) (150 100)))))
 ```
-Figure. linecap のサンプル
+<!-- figure:end -->
 
 ${BLANK_PARAGRAPH}
 
@@ -137,6 +139,7 @@ ${BLANK_PARAGRAPH}
 　`linejoin` は、線が折れ曲る部分の形状を `:miter :round :bevel` から指定するもので、
 以下のように角の形状が変わります。
 
+<!-- figure:  linejoin のサンプル -->
 ```kaavio
 (diagram (300 100)
   (grid)
@@ -150,7 +153,7 @@ ${BLANK_PARAGRAPH}
       (impl 110 :round ":round")
       (impl 210 :bevel ":bevel"))))
 ```
-Figure. linejoin のサンプル
+<!-- figure:end -->
 
 ${BLANK_PARAGRAPH}
 
@@ -160,6 +163,7 @@ __miterlimit についての説明は暫定です（作者自身 SVG 規格に�
 　`miterlimit` は、 `linejoin` が `:miter` の場合における、結合される線の太さに対する結合部の長さの
 比率を数値で指定します。デフォルト値は 4 です。
 
+<!-- figure:  miterlimit のサンプル -->
 ```kaavio
 (diagram (600 100)
   (grid)
@@ -176,7 +180,7 @@ __miterlimit についての説明は暫定です（作者自身 SVG 規格に�
       (impl 410 8)
       (impl 510 10))))
 ```
-Figure. miterlimit のサンプル
+<!-- figure:end -->
 
 <!-- collapse:end -->
 
@@ -188,6 +192,7 @@ ${BLANK_PARAGRAPH}
 間隔の幅を数値でリストにしたものを渡します。通常は `dasharray` で指定された点線・破線を最初から描画します
 が、 `dashoffset` を指定すると開始するオフセットを指定できます。以下に例を示します。
 
+<!-- figure:  dasharray, dashoffset のサンプル -->
 ```kaavio
 (diagram (400 120)
   (grid)
@@ -209,7 +214,7 @@ ${BLANK_PARAGRAPH}
       (impl  80 10)
       (impl 100 15))))
 ```
-Figure. dasharray, dashoffset のサンプル
+<!-- figure:end -->
 
 ${BLANK_PARAGRAPH}
 
@@ -228,10 +233,11 @@ ${BLANK_PARAGRAPH}
   (rect canvas.center 100 50 :stroke '(:url :gradient1 :width 4) :fill :white))
 -->
 
+<!-- figure:  グラデーションを使ったストロークのサンプル -->
 ```kaavio
 <!-- expand: STROKE-URL-SAMPLE -->
 ```
-Figure. グラデーションを使ったストロークのサンプル
+<!-- figure:end -->
 
 ${BLANK_PARAGRAPH}
 
@@ -313,10 +319,11 @@ ${BLANK_PARAGRAPH}
 <!-- expand: WITH-OPTIONS-FILL-SAMPLE -->
 ```
 
+<!-- figure:  with-options によるデフォルトフィルの変更 -->
 ```kaavio
 <!-- expand: WITH-OPTIONS-FILL-SAMPLE -->
 ```
-Figure. with-options によるデフォルトフィルの変更
+<!-- figure:end -->
 
 ${BLANK_PARAGRAPH}
 
@@ -348,10 +355,11 @@ ${BLANK_PARAGRAPH}
       (text '(50 110) ":evenodd" :align :center))))
 -->
 
+<!-- figure:  fill における rule のサンプル -->
 ```kaavio
 <!-- expand: FILL-RULE-SAMPLE -->
 ```
-Figure. fill における rule のサンプル
+<!-- figure:end -->
 
 <!-- collapse:begin -->
 [$@](F#fill における rule のサンプル) のソースはこちら
@@ -393,10 +401,11 @@ ${BLANK_PARAGRAPH}
   (rect canvas.center 100 50 :stroke :black :fill '(:url :tile)))
 -->
 
+<!-- figure:  パターンを使った塗り潰しのサンプル -->
 ```kaavio
 <!-- expand: FILL-URL-SAMPLE -->
 ```
-Figure. パターンを使った塗り潰しのサンプル
+<!-- figure:end -->
 
 ${BLANK_PARAGRAPH}
 
@@ -485,10 +494,11 @@ with-options マクロを使えばこれを変更することができます。�
 <!-- expand: WITH-OPTIONS-FONT-SAMPLE -->
 ```
 
+<!-- figure:  with-options によるデフォルトフォントの変更 -->
 ```kaavio
 <!-- expand: WITH-OPTIONS-FONT-SAMPLE -->
 ```
-Figure. with-options によるデフォルトフォントの変更
+<!-- figure:end -->
 
 ${BLANK_PARAGRAPH}
 
@@ -531,6 +541,7 @@ ${BLANK_PARAGRAPH}
 　前述の通り、フォントでは通常 stroke を指定しません。しかし、逆に fill を無し（あるいは背景色同等）に
 して stroke を指定することで縁取られたテキストを描画することもできます。以下に例を示します。
 
+<!-- figure:  font における stroke と fill -->
 ```kaavio
 (diagram (400 190)
   (grid)
@@ -547,7 +558,7 @@ ${BLANK_PARAGRAPH}
         (impl 110 :stroke :none  :fill :black)
         (impl 170 :stroke :black :fill :black)))))
 ```
-Figure. font における stroke と fill
+<!-- figure:end -->
 
 ${BLANK_PARAGRAPH}
 
@@ -566,6 +577,7 @@ ${BLANK_PARAGRAPH}
 paragraph などで複数行を描画する場合の「ベースラインから次行の上端までの距離」を `line-spacing` で
 指定します。以下は、 `:font '(:size 50 :line-spacing 30)` で描画した場合のサンプルです。
 
+<!-- figure:  font における size と line-spacing -->
 ```kaavio
 (diagram (400 170)
   (grid)
@@ -584,7 +596,7 @@ paragraph などで複数行を描画する場合の「ベースラインから�
       (line '((110 70) (110 100)) :stroke :blue :end1 em :end2 em)
       (text '(100 90) "line-spacing" :align :right))))
 ```
-Figure. font における size と line-spacing
+<!-- figure:end -->
 
 ${BLANK_PARAGRAPH}
 
@@ -623,10 +635,11 @@ width-spice の値によって結果は以下のように変わります。
       (impl 330 170 1.0))))
 -->
 
+<!-- figure:  width-spice のサンプル -->
 ```kaavio
 <!-- expand: WIDTH-SPICE-SAMPLE -->
 ```
-Figure. width-spice のサンプル
+<!-- figure:end -->
 
 <!-- collapse:begin -->
 [$@](F#width-spice のサンプル) のソースはこちら
@@ -742,7 +755,7 @@ connect での指定で $N.id とする場合には使用できます。
 
 <!-- stack:push tr style="font-size: 14;" -->
 
-Table. ID 指定で参照できる属性の一覧
+<!-- table: ID 指定で参照できる属性の一覧 -->
 | 属性           | 説明                               |
 |:===============|:-----------------------------------|
 | `id`           | 図形要素の ID を参照します。       |
@@ -760,7 +773,7 @@ Table. ID 指定で参照できる属性の一覧
 | `bottomright`  | 幅と高さを持つ図形要素の右下の座標を参照します。 |
 | `end1`         | 直線やコネクタの端点（始点）の座標を参照します。 |
 | `end2`         | 直線やコネクタの端点（終点）の座標を参照します。 |
-
+<!-- table:end -->
 <!-- stack:pop tr -->
 
 ${BLANK_PARAGRAPH}
@@ -784,14 +797,16 @@ ${BLANK_PARAGRAPH}
 
 　このコードは以下の図を生成します。
 
+<!-- figure:  回転のサンプル -->
 ```kaavio
 <!-- expand: ROTATE-SAMPLE -->
 ```
-Figure. 回転のサンプル
+<!-- figure:end -->
 
 　見た目は問題なく回転できていますが、この四角形にコネクタを接続しようとすると何がどう
 「整合しない」のかがわかります。以下のように、接続点は回転には追従しないのです。
 
+<!-- figure:  回転しても図形要素の属性は変化しない -->
 ```kaavio
 (diagram (300 200)
   (grid)
@@ -814,7 +829,7 @@ Figure. 回転のサンプル
       (connect :c1 :target :style :CC  :end2 :arrow)
       (connect :c2 :target :style :LT3 :end2 :arrow))))
 ```
-Figure. 回転しても図形要素の属性は変化しない
+<!-- figure:end -->
 
 　接続点だけではありません。[$@](T#ID 指定で参照できる属性の一覧) で紹介した属性についても、
 すべて回転前の状態のままとなります。これら全てを回転に追従させることも開発途上で検討されました
@@ -852,10 +867,11 @@ ${BLANK_PARAGRAPH}
 　上記のコードは以下の画像を生成します。四角形の右下にできている影が drop-shadow で、テキスト
 の周囲に広がるような影が glow-shadow です。
 
+<!-- figure:  フィルタのサンプル -->
 ```kaavio
 <!-- expand: FILTER-SAMPLE -->
 ```
-Figure. フィルタのサンプル
+<!-- figure:end -->
 
 
 
@@ -886,10 +902,11 @@ ${BLANK_PARAGRAPH}
                    :font (make-font :size 36 :fill :green :filter :shadow3)))
 -->
 
+<!-- figure:  フィルタのサンプル - 2 -->
 ```kaavio
 <!-- expand: FILTER-SAMPLE-2 -->
 ```
-Figure. フィルタのサンプル - 2
+<!-- figure:end -->
 
 <!-- collapse:close -->
 上記サンプルのコードはこちら。
@@ -958,10 +975,11 @@ layer 関数を使用してその名前とともに使用を宣言し、図形�
 　複数のレイヤーが存在する場合、その導入順で描画が行なわれます。上記の例では逆順になるように
 レイヤーを指定しているので、以下のような描画になります。
 
+<!-- figure:  レイヤーを使用した表示順序の制御 -->
 ```kaavio
 <!-- expand:LAYER-SAMPLE-2 -->
 ```
-Figure. レイヤーを使用した表示順序の制御
+<!-- figure:end -->
 
 　さらに、layer 関数にはオプションの `display` 引数があります。これは省略時のデフォルト値は 
 `:inline` ですが、 `:none` を指定することで「そのレイヤー全体を非表示にする」ことができます。
@@ -983,10 +1001,11 @@ Figure. レイヤーを使用した表示順序の制御
 <!-- expand:LAYER-SAMPLE-3 -->
 ```
 
+<!-- figure:  レイヤーを非表示にする例 -->
 ```kaavio
 <!-- expand:LAYER-SAMPLE-3 -->
 ```
-Figure. レイヤーを非表示にする例
+<!-- figure:end -->
 
 ${BLANK_PARAGRAPH}
 
@@ -1021,10 +1040,11 @@ kaavio では、図形要素の `:link` パラメータで実現します。以�
 <!-- expand:LINK-SAMPLE-1 -->
 ```
 
+<!-- figure:  図形要素へのリンクの設定例 -->
 ```kaavio
 <!-- expand:LINK-SAMPLE-1 -->
 ```
-Figure. 図形要素へのリンクの設定例
+<!-- figure:end -->
 
 　この例では、 `:link` に続けて文字列でリンク先を指定しています（このマニュアルでは SVG 図面
 を HTML に直接埋め込んでいるので、これは HTML 文書内へのアンカーを指定したリンクです）。
@@ -1071,10 +1091,11 @@ defgroup マクロによってグループ化し、use において `:link` パ�
 <!-- expand:LINK-SAMPLE-2 -->
 ```
 
+<!-- figure:  グループ化と use におけるリンク設定の例 -->
 ```kaavio
 <!-- expand:LINK-SAMPLE-2 -->
 ```
-Figure. グループ化と use におけるリンク設定の例
+<!-- figure:end -->
 
 ${BLANK_PARAGRAPH}
 
@@ -1103,10 +1124,11 @@ ${BLANK_PARAGRAPH}
       (text '( 55  80) ":rect"     :align :right))))
 -->
 
+<!-- figure:  終端マークの例 -->
 ```kaavio
 <!-- expand: ENDMARK-SAMPLE -->
 ```
-Figure. 終端マークの例
+<!-- figure:end -->
 
 <!-- collapse:close -->
 ※上記サンプルのソースはこちら。
@@ -1178,10 +1200,11 @@ ${BLANK_PARAGRAPH}
 <!-- expand: WITH-ENDMARK-OPTIONS-SAMPLE-1 -->
 ```
 
+<!-- figure:  with-endmark-options によるデフォルト終端マークの変更 - 1 -->
 ```kaavio
 <!-- expand: WITH-ENDMARK-OPTIONS-SAMPLE-1 -->
 ```
-Figure. with-endmark-options によるデフォルト終端マークの変更 - 1
+<!-- figure:end -->
 
 ${BLANK_PARAGRAPH}
 
@@ -1212,10 +1235,11 @@ ${BLANK_PARAGRAPH}
 <!-- expand: WITH-ENDMARK-OPTIONS-SAMPLE-2 -->
 ```
 
+<!-- figure:  with-endmark-options によるデフォルト終端マークの変更 - 2 -->
 ```kaavio
 <!-- expand: WITH-ENDMARK-OPTIONS-SAMPLE-2 -->
 ```
-Figure. with-endmark-options によるデフォルト終端マークの変更 - 2
+<!-- figure:end -->
 
 ${BLANK_PARAGRAPH}
 
@@ -1238,10 +1262,11 @@ ${BLANK_PARAGRAPH}
              :label '("connection" :offset (-40 -15)))))
 -->
 
+<!-- figure:  ラベルの例 -->
 ```kaavio
 <!-- expand: LABEL-SAMPLE-1 -->
 ```
-Figure. ラベルの例
+<!-- figure:end -->
 
 <!-- collapse:close -->
 ※上記サンプルのソースはこちら。
@@ -1336,10 +1361,11 @@ make-label 関数に渡されます。make-label 関数は、渡されたのが�
 <!-- expand: WITH-LABEL-OPTIONS-SAMPLE -->
 ```
 
+<!-- figure:  with-label-options によるラベル設定の変更 -->
 ```kaavio
 <!-- expand: WITH-LABEL-OPTIONS-SAMPLE -->
 ```
-Figure. with-label-options によるラベル設定の変更
+<!-- figure:end -->
 
 ${BLANK_PARAGRAPH}
 
@@ -1358,10 +1384,11 @@ ${BLANK_PARAGRAPH}
 機能で、 `:debug` パラメータに色名を指定することで調整に役立つ線を表示してくれます。
 二次ベジェ曲線での例を以下に示します。
 
+<!-- figure:  二次ベジェ曲線での補助線の例 -->
 ```kaavio
 <!-- expand: 2D-CURVE-DEBUG-SAMPLE -->
 ```
-Figure. 二次ベジェ曲線での補助線の例
+<!-- figure:end -->
 
 　なお、色名の指定が面倒であれば `:debug t` とすることもできます。この場合、デフォルト
 の色が使用されます。

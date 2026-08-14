@@ -176,10 +176,11 @@
                           (255 255 255 "white"               ))))))))
 -->
 
+<!-- figure:  色の名前とサンプル -->
 ```kaavio
 <!-- expand: COLOR-NAME-SAMPLE -->
 ```
-Figure. 色の名前とサンプル
+<!-- figure:end -->
 
 <!-- collapse:begin -->
 [$@](F#色の名前とサンプル) のソースはこちら
@@ -640,10 +641,11 @@ maroon(#B03060), purple(#A020F0) については規格側にも同じ名前が�
                           (139 139   0 "yellow4"         ))))))))
 -->
 
+<!-- figure:  色の名前とサンプル - 2 -->
 ```kaavio
 <!-- expand: EXTERNAL-COLOR-NAME-SAMPLE -->
 ```
-Figure. 色の名前とサンプル - 2
+<!-- figure:end -->
 
 ${BLANK_PARAGRAPH}
 

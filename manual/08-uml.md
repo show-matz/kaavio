@@ -48,10 +48,11 @@
       (flow-chain :step2  :merge :final))))
 -->
 
+<!-- figure:  UML アクティビティ図の例 -->
 ```kaavio
 <!-- expand: UML-ACTIVITY-DIAGRAM-SAMPLE -->
 ```
-Figure. UML アクティビティ図の例
+<!-- figure:end -->
 
 <!-- collapse:close -->
 ※上記サンプルのソースはこちら。
@@ -118,10 +119,11 @@ ${BLANK_PARAGRAPH}
     (uml-association :logger :logrcv)))
 -->
 
+<!-- figure:  UML クラス図の例 -->
 ```kaavio
 <!-- expand: UML-CLASS-DIAGRAM-SAMPLE -->
 ```
-Figure. UML クラス図の例
+<!-- figure:end -->
 
 <!-- collapse:close -->
 ※上記サンプルのソースはこちら。
@@ -194,10 +196,11 @@ ${BLANK_PARAGRAPH}
       (uml-association :account-sys :receivables))))
 -->
 
+<!-- figure:  UML コンポーネント図の例 -->
 ```kaavio
 <!-- expand: UML-COMPONENT-DIAGRAM-SAMPLE -->
 ```
-Figure. UML コンポーネント図の例
+<!-- figure:end -->
 
 <!-- collapse:close -->
 ※上記サンプルのソースはこちら。
@@ -244,10 +247,11 @@ ${BLANK_PARAGRAPH}
 	  (uml-realization $1.id :db-gateway :style :TB3))))
 -->
 
+<!-- figure:  UML パッケージ図の例 -->
 ```kaavio
 <!-- expand: UML-PACKAGE-DIAGRAM-SAMPLE -->
 ```
-Figure. UML パッケージ図の例
+<!-- figure:end -->
 
 <!-- collapse:close -->
 ※上記サンプルのソースはこちら。
@@ -299,10 +303,11 @@ ${BLANK_PARAGRAPH}
                       :spec '(:trigger :save :offset (35 50))))))
 -->
 
+<!-- figure:  UML 状態マシン図の例 -->
 ```kaavio
 <!-- expand: UML-STATEMACHINE-DIAGRAM-SAMPLE -->
 ```
-Figure. UML 状態マシン図の例
+<!-- figure:end -->
 
 <!-- collapse:close -->
 ※上記サンプルのソースはこちら。
@@ -342,10 +347,11 @@ ${BLANK_PARAGRAPH}
 	  (uml-generalization $1.id $3.id))))
 -->
 
+<!-- figure:  UML ユースケース図の例 -->
 ```kaavio
 <!-- expand: UML-USECASE-DIAGRAM-SAMPLE -->
 ```
-Figure. UML ユースケース図の例
+<!-- figure:end -->
 
 <!-- collapse:close -->
 ※上記サンプルのソースはこちら。
@@ -390,10 +396,11 @@ ${BLANK_PARAGRAPH}
       (uml-association :n6 :n5 :name '("JDBC" :offset (-10 -5))))))
 -->
 
+<!-- figure:  UML 配置図の例 -->
 ```kaavio
 <!-- expand: UML-DEPLOYMENT-DIAGRAM-SAMPLE -->
 ```
-Figure. UML 配置図の例
+<!-- figure:end -->
 
 <!-- collapse:close -->
 ※上記サンプルのソースはこちら。
@@ -442,10 +449,11 @@ ${BLANK_PARAGRAPH}
     (uml-flow :step3 :final)))
 -->
 
+<!-- figure:  uml-action のサンプル -->
 ```kaavio
 <!-- expand: UML-ACTION-SAMPLE -->
 ```
-Figure. uml-action のサンプル
+<!-- figure:end -->
 
 
 　上記の作図は以下のコードで行なっています。
@@ -479,10 +487,11 @@ uml-action では違いが存在します。 `:contents` で内部を描画す�
     (uml-flow :step :final)))
 -->
 
+<!-- figure:  uml-activity-final のサンプル -->
 ```kaavio
 <!-- expand: UML-ACTIVITY-FINAL-SAMPLE -->
 ```
-Figure. uml-activity-final のサンプル
+<!-- figure:end -->
 
 
 　上記の作図は以下のコードで行なっています。
@@ -510,10 +519,11 @@ Figure. uml-activity-final のサンプル
     (uml-flow :start :step)))
 -->
 
+<!-- figure:  uml-activity-start のサンプル -->
 ```kaavio
 <!-- expand: UML-ACTIVITY-START-SAMPLE -->
 ```
-Figure. uml-activity-start のサンプル
+<!-- figure:end -->
 
 
 　上記の作図は以下のコードで行なっています。
@@ -542,10 +552,11 @@ Figure. uml-activity-start のサンプル
     (uml-association :actor :usecase)))
 -->
 
+<!-- figure:  uml-actor のサンプル -->
 ```kaavio
 <!-- expand: UML-ACTOR-USECASE-SAMPLE -->
 ```
-Figure. uml-actor のサンプル
+<!-- figure:end -->
 
 
 　上記の作図は以下のコードで行なっています。
@@ -582,10 +593,11 @@ Figure. uml-actor のサンプル
                      :mult2      '(0 . :*))))
 -->
 
+<!-- figure:  uml-aggregation のサンプル -->
 ```kaavio
 <!-- expand: UML-AGGREGATION-SAMPLE -->
 ```
-Figure. uml-aggregation のサンプル
+<!-- figure:end -->
 
 
 　上記の作図は以下のコードで行なっています。
@@ -624,10 +636,11 @@ uml-association と同じです。ただし、矢印は関連先に表示する�
                      :mult2      '(0 . :*))))
 -->
 
+<!-- figure:  uml-association のサンプル -->
 ```kaavio
 <!-- expand: UML-ASSOCIATION-SAMPLE -->
 ```
-Figure. uml-association のサンプル
+<!-- figure:end -->
 
 
 　上記の作図は以下のコードで行なっています。
@@ -661,10 +674,11 @@ Figure. uml-association のサンプル
                   :width 120 :height 50 :filter :drop-shadow)))
 -->
 
+<!-- figure:  uml-artifact のサンプル -->
 ```kaavio
 <!-- expand: UML-ARTIFACT-SAMPLE -->
 ```
-Figure. uml-artifact のサンプル
+<!-- figure:end -->
 
 
 　上記の作図は以下のコードで行なっています。
@@ -709,10 +723,11 @@ Figure. uml-artifact のサンプル
                "blah blah blah~%blah blah blah~%blah blah blah")))
 -->
 
+<!-- figure:  uml-class のサンプル -->
 ```kaavio
 <!-- expand: UML-CLASS-SAMPLE -->
 ```
-Figure. uml-class のサンプル
+<!-- figure:end -->
 
 
 　上記の作図は以下のコードで行なっています。
@@ -756,10 +771,11 @@ Figure. uml-class のサンプル
                 :etc))))
 -->
 
+<!-- figure:  uml-class-attribute のサンプル -->
 ```kaavio
 <!-- expand: UML-CLASS-ATTRIBUTE-SAMPLE -->
 ```
-Figure. uml-class-attribute のサンプル
+<!-- figure:end -->
 
 
 　上記の作図は以下のコードで行なっています。
@@ -805,10 +821,11 @@ Figure. uml-class-attribute のサンプル
                 :etc))))
 -->
 
+<!-- figure:  uml-class-operation のサンプル -->
 ```kaavio
 <!-- expand: UML-CLASS-OPERATION-SAMPLE -->
 ```
-Figure. uml-class-operation のサンプル
+<!-- figure:end -->
 
 
 　上記の作図は以下のコードで行なっています。
@@ -852,10 +869,11 @@ Figure. uml-class-operation のサンプル
                   :etc))))))
 -->
 
+<!-- figure:  uml-class-operation-param のサンプル -->
 ```kaavio
 <!-- expand: UML-CLASS-OPERATION-PARAM-SAMPLE -->
 ```
-Figure. uml-class-operation-param のサンプル
+<!-- figure:end -->
 
 
 　上記の作図は以下のコードで行なっています。
@@ -892,10 +910,11 @@ Figure. uml-class-operation-param のサンプル
                    :width 120 :height 60 :filter :drop-shadow)))
 -->
 
+<!-- figure:  uml-component のサンプル -->
 ```kaavio
 <!-- expand: UML-COMPONENT-SAMPLE -->
 ```
-Figure. uml-component のサンプル
+<!-- figure:end -->
 
 
 　上記の作図は以下のコードで行なっています。
@@ -932,10 +951,11 @@ Figure. uml-component のサンプル
                      :mult2      '(0 . :*))))
 -->
 
+<!-- figure:  uml-composition のサンプル -->
 ```kaavio
 <!-- expand: UML-COMPOSITION-SAMPLE -->
 ```
-Figure. uml-composition のサンプル
+<!-- figure:end -->
 
 
 　上記の作図は以下のコードで行なっています。
@@ -972,10 +992,11 @@ uml-association と同じです。ただし、矢印は関連先に表示する�
     (uml-flow :warp-a :step2)))
 -->
 
+<!-- figure:  uml-connector のサンプル -->
 ```kaavio
 <!-- expand: UML-CONNECTOR-SAMPLE -->
 ```
-Figure. uml-connector のサンプル
+<!-- figure:end -->
 
 
 　上記の作図は以下のコードで行なっています。
@@ -1015,10 +1036,11 @@ Figure. uml-connector のサンプル
     (uml-flow :act2 :merge :style :RB)))
 -->
 
+<!-- figure:  uml-decision のサンプル -->
 ```kaavio
 <!-- expand: UML-DECISION-MERGE-SAMPLE -->
 ```
-Figure. uml-decision のサンプル
+<!-- figure:end -->
 
 　上記の作図は以下のコードで行なっています。
 
@@ -1056,10 +1078,11 @@ height の指定、または with-uml-decision-merge-options マクロで指定�
                     :name       '("name" :offset (0 5)))))
 -->
 
+<!-- figure:  uml-dependency のサンプル -->
 ```kaavio
 <!-- expand: UML-DEPENDENCY-SAMPLE -->
 ```
-Figure. uml-dependency のサンプル
+<!-- figure:end -->
 
 
 　上記の作図は以下のコードで行なっています。
@@ -1089,10 +1112,11 @@ Figure. uml-dependency のサンプル
       (uml-expansion-region canvas.center 260 160 :keyword '(:concurrent :font 10)))))
 -->
 
+<!-- figure:  uml-expansion-region のサンプル -->
 ```kaavio
 <!-- expand: UML-EXPANSION-REGION-SAMPLE -->
 ```
-Figure. uml-expansion-region のサンプル
+<!-- figure:end -->
 
 　上記の作図は以下のコードで行なっています。 `stereotype` または `keyword` パラメータ
 を指定した場合、デフォルトでは左上に表示されます。この位置は `offset` パラメータで調整
@@ -1123,10 +1147,11 @@ Figure. uml-expansion-region のサンプル
     (uml-flow :step :final)))
 -->
 
+<!-- figure:  uml-flow-final のサンプル -->
 ```kaavio
 <!-- expand: UML-FLOW-FINAL-SAMPLE -->
 ```
-Figure. uml-flow-final のサンプル
+<!-- figure:end -->
 
 
 　上記の作図は以下のコードで行なっています。
@@ -1157,10 +1182,11 @@ Figure. uml-flow-final のサンプル
       (uml-flow :step1 :step2 :spec '(:guard :idle :action "act()")))))
 -->
 
+<!-- figure:  uml-flow のサンプル -->
 ```kaavio
 <!-- expand: UML-FLOW-SAMPLE -->
 ```
-Figure. uml-flow のサンプル
+<!-- figure:end -->
 
 
 　上記の作図は以下のコードで行なっています。
@@ -1203,10 +1229,11 @@ Figure. uml-flow のサンプル
                         :font   (:fill :brown :size 9))))))
 -->
 
+<!-- figure:  uml-flow-spec のサンプル -->
 ```kaavio
 <!-- expand: UML-FLOW-SPEC-SAMPLE -->
 ```
-Figure. uml-flow-spec のサンプル
+<!-- figure:end -->
 
 
 　上記の作図は以下のコードで行なっています。
@@ -1245,10 +1272,11 @@ Figure. uml-flow-spec のサンプル
     (uml-flow fork.R3 :step3)))
 -->
 
+<!-- figure:  uml-fork のサンプル -->
 ```kaavio
 <!-- expand: UML-FORK-SAMPLE -->
 ```
-Figure. uml-fork のサンプル
+<!-- figure:end -->
 
 
 　上記の作図は以下のコードで行なっています。
@@ -1282,10 +1310,11 @@ Figure. uml-fork のサンプル
   (connector :act1 :final :end2 :arrow))
 -->
 
+<!-- figure:  uml-frame のサンプル -->
 ```kaavio
 <!-- expand: UML-FRAME-SAMPLE -->
 ```
-Figure. uml-frame のサンプル
+<!-- figure:end -->
 
 
 　上記の作図は以下のコードで行なっています。
@@ -1318,10 +1347,11 @@ Figure. uml-frame のサンプル
 以下に例を示します。分割された個々の領域には、with-uml-frame-fragment マクロを使って
 アクセスできます。
 
+<!-- figure:  fragments パラメータを使った uml-frame のサンプル -->
 ```kaavio
 <!-- expand: UML-FRAME-SAMPLE-2 -->
 ```
-Figure. fragments パラメータを使った uml-frame のサンプル
+<!-- figure:end -->
 
 
 　上記の作図は以下のコードで行なっています。
@@ -1353,10 +1383,11 @@ Figure. fragments パラメータを使った uml-frame のサンプル
                         :name       '("name" :offset (0 5)))))
 -->
 
+<!-- figure:  uml-generalization のサンプル -->
 ```kaavio
 <!-- expand: UML-GENERALIZATION-SAMPLE -->
 ```
-Figure. uml-generalization のサンプル
+<!-- figure:end -->
 
 
 　上記の作図は以下のコードで行なっています。
@@ -1386,10 +1417,11 @@ Figure. uml-generalization のサンプル
                            :size 16 :pivot :TL :offset (17 13)))))
 -->
 
+<!-- figure:  uml-icon-setting のサンプル -->
 ```kaavio
 <!-- expand: UML-ICON-SETTING-SAMPLE -->
 ```
-Figure. uml-icon-setting のサンプル
+<!-- figure:end -->
 
 　上記の作図は以下のコードで行なっています。
 
@@ -1417,10 +1449,11 @@ Figure. uml-icon-setting のサンプル
     (uml-association $2.id $1.id)))
 -->
 
+<!-- figure:  uml-interface のサンプル -->
 ```kaavio
 <!-- expand: UML-INTERFACE-SAMPLE -->
 ```
-Figure. uml-interface のサンプル
+<!-- figure:end -->
 
 　上記の作図は以下のコードで行なっています。
 
@@ -1451,10 +1484,11 @@ Figure. uml-interface のサンプル
                            :style :BL :name '("quux" :offset (0 25)))))
 -->
 
+<!-- figure:  uml-interface-request のサンプル -->
 ```kaavio
 <!-- expand: UML-INTERFACE-REQUEST-SAMPLE -->
 ```
-Figure. uml-interface-request のサンプル
+<!-- figure:end -->
 
 　上記の作図は以下のコードで行なっています。
 
@@ -1498,10 +1532,11 @@ uml-interface-request は実質的にコネクタなので、 `:style` や `:spa
     (uml-flow :join  :step3)))
 -->
 
+<!-- figure:  uml-join のサンプル -->
 ```kaavio
 <!-- expand: UML-JOIN-SAMPLE -->
 ```
-Figure. uml-join のサンプル
+<!-- figure:end -->
 
 
 　上記の作図は以下のコードで行なっています。
@@ -1522,10 +1557,11 @@ Figure. uml-join のサンプル
 図形要素です。以下の例では右端のひし形の要素が uml-merge です。uml-decision とは
 異なり、テキストを指定することはできません。
 
+<!-- figure:  uml-merge のサンプル -->
 ```kaavio
 <!-- expand: UML-DECISION-MERGE-SAMPLE -->
 ```
-Figure. uml-merge のサンプル
+<!-- figure:end -->
 
 　上記の作図は以下のコードで行なっています。
 
@@ -1559,10 +1595,11 @@ Figure. uml-merge のサンプル
       (uml-association $2.id $1.id :arrows 1 :mult2 '(:min 2 :max :* :font 9)))))
 -->
 
+<!-- figure:  uml-multiplicity-info のサンプル -->
 ```kaavio
 <!-- expand: UML-MULTIPLICITY-INFO-SAMPLE -->
 ```
-Figure. uml-multiplicity-info のサンプル
+<!-- figure:end -->
 
 　上記の作図は以下のコードで行なっています。
 
@@ -1595,10 +1632,11 @@ Figure. uml-multiplicity-info のサンプル
                   :align :left :valign :top)))))
 -->
 
+<!-- figure:  uml-node のサンプル -->
 ```kaavio
 <!-- expand: UML-NODE-SAMPLE -->
 ```
-Figure. uml-node のサンプル
+<!-- figure:end -->
 
 
 　上記の作図は以下のコードで行なっています。
@@ -1632,10 +1670,11 @@ Figure. uml-node のサンプル
               :targets :foo :keyword "spec")))
 -->
 
+<!-- figure:  uml-note のサンプル -->
 ```kaavio
 <!-- expand: UML-NOTE-SAMPLE -->
 ```
-Figure. uml-note のサンプル
+<!-- figure:end -->
 
 
 　上記の作図は以下のコードで行なっています。targets パラメータは、単一の要素だけを指定する
@@ -1674,10 +1713,11 @@ with-uml-note-options マクロを使用しています。
                   :align :left :valign :top)))))
 -->
 
+<!-- figure:  uml-package のサンプル -->
 ```kaavio
 <!-- expand: UML-PACKAGE-SAMPLE -->
 ```
-Figure. uml-package のサンプル
+<!-- figure:end -->
 
 
 　上記の作図は以下のコードで行なっています。
@@ -1721,10 +1761,11 @@ Figure. uml-package のサンプル
       (route '(:start :act1 :act2 :decision :act3 :merge :final)))))
 -->
 
+<!-- figure:  uml-partition のサンプル -->
 ```kaavio
 <!-- expand: UML-PARTITION-SAMPLE -->
 ```
-Figure. uml-partition のサンプル
+<!-- figure:end -->
 
 　上記の作図は以下のコードで行なっています。
 
@@ -1750,10 +1791,11 @@ ${BLANK_PARAGRAPH}
                      '((X 30) (Y 30) (Z 30)) '((A 50) (B 50) (C 50))))))
 -->
 
+<!-- figure:  uml-partition のサンプル - 2 -->
 ```kaavio
 <!-- expand: UML-PARTITION-SAMPLE-2 -->
 ```
-Figure. uml-partition のサンプル - 2
+<!-- figure:end -->
 
 　上記の作図は以下のコードで行なっています。左の縦方向のスイムレーンでは、 `cols` に `'((A 60) (B 60) (C 60))` を、 
 `rows` に `120` を指定しています。中央の横方向のスイムレーンでは、 `cols` に `180` を、 `rows` に 
@@ -1779,6 +1821,7 @@ ${BLANK_PARAGRAPH}
 よってカスタマイズすることができます。指定する値は `:min :mid :max` のいずれかです。区画の形状別の
 サンプルを以下に示します。
 
+<!-- figure:  uml-partition における lines パラメータのサンプル -->
 ```kaavio
 (diagram (630 450)
 ; (grid)
@@ -1803,7 +1846,7 @@ ${BLANK_PARAGRAPH}
       (dolist (func (list #'vertical #'horizontal #'matrix))
         (map nil func '(30 230 430) '(:min :mid :max))))))
 ```
-Figure. uml-partition における lines パラメータのサンプル
+<!-- figure:end -->
 
 　詳細は以下を参照してください。
 
@@ -1837,10 +1880,11 @@ Figure. uml-partition における lines パラメータのサンプル
     (uml-flow :quux2 :act4)))
 -->
 
+<!-- figure:  uml-pin のサンプル -->
 ```kaavio
 <!-- expand: UML-PIN-SAMPLE -->
 ```
-Figure. uml-pin のサンプル
+<!-- figure:end -->
 
 　上記の作図は以下のコードで行なっています。ピンはフローの接続点に付けるものなので、
 対象アクションの位置とその接続点を指定します。接続点は、コネクタであれば `:RL` などと
@@ -1877,10 +1921,11 @@ Figure. uml-pin のサンプル
     (uml-association :port1 :interface)))
 -->
 
+<!-- figure:  uml-port のサンプル -->
 ```kaavio
 <!-- expand: UML-PORT-SAMPLE -->
 ```
-Figure. uml-port のサンプル
+<!-- figure:end -->
 
 　上記の作図は以下のコードで行なっています。
 
@@ -1909,10 +1954,11 @@ Figure. uml-port のサンプル
                      :name       '("name" :offset (0 5)))))
 -->
 
+<!-- figure:  uml-realization のサンプル -->
 ```kaavio
 <!-- expand: UML-REALIZATION-SAMPLE -->
 ```
-Figure. uml-realization のサンプル
+<!-- figure:end -->
 
 
 　上記の作図は以下のコードで行なっています。
@@ -1943,10 +1989,11 @@ Figure. uml-realization のサンプル
       (uml-association $2.id $1.id :arrows 1 :role1 :parent :role2 :child))))
 -->
 
+<!-- figure:  uml-role-info のサンプル -->
 ```kaavio
 <!-- expand: UML-ROLE-INFO-SAMPLE -->
 ```
-Figure. uml-role-info のサンプル
+<!-- figure:end -->
 
 　上記の作図は以下のコードで行なっています。
 
@@ -1984,10 +2031,11 @@ Figure. uml-role-info のサンプル
     (uml-flow :step2 :final)))
 -->
 
+<!-- figure:  uml-signal のサンプル -->
 ```kaavio
 <!-- expand: UML-SIGNAL-SAMPLE -->
 ```
-Figure. uml-signal のサンプル
+<!-- figure:end -->
 
 
 　上記の作図は以下のコードで行なっています。
@@ -2016,10 +2064,11 @@ Figure. uml-signal のサンプル
     (uml-transition :start :state)))
 -->
 
+<!-- figure:  uml-state-begin のサンプル -->
 ```kaavio
 <!-- expand: UML-STATE-BEGIN-SAMPLE -->
 ```
-Figure. uml-state-begin のサンプル
+<!-- figure:end -->
 
 
 　上記の作図は以下のコードで行なっています。
@@ -2047,10 +2096,11 @@ Figure. uml-state-begin のサンプル
     (uml-flow :state :end)))
 -->
 
+<!-- figure:  uml-state-end のサンプル -->
 ```kaavio
 <!-- expand: UML-STATE-END-SAMPLE -->
 ```
-Figure. uml-state-end のサンプル
+<!-- figure:end -->
 
 
 　上記の作図は以下のコードで行なっています。
@@ -2091,10 +2141,11 @@ Figure. uml-state-end のサンプル
       (uml-transition :sleep  :history :style :BR))))
 -->
 
+<!-- figure:  uml-state-history のサンプル -->
 ```kaavio
 <!-- expand: UML-STATE-HISTORY-SAMPLE -->
 ```
-Figure. uml-state-history のサンプル
+<!-- figure:end -->
 
 
 　上記の作図は以下のコードで行なっています。
@@ -2132,10 +2183,11 @@ Figure. uml-state-history のサンプル
     (uml-transition :state3 :final)))
 -->
 
+<!-- figure:  uml-state のサンプル -->
 ```kaavio
 <!-- expand: UML-STATE-SAMPLE -->
 ```
-Figure. uml-state のサンプル
+<!-- figure:end -->
 
 
 　上記の作図は以下のコードで行なっています。
@@ -2172,10 +2224,11 @@ uml-state では違いが存在します。 `:contents` で内部を描画する
       (uml-dependency $2.id $1.id :keyword :uses))))
 -->
 
+<!-- figure:  uml-stereotype-info のサンプル -->
 ```kaavio
 <!-- expand: UML-STEREOTYPE-INFO-SAMPLE -->
 ```
-Figure. uml-stereotype-info のサンプル
+<!-- figure:end -->
 
 　上記の作図は以下のコードで行なっています。
 
@@ -2206,10 +2259,11 @@ Figure. uml-stereotype-info のサンプル
     (uml-flow :clock :next)))
 -->
 
+<!-- figure:  uml-time-event のサンプル -->
 ```kaavio
 <!-- expand: UML-TIME-EVENT-SAMPLE -->
 ```
-Figure. uml-time-event のサンプル
+<!-- figure:end -->
 
 
 　上記の作図は以下のコードで行なっています。
@@ -2242,10 +2296,11 @@ Figure. uml-time-event のサンプル
                               :action  "OnClick()")))))
 -->
 
+<!-- figure:  uml-transition のサンプル -->
 ```kaavio
 <!-- expand: UML-TRANSITION-SAMPLE -->
 ```
-Figure. uml-transition のサンプル
+<!-- figure:end -->
 
 
 　上記の作図は以下のコードで行なっています。
@@ -2289,10 +2344,11 @@ Figure. uml-transition のサンプル
                               :font    (:fill :brown :size 9))))))
 -->
 
+<!-- figure:  uml-transition-spec のサンプル -->
 ```kaavio
 <!-- expand: UML-TRANSITION-SPEC-SAMPLE -->
 ```
-Figure. uml-transition-spec のサンプル
+<!-- figure:end -->
 
 
 　上記の作図は以下のコードで行なっています。
@@ -2316,10 +2372,11 @@ Figure. uml-transition-spec のサンプル
 
 　uml-usecase は UML のユースケース図におけるユースケースを表記するための図形要素です。
 
+<!-- figure:  uml-usecase のサンプル -->
 ```kaavio
 <!-- expand: UML-ACTOR-USECASE-SAMPLE -->
 ```
-Figure. uml-usecase のサンプル
+<!-- figure:end -->
 
 
 　上記の作図は以下のコードで行なっています。

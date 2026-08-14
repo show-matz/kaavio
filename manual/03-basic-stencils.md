@@ -103,10 +103,11 @@
 
 　rect マクロによって四角形を描画できます。角を丸くすることもできます。
 
+<!-- figure:  rect のサンプル -->
 ```kaavio
 <!-- expand: RECTANGLE-SAMPLE -->
 ```
-Figure. rect のサンプル
+<!-- figure:end -->
 
 
 　上記サンプルのソースは以下の通りです。パラメータの詳細については rect マクロを参照して
@@ -130,10 +131,11 @@ ${BLANK_PARAGRAPH}
 　circle マクロによって正円を描画できます。楕円を描画したい場合は ellipse マクロを使用
 してください。
 
+<!-- figure:  circle のサンプル -->
 ```kaavio
 <!-- expand: CIRCLE-SAMPLE -->
 ```
-Figure. circle のサンプル
+<!-- figure:end -->
 
 　上記サンプルのソースは以下の通りです。パラメータの詳細については circle マクロを参照
 してください。
@@ -156,10 +158,11 @@ ${BLANK_PARAGRAPH}
 　ellipse マクロによって楕円を描画できます。正円を描画したい場合は circle マクロを使用
 してください。
 
+<!-- figure:  ellipse のサンプル -->
 ```kaavio
 <!-- expand: ELLIPSE-SAMPLE -->
 ```
-Figure. ellipse のサンプル
+<!-- figure:end -->
 
 　上記サンプルのソースは以下の通りです。パラメータの詳細については ellipse マクロを参照
 してください。
@@ -183,10 +186,11 @@ ${BLANK_PARAGRAPH}
 
 　regular-polygon マクロによって正多角形、すなわち五角形や六角形などを描画できます。
 
+<!-- figure:  regular-polygon のサンプル -->
 ```kaavio
 <!-- expand: REGULAR-POLYGON-SAMPLE -->
 ```
-Figure. regular-polygon のサンプル
+<!-- figure:end -->
 
 　上記サンプルのソースは以下の通りです。パラメータの詳細については regular-polygon マクロを
 参照してください。
@@ -212,10 +216,11 @@ ${BLANK_PARAGRAPH}
 　polygon マクロによって多角形、すなわち複数の直線からなる形状を描画できます。正多角形
 を描画する場合には regular-polygon マクロを使用した方が良いでしょう。
 
+<!-- figure:  polygon のサンプル -->
 ```kaavio
 <!-- expand: POLYGON-SAMPLE -->
 ```
-Figure. polygon のサンプル
+<!-- figure:end -->
 
 　上記サンプルのソースは以下の通りです。パラメータの詳細については polygon マクロを参照
 してください。
@@ -242,10 +247,11 @@ ${BLANK_PARAGRAPH}
 　line マクロによって直線（または複数の直線からなる折線）を描画できます。図形要素
 どうしを接続したい場合はコネクタを使用した方が良いでしょう。
 
+<!-- figure:  line のサンプル -->
 ```kaavio
 <!-- expand: LINE-SAMPLE -->
 ```
-Figure. line のサンプル
+<!-- figure:end -->
 
 　上記サンプルのソースは以下の通りです。パラメータの詳細については line マクロを参照
 してください。
@@ -268,10 +274,11 @@ ${BLANK_PARAGRAPH}
 　arc マクロによって円弧を描画できます。パスにおける `:arc-to` の機能を単独の図形要素に
 したものです。端点に終端マークをつけることもできます。
 
+<!-- figure:  arc のサンプル -->
 ```kaavio
 <!-- expand: ARC-SAMPLE -->
 ```
-Figure. arc のサンプル
+<!-- figure:end -->
 
 
 　上記サンプルのソースは以下の通りです。
@@ -290,6 +297,7 @@ Figure. arc のサンプル
 円弧として（赤い線で）描画しています。つまり、これは `(arc '(100 50) 40 30 45 0 90)` による描画
 となります。
 
+<!-- figure:  arc のサンプル - 2 -->
 ```kaavio
 (diagram (200 100)
    (grid)
@@ -304,7 +312,7 @@ Figure. arc のサンプル
      (ellipse '(100 50) rx ry :stroke st1 :fill :none :rotate rotate)
      (arc     '(100 50) rx ry rotate 0 90 :stroke st2)))
 ```
-Figure. arc のサンプル - 2
+<!-- figure:end -->
 
 
 　正円をベースとした円弧を描画したい場合、 `rx` と `ry` を同じ値に指定します。この場合、回転
@@ -328,10 +336,11 @@ ${BLANK_PARAGRAPH}
        :stroke '(:color :navy :width 2) :debug :red))
 -->
 
+<!-- figure:  arc における補助線のサンプル -->
 ```kaavio
 <!-- expand: ARC-DEBUG-SAMPLE -->
 ```
-Figure. arc における補助線のサンプル
+<!-- figure:end -->
 
 
 <!-- collapse:begin -->
@@ -351,6 +360,7 @@ ${BLANK_PARAGRAPH}
 側の終端マークは矢印に見えない状態になってしまっています。現状では、これは注意が必要ではあるもの
 の仕様として扱われます。arc で終端マークを使用する場合は注意してください。
 
+<!-- figure:  arc における終端マークの例 -->
 ```kaavio
 (diagram (200 100)
   (grid)
@@ -358,7 +368,7 @@ ${BLANK_PARAGRAPH}
   (let ((em (make-endmark :type :triangle :size :small)))
     (arc canvas.center 80 30 0 0 90 :stroke :red :end1 em :end2 em)))
 ```
-Figure. arc における終端マークの例
+<!-- figure:end -->
 
 ${BLANK_PARAGRAPH}
 
@@ -376,10 +386,11 @@ ${BLANK_PARAGRAPH}
 
 　text マクロによってテキストを描画できます。
 
+<!-- figure:  text のサンプル -->
 ```kaavio
 <!-- expand: TEXT-SAMPLE -->
 ```
-Figure. text のサンプル
+<!-- figure:end -->
 
 　上記サンプルのソースは以下の通りです。パラメータの詳細については text マクロを参照
 してください。
@@ -393,6 +404,7 @@ ${BLANK_PARAGRAPH}
 　position と align の関係を以下に示します。以下において、赤い点が position で、
 align 指定はテキストで示されています。
 
+<!-- figure:  テキストの position とアライメント指定の関係 -->
 ```kaavio
 (diagram (300 100)
   (grid)
@@ -403,7 +415,7 @@ align 指定はテキストで示されています。
     (impl 60 "align :center" :center)
     (impl 90 "align :right " :right)))
 ```
-Figure. テキストの position とアライメント指定の関係
+<!-- figure:end -->
 
 ${BLANK_PARAGRAPH}
 
@@ -418,10 +430,11 @@ ${BLANK_PARAGRAPH}
 
 　diamond マクロによってひし形を描画できます。
 
+<!-- figure:  diamond のサンプル -->
 ```kaavio
 <!-- expand: DIAMOND-SAMPLE -->
 ```
-Figure. diamond のサンプル
+<!-- figure:end -->
 
 　上記サンプルのソースは以下の通りです。パラメータの詳細については diamond マクロを参照
 してください。
@@ -445,10 +458,11 @@ ${BLANK_PARAGRAPH}
 
 　parallelogram マクロによって平行四辺形を描画できます。
 
+<!-- figure:  parallelogram のサンプル -->
 ```kaavio
 <!-- expand: PARALLELOGRAM-SAMPLE -->
 ```
-Figure. parallelogram のサンプル
+<!-- figure:end -->
 
 　上記サンプルのソースは以下の通りです。パラメータの詳細については parallelogram マクロを
 参照してください。
@@ -465,6 +479,7 @@ ${BLANK_PARAGRAPH}
 です。 `direction` が `:V` の場合は、同じ要領で左側の角を上または下に押すイメージになります。
 以下のように。
 
+<!-- figure:  parallelogram における direction と offset -->
 ```kaavio
 (diagram (400 280 :fill :white)
   ;(grid)
@@ -488,7 +503,7 @@ ${BLANK_PARAGRAPH}
                                   (if (< offset 0) "offset < 0" "0 <= offset"))
                           :align :center :valign :center))))))))
 ```
-Figure. parallelogram における direction と offset
+<!-- figure:end -->
 
 
 
@@ -515,10 +530,11 @@ ${BLANK_PARAGRAPH}
 　2d-curve マクロによって二次ベジェ曲線を描画できます。パスにおける `:2d-curve-to` の機能を
 単独の図形要素にしたものです。端点に終端マークをつけることもできます。
 
+<!-- figure:  2d-curve のサンプル -->
 ```kaavio
 <!-- expand: 2D-CURVE-SAMPLE -->
 ```
-Figure. 2d-curve のサンプル
+<!-- figure:end -->
 
 
 　上記サンプルのソースは以下の通りです。パラメータの詳細については 2d-curve マクロを参照して
@@ -547,10 +563,11 @@ ${BLANK_PARAGRAPH}
               :debug t :stroke '(:color :darkslategray :width 3))))
 -->
 
+<!-- figure:  2d-curve における補助線のサンプル -->
 ```kaavio
 <!-- expand: 2D-CURVE-DEBUG-SAMPLE -->
 ```
-Figure. 2d-curve における補助線のサンプル
+<!-- figure:end -->
 
 
 <!-- collapse:begin -->
@@ -581,10 +598,11 @@ ${BLANK_PARAGRAPH}
 　3d-curve マクロによって三次ベジェ曲線を描画できます。パスにおける `:3d-curve-to` の機能を
 単独の図形要素にしたものです。端点に終端マークをつけることもできます。
 
+<!-- figure:  3d-curve のサンプル -->
 ```kaavio
 <!-- expand: 3D-CURVE-SAMPLE -->
 ```
-Figure. 3d-curve のサンプル
+<!-- figure:end -->
 
 
 　上記サンプルのソースは以下の通りです。パラメータの詳細については 3d-curve マクロを参照して
@@ -616,10 +634,11 @@ ${BLANK_PARAGRAPH}
                 :debug t :stroke '(:color :slateblue :width 4))))
 -->
 
+<!-- figure:  3d-curve における補助線の サンプル -->
 ```kaavio
 <!-- expand: 3D-CURVE-DEBUG-SAMPLE -->
 ```
-Figure. 3d-curve における補助線の サンプル
+<!-- figure:end -->
 
 
 <!-- collapse:begin -->

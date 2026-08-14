@@ -152,10 +152,11 @@
 　connect マクロによって図形要素どうしを接続することができます。また、終端に矢印などの
 マークをつけたり、ラベルを付与することもできます。
 
+<!-- figure:  コネクタのサンプル -->
 ```kaavio
 <!-- expand: CONNECTOR-SAMPLE -->
 ```
-Figure. コネクタのサンプル
+<!-- figure:end -->
 
 　上記サンプルのソースは以下の通りです。
 
@@ -180,6 +181,7 @@ Center」という意味で、対象図形の中心どうしを結ぶような�
 を指定することができます。先程の `:BL` という指定は、実は `:B2L2` の省略記法です。インデックス
 と実際の接続位置の関係を以下に示します。
 
+<!-- figure:  コネクタにおける接続点の指定 -->
 ```kaavio
 (diagram (300 160)
   (grid)
@@ -199,7 +201,7 @@ Center」という意味で、対象図形の中心どうしを結ぶような�
             (circle '(120  60) 2) (text '(125  65) "R2" :align :left)
             (circle '(120  90) 2) (text '(125  95) "R3" :align :left)))))
 ```
-Figure. コネクタにおける接続点の指定
+<!-- figure:end -->
 
 　なお、上記は接続対象として図形要素の ID を指定した場合の話です。ID でなく point 値を指定
 した場合、指定位置に「大きさが（ほぼ）ゼロの四角形」があるかのように処理されます。
@@ -207,6 +209,7 @@ Figure. コネクタにおける接続点の指定
 　`:style` パラメータを使って `:CC` 以外の接続を指定すると、コネクタは接続対象の図形要素の
 位置関係を調べて適切な折れ線を描画します。たとえば、以下は `:style :LR` で接続しています。
 
+<!-- figure:  コネクタによる接続経路決定 -->
 ```kaavio
 (diagram (300 120)
   (grid)
@@ -215,12 +218,13 @@ Figure. コネクタにおける接続点の指定
     (rect (xy+ canvas.center  50  30) 40 40 :id :r2))
   (connect :r1 :r2 :style :LR))
 ```
-Figure. コネクタによる接続経路決定
+<!-- figure:end -->
 
 　この、位置関係を考慮した接続線の自動決定は、接続対象でない他の図形要素の位置を「考慮しない」
 ことに注意してください。以下のように、先程の接続経路上に他の要素があったとしても、それを迂回
 するほどには賢くありません。
 
+<!-- figure:  コネクタによる接続経路決定は他の要素を迂回しない -->
 ```kaavio
 (diagram (300 120)
   (grid)
@@ -230,7 +234,7 @@ Figure. コネクタによる接続経路決定
   (rect canvas.center 30 30 :stroke :red :fill :lightpink)
   (connect :r1 :r2 :style :LR))
 ```
-Figure. コネクタによる接続経路決定は他の要素を迂回しない
+<!-- figure:end -->
 
 　上記のような場合に役に立つ（かもしれない）のが `:spacing` パラメータです。
 これは、2 回以上折れ曲がる接続線において、「自由な線分の調整を行う」ものです。
@@ -240,6 +244,7 @@ Figure. コネクタによる接続経路決定は他の要素を迂回しない
 x 軸方向または y 軸方向に移動させられそうなことがわかるでしょう。つまり、以下で
 赤くした部分です。
 
+<!-- figure:  コネクタの接続経路における「自由な線分」 -->
 ```kaavio
 (diagram (300 120)
   (grid)
@@ -254,7 +259,7 @@ x 軸方向または y 軸方向に移動させられそうなことがわかる
     (block-arrow2 '(150 40) '(150 80) 5 :length 10 :size 12)
     (block-arrow2 '(230 75) '(270 75) 5)))
 ```
-Figure. コネクタの接続経路における「自由な線分」
+<!-- figure:end -->
 
 　`:spacing` パラメータでは、上記のような「自由な線分」それぞれについて、どれだけズラすかを
 指定できます。from 側から順番にどれだけズラすかの値を並べたリストで指定します（ズラす方向が 
@@ -262,6 +267,7 @@ x 軸方向なのか y 軸方向なのかは線分毎に自動的に決まりま
 の長い線分を下方向に思い切りズラしてしまいましょう。つまり、 `:spacing '(0 60 0)` と指定します。
 すると、以下のようになります。
 
+<!-- figure:  spacing パラメータによるコネクタ接続経路の調整 -->
 ```kaavio
 (diagram (300 140)
   (grid)
@@ -271,7 +277,7 @@ x 軸方向なのか y 軸方向なのかは線分毎に自動的に決まりま
   (rect canvas.center 30 30 :stroke :red :fill :lightpink)
   (connect :r1 :r2 :style :LR :spacing '(0 60 0)))
 ```
-Figure. spacing パラメータによるコネクタ接続経路の調整
+<!-- figure:end -->
 
 　`:spacing` パラメータは、最初の自由な線分を指定するだけの場合にはリストでなくてもかまい
 ません。その場合は、 `:spacing 30` のように数値で指定できます。なお、 `:spacing` パラメータ
@@ -290,10 +296,11 @@ Figure. spacing パラメータによるコネクタ接続経路の調整
 
 　paragraph マクロによって複数行に渡るテキストを描画できます。
 
+<!-- figure:  パラグラフのサンプル -->
 ```kaavio
 <!-- expand: PARAGRAPH-SAMPLE -->
 ```
-Figure. パラグラフのサンプル
+<!-- figure:end -->
 
 　上記サンプルのソースは以下の通りです。パラメータの詳細については paragraph マクロを参照
 してください。
@@ -307,6 +314,7 @@ ${BLANK_PARAGRAPH}
 　`position` と `align` および `valign` の関係を以下に示します。以下において、赤い点が 
 `position` で、アライメント指定はテキストで示されています。
 
+<!-- figure:  パラグラフの position とアライメント指定の関係 -->
 ```kaavio
 (diagram (500 180)
   (grid)
@@ -324,7 +332,7 @@ ${BLANK_PARAGRAPH}
      (impl (xy+ canvas.center -90  40) :right  :top)
      (impl (xy+ canvas.center  90  40) :left   :top)))
 ```
-Figure. パラグラフの position とアライメント指定の関係
+<!-- figure:end -->
 
 ${BLANK_PARAGRAPH}
 
@@ -342,10 +350,11 @@ ${BLANK_PARAGRAPH}
 [$$](#四角形) と [$$](#パラグラフ) を組み合わせたようなものです。テキスト
 からサイズを自動決定しますが、明示的にボックスのサイズを指定することも可能です。
 
+<!-- figure:  テキストボックスのサンプル -->
 ```kaavio
 <!-- expand: TEXTBOX-SAMPLE -->
 ```
-Figure. テキストボックスのサンプル
+<!-- figure:end -->
 
 　上記サンプルのソースは以下の通りです。パラメータの詳細については textbox マクロを参照
 してください。
@@ -359,6 +368,7 @@ ${BLANK_PARAGRAPH}
 　`align` と `valign` の効果を以下に示します。以下のように、テキストボックスの内部で水平
 方向、および垂直方向にそれぞれどう寄せるかが変化します。
 
+<!-- figure:  テキストボックスにおける align と valign -->
 ```kaavio
 (diagram (550 220)
   (grid)
@@ -376,7 +386,7 @@ ${BLANK_PARAGRAPH}
      (impl (xy+ canvas.center -180  70) :right  :top)
      (impl (xy+ canvas.center  180  70) :left   :top)))
 ```
-Figure. テキストボックスにおける align と valign
+<!-- figure:end -->
 
 ${BLANK_PARAGRAPH}
 
@@ -397,10 +407,11 @@ with-textbox-options マクロが用意されています。これを以下の�
 <!-- expand: WITH-TEXTBOX-OPTIONS-SAMPLE -->
 ```
 
+<!-- figure:  with-textbox-options のサンプル -->
 ```kaavio
 <!-- expand: WITH-TEXTBOX-OPTIONS-SAMPLE -->
 ```
-Figure. with-textbox-options のサンプル
+<!-- figure:end -->
 
 
 ### ドキュメント
@@ -416,10 +427,11 @@ Figure. with-textbox-options のサンプル
 　document マクロによってドキュメントを描画できます。ドキュメントはテキストボックスと良く
 似ていますが、サイズは自動計算されないため、幅と高さを指定する必要があります。
 
+<!-- figure:  ドキュメントのサンプル -->
 ```kaavio
 <!-- expand: DOCUMENT-SAMPLE -->
 ```
-Figure. ドキュメントのサンプル
+<!-- figure:end -->
 
 　上記サンプルのソースは以下の通りです。パラメータの詳細については document マクロを参照
 してください。
@@ -447,10 +459,11 @@ ${BLANK_PARAGRAPH}
 <!-- expand: WITH-DOCUMENT-OPTIONS-SAMPLE -->
 ```
 
+<!-- figure:  with-document-options のサンプル -->
 ```kaavio
 <!-- expand: WITH-DOCUMENT-OPTIONS-SAMPLE -->
 ```
-Figure. with-document-options のサンプル
+<!-- figure:end -->
 
 ### フォルダ
 <!-- autolink: [$$](#フォルダ) -->
@@ -465,10 +478,11 @@ Figure. with-document-options のサンプル
 
 　folder マクロによってフォルダを描画できます。
 
+<!-- figure:  フォルダのサンプル -->
 ```kaavio
 <!-- expand: FOLDER-SAMPLE -->
 ```
-Figure. フォルダのサンプル
+<!-- figure:end -->
 
 　上記サンプルのソースは以下の通りです。パラメータの詳細については folder マクロを参照
 してください。
@@ -496,10 +510,11 @@ ${BLANK_PARAGRAPH}
 <!-- expand: WITH-FOLDER-OPTIONS-SAMPLE -->
 ```
 
+<!-- figure:  with-folder-options のサンプル -->
 ```kaavio
 <!-- expand: WITH-FOLDER-OPTIONS-SAMPLE -->
 ```
-Figure. with-folder-options のサンプル
+<!-- figure:end -->
 
 ### 人物
 <!-- autolink: [$$](#人物) -->
@@ -514,10 +529,11 @@ Figure. with-folder-options のサンプル
 　person マクロを使うと、人物の形を描画することができます。縦横比は一定のため座標とサイズを
 指定する必要があり、ラベルを添えることができます。
 
+<!-- figure:  人物のサンプル -->
 ```kaavio
 <!-- expand: PERSON-SAMPLE -->
 ```
-Figure. 人物のサンプル
+<!-- figure:end -->
 
 　上記サンプルのソースは以下の通りです。パラメータの詳細については person マクロを参照
 してください。
@@ -547,10 +563,11 @@ ${BLANK_PARAGRAPH}
 <!-- expand: WITH-PERSON-OPTIONS-SAMPLE -->
 ```
 
+<!-- figure:  with-person-options のサンプル -->
 ```kaavio
 <!-- expand: WITH-PERSON-OPTIONS-SAMPLE -->
 ```
-Figure. with-person-options のサンプル
+<!-- figure:end -->
 
 ### 吹き出し
 <!-- autolink: [$$](#吹き出し) -->
@@ -566,10 +583,11 @@ Figure. with-person-options のサンプル
 　balloon マクロによって吹き出しを描画できます。テキストボックスと良く似ていますが、指定した
 位置への引き出し線が描画されます。
 
+<!-- figure:  吹き出しのサンプル -->
 ```kaavio
 <!-- expand: BALLOON-SAMPLE -->
 ```
-Figure. 吹き出しのサンプル
+<!-- figure:end -->
 
 　上記サンプルのソースは以下の通りです。パラメータの詳細については balloon マクロを参照して
 ください。
@@ -598,10 +616,11 @@ ${BLANK_PARAGRAPH}
 <!-- expand: WITH-BALLOON-OPTIONS-SAMPLE -->
 ```
 
+<!-- figure:  with-balloon-options のサンプル -->
 ```kaavio
 <!-- expand: WITH-BALLOON-OPTIONS-SAMPLE -->
 ```
-Figure. with-balloon-options のサンプル
+<!-- figure:end -->
 
 ### メモ
 <!-- autolink: [$$](#メモ) -->
@@ -617,10 +636,11 @@ Figure. with-balloon-options のサンプル
 　memo マクロによってメモを描画できます。テキストボックスと良く似ていますが、右下に
 折り目が描画されます。
 
+<!-- figure:  メモのサンプル -->
 ```kaavio
 <!-- expand: MEMO-SAMPLE -->
 ```
-Figure. メモのサンプル
+<!-- figure:end -->
 
 　上記サンプルのソースは以下の通りです。パラメータの詳細については memo マクロを参照して
 ください。
@@ -649,10 +669,11 @@ ${BLANK_PARAGRAPH}
 <!-- expand: WITH-MEMO-OPTIONS-SAMPLE -->
 ```
 
+<!-- figure:  with-memo-options のサンプル -->
 ```kaavio
 <!-- expand: WITH-MEMO-OPTIONS-SAMPLE -->
 ```
-Figure. with-memo-options のサンプル
+<!-- figure:end -->
 
 ### キューブ
 <!-- autolink: [$$](#キューブ) -->
@@ -667,10 +688,11 @@ Figure. with-memo-options のサンプル
 　cube マクロによってキューブを描画できます。テキストボックスとは異なり、サイズは
 自動計算されないため、幅と高さを指定する必要があります。
 
+<!-- figure:  キューブのサンプル -->
 ```kaavio
 <!-- expand: CUBE-SAMPLE -->
 ```
-Figure. キューブのサンプル
+<!-- figure:end -->
 
 　上記サンプルのソースは以下の通りです。パラメータの詳細については cube マクロを参照して
 ください。
@@ -700,10 +722,11 @@ ${BLANK_PARAGRAPH}
 <!-- expand: WITH-CUBE-OPTIONS-SAMPLE -->
 ```
 
+<!-- figure:  with-cube-options のサンプル -->
 ```kaavio
 <!-- expand: WITH-CUBE-OPTIONS-SAMPLE -->
 ```
-Figure. with-cube-options のサンプル
+<!-- figure:end -->
 
 ### 円柱
 <!-- autolink: [$$](#円柱) -->
@@ -718,10 +741,11 @@ Figure. with-cube-options のサンプル
 　cylinder マクロによって円柱を描画できます。テキストボックスとは異なり、サイズは
 自動計算されないため、幅と高さを指定する必要があります。
 
+<!-- figure:  円柱のサンプル -->
 ```kaavio
 <!-- expand: CYLINDER-SAMPLE -->
 ```
-Figure. 円柱のサンプル
+<!-- figure:end -->
 
 　上記サンプルのソースは以下の通りです。パラメータの詳細については cylinder マクロを
 参照してください。
@@ -750,10 +774,11 @@ ${BLANK_PARAGRAPH}
 <!-- expand: WITH-CYLINDER-OPTIONS-SAMPLE -->
 ```
 
+<!-- figure:  with-cylinder-options のサンプル -->
 ```kaavio
 <!-- expand: WITH-CYLINDER-OPTIONS-SAMPLE -->
 ```
-Figure. with-cylinder-options のサンプル
+<!-- figure:end -->
 
 ### 爆発
 <!-- autolink: [$$](#爆発) -->
@@ -770,10 +795,11 @@ Figure. with-cylinder-options のサンプル
 {{fn:不格好に見えるかもしれませんが、Microsoft Word の図形要素をトレースして作っています。 \
 そこそこの再現度のはず。}}。
 
+<!-- figure:  爆発のサンプル -->
 ```kaavio
 <!-- expand: EXPLOSION-SAMPLE -->
 ```
-Figure. 爆発のサンプル
+<!-- figure:end -->
 
 　上記サンプルのソースは以下の通りです。パラメータの詳細については explosion1 マクロまたは
 explosion2 マクロを参照してください。
@@ -802,10 +828,11 @@ ${BLANK_PARAGRAPH}
 <!-- expand: WITH-EXPLOSION-OPTIONS-SAMPLE -->
 ```
 
+<!-- figure:  with-explosion-options のサンプル -->
 ```kaavio
 <!-- expand: WITH-EXPLOSION-OPTIONS-SAMPLE -->
 ```
-Figure. with-explosion-options のサンプル
+<!-- figure:end -->
 
 ### 星型
 <!-- autolink: [$$](#星型) -->
@@ -819,10 +846,11 @@ Figure. with-explosion-options のサンプル
 
 　star マクロにより、星型を描画できます。
 
+<!-- figure:  星型のサンプル -->
 ```kaavio
 <!-- expand: STAR-SAMPLE -->
 ```
-Figure. 星型のサンプル
+<!-- figure:end -->
 
 　上記サンプルのソースは以下の通りです。パラメータの詳細については star マクロを参照して
 ください。
@@ -850,10 +878,11 @@ ${BLANK_PARAGRAPH}
 <!-- expand: WITH-STAR-OPTIONS-SAMPLE -->
 ```
 
+<!-- figure:  with-star-options のサンプル -->
 ```kaavio
 <!-- expand: WITH-STAR-OPTIONS-SAMPLE -->
 ```
-Figure. with-star-options のサンプル
+<!-- figure:end -->
 
 ### 十字
 <!-- autolink: [$$](#十字) -->
@@ -869,10 +898,11 @@ Figure. with-star-options のサンプル
 　cross マクロによって十字を描画できます。幅と高さ、太さを指定でき、回転させれば×印にも
 なります。また、縦横で太さを変えたり、交差する位置をズラすこともできます。
 
+<!-- figure:  十字のサンプル -->
 ```kaavio
 <!-- expand: CROSS-SAMPLE -->
 ```
-Figure. 十字のサンプル
+<!-- figure:end -->
 
 　上記サンプルのソースは以下の通りです。パラメータの詳細については cross マクロを参照して
 ください。
@@ -901,10 +931,11 @@ ${BLANK_PARAGRAPH}
 <!-- expand: WITH-CROSS-OPTIONS-SAMPLE -->
 ```
 
+<!-- figure:  with-cross-options のサンプル -->
 ```kaavio
 <!-- expand: WITH-CROSS-OPTIONS-SAMPLE -->
 ```
-Figure. with-cross-options のサンプル
+<!-- figure:end -->
 
 ### パイプ
 <!-- autolink: [$$](#パイプ) -->
@@ -920,10 +951,11 @@ Figure. with-cross-options のサンプル
 
 　pipe マクロにより、縦方向または横方向に伸びる細長いパイプを描画できます。
 
+<!-- figure:  パイプのサンプル -->
 ```kaavio
 <!-- expand: PIPE-SAMPLE -->
 ```
-Figure. パイプのサンプル
+<!-- figure:end -->
 
 　上記サンプルのソースは以下の通りです。パラメータの詳細については pipe マクロを参照して
 ください。
@@ -950,10 +982,11 @@ ${BLANK_PARAGRAPH}
 <!-- expand: WITH-PIPE-OPTIONS-SAMPLE -->
 ```
 
+<!-- figure:  with-pipe-options のサンプル -->
 ```kaavio
 <!-- expand: WITH-PIPE-OPTIONS-SAMPLE -->
 ```
-Figure. with-pipe-options のサンプル
+<!-- figure:end -->
 
 ### ブロック矢印
 <!-- autolink: [$$](#ブロック矢印) -->
@@ -971,10 +1004,11 @@ Figure. with-pipe-options のサンプル
 できます。block-arrow1 は終端側だけに矢印が描画されますが、block-arrow2 を使えば双方向の
 矢印になります。
 
+<!-- figure:  ブロック矢印のサンプル -->
 ```kaavio
 <!-- expand: BLOCKARROW-SAMPLE -->
 ```
-Figure. ブロック矢印のサンプル
+<!-- figure:end -->
 
 　上記サンプルのソースは以下の通りです。パラメータの詳細については block-arrow1 マクロおよび 
 block-arrow2 マクロを参照してください。
@@ -990,6 +1024,7 @@ ${BLANK_PARAGRAPH}
 場合、それぞれのパラメータは以下のように使用されます。
 
 
+<!-- figure:  ブロック矢印のパラメータ -->
 ```kaavio
 (diagram (400 120)
     (grid)
@@ -1025,7 +1060,7 @@ ${BLANK_PARAGRAPH}
         (text '( 60  25) "margin" :align :left)
         (text '(330  25) "margin" :align :left))))
 ```
-Figure. ブロック矢印のパラメータ
+<!-- figure:end -->
 
 * `size` が省略された場合、デフォルト値として `width` の２倍が使用されます
 * `length` が省略された場合、デフォルト値として `size` と同じ値が使用されます
@@ -1052,10 +1087,11 @@ ${BLANK_PARAGRAPH}
 <!-- expand: WITH-BLOCK-ARROW-OPTIONS-SAMPLE -->
 ```
 
+<!-- figure:  with-block-arrow-options のサンプル -->
 ```kaavio
 <!-- expand: WITH-BLOCK-ARROW-OPTIONS-SAMPLE -->
 ```
-Figure. with-block-arrow-options のサンプル
+<!-- figure:end -->
 
 ### 禁止マーク
 <!-- autolink: [$$](#禁止マーク) -->
@@ -1070,10 +1106,11 @@ Figure. with-block-arrow-options のサンプル
 
 　prohibition マクロにより、禁止マークを描画できます。
 
+<!-- figure:  禁止マークのサンプル -->
 ```kaavio
 <!-- expand: PROHIBITION-SAMPLE -->
 ```
-Figure. 禁止マークのサンプル
+<!-- figure:end -->
 
 　上記サンプルのソースは以下の通りです。パラメータの詳細については prohibition マクロを参照して
 ください。
@@ -1102,10 +1139,11 @@ ${BLANK_PARAGRAPH}
 <!-- expand: WITH-PROHIBITION-OPTIONS-SAMPLE -->
 ```
 
+<!-- figure:  with-prohibition-options のサンプル -->
 ```kaavio
 <!-- expand: WITH-PROHIBITION-OPTIONS-SAMPLE -->
 ```
-Figure. with-prohibition-options のサンプル
+<!-- figure:end -->
 
 ### 波括弧
 <!-- autolink: [$$](#波括弧) -->
@@ -1124,10 +1162,11 @@ Figure. with-prohibition-options のサンプル
 　brace マクロにより、大きな波括弧を描画することができます。波括弧にはテキストを
 添えることができます。
 
+<!-- figure:  波括弧のサンプル -->
 ```kaavio
 <!-- expand: BRACE-SAMPLE -->
 ```
-Figure. 波括弧のサンプル
+<!-- figure:end -->
 
 　上記サンプルのソースは以下の通りです。パラメータの詳細については brace マクロを参照して
 ください。
@@ -1142,6 +1181,7 @@ ${BLANK_PARAGRAPH}
 `(brace position direction width height :r r :point point)` とした場合、それぞれの
 パラメータは以下のように使用されます。
 
+<!-- figure:  波括弧のパラメータ -->
 ```kaavio
 (diagram (400 150)
   (grid)
@@ -1167,7 +1207,7 @@ ${BLANK_PARAGRAPH}
     (text '( 95 105) "r"      :align :center)
     (text '(155 135) "point"  :align :center)))
 ```
-Figure. 波括弧のパラメータ
+<!-- figure:end -->
 
 * `r` が省略された場合、デフォルト値として `height` （縦向きの場合は `width` ）の 1/3 が指定されます
 * `point` が省略された場合、デフォルト値として `width` （縦向きの場合は `height` ）の 1/2 が指定されます
@@ -1194,10 +1234,11 @@ ${BLANK_PARAGRAPH}
 <!-- expand: WITH-BRACE-OPTIONS-SAMPLE -->
 ```
 
+<!-- figure:  with-brace-options のサンプル -->
 ```kaavio
 <!-- expand: WITH-BRACE-OPTIONS-SAMPLE -->
 ```
-Figure. with-brace-options のサンプル
+<!-- figure:end -->
 
 ### テーブル
 <!-- autolink: [$$](#テーブル) -->
@@ -1214,10 +1255,11 @@ Figure. with-brace-options のサンプル
 　table マクロを使うことで、表を描画することができます。以下の例では、３行４列の表を
 作成しています。
 
+<!-- figure:  テーブルのサンプル -->
 ```kaavio
 <!-- expand: TABLE-SAMPLE -->
 ```
-Figure. テーブルのサンプル
+<!-- figure:end -->
 
 　上記サンプルのソースは以下の通りです。パラメータの詳細については table マクロを参照して
 ください。
@@ -1282,10 +1324,11 @@ ${BLANK_PARAGRAPH}
         (line `((0 0) (,w ,h)) :stroke :navy)))))
 -->
 
+<!-- figure:  テーブルにおけるテキストの align と valign パラメータ -->
 ```kaavio
 <!-- expand: TABLE-ALIGN-SAMPLE -->
 ```
-Figure. テーブルにおけるテキストの align と valign パラメータ
+<!-- figure:end -->
 
 <!-- collapse:begin -->
 　※上記サンプルのソースはこちら。
@@ -1318,10 +1361,11 @@ Figure. テーブルにおけるテキストの align と valign パラメータ
       (rect canvas.center 50 50 :fill :lightpink :stroke :red :rotate 45)))
 -->
 
+<!-- figure:  with-table-cell の使用例 -->
 ```kaavio
 <!-- expand: WITH-TABLE-CELL-SAMPLE -->
 ```
-Figure. with-table-cell の使用例
+<!-- figure:end -->
 
 
 　上記のサンプルは以下のコードで生成されています。
@@ -1353,10 +1397,11 @@ ${BLANK_PARAGRAPH}
     (brace (x+ canvas.right 10) :left 10 canvas.height :r 3 :text "masked")))
 -->
 
+<!-- figure:  with-table-range の使用例 -->
 ```kaavio
 <!-- expand: WITH-TABLE-RANGE-SAMPLE -->
 ```
-Figure. with-table-range の使用例
+<!-- figure:end -->
 
 
 　上記のサンプルは以下のコードで生成されています。
@@ -1393,10 +1438,11 @@ Figure. with-table-range の使用例
     (rect canvas.cc canvas.width canvas.height :stroke 2)))
 -->
 
+<!-- figure:  テーブルの罫線を描き分けるサンプル -->
 ```kaavio
 <!-- expand: TABLE-LINES-SAMPLE -->
 ```
-Figure. テーブルの罫線を描き分けるサンプル
+<!-- figure:end -->
 
 　上記サンプルのコードは以下の通りです。table マクロでは `:stroke :none` によって罫線
 なしにしておき、その後 with-table-range マクロを複数回使って罫線を個別に描画しています。
