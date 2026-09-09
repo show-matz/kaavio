@@ -126,3 +126,43 @@
         body))))
 
 
+;;------------------------------------------------------------------------------------- BEGIN TURNUP
+;;#### macro with-themes
+;;
+;;<!-- stack:push li class='syntax' -->
+;;${SYNTAX}
+;;
+;;* ${{B}{with-themes}} (name &rest more-names) ${BODY} body
+;;
+;;<!-- stack:pop li -->
+;;
+;;${ARGS_AND_VALS}
+;;
+;;* `name` ---- 使用するテーマの ID をキーワードシンボルで指定します。
+;;* `more-names` ---- 使用するテーマの ID をキーワードシンボルで指定します。任意数指定できます。
+;;* `body` ---- `name` および `more-names` で指定したテーマを使用して描画を行なうコードを記述します。
+;;
+;;${DESCRIPTION}
+;;
+;;　テーマを指定した描画を行ないます。詳細は [$@ 節](#テーマ)を参照してください。
+;;
+;;${SEE_ALSO}
+;;
+;;* [](#テーマ)
+;;
+;;${NO_NOTES}
+;;
+;;--------------------------------------------------------------------------------------- END TURNUP
+#|
+#|EXPORT|#                :with-themes
+ |#
+(defmacro with-themes ((name &rest more-names) &body body)
+  (labels ((recur (lst code)
+             (if (null lst)
+                 code
+                 (recur (cdr lst)
+                        `(with-theme (,(car lst))
+                           ,code)))))
+    (let ((names (reverse (cons name more-names))))
+      (recur (cdr names)
+             `(with-theme (,(car names)) ,@body)))))

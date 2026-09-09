@@ -131,6 +131,9 @@
 * __2026/05/22 - version 0.034__
     * ENHANCE : [$$](#星型)を追加
     * ENHANCE : [$$](#禁止マーク)を追加
+* __2026/09/09 - version 0.035__
+    * ENHANCE : 複数テーマを同時に指定できる with-themes マクロを追加
+
 
 ${BLANK_PARAGRAPH}
 

@@ -5936,6 +5936,36 @@ ${NO_NOTES}
 
 ${BLANK_PARAGRAPH}
 
+#### macro with-themes
+
+<!-- stack:push li class='syntax' -->
+${SYNTAX}
+
+* ${{B}{with-themes}} (name &rest more-names) ${BODY} body
+
+<!-- stack:pop li -->
+
+${ARGS_AND_VALS}
+
+* `name` ---- 使用するテーマの ID をキーワードシンボルで指定します。
+* `more-names` ---- 使用するテーマの ID をキーワードシンボルで指定します。任意数指定できます。
+* `body` ---- `name` および `more-names` で指定したテーマを使用して描画を行なうコードを記述します。
+
+${DESCRIPTION}
+
+　テーマを指定した描画を行ないます。詳細は [$@ 節](#テーマ)を参照してください。
+
+${SEE_ALSO}
+
+* [](#テーマ)
+
+${NO_NOTES}
+
+
+<!-- autolink: [with-themes マクロ](#macro with-themes) -->
+
+${BLANK_PARAGRAPH}
+
 #### macro with-uml-action-options
 
 <!-- stack:push li class='syntax' -->

@@ -452,6 +452,7 @@
                 ;theme.lisp
                 :register-theme
                 :with-theme
+                :with-themes
                 ;use.lisp
                 :use
                 ;writer.lisp

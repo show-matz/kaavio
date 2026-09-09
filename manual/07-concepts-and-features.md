@@ -1101,6 +1101,23 @@ ${BLANK_PARAGRAPH}
 こともできます。また、[イチから新しく作る](#新しいテーマの作成)ことも可能です。これらの方法に
 ついては後述します。
 
+　version 0.035 より、with-themes マクロが追加されました。これにより、複数のテーマをまとめて
+適用することができます。以下は、
+
+```lisp
+(with-themes (:default :other :other-else)
+  ...)
+```
+
+以下と等価です。
+
+```lisp
+(with-theme (:default)
+  (with-theme (:other)
+    (with-theme (:other-else)
+      ...)))
+```
+
 #### 利用できるテーマ
 
 　現在、以下のテーマが利用できます。
