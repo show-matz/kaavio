@@ -632,10 +632,12 @@
 
 (defmethod check ((ent connector) canvas dict)
   (with-slots (from to spacing style) ent
-    (unless (point-p from)
-      (check-member from  :nullable nil :types symbol))
-    (unless (point-p to)
-      (check-member to    :nullable nil :types symbol))
+    (if (point-p from)
+        (setf from (canvas-fix-point canvas from))
+        (check-member from  :nullable nil :types symbol))
+    (if (point-p to)
+        (setf to (canvas-fix-point canvas to))
+        (check-member to    :nullable nil :types symbol))
     (check-member spacing :nullable   t :types (or number list))
     (check-member style   :nullable nil :types keyword)
     (setf spacing (if (numberp spacing) (list spacing) spacing))
