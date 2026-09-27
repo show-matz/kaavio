@@ -8,23 +8,29 @@
 (in-package :kaavio)
 
 #|
+#|EXPORT|#                :*default-block-arrow-both*
+#|EXPORT|#                :*default-block-arrow-width*
+#|EXPORT|#                :*default-block-arrow-radius*
 #|EXPORT|#                :*default-block-arrow-length*
 #|EXPORT|#                :*default-block-arrow-size*
 #|EXPORT|#                :*default-block-arrow-margin*
-#|EXPORT|#                :*default-block-arrow-stroke*
 #|EXPORT|#                :*default-block-arrow-fill*
+#|EXPORT|#                :*default-block-arrow-stroke*
 #|EXPORT|#                :*default-block-arrow-filter*
 #|EXPORT|#                :*default-block-arrow-layer*
  |#
+(defparameter *default-block-arrow-both*         nil)
+(defparameter *default-block-arrow-width*        nil)
+(defparameter *default-block-arrow-radius*       nil)
 (defparameter *default-block-arrow-length*       nil)
 (defparameter *default-block-arrow-size*         nil)
 (defparameter *default-block-arrow-margin*       nil)
-(defparameter *default-block-arrow-stroke*       nil)
 (defparameter *default-block-arrow-fill*         nil)
+(defparameter *default-block-arrow-stroke*       nil)
 (defparameter *default-block-arrow-filter*       nil)
 (defparameter *default-block-arrow-layer*        nil)
 
-(defun make-block-arrow-points-1 (pt1 pt2 width l s margin)
+(defun make-block-arrow-old-points-1 (pt1 pt2 width l s margin)
   (let* ((margin (or margin 0))
          (pt1 (xy+ pt1 (* (kaavio::math/cos2 pt1 pt2) margin)
                        (* (kaavio::math/sin2 pt1 pt2) margin)))
@@ -43,7 +49,7 @@
          (k6   (xy+ pt3 (* -1 (/ width 2) sin1) (*    (/ width 2) cos1))))
     `(,k1 ,k2 ,k3 ,k4 ,pt2 ,k5 ,k6)))
 
-(defun make-block-arrow-points-2 (pt1 pt2 width l s margin)
+(defun make-block-arrow-old-points-2 (pt1 pt2 width l s margin)
   (let* ((margin (or margin 0))
          (pt1 (xy+ pt1 (* (kaavio::math/cos2 pt1 pt2) margin)
                        (* (kaavio::math/sin2 pt1 pt2) margin)))
@@ -68,27 +74,24 @@
 
 ;;------------------------------------------------------------------------------
 ;;
-;; class block-arrow
+;; class block-arrow-old
 ;;
 ;;------------------------------------------------------------------------------
-#|
-#|EXPORT|#                :block-arrow
- |#
-(defclass block-arrow (polygon)
+(defclass block-arrow-old (polygon)
   ((pt1 :initform nil :initarg :pt1)    ; point
    (pt2 :initform nil :initarg :pt2)))  ; point
 
 
 
-(defmethod attribute-center ((ent block-arrow))
+(defmethod attribute-center ((ent block-arrow-old))
   (with-slots (pt1 pt2) ent
     (make-point (/ (+ (point-x pt1) (point-x pt2)) 2)
                 (/ (+ (point-y pt1) (point-y pt2)) 2))))
 
-(defmethod attribute-end1 ((ent block-arrow))
+(defmethod attribute-end1 ((ent block-arrow-old))
   (slot-value ent 'pt1))
 
-(defmethod attribute-end2 ((ent block-arrow))
+(defmethod attribute-end2 ((ent block-arrow-old))
   (slot-value ent 'pt2))
 
 
@@ -98,13 +101,14 @@
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
-;;* ${{B}{block-arrow1}} pt1 pt2 width ${KEY} (length nil length-p) (size nil size-p) (margin nil margin-p) fill stroke link layer filter id
+;;* ${{B}{block-arrow1}} pt1 pt2 width ${KEY} length size margin fill stroke link layer filter id
 ;;
 ;;<!-- stack:pop li -->
 ;;
 ;;${ARGS_AND_VALS}
 ;;
-;;* `pt1, pt2` ---- 始点と終点を指定します。詳細は「[](#座標と位置)」を参照してください。
+;;* `pt1` ---- 始点を指定します。詳細は「[](#座標と位置)」を参照してください。
+;;* `pt2` ---- 終点を指定します。詳細は「[](#座標と位置)」を参照してください。
 ;;* `width` ---- 矢印の幅を数値で指定します。
 ;;* `length` ---- 矢印部分の長さを数値で指定します。
 ;;* `size` ---- 矢印部分の大きさを数値で指定します。
@@ -118,8 +122,9 @@
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　ブロック矢印を描画します。複数のブロック矢印でスタイルを統一したい場合、
-;;with-block-arrow-options マクロを使うことができます。
+;;　ブロック矢印を描画します。矢印は終端側にだけ描画されます。
+;;複数のブロック矢印でスタイルを統一したい場合、 with-block-arrow-options マクロを
+;;使うことができます。
 ;;
 ;;${SEE_ALSO}
 ;;
@@ -127,7 +132,11 @@
 ;;* block-arrow2 マクロ
 ;;* with-block-arrow-options マクロ
 ;;
-;;${NO_NOTES}
+;;${NOTES}
+;;
+;;　block-arrow マクロの導入により、block-arrow1 マクロは非推奨となりました。
+;;block-arrow1 マクロは互換性のために残されますが、今後は block-arrow マクロを使用
+;;してください。
 ;;
 ;;--------------------------------------------------------------------------------------- END TURNUP
 #|
@@ -137,10 +146,10 @@
                         &key (length nil length-p)
                              (size   nil size-p)
                              (margin nil margin-p) fill stroke link layer filter id)
-  `(register-entity (make-instance 'kaavio:block-arrow
+  `(register-entity (make-instance 'kaavio::block-arrow-old
                                    :pt1    ,pt1
                                    :pt2    ,pt2
-                                   :points (kaavio::make-block-arrow-points-1 ,pt1 ,pt2 ,width
+                                   :points (kaavio::make-block-arrow-old-points-1 ,pt1 ,pt2 ,width
                                             (if ,length-p ,length *default-block-arrow-length*)
                                             (if ,size-p   ,size   *default-block-arrow-size*)
                                             (if ,margin-p ,margin *default-block-arrow-margin*))
@@ -161,13 +170,14 @@
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
-;;* ${{B}{block-arrow2}} (pt1 pt2 width ${KEY} (length nil length-p) (size   nil size-p) (margin nil margin-p) fill stroke link layer filter id
+;;* ${{B}{block-arrow2}} (pt1 pt2 width ${KEY} length size margin fill stroke link layer filter id
 ;;
 ;;<!-- stack:pop li -->
 ;;
 ;;${ARGS_AND_VALS}
 ;;
-;;* `pt1, pt2` ---- 始点と終点を指定します。詳細は「[](#座標と位置)」を参照してください。
+;;* `pt1` ---- 始点を指定します。詳細は「[](#座標と位置)」を参照してください。
+;;* `pt2` ---- 終点を指定します。詳細は「[](#座標と位置)」を参照してください。
 ;;* `width` ---- 矢印の幅を数値で指定します。
 ;;* `length` ---- 矢印部分の長さを数値で指定します。
 ;;* `size` ---- 矢印部分の大きさを数値で指定します。
@@ -181,8 +191,9 @@
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　ブロック矢印を描画します。複数のブロック矢印でスタイルを統一したい場合、
-;;with-block-arrow-options マクロを使うことができます。
+;;　ブロック矢印を描画します。矢印は両端に描画されます。
+;;複数のブロック矢印でスタイルを統一したい場合、 with-block-arrow-options マクロを
+;;使うことができます。
 ;;
 ;;${SEE_ALSO}
 ;;
@@ -190,7 +201,11 @@
 ;;* block-arrow1 マクロ
 ;;* with-block-arrow-options マクロ
 ;;
-;;${NO_NOTES}
+;;${NOTES}
+;;
+;;　block-arrow マクロの導入により、block-arrow2 マクロは非推奨となりました。
+;;block-arrow2 マクロは互換性のために残されますが、今後は block-arrow マクロを使用
+;;してください。
 ;;
 ;;--------------------------------------------------------------------------------------- END TURNUP
 #|
@@ -200,10 +215,10 @@
                         &key (length nil length-p)
                              (size   nil size-p)
                              (margin nil margin-p) fill stroke link layer filter id)
-  `(register-entity (make-instance 'kaavio:block-arrow
+  `(register-entity (make-instance 'kaavio::block-arrow-old
                                    :pt1    ,pt1
                                    :pt2    ,pt2
-                                   :points (kaavio::make-block-arrow-points-2 ,pt1 ,pt2 ,width
+                                   :points (kaavio::make-block-arrow-old-points-2 ,pt1 ,pt2 ,width
                                             (if ,length-p ,length *default-block-arrow-length*)
                                             (if ,size-p   ,size   *default-block-arrow-size*)
                                             (if ,margin-p ,margin *default-block-arrow-margin*))
@@ -224,19 +239,22 @@
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
-;;* ${{B}{with-block-arrow-options}} (${KEY} length size margin fill stroke filter layer) ${BODY} body
+;;* ${{B}{with-block-arrow-options}} (${KEY} both width radius length size margin fill stroke filter layer) ${BODY} body
 ;;
 ;;<!-- stack:pop li -->
 ;;
 ;;${DESCRIPTION}
 ;;
-;;　block-arrow1 マクロおよび block-arrow2 マクロで描画されるブロック矢印のデフォルト
-;;オプションを変更します。キーワードパラメータ群の説明は block-arrow1 マクロを参照して
-;;ください。
+;;　block-arrow マクロで描画されるブロック矢印のデフォルトオプションを変更します。
+;;キーワードパラメータ群の説明は block-arrow マクロを参照してください。
+;;
+;;　また、このマクロは互換性のために残されている block-arrow1 マクロおよび 
+;;block-arrow2 マクロでも使用されます。
 ;;
 ;;${SEE_ALSO}
 ;;
 ;;* ブロック矢印
+;;* block-arrow マクロ
 ;;* block-arrow1 マクロ
 ;;* block-arrow2 マクロ
 ;;
@@ -246,7 +264,10 @@
 #|
 #|EXPORT|#                :with-block-arrow-options
  |#
-(defmacro with-block-arrow-options ((&key (length nil length-p)
+(defmacro with-block-arrow-options ((&key (both   nil both-p)
+                                          (width  nil width-p)
+                                          (radius nil radius-p)
+                                          (length nil length-p)
                                           (size   nil size-p)
                                           (margin nil margin-p)
                                           (fill   nil fill-p)
@@ -256,6 +277,9 @@
   (let ((bindings nil))
     (labels ((impl (arg-p binding)
                (when arg-p (push binding bindings))))
+      (impl both-p   `(*default-block-arrow-both*   ,both))
+      (impl width-p  `(*default-block-arrow-width*  ,width))
+      (impl radius-p `(*default-block-arrow-radius* ,radius))
       (impl length-p `(*default-block-arrow-length* ,length))
       (impl size-p   `(*default-block-arrow-size*   ,size))
       (impl margin-p `(*default-block-arrow-margin* ,margin))

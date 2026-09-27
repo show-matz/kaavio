@@ -165,18 +165,64 @@ ${NO_NOTES}
 
 ${BLANK_PARAGRAPH}
 
-#### macro block-arrow1
+#### macro block-arrow
 
 <!-- stack:push li class='syntax' -->
 ${SYNTAX}
 
-* ${{B}{block-arrow1}} pt1 pt2 width ${KEY} (length nil length-p) (size nil size-p) (margin nil margin-p) fill stroke link layer filter id
+* ${{B}{block-arrow}} pt1 pt2 ${KEY} style both width radius length size margin spacing debug fill stroke filter layer id
 
 <!-- stack:pop li -->
 
 ${ARGS_AND_VALS}
 
-* `pt1, pt2` ---- 始点と終点を指定します。詳細は「[](#座標と位置)」を参照してください。
+* `pt1` ---- 始点を指定します。コネクタとは異なり、点での指定のみが可能です。詳細は「[](#座標と位置)」を参照してください。
+* `pt2` ---- 終点を指定します。コネクタとは異なり、点での指定のみが可能です。詳細は「[](#座標と位置)」を参照してください。
+* `style` ---- ブロック矢印の引き方を指定します。 `pt1 pt2` が点のみでの指定となるため、`style` は `:CC` または `T B L R` を使った2文字のキーワードだけが利用可能です。たとえば `:BL` であれば「Bottom to Left」という意味になります。
+* `both` ---- 始点と終点の両方に矢印を描画するか否かを真偽値で指定します。nil の場合、終点側にのみ矢印が描画されます。省略した場合は with-block-arrow-options マクロでの指定値が使用され、それも未指定の場合はデフォルト値として nil が使用されます。
+* `width` ---- 矢印の幅を数値で指定します。省略した場合は with-block-arrow-options マクロでの指定値が使用され、それも未指定の場合はデフォルト値として 10 が使用されます。
+* `radius` ---- ブロック矢印が途中で折れ曲がる場合の外側の角の丸め半径を数値で指定します。省略した場合は with-block-arrow-options マクロでの指定値が使用され、それも未指定の場合はデフォルト値として 0 が使用されます。
+* `length` ---- 矢印部分の長さを数値で指定します。省略した場合は with-block-arrow-options マクロでの指定値が使用され、それも未指定の場合はデフォルト値として `size` と同じ値が使用されます。
+* `size` ---- 矢印部分の大きさを数値で指定します。省略した場合は with-block-arrow-options マクロでの指定値が使用され、それも未指定の場合はデフォルト値として `width` の２倍の値が使用されます。
+* `margin` ---- 始点・終点とブロック矢印の間にあける隙間を数値で指定します。省略した場合は with-block-arrow-options マクロでの指定値が使用され、それも未指定の場合はデフォルト値として 0 が使用されます。
+* `spacing` ---- 2 回折れ曲がるブロック矢印における「自由な線分」の位置を調整するためのパラメータです。詳細は [$@ 節](#コネクタ)を参照してください。ただし、ブロック矢印では最大でも２回しか折れ曲がらないため、ここで指定できるのは数値のみとなります。
+* `debug` ---- 補助線を描画する場合、`t` または色名を指定します。
+* `fill` ---- 内部の塗り潰しを指定します。
+* `stroke` ----  外枠を描画する線を指定します。
+* `filter` ---- フィルタを適用したい場合、その ID をキーワードシンボルで指定します
+* `layer` ---- レイヤーを指定する場合、その ID をキーワードシンボルで指定します
+* `id` ---- ID を付与したい場合、その名前をキーワードシンボルで指定します
+
+${DESCRIPTION}
+
+　ブロック矢印を描画します。複数のブロック矢印でスタイルを統一したい場合、
+with-block-arrow-options マクロを使うことができます。
+
+${SEE_ALSO}
+
+* ブロック矢印
+* with-block-arrow-options マクロ
+
+${NO_NOTES}
+
+
+<!-- autolink: [block-arrow マクロ](#macro block-arrow) -->
+
+${BLANK_PARAGRAPH}
+
+#### macro block-arrow1
+
+<!-- stack:push li class='syntax' -->
+${SYNTAX}
+
+* ${{B}{block-arrow1}} pt1 pt2 width ${KEY} length size margin fill stroke link layer filter id
+
+<!-- stack:pop li -->
+
+${ARGS_AND_VALS}
+
+* `pt1` ---- 始点を指定します。詳細は「[](#座標と位置)」を参照してください。
+* `pt2` ---- 終点を指定します。詳細は「[](#座標と位置)」を参照してください。
 * `width` ---- 矢印の幅を数値で指定します。
 * `length` ---- 矢印部分の長さを数値で指定します。
 * `size` ---- 矢印部分の大きさを数値で指定します。
@@ -190,8 +236,9 @@ ${ARGS_AND_VALS}
 
 ${DESCRIPTION}
 
-　ブロック矢印を描画します。複数のブロック矢印でスタイルを統一したい場合、
-with-block-arrow-options マクロを使うことができます。
+　ブロック矢印を描画します。矢印は終端側にだけ描画されます。
+複数のブロック矢印でスタイルを統一したい場合、 with-block-arrow-options マクロを
+使うことができます。
 
 ${SEE_ALSO}
 
@@ -199,7 +246,11 @@ ${SEE_ALSO}
 * block-arrow2 マクロ
 * with-block-arrow-options マクロ
 
-${NO_NOTES}
+${NOTES}
+
+　block-arrow マクロの導入により、block-arrow1 マクロは非推奨となりました。
+block-arrow1 マクロは互換性のために残されますが、今後は block-arrow マクロを使用
+してください。
 
 
 <!-- autolink: [block-arrow1 マクロ](#macro block-arrow1) -->
@@ -211,13 +262,14 @@ ${BLANK_PARAGRAPH}
 <!-- stack:push li class='syntax' -->
 ${SYNTAX}
 
-* ${{B}{block-arrow2}} (pt1 pt2 width ${KEY} (length nil length-p) (size   nil size-p) (margin nil margin-p) fill stroke link layer filter id
+* ${{B}{block-arrow2}} (pt1 pt2 width ${KEY} length size margin fill stroke link layer filter id
 
 <!-- stack:pop li -->
 
 ${ARGS_AND_VALS}
 
-* `pt1, pt2` ---- 始点と終点を指定します。詳細は「[](#座標と位置)」を参照してください。
+* `pt1` ---- 始点を指定します。詳細は「[](#座標と位置)」を参照してください。
+* `pt2` ---- 終点を指定します。詳細は「[](#座標と位置)」を参照してください。
 * `width` ---- 矢印の幅を数値で指定します。
 * `length` ---- 矢印部分の長さを数値で指定します。
 * `size` ---- 矢印部分の大きさを数値で指定します。
@@ -231,8 +283,9 @@ ${ARGS_AND_VALS}
 
 ${DESCRIPTION}
 
-　ブロック矢印を描画します。複数のブロック矢印でスタイルを統一したい場合、
-with-block-arrow-options マクロを使うことができます。
+　ブロック矢印を描画します。矢印は両端に描画されます。
+複数のブロック矢印でスタイルを統一したい場合、 with-block-arrow-options マクロを
+使うことができます。
 
 ${SEE_ALSO}
 
@@ -240,7 +293,11 @@ ${SEE_ALSO}
 * block-arrow1 マクロ
 * with-block-arrow-options マクロ
 
-${NO_NOTES}
+${NOTES}
+
+　block-arrow マクロの導入により、block-arrow2 マクロは非推奨となりました。
+block-arrow2 マクロは互換性のために残されますが、今後は block-arrow マクロを使用
+してください。
 
 
 <!-- autolink: [block-arrow2 マクロ](#macro block-arrow2) -->
@@ -5086,19 +5143,22 @@ ${BLANK_PARAGRAPH}
 <!-- stack:push li class='syntax' -->
 ${SYNTAX}
 
-* ${{B}{with-block-arrow-options}} (${KEY} length size margin fill stroke filter layer) ${BODY} body
+* ${{B}{with-block-arrow-options}} (${KEY} both width radius length size margin fill stroke filter layer) ${BODY} body
 
 <!-- stack:pop li -->
 
 ${DESCRIPTION}
 
-　block-arrow1 マクロおよび block-arrow2 マクロで描画されるブロック矢印のデフォルト
-オプションを変更します。キーワードパラメータ群の説明は block-arrow1 マクロを参照して
-ください。
+　block-arrow マクロで描画されるブロック矢印のデフォルトオプションを変更します。
+キーワードパラメータ群の説明は block-arrow マクロを参照してください。
+
+　また、このマクロは互換性のために残されている block-arrow1 マクロおよび 
+block-arrow2 マクロでも使用されます。
 
 ${SEE_ALSO}
 
 * ブロック矢印
+* block-arrow マクロ
 * block-arrow1 マクロ
 * block-arrow2 マクロ
 

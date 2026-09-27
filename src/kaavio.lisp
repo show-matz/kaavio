@@ -29,17 +29,21 @@
                 :with-balloon-options
                 ;binutil.lisp
                 ;block-arrow.lisp
+                :*default-block-arrow-both*
+                :*default-block-arrow-width*
+                :*default-block-arrow-radius*
                 :*default-block-arrow-length*
                 :*default-block-arrow-size*
                 :*default-block-arrow-margin*
-                :*default-block-arrow-stroke*
                 :*default-block-arrow-fill*
+                :*default-block-arrow-stroke*
                 :*default-block-arrow-filter*
                 :*default-block-arrow-layer*
-                :block-arrow
                 :block-arrow1
                 :block-arrow2
                 :with-block-arrow-options
+                ;block-arrow2.lisp
+                :block-arrow
                 ;brace.lisp
                 :*default-brace-font*
                 :*default-brace-stroke*

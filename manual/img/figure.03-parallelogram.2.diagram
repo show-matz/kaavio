@@ -1,0 +1,21 @@
+(diagram (400 280 :fill :white)
+ ;(grid)
+  (with-options (:stroke '(:color :red :dasharray (2 2)) :fill :none)
+    (rect '(100  70) 160  80 :id :r1)
+    (rect '(300  70) 160  80 :id :r2)
+    (rect '(100 200) 160 120 :id :r3)
+    (rect '(300 200) 160 120 :id :r4))
+  (with-options (:stroke :navy :fill :lightcyan :font 10)
+    (dolist (e '((:r1 :h  40  40  0   0   0)
+                 (:r2 :h -40 120  0 160   0)
+                 (:r3 :v  40   0 40   0   0)
+                 (:r4 :v -40   0 80   0 120)))
+      (destructuring-bind (id dir offset x y x2 y2) e
+        (with-subcanvas-of (id)
+          (parallelogram canvas.center canvas.width canvas.height dir offset
+              :contents
+              ((block-arrow `(,x2 ,y2) `(,x ,y) :width 5 :size 15 :stroke :none :fill :red)
+               (paragraph canvas.center
+                          (format nil "direction = :~A~%~A" dir
+                                  (if (< offset 0) "offset < 0" "0 <= offset"))
+                          :align :center :valign :center))))))))

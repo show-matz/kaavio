@@ -133,6 +133,10 @@
     * ENHANCE : [$$](#禁止マーク)を追加
 * __2026/09/09 - version 0.035__
     * ENHANCE : 複数テーマを同時に指定できる with-themes マクロを追加
+* __2026/09/27 - version 0.036__
+    * BUGFIX : 座標指定のコネクタがサブキャンバス配下にある場合のバグを修正
+    * ENHANCE : block-arrow マクロの導入により、ブロック矢印を刷新
+        * 上記により block-arrow1 マクロと block-arrow2 マクロは（互換性のために残されますが）非推奨となりました
 
 
 ${BLANK_PARAGRAPH}

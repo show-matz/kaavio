@@ -38,6 +38,12 @@
                 (:file "block-arrow"               :depends-on ("kaavio"
                                                                 "constants"
                                                                 "polygon"))
+                (:file "block-arrow2"              :depends-on ("kaavio"
+                                                                "block-arrow"
+                                                                "point"
+                                                                "canvas"
+                                                                "mathutil"
+                                                                "path"))
                 (:file "brace"                     :depends-on ("kaavio"
                                                                 "constants"
                                                                 "clipping"

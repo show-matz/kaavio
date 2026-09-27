@@ -106,25 +106,9 @@ ${BLANK_PARAGRAPH}
 
 　次のサンプルはもう少し複雑です。
 
-<!-- snippet: SECOND-SAMPLE
-(diagram (450 150)
-  (grid)
-  (drop-shadow)
-  (with-options (:filter :drop-shadow)
-    (textbox (y+ canvas.center 20) "kaavio" :height 40 :fill :cornsilk :id :app)
-    (with-options (:stroke '(:color :navy :width 2)
-                   :fill   '(:color :skyblue :opacity 0.3))
-      (document (x+ app.center -175) 80 60 "input~%file" :id :in)
-      (document (x+ app.center  175) 80 60 "svg~%image"  :id :out))
-    (with-options (:fill :white)
-      (block-arrow1  in.right app.left 15 :margin 10)
-      (block-arrow1 app.right out.left 15 :margin 10)
-      (balloon (xy+ app.center 110 -60) "Made with LISP." app.topright))))
--->
-
 <!-- figure:  簡単なサンプル-2 -->
 ```kaavio
-<!-- expand: SECOND-SAMPLE -->
+<!-- include: img/figure.02-first-example.2.diagram -->
 ```
 <!-- figure:end -->
 
@@ -132,7 +116,7 @@ ${BLANK_PARAGRAPH}
 　このサンプルは、以下のコードで生成されています。
 
 ```lisp
-<!-- expand: SECOND-SAMPLE -->
+<!-- include: img/figure.02-first-example.2.diagram -->
 ```
 
 　こちらも、ざっくりした説明をしておきます。
@@ -147,7 +131,7 @@ ${BLANK_PARAGRAPH}
 幅と高さは 80 60、テキストは "input~%file"、これに in という ID を設定
         * 上記と同じ要領で out という ID のドキュメントを描画
     * with-options で、デフォルトの塗りつぶしを `white` に設定
-        * block-arrow1 で in と app の間にブロック矢印を描画
+        * block-arrow で in と app の間にブロック矢印を描画
         * 上記と同じ要領で app と out の間にブロック矢印を描画
         * balloon で app の右上付近に吹き出しを描画 : テキストは "Made with LISP."、接続点は app の \
 右上端（app.topright）

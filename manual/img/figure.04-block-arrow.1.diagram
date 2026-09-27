@@ -1,0 +1,9 @@
+(diagram (540 150)
+  (grid)
+  (with-block-arrow-options (:width 20 :radius 25
+                             :fill :skyblue :stroke '(:color :navy :width 2))
+    (block-arrow '( 20  40) '(140  40) :style :CC :both nil)
+    (block-arrow '( 20 110) '(140 110) :style :CC :both   t)
+    (block-arrow '(170 130) '(250  40) :style :TL :both nil)
+    (block-arrow '(270  50) '(350  20) :style :BB :both   t :spacing -10)
+    (block-arrow '(380 120) '(520  40) :style :RL :both nil :spacing -10)))

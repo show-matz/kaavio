@@ -24,113 +24,7 @@
 <!-- define: HASH_TABLE      = '[](#テーブル)' -->
 
 ```kaavio
-(diagram (800 360)
-  ;(grid)
-  (let ((w 100)
-        (h 100)
-        (bgclr :white)) ;; (make-fill :color :lightgray :opacity 0.4 )));; 
-    (defgroup (w h :connect-grp)
-      (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
-      (rect   '(20 20) 20 20 :fill :white :stroke :black :id :r1)
-      (circle '(80 60) 10    :fill :white :stroke :black :id :r2)
-      (connect :r1 :r2 :stroke :black)
-      (text `(,(/ w 2) ,(- h 5)) "コネクタ" :align :center))
-    (defgroup (w h :paragraph-grp)
-      (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
-      (paragraph (y+ canvas.center -35) "this is~%multi line~%text." :align :center :font 16)
-      (text `(,(/ w 2) ,(- h 5)) "パラグラフ" :align :center))
-    (defgroup (w h :textbox-grp)
-      (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
-      (textbox (y+ canvas.center -10) "this is~%textbox." :rx 5 :ry 5 :align :center :fill :white)
-      (text `(,(/ w 2) ,(- h 5)) "テキストボックス" :align :center))
-    (defgroup (w h :document-grp)
-      (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
-      (document (y+ canvas.center -10) 80 60 "this is~%document."
-                                       :align :center :stroke :navy :fill :skyblue)
-      (text `(,(/ w 2) ,(- h 5)) "ドキュメント" :align :center))
-    (defgroup (w h :folder-grp)
-      (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
-      (folder (y+ canvas.center -5) "this is~%folder."
-                                   :align :center :height 50 :stroke :darkkhaki :fill :cornsilk)
-      (text `(,(/ w 2) ,(- h 5)) "フォルダ" :align :center))
-    (defgroup (w h :person-grp)
-      (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
-      (person (y+ canvas.center -10) 35 :fill :oldlace :stroke :brown)
-      (text `(,(/ w 2) ,(- h 5)) "人物" :align :center))
-    (defgroup (w h :balloon-grp)
-      (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
-      (balloon (y+ canvas.center -15) "this is~%balloon." '(10 75)
-                                                    :fill :honeydew :stroke :forestgreen)
-      (text `(,(/ w 2) ,(- h 5)) "吹き出し" :align :center))
-    (defgroup (w h :memo-grp)
-      (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
-      (memo (y+ canvas.center -15) "this is~%memo." :width 80 :height 60
-                       :valign :top :align :left
-                       :stroke :red :fill :lavenderblush :fill2 :lightpink)
-      (text `(,(/ w 2) ,(- h 5)) "メモ" :align :center))
-    (defgroup (w h :cube-grp)
-      (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
-      (cube (y+ canvas.center -10) 65 60 "this is~%cube." 
-                                       :stroke :black :fill :lightgray :fill2 :darkgray)
-      (text `(,(/ w 2) ,(- h 5)) "キューブ" :align :center))
-    (defgroup (w h :cylinder-grp)
-      (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
-      (cylinder (y+ canvas.center -10) 65 60 "this is~%cylinder." 
-                                       :stroke :darkgray :fill :lightgray)
-      (text `(,(/ w 2) ,(- h 5)) "円柱" :align :center))
-    (defgroup (w h :explosion-grp)
-      (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
-      (explosion1 (y+ canvas.center -10) 90 80 "bomb!!" 
-                                       :stroke :red :fill :lightpink)
-      (text `(,(/ w 2) ,(- h 5)) "爆発" :align :center))
-    (defgroup (w h :star-grp)
-      (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
-      (star (y+ canvas.center -10) 5 80 80 "star" 
-                                       :stroke :brown :fill :khaki)
-      (text `(,(/ w 2) ,(- h 5)) "星型" :align :center))
-    (defgroup (w h :cross-grp)
-      (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
-      (cross (y+ canvas.center -10) (- canvas.width 30) (- canvas.height 30) 20 
-                                       :stroke :purple :fill :plum)
-      (text `(,(/ w 2) ,(- h 5)) "十字" :align :center))
-    (defgroup (w h :pipe-grp)
-      (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
-      (pipe '(50 40) :h 80 :stroke :black :fill :lightgray :label '("pipe" :offset (0 18)))
-      (text `(,(/ w 2) ,(- h 5)) "パイプ" :align :center))
-    (defgroup (w h :blockarrow-grp)
-      (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
-      (block-arrow1 '(0 40) '(100 40) 20 :margin 5 :stroke :brown :fill :burlywood)
-      (text `(,(/ w 2) ,(- h 5)) "ブロック矢印" :align :center))
-    (defgroup (w h :prohibit-grp)
-      (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
-      (prohibition '(50 40) 60 :stroke :red :fill :pink)
-      (text `(,(/ w 2) ,(- h 5)) "禁止マーク" :align :center))
-    (defgroup (w h :brace-grp)
-      (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
-      (brace (y+ canvas.center -20) :upper 80 30 :r 10 :text "this is brace." :stroke :navy)
-      (text `(,(/ w 2) ,(- h 5)) "波括弧" :align :center))
-    (defgroup (w h :table-grp)
-      (rect canvas.center canvas.width canvas.height :stroke :none :fill bgclr)
-      (table (y+ canvas.center -10) '(10 10 10 10) '(20 20 20 20) :fills '(:rc :white :r0 :skyblue) :stroke :navy)
-      (text `(,(/ w 2) ,(- h 5)) "テーブル" :align :center))
-    (use :connect-grp    '( 70  60) :link "${HASH_CONNECTOR}")
-    (use :paragraph-grp  '(200  60) :link "${HASH_PARAGRAPH}")
-    (use :textbox-grp    '(330  60) :link "${HASH_TEXTBOX}")
-    (use :document-grp   '(460  60) :link "${HASH_DOCUMENT}")
-    (use :folder-grp     '(590  60) :link "${HASH_FOLDER}")
-    (use :person-grp     '(720  60) :link "${HASH_PERSON}")
-    (use :balloon-grp    '( 70 180) :link "${HASH_BALLOON}")
-    (use :memo-grp       '(200 180) :link "${HASH_MEMO}")
-    (use :cube-grp       '(330 180) :link "${HASH_CUBE}")
-    (use :cylinder-grp   '(460 180) :link "${HASH_CYLINDER}")
-    (use :explosion-grp  '(590 180) :link "${HASH_EXPLOSION}")
-    (use :star-grp       '(720 180) :link "${HASH_STAR}")
-    (use :cross-grp      '( 70 300) :link "${HASH_CROSS}")
-    (use :pipe-grp       '(200 300) :link "${HASH_PIPE}")
-    (use :blockarrow-grp '(330 300) :link "${HASH_BLOCKARROW}")
-    (use :prohibit-grp   '(460 300) :link "${HASH_PROHIBITION}")
-    (use :brace-grp      '(590 300) :link "${HASH_BRACE}")
-    (use :table-grp      '(720 300) :link "${HASH_TABLE}")))
+<!-- include: img/figure.04-generic-stencils.diagram -->
 ```
 
 ### コネクタ
@@ -246,18 +140,7 @@ x 軸方向または y 軸方向に移動させられそうなことがわかる
 
 <!-- figure:  コネクタの接続経路における「自由な線分」 -->
 ```kaavio
-(diagram (300 120)
-  (grid)
-  (with-options (:stroke :navy :fill :skyblue)
-    (rect (xy+ canvas.center -50 -30) 40 40 :id :r1)
-    (rect (xy+ canvas.center  50  30) 40 40 :id :r2))
-  (connect :r1 :r2 :style :LR :stroke :gray)
-  (path '((:move-to ( 50 30))
-          (:line-to ( 50 60) (250 60) (250 90))) :stroke '(:color :red :width 3))
-  (with-block-arrow-options (:stroke :none :fill '(:color :brown :opacity 0.4))
-    (block-arrow2 '( 30 45) '( 70 45) 5)
-    (block-arrow2 '(150 40) '(150 80) 5 :length 10 :size 12)
-    (block-arrow2 '(230 75) '(270 75) 5)))
+<!-- include: img/figure.04-connector-spacing.1.diagram -->
 ```
 <!-- figure:end -->
 
@@ -991,107 +874,61 @@ ${BLANK_PARAGRAPH}
 ### ブロック矢印
 <!-- autolink: [$$](#ブロック矢印) -->
 
-<!-- snippet: BLOCKARROW-SAMPLE
-(diagram (300 150)
-  (grid)
-  (with-options (:fill :skyblue
-                 :stroke '(:color :navy :width 2))
-    (block-arrow1 '(50  40) '(250  40) 20)
-    (block-arrow2 '(50 110) '(250 110) 20)))
--->
-
-　block-arrow1 マクロおよび block-arrow2 マクロにより、指定した２点を結ぶ大きな矢印を描画
-できます。block-arrow1 は終端側だけに矢印が描画されますが、block-arrow2 を使えば双方向の
-矢印になります。
+　block-arrow マクロにより、指定した２点を結ぶブロック矢印を描画できます
+{{fn:以前のバージョンでは矢印が終端のみか両端かで block-arrow1 マクロおよび block-arrow2 マクロに分かれていました \
+が、block-arrow マクロに統合されました。古いマクロは互換性のために残されていますが非推奨になっています。}}。
 
 <!-- figure:  ブロック矢印のサンプル -->
 ```kaavio
-<!-- expand: BLOCKARROW-SAMPLE -->
+<!-- include: img/figure.04-block-arrow.1.diagram -->
 ```
 <!-- figure:end -->
 
-　上記サンプルのソースは以下の通りです。パラメータの詳細については block-arrow1 マクロおよび 
-block-arrow2 マクロを参照してください。
+　上記サンプルのソースは以下の通りです。パラメータの詳細については block-arrow マクロを
+参照してください。
 
 ```lisp
-<!-- expand: BLOCKARROW-SAMPLE -->
+<!-- include: img/figure.04-block-arrow.1.diagram -->
 ```
 
 ${BLANK_PARAGRAPH}
 
+　上記の例でも使用されていますが、ブロック矢印のスタイルを統一する作業を簡単にするために 
+with-block-arrow-options マクロが用意されています。これを以下のように使用することで、
+複数のブロック矢印のスタイルを一箇所で指定することができます。
+
+```lisp
+<!-- include: img/figure.04-block-arrow.with-options.diagram -->
+```
+
+<!-- figure:  with-block-arrow-options のサンプル -->
+```kaavio
+<!-- include: img/figure.04-block-arrow.with-options.diagram -->
+```
+<!-- figure:end -->
+
+
+${BLANK_PARAGRAPH}
+
 　いくつかのパラメータは直感的に判りにくいため、以下で説明します。
-`(block-arrow1 pt1 pt2 width :length length :size size :margin margin)` とした
+`(block-arrow pt1 pt2 :width width :radius radius :length length :size size :margin margin)` とした
 場合、それぞれのパラメータは以下のように使用されます。
 
 
 <!-- figure:  ブロック矢印のパラメータ -->
 ```kaavio
-(diagram (400 120)
-    (grid)
-    (let ((pt1 '( 50 50))
-          (pt2 '(350 50)))
-      (circle pt1 4 :stroke :none :fill :red)
-      (circle pt2 4 :stroke :none :fill :red)
-      (with-options (:font '(:fill :red :size 10))
-        (text (y+ $2.center 15) "pt1" :align :center)
-        (text (y+ $2.center 15) "pt2" :align :center))
-      (line `(,pt1 ,pt2) :stroke '(:color :red :width 0.5 :dasharray (4 4)))
-      (block-arrow1 pt1 pt2 30 :margin 30 :length 70 :size 60
-                    :stroke :navy :fill '(:color :skyblue :opacity 0.3))
-      (with-options (:stroke '(:color :gray :dasharray '(3 3)))
-        (line `(,pt1 ,(y+ pt1 -30)))
-        (line `(,pt2 ,(y+ pt2 -30)))
-        (line `(,(x+ pt2 -30) ,(xy+ pt2 -30 -30)))
-        (line '((250 20) (220  20)))
-        (line '((250 80) (220  80)))
-        (line '((250 80) (250 100)))
-        (line '((320 50) (320 100))))
-      (with-options (:stroke :brown)
-        (let ((em (make-endmark :type :arrow :size :small)))
-          (line '((230  20) (230  80)) :end1 em :end2 em)
-          (line '((150  35) (150  65)) :end1 em :end2 em)
-          (line '((250  90) (320  90)) :end1 em :end2 em)
-          (line `(,(y+  pt1     -15) ,(xy+ pt1 30 -15)) :end1 em :end2 em)
-          (line `(,(xy+ pt2 -30 -20) ,(y+  pt2    -20)) :end1 em :end2 em)))
-      (with-options (:font '(:fill :brown :size 10))
-        (text '(150  30) "width"  :align :center)
-        (text '(230  95) "size"   :align :right)
-        (text '(325 100) "length" :align :left)
-        (text '( 60  25) "margin" :align :left)
-        (text '(330  25) "margin" :align :left))))
+<!-- include: img/figure.04-block-arrow.params.diagram -->
 ```
 <!-- figure:end -->
 
+　多くのパラメータは省略された場合に with-block-arrow-options マクロの指定値が
+使用されますが、それでも指定値が得られなかった場合、以下のデフォルト値が使用されます。
+
+* `width` が省略された場合、デフォルト値として 10 が使用されます
+* `radius` が省略された場合、デフォルト値として 0 が使用されます
 * `size` が省略された場合、デフォルト値として `width` の２倍が使用されます
 * `length` が省略された場合、デフォルト値として `size` と同じ値が使用されます
 * `margin` が省略された場合、デフォルト値として 0 が使用されます
-
-
-${BLANK_PARAGRAPH}
-
-　図の中でブロック矢印のスタイルを統一する作業を簡単にするために、with-block-arrow-options マクロが
-用意されています。これを以下のように使用することで、複数のブロック矢印のスタイルを一箇所で指定
-することができます。
-
-<!-- snippet: WITH-BLOCK-ARROW-OPTIONS-SAMPLE
-(diagram (200 100)
-  (grid)
-  (drop-shadow)
-  (with-block-arrow-options (:fill   :honeydew
-                             :stroke :darkgreen :filter :drop-shadow)
-    (block-arrow1 '(30 25) '(170 25) 20)
-    (block-arrow2 '(30 75) '(170 75) 20)))
--->
-
-```lisp
-<!-- expand: WITH-BLOCK-ARROW-OPTIONS-SAMPLE -->
-```
-
-<!-- figure:  with-block-arrow-options のサンプル -->
-```kaavio
-<!-- expand: WITH-BLOCK-ARROW-OPTIONS-SAMPLE -->
-```
-<!-- figure:end -->
 
 ### 禁止マーク
 <!-- autolink: [$$](#禁止マーク) -->

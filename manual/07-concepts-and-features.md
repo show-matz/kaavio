@@ -1037,28 +1037,8 @@ ${BLANK_PARAGRAPH}
 　「テーマ」はそのためのものです。以下のコードは図形要素毎の個別のスタイル設定をせずに 
 [$@ 章](#一般的な図形)の図形要素を描画していますが、
 
-<!-- snippet: THEME-SAMPLE-1
-(diagram (500 300)
-  (grid)
-  (with-theme (:default)
-    (let ((cc canvas.center))
-      (document     (xy+ cc -190 -100) 70 50 "doc")
-      (folder       (xy+ cc  -65 -100) "folder" :width 80 :height 50)
-      (person       (xy+ cc   65 -100) 30 :label "person")
-      (balloon      (xy+ cc  190 -100) "balloon"
-                    (xy+ cc  160 -140) :width 80 :height 40)
-      (memo         (xy+ cc -190    0) "memo" :width 80 :height 50)
-      (cube         (xy+ cc  -65    0)  70 60 "cube")
-      (cylinder     (xy+ cc   65    0)  70 60 "cylinder")
-      (explosion1   (xy+ cc  190    0) 110 90 "explosion")
-      (star         (xy+ cc -190  100) 5 70 70 "star")
-      (cross        (xy+ cc  -65  100)  70 70 20)
-      (block-arrow1 (xy+ cc  105  100) (xy+ cc 25 100) 20)
-      (pipe         (xy+ cc  190  100) :h 80 :label "pipe"))))
--->
-
 ```lisp
-<!-- expand: THEME-SAMPLE-1 -->
+<!-- include: img/figure.07-theme-sample.1.diagram -->
 ```
 
 ${BLANK_PARAGRAPH}
@@ -1068,7 +1048,7 @@ ${BLANK_PARAGRAPH}
 
 <!-- figure:  デフォルトテーマの使用例 -->
 ```kaavio
-<!-- expand: THEME-SAMPLE-1 -->
+<!-- include: img/figure.07-theme-sample.1.diagram -->
 ```
 <!-- figure:end -->
 
@@ -1183,26 +1163,7 @@ ${BLANK_PARAGRAPH}
 
 <!-- figure:  テーマのカスタマイズ例 -->
 ```kaavio
-(register-theme (:my-theme :default)
-  (cylinder :stroke :maroon :fill :beige)
-  (cross :stroke :purple :fill :lavender))
-
-(diagram (500 300)
-  (grid)
-  (with-theme (:my-theme)
-    (let ((cc canvas.center))
-      (document     (xy+ cc -190 -100) 70 50 "doc")
-      (folder       (xy+ cc  -65 -100) "folder" :width 80 :height 50)
-      (person       (xy+ cc   65 -100) 30 :label "person")
-      (balloon      (xy+ cc  190 -100) "balloon" (xy+ cc 160 -140) :width 80 :height 40)
-      (memo         (xy+ cc -190    0) "memo" :width 80 :height 50)
-      (cube         (xy+ cc  -65    0)  70 60 "cube")
-      (cylinder     (xy+ cc   65    0)  70 60 "cylinder")
-      (explosion1   (xy+ cc  190    0) 110 90 "explosion")
-      (star         (xy+ cc -190  100) 5 70 70 "star")
-      (cross        (xy+ cc  -65  100)  70 70 20)
-      (block-arrow1 (xy+ cc  105  100) (xy+ cc 25 100) 20)
-      (pipe         (xy+ cc  190  100) :h 80 :label "pipe"))))
+<!-- include: img/figure.07-theme-customize.diagram -->
 ```
 <!-- figure:end -->
 

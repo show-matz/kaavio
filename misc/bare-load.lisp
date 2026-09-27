@@ -28,6 +28,7 @@
 (load "../src/balloon.lisp")
 (load "../src/binutil.lisp")
 (load "../src/block-arrow.lisp")
+(load "../src/block-arrow2.lisp")
 (load "../src/brace.lisp")
 (load "../src/circle.lisp")
 (load "../src/label-info.lisp")

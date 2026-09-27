@@ -1,0 +1,13 @@
+(diagram (300 120)
+  (grid)
+  (with-options (:stroke :navy :fill :skyblue)
+    (rect (xy+ canvas.center -50 -30) 40 40 :id :r1)
+    (rect (xy+ canvas.center  50  30) 40 40 :id :r2))
+  (connect :r1 :r2 :style :LR :stroke :gray)
+  (path '((:move-to ( 50 30))
+          (:line-to ( 50 60) (250 60) (250 90))) :stroke '(:color :red :width 3))
+  (with-block-arrow-options (:width 5 :length 10 :size 13 :both t
+                             :stroke :none :fill '(:color :brown :opacity 0.4))
+    (block-arrow '( 30 45) '( 70 45))
+    (block-arrow '(150 40) '(150 80))
+    (block-arrow '(230 75) '(270 75))))

@@ -1,0 +1,7 @@
+(diagram (200 120)
+  (grid)
+  (drop-shadow)
+  (with-block-arrow-options (:fill :honeydew :stroke :darkgreen
+                             :width 20 :length 50 :filter :drop-shadow)
+    (block-arrow '(20 30) '(180 30) :both nil)
+    (block-arrow '(20 90) '(180 90) :both   t)))
