@@ -131,7 +131,7 @@
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
-;;* ${{B}{regular-polygon}} position n size ${KEY} pivot fill stroke link layer id filter contents
+;;* ${{B}{regular-polygon}} position n size ${KEY} pivot fill stroke rotate link layer id filter contents
 ;;
 ;;<!-- stack:pop li -->
 ;;
@@ -140,7 +140,7 @@
 ;;* `position` ---- 描画の基準点を指定します。詳細は「[](#座標と位置)」を参照してください。
 ;;* `n` ---- 正Ｎ角形を描く場合の N を指定します。現在、3 4 5 6 8 10 12 が使用できます。
 ;;* `size` ---- ベースとなる正円の半径を数値で指定します。
-;;* `pivot` ---- 基準点が正円のどこにくるように描画するかを指定します。詳細は「[](#座標と位置)」を参照してください。
+;;* `pivot` ---- 基準点がベースとなる正円のどこにくるように描画するかを指定します。詳細は「[](#座標と位置)」を参照してください。
 ;;* `fill` ---- 内部の塗り潰しを指定します。
 ;;* `stroke` ---- 円を描画するストロークを指定します。
 ;;* `rotate` ---- 全体を回転させたい場合に、その角度を指定します。
