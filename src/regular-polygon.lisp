@@ -20,7 +20,7 @@
 ;;    pt ---- 中心点の座標
 ;;    radius ---- ベースとなる正円の半径
 ;;    count ---- 正Ｎ角形の N
-(defun regular-polygon-listup-points (pt radius count)
+(defun regular-polygon-listup-points (pt radius count tilt)
   (let ((delta (ecase count
                  (( 3) (/ 360  3))
                  (( 4) (/ 360  4))
@@ -32,11 +32,18 @@
     (labels ((recur (idx acc)
                (if (= idx count)
                    (nreverse acc)
-                   (let ((degree (mod (+ 360 -90 (* idx delta)) 360)))
+                   (let ((degree (mod (+ 360 -90 (* idx delta) tilt) 360)))
                      (recur (1+ idx)
                             (push (xy+ pt (* radius (math/cos1 degree))
                                        (* radius (math/sin1 degree))) acc))))))
       (recur 0 nil))))
+
+(defun regular-polygon-apply-offsets (points offsets &optional acc)
+  (if (null points)
+      (nreverse acc)
+      (regular-polygon-apply-offsets (cdr points) (cdr offsets)
+                                     (push (point+ (car points)
+                                                   (or (car offsets) '(0 0))) acc))))
 
 
 ;;------------------------------------------------------------------------------
@@ -45,25 +52,38 @@
 ;;
 ;;------------------------------------------------------------------------------
 (defclass regular-polygon (circle)
-  ((count :initform nil :initarg :count)))  ; number - must be 3, 4, 5, 6, 8,10 or 12.
-
+  ((count   :initform nil :initarg :count)      ; number - must be 3, 4, 5, 6, 8,10 or 12.
+   (tilt    :initform nil :initarg :tilt)       ; number
+   (offsets :initform nil :initarg :offsets)    ; list of point
+   (debug   :initform nil :initarg :debug)))    ; (or nil t keyword)
 
 (defmethod initialize-instance :after ((ent regular-polygon) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (pivot fill stroke filter) ent
+  (with-slots (pivot fill stroke filter debug) ent
     (setf pivot  (or pivot :CC))
     (setf fill   (make-fill   (or fill   *default-fill*   :none)))
     (setf stroke (make-stroke (or stroke *default-stroke* :none)))
     (setf filter (if (eq filter :none)
                      nil
-                     (or filter *default-filter*))))
+                     (or filter *default-filter*)))
+    (when debug
+      (setf debug (if (keywordp debug) debug :red))))
   ent)
 
 (defmethod check ((shp regular-polygon) canvas dict)
   ;; this method must call super class' one.
   (call-next-method)
-  (with-slots (count) shp
-    (check-numbers count 3 4 5 6 8 10 12))
+  (with-slots (count tilt offsets debug) shp
+    (check-numbers count 3 4 5 6 8 10 12)
+    (check-member  offsets :nullable t :types list)
+    (check-member  debug   :nullable t :types keyword)
+    (labels ((chk-offsets (lst)
+               (unless (null lst)
+                 (let ((pt (car lst)))
+                   (unless (point-p pt)
+                     (throw-exception "Invalid point '~A' in points of line." pt))
+                   (chk-offsets (cdr lst))))))
+      (chk-offsets offsets)))
   nil)
 
 (defmethod attribute-width ((shp regular-polygon))
@@ -98,20 +118,22 @@
                          (coerce (point-x (car pts)) 'single-float)
                          (coerce (point-y (car pts)) 'single-float))
                  (setf pts (cdr pts))))))
-    (with-slots (count radius fill stroke clip-path filter) shp
+    (with-slots (count tilt offsets radius fill stroke clip-path filter debug) shp
       (let* ((id (and (not (entity-composition-p shp))
                       (slot-value shp 'id)))
              (center (attribute-center shp))
-             (points (regular-polygon-listup-points center radius count)))
+             (points (regular-polygon-apply-offsets
+                      (regular-polygon-listup-points center radius count tilt) offsets)))
         (pre-draw shp writer)
-;;      (writer-write writer
-;;                    "<circle "
-;;                    "cx='" (point-x center) "' "
-;;                    "cy='" (point-y center) "' "
-;;                    "r='" radius "' "
-;;                    "fill='none' "
-;;                    (to-property-strings (make-stroke :color :red :dasharray '(1 4)))
-;;                    "/>")
+        (when debug
+          (writer-write writer
+                        "<circle "
+                        "cx='" (point-x center) "' "
+                        "cy='" (point-y center) "' "
+                        "r='" radius "' "
+                        "fill='none' "
+                        (to-property-strings (make-stroke :color debug :dasharray '(2 4)))
+                        "/>"))
         (writer-write writer
                       "<polygon "
                       (write-when (keywordp id) "id='" id "' ")
@@ -121,6 +143,15 @@
                       (write-when clip-path "clip-path='url(#" it ")' ")
                       (write-when filter "filter='url(#" it ")' ")
                       "/>")
+        (when debug
+          (writer-write writer
+                        "<circle "
+                        "cx='" (coerce (point-x (car points)) 'single-float) "' "
+                        "cy='" (coerce (point-y (car points)) 'single-float) "' "
+                        "r='3' "
+                        "stroke='none' "
+                        (to-property-strings (make-fill :color debug))
+                        "/>"))
       (post-draw shp writer))))
   nil)
 
@@ -131,7 +162,7 @@
 ;;<!-- stack:push li class='syntax' -->
 ;;${SYNTAX}
 ;;
-;;* ${{B}{regular-polygon}} position n size ${KEY} pivot fill stroke rotate link layer id filter contents
+;;* ${{B}{regular-polygon}} position n size ${KEY} pivot tilt offsets rotate fill stroke link layer id filter debug contents
 ;;
 ;;<!-- stack:pop li -->
 ;;
@@ -141,19 +172,28 @@
 ;;* `n` ---- 正Ｎ角形を描く場合の N を指定します。現在、3 4 5 6 8 10 12 が使用できます。
 ;;* `size` ---- ベースとなる正円の半径を数値で指定します。
 ;;* `pivot` ---- 基準点がベースとなる正円のどこにくるように描画するかを指定します。詳細は「[](#座標と位置)」を参照してください。
+;;* `tilt` ----  多角形の傾きを角度で指定します。 `rotate` とは異なり、`offsets` 適用前に回転されます。
+;;* `offsets` ---- 各点を移動させるためのオフセットのリストを指定します。詳細は後述します。
+;;* `rotate` ---- 全体を回転させたい場合に、その角度を指定します。
 ;;* `fill` ---- 内部の塗り潰しを指定します。
 ;;* `stroke` ---- 円を描画するストロークを指定します。
-;;* `rotate` ---- 全体を回転させたい場合に、その角度を指定します。
 ;;* `link` ---- リンクにする場合、リンク先を指定します。
 ;;* `layer` ---- レイヤーを指定する場合、その ID をキーワードシンボルで指定します。
 ;;* `id` ---- ID を付与したい場合、その名前をキーワードシンボルで指定します。
 ;;* `filter` ---- フィルタを適用したい場合、その ID をキーワードシンボルで指定します。
+;;* `debug` ---- 補助線を描画する場合、 `t` または色名を指定します
 ;;* `contents` ---- 内部をサブキャンバスとした描画をしたい場合、その内容を指定します。
 ;;
 ;;${DESCRIPTION}
 ;;
 ;;　正多角形を描画します。複数の基本要素でスタイルを統一したい場合、with-options マクロを
 ;;使うことができます。
+;;
+;;　`offsets` パラメータを使用することで、「正」でない多角形を描画することができます。たとえば
+;;三角形に対して `:offsets '((0 0) (-10 0) (10 0))` とすれば二等辺三角形を描画できます。
+;;`offsets` は点のリストで、それぞれの点は多角形の頂点に順に座標を移動させるオフセットとして
+;;適用されます。ここで最初に適用される点は、常に中央一番上の点であり、そこから時計回りに順番と
+;;なります。
 ;;
 ;;${SEE_ALSO}
 ;;
@@ -170,13 +210,13 @@
 #|EXPORT|#                :regular-polygon
  |#
 (defmacro regular-polygon (position n size
-                           &key pivot fill stroke rotate link layer id filter contents)
+                           &key pivot tilt offsets rotate fill stroke link layer id filter debug contents)
   (let ((code `(register-entity (make-instance 'kaavio:regular-polygon
-                                               :count ,n :position ,position
-                                               :pivot ,pivot :radius ,size
-                                               :fill ,fill :stroke ,stroke :rotate ,rotate
-                                               :clip-path *current-clip-path*
-                                               :link ,link :filter ,filter :layer ,layer :id ,id))))
+                                               :count ,n :position ,position :pivot ,pivot
+                                               :tilt ,(or tilt 0) :offsets ,offsets :rotate ,rotate
+                                               :radius ,size :fill ,fill :stroke ,stroke
+                                               :clip-path *current-clip-path* :link ,link
+                                               :filter ,filter :layer ,layer :id ,id :debug ,debug))))
     (if (null contents)
         code
         (let ((g-obj (gensym "OBJ")))

@@ -1027,8 +1027,61 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
   (regular-polygon (x+ canvas.cc  130) 8 40 <span class='keyword3'>:fill</span> <span class='keyword3'>:gray</span> <span class='keyword3'>:stroke</span> <span class='keyword3'>:black</span>))
 </pre>
 <p>　　</p>
+<p>　<a class='autolink' href='#jLTDopnLqyT'>regular-polygon マクロ</a>は<a class='autolink' href='#6eeF43U3xPh'>正多角形</a>を描画するためのものですが、 <code>:tilt :offsets :rotate</code> といったパラメータを使用することで、<a class='autolink' href='#6eeF43U3xPh'>正多角形</a>をベースとして不規則な<a class='autolink' href='#5vGRm9AMypB'>多角形</a>を作成することができます。以下に例を示します。</p>
+<a name='i5OgzdvaAGX'>
+<div align='center'>
+<?xml version='1.0' encoding='utf-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xml:space='default' width='500' height='120'>
+	
+	<!-- grid -->
+	<pattern id='__grid' width='10' height='10' patternUnits='userSpaceOnUse' >
+		<rect x='0' y='0' width='10' height='10' fill='white' />
+		<polyline fill='none' stroke='gray' stroke-width='0.2' points='10,0 0,0 0,10' />
+	</pattern>
+	<rect x='0' y='0' width='100%' height='100%' fill='url(#__grid)' stroke='gray' stroke-width='0.2' />
+	<!-- regular-polygon -->
+	<circle cx='70' cy='60' r='50' fill='none' stroke='red' stroke-width='1' stroke-dasharray='2 4 ' />
+	<polygon fill='lightcyan' stroke='navy' stroke-width='1' points='70.0,10.0 120.0,60.0 70.0,110.0 20.0,60.0' />
+	<circle cx='70.0' cy='10.0' r='3' stroke='none' fill='red' />
+	<!-- text -->
+	<text x='70' y='65' text-anchor='middle' font-size='10pt' fill='black' >:debug t</text>
+	<!-- regular-polygon -->
+	<circle cx='190' cy='60' r='50' fill='none' stroke='red' stroke-width='1' stroke-dasharray='2 4 ' />
+	<polygon fill='lightcyan' stroke='navy' stroke-width='1' points='225.35535,24.64466 225.35535,95.35534 154.64465,95.35534 154.64465,24.64466' />
+	<circle cx='225.35535' cy='24.64466' r='3' stroke='none' fill='red' />
+	<!-- text -->
+	<text x='190' y='65' text-anchor='middle' font-size='10pt' fill='black' >:tilt 45</text>
+	<!-- regular-polygon -->
+	<circle cx='310' cy='60' r='50' fill='none' stroke='red' stroke-width='1' stroke-dasharray='2 4 ' />
+	<polygon fill='lightcyan' stroke='navy' stroke-width='1' points='355.35535,39.64466 355.35535,80.35534 274.64465,95.35534 274.64465,24.64466' />
+	<circle cx='355.35535' cy='39.64466' r='3' stroke='none' fill='red' />
+	<!-- text -->
+	<text x='310' y='65' text-anchor='middle' font-size='10pt' fill='black' >:offsets (...)</text>
+	<!-- regular-polygon -->
+	<g transform='rotate(-35,430,60)'>
+		<circle cx='430' cy='60' r='50' fill='none' stroke='red' stroke-width='1' stroke-dasharray='2 4 ' />
+		<polygon fill='lightcyan' stroke='navy' stroke-width='1' points='475.35535,39.64466 475.35535,80.35534 394.64465,95.35534 394.64465,24.64466' />
+		<circle cx='475.35535' cy='39.64466' r='3' stroke='none' fill='red' />
+	</g>
+	<!-- text -->
+	<text x='430' y='65' text-anchor='middle' font-size='10pt' fill='black' >:rotate -35</text>
+
+</svg>
+</div>
+
+</a>
+<p class='fig_title'>Figure.3-5 regular-polygon を使った不規則な多角形の作成</p>
+<p>　<code>(regular-polygon ... 4 40)</code> をベースとして、左から順にひとつずつパラメータを追加しています。以下に説明します。</p>
+<ul>
+<li><code>:debug t</code> によって基準円と最初の点を<a class='autolink' href='#2tO36YvJCgK'>補助線</a>で明示します</li>
+<li><code>:tilt 45</code> によって<a class='autolink' href='#5vGRm9AMypB'>多角形</a>を 45度<a class='autolink' href='#heEi5Lc5BX9'>回転</a>させます</li>
+<li><code>:offset '((10 15) (10 -15))</code> によって最初の 2 つの頂点を移動し、変形させます</li>
+<li><code>:rotate -35</code> によって反時計回りに 35度<a class='autolink' href='#heEi5Lc5BX9'>回転</a>させます</li>
+</ul>
+<p>　<code>:tilt</code> は <code>:offsets</code> による変形よりも前に適用されますが、<code>:rotate</code> は <code>:offsets</code> による変形後に適用されることに注意してください。</p>
+<p>　　</p>
 <h3><a name='5vGRm9AMypB'></a>3.5 多角形</h3>
-<p>　<a class='autolink' href='#dyrXpT32Rg1'>polygon マクロ</a>によって<a class='autolink' href='#5vGRm9AMypB'>多角形</a>、すなわち複数の<a class='autolink' href='#fv4OUML78x4'>直線</a>からなる形状を描画できます。<a class='autolink' href='#6eeF43U3xPh'>正多角形</a>を描画する場合には <a class='autolink' href='#jLTDopnLqyT'>regular-polygon マクロ</a>を使用した方が良いでしょう。</p>
+<p>　<a class='autolink' href='#dyrXpT32Rg1'>polygon マクロ</a>によって<a class='autolink' href='#5vGRm9AMypB'>多角形</a>、すなわち複数の<a class='autolink' href='#fv4OUML78x4'>直線</a>からなる形状を描画できます。<a class='autolink' href='#6eeF43U3xPh'>正多角形</a>を描画する場合や、<a class='autolink' href='#6eeF43U3xPh'>正多角形</a>を少し変形したような<a class='autolink' href='#5vGRm9AMypB'>多角形</a>を描画する場合は <a class='autolink' href='#jLTDopnLqyT'>regular-polygon マクロ</a>を使用した方が良いでしょう。</p>
 <a name='2vjK1SnIRle'>
 <div align='center'>
 <?xml version='1.0' encoding='utf-8' ?>
@@ -1047,7 +1100,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </div>
 
 </a>
-<p class='fig_title'>Figure.3-5 polygon のサンプル</p>
+<p class='fig_title'>Figure.3-6 polygon のサンプル</p>
 <p>　上記サンプルのソースは以下の通りです。パラメータの詳細については <a class='autolink' href='#dyrXpT32Rg1'>polygon マクロ</a>を参照してください。</p>
 <pre class='code'>
 (diagram (300 100)
@@ -1078,7 +1131,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </div>
 
 </a>
-<p class='fig_title'>Figure.3-6 line のサンプル</p>
+<p class='fig_title'>Figure.3-7 line のサンプル</p>
 <p>　上記サンプルのソースは以下の通りです。パラメータの詳細については <a class='autolink' href='#doyrJWCDQyn'>line マクロ</a>を参照してください。</p>
 <pre class='code'>
 (diagram (300 100)
@@ -1110,7 +1163,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </div>
 
 </a>
-<p class='fig_title'>Figure.3-7 arc のサンプル</p>
+<p class='fig_title'>Figure.3-8 arc のサンプル</p>
 <p>　上記サンプルのソースは以下の通りです。</p>
 <pre class='code'>
 (diagram (300 100)
@@ -1147,7 +1200,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </div>
 
 </a>
-<p class='fig_title'>Figure.3-8 arc のサンプル - 2</p>
+<p class='fig_title'>Figure.3-9 arc のサンプル - 2</p>
 <p>　<a class='autolink' href='#8UQowBxrcaE'>正円</a>をベースとした<a class='autolink' href='#cp2F91gKG7W'>円弧</a>を描画したい場合、 <code>rx</code> と <code>ry</code> を同じ値に指定します。この場合、<a class='autolink' href='#heEi5Lc5BX9'>回転</a>させることに意味はないので、 <code>x-axis-rotation</code> は 0 にしてください。</p>
 <p>　marcro arc を使用した<a class='autolink' href='#cp2F91gKG7W'>円弧</a>の描画は、「中心と角度」が明らかな場合に使用します。そうではなく、<a class='autolink' href='#cp2F91gKG7W'>円弧</a>の開始点と終了点が明らかな場合は、<a class='autolink' href='#akKCr0fEV12'>path マクロ</a>を使用した方が良いでしょう。</p>
 <p>　　</p>
@@ -1179,7 +1232,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </div>
 
 </a>
-<p class='fig_title'>Figure.3-9 arc における補助線のサンプル</p>
+<p class='fig_title'>Figure.3-10 arc における補助線のサンプル</p>
 <details>
 <summary>　※上記サンプルのソースはこちら。</summary>
 <pre class='code'>
@@ -1213,7 +1266,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </div>
 
 </a>
-<p class='fig_title'>Figure.3-10 arc における終端マークの例</p>
+<p class='fig_title'>Figure.3-11 arc における終端マークの例</p>
 <p>　　</p>
 <h3><a name='cTdCvBeU6ZJ'></a>3.8 テキスト</h3>
 <p>　<a class='autolink' href='#cSks5rQ0qHz'>text マクロ</a>によって<a class='autolink' href='#cTdCvBeU6ZJ'>テキスト</a>を描画できます。</p>
@@ -1235,7 +1288,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </div>
 
 </a>
-<p class='fig_title'>Figure.3-11 text のサンプル</p>
+<p class='fig_title'>Figure.3-12 text のサンプル</p>
 <p>　上記サンプルのソースは以下の通りです。パラメータの詳細については <a class='autolink' href='#cSks5rQ0qHz'>text マクロ</a>を参照してください。</p>
 <pre class='code'>
 (diagram (300 100)
@@ -1274,7 +1327,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </div>
 
 </a>
-<p class='fig_title'>Figure.3-12 テキストの position とアライメント指定の関係</p>
+<p class='fig_title'>Figure.3-13 テキストの position とアライメント指定の関係</p>
 <p>　　</p>
 <h3><a name='4dFMjynUMYw'></a>3.9 ひし形</h3>
 <p>　<a class='autolink' href='#dhcYablOIIY'>diamond マクロ</a>によって<a class='autolink' href='#4dFMjynUMYw'>ひし形</a>を描画できます。</p>
@@ -1296,7 +1349,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </div>
 
 </a>
-<p class='fig_title'>Figure.3-13 diamond のサンプル</p>
+<p class='fig_title'>Figure.3-14 diamond のサンプル</p>
 <p>　上記サンプルのソースは以下の通りです。パラメータの詳細については <a class='autolink' href='#dhcYablOIIY'>diamond マクロ</a>を参照してください。</p>
 <pre class='code'>
 (diagram (300 100)
@@ -1324,7 +1377,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </div>
 
 </a>
-<p class='fig_title'>Figure.3-14 parallelogram のサンプル</p>
+<p class='fig_title'>Figure.3-15 parallelogram のサンプル</p>
 <p>　上記サンプルのソースは以下の通りです。パラメータの詳細については <a class='autolink' href='#4ol8IRIe1gI'>parallelogram マクロ</a>を参照してください。</p>
 <pre class='code'>
 (diagram (200 100)
@@ -1390,7 +1443,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </div>
 
 </a>
-<p class='fig_title'>Figure.3-15 parallelogram における direction と offset</p>
+<p class='fig_title'>Figure.3-16 parallelogram における direction と offset</p>
 <p>　ただし、 <code>width / height</code> で指定されたサイズはあくまで赤い点線の矩形であることに注意してください。また、<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>や<a class='autolink' href='#eFhVs4WwYUG'>コネクタ</a>による接続点は現状では赤い点線の矩形ベースで計算されますが、この挙動は将来変更される可能性があります。</p>
 <p>　　</p>
 <h3><a name='iTkYd8KXLYO'></a>3.11 二次ベジェ曲線</h3>
@@ -1415,7 +1468,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </div>
 
 </a>
-<p class='fig_title'>Figure.3-16 2d-curve のサンプル</p>
+<p class='fig_title'>Figure.3-17 2d-curve のサンプル</p>
 <p>　上記サンプルのソースは以下の通りです。パラメータの詳細については <a class='autolink' href='#kdlPtqqvFfP'>2d-curve マクロ</a>を参照してください。</p>
 <pre class='code'>
 (diagram (300 100)
@@ -1462,7 +1515,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </div>
 
 </a>
-<p class='fig_title'>Figure.3-17 2d-curve における補助線のサンプル</p>
+<p class='fig_title'>Figure.3-18 2d-curve における補助線のサンプル</p>
 <details>
 <summary>　※上記サンプルのソースはこちら。</summary>
 <pre class='code'>
@@ -1501,7 +1554,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </div>
 
 </a>
-<p class='fig_title'>Figure.3-18 3d-curve のサンプル</p>
+<p class='fig_title'>Figure.3-19 3d-curve のサンプル</p>
 <p>　上記サンプルのソースは以下の通りです。パラメータの詳細については <a class='autolink' href='#96OcmgsUNzD'>3d-curve マクロ</a>を参照してください。</p>
 <pre class='code'>
 (diagram (300 100)
@@ -1552,7 +1605,7 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </div>
 
 </a>
-<p class='fig_title'>Figure.3-19 3d-curve における補助線の サンプル</p>
+<p class='fig_title'>Figure.3-20 3d-curve における補助線の サンプル</p>
 <details>
 <summary>　※上記サンプルのソースはこちら。</summary>
 <pre class='code'>
@@ -14876,25 +14929,29 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <h4><a name='jLTDopnLqyT'></a>9.1.76 macro regular-polygon</h4>
 <p><strong>Syntax:</strong></p>
 <ul>
-<li class='syntax'><span style='font-weight:bold;'>regular-polygon</span> position n size <span style='color:navy;'>&key</span> pivot fill stroke link layer id filter contents</li>
+<li class='syntax'><span style='font-weight:bold;'>regular-polygon</span> position n size <span style='color:navy;'>&key</span> pivot tilt offsets rotate fill stroke link layer id filter debug contents</li>
 </ul>
 <p><strong>Arguments and Values:</strong></p>
 <ul>
 <li><code>position</code> ---- 描画の基準点を指定します。詳細は「<a href='#h1RNMQY1C0b'>7.1  座標と位置</a>」を参照してください。</li>
 <li><code>n</code> ---- 正Ｎ角形を描く場合の N を指定します。現在、3 4 5 6 8 10 12 が使用できます。</li>
 <li><code>size</code> ---- ベースとなる<a class='autolink' href='#8UQowBxrcaE'>正円</a>の半径を数値で指定します。</li>
-<li><code>pivot</code> ---- 基準点が<a class='autolink' href='#8UQowBxrcaE'>正円</a>のどこにくるように描画するかを指定します。詳細は「<a href='#h1RNMQY1C0b'>7.1  座標と位置</a>」を参照してください。</li>
+<li><code>pivot</code> ---- 基準点がベースとなる<a class='autolink' href='#8UQowBxrcaE'>正円</a>のどこにくるように描画するかを指定します。詳細は「<a href='#h1RNMQY1C0b'>7.1  座標と位置</a>」を参照してください。</li>
+<li><code>tilt</code> ----  <a class='autolink' href='#5vGRm9AMypB'>多角形</a>の傾きを角度で指定します。 <code>rotate</code> とは異なり、<code>offsets</code> 適用前に<a class='autolink' href='#heEi5Lc5BX9'>回転</a>されます。</li>
+<li><code>offsets</code> ---- 各点を移動させるためのオフセットのリストを指定します。詳細は後述します。</li>
+<li><code>rotate</code> ---- 全体を<a class='autolink' href='#heEi5Lc5BX9'>回転</a>させたい場合に、その角度を指定します。</li>
 <li><code>fill</code> ---- 内部の<a class='autolink' href='#dBUd7L4C3dx'>塗り潰し</a>を指定します。</li>
 <li><code>stroke</code> ---- 円を描画する<a class='autolink' href='#4HFjqmTuIU6'>ストローク</a>を指定します。</li>
-<li><code>rotate</code> ---- 全体を<a class='autolink' href='#heEi5Lc5BX9'>回転</a>させたい場合に、その角度を指定します。</li>
 <li><code>link</code> ---- <a class='autolink' href='#fbLcMRTVXac'>リンク</a>にする場合、<a class='autolink' href='#fbLcMRTVXac'>リンク</a>先を指定します。</li>
 <li><code>layer</code> ---- <a class='autolink' href='#1ovJxG7Ie9O'>レイヤー</a>を指定する場合、その ID をキーワードシンボルで指定します。</li>
 <li><code>id</code> ---- ID を付与したい場合、その名前をキーワードシンボルで指定します。</li>
 <li><code>filter</code> ---- <a class='autolink' href='#gPGlqSbIfdL'>フィルタ</a>を適用したい場合、その ID をキーワードシンボルで指定します。</li>
+<li><code>debug</code> ---- <a class='autolink' href='#2tO36YvJCgK'>補助線</a>を描画する場合、 <code>t</code> または色名を指定します</li>
 <li><code>contents</code> ---- 内部を<a class='autolink' href='#kgs1vf3AbTN'>サブキャンバス</a>とした描画をしたい場合、その内容を指定します。</li>
 </ul>
 <p><strong>Description:</strong></p>
 <p>　<a class='autolink' href='#6eeF43U3xPh'>正多角形</a>を描画します。複数の基本要素でスタイルを統一したい場合、<a class='autolink' href='#cTbK0huuMTl'>with-options マクロ</a>を使うことができます。</p>
+<p>　<code>offsets</code> パラメータを使用することで、「正」でない<a class='autolink' href='#5vGRm9AMypB'>多角形</a>を描画することができます。たとえば三角形に対して <code>:offsets '((0 0) (-10 0) (10 0))</code> とすれば二等辺三角形を描画できます。<code>offsets</code> は点のリストで、それぞれの点は<a class='autolink' href='#5vGRm9AMypB'>多角形</a>の頂点に順に座標を移動させるオフセットとして適用されます。ここで最初に適用される点は、常に中央一番上の点であり、そこから時計回りに順番となります。</p>
 <p><strong>See Also:</strong></p>
 <ul>
 <li><a class='autolink' href='#6eeF43U3xPh'>正多角形</a></li>
@@ -20192,6 +20249,11 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 </li>
 </ul>
 </li>
+<li><strong>2026/09/29 - version 0.037</strong>
+<ul>
+<li>ENHANCE : <a class='autolink' href='#6eeF43U3xPh'>正多角形</a>（<a class='autolink' href='#jLTDopnLqyT'>regular-polygon マクロ</a>）に <code>:tilt :offsets :debug</code> パラメータを追加</li>
+</ul>
+</li>
 </ul>
 <p>　　</p>
 <h2><a name='1iQ3KRF8uJQ'></a>11 図表一覧</h2>
@@ -20202,21 +20264,22 @@ cat ./input.digram | kaavio | gzip &gt; ./output.svgz
 <li><a href='#aWrJqk5Knkk'>Figure.3-2 circle のサンプル</a></li>
 <li><a href='#hO4QoInAXK4'>Figure.3-3 ellipse のサンプル</a></li>
 <li><a href='#6AEEehp4CXn'>Figure.3-4 regular-polygon のサンプル</a></li>
-<li><a href='#2vjK1SnIRle'>Figure.3-5 polygon のサンプル</a></li>
-<li><a href='#9sslZHcYmCd'>Figure.3-6 line のサンプル</a></li>
-<li><a href='#lt4PUsUrfps'>Figure.3-7 arc のサンプル</a></li>
-<li><a href='#bSd48Y8N0w0'>Figure.3-8 arc のサンプル - 2</a></li>
-<li><a href='#4DiBfZ1gVHn'>Figure.3-9 arc における補助線のサンプル</a></li>
-<li><a href='#0gIWVS7WQn6'>Figure.3-10 arc における終端マークの例</a></li>
-<li><a href='#7uvPIQqWhZy'>Figure.3-11 text のサンプル</a></li>
-<li><a href='#5BXk9aTPHsl'>Figure.3-12 テキストの position とアライメント指定の関係</a></li>
-<li><a href='#2sQudXmWdXy'>Figure.3-13 diamond のサンプル</a></li>
-<li><a href='#by41YHJgt3q'>Figure.3-14 parallelogram のサンプル</a></li>
-<li><a href='#67lJneaqrLn'>Figure.3-15 parallelogram における direction と offset</a></li>
-<li><a href='#9ykZFla1Nux'>Figure.3-16 2d-curve のサンプル</a></li>
-<li><a href='#56m7PNYG5Ij'>Figure.3-17 2d-curve における補助線のサンプル</a></li>
-<li><a href='#ctB3IKZPSD2'>Figure.3-18 3d-curve のサンプル</a></li>
-<li><a href='#eyqtgpABguK'>Figure.3-19 3d-curve における補助線の サンプル</a></li>
+<li><a href='#i5OgzdvaAGX'>Figure.3-5 regular-polygon を使った不規則な多角形の作成</a></li>
+<li><a href='#2vjK1SnIRle'>Figure.3-6 polygon のサンプル</a></li>
+<li><a href='#9sslZHcYmCd'>Figure.3-7 line のサンプル</a></li>
+<li><a href='#lt4PUsUrfps'>Figure.3-8 arc のサンプル</a></li>
+<li><a href='#bSd48Y8N0w0'>Figure.3-9 arc のサンプル - 2</a></li>
+<li><a href='#4DiBfZ1gVHn'>Figure.3-10 arc における補助線のサンプル</a></li>
+<li><a href='#0gIWVS7WQn6'>Figure.3-11 arc における終端マークの例</a></li>
+<li><a href='#7uvPIQqWhZy'>Figure.3-12 text のサンプル</a></li>
+<li><a href='#5BXk9aTPHsl'>Figure.3-13 テキストの position とアライメント指定の関係</a></li>
+<li><a href='#2sQudXmWdXy'>Figure.3-14 diamond のサンプル</a></li>
+<li><a href='#by41YHJgt3q'>Figure.3-15 parallelogram のサンプル</a></li>
+<li><a href='#67lJneaqrLn'>Figure.3-16 parallelogram における direction と offset</a></li>
+<li><a href='#9ykZFla1Nux'>Figure.3-17 2d-curve のサンプル</a></li>
+<li><a href='#56m7PNYG5Ij'>Figure.3-18 2d-curve における補助線のサンプル</a></li>
+<li><a href='#ctB3IKZPSD2'>Figure.3-19 3d-curve のサンプル</a></li>
+<li><a href='#eyqtgpABguK'>Figure.3-20 3d-curve における補助線の サンプル</a></li>
 <li><a href='#4gGy4q3tl7a'>Figure.4-1 コネクタのサンプル</a></li>
 <li><a href='#iS4fHSfl5nF'>Figure.4-2 コネクタにおける接続点の指定</a></li>
 <li><a href='#5cNBVVOciY7'>Figure.4-3 コネクタによる接続経路決定</a></li>

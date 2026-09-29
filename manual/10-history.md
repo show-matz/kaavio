@@ -137,6 +137,8 @@
     * BUGFIX : 座標指定のコネクタがサブキャンバス配下にある場合のバグを修正
     * ENHANCE : block-arrow マクロの導入により、ブロック矢印を刷新
         * 上記により block-arrow1 マクロと block-arrow2 マクロは（互換性のために残されますが）非推奨となりました
+* __2026/09/29 - version 0.037__
+    * ENHANCE : 正多角形（regular-polygon マクロ）に `:tilt :offsets :debug` パラメータを追加
 
 
 ${BLANK_PARAGRAPH}

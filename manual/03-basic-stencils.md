@@ -176,19 +176,11 @@ ${BLANK_PARAGRAPH}
 ### 正多角形
 <!-- autolink: [$$](#正多角形) -->
 
-<!-- snippet: REGULAR-POLYGON-SAMPLE
-(diagram (400 100)
-  (grid)
-  (regular-polygon (x+ canvas.cc -130) 5 40 :fill :gray :stroke :black)
-  (regular-polygon (x+ canvas.cc    0) 6 40 :fill :gray :stroke :black)
-  (regular-polygon (x+ canvas.cc  130) 8 40 :fill :gray :stroke :black))
--->
-
 　regular-polygon マクロによって正多角形、すなわち五角形や六角形などを描画できます。
 
 <!-- figure:  regular-polygon のサンプル -->
 ```kaavio
-<!-- expand: REGULAR-POLYGON-SAMPLE -->
+<!-- include: img/figure.03-regular-polygon.1.diagram -->
 ```
 <!-- figure:end -->
 
@@ -196,8 +188,32 @@ ${BLANK_PARAGRAPH}
 参照してください。
 
 ```lisp
-<!-- expand: REGULAR-POLYGON-SAMPLE -->
+<!-- include: img/figure.03-regular-polygon.1.diagram -->
 ```
+
+${BLANK_PARAGRAPH}
+
+
+　regular-polygon マクロは正多角形を描画するためのものですが、 `:tilt :offsets :rotate` と
+いったパラメータを使用することで、正多角形をベースとして不規則な多角形を作成することができます。
+以下に例を示します。
+
+<!-- figure: regular-polygon を使った不規則な多角形の作成 -->
+```kaavio
+<!-- include: img/figure.03-regular-polygon.2.diagram -->
+```
+<!-- figure:end -->
+
+　`(regular-polygon ... 4 40)` をベースとして、左から順にひとつずつパラメータを追加しています。
+以下に説明します。
+
+* `:debug t` によって基準円と最初の点を補助線で明示します
+* `:tilt 45` によって多角形を 45度回転させます
+* `:offset '((10 15) (10 -15))` によって最初の 2 つの頂点を移動し、変形させます
+* `:rotate -35` によって反時計回りに 35度回転させます
+
+　`:tilt` は `:offsets` による変形よりも前に適用されますが、`:rotate` は `:offsets` による
+変形後に適用されることに注意してください。
 
 ${BLANK_PARAGRAPH}
 
@@ -214,7 +230,8 @@ ${BLANK_PARAGRAPH}
 -->
 
 　polygon マクロによって多角形、すなわち複数の直線からなる形状を描画できます。正多角形
-を描画する場合には regular-polygon マクロを使用した方が良いでしょう。
+を描画する場合や、正多角形を少し変形したような多角形を描画する場合は regular-polygon マクロを
+使用した方が良いでしょう。
 
 <!-- figure:  polygon のサンプル -->
 ```kaavio

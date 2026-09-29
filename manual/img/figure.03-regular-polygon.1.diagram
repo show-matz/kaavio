@@ -1,0 +1,5 @@
+(diagram (400 100)
+  (grid)
+  (regular-polygon (x+ canvas.cc -130) 5 40 :fill :gray :stroke :black)
+  (regular-polygon (x+ canvas.cc    0) 6 40 :fill :gray :stroke :black)
+  (regular-polygon (x+ canvas.cc  130) 8 40 :fill :gray :stroke :black))
